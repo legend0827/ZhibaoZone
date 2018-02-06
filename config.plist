@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>resourcesDownloadLinks</key>
+	<dict>
+		<key>imagesDownloadLinksDebug</key>
+		<string>http://test-1255653994.cos.ap-chengdu.myqcloud.com/</string>
+		<key>imagesDownloadLinks</key>
+		<string>http://test-1255653994.cos.ap-chengdu.myqcloud.com/</string>
+	</dict>
+	<key>apiAddress</key>
+	<dict>
+		<key>loginInAPIAddressDebug</key>
+		<string>http://192.168.1.50:8082/zb-sso-web/user/login.do</string>
+		<key>loginInAPIAddress</key>
+		<string>http://118.126.116.76:8083/zb-sso-web/user/login.do</string>
+		<key>orderListOfAllOrdersDebug</key>
+		<string>http://192.168.1.50:8082/zb-order-web/order/allOrder.do</string>
+		<key>orderListOfAllOrders</key>
+		<string>http://118.126.116.76:8082/zb-order-web/order/allOrder.do</string>
+		<key>taskListDealingAPIDebug</key>
+		<string>http://192.168.1.50:8082/zb-manager-web/page/unDoneTaskList.do</string>
+		<key>taskListDealingAPI</key>
+		<string>http://118.126.116.76:8081/zb-manager-web/page/unDoneTaskList.do</string>
+		<key>taskListHistoryAPIDebug</key>
+		<string>http://192.168.1.50:8082/zb-manager-web/page/doneTaskList.do</string>
+		<key>taskListHistoryAPI</key>
+		<string>http://118.126.116.76:8081/zb-manager-web/page/doneTaskList.do</string>
+		<key>taskDetailAPIDebug</key>
+		<string>http://192.168.1.50:8082/zb-manager-web/order/lookTaskItem.do</string>
+		<key>taskDetailAPI</key>
+		<string>http://118.126.116.76:8081/zb-manager-web/order/lookTaskItem.do</string>
+		<key>createTaskAPIDebug</key>
+		<string>http://192.168.1.50:8082/zb-manager-web/task/createTasklist.do</string>
+		<key>createTaskAPI</key>
+		<string>http://118.126.116.76:8081/zb-manager-web/task/createTasklist.do</string>
+		<key>orderListOfNeedHandleDebug</key>
+		<string>http://192.168.1.50:8082/zb-order-web/order/waitHandle.do</string>
+		<key>orderListOfNeedHandle</key>
+		<string>http://118.126.116.76:8082/zb-order-web/order/waitHandle.do</string>
+		<key>contactListAPIDebug</key>
+		<string>http://192.168.1.50:8082/zb-sso-web/user/userList.do</string>
+		<key>contactListAPI</key>
+		<string>http://118.126.116.76:8083/zb-sso-web/user/userList.do</string>
+	</dict>
+</dict>
+</plist>

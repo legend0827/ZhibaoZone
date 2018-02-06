@@ -8,18 +8,126 @@
 
 import UIKit
 import CoreData
+import UserNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        //注册用户通知
+        if #available(iOS 10.0, *) {
+            let notifiCenter = UNUserNotificationCenter.current()
+            notifiCenter.delegate = self 
+            let types = UNAuthorizationOptions(arrayLiteral: [.alert, .badge, .sound])
+            notifiCenter.requestAuthorization(options: types) { (flag, error) in
+                if flag {
+                    print("iOS request notification success")
+                    //MPrintLog("iOS request notification success")
+                }else{
+                    print("iOS 10 request notification fail")
+                    //MPrintLog(" iOS 10 request notification fail")
+                }
+            }
+        } else { //iOS8,iOS9注册通知
+            let setting = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            UIApplication.shared.registerUserNotificationSettings(setting)
+        }
+        
+        UIApplication.shared.registerForRemoteNotifications()
+        // 创建View Controller
+        let loginVC = ViewController()
+        let workZoneVC = WorkZoneViewController()
+        let meVC = MeViewController()
+        
+        workZoneVC.tabBarItem.image = UIImage(named:"workzoneicon")
+        meVC.tabBarItem.image = UIImage(named:"accounticon")
+        
+        
+        workZoneVC.tabBarItem.title = "工作台"
+        meVC.tabBarItem.title = "我的"
+        
+        let tabBar = TabBarController()
+        tabBar.viewControllers = [workZoneVC,meVC]
+        
+        let loginStatus = true
+        if !loginStatus {
+            self.window?.rootViewController = loginVC
+        }else{
+            self.window?.rootViewController = tabBar
+        }
+        self.window?.backgroundColor = UIColor.white
+        
         return true
     }
+    //注册远程通知
+    private func registerAppNotificationSettings(launchOptions: [NSObject: AnyObject]?) {
+        if #available(iOS 10.0, *) {
+            let notifiCenter = UNUserNotificationCenter.current()
+            notifiCenter.delegate = self
+            let types = UNAuthorizationOptions(arrayLiteral: [.alert, .badge, .sound])
+            notifiCenter.requestAuthorization(options: types) { (flag, error) in
+            if flag {
+                print("iOS request notification success")
+                //MPrintLog("iOS request notification success")
+            }else{
+                print("iOS 10 request notification fail")
+                //MPrintLog(" iOS 10 request notification fail")
+            }
+        }
+        } else { //iOS8,iOS9注册通知
+            let setting = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            UIApplication.shared.registerUserNotificationSettings(setting)
+        }
+        
+        UIApplication.shared.registerForRemoteNotifications()
+    }
+    
+    //iOS10新增：处理前台收到通知的代理方法
+    
+    @available(iOS 10.0, *)
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        let userInfo = notification.request.content.userInfo
+        print("userInfo10:\(userInfo)")
+        completionHandler([.sound,.alert])
+    }
+    @available(iOS 10.0, *)
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+        print("userInfo10:\(userInfo)")
+        
+        completionHandler()
+    }
+    
+    @available(iOS 9.0, *)
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+        print("收到新消息Active\(userInfo)")
+        if application.applicationState == UIApplicationState.active {
+            // 代表从前台接受消息app
+        }else{
+            // 代表从后台接受消息后进入app
+            UIApplication.shared.applicationIconBadgeNumber = 0
+        }
+        completionHandler(.newData)
+    
+    }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        // 发送给我们自己的服务器
+      //  let tokenString = deviceToken.hexString
+        
+        let device = NSData(data: deviceToken)
+        let deviceID = device.description.replacingOccurrences(of:"<", with:"").replacingOccurrences(of:">", with:"").replacingOccurrences(of:" ", with:"")
+        print("我的deviceToken：\(deviceID)")
+//        
+//        let plistFile = Bundle.main.path(forResource: "deviceToken", ofType: "plist")
+//        //临时deviceToken
+//        let emptyArray:NSArray = ["\"deviceToken\":\"\(deviceID)\""]
+//        emptyArray.write(toFile: plistFile!, atomically: true)
+    }
 
+    
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
@@ -53,7 +161,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          application to it. This property is optional since there are legitimate
          error conditions that could cause the creation of the store to fail.
         */
-        let container = NSPersistentContainer(name: "ZhibaoZone")
+        let container = NSPersistentContainer(name: "AccountInfo")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
@@ -89,5 +197,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
+}
+extension Data {
+    var hexString: String {
+        return map { String(format: "%02.2hhx", arguments: [$0]) }.joined()
+    }
 }
 
