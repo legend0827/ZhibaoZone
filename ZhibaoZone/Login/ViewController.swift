@@ -15,10 +15,27 @@ class ViewController: UIViewController,UITextFieldDelegate {
     //用户密码输入框
     var txtUser:UITextField!
     var txtPwd:UITextField!
+    var repeatTxtPwd:UITextField!
+    
+    //使用手势登录按钮
+    let useGestureLoginBtn:UIButton = UIButton.init(type: .system)
+    
+    //注册按钮
+    let registerOrLoginBtn:UIButton = UIButton.init(type: .system)
+
+    //注册还是登录
+    var isToLogin = true
+    
+    ///页面显示效果
+    var presentType = "presenting" /// presenting, 显示. dismissing, 不显示
     
     //登录按钮
     var SubmitBtn:UIButton!
     
+    //当前使用的用户名
+    var presentUsername = ""
+    //登录背景框
+    let vLogin =  UIView(frame:CGRect(x:15, y:200, width:UIScreen.main.bounds.size.width - 30, height:160))
     //左手离脑袋的距离
     var offsetLeftHand:CGFloat = 60
     
@@ -57,7 +74,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
         imgLogin.addSubview(imgRightHand)
         
         //登录框背景
-        let vLogin =  UIView(frame:CGRect(x:15, y:200, width:mainSize.width - 30, height:160))
+        
         vLogin.layer.borderWidth = 0.5
         vLogin.layer.borderColor = UIColor.lightGray.cgColor
         vLogin.backgroundColor = UIColor.white
@@ -87,7 +104,6 @@ class ViewController: UIViewController,UITextFieldDelegate {
         txtUser.layer.borderWidth = 0.5
         txtUser.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
         txtUser.leftViewMode = UITextFieldViewMode.always
-//        txtPwd.placeholder = "请输入邮箱/手机号"
         txtUser.attributedPlaceholder = NSAttributedString(string: "请输入邮箱/手机号")
         txtUser.clearButtonMode = UITextFieldViewMode.always
         txtUser.keyboardType = UIKeyboardType.alphabet
@@ -113,11 +129,35 @@ class ViewController: UIViewController,UITextFieldDelegate {
         txtPwd.keyboardType = UIKeyboardType.alphabet
         txtPwd.returnKeyType = UIReturnKeyType.done
         
+        
+        //重复密码输入框
+        repeatTxtPwd = UITextField(frame:CGRect(x:30, y:150, width:vLogin.frame.size.width - 60, height:44))
+        repeatTxtPwd.delegate = self
+        repeatTxtPwd.layer.cornerRadius = 5
+        repeatTxtPwd.layer.borderColor = UIColor.lightGray.cgColor
+        repeatTxtPwd.layer.borderWidth = 0.5
+        repeatTxtPwd.isSecureTextEntry = true
+        repeatTxtPwd.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
+        repeatTxtPwd.leftViewMode = UITextFieldViewMode.always
+        repeatTxtPwd.placeholder = "请再次输入密码"
+        repeatTxtPwd.clearButtonMode = UITextFieldViewMode.always
+        repeatTxtPwd.keyboardType = UIKeyboardType.alphabet
+        repeatTxtPwd.returnKeyType = UIReturnKeyType.done
+        repeatTxtPwd.isHidden = true
+        
+        
         //密码输入框左侧图标
         let imgPwd = UIImageView(frame: CGRect(x: 11, y: 11, width: 22, height: 22))
         imgPwd.image = UIImage(named:"iconfont-password")
         txtPwd.leftView!.addSubview(imgPwd)
+        
+        //重复密码输入框左侧图标
+        let imgRepatePwd = UIImageView(frame: CGRect(x: 11, y: 11, width: 22, height: 22))
+        imgRepatePwd.image = UIImage(named:"iconfont-password")
+        repeatTxtPwd.leftView!.addSubview(imgRepatePwd)
+        
         vLogin.addSubview(txtPwd)
+        vLogin.addSubview(repeatTxtPwd)
         // Do any additional setup after loading the view, typically from a nib.
         
         //设置登录按钮
@@ -127,11 +167,23 @@ class ViewController: UIViewController,UITextFieldDelegate {
         SubmitBtn.layer.cornerRadius = 5
         SubmitBtn.layer.borderWidth = 0.5
         SubmitBtn.layer.backgroundColor = #colorLiteral(red: 0.9104188085, green: 0.2962309122, blue: 0.2970536053, alpha: 1)
-        SubmitBtn.setTitle("登录", for: UIControlState.normal)
+        if isToLogin{
+            SubmitBtn.setTitle("登录", for: UIControlState.normal)
+        }else{
+            SubmitBtn.setTitle("注册", for: UIControlState.normal)
+        }
         SubmitBtn.setTitleColor(#colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0), for: UIControlState.normal)
         self.view.addSubview(SubmitBtn)
         SubmitBtn.addTarget(self, action: #selector(SubmitBtnClick), for: UIControlEvents.touchUpInside)
         
+        
+        //显示注册按钮
+        registerOrLoginBtn.frame = CGRect(x: 0, y: 444, width: 200, height: 22)
+        registerOrLoginBtn.setTitle("还没有账号？点此注册", for: .normal)
+        registerOrLoginBtn.setTitleColor(#colorLiteral(red: 0.9104188085, green: 0.2962309122, blue: 0.2970536053, alpha: 1), for: UIControlState())
+        registerOrLoginBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        registerOrLoginBtn.addTarget(self, action: #selector(switchLoginOrRegisterBtnClicked), for: UIControlEvents.touchUpInside)
+        self.view.addSubview(registerOrLoginBtn)
         //自动填充以前登录过的账号
         //获取管理的数据上下文，对象
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -156,7 +208,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
             for info in fetchedObjects{
                 //更新数据
                 self.txtUser.text =  info.userName
-                try managedObjectContext.save()
+                self.presentUsername = info.userName!
             }
         } catch  {
             fatalError("获取失败")
@@ -164,7 +216,29 @@ class ViewController: UIViewController,UITextFieldDelegate {
         
 
     }
-    
+    @objc func switchLoginOrRegisterBtnClicked(){
+        if isToLogin{
+            isToLogin = false // 切换成注册
+            repeatTxtPwd.isHidden = false
+            SubmitBtn.setTitle("注册", for: .normal)
+            registerOrLoginBtn.setTitle("已有账号？去登录", for: .normal)
+            registerOrLoginBtn.frame = CGRect(x: 15, y: 504, width: 140, height: 22)
+            SubmitBtn.frame = CGRect(x:45, y:440, width:vLogin.frame.size.width - 60, height: 44)
+            vLogin.frame = CGRect(x:15, y:200, width:UIScreen.main.bounds.size.width - 30, height:210)
+            useGestureLoginBtn.frame = CGRect(x: UIScreen.main.bounds.width - 120, y: 504, width: 100, height: 22)
+            txtUser.text = ""
+        }else{
+            isToLogin = true //切换成登录
+            repeatTxtPwd.isHidden = true
+            SubmitBtn.setTitle("登录", for: .normal)
+            registerOrLoginBtn.setTitle("还没有账号？点此注册", for: .normal)
+            registerOrLoginBtn.frame = CGRect(x: 0, y: 444, width: 200, height: 22)
+            SubmitBtn.frame = CGRect(x:45, y:380, width:vLogin.frame.size.width - 60, height: 44)
+            vLogin.frame = CGRect(x:15, y:200, width:UIScreen.main.bounds.size.width - 30, height:160)
+            useGestureLoginBtn.frame = CGRect(x: UIScreen.main.bounds.width - 120, y: 444, width: 100, height: 22)
+            txtUser.text = presentUsername
+        }
+    }
     //返回按钮的响应
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if txtPwd.isFirstResponder {
@@ -189,7 +263,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
         
         self.txtPwd.inputAccessoryView = topView
         self.txtUser.inputAccessoryView = topView
-        
+        self.repeatTxtPwd.inputAccessoryView = topView
         //如果当前是用户名输入
         if textField.isEqual(txtUser){
             if (showType != LoginShowType.PASS)
@@ -218,7 +292,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
             })
         }
             //如果当前是密码名输入
-        else if textField.isEqual(txtPwd){
+        else if textField.isEqual(txtPwd)||textField.isEqual(repeatTxtPwd){
             if (showType == LoginShowType.PASS)
             {
                 showType = LoginShowType.PASS
@@ -249,6 +323,8 @@ class ViewController: UIViewController,UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         txtUser.resignFirstResponder()
         txtPwd.resignFirstResponder()
+        repeatTxtPwd.resignFirstResponder()
+
     }
     
     @objc func SubmitBtnClick() {
@@ -260,9 +336,29 @@ class ViewController: UIViewController,UITextFieldDelegate {
         let loginUser = User()
         let usernameText = txtUser.text
         let passwrdText = txtPwd.text
+        let repeatPwdText = repeatTxtPwd.text
         if !(usernameText?.isEmpty)! && !(passwrdText?.isEmpty)! {
-            let hub = pleaseWait()
-            loginUser.Login(username: usernameText!, password: passwrdText!,view:self,hub:hub)
+            if isToLogin{
+                let hub = pleaseWait()
+                loginUser.Login(username: usernameText!, password: passwrdText!,view:self,hub:hub)
+            }else{
+                //注册的功能
+                if (repeatPwdText?.isEmpty)!{
+                    greyLayerPrompt.show(text: "用户名和密码不能为空")
+                }else if !validateString(string: usernameText!, validateType: .EMAIL) && !validateString(string: usernameText!, validateType: .CNPHONENUM) {
+                    greyLayerPrompt.show(text: "请输入有效的邮箱或手机号")
+                }else if passwrdText == repeatPwdText{
+                    if (passwrdText?.lengthOfBytes(using: .utf8))! < 6{
+                        greyLayerPrompt.show(text: "请输入6位以上的密码")
+                    }else{
+                        //走注册的功能
+                        let hub = pleaseWait()
+                        loginUser.registerAccount(username: usernameText!, password: passwrdText!, view: self, hub: hub)
+                    }
+                }else{
+                    greyLayerPrompt.show(text: "两次输入的密码不一致，请重新输入")
+                }
+            }
         }else{
             greyLayerPrompt.show(text: "用户名和密码不能为空")
         }
@@ -273,12 +369,103 @@ class ViewController: UIViewController,UITextFieldDelegate {
         super.didReceiveMemoryWarning()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        //返回值，前一个是已设置安全登录（true 是，false 否），后一个当前是关着还是开着的(true 开， false 关）
+        let result = checkSecuritySetting().1
+        
+        if result && checkSecuritySetting().0{  // 如果设置了手势登录（true)，并且是开着的(true)
+            useGestureLoginBtn.frame = CGRect(x: UIScreen.main.bounds.width - 120, y: 444, width: 100, height: 22)
+            useGestureLoginBtn.setTitle("使用手势登录", for: UIControlState())
+            useGestureLoginBtn.setTitleColor(#colorLiteral(red: 0.9104188085, green: 0.2962309122, blue: 0.2970536053, alpha: 1), for: UIControlState())
+            useGestureLoginBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+            useGestureLoginBtn.addTarget(self, action: #selector(useGestureBtnClicked), for: UIControlEvents.touchUpInside)
+            self.view.addSubview(useGestureLoginBtn)
+        }
+        
+        if result && presentType == "presenting"{
+            let gestureVC = GestureViewController()
+            gestureVC.loginVC = self
+            gestureVC.type = GestureViewControllerType.login
+            gestureVC.gestureTextBeforeSet = "手势登录"
+            self.present(gestureVC, animated: false, completion: nil)
+        }
+    }
+    @objc func useGestureBtnClicked(){
+        //返回值，前一个是未设置安全登录（true 是，false 否），后一个当前是关着还是开着的(true 开， false 关）
+        let result = checkSecuritySetting().1
+        if result {
+            let gestureVC = GestureViewController()
+            gestureVC.loginVC = self
+            gestureVC.type = GestureViewControllerType.login
+            gestureVC.gestureTextBeforeSet = "手势登录"
+            self.present(gestureVC, animated: true, completion: nil)
+        }else{
+            greyLayerPrompt.show(text: "未开启手势登录，请使用密码登录")
+        }
+    }
+    
+    func validateString(string: String,validateType:validateType) -> Bool {
+        var validateRegex = ""
+        if validateType == .EMAIL{
+            let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
+            validateRegex = emailRegex
+        }else if validateType == .CNPHONENUM{
+            let ChinaPhoneRegex = "^((13[0-9])|(15[^4,\\D])|(18[0,0-9]))\\d{8}$"
+            validateRegex = ChinaPhoneRegex
+        }else if validateType == .CNIDCARD{
+            let ChinaIDCardRegex = "^(\\d{14}|\\d{17})(\\d|[xX])$"
+            validateRegex = ChinaIDCardRegex
+        }else{
+            let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
+            validateRegex = emailRegex
+        }
+        let RegexTest:NSPredicate = NSPredicate(format: "SELF MATCHES %@", validateRegex)
+        return RegexTest.evaluate(with: string)
+    }
+    
 }
-
+//数据验证格式
+enum validateType {
+    case EMAIL
+    case CNPHONENUM
+    case CNIDCARD
+}
 //登录框状态枚举
 enum LoginShowType {
     case NONE
     case USER
     case PASS
+}
+
+//获取用户信息
+func getUserAccountInfo()->(String,String){
+    //获取管理的数据上下文，对象
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let managedObjectContext = appDelegate.persistentContainer.viewContext
+    
+    //声明数据的请求
+    let fetchRequest =  NSFetchRequest<UserAccount>(entityName:"UserAccount")
+    //        fetchRequest.fetchLimit = 10 //限定查询结果的数量
+    //        fetchRequest.fetchOffset = 0 //查询到偏移量
+    fetchRequest.returnsObjectsAsFaults = false
+    
+    
+    // 设置查询条件
+    let predicate = NSPredicate(format: "id = '1'")
+    fetchRequest.predicate = predicate
+    
+    //查询操作
+    do {
+        let fetchedObjects = try managedObjectContext.fetch(fetchRequest)
+        
+        //遍历查询结果
+        for info in fetchedObjects{
+            //更新数据
+            return (info.userName!,info.nickName!)
+        }
+    } catch  {
+        fatalError("获取失败")
+    }
+    return ("_NONE","_NONE")
 }
 

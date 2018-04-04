@@ -16,7 +16,7 @@ class SecuritySettingViewController: UIViewController,UITableViewDelegate,UITabl
     let navigationBarInSecuritySettings:UINavigationBar = UINavigationBar.init(frame: CGRect(x: 0, y: 27, width: UIScreen.main.bounds.width, height: 45))
     
     lazy var switchForSecurity:UISwitch = {
-        let tempSwitch:UISwitch = UISwitch.init(frame: CGRect(x: UIScreen.main.bounds.width - 70, y: 10, width: 60, height: 30))
+        let tempSwitch:UISwitch = UISwitch.init(frame: CGRect(x: UIScreen.main.bounds.width - 70, y: 7, width: 60, height: 30))
         tempSwitch.isOn = checkSecuritySetting().1 //返回值，前一个是未设置安全登录（true 是，false 否），后一个当前是关着还是开着的(true 开， false 关）
         tempSwitch.addTarget(self, action: #selector(switchForSecurityValueChanged), for: .valueChanged)
         return tempSwitch
@@ -65,109 +65,36 @@ class SecuritySettingViewController: UIViewController,UITableViewDelegate,UITabl
         // Do any additional setup after loading the view.
     }
     
-    //返回值，前一个是未设置安全登录（true 是，false 否），后一个当前是关着还是开着的(true 开， false 关）
-    func checkSecuritySetting() -> (Bool,Bool){
-        //从datacore获取用户数据
-        //获取管理的数据上下文，对象
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let managedObjectContext = appDelegate.persistentContainer.viewContext
-        
-        //声明数据的请求
-        let fetchRequest =  NSFetchRequest<SecuritySettings>(entityName:"SecuritySettings")
-        
-        fetchRequest.returnsObjectsAsFaults = false
-        
-        // 设置查询条件
-        let predicate = NSPredicate(format: "id = '1'")
-        fetchRequest.predicate = predicate
-        
-        //查询操作
-        do {
-            let fetchedObjects = try managedObjectContext.fetch(fetchRequest)
-            if fetchedObjects.count == 0{
-                    return (true,false)
-            }else{
-                for info in fetchedObjects{
-                    return (false,info.loginEnableStatus)
-                }
-            }
-        } catch  {
-            fatalError("获取失败")
-        }
-        return (true,false)
-    }
-    func updateOrWriteDataToServer(isToOpen:Bool,setPassword:String){
-        //从datacore获取用户数据
-        //获取管理的数据上下文，对象
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let managedObjectContext = appDelegate.persistentContainer.viewContext
-        
-        //声明数据的请求
-        let fetchRequest =  NSFetchRequest<SecuritySettings>(entityName:"SecuritySettings")
-        
-        fetchRequest.returnsObjectsAsFaults = false
-        
-        //创建User对象
-        let securitySettings = NSEntityDescription.insertNewObject(forEntityName: "SecuritySettings", into: managedObjectContext) as! SecuritySettings
-
-        // 设置查询条件
-        let predicate = NSPredicate(format: "id = '1'")
-        fetchRequest.predicate = predicate
-        
-        //查询操作
-        do {
-            let fetchedObjects = try managedObjectContext.fetch(fetchRequest)
-            
-            if fetchedObjects.count == 0 {
-
-                //对象赋值
-                securitySettings.id = 1
-                if isToOpen{
-                    securitySettings.loginEnableStatus = true
-                }else{
-                    securitySettings.loginEnableStatus = false
-                }
-                // setPassword 等于NOSTRING 表示不更新PASSWORD
-                if setPassword != "NOSTRING"{
-                    securitySettings.loginPassword = setPassword
-                }
-                securitySettings.loginPassword = "1234"
-                securitySettings.setSecurityStatus = 1
-                print("插入成功")
-            }else{
-                //更新数据
-                for info in fetchedObjects{
-                    if isToOpen{
-                        info.loginEnableStatus = true
-                    }else{
-                        info.loginEnableStatus = false
-                    }
-                    // setPassword 等于NOSTRING 表示不更新PASSWORD
-                    if setPassword != "NOSTRING"{
-                        info.loginPassword = setPassword
-                    }
-                }
-            }
-            try managedObjectContext.save()
-            print("更新成功")
-            
-        } catch  {
-            fatalError("获取失败")
-        }
-    }
     
     @objc func switchForSecurityValueChanged(){
         if switchForSecurity.isOn{
-            //返回值，前一个是未设置安全登录（true 是，false 否），后一个当前是关着还是开着的(true 开， false 关）
+            //返回值，前一个是已设置安全登录（true 是，false 否），后一个当前是关着还是开着的(true 开， false 关）
             let isFirstSet = checkSecuritySetting().0
-            if isFirstSet{
+            if !isFirstSet{
                 print("还未设置安全登录，是否前往设置")
                 let firstSetAlertView:UIAlertController = UIAlertController(title: "设置登录密码", message: "还没设置登录密码,启用安全登录需要先设置登录密码", preferredStyle: .alert)
                 let cancelAction = UIAlertAction(title: "不了", style: .cancel){(UIAlertAction) in
                     print("点击了不了")
+                    self.switchForSecurity.isOn = false
                 }
                 let toSettingAction = UIAlertAction(title: "去开启", style: .default) { (UIAlertAction) in
-                    print("点击了好的")
+                    
+//                    let gesture = GestureViewController()
+//                    gesture.securityVC = self
+//                    gesture.type = GestureViewControllerType.setting
+//                    self.present(gesture, animated: true, completion: nil)
+                    let verifyGesture = GestureVerifyViewController()
+                    verifyGesture.presentActionType = "presenting"
+                    verifyGesture.fatherVC = self
+                    self.present(verifyGesture, animated: true, completion: nil)
+                    updateOrWriteDataToServer(isToOpen:true,isToDelete:false)
+                    
+                    let key = UserDefaults.standard.object(forKey: gestureFinalSaveKey) as? String ?? nil
+                    if key == nil{
+                        self.switchForSecurity.isOn = false
+                    }else{
+                        self.switchForSecurity.isOn = true
+                    }
                 }
                 firstSetAlertView.addAction(cancelAction)
                 firstSetAlertView.addAction(toSettingAction)
@@ -175,53 +102,64 @@ class SecuritySettingViewController: UIViewController,UITableViewDelegate,UITabl
                 
             }else{
                 print("开启安全登录，已经设置过了，设置开启")
-                updateOrWriteDataToServer(isToOpen:true,setPassword: "NOSTRING")// setPassword 等于NOSTRING 表示不更新PASSWORD
+                updateOrWriteDataToServer(isToOpen:true,isToDelete:false)
             }
         }else{
-            //返回值，前一个是未设置安全登录（true 是，false 否），后一个当前是关着还是开着的(true 开， false 关）
+            //返回值，前一个是已设置安全登录（true 是，false 否），后一个当前是关着还是开着的(true 开， false 关）
             let isFirstSet = checkSecuritySetting().0
-            if isFirstSet{
+            if !isFirstSet{
                 print("关闭安全登录，不用设置")
             }else{
                 print("关闭安全登录，已经设置过了，但是因为关闭，执行关闭操作")
-                updateOrWriteDataToServer(isToOpen:false,setPassword: "NOSTRING")// setPassword 等于NOSTRING 表示不更新PASSWORD
+                updateOrWriteDataToServer(isToOpen:false,isToDelete:false)
             }
         }
     }
     
     @objc func cancelBtnClicked(){
-        self.dismiss(animated: true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 1{
+             let isFirstSet = checkSecuritySetting().0
             if switchForSecurity.isOn{
-                let isFirstSet = checkSecuritySetting().0
-                if isFirstSet{
-                    print("第一次设置")
-                    
-                    let password:String = "1234"
-                    updateOrWriteDataToServer(isToOpen:true,setPassword: password)
-                }else{
-                    print("改密码")
-                    let password:String = "1234"
-                    updateOrWriteDataToServer(isToOpen:true,setPassword: password)
-                }
+                //安全登录开着呢，一定已经设置过了，直接验证
+                let gestureVerify = GestureVerifyViewController()
+                gestureVerify.fatherVC = self
+                self.present(gestureVerify, animated: true, completion: nil)
             }else{
-                let isFirstSet = checkSecuritySetting().0
-                if isFirstSet{
-                    print("第一次设置")
-                    let password:String = "1234"
-                    updateOrWriteDataToServer(isToOpen:true,setPassword: password)
-                    switchForSecurity.isOn = true
+                //安全登录关闭着呢，判断是不是第一次设置
+                if !isFirstSet{
+//                    //第一次设置，直接设置
+//                    let gesture = GestureViewController()
+//                    gesture.type = GestureViewControllerType.setting
+//                    gesture.securityVC = self
+//                    self.present(gesture, animated: true, completion: nil)
+                    
+                    let verifyGesture = GestureVerifyViewController()
+                    verifyGesture.presentActionType = "presenting"
+                    verifyGesture.fatherVC = self
+                    self.present(verifyGesture, animated: true, completion: nil)
+                    
+                    updateOrWriteDataToServer(isToOpen:true,isToDelete:false)
+                    
+                    let key = UserDefaults.standard.object(forKey: gestureFinalSaveKey) as? String ?? nil
+                    if key == nil{
+                        switchForSecurity.isOn = false
+                    }else{
+                        switchForSecurity.isOn = true
+                    }
                 }else{
-                    print("改密码")
-                    let password:String = "1234"
-                    updateOrWriteDataToServer(isToOpen:true,setPassword: password)
+                    //不是第一次，验证并修改
+                    let gestureVerify = GestureVerifyViewController()
+                    gestureVerify.fatherVC = self
+                    self.present(gestureVerify, animated: true, completion: nil)
                 }
             }
         }
     }
+
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
@@ -283,4 +221,86 @@ class SecuritySettingViewController: UIViewController,UITableViewDelegate,UITabl
     }
     */
 
+}
+
+//返回值，前一个是已设置安全登录（true 是，false 否），后一个当前是关着还是开着的(true 开， false 关）
+func checkSecuritySetting() -> (Bool,Bool){
+    let key = UserDefaults.standard.object(forKey: gestureFinalSaveKey) as? String ?? nil
+    
+    if key == nil{
+        return (false,false)
+    }else{
+        //从datacore获取用户数据
+        //获取管理的数据上下文，对象
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let managedObjectContext = appDelegate.persistentContainer.viewContext
+        
+        //声明数据的请求
+        let fetchRequest =  NSFetchRequest<SecuritySettings>(entityName:"SecuritySettings")
+        
+        fetchRequest.returnsObjectsAsFaults = false
+        
+        // 设置查询条件
+        let predicate = NSPredicate(format: "id = '1'")
+        fetchRequest.predicate = predicate
+        
+        //查询操作
+        do {
+            let fetchedObjects = try managedObjectContext.fetch(fetchRequest)
+            if fetchedObjects.count == 0{
+                return (false,false)
+            }else{
+                for info in fetchedObjects{
+                    return (info.setSecurityStatus,info.loginEnableStatus)
+                }
+            }
+        } catch  {
+            fatalError("获取失败")
+        }
+        return (false,false)
+    }
+}
+
+func updateOrWriteDataToServer(isToOpen:Bool,isToDelete:Bool){
+    
+    //从datacore获取用户数据
+    //获取管理的数据上下文，对象
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let managedObjectContext = appDelegate.persistentContainer.viewContext
+    
+    //声明数据的请求
+    let fetchRequest =  NSFetchRequest<SecuritySettings>(entityName:"SecuritySettings")
+    
+    fetchRequest.returnsObjectsAsFaults = false
+    
+    //创建User对象
+    let securitySettings = NSEntityDescription.insertNewObject(forEntityName: "SecuritySettings", into: managedObjectContext) as! SecuritySettings
+    
+    // 设置查询条件
+    let predicate = NSPredicate(format: "id = '1'")
+    fetchRequest.predicate = predicate
+    
+    //查询操作
+    do {
+        let fetchedObjects = try managedObjectContext.fetch(fetchRequest)
+        
+        if fetchedObjects.count == 0 {
+            //对象赋值
+            securitySettings.id = 1
+            securitySettings.setSecurityStatus = !isToDelete
+            securitySettings.loginEnableStatus = isToOpen
+            print("插入成功")
+        }else{
+            //更新数据
+            for info in fetchedObjects{
+                info.setSecurityStatus = !isToDelete
+                info.loginEnableStatus = isToOpen
+            }
+        }
+        try managedObjectContext.save()
+        print("更新成功")
+        
+    } catch  {
+        fatalError("获取失败")
+    }
 }

@@ -7,24 +7,48 @@
 //
 
 import UIKit
-
+			
 class TabBarController: UITabBarController {
+    var _roleType = 0
+
+    //初始化
+    init(royeType:Int){
+        super.init(nibName: nil, bundle: nil)
+        
+        _roleType = royeType
+
+        let workZoneVC = WorkZoneViewController()
+        let meVC = MeViewController()
+        let normalUserVC = normalUserViewController()
+        
+        
+        
+        workZoneVC.tabBarItem.image = UIImage(named:"workzoneicon")
+        meVC.tabBarItem.image = UIImage(named:"accounticon")
+        normalUserVC.tabBarItem.image = UIImage(named:"homeicon")
+        
+        workZoneVC.tabBarItem.title = "工作台"
+        meVC.tabBarItem.title = "我的"
+        normalUserVC.tabBarItem.title = "首页"
+        
+        if _roleType == 0{
+            self.viewControllers = [normalUserVC,meVC]
+        }else{
+            self.viewControllers = [workZoneVC,meVC]
+        }
+        self.tabBar.tintColor = #colorLiteral(red: 0.9104188085, green: 0.2962309122, blue: 0.2970536053, alpha: 1)
+
+
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let workZoneVC = WorkZoneViewController()
-        let meVC = MeViewController()
-
-        workZoneVC.tabBarItem.image = UIImage(named:"workzoneicon")
-        meVC.tabBarItem.image = UIImage(named:"accounticon")
-
-
-        workZoneVC.tabBarItem.title = "工作台"
-        meVC.tabBarItem.title = "我的"
-
-        self.viewControllers = [workZoneVC,meVC]
-        self.tabBar.tintColor = #colorLiteral(red: 0.9104188085, green: 0.2962309122, blue: 0.2970536053, alpha: 1)
+        
 //
         
         // Do any additional setup after loading the view.

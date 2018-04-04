@@ -9,13 +9,16 @@
 import UIKit
 import CoreData
 import UserNotifications
+import QCloudCOSXML
+import QCloudCore
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDelegate,QCloudSignatureProvider {
 
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
         //注册用户通知
         if #available(iOS 10.0, *) {
             let notifiCenter = UNUserNotificationCenter.current()
@@ -36,27 +39,49 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         }
         
         UIApplication.shared.registerForRemoteNotifications()
+        
+        // 创建腾讯云所需的配置
+        // 实例化QCloudServiceConfiguration
+        
+        //#warning 输入您的APPID
+        let configuration = QCloudServiceConfiguration()
+        configuration.appID = "1255653994" //项目ID
+        configuration.signatureProvider = self
+        let endpoint:QCloudCOSXMLEndPoint = QCloudCOSXMLEndPoint.init()
+    
+        
+        //#warning 输入Bucket所在地域
+        endpoint.regionName = "ap-chengdu"
+        configuration.endpoint = endpoint
+        // 实例化QCloudCOSXLMLService
+        QCloudCOSXMLService.registerDefaultCOSXML(with: configuration)
+        // 实例化QCloudCOSTransferManagerService
+        QCloudCOSTransferMangerService.registerDefaultCOSTransferManger(with: configuration)
+
+        
         // 创建View Controller
         let loginVC = ViewController()
-        let workZoneVC = WorkZoneViewController()
-        let meVC = MeViewController()
-        
-        workZoneVC.tabBarItem.image = UIImage(named:"workzoneicon")
-        meVC.tabBarItem.image = UIImage(named:"accounticon")
-        
-        
-        workZoneVC.tabBarItem.title = "工作台"
-        meVC.tabBarItem.title = "我的"
-        
-        let tabBar = TabBarController()
-        tabBar.viewControllers = [workZoneVC,meVC]
-        
-        let loginStatus = true
-        if !loginStatus {
-            self.window?.rootViewController = loginVC
-        }else{
-            self.window?.rootViewController = tabBar
-        }
+        self.window?.rootViewController = loginVC
+//        
+//        let workZoneVC = WorkZoneViewController()
+//        let meVC = MeViewController()
+//        
+//        workZoneVC.tabBarItem.image = UIImage(named:"workzoneicon")
+//        meVC.tabBarItem.image = UIImage(named:"accounticon")
+//        
+//        
+//        workZoneVC.tabBarItem.title = "工作台"
+//        meVC.tabBarItem.title = "我的"
+//        
+//        let tabBar = TabBarController()
+//        tabBar.viewControllers = [workZoneVC,meVC]
+//        
+//        let loginStatus = false
+//        if !loginStatus {
+//            self.window?.rootViewController = loginVC
+//        }else{
+//            self.window?.rootViewController = tabBar
+//        }
         self.window?.backgroundColor = UIColor.white
         
         return true
@@ -113,6 +138,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
     
     }
     
+    func signature(with fileds: QCloudSignatureFields!, request: QCloudBizHTTPRequest!, urlRequest urlRequst: NSMutableURLRequest!, compelete continueBlock: QCloudHTTPAuthentationContinueBlock!) {
+        // 生成签名
+        let credential = QCloudCredential()
+        credential.secretID = "AKIDlPzX1SO396wiJlKPZghYosvulW6pvvFU"
+        credential.secretKey = "gGk9lGcpt382pRuFPNAqLit166c4b2tb"
+        let creator:QCloudAuthentationV5Creator = QCloudAuthentationV5Creator.init(credential: credential)
+        let signature:QCloudSignature = creator.signature(forData: urlRequst)
+        continueBlock(signature, nil)
+    }
+
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         // 发送给我们自己的服务器
       //  let tokenString = deviceToken.hexString
@@ -120,6 +155,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         let device = NSData(data: deviceToken)
         let deviceID = device.description.replacingOccurrences(of:"<", with:"").replacingOccurrences(of:">", with:"").replacingOccurrences(of:" ", with:"")
         print("我的deviceToken：\(deviceID)")
+       // let deviceToken:String = deviceID
+        
+        UserDefaults.standard.set(deviceID, forKey: "myDeviceToken")
+        UserDefaults.standard.synchronize()
+        
+       // UserDefaults.string("deviceToken")
 //        
 //        let plistFile = Bundle.main.path(forResource: "deviceToken", ofType: "plist")
 //        //临时deviceToken

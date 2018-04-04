@@ -29,10 +29,6 @@ class User: NSObject {
         params["password"] = self._password
         //获取用户的IP
         params["loginip"] = getLocalIPAddressForCurrentWiFi()
-
-        //for debug
-//        params["email"] = "ltq@163.com"
-//        params["password"] = 123456
         
         print("登录信息：\(params)")
         var result = false
@@ -46,29 +42,6 @@ class User: NSObject {
         #else
             let loginURL:String = apiAddresses.value(forKey: "loginInAPIAddress") as! String
         #endif
-        
-        //print(loginURL)
-        //let URL = data.value(forKey: "loginInAPIAddress")
-        //沙盒读取
-//        let fileManager = FileManager.default
-//
-//        let documenetDirectory:NSArray = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true) as NSArray
-//        let writableDBPath = (documenetDirectory[0] as AnyObject).appendingPathComponent("config.plist") as String
-//
-//        let dbexists = fileManager.fileExists(atPath: writableDBPath)
-//        if dbexists != true {
-//            let dbFile = Bundle.main.path(forResource: "appData", ofType: "plist")!
-//
-//        do{
-//            //复制
-//            let sucess = try fileManager.copyItem(atPath: dbFile, toPath: writableDBPath)
-//            //let configfile = NSDictionary.init(contentsOfFile: "\(NSHomeDirectory())/config.plist")
-//        }catch{
-//            print("读取文件异常")
-//            }
-//        }
-
-       
         //发起请求
         Alamofire.request(loginURL,method:.post, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
             (responseObject) in
@@ -126,16 +99,20 @@ class User: NSObject {
                         let userId = Int64(newuserId!)!
                         let dataOperator = CoreDataOperation()
                         //查询是不是已经有相似记录了
-                        dataOperator.saveAccountInfo(userName:userName,nickName:nickName!,userId:userId,roleType: roleType)
+                        dataOperator.saveAccountInfo(userName:userName,nickName:nickName!,userId:userId,roleType: roleType,password: password)
                         dataOperator.saveToken(token: token!)
-                        //跳转页面
-                        let tabBar = TabBarController()
-                        let appDelegate = AppDelegate()
                         
-                        appDelegate.window?.rootViewController = tabBar
-                        view.present(tabBar, animated: true, completion: nil)
+                       
+                        //跳转页面
+                            let tabBar = TabBarController(royeType: Int(roleType))
+                            let appDelegate = AppDelegate()
+                            appDelegate.window?.rootViewController = tabBar
+                            view.present(tabBar, animated: true, completion: nil)
+                            
+                        
                         print("login succeed")
                         hub.hide()
+                        let deviceToken = UserDefaults.standard.object(forKey: "myDeviceToken")
                         DispatchQueue.global().async {
                             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
                                 view.successNotice("登录成功", autoClear: true)
@@ -154,7 +131,181 @@ class User: NSObject {
         }
         print("返回结果")        
     }
+    func simpleLogin(username:String,password:String,view:UIViewController,hub:UIWindow){
+        _username = username
+        _password = password
+        
+        let params:NSMutableDictionary = NSMutableDictionary()
+        params["email"] = self._username.lowercased()
+        params["password"] = self._password
+        //获取用户的IP
+        params["loginip"] = getLocalIPAddressForCurrentWiFi()
+        
+        print("登录信息：\(params)")
+        var result = false
+        
+        let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
+        let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
+        
+        let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
+        #if DEBUG
+            let loginURL:String = apiAddresses.value(forKey: "loginInAPIAddressDebug") as! String
+        #else
+            let loginURL:String = apiAddresses.value(forKey: "loginInAPIAddress") as! String
+        #endif
+        //发起请求
+        Alamofire.request(loginURL,method:.post, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
+            (responseObject) in
+            switch responseObject.result.isSuccess{
+            case true:
+                if let value = responseObject.result.value{
+                    let json = JSON(value)
+                    print(json)
+                    let newcode = json["status","code"].string
+                    let code = Int64(newcode!)!
+                    switch code{
+                    case 0:
+                        print("执行json")
+                        result = true
+                    case 1:
+                        print("1")
+                        result = true
+                    // greyLayerPrompt.show(text: "用户已在线")
+                    case 2:
+                        print("2")
+                        result = true
+                    // greyLayerPrompt.show(text: "长时间未登录")
+                    case 3:
+                        print("3")
+                        result = true
+                    //greyLayerPrompt.show(text: "异地登录")
+                    case 4:
+                        print("4")
+                        result = false
+                        greyLayerPrompt.show(text: "账号不存在")
+                    case 5:
+                        print("5")
+                        result = false
+                        greyLayerPrompt.show(text: "密码错误")
+                    case 6:
+                        print("6")
+                        result = false
+                    default:
+                        print("default")
+                        result = false
+                    }
+                    //登录成功，跳转首页
+                    if result == true {
+                        let nickName = json["userinfo","nickname"].string
+                        let newuserId = json["userinfo","userid"].string
+                        let userName = self._username
+                        var newroleType = json["userinfo","roletype"].string
+                        let token = json["userinfo","token"].string
+                        
+                        //如果newroleType返回空，则指定为普通用户；0
+                        if newroleType == "null"{
+                            newroleType = "0"
+                        }
+                        let roleType = Int64(newroleType!)!
+                        let userId = Int64(newuserId!)!
+                        let dataOperator = CoreDataOperation()
+                        //查询是不是已经有相似记录了
+                        dataOperator.saveAccountInfo(userName:userName,nickName:nickName!,userId:userId,roleType: roleType,password: password)
+                        dataOperator.saveToken(token: token!)
+                        
+                        
+                        //跳转页面
+                        let tabBar = TabBarController(royeType: Int(roleType))
+                        let appDelegate = AppDelegate()
+                        appDelegate.window?.rootViewController = tabBar
+                        view.present(tabBar, animated: true, completion: nil)
+                        
+                        
+                        print("login succeed")
+                        hub.hide()
+                        let deviceToken = UserDefaults.standard.object(forKey: "myDeviceToken")
+                        DispatchQueue.global().async {
+                            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
+                                view.successNotice("注册成功", autoClear: true)
+                            })
+                        }
+                    }else{
+                        hub.hide()
+                        print("login failed")
+                    }
+                }
+            case false:
+                print(responseObject.result.error ?? "No result found")
+                greyLayerPrompt.show(text: "糟糕，服务器出了一点问题，请稍后再试")
+                hub.hide()
+            }
+        }
+    }
     
+    func registerAccount(username:String,password:String,view:UIViewController,hub:UIWindow){
+        _username = username
+        _password = password
+        
+        let params:NSMutableDictionary = NSMutableDictionary()
+        params["email"] = self._username.lowercased()
+        params["password"] = self._password
+        //获取用户的IP
+        params["loginip"] = getLocalIPAddressForCurrentWiFi()
+        
+        print("登录信息：\(params)")
+        var result = false
+        
+        let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
+        let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
+        
+        let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
+        #if DEBUG
+            let requestURL:String = apiAddresses.value(forKey: "registerAPIAddressDebug") as! String
+        #else
+            let requestURL:String = apiAddresses.value(forKey: "registerAPIAddress") as! String
+        #endif
+        //发起请求
+        Alamofire.request(requestURL,method:.post, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
+            (responseObject) in
+            switch responseObject.result.isSuccess{
+            case true:
+                if let value = responseObject.result.value{
+                    let json = JSON(value)
+                    print(json)
+                    let newcode = json["status","code"].string
+                    let code = Int64(newcode!)!
+                    switch code{
+                    case 0:
+                        print("执行json")
+                        result = true
+                    case 1:
+                        print("1")
+                        result = false
+                        greyLayerPrompt.show(text: "用户已存在,换个账号吧")
+                    case 3:
+                        print("3")
+                        result = false
+                        greyLayerPrompt.show(text: "注册失败,未知原因")
+                    default:
+                        print("default")
+                        result = false
+                    }
+                    //注册成功，跳转首页
+                    if result == true {
+                        self.simpleLogin(username: self._username.lowercased(), password: password, view: view, hub: hub)
+                    }else{
+                        hub.hide()
+                        print("register failed failed")
+                    }
+                }
+            case false:
+                print(responseObject.result.error ?? "No result found")
+                greyLayerPrompt.show(text: "糟糕，服务器出了一点问题，请稍后再试")
+                hub.hide()
+            }
+        }
+        print("返回结果")
+    }
     //获取ip地址
     private func getLocalIPAddressForCurrentWiFi() -> String? {
         var address: String?
@@ -191,4 +342,5 @@ class User: NSObject {
         return address
     }
 }
+
 

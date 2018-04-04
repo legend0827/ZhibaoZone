@@ -80,7 +80,7 @@ class CoreDataOperation: NSObject {
         }
     }
     
-    func saveAccountInfo(userName:String,nickName:String,userId:Int64,roleType:Int64) {
+    func saveAccountInfo(userName:String,nickName:String,userId:Int64,roleType:Int64,password:String) {
         //获取管理的数据上下文，对象
         let app = UIApplication.shared.delegate as! AppDelegate
         let context = app.persistentContainer.viewContext
@@ -100,22 +100,25 @@ class CoreDataOperation: NSObject {
             if fetchResults.count == 0 {
                 //对象赋值
                 userAccount.id = 1
-                userAccount.nickName = nickName
+                userAccount.nickName = nickName.lowercased()
                 userAccount.roleType = roleType
                 userAccount.userId = userId
                 userAccount.userName = userName
+                userAccount.password = password
                 print("inserted recoreds in userAccount")
             }else{
                 for info in fetchResults{
+                    if info.userName != userName.lowercased(){
+                        //删除手势密码
+                        UserDefaults.standard.removeObject(forKey: gestureFinalSaveKey)
+                        updateOrWriteDataToServer(isToOpen:false,isToDelete:true)
+                    }
                     info.id = 1
-                    info.userName = userName
+                    info.userName = userName.lowercased()
                     info.nickName = nickName
                     info.roleType = roleType
                     info.userId = userId
-                    print(info.nickName)
-                    print(info.roleType)
-                    print(info.userId)
-                    print(info.userName)
+                    info.password  = password
                 }
             }
             try context.save()

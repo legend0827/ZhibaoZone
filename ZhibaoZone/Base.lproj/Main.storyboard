@@ -70,19 +70,6 @@
                                     <navigationItem title="预览图片" id="gNx-II-ygB"/>
                                 </items>
                             </navigationBar>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Wi-nV-TOf">
-                                <rect key="frame" x="119" y="423" width="166" height="42"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <attributedString key="attributedText">
-                                    <fragment content="12313121231231231231231">
-                                        <attributes>
-                                            <font key="NSFont" size="17" name=".AppleSystemUIFont"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="Q9i-cF-A4k"/>
@@ -134,7 +121,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="Rkp-mN-3wE">
             <objects>
-                <tabBarController id="5ua-GI-8VA" customClass="TabBarController" customModule="ZhibaoZone" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController id="5ua-GI-8VA" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="bT6-RQ-yLg"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="TRz-xY-irR">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>

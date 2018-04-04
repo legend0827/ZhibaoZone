@@ -11,16 +11,22 @@ import UIKit
 class ImagePreviewCell: UICollectionViewCell {
     
     var index:IndexPath = [0,0]
-    var objectOfImagePVC:ImagePreviewVC = ImagePreviewVC(images:[])
+    
+    var objectOfImagePVC:ImagePreviewVC?
+    
+    var taskDetailReplyObject = TaskDetailViewController(currentTaskID: "nothing", currentCustomid: "123456", currentOrderID: "123456", currentGoodsID: "123456", currentTaskType: 0)
+    var previewSourceVC:String = ""
+
     //滚动视图
     var scrollView:UIScrollView!
+    var previewModel:PreviewModeType?// = .previewWithDelete
     
     //用于显示图片的imageView
     var imageView:UIImageView!
     
     //导航栏
     let navigationBar:UINavigationBar = UINavigationBar.init(frame: CGRect(x: 0, y: -20, width: UIScreen.main.bounds.width, height: 60))
-    let deleteBtn:UIButton = UIButton.init(frame: CGRect(x: UIScreen.main.bounds.width - 60, y: 40, width: 50, height: 50))
+    //let deleteBtn:UIButton = UIButton.init(frame: CGRect(x: UIScreen.main.bounds.width - 60, y: 40, width: 50, height: 50))
     
     //初始化
     override init(frame: CGRect) {
@@ -28,26 +34,6 @@ class ImagePreviewCell: UICollectionViewCell {
        // self.index = index
         super.init(frame: frame)
         
-        navigationBar.isHidden = true
-        navigationBar.backgroundColor = UIColor.clear
-        navigationBar.barTintColor = UIColor.black
-        let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 50, height: 60))
-        titleLabel.text = "附件预览"
-        titleLabel.textColor = UIColor.white
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
-        
-        let navItem = UINavigationItem()
-        navItem.titleView = titleLabel
-        let leftButton = UIBarButtonItem(title: "取消", style: .done, target: self, action: #selector(cancelBtnClicked))
-        leftButton.tintColor = #colorLiteral(red: 0.9104188085, green: 0.2962309122, blue: 0.2970536053, alpha: 1)
-        
-        let rightButton = UIBarButtonItem(image: UIImage(named:"delete-white"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(deleteBtnClicked))
-        rightButton.tintColor = UIColor.white
-        navItem.setLeftBarButton(leftButton, animated: false)
-        navItem.setRightBarButton(rightButton, animated: false)
-        navigationBar.pushItem(navItem, animated: false)
-        self.addSubview(navigationBar)
-        // (title: "取消", style: .plain, target: self, action: nil)
         
         
         //scrollView初始化
@@ -82,12 +68,15 @@ class ImagePreviewCell: UICollectionViewCell {
     }
     //删除按钮相应
     @objc func deleteBtnClicked(){
-        objectOfImagePVC.deletePic(indexPath: index)
+        objectOfImagePVC?.deletePic(indexPath: index)
         print("delete index at \(index.row)")
     }
     @objc func cancelBtnClicked() {
         
         let responder = responderViewController()
+        if previewSourceVC != "WorkZoneVC"{
+            taskDetailReplyObject.replyTextView.becomeFirstResponder()
+        }
         responder?.dismiss(animated: true, completion: nil)
     }
     //重置单元格内元素尺寸
@@ -103,7 +92,35 @@ class ImagePreviewCell: UICollectionViewCell {
             imageView.center = scrollView.center
         }
     }
-
+    func updateNavigationBar(){
+//        if previewModel == PreviewModeType.previewWithDelete {
+//            navigationBar.items?.remove(at: <#T##Int#>)
+//        }
+        
+        navigationBar.isHidden = true
+        navigationBar.backgroundColor = UIColor.clear
+        navigationBar.barTintColor = UIColor.black
+        let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 50, height: 60))
+        titleLabel.text = "附件预览"
+        titleLabel.textColor = UIColor.white
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
+        
+        let navItem = UINavigationItem()
+        navItem.titleView = titleLabel
+        let leftButton = UIBarButtonItem(title: "取消", style: .done, target: self, action: #selector(cancelBtnClicked))
+        leftButton.tintColor = #colorLiteral(red: 0.9104188085, green: 0.2962309122, blue: 0.2970536053, alpha: 1)
+        
+        let rightButton = UIBarButtonItem(image: UIImage(named:"delete-white"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(deleteBtnClicked))
+        rightButton.tintColor = UIColor.white
+        print("previewModel in cell is \(previewModel)")
+        if previewModel == .previewWithDelete{
+            navItem.setRightBarButton(rightButton, animated: false)
+        }
+        navItem.setLeftBarButton(leftButton, animated: false)
+        navigationBar.pushItem(navItem, animated: false)
+        
+        self.addSubview(navigationBar)
+    }
     //视图布局改变时（横竖屏切换时cell尺寸也会变化）
     override func layoutSubviews() {
         super.layoutSubviews()

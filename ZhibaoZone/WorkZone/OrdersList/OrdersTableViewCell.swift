@@ -369,7 +369,7 @@ class OrdersTableViewCell: UITableViewCell {
     }
     
 //    public func changeHeightForView(changeHeight:Int){
-//        let view = UIView.init(frame:CGRect(x: 0, y: 260+changeHeight, width: Int(UIScreen.main.bounds.width), height: 20))
+//        let view = UIView.inigt(frame:CGRect(x: 0, y: 260+changeHeight, width: Int(UIScreen.main.bounds.width), height: 20))
 //        view.backgroundColor = UIColor.init(red: 244.0 / 255.0, green: 245.0 / 255.0, blue: 245.0 / 255.0, alpha: 1.0)
 //        contentView.addSubview(view)
 //    }

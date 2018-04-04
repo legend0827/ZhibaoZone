@@ -48,7 +48,7 @@ class TaskListTableViewCell: UITableViewCell {
         taskContentLabel.font = UIFont.systemFont(ofSize: 13)
         taskContentLabel.textColor = UIColor.gray
         
-        taskContentInList.text = "无内容1231231231231231231hshdhshdasdhasdhahsdhasdhashdahsdh"
+        taskContentInList.text = "无内容"
         taskContentInList.font = UIFont.systemFont(ofSize: 13)
         taskContentInList.textColor = UIColor.black
         taskContentInList.lineBreakMode = .byCharWrapping

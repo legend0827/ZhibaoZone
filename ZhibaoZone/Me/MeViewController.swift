@@ -10,26 +10,83 @@ import UIKit
 import CoreData
 import Alamofire
 
+let avatars:NSDictionary = [
+    "1":"default1",
+    "2":"default2",
+    "3":"default3",
+    "4":"default4",
+    "5":"default5",
+    "6":"default6",
+    "7":"default7",
+    "8":"default8",
+    "9":"default9",
+    "10":"default10"
+]
+
+enum AvatarShape: String {
+    /// 圆角正方形
+    case AvatarShapeTypeSquareWithRadius = "Radius"
+    /// 圆形
+    case AvatarShapeTypeRound 
+    /// 正方形
+    case AvatarShapeTypeSquare
+    
+}
+
+//创建头像方法
+func createIcon(imageSize:CGFloat,locale:CGRect,iconShape:AvatarShape) -> UIView {
+    let photo = UIImageView()
+    //随机取头像
+    let avatarIndex = Int(arc4random()%10+1)
+    print(avatarIndex)
+    let image = UIImage(named:avatars.value(forKey: String(avatarIndex)) as! String)
+    
+    photo.bounds = CGRect(x:(UIScreen.main.bounds.width - imageSize)/2,y:(UIScreen.main.bounds.height-imageSize)/2-122,width:imageSize,height:imageSize)
+    photo.frame = locale
+    
+    // 设置图片的外围圆框*
+    photo.layer.masksToBounds = true
+    photo.layer.borderColor = UIColor.white.cgColor
+    photo.layer.borderWidth = 2
+    
+    // 用设置圆角的方法设置圆形
+    switch iconShape {
+    case .AvatarShapeTypeSquare:
+        photo.layer.cornerRadius =  0
+    case .AvatarShapeTypeRound:
+        photo.layer.cornerRadius =  photo.bounds.height/2
+        photo.layer.borderColor = UIColor.colorWithRgba(240, g: 240, b: 240, a: 1).cgColor
+    case .AvatarShapeTypeSquareWithRadius:
+        var cornerRadius = photo.bounds.height/6
+        if cornerRadius >= 10{
+            cornerRadius = 10
+        }
+        photo.layer.cornerRadius =  cornerRadius
+        
+    default:
+        var cornerRadius = photo.bounds.height/6
+        if cornerRadius >= 10{
+            cornerRadius = 10
+        }
+        photo.layer.cornerRadius =  cornerRadius
+    }
+    
+    photo.image = image
+    return photo
+}
+
 class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
-    let avatars:NSDictionary = [
-        "1":"default1",
-        "2":"default2",
-        "3":"default3",
-        "4":"default4",
-        "5":"default5",
-        "6":"default6",
-        "7":"default7",
-        "8":"default8",
-        "9":"default9",
-        "10":"default10"
-    ]
+
     //
     var tableView:UITableView?
     
     var nameBannerCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 88))
     var RoleTypeCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44))
     var SetQuickAccessPermitCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44))
+    var SetParametersCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44))
+    
+    var RoleType = 0 // 定义角色
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,6 +134,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         createNameBanner()
         createRoleBanner()
         createUnlockBanner()
+        createSetBanner()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -87,7 +145,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         }
     }
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 4
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
@@ -106,6 +164,11 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
             SetQuickAccessPermitCell.alpha = 1.0
             SetQuickAccessPermitCell.selectionStyle = UITableViewCellSelectionStyle.none
             return SetQuickAccessPermitCell
+        }else if (indexPath.section == 3){
+            //参数设置
+            SetParametersCell.alpha = 1.0
+            SetParametersCell.selectionStyle = UITableViewCellSelectionStyle.none
+            return SetParametersCell
         }else{
             RoleTypeCell.alpha = 1.0
             RoleTypeCell.selectionStyle = UITableViewCellSelectionStyle.none
@@ -117,6 +180,10 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
             let securitySettingsVC = SecuritySettingViewController()
             securitySettingsVC.MeVC = self
             self.present(securitySettingsVC, animated: true, completion: nil)
+        }else if indexPath.section == 3 {
+            let setParamtersVC = SetParamtersViewController(roleType: RoleType)
+            setParamtersVC.MeVC = self
+            self.present(setParamtersVC, animated: true, completion: nil)
         }
     }
     
@@ -149,6 +216,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         appDelegate.window?.rootViewController = LoginVC
         self.present(LoginVC, animated: true, completion: nil)
     }
+    
     func createUnlockBanner(){
         let unlockHitTitleLabel:UILabel = UILabel.init(frame: CGRect(x: 20, y: 0, width: 200, height: 44))
         unlockHitTitleLabel.text = "安全设置"
@@ -163,6 +231,23 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         SetQuickAccessPermitCell.addSubview(imageViewOfArrow)
         SetQuickAccessPermitCell.addSubview(unlockHitTitleLabel)
         tableView?.addSubview(SetQuickAccessPermitCell)
+    }
+    
+    
+    func createSetBanner(){
+        let parameterHitTitleLabel:UILabel = UILabel.init(frame: CGRect(x: 20, y: 0, width: 200, height: 44))
+        parameterHitTitleLabel.text = "参数设置"
+        parameterHitTitleLabel.font = UIFont.systemFont(ofSize: 15)
+        parameterHitTitleLabel.textAlignment = .left
+        
+        let imageViewOfArrow:UIImageView = UIImageView.init(frame: CGRect(x: UIScreen.main.bounds.width - 30, y: 8, width: 30, height: 30))
+        
+        imageViewOfArrow.image = UIImage(named:"right-arrow")
+        imageViewOfArrow.bounds = CGRect(x:UIScreen.main.bounds.width - 30,y:8,width:15,height:15)
+        
+        SetParametersCell.addSubview(imageViewOfArrow)
+        SetParametersCell.addSubview(parameterHitTitleLabel)
+        tableView?.addSubview(SetParametersCell)
     }
     func createRoleBanner() {
         
@@ -189,18 +274,23 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
                 if info.roleType == 0{
                     //0 普通用户 1 客服 2 设计师 3 工厂
                     roleStringLabel.text = "制宝会员"
+                    RoleType = 0
                 }else if info.roleType == 1{
                     //0 普通用户 1 客服 2 设计师 3 工厂
                     roleStringLabel.text = "制宝客户服务"
+                    RoleType = 1
                 }else if info.roleType == 2{
                     //0 普通用户 1 客服 2 设计师 3 工厂
                     roleStringLabel.text = "制宝方案设计师"
+                    RoleType = 2
                 }else if info.roleType == 3{
                     //0 普通用户 1 客服 2 设计师 3 工厂
-                    roleStringLabel.text = "合作生产工厂"
+                    roleStringLabel.text = "合作生产车间"
+                    RoleType = 3
                 }else {
                     //0 普通用户 1 客服 2 设计师 3 工厂
                     roleStringLabel.text = "制宝会员"
+                    RoleType = 0
                 }
             }
         } catch {
@@ -244,16 +334,13 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
             print("获取数据失败\(error)")
         }
         //设置用户名片的头像
-        createIcon()
+        let locale = CGRect(x:20, y:12, width:65.0, height:65.0)
+        let avatar = createIcon(imageSize: 65.0, locale: locale, iconShape: AvatarShape.AvatarShapeTypeSquareWithRadius)
+        nameBannerCell.addSubview(avatar)
 
         //设置昵称
-        //userNameLabel.text = "Kevin"
-        
-//        userNameLabel.font = UIFont.systemFont(ofSize: 17)
         userNameLabel.textAlignment = .left
         userNameLabel.font = UIFont.boldSystemFont(ofSize: 17)
-//        userNameLabel.layer.borderWidth = 1
-//        userNameLabel.layer.borderColor = UIColor.black.cgColor
         
         //设置账号标签
         userAccountLabel.text = "用户ID:"
@@ -276,28 +363,6 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         tableView?.addSubview(nameBannerCell)
     }
     
-    func createIcon() {
-        let photo = UIImageView()
-        //随机取头像
-        let avatarIndex = Int(arc4random()%10+1)
-        print(avatarIndex)
-        let image = UIImage(named:avatars.value(forKey: String(avatarIndex)) as! String)
-        let imageSize:CGFloat = 65.0
-        
-        photo.bounds = CGRect(x:(self.view.bounds.size.width - imageSize)/2,y:(self.view.bounds.size.height-imageSize)/2-122,width:imageSize,height:imageSize)
-        photo.frame = CGRect(x:20, y:12, width:imageSize, height:imageSize)
-       
-        // 用设置圆角的方法设置圆形
-        photo.layer.cornerRadius =  10 //photo.bounds.height/2
-        
-        // 设置图片的外围圆框*
-        photo.layer.masksToBounds = true
-        photo.layer.borderColor = UIColor.white.cgColor
-        photo.layer.borderWidth = 3
-        
-        photo.image = image
-        nameBannerCell.addSubview(photo)
-    }
     /*
     // MARK: - Navigation
 
@@ -309,4 +374,5 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
     */
 
 }
+
 

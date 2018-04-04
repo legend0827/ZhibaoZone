@@ -68,32 +68,62 @@ class TastsViewController: UIViewController,UITableViewDelegate,UITableViewDataS
             cell.taskDeadLineInList.textColor = UIColor.gray
             cell.taskDeadLineInList.text = "未指定任务期限"
         }else{
-            cell.taskDeadLineInList.text = "\(dictionaryObjectInTaskArray.value(forKey: "taskperiod") as! Int)"
+            cell.taskDeadLineInList.text = "\(dictionaryObjectInTaskArray.value(forKey: "taskperiod") as! Int)分钟"
         }
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let dictionaryObjectInTaskArray = taskListArray[indexPath.row]
         
-        var taskID:Int
+        var taskID:String
         if dictionaryObjectInTaskArray.value(forKey: "taskid") as? String == nil{
             print("there's no such mission")
             greyLayerPrompt.show(text: "错误任务")
-            taskID = 1
+            return
+            taskID = "1"
         }else{
-            taskID = Int(dictionaryObjectInTaskArray.value(forKey: "taskid") as! String) as! Int
+            taskID = dictionaryObjectInTaskArray.value(forKey: "taskid") as! String
         }
         
-        var customeID:Int
+        var customeID:String
         if dictionaryObjectInTaskArray.value(forKey: "customid") as? String == nil{
-            print("there's no such mission")
-            greyLayerPrompt.show(text: "错误任务")
-            customeID = 1
+           // print("there's no such mission")
+           // greyLayerPrompt.show(text: "错误任务")
+            customeID = "null"
+            //return
         }else{
-            customeID = Int(dictionaryObjectInTaskArray.value(forKey: "customid") as!String) as! Int
+            customeID = dictionaryObjectInTaskArray.value(forKey: "customid") as! String
         }
         
-        let taskDetailView = TaskDetailViewController(currentTaskID: taskID, currentCustomid:customeID)
+        var TaskType:Int?
+        if dictionaryObjectInTaskArray.value(forKey: "tasktype") as? String == nil{
+            // print("there's no such mission")
+            // greyLayerPrompt.show(text: "错误任务")
+            TaskType = 0
+            //return
+        }else{
+            TaskType = dictionaryObjectInTaskArray.value(forKey: "tasktype") as! Int
+        }
+        
+        var OrderID:String?
+        if dictionaryObjectInTaskArray.value(forKey: "orderid") as? String == nil{
+            // print("there's no such mission")
+            // greyLayerPrompt.show(text: "错误任务")
+            OrderID = "null"
+            //return
+        }else{
+            OrderID = dictionaryObjectInTaskArray.value(forKey: "orderid") as! String
+        }
+        var GoodsID:String?
+        if dictionaryObjectInTaskArray.value(forKey: "goodsid") as? String == nil{
+            // print("there's no such mission")
+            // greyLayerPrompt.show(text: "错误任务")
+            GoodsID = "null"
+            //return
+        }else{
+            GoodsID = dictionaryObjectInTaskArray.value(forKey: "goodsid") as! String
+        }
+        let taskDetailView = TaskDetailViewController(currentTaskID: taskID, currentCustomid: customeID, currentOrderID: OrderID!, currentGoodsID: GoodsID!, currentTaskType: TaskType!)
         self.present(taskDetailView, animated: true, completion: nil)
         //self.navigationController?.pushViewController(taskDetailView, animated: true)
     }
@@ -393,7 +423,14 @@ class TastsViewController: UIViewController,UITableViewDelegate,UITableViewDataS
                 if responseObject.result.error?.localizedDescription != "cancelled" && responseObject.result.error?.localizedDescription as! String != "已取消"{
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         print(responseObject.result.error ?? "No result found")
-                        greyLayerPrompt.show(text: "糟糕，服务器出了一点问题，请稍后再试")
+                        if responseObject.result.error?.localizedDescription as! String == "The Internet connection appears to be offline."{
+                            greyLayerPrompt.show(text: "未接入网络，请接入网络再试")
+                        }else{
+                            if responseObject.result.error?.localizedDescription as! String != "JSON could not be serialized because of error:\nThe data couldn’t be read because it isn’t in the correct format." && responseObject.error?.localizedDescription as! String != "Response could not be serialized, input data was nil or zero length."{
+                                greyLayerPrompt.show(text: "糟糕，服务器出了一点问题，请稍后再试")
+                            }
+                            
+                        }
                         let loadingFailedLabel:UILabel = UILabel.init(frame: CGRect(x: UIScreen.main.bounds.width/2 - 100, y: UIScreen.main.bounds.height/2 - 200, width: 200, height: 200))
                         loadingFailedLabel.text = "加载失败，请重试..."
                         loadingFailedLabel.tag = 200
