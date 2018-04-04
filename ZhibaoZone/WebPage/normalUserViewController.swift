@@ -23,7 +23,7 @@ class normalUserViewController: UIViewController,UIWebViewDelegate {
         }
         OnlineShopWebView.delegate = self
         OnlineShopWebView.backgroundColor = UIColor.white
-        let url = URL(string:"https://tianda.tmall.com/")
+        let url = URL(string:"http://tianda.m.tmall.com/")
         let urlRequest:URLRequest = URLRequest.init(url: url!)
         OnlineShopWebView.loadRequest(urlRequest)
         
@@ -63,15 +63,19 @@ class normalUserViewController: UIViewController,UIWebViewDelegate {
         ShowLoading()
     }
     func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
-        if error.localizedDescription != "The URL can’t be shown"{
-            if error.localizedDescription == "The Internet connection appears to be offline."{
+//        if error.localizedDescription != "The URL can’t be shown" || error.localizedDescription != "无法显示 URL"{
+        if error.localizedDescription == "The Internet connection appears to be offline." || error.localizedDescription == "似乎已断开与互联网的连接。"{
                 greyLayerPrompt.show(text: "未接入网络，接入网络后再试")
-            }else{
-                greyLayerPrompt.show(text: "加载失败，请检查网络")
-            }
             StopLoding()
             showRetryBtn()
         }
+//        else{
+//                greyLayerPrompt.show(text: "加载失败，请检查网络")
+//        }
+
+//        }else{
+//
+//        }
         print("出错了")
     }
     
