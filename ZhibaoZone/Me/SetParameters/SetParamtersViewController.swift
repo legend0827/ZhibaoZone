@@ -413,54 +413,7 @@ class SetParamtersViewController: UIViewController,UITableViewDelegate,UITableVi
         ParameterSettingTableView.reloadData()
     }
     
-    func saveWeightToCoreData(value:Int,parameter:String){
-        
-        //获取管理的数据上下文，对象
-        let app = UIApplication.shared.delegate as! AppDelegate
-        let context = app.persistentContainer.viewContext
-        
-        //声明数据的请求
-        let fetchRequest =  NSFetchRequest<ParameterSettings>(entityName:"ParameterSettings")
-        fetchRequest.returnsObjectsAsFaults = false
-        // 设置查询条件
-        let predicate = NSPredicate(format: "id = 1")
-        fetchRequest.predicate = predicate
-        
-        //创建ParameterSettings对象
-        let parameterSettings = NSEntityDescription.insertNewObject(forEntityName: "ParameterSettings", into: context) as! ParameterSettings
-        //查询操作
-        do {
-            let fetchResults = try context.fetch(fetchRequest)
-            if fetchResults.count == 0 {
-                //对象赋值
-                parameterSettings.id = 1
-                if parameter == "msgVoiceAlertFrequencyWeight"{
-                    parameterSettings.msgVoiceAlertFrequencyWeight = Int64(value)
-                }else if parameter == "quotePriceWeight"{
-                    parameterSettings.quotePriceWeight = Int64(value)
-                }else{
-                    print("parameter Error")
-                }
-                print("inserted recoreds in ParameterSettings")
-            }else{
-                for info in fetchResults{
-                    info.id = 1
-                    if parameter == "msgVoiceAlertFrequencyWeight"{
-                        info.msgVoiceAlertFrequencyWeight = Int64(value)
-                    }else if parameter == "quotePriceWeight"{
-                        info.quotePriceWeight = Int64(value)
-                    }else{
-                        print("parameter Error")
-                    }
-                   // info.quotePriceWeight = Int64(value)
-                }
-            }
-            try context.save()
-            print("new records saved")
-        } catch {
-            fatalError("保存失败\(error)")
-        }
-    }
+    
     @objc func cancelBtnClicked(){
         self.dismiss(animated: true, completion: nil)
     }
@@ -488,6 +441,7 @@ class SetParamtersViewController: UIViewController,UITableViewDelegate,UITableVi
     */
 
 }
+
 func getMSGAlertSettings(index:Int) ->Bool{
     var value = false
     //获取管理的数据上下文，对象
@@ -631,7 +585,6 @@ func saveMSGAlertSettings(value:Bool,index:Int){
             messageAlertSettings.attribute21 = false
             messageAlertSettings.attribute22 = false
             messageAlertSettings.attribute23 = false
-            
             switch index {
             case 0:
                 messageAlertSettings.attribute0 = value
@@ -684,6 +637,7 @@ func saveMSGAlertSettings(value:Bool,index:Int){
             default:
                 print("default")
             }
+            try context.save()
             print("inserted recoreds in MessageAlertSettings")
         }else{
             for info in fetchResults{
@@ -751,3 +705,107 @@ func saveMSGAlertSettings(value:Bool,index:Int){
     }
 }
 
+//初始化
+func initMSGAlertSettings(){
+    
+    //获取管理的数据上下文，对象
+    let app = UIApplication.shared.delegate as! AppDelegate
+    let context = app.persistentContainer.viewContext
+    
+    //声明数据的请求
+    let fetchRequest =  NSFetchRequest<MessageAlertSettings>(entityName:"MessageAlertSettings")
+    fetchRequest.returnsObjectsAsFaults = false
+    // 设置查询条件
+    let predicate = NSPredicate(format: "id = 1")
+    fetchRequest.predicate = predicate
+    
+    //创建ParameterSettings对象
+    let messageAlertSettings = NSEntityDescription.insertNewObject(forEntityName: "MessageAlertSettings", into: context) as! MessageAlertSettings
+    //查询操作
+    do {
+        let fetchResults = try context.fetch(fetchRequest)
+        if fetchResults.count == 0 {
+            //对象赋值
+            messageAlertSettings.id = 1
+            messageAlertSettings.attribute0 = false
+            messageAlertSettings.attribute1 = true
+            messageAlertSettings.attribute2 = true
+            messageAlertSettings.attribute3 = true
+            messageAlertSettings.attribute4 = true
+            messageAlertSettings.attribute5 = false
+            messageAlertSettings.attribute6 = false
+            messageAlertSettings.attribute7 = false
+            messageAlertSettings.attribute8 = false
+            messageAlertSettings.attribute9 = false
+            messageAlertSettings.attribute10 = false
+            messageAlertSettings.attribute11 = false
+            messageAlertSettings.attribute12 = false
+            messageAlertSettings.attribute13 = false
+            messageAlertSettings.attribute14 = false
+            messageAlertSettings.attribute15 = false
+            messageAlertSettings.attribute16 = false
+            messageAlertSettings.attribute17 = false
+            messageAlertSettings.attribute18 = false
+            messageAlertSettings.attribute19 = false
+            messageAlertSettings.attribute20 = false
+            messageAlertSettings.attribute21 = false
+            messageAlertSettings.attribute22 = false
+            messageAlertSettings.attribute23 = false
+            print("MessageAlertSettings initated")
+        }else{
+            print("there's a setting already")
+        }
+        try context.save()
+        print("new records saved")
+    } catch {
+        fatalError("保存失败\(error)")
+    }
+}
+func saveWeightToCoreData(value:Int,parameter:String){
+    
+    //获取管理的数据上下文，对象
+    let app = UIApplication.shared.delegate as! AppDelegate
+    let context = app.persistentContainer.viewContext
+    
+    //声明数据的请求
+    let fetchRequest =  NSFetchRequest<ParameterSettings>(entityName:"ParameterSettings")
+    fetchRequest.returnsObjectsAsFaults = false
+    // 设置查询条件
+    let predicate = NSPredicate(format: "id = 1")
+    fetchRequest.predicate = predicate
+    
+    //创建ParameterSettings对象
+    let parameterSettings = NSEntityDescription.insertNewObject(forEntityName: "ParameterSettings", into: context) as! ParameterSettings
+    //查询操作
+    do {
+        let fetchResults = try context.fetch(fetchRequest)
+        if fetchResults.count == 0 {
+            //对象赋值
+            parameterSettings.id = 1
+            if parameter == "msgVoiceAlertFrequencyWeight"{
+                parameterSettings.msgVoiceAlertFrequencyWeight = Int64(value)
+            }else if parameter == "quotePriceWeight"{
+                parameterSettings.quotePriceWeight = Int64(value)
+            }else{
+                print("parameter Error")
+            }
+            print("inserted recoreds in ParameterSettings")
+        }else{
+            for info in fetchResults{
+                info.id = 1
+                if parameter == "msgVoiceAlertFrequencyWeight"{
+                    info.msgVoiceAlertFrequencyWeight = Int64(value)
+                }else if parameter == "quotePriceWeight"{
+                    info.quotePriceWeight = Int64(value)
+                }else{
+                    print("parameter Error")
+                }
+                // info.quotePriceWeight = Int64(value)
+            }
+        }
+        try context.save()
+        print("new records saved")
+    } catch {
+        fatalError("保存失败\(error)")
+    }
+}

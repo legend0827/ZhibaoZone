@@ -214,6 +214,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
             fatalError("获取失败")
         }
         
+        initSettings()
 
     }
     @objc func switchLoginOrRegisterBtnClicked(){
@@ -327,6 +328,14 @@ class ViewController: UIViewController,UITextFieldDelegate {
 
     }
     
+    func initSettings(){
+        //初始化报价设置
+        saveWeightToCoreData(value:10,parameter: "quotePriceWeight")
+        //初始化消息提醒设置
+        saveWeightToCoreData(value:100,parameter: "msgVoiceAlertFrequencyWeight")
+        //初始化设置的值
+        initMSGAlertSettings()
+    }
     @objc func SubmitBtnClick() {
         //收起键盘
         self.view.endEditing(true)
