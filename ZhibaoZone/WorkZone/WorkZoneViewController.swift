@@ -481,7 +481,7 @@ class WorkZoneViewController: UIViewController,UITableViewDelegate,UITableViewDa
             //遍历当前消息列表中的消息类型,以此得到是否需要提醒
             var needsAlertFromCurrentAlertSettingForTargetMSGType = false
             for msgType in currentMessagesTypeList{
-                let tempAlertTag = getMSGAlertSettings(index: currentMessagesTypeList[msgType])
+                let tempAlertTag = getMSGAlertSettings(index: msgType)
                 //将获取到的设置与变量取或： 如果有任何一个设置的为需要提醒，那么值将会得到True
                 needsAlertFromCurrentAlertSettingForTargetMSGType = needsAlertFromCurrentAlertSettingForTargetMSGType||tempAlertTag
             }
@@ -502,7 +502,7 @@ class WorkZoneViewController: UIViewController,UITableViewDelegate,UITableViewDa
                 //提醒多次
                 //重新设置 needsAlertFromCurrentAlertSettingForTargetMSGType 值，遍历当前列表
                 for msgType in currentMessagesTypeList{
-                    let tempAlertTag = getMSGAlertSettings(index: currentMessagesTypeList[msgType])
+                    let tempAlertTag = getMSGAlertSettings(index: msgType)
                     //将获取到的设置与变量取或： 如果有任何一个设置的为需要提醒，那么值将会得到True
                     needsAlertFromCurrentAlertSettingForTargetMSGType = needsAlertFromCurrentAlertSettingForTargetMSGType||tempAlertTag
                 }
@@ -539,7 +539,7 @@ class WorkZoneViewController: UIViewController,UITableViewDelegate,UITableViewDa
                 //提醒多次
                 //重新设置 needsAlertFromCurrentAlertSettingForTargetMSGType 值，遍历当前列表
                 for msgType in currentMessagesTypeList{
-                    let tempAlertTag = getMSGAlertSettings(index: currentMessagesTypeList[msgType])
+                    let tempAlertTag = getMSGAlertSettings(index: msgType)
                     //将获取到的设置与变量取或： 如果有任何一个设置的为需要提醒，那么值将会得到True
                     needsAlertFromCurrentAlertSettingForTargetMSGType = needsAlertFromCurrentAlertSettingForTargetMSGType||tempAlertTag
                 }
