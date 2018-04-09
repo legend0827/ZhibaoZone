@@ -1947,9 +1947,15 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
             deadline = orderinfoObject?.value(forKey: "deadline") as! Int
         }
         
-        if (deadline < Int(produceTimeCostTextField.text!)!) && deadline != 0{
-            greyLayerPrompt.show(text: "客户要求工期为\(deadline)天以内，请修改生产周期")
+        if produceTimeCostTextField.text == ""{
+            greyLayerPrompt.show(text: "生产工期不能为空,请重试")
             return
+        }else{
+            if (deadline < Int(produceTimeCostTextField.text!)!) && deadline != 0{
+                greyLayerPrompt.show(text: "客户要求工期为\(deadline)天以内，请修改生产周期")
+                return
+            }
+            
         }
         
         //获取列表
