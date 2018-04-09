@@ -317,58 +317,58 @@ class OrdersViewController:UIViewController,UITableViewDelegate,UITableViewDataS
 
         //设置产品尺寸
         let sizeObject = goodsInfoObjects.value(forKey: "size") as! NSDictionary
-        if sizeObject.value(forKey: "length") as? Int != nil {
-            cell.productSizeOfLengthValue.text = "\(sizeObject.value(forKey: "length")as! Int)"
+        if sizeObject.value(forKey: "length") as? Float != nil {
+            cell.productSizeOfLengthValue.text = "\(sizeObject.value(forKey: "length")as! Float)"
         }else{
             cell.productSizeOfLengthValue.text = ""
         }
 
-        if sizeObject.value(forKey: "width") as? Int != nil {
-            cell.productSizeOfWidthValue.text = "\(sizeObject.value(forKey: "width")as! Int)"
+        if sizeObject.value(forKey: "width") as? Float != nil {
+            cell.productSizeOfWidthValue.text = "\(sizeObject.value(forKey: "width")as! Float)"
         }else{
             cell.productSizeOfWidthValue.text = ""
         }
 
-        if sizeObject.value(forKey: "height") as? Int != nil {
-            cell.productSizeOfHeightValue.text = "\(sizeObject.value(forKey: "height")as! Int)"
+        if sizeObject.value(forKey: "height") as? Float != nil {
+            cell.productSizeOfHeightValue.text = "\(sizeObject.value(forKey: "height")as! Float)"
         }else{
             cell.productSizeOfHeightValue.text = ""
         }
 
         //设置设计费
-        if priceInfoObjects.value(forKey: "designprice") as? Int == nil{
+        if priceInfoObjects.value(forKey: "designprice") as? Float == nil{
             cell.designPriceValue.text = "¥18.00"
         }else{
-            cell.designPriceValue.text = "¥\(priceInfoObjects.value(forKey: "designprice") as! Int).00"
+            cell.designPriceValue.text = "¥\(priceInfoObjects.value(forKey: "designprice") as! Float)0"
         }
         //设置客户心理价
-        var mindPrice = 0
-        var quotePriceOfFactory = 0
-        if priceInfoObjects.value(forKey: "mindprice") as? Int == nil{
+        var mindPrice:Float = 0.0
+        var quotePriceOfFactory:Float = 0.0
+        if priceInfoObjects.value(forKey: "mindprice") as? Float == nil{
             cell.custoerPriceValue.text = "¥0.00"
         }else{
-            cell.custoerPriceValue.text = "¥\(priceInfoObjects.value(forKey: "mindprice") as! Int).00"
-            mindPrice = priceInfoObjects.value(forKey: "mindprice") as! Int
+            cell.custoerPriceValue.text = "¥\(priceInfoObjects.value(forKey: "mindprice") as! Float)0"
+            mindPrice = priceInfoObjects.value(forKey: "mindprice") as! Float
         }
 
         //设置订单总价
-        if priceInfoObjects.value(forKey: "finalprice") as? Int == nil{
+        if priceInfoObjects.value(forKey: "finalprice") as? Float == nil{
             cell.orderTotalPrice.text = "¥0.00"
         }else{
-            cell.orderTotalPrice.text = "¥\(priceInfoObjects.value(forKey: "finalprice") as! Int).00"
+            cell.orderTotalPrice.text = "¥\(priceInfoObjects.value(forKey: "finalprice") as! Float)0"
         }
         //设置报价
-        if priceInfoObjects.value(forKey: "returnprice") as? Int == nil{
+        if priceInfoObjects.value(forKey: "returnprice") as? Float == nil{
             cell.returnPrinceValue.text = "¥0.00"
         }else{
-            cell.returnPrinceValue.text = "¥\(priceInfoObjects.value(forKey: "returnprice") as! Int).00"
-            quotePriceOfFactory = priceInfoObjects.value(forKey: "returnprice") as! Int
+            cell.returnPrinceValue.text = "¥\(priceInfoObjects.value(forKey: "returnprice") as! Float)0"
+            quotePriceOfFactory = priceInfoObjects.value(forKey: "returnprice") as! Float
         }
         
         let paystate = (statusObjects.value(forKey: "payoffstate") as! NSDictionary).value(forKey: "code") as! Int
         //如果工厂身份，并且报价高于客户心理价，显示客户心理价. 否则不显示, 支付后不显示
         
-        if mindPrice != 0 {
+        if mindPrice != 0.0 {
             if roleType != 1{
                 if roleType == 3 && (mindPrice < quotePriceOfFactory){
                     if paystate == 1{
@@ -437,7 +437,7 @@ class OrdersViewController:UIViewController,UITableViewDelegate,UITableViewDataS
         let dictionaryObjectInOrderArray = orderArray[indexPath.row]
         let statusObjects = dictionaryObjectInOrderArray.value(forKey: "state") as! NSDictionary
         var changeHeightFlags:CGFloat = 280
-        let ordersWhichNeedToChangeHeight:[Int] = [1,2,3,4,5,6]
+        //let ordersWhichNeedToChangeHeight:[Int] = [1,2,3,4,5,6]
         //是设计师，并且订单状态为2 的，显示接受设计按钮
         if roleType == 2 && ((statusObjects.value(forKey: "orderstate") as! NSDictionary).value(forKey: "orderstate") as! Int == 2){
             changeHeightFlags = 320
@@ -708,8 +708,8 @@ class OrdersViewController:UIViewController,UITableViewDelegate,UITableViewDataS
         var currentValue:Float = 0.0
         
         //设置客户心理价(预算）
-        var mindPrice = 0
-        var quotePriceOfFactory = 0
+        var mindPrice:Float = 0.0
+        var quotePriceOfFactory:Float = 0.0
         let userInfo = getCurrentUserInfo()
         roleType = Int(userInfo.value(forKey: "roletype")as! String) as! Int
         //let roleType = Int(userInfo.value(forKey: "roletype")as! String) as! Int
@@ -1069,20 +1069,20 @@ class OrdersViewController:UIViewController,UITableViewDelegate,UITableViewDataS
             orderCountValue.text = ""
         }
         
-        if sizeObject.value(forKey: "height") as? Int != nil {
-            productSizeOfHeightValue.text = "\(sizeObject.value(forKey: "height")as! Int)"
+        if sizeObject.value(forKey: "height") as? Float != nil {
+            productSizeOfHeightValue.text = "\(sizeObject.value(forKey: "height")as! Float)"
         }else{
             productSizeOfHeightValue.text = ""
         }
         
-        if sizeObject.value(forKey: "width") as? Int != nil {
-            productSizeOfWidthValue.text = "\(sizeObject.value(forKey: "width")as! Int)"
+        if sizeObject.value(forKey: "width") as? Float != nil {
+            productSizeOfWidthValue.text = "\(sizeObject.value(forKey: "width")as! Float)"
         }else{
             productSizeOfWidthValue.text = ""
         }
         
-        if sizeObject.value(forKey: "length") as? Int != nil {
-            productSizeOfLengthValue.text = "\(sizeObject.value(forKey: "length")as! Int)"
+        if sizeObject.value(forKey: "length") as? Float != nil {
+            productSizeOfLengthValue.text = "\(sizeObject.value(forKey: "length")as! Float)"
         }else{
             productSizeOfLengthValue.text = ""
         }
@@ -1090,41 +1090,41 @@ class OrdersViewController:UIViewController,UITableViewDelegate,UITableViewDataS
         
         
         //优先客户心理价，再估价，再系统估价
-        if priceInfoObjects.value(forKey: "mindprice") as? Int == nil || priceInfoObjects.value(forKey: "mindprice") as! Int == 0{
+        if priceInfoObjects.value(forKey: "mindprice") as? Float == nil || priceInfoObjects.value(forKey: "mindprice") as! Float == 0.0{
             maxPrice = 5000.0
         }else{
-            maxPrice = Double((priceInfoObjects.value(forKey: "mindprice") as! Int)*3)
+            maxPrice = Double((priceInfoObjects.value(forKey: "mindprice") as! Float)*3)
         }
         
         //设置上次报价
-        if priceInfoObjects.value(forKey: "returnprice") as? Int == nil{
+        if priceInfoObjects.value(forKey: "returnprice") as? Float == nil{
             quotePriceAtLastTimeValue.text = "¥0.00"
         }else{
-            quotePriceAtLastTimeValue.text = "¥\(priceInfoObjects.value(forKey: "returnprice") as! Int).00"
-            quotePriceOfFactory = priceInfoObjects.value(forKey: "returnprice") as! Int
-            currentValue = Float(priceInfoObjects.value(forKey: "returnprice") as! Int)
+            quotePriceAtLastTimeValue.text = "¥\(priceInfoObjects.value(forKey: "returnprice") as! Float)0"
+            quotePriceOfFactory = priceInfoObjects.value(forKey: "returnprice") as! Float
+            currentValue = Float(priceInfoObjects.value(forKey: "returnprice") as! Float)
             
         }
         //设置订单金额（工厂接受生产时显示）
         if roleType == 3 && (statusObjects.value(forKey:"orderstate") as! NSDictionary).value(forKey: "orderstate") as! Int == 7{//接受生产
-            if priceInfoObjects.value(forKey: "finalprice") as? Int == nil{
+            if priceInfoObjects.value(forKey: "finalprice") as? Float == nil{
                 quotePriceAtLastTimeValue.text = "¥0.00"
             }else{
-                quotePriceAtLastTimeValue.text = "¥\(priceInfoObjects.value(forKey: "finalprice") as! Int).00"
-                quotePriceOfFactory = priceInfoObjects.value(forKey: "finalprice") as! Int
-                currentValue = Float(priceInfoObjects.value(forKey: "finalprice") as! Int)
+                quotePriceAtLastTimeValue.text = "¥\(priceInfoObjects.value(forKey: "finalprice") as! Float)0"
+                quotePriceOfFactory = priceInfoObjects.value(forKey: "finalprice") as! Float
+                currentValue = Float(priceInfoObjects.value(forKey: "finalprice") as! Float)
             }
         }
 
-        if priceInfoObjects.value(forKey: "mindprice") as? Int == nil{
+        if priceInfoObjects.value(forKey: "mindprice") as? Float == nil{
             customerPriceValue.text = "¥0.00"
         }else{
-            customerPriceValue.text = "¥\(priceInfoObjects.value(forKey: "mindprice") as! Int).00"
-            mindPrice = priceInfoObjects.value(forKey: "mindprice") as! Int
+            customerPriceValue.text = "¥\(priceInfoObjects.value(forKey: "mindprice") as! Float)0"
+            mindPrice = priceInfoObjects.value(forKey: "mindprice") as! Float
         }
         
         //如果工厂身份，并且报价高于客户心理价，显示客户心理价. 否则不显示
-        if mindPrice != 0 {
+        if mindPrice != 0.0 {
             if roleType != 1{
                 if roleType == 3 && (mindPrice < quotePriceOfFactory){
                     if (statusObjects.value(forKey:"payoffstate") as! NSDictionary).value(forKey: "code") as! Int == 1{
@@ -1164,7 +1164,7 @@ class OrdersViewController:UIViewController,UITableViewDelegate,UITableViewDataS
             }
             orderMemosForDesignOrProducer.text = designMemoInfo
             
-            designFeeValue.text =  "¥\(priceInfoObjects.value(forKey: "designprice") as! Int).00"
+            designFeeValue.text =  "¥\(priceInfoObjects.value(forKey: "designprice") as! Float)0"
         }else if roleType == 3{
             //加载工厂备注信息
             var factoryMemoInfo = orderaddinfos.value(forKey: "fremarks") as? String
