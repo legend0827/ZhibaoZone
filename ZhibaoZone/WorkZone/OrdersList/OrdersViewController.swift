@@ -1929,6 +1929,7 @@ class OrdersViewController:UIViewController,UITableViewDelegate,UITableViewDataS
             let orderInfoObjects = dictionaryObjectInOrderArray.value(forKey: "orderinfo") as! NSDictionary
             
             let customID = orderInfoObjects.value(forKey: "customid") as? String
+            let orderid = orderInfoObjects.value(forKey: "orderid") as? String
             var deadline = 0
             
             if orderInfoObjects.value(forKey: "deadline") as? Int == nil{
@@ -1953,6 +1954,7 @@ class OrdersViewController:UIViewController,UITableViewDelegate,UITableViewDataS
             params["roleType"] = roletype
             params["token"] = token
             params["customid"] = customID
+            params["orderid"] = orderid
             params["returnprice"] = Int(currentValueOfQuotePrice)//String(format: "%.2f", currentValueOfQuotePrice)
             params["productioncycle"] = produceTimeCostTextField.text
             params["commandcode"] = 141

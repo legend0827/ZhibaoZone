@@ -1708,6 +1708,7 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
             //获取订单信息
             let orderinfoObject = orderDetail[2].value(forKey: "orderinfo") as? NSDictionary
             let customID = orderinfoObject?.value(forKey: "customid") as? String
+            let orderid = orderinfoObject?.value(forKey: "orderid") as? String
             var deadline = 0
             
             if orderinfoObject?.value(forKey: "deadline") as? Int == nil{
@@ -1731,6 +1732,7 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
             params["roleType"] = roletype
             params["token"] = token
             params["customid"] = customID
+            params["orderid"] = orderid
             params["returnprice"] = Int(currentValueOfQuotePrice)//String(format: "%.2f", currentValueOfQuotePrice)
             params["productioncycle"] = produceTimeCostTextField.text
             params["commandcode"] = 141

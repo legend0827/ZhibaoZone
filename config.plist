@@ -12,75 +12,75 @@
 	<key>apiAddress</key>
 	<dict>
 		<key>loginInAPIAddressDebug</key>
-		<string>http://192.168.1.50:8082/zb-sso-web/user/login.do</string>
+		<string>http://192.168.1.150:8082/zb-sso-web/user/login.do</string>
 		<key>loginInAPIAddress</key>
 		<string>http://118.126.116.76:8083/zb-sso-web/user/login.do</string>
 		<key>registerAPIAddressDebug</key>
-		<string>http://192.168.1.50:8082/zb-sso-web/user/register.do</string>
+		<string>http://192.168.1.150:8082/zb-sso-web/user/register.do</string>
 		<key>registerAPIAddress</key>
 		<string>http://118.126.116.76:8083/zb-sso-web/user/register.do</string>
 		<key>orderListOfAllOrdersDebug</key>
-		<string>http://192.168.1.50:8082/zb-order-web/order/allOrder.do</string>
+		<string>http://192.168.1.150:8082/zb-order-web/order/allOrder.do</string>
 		<key>orderListOfAllOrders</key>
 		<string>http://118.126.116.76:8082/zb-order-web/order/allOrder.do</string>
 		<key>taskListDealingAPIDebug</key>
-		<string>http://192.168.1.50:8082/zb-manager-web/page/unDoneTaskList.do</string>
+		<string>http://192.168.1.150:8082/zb-manager-web/page/unDoneTaskList.do</string>
 		<key>taskListDealingAPI</key>
 		<string>http://118.126.116.76:8081/zb-manager-web/page/unDoneTaskList.do</string>
 		<key>taskListHistoryAPIDebug</key>
-		<string>http://192.168.1.50:8082/zb-manager-web/page/doneTaskList.do</string>
+		<string>http://192.168.1.150:8082/zb-manager-web/page/doneTaskList.do</string>
 		<key>taskListHistoryAPI</key>
 		<string>http://118.126.116.76:8081/zb-manager-web/page/doneTaskList.do</string>
 		<key>taskDetailAPIDebug</key>
-		<string>http://192.168.1.50:8082/zb-manager-web/order/lookTaskItem.do</string>
+		<string>http://192.168.1.150:8082/zb-manager-web/order/lookTaskItem.do</string>
 		<key>taskDetailAPI</key>
 		<string>http://118.126.116.76:8081/zb-manager-web/order/lookTaskItem.do</string>
 		<key>taskReplyAPIDebug</key>
-		<string>http://192.168.1.50:8082/zb-manager-web/task/writebackmsg.do</string>
+		<string>http://192.168.1.150:8082/zb-manager-web/task/writebackmsg.do</string>
 		<key>taskReplyAPI</key>
 		<string>http://118.126.116.76:8081/zb-manager-web/task/writebackmsg.do</string>
 		<key>taskFinishedAPIDebug</key>
-		<string>http://192.168.1.50:8082/zb-manager-web/task/finishworkinfo.do</string>
+		<string>http://192.168.1.150:8082/zb-manager-web/task/finishworkinfo.do</string>
 		<key>taskFInishedAPI</key>
 		<string>http://118.126.116.76:8081/zb-manager-web/task/finishworkinfo.do</string>
 		<key>createTaskAPIDebug</key>
-		<string>http://192.168.1.50:8082/zb-manager-web/task/createTasklist.do</string>
+		<string>http://192.168.1.150:8082/zb-manager-web/task/createTasklist.do</string>
 		<key>createTaskAPI</key>
 		<string>http://118.126.116.76:8081/zb-manager-web/task/createTasklist.do</string>
 		<key>orderListOfNeedHandleDebug</key>
-		<string>http://192.168.1.50:8082/zb-order-web/order/waitHandle.do</string>
+		<string>http://192.168.1.150:8082/zb-order-web/order/waitHandle.do</string>
 		<key>orderListOfNeedHandle</key>
 		<string>http://118.126.116.76:8082/zb-order-web/order/waitHandle.do</string>
 		<key>contactListAPIDebug</key>
-		<string>http://192.168.1.50:8082/zb-sso-web/user/userList.do</string>
+		<string>http://192.168.1.150:8082/zb-sso-web/user/userList.do</string>
 		<key>contactListAPI</key>
 		<string>http://118.126.116.76:8083/zb-sso-web/user/userList.do</string>
 		<key>getMessagesListDebug</key>
-		<string>http://192.168.1.50:8082/zb-order-web/newmsginfo/obtain.do</string>
+		<string>http://192.168.1.150:8082/zb-order-web/newmsginfo/obtain.do</string>
 		<key>getMessagesList</key>
 		<string>http://118.126.116.76:8082/zb-order-web/newmsginfo/obtain.do</string>
 		<key>getMessagesDealDebug</key>
-		<string>http://192.168.1.50:8082/zb-order-web/newmsginfo/disposemsg.do</string>
+		<string>http://192.168.1.150:8082/zb-order-web/newmsginfo/disposemsg.do</string>
 		<key>getMessagesDeal</key>
 		<string>http://118.126.116.76:8082/zb-order-web/newmsginfo/disposemsg.do</string>
 		<key>orderDetailsDebug</key>
-		<string>http://192.168.1.50:8082/zb-order-web/order/orderDetail.do</string>
+		<string>http://192.168.1.150:8082/zb-order-web/order/orderDetail.do</string>
 		<key>orderDetails</key>
 		<string>http://118.126.116.76:8082/zb-order-web/order/orderDetail.do</string>
 		<key>quotePriceDebug</key>
-		<string>http://192.168.1.50:8082/zb-order-web/order/updateInquiryRule.do</string>
+		<string>http://192.168.1.150:8082/zb-order-web/order/updateInquiryRule.do</string>
 		<key>quotePrice</key>
 		<string>http://118.126.116.76:8082/zb-order-web/order/updateInquiryRule.do</string>
 		<key>acceptDesignDebug</key>
-		<string>http://192.168.1.50:8082/zb-order-web/designpattern/continue.do</string>
+		<string>http://192.168.1.150:8082/zb-order-web/designpattern/continue.do</string>
 		<key>acceptDesign</key>
 		<string>http://118.126.116.76:8082/zb-order-web/designpattern/continue.do</string>
 		<key>acceptProduceDebug</key>
-		<string>http://192.168.1.50:8082/zb-order-web/productinfo/continue.do</string>
+		<string>http://192.168.1.150:8082/zb-order-web/productinfo/continue.do</string>
 		<key>acceptProduce</key>
 		<string>http://118.126.116.76:8082/zb-order-web/productinfo/continue.do</string>
 		<key>clearNotificationMsgDebug</key>
-		<string>http://192.168.1.50:8082/zb-order-web/newmsginfo/empty.do</string>
+		<string>http://192.168.1.150:8082/zb-order-web/newmsginfo/empty.do</string>
 		<key>clearNotificationMsg</key>
 		<string>http://118.126.116.76:8082/zb-order-web/newmsginfo/empty.do</string>
 	</dict>

@@ -432,13 +432,13 @@ class WorkZoneViewController: UIViewController,UITableViewDelegate,UITableViewDa
                         if  let value = responseObject.result.value{
                             let json = JSON(value)
                             self.messagesList.removeAll()
-                            if json["status","code"].int! == 3{
+                            if json["status","code"].int! == 0{
                                 for item in json["msginfo"].array! {
                                     let restoreItem = item.dictionaryObject as! NSDictionary
                                     self.messagesList.append(restoreItem)
                                 }
                                     self.getMessagesCount = self.messagesList.count
-                            }else if json["status","code"].int! == 0{
+                            }else if json["status","code"].int! == 1{
                                 self.getMessagesCount = 0
                             }
                             if self.messagesList.count == 0{
