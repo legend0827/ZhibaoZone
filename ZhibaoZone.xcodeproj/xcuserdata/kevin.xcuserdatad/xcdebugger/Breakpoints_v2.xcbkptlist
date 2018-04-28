@@ -74,12 +74,12 @@
                   moduleName = "ZhibaoZone"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/kevin/Documents/Xcode%20Project/ZhibaoZone/ZhibaoZone/WorkZone/MessageList/MessageListViewController.swift"
-                  timestampString = "546488998.804469"
+                  timestampString = "546603207.792261"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1748"
                   endingLineNumber = "1748"
-                  offsetFromSymbolStart = "11784">
+                  offsetFromSymbolStart = "16146">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -89,12 +89,12 @@
                   moduleName = "ZhibaoZone"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/kevin/Documents/Xcode%20Project/ZhibaoZone/ZhibaoZone/WorkZone/MessageList/MessageListViewController.swift"
-                  timestampString = "546488998.80619"
+                  timestampString = "546603207.7954251"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1750"
                   endingLineNumber = "1750"
-                  offsetFromSymbolStart = "24">
+                  offsetFromSymbolStart = "28">
                </Location>
             </Locations>
          </BreakpointContent>
