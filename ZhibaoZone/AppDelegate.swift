@@ -17,6 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
 
     var window: UIWindow?
 
+    var launchImageCombineView:UIImageView!
+    let animationDuration = 0.8
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         //注册用户通知
@@ -61,31 +64,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         
         // 创建View Controller
         let loginVC = ViewController()
-        self.window?.rootViewController = loginVC
-//        
-//        let workZoneVC = WorkZoneViewController()
-//        let meVC = MeViewController()
-//        
-//        workZoneVC.tabBarItem.image = UIImage(named:"workzoneicon")
-//        meVC.tabBarItem.image = UIImage(named:"accounticon")
-//        
-//        
-//        workZoneVC.tabBarItem.title = "工作台"
-//        meVC.tabBarItem.title = "我的"
-//        
-//        let tabBar = TabBarController()
-//        tabBar.viewControllers = [workZoneVC,meVC]
-//        
-//        let loginStatus = false
-//        if !loginStatus {
-//            self.window?.rootViewController = loginVC
-//        }else{
-//            self.window?.rootViewController = tabBar
-//        }
+        let tabbarvc = TabBarController(royeType: 1)
+        if true{
+            self.window?.rootViewController = tabbarvc
+        }else{
+            self.window?.rootViewController = loginVC
+        }
+
+        if UIDevice.current.isX(){
+            heightChangeForiPhoneXFromTop = 24.0
+        }else{
+            heightChangeForiPhoneXFromTop = 0.0
+        }
         self.window?.backgroundColor = UIColor.white
         
         return true
     }
+    
     //注册远程通知
     private func registerAppNotificationSettings(launchOptions: [NSObject: AnyObject]?) {
         if #available(iOS 10.0, *) {
@@ -155,17 +150,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         let device = NSData(data: deviceToken)
         let deviceID = device.description.replacingOccurrences(of:"<", with:"").replacingOccurrences(of:">", with:"").replacingOccurrences(of:" ", with:"")
         print("我的deviceToken：\(deviceID)")
-       // let deviceToken:String = deviceID
         
         UserDefaults.standard.set(deviceID, forKey: "myDeviceToken")
         UserDefaults.standard.synchronize()
         
-       // UserDefaults.string("deviceToken")
-//        
-//        let plistFile = Bundle.main.path(forResource: "deviceToken", ofType: "plist")
-//        //临时deviceToken
-//        let emptyArray:NSArray = ["\"deviceToken\":\"\(deviceID)\""]
-//        emptyArray.write(toFile: plistFile!, atomically: true)
     }
 
     

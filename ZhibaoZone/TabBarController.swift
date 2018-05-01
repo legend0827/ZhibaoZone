@@ -17,28 +17,31 @@ class TabBarController: UITabBarController {
         
         _roleType = royeType
 
-        let workZoneVC = WorkZoneViewController()
+        //let workZoneVC = WorkZoneViewController()
+        let orderVC = OrdersViewController()
+        let taskVC = TastsViewController()
         let meVC = MeViewController()
         let normalUserVC = normalUserViewController()
         
-        
-        
-        workZoneVC.tabBarItem.image = UIImage(named:"workzoneicon")
+        orderVC.tabBarItem.image = UIImage(named: "ordersicon")
+        orderVC.tabBarItem.selectedImage = UIImage(named: "ordersiconselected")
+        taskVC.tabBarItem.image = UIImage(named: "tasksicon")
+        taskVC.tabBarItem.selectedImage = UIImage(named: "tasksiconselected")
         meVC.tabBarItem.image = UIImage(named:"accounticon")
+        meVC.tabBarItem.selectedImage = UIImage(named: "accounticonselected")
         normalUserVC.tabBarItem.image = UIImage(named:"homeicon")
         
-        workZoneVC.tabBarItem.title = "工作台"
+        orderVC.tabBarItem.title = "订单"
+        taskVC.tabBarItem.title = "任务"
         meVC.tabBarItem.title = "我的"
         normalUserVC.tabBarItem.title = "首页"
         
         if _roleType == 0{
             self.viewControllers = [normalUserVC,meVC]
         }else{
-            self.viewControllers = [workZoneVC,meVC]
+            self.viewControllers = [orderVC,taskVC,meVC]
         }
-        self.tabBar.tintColor = #colorLiteral(red: 0.9104188085, green: 0.2962309122, blue: 0.2970536053, alpha: 1)
-
-
+        self.tabBar.tintColor = UIColor.iconColors(color: .red)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -47,13 +50,13 @@ class TabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-//
-        
+ 
         // Do any additional setup after loading the view.
     }
-
+    
+    func createNewTask(){
+        
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

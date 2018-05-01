@@ -20,7 +20,7 @@ enum PreviewModeType:Int {
 
 class ImagePreviewVC: UIViewController {
     
-    var workZoneVCObject =  WorkZoneViewController()
+    var createNewTaskVCObject =  NewTaskViewController()
     var taskDetailReplyObject = TaskDetailViewController(currentTaskID: "nothing", currentCustomid: "123456", currentOrderID: "123456", currentGoodsID: "123456", currentTaskType: 0)
     
     var PreviewType:[String] = []//"public.image" // 默认为图片.
@@ -173,7 +173,7 @@ class ImagePreviewVC: UIViewController {
         }
         print("delete succeed on index\(indexPath.row)")
         if previewSourceVC == "WorkZoneVC"{
-            workZoneVCObject.deleteAttachment(atIndex:indexPath.row)
+            createNewTaskVCObject.deleteAttachment(atIndex:indexPath.row)
         }else{
             taskDetailReplyObject.deleteAttachment(atIndex:indexPath.row)
         }

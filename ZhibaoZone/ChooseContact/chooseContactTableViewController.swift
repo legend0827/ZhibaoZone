@@ -16,7 +16,7 @@ class chooseContactViewController: UIViewController,UITableViewDelegate,UITableV
     static fileprivate var requestCacheArr = [DataRequest]();
     
     //工作台对象
-    var workZoneVCObject = WorkZoneViewController()
+    var createNewTaskVCObject = NewTaskViewController()
 
     //联系人匹配结果数组
     var contactsMatchedArray:[NSDictionary] = []
@@ -258,15 +258,15 @@ class chooseContactViewController: UIViewController,UITableViewDelegate,UITableV
             let contactItem:NSDictionary = contactsMatchedArray[indexPath.row]
             let userName = contactItem.value(forKey: "nickname") as! String
             let userID = Int(contactItem.value(forKey: "userid") as! String) as! Int
-            workZoneVCObject.contactedUserID = "\(userID)"
-            workZoneVCObject.setPostToPplTextField(text: userName)
+            createNewTaskVCObject.contactedUserID = "\(userID)"
+            createNewTaskVCObject.setPostToPplTextField(text: userName)
             self.dismiss(animated: true, completion: nil)
         }else{
             let contactItem:NSDictionary = contactsArray[indexPath.row]
             let userName = contactItem.value(forKey: "nickname") as! String
             let userID = Int(contactItem.value(forKey: "userid") as! String) as! Int
-            workZoneVCObject.contactedUserID = "\(userID)"
-            workZoneVCObject.setPostToPplTextField(text: userName)
+            createNewTaskVCObject.contactedUserID = "\(userID)"
+            createNewTaskVCObject.setPostToPplTextField(text: userName)
             self.dismiss(animated: true, completion: nil)
         }
     }

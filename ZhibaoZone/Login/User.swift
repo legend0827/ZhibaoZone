@@ -101,15 +101,7 @@ class User: NSObject {
                         //查询是不是已经有相似记录了
                         dataOperator.saveAccountInfo(userName:userName,nickName:nickName!,userId:userId,roleType: roleType,password: password)
                         dataOperator.saveToken(token: token!)
-                        
-                       
-                        //跳转页面
-                            let tabBar = TabBarController(royeType: Int(roleType))
-                            let appDelegate = AppDelegate()
-                            appDelegate.window?.rootViewController = tabBar
-                            view.present(tabBar, animated: true, completion: nil)
-                            
-                        
+                             
                         print("login succeed")
                         hub.hide()
                         let deviceToken = UserDefaults.standard.object(forKey: "myDeviceToken")
@@ -118,6 +110,12 @@ class User: NSObject {
                                 view.successNotice("登录成功", autoClear: true)
                             })
                         }
+                        
+                        //跳转页面
+                        let tabBar = TabBarController(royeType: Int(roleType))
+                        let appDelegate = AppDelegate()
+                        appDelegate.window?.rootViewController = tabBar
+                        view.present(tabBar, animated: true, completion: nil)
                     }else{
                         hub.hide()
                         print("login failed")

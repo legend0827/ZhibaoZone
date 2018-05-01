@@ -7,14 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0A0235AF1FFD20E600CBD846 /* PagingMenuController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A0235AE1FFD20CB00CBD846 /* PagingMenuController.framework */; };
-		0A0235B01FFD20E600CBD846 /* PagingMenuController.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0A0235AE1FFD20CB00CBD846 /* PagingMenuController.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0A0235B41FFD23B900CBD846 /* OrdersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0235B31FFD23B900CBD846 /* OrdersViewController.swift */; };
 		0A0235B61FFD23C600CBD846 /* TastsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0235B51FFD23C600CBD846 /* TastsViewController.swift */; };
 		0A036A512027FE7F00A2F036 /* UnlockGestureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A036A502027FE7F00A2F036 /* UnlockGestureView.swift */; };
 		0A036A5B2028682D00A2F036 /* SecuritySettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A036A5A2028682D00A2F036 /* SecuritySettingViewController.swift */; };
 		0A1295562072EB5E00C21C66 /* msg.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0A1295552072EB5E00C21C66 /* msg.wav */; };
 		0A20028A206134CD00A81D21 /* TaskContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A200289206134CD00A81D21 /* TaskContentTableViewCell.swift */; };
+		0A244E4A20963EDD00203463 /* OrdersCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A244E4920963EDD00203463 /* OrdersCollectionViewCell.swift */; };
+		0A244E542096F35D00203463 /* ActionViewInOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A244E532096F35D00203463 /* ActionViewInOrder.swift */; };
+		0A244E5920970A3400203463 /* Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A244E5820970A3400203463 /* Popup.swift */; };
+		0A244E5B2098614E00203463 /* waitForHandleTaskListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A244E5A2098614E00203463 /* waitForHandleTaskListViewController.swift */; };
+		0A244E5D2098616900203463 /* MineCreationTaskListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A244E5C2098616900203463 /* MineCreationTaskListViewController.swift */; };
+		0A244E5F2098617700203463 /* FinishedTaskListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A244E5E2098617700203463 /* FinishedTaskListViewController.swift */; };
+		0A244E612098917C00203463 /* TestPushViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A244E602098917C00203463 /* TestPushViewController.swift */; };
+		0A252F322095DD6E00C1F7F4 /* AllOrdersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A252F312095DD6E00C1F7F4 /* AllOrdersViewController.swift */; };
+		0A252F3C2095DD8300C1F7F4 /* NotQuoteYetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A252F3B2095DD8300C1F7F4 /* NotQuoteYetViewController.swift */; };
+		0A252F3E2095DD9A00C1F7F4 /* QuoteAlreadyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A252F3D2095DD9A00C1F7F4 /* QuoteAlreadyViewController.swift */; };
+		0A252F402095DDC800C1F7F4 /* WaitForAccpetProduceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A252F3F2095DDC800C1F7F4 /* WaitForAccpetProduceViewController.swift */; };
+		0A252F422095DDD700C1F7F4 /* ProducingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A252F412095DDD700C1F7F4 /* ProducingViewController.swift */; };
+		0A252F442096111B00C1F7F4 /* OrderSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A252F432096111B00C1F7F4 /* OrderSearchViewController.swift */; };
 		0A25DF97201D7E63009CBDEA /* contactList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A25DF96201D7E63009CBDEA /* contactList.plist */; };
 		0A38067B2031DB680077E77F /* CircleInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A38067A2031DB680077E77F /* CircleInfoView.swift */; };
 		0A3806842031E0B30077E77F /* LockLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3806832031E0B30077E77F /* LockLabel.swift */; };
@@ -24,6 +35,7 @@
 		0A38068C2035D6560077E77F /* GestureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A38068B2035D6560077E77F /* GestureViewController.swift */; };
 		0A3AA20E1FF61C5F00EBC482 /* WorkZoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3AA20D1FF61C5F00EBC482 /* WorkZoneViewController.swift */; };
 		0A3AA2171FF61C6E00EBC482 /* MeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3AA2161FF61C6E00EBC482 /* MeViewController.swift */; };
+		0A3CC3B9209572970055B5DD /* Extentsions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3CC3B8209572970055B5DD /* Extentsions.swift */; };
 		0A54F30A20567AE800103FD8 /* MessageListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A54F30920567AE800103FD8 /* MessageListViewController.swift */; };
 		0A54F30C20567B2000103FD8 /* MessagesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A54F30B20567B2000103FD8 /* MessagesTableViewCell.swift */; };
 		0A594E1E206C843700A67950 /* SetParamtersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A594E1D206C843700A67950 /* SetParamtersViewController.swift */; };
@@ -86,18 +98,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		0A0235AD1FFD20CB00CBD846 /* PBXContainerItemProxy */ = {
+		0A252F0E2095D44800C1F7F4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 0A0235A21FFD20CB00CBD846 /* PagingMenuController.xcodeproj */;
+			containerPortal = 0A252F0A2095D44800C1F7F4 /* PagingMenuController.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = ECE530671B6DEB18001CF201;
-			remoteInfo = PagingMenuController;
-		};
-		0A0235B11FFD20E600CBD846 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0A0235A21FFD20CB00CBD846 /* PagingMenuController.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = ECE530661B6DEB18001CF201;
 			remoteInfo = PagingMenuController;
 		};
 		0A6AD66C1FF1EFB4009A511A /* PBXContainerItemProxy */ = {
@@ -180,7 +185,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				0AD2829C1FF47BD50044E41C /* Alamofire.framework in Embed Frameworks */,
-				0A0235B01FFD20E600CBD846 /* PagingMenuController.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -189,13 +193,26 @@
 
 /* Begin PBXFileReference section */
 		0A00793D1FFCB626005E93B6 /* SwiftNotice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftNotice.swift; sourceTree = "<group>"; };
-		0A0235A21FFD20CB00CBD846 /* PagingMenuController.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PagingMenuController.xcodeproj; path = "../../../Downloads/PagingMenuController-master/PagingMenuController.xcodeproj"; sourceTree = "<group>"; };
 		0A0235B31FFD23B900CBD846 /* OrdersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersViewController.swift; sourceTree = "<group>"; };
 		0A0235B51FFD23C600CBD846 /* TastsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TastsViewController.swift; sourceTree = "<group>"; };
 		0A036A502027FE7F00A2F036 /* UnlockGestureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockGestureView.swift; sourceTree = "<group>"; };
 		0A036A5A2028682D00A2F036 /* SecuritySettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySettingViewController.swift; sourceTree = "<group>"; };
 		0A1295552072EB5E00C21C66 /* msg.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = msg.wav; sourceTree = "<group>"; };
 		0A200289206134CD00A81D21 /* TaskContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskContentTableViewCell.swift; sourceTree = "<group>"; };
+		0A244E4920963EDD00203463 /* OrdersCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersCollectionViewCell.swift; sourceTree = "<group>"; };
+		0A244E532096F35D00203463 /* ActionViewInOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionViewInOrder.swift; sourceTree = "<group>"; };
+		0A244E5820970A3400203463 /* Popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Popup.swift; sourceTree = "<group>"; };
+		0A244E5A2098614E00203463 /* waitForHandleTaskListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = waitForHandleTaskListViewController.swift; sourceTree = "<group>"; };
+		0A244E5C2098616900203463 /* MineCreationTaskListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineCreationTaskListViewController.swift; sourceTree = "<group>"; };
+		0A244E5E2098617700203463 /* FinishedTaskListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishedTaskListViewController.swift; sourceTree = "<group>"; };
+		0A244E602098917C00203463 /* TestPushViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPushViewController.swift; sourceTree = "<group>"; };
+		0A252F0A2095D44800C1F7F4 /* PagingMenuController.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PagingMenuController.xcodeproj; path = "../../../Downloads/PagingMenuController-master/PagingMenuController.xcodeproj"; sourceTree = "<group>"; };
+		0A252F312095DD6E00C1F7F4 /* AllOrdersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllOrdersViewController.swift; sourceTree = "<group>"; };
+		0A252F3B2095DD8300C1F7F4 /* NotQuoteYetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotQuoteYetViewController.swift; sourceTree = "<group>"; };
+		0A252F3D2095DD9A00C1F7F4 /* QuoteAlreadyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteAlreadyViewController.swift; sourceTree = "<group>"; };
+		0A252F3F2095DDC800C1F7F4 /* WaitForAccpetProduceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitForAccpetProduceViewController.swift; sourceTree = "<group>"; };
+		0A252F412095DDD700C1F7F4 /* ProducingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProducingViewController.swift; sourceTree = "<group>"; };
+		0A252F432096111B00C1F7F4 /* OrderSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSearchViewController.swift; sourceTree = "<group>"; };
 		0A25DF96201D7E63009CBDEA /* contactList.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = contactList.plist; sourceTree = "<group>"; };
 		0A38067A2031DB680077E77F /* CircleInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleInfoView.swift; sourceTree = "<group>"; };
 		0A3806832031E0B30077E77F /* LockLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockLabel.swift; sourceTree = "<group>"; };
@@ -205,6 +222,7 @@
 		0A38068B2035D6560077E77F /* GestureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GestureViewController.swift; path = ZhibaoZone/Me/SetSecuritySetting/GestureViewController.swift; sourceTree = SOURCE_ROOT; };
 		0A3AA20D1FF61C5F00EBC482 /* WorkZoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkZoneViewController.swift; sourceTree = "<group>"; };
 		0A3AA2161FF61C6E00EBC482 /* MeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeViewController.swift; sourceTree = "<group>"; };
+		0A3CC3B8209572970055B5DD /* Extentsions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Extentsions.swift; path = ZhibaoZone/Extentsions.swift; sourceTree = SOURCE_ROOT; };
 		0A54F30920567AE800103FD8 /* MessageListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageListViewController.swift; sourceTree = "<group>"; };
 		0A54F30B20567B2000103FD8 /* MessagesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesTableViewCell.swift; sourceTree = "<group>"; };
 		0A594E1D206C843700A67950 /* SetParamtersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetParamtersViewController.swift; sourceTree = "<group>"; };
@@ -286,7 +304,6 @@
 				0AC1AC58204E2B260096A6F6 /* QCloudCOSXML.framework in Frameworks */,
 				0AC1AC57204E2B260096A6F6 /* QCloudCore.framework in Frameworks */,
 				0AD2829B1FF47BD50044E41C /* Alamofire.framework in Frameworks */,
-				0A0235AF1FFD20E600CBD846 /* PagingMenuController.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,14 +324,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0A0235A31FFD20CB00CBD846 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				0A0235AE1FFD20CB00CBD846 /* PagingMenuController.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		0A036A59202867FB00A2F036 /* SecuritySetting */ = {
 			isa = PBXGroup;
 			children = (
@@ -323,6 +332,22 @@
 				0A38068B2035D6560077E77F /* GestureViewController.swift */,
 			);
 			path = SecuritySetting;
+			sourceTree = "<group>";
+		};
+		0A244E55209709D000203463 /* getOrders */ = {
+			isa = PBXGroup;
+			children = (
+				0A244E5820970A3400203463 /* Popup.swift */,
+			);
+			path = getOrders;
+			sourceTree = "<group>";
+		};
+		0A252F0B2095D44800C1F7F4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0A252F0F2095D44800C1F7F4 /* PagingMenuController.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		0A54F30120567AB400103FD8 /* MessageList */ = {
@@ -382,7 +407,7 @@
 				0A25DF96201D7E63009CBDEA /* contactList.plist */,
 				0A00793D1FFCB626005E93B6 /* SwiftNotice.swift */,
 				0A1295552072EB5E00C21C66 /* msg.wav */,
-				0A0235A21FFD20CB00CBD846 /* PagingMenuController.xcodeproj */,
+				0A252F0A2095D44800C1F7F4 /* PagingMenuController.xcodeproj */,
 				0AD282821FF47BBC0044E41C /* Alamofire.xcodeproj */,
 				0A6AD6561FF1EFB4009A511A /* ZhibaoZone */,
 				0A6AD66E1FF1EFB4009A511A /* ZhibaoZoneTests */,
@@ -405,6 +430,10 @@
 		0A6AD6561FF1EFB4009A511A /* ZhibaoZone */ = {
 			isa = PBXGroup;
 			children = (
+				0AD282AF1FF60E7A0044E41C /* TabBarController.swift */,
+				0AD2829F1FF4B3A50044E41C /* SwiftyJSON.swift */,
+				0A6AD6571FF1EFB4009A511A /* AppDelegate.swift */,
+				0A3CC3B8209572970055B5DD /* Extentsions.swift */,
 				0A83CA63205F6AE400F59A70 /* SwiftGifCommon */,
 				0AC1AC4D204E2B070096A6F6 /* QCloudCore */,
 				0ADD51CD2022ED5F008FE934 /* ZhibaoZone.entitlements */,
@@ -412,9 +441,6 @@
 				0AF06C3A20171D40008E2DE9 /* Sources */,
 				0ADCB7F0200EE59F00DCD7C8 /* ImagePreview */,
 				0AB7669E200DC43600851E16 /* HGImage */,
-				0AD282AF1FF60E7A0044E41C /* TabBarController.swift */,
-				0AD2829F1FF4B3A50044E41C /* SwiftyJSON.swift */,
-				0A6AD6571FF1EFB4009A511A /* AppDelegate.swift */,
 				0A610D8D201C294600DE46B7 /* ChooseContact */,
 				0ADCB8002011ED2700DCD7C8 /* Me */,
 				0ADCB7FF2011ECD800DCD7C8 /* Login */,
@@ -547,9 +573,9 @@
 		0ADCB8002011ED2700DCD7C8 /* Me */ = {
 			isa = PBXGroup;
 			children = (
+				0A3AA2161FF61C6E00EBC482 /* MeViewController.swift */,
 				0A68BBB420294D1300359A78 /* SetSecuritySetting */,
 				0A036A59202867FB00A2F036 /* SecuritySetting */,
-				0A3AA2161FF61C6E00EBC482 /* MeViewController.swift */,
 				0A594E15206C841600A67950 /* SetParameters */,
 			);
 			path = Me;
@@ -558,8 +584,17 @@
 		0ADCB8012011ED3800DCD7C8 /* OrdersList */ = {
 			isa = PBXGroup;
 			children = (
+				0A244E55209709D000203463 /* getOrders */,
 				0A0235B31FFD23B900CBD846 /* OrdersViewController.swift */,
 				0ADCB8032011FEBB00DCD7C8 /* OrdersTableViewCell.swift */,
+				0A252F312095DD6E00C1F7F4 /* AllOrdersViewController.swift */,
+				0A244E532096F35D00203463 /* ActionViewInOrder.swift */,
+				0A244E4920963EDD00203463 /* OrdersCollectionViewCell.swift */,
+				0A252F3B2095DD8300C1F7F4 /* NotQuoteYetViewController.swift */,
+				0A252F3D2095DD9A00C1F7F4 /* QuoteAlreadyViewController.swift */,
+				0A252F3F2095DDC800C1F7F4 /* WaitForAccpetProduceViewController.swift */,
+				0A252F412095DDD700C1F7F4 /* ProducingViewController.swift */,
+				0A252F432096111B00C1F7F4 /* OrderSearchViewController.swift */,
 			);
 			path = OrdersList;
 			sourceTree = "<group>";
@@ -568,9 +603,13 @@
 			isa = PBXGroup;
 			children = (
 				0A0235B51FFD23C600CBD846 /* TastsViewController.swift */,
+				0A244E5A2098614E00203463 /* waitForHandleTaskListViewController.swift */,
+				0A244E5C2098616900203463 /* MineCreationTaskListViewController.swift */,
+				0A244E5E2098617700203463 /* FinishedTaskListViewController.swift */,
 				0AF06C532018638F008E2DE9 /* TaskListTableViewCell.swift */,
 				0AF06C572018F465008E2DE9 /* TaskDetailViewController.swift */,
 				0A200289206134CD00A81D21 /* TaskContentTableViewCell.swift */,
+				0A244E602098917C00203463 /* TestPushViewController.swift */,
 			);
 			path = TaskList;
 			sourceTree = "<group>";
@@ -617,7 +656,6 @@
 			);
 			dependencies = (
 				0AD2829E1FF47BD50044E41C /* PBXTargetDependency */,
-				0A0235B21FFD20E600CBD846 /* PBXTargetDependency */,
 			);
 			name = ZhibaoZone;
 			productName = ZhibaoZone;
@@ -714,8 +752,8 @@
 					ProjectRef = 0AD282821FF47BBC0044E41C /* Alamofire.xcodeproj */;
 				},
 				{
-					ProductGroup = 0A0235A31FFD20CB00CBD846 /* Products */;
-					ProjectRef = 0A0235A21FFD20CB00CBD846 /* PagingMenuController.xcodeproj */;
+					ProductGroup = 0A252F0B2095D44800C1F7F4 /* Products */;
+					ProjectRef = 0A252F0A2095D44800C1F7F4 /* PagingMenuController.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -728,11 +766,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		0A0235AE1FFD20CB00CBD846 /* PagingMenuController.framework */ = {
+		0A252F0F2095D44800C1F7F4 /* PagingMenuController.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = PagingMenuController.framework;
-			remoteRef = 0A0235AD1FFD20CB00CBD846 /* PBXContainerItemProxy */;
+			remoteRef = 0A252F0E2095D44800C1F7F4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		0AD2828E1FF47BBC0044E41C /* Alamofire.framework */ = {
@@ -835,14 +873,19 @@
 				0A6B3F101FFB38BE0014AF24 /* AccountInfo.xcdatamodeld in Sources */,
 				0A3AA2171FF61C6E00EBC482 /* MeViewController.swift in Sources */,
 				0AF06C4B20171D40008E2DE9 /* ESRefreshComponent.swift in Sources */,
+				0A252F422095DDD700C1F7F4 /* ProducingViewController.swift in Sources */,
 				0AF06C582018F465008E2DE9 /* TaskDetailViewController.swift in Sources */,
+				0A3CC3B9209572970055B5DD /* Extentsions.swift in Sources */,
+				0A244E4A20963EDD00203463 /* OrdersCollectionViewCell.swift in Sources */,
 				0AC1AC63204E6F210096A6F6 /* KVProgressBar.swift in Sources */,
+				0A244E5F2098617700203463 /* FinishedTaskListViewController.swift in Sources */,
 				0AF06C4920171D40008E2DE9 /* ESPullToRefresh+Manager.swift in Sources */,
 				0AF06C5220171D40008E2DE9 /* ESPullToRefresh.swift in Sources */,
 				0ADCB7FB200EEAD500DCD7C8 /* ImagePreviewVC.swift in Sources */,
 				0AB766AA200DC46900851E16 /* HGImageCompleteButton.swift in Sources */,
 				0AB766A9200DC46900851E16 /* HGImagePickerCell.swift in Sources */,
 				0AB766AC200DC46900851E16 /* HGImagePickerController.swift in Sources */,
+				0A244E612098917C00203463 /* TestPushViewController.swift in Sources */,
 				0A54F30A20567AE800103FD8 /* MessageListViewController.swift in Sources */,
 				0ADCB8042011FEBB00DCD7C8 /* OrdersTableViewCell.swift in Sources */,
 				0A6AD65A1FF1EFB4009A511A /* ViewController.swift in Sources */,
@@ -851,9 +894,13 @@
 				0AF06C4A20171D40008E2DE9 /* ESRefreshAnimator.swift in Sources */,
 				0A6AD6581FF1EFB4009A511A /* AppDelegate.swift in Sources */,
 				0A3806862031E3290077E77F /* GestureVerifyViewController.swift in Sources */,
+				0A244E5D2098616900203463 /* MineCreationTaskListViewController.swift in Sources */,
 				0AD282B01FF60E7A0044E41C /* TabBarController.swift in Sources */,
+				0A252F402095DDC800C1F7F4 /* WaitForAccpetProduceViewController.swift in Sources */,
+				0A244E5B2098614E00203463 /* waitForHandleTaskListViewController.swift in Sources */,
 				0A38067B2031DB680077E77F /* CircleInfoView.swift in Sources */,
 				0A9716832009F910007922FB /* NewTaskViewCell.swift in Sources */,
+				0A252F3C2095DD8300C1F7F4 /* NotQuoteYetViewController.swift in Sources */,
 				0ADCB7FD200EEB2500DCD7C8 /* ImagePreviewCell.swift in Sources */,
 				0A5B5C1E1FF23B5F00A92C20 /* greyLayerPrompt.swift in Sources */,
 				0A3806882035C1CD0077E77F /* CircleView.swift in Sources */,
@@ -863,16 +910,21 @@
 				0AF06C4D20171D40008E2DE9 /* ESRefreshHeaderAnimator.swift in Sources */,
 				0A036A512027FE7F00A2F036 /* UnlockGestureView.swift in Sources */,
 				0AF06C5020171D40008E2DE9 /* ESRefreshProtocol.swift in Sources */,
+				0A252F322095DD6E00C1F7F4 /* AllOrdersViewController.swift in Sources */,
 				0AF06C4F20171D40008E2DE9 /* ESRefreshFooterAnimator.swift in Sources */,
+				0A252F3E2095DD9A00C1F7F4 /* QuoteAlreadyViewController.swift in Sources */,
 				0AF06C5120171D40008E2DE9 /* ES.swift in Sources */,
 				0A5B5C201FF2536300A92C20 /* CoreDataOperation.swift in Sources */,
 				0A610D8C201C282A00DE46B7 /* chooseContactTableViewController.swift in Sources */,
+				0A244E542096F35D00203463 /* ActionViewInOrder.swift in Sources */,
 				0ACD41362064B4B4002F1D14 /* normalUserViewController.swift in Sources */,
 				0A0235B41FFD23B900CBD846 /* OrdersViewController.swift in Sources */,
 				0AB766A6200DC46900851E16 /* HGImageCollectionViewCell.swift in Sources */,
 				0A3806842031E0B30077E77F /* LockLabel.swift in Sources */,
 				0A54F30C20567B2000103FD8 /* MessagesTableViewCell.swift in Sources */,
 				0A20028A206134CD00A81D21 /* TaskContentTableViewCell.swift in Sources */,
+				0A252F442096111B00C1F7F4 /* OrderSearchViewController.swift in Sources */,
+				0A244E5920970A3400203463 /* Popup.swift in Sources */,
 				0AF06C542018638F008E2DE9 /* TaskListTableViewCell.swift in Sources */,
 				0A83CA6C205F6AE500F59A70 /* UIImage+Gif.swift in Sources */,
 				0A3AA20E1FF61C5F00EBC482 /* WorkZoneViewController.swift in Sources */,
@@ -901,11 +953,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		0A0235B21FFD20E600CBD846 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = PagingMenuController;
-			targetProxy = 0A0235B11FFD20E600CBD846 /* PBXContainerItemProxy */;
-		};
 		0A6AD66D1FF1EFB4009A511A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 0A6AD6531FF1EFB4009A511A /* ZhibaoZone */;

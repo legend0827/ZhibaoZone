@@ -22,22 +22,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ZhibaoZone/WorkZone/OrdersList/OrdersViewController.swift"
-            timestampString = "546488997.6748151"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2095"
-            endingLineNumber = "2095"
-            landmarkName = "confirmAcceptProduceBtnClicked()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -74,7 +58,7 @@
                   moduleName = "ZhibaoZone"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/kevin/Documents/Xcode%20Project/ZhibaoZone/ZhibaoZone/WorkZone/MessageList/MessageListViewController.swift"
-                  timestampString = "546603207.792261"
+                  timestampString = "546879448.227663"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1748"
@@ -89,7 +73,7 @@
                   moduleName = "ZhibaoZone"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/kevin/Documents/Xcode%20Project/ZhibaoZone/ZhibaoZone/WorkZone/MessageList/MessageListViewController.swift"
-                  timestampString = "546603207.7954251"
+                  timestampString = "546879448.230806"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1750"
@@ -97,22 +81,6 @@
                   offsetFromSymbolStart = "28">
                </Location>
             </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ZhibaoZone/WorkZone/OrdersList/OrdersViewController.swift"
-            timestampString = "546488997.675482"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1972"
-            endingLineNumber = "1972"
-            landmarkName = "confirmQuotePriceBtnClicked()"
-            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
