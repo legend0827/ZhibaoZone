@@ -453,11 +453,11 @@ class waitForHandleTaskListViewController: UIViewController,UITableViewDelegate,
     
     func emytyAreaShowingLabel(withRetry:Bool) {
         //什么都没有
-        let sizeOfNothing:Int = Int(UIScreen.main.bounds.width - 200)
-        let nothingToShow = UIImageView(frame: CGRect(x: 100, y:Int((UIScreen.main.bounds.height)/2) - 200, width: sizeOfNothing, height: sizeOfNothing))
+        let sizeOfNothing:Int = 180
+        let nothingToShow = UIImageView(frame: CGRect(x: 100, y:Int((UIScreen.main.bounds.height)/2) - 300, width: sizeOfNothing, height: sizeOfNothing))
         //设置文字标签
-        let nothingToSHowLabel:UILabel = UILabel.init(frame:CGRect(x: (sizeOfNothing + 200)/2-sizeOfNothing/2, y: Int((UIScreen.main.bounds.height)/2) - 20 , width: 200, height: 44))
-        nothingToSHowLabel.text = "这里还什么都没有呢"
+        let nothingToSHowLabel:UILabel = UILabel.init(frame:CGRect(x: (sizeOfNothing + 200)/2-sizeOfNothing/2, y: Int((UIScreen.main.bounds.height)/2) - 120 , width: 200, height: 44))
+        nothingToSHowLabel.text = "空空如也..."
         nothingToSHowLabel.alpha = 0.4
         nothingToSHowLabel.tag = 801
         nothingToSHowLabel.textColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
@@ -485,11 +485,11 @@ class waitForHandleTaskListViewController: UIViewController,UITableViewDelegate,
     }
     func emytyAreaShowingLabel(){
         //什么都没有
-        let sizeOfNothing:Int = Int(UIScreen.main.bounds.width - 200)
-        let nothingToShow = UIImageView(frame: CGRect(x: 100, y:Int((UIScreen.main.bounds.height)/2) - 200, width: sizeOfNothing, height: sizeOfNothing))
+        let sizeOfNothing:Int = 180
+        let nothingToShow = UIImageView(frame: CGRect(x: 100, y:Int((UIScreen.main.bounds.height)/2) - 300, width: sizeOfNothing, height: sizeOfNothing))
         //设置文字标签
-        let nothingToSHowLabel:UILabel = UILabel.init(frame:CGRect(x: (sizeOfNothing + 200)/2-sizeOfNothing/2, y: Int((UIScreen.main.bounds.height)/2) - 20 , width: 200, height: 44))
-        nothingToSHowLabel.text = "这里还什么都没有呢"
+        let nothingToSHowLabel:UILabel = UILabel.init(frame:CGRect(x: (sizeOfNothing + 200)/2-sizeOfNothing/2, y: Int((UIScreen.main.bounds.height)/2) - 120 , width: 200, height: 44))
+        nothingToSHowLabel.text = "空空如也..."
         nothingToSHowLabel.alpha = 0.4
         nothingToSHowLabel.textColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         nothingToSHowLabel.font = UIFont.systemFont(ofSize: 15)

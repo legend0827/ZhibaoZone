@@ -28,6 +28,7 @@ let kHight = UIScreen.main.bounds.height
 
 //调整iPhone X高度
 var heightChangeForiPhoneXFromTop:CGFloat = 0.0
+var heightChangeForiPhoneXFromBottom:CGFloat = 0.0
 
 //标题颜色枚举
 enum titleColorsType{
@@ -95,6 +96,14 @@ enum orderListCategoryType{
     //case allOrderCategory
 }
 
+//操作类型：
+enum actionType {
+    case quotePrice
+    case acceptDesign
+    case acceptProduce
+}
+
+//头像外框形状类型
 enum AvatarShape: String {
     /// 圆角正方形
     case AvatarShapeTypeSquareWithRadius = "Radius"
@@ -335,6 +344,24 @@ func setStatusBarBackgroundColor(color : UIColor) {
     }
 }
 
+
+//创建毛玻璃效果
+func showBlurEffect() -> UIVisualEffectView {
+    //创建一个模糊效果
+    let blurEffect = UIBlurEffect(style: .light)
+    //创建一个承载模糊效果的视图
+    let blurView = UIVisualEffectView(effect: blurEffect)
+    blurView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height:UIScreen.main.bounds.height )
+//    let label = UILabel(frame: CGRect(x: 10, y: 30, width: UIScreen.main.bounds.width - 20, height: 100))
+//    label.text = text
+//    label.font = UIFont.systemFont(ofSize: 30)
+//    label.numberOfLines = 0
+//    label.textAlignment = .center
+//    label.textColor = UIColor.black
+//    blurView.contentView.addSubview(label)
+    // blurView.contentView.addSubview(closeBtn)
+    return blurView
+}
 
 //创建头像方法
 func createIcon(imageSize:CGFloat,locale:CGRect,iconShape:AvatarShape) -> UIView {

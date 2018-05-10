@@ -55,6 +55,10 @@ class TabBarController: UITabBarController {
     }
     
     func createNewTask(){
+       // self.view.backgroundColor = UIColor.green
+        let tempView:UIView = UIView.init(frame: CGRect(x: 0, y: 20, width: kWidth, height: kHight))
+        tempView.backgroundColor = UIColor.green
+        self.view.addSubview(tempView)
         
     }
     override func didReceiveMemoryWarning() {

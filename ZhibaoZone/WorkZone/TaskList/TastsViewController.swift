@@ -46,7 +46,7 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
         }
         //设置选中栏下方条的颜色
         var focusMode:MenuFocusMode {
-            return .underline(height: 2, color: UIColor.titleColors(color: .red), horizontalPadding: 0, verticalPadding: 0)
+            return .underline(height: 2, color: UIColor.titleColors(color: .red), horizontalPadding: 20, verticalPadding: 5)
         }
         
     }

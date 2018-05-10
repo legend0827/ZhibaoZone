@@ -17,6 +17,10 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
     
     var downloadURLHeader = ""
     
+    //用户角色信息
+    var _userid:String?
+    var _token:String?
+    
     var _roleType = 1//1 客服 2设计师 3 工厂 0 普通用户
     var orderCount = 0//订单数目
     var orderArray:[NSDictionary] = []
@@ -37,6 +41,9 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
     //选择的订单的index
     var selectedIndex = 0
     
+    //加载中的动画集合
+    var theLoadingViewNeedsToBeKill:[UIView] = []
+    
     let CELL_ID = "cell_id";
 
     lazy var AllOrdersCollectionView:UICollectionView = {
@@ -45,8 +52,6 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         layout.itemSize = CGSize(width:(kWidth - 50)/2,height: (kWidth - 50)/2 + 92)  //设置item尺寸
         layout.minimumLineSpacing = 5  //上下间隔
         layout.minimumInteritemSpacing = 5 //左右间隔
-//        layout.headerReferenceSize = CGSize(width:0,height:  0)   //头部间隔
-//        layout.footerReferenceSize = CGSize(width:0,height:  0)   //底部间隔
         layout.sectionInset = UIEdgeInsets.init(top: 5, left: 20, bottom: 5, right: 20)            //section四周的缩进
         layout.scrollDirection = UICollectionViewScrollDirection.vertical  //滚动方向
         
@@ -117,6 +122,11 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         cell.acceptProduceBtnInCell.isHidden = true
         cell.quotePriceBtnInCell.isHidden = true
         cell.shippingBtnInCell.isHidden = true
+        
+        cell.acceptDesignBtnInCell.addTarget(self, action: #selector(acceptDesignBtnClicked), for: .touchUpInside)
+        cell.quotePriceBtnInCell.addTarget(self, action: #selector(quotePriceBtnClicked), for: .touchUpInside)
+        cell.acceptProduceBtnInCell.addTarget(self, action: #selector(acceptProduceBtnClicked), for: .touchUpInside)
+        cell.shippingBtnInCell.addTarget(self, action: #selector(shippingBtnClicked), for: .touchUpInside)
         
         switch _roleType {
         case 1:
@@ -205,19 +215,31 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         #else
         downloadURLHeader = resourcesDownloadLinks.value(forKey: "imagesDownloadLinks") as! String
         #endif
-        //调试设计师
-        self.view.addSubview(AllOrdersCollectionView)
-        loadOrderDataFromServer(pages: 1, categoryType: .allOrderCategory)
-        //loadOrderDataFromServer(pages: 1)
         
+        //获取用户信息
+        
+        let userInfos = getCurrentUserInfo()
+//        if userInfos.count == 0{
+//            _roleType = 1
+//            _userid = "000100101"
+//            _token = "1102312312"
+//        }else{
+            _roleType = Int((userInfos.value(forKey: "roletype") as? String)!)!
+            _userid = userInfos.value(forKey: "userid") as? String
+            _token = userInfos.value(forKey: "token") as? String
+       // }
+        
+        StartLoadingAnimation()
+        DispatchQueue.global().async {
+            self.loadOrderDataFromServer(pages: 1, categoryType: .allOrderCategory)
+        }
+
         //添加下拉刷新
-        //addPullToRefresh(animator: header)
         AllOrdersCollectionView.es.addPullToRefresh {
             [weak self] in
             self?.refresh()
         }
         //添加上拉加载
-        //addInfiniteScrolling(animator: footer)
         AllOrdersCollectionView.es.addInfiniteScrolling {
             [weak self] in
             self?.loadMore()
@@ -230,7 +252,6 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
             self.page = 1
             self.orderArray.removeAll()
             self.loadOrderDataFromServer(pages: 1, categoryType: .allOrderCategory)
-            //self.loadOrderDataFromServer(pages:self.page)
         }
     }
     
@@ -238,7 +259,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
             self.page += 1
             if self.page <= self.totalPageCount{
-                self.loadOrderDataFromServer(pages: 1, categoryType: .allOrderCategory)
+                self.loadOrderDataFromServer(pages: self.page, categoryType: .allOrderCategory)
                 self.AllOrdersCollectionView.reloadData()
                 self.AllOrdersCollectionView.es.stopLoadingMore()
             }else{
@@ -247,35 +268,54 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
             }
         }
     }
+    
+    @objc func acceptDesignBtnClicked(){
+        print("点击了接受设计按钮")
+    }
+    @objc func quotePriceBtnClicked(){
+        print("点击了报价按钮")
+        let quotePriceView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight))
+        quotePriceView.createViewWithActionType(ActionType: .quotePrice)
+        
+        let popVC = PopupViewController()
+        popVC.view.backgroundColor = UIColor.clear
+        popVC.view.addSubview(showBlurEffect()) //UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
+        popVC.view.addSubview(popVC.grayLayer)
+        popVC.modalPresentationCapturesStatusBarAppearance = true
+        quotePriceView.popupVC = popVC
+        quotePriceView._orderID = 传入订单号
+        quotePriceView._customID = 传入定制号
+        popVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext //
+        popVC.view.addSubview(quotePriceView)
+        
+        self.present(popVC, animated: true, completion: nil)
+    }
+    @objc func acceptProduceBtnClicked(){
+        print("点击了接受生产按钮")
+    }
+    @objc func shippingBtnClicked(){
+        print("点击了发货按钮")
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    
-    ///获取订单概览数据
-    func loadOrderDataFromServer(pages:Int,categoryType:orderListCategoryType) {
-        //去除未完成的数据请求
-        for task in AllOrdersViewController.requestCacheArr{
-            task.cancel()
-        }
-        AllOrdersViewController.requestCacheArr.removeAll()
-        
-        //先删除重试按钮
-        if self.view.viewWithTag(100) != nil{ //100,101tag是重试按钮的view
-            self.view.viewWithTag(100)?.removeFromSuperview()
-            self.view.viewWithTag(101)?.removeFromSuperview()
-        }
-        //先删除没有订单的提示信息
-        if self.view.viewWithTag(901) != nil{
-            self.view.viewWithTag(901)?.removeFromSuperview()
-            self.view.viewWithTag(902)?.removeFromSuperview()
-            self.view.viewWithTag(903)?.removeFromSuperview()
-        }
-        
+    func StartLoadingAnimation(){
+        //加载中动画与文字
         //loading文字
         let noticeWhenLoadingData:UILabel = UILabel.init(frame: CGRect(x: UIScreen.main.bounds.width/2 - 90, y: UIScreen.main.bounds.height/2 - 50, width: 200, height: 30))
+        //动画imageView
+        let imageView = UIImageView()
+
+        //当loadingView不为空的时候，表示有LoadingView在运行
+        if theLoadingViewNeedsToBeKill.count != 0 {
+            for item in theLoadingViewNeedsToBeKill{
+                item.removeFromSuperview()
+            }
+        }
+            
         noticeWhenLoadingData.text = "加载中，请稍侯..."
         noticeWhenLoadingData.font = UIFont.systemFont(ofSize: 14)
         noticeWhenLoadingData.textColor = UIColor.gray
@@ -287,7 +327,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
             let image:UIImage = UIImage(named:imagePath)!
             images.append(image)
         }
-        let imageView = UIImageView()
+        
         imageView.frame = CGRect(x: UIScreen.main.bounds.width/2 - 100, y: UIScreen.main.bounds.height/2 - 200, width: 200, height: 200)//self.view.bounds
         imageView.contentMode = .scaleAspectFit//.center
         imageView.animationImages = images
@@ -295,12 +335,45 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         imageView.animationRepeatCount = 0
         imageView.startAnimating()
 
-        //确定没有CollectionView的时候，添加加载中的动画
-        if !self.view.subviews.contains(self.AllOrdersCollectionView) {
-            self.view.addSubview(imageView)
-            self.view.addSubview(noticeWhenLoadingData)
+        theLoadingViewNeedsToBeKill.append(imageView)
+        theLoadingViewNeedsToBeKill.append(noticeWhenLoadingData)
+        
+        self.view.addSubview(imageView)
+        self.view.addSubview(noticeWhenLoadingData)
+
+    }
+    
+    func StopLoadingAnimation(){
+        if theLoadingViewNeedsToBeKill.count != 0 {
+            for item in theLoadingViewNeedsToBeKill {
+                item.removeFromSuperview()
+            }
+        }
+    }
+    ///获取订单概览数据
+    func loadOrderDataFromServer(pages:Int,categoryType:orderListCategoryType) {
+        //去除未完成的数据请求
+        for task in AllOrdersViewController.requestCacheArr{
+            task.cancel()
+        }
+        AllOrdersViewController.requestCacheArr.removeAll()
+        
+        DispatchQueue.main.async {
+            //先删除重试按钮
+            if self.view.viewWithTag(100) != nil{ //100,101tag是重试按钮的view
+                self.view.viewWithTag(100)?.removeFromSuperview()
+                self.view.viewWithTag(101)?.removeFromSuperview()
+            }
+            //先删除没有订单的提示信息
+            if self.view.viewWithTag(901) != nil{
+                self.view.viewWithTag(901)?.removeFromSuperview()
+                self.view.viewWithTag(902)?.removeFromSuperview()
+                self.view.viewWithTag(903)?.removeFromSuperview()
+            }
         }
         
+        
+ 
         let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
         let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
         let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
@@ -311,20 +384,14 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         requestURL = apiAddresses.value(forKey: "orderListOfAllOrders") as! String
         #endif
         
-        //获取用户信息
-        let userInfos = getCurrentUserInfo()
-        let roletype = userInfos.value(forKey: "roletype") as? String
-        let userid = userInfos.value(forKey: "userid") as? String
-        let token = userInfos.value(forKey: "token") as? String
         
-        //更新roleType 随时
-        _roleType = Int(roletype!)!
+        
+        
         //定义请求参数
         let params:NSMutableDictionary = NSMutableDictionary()
         
-        params["userid"] =  userid
-        //调试设计师
-        params["roletype"] = roletype
+        params["userid"] =  _userid
+        params["roletype"] = _roleType
         params["workflow"] = 18 // 全部订单
         params["searchday"] = 30
         params["fromtime"] = "2016"
@@ -333,9 +400,8 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         params["ordersheet"] = pages
         params["ranktype"] = 1
         params["inorder"] = 0
-        params["token"] = token
-       
-        
+        params["token"] = _token
+
         let dataRequest = Alamofire.request(requestURL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{
@@ -351,15 +417,13 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
                         }
                         if !self.view.subviews.contains(self.AllOrdersCollectionView) {
                             self.view.addSubview(self.AllOrdersCollectionView)
-                            imageView.removeFromSuperview()
-                            noticeWhenLoadingData.removeFromSuperview()
+                            self.StopLoadingAnimation()
                         }
                         self.AllOrdersCollectionView.reloadData()
                         self.AllOrdersCollectionView.es.stopPullToRefresh()
                     }else{
                         if self.page == 1{
-                            imageView.removeFromSuperview()
-                            noticeWhenLoadingData.removeFromSuperview()
+                            self.StopLoadingAnimation()
                             self.emytyAreaShowingLabel(withRetry: true)
                         }else{
                             self.AllOrdersCollectionView.es.noticeNoMoreData()
@@ -371,8 +435,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
                 if self.view.subviews.contains(self.AllOrdersCollectionView) {
                     self.AllOrdersCollectionView.removeFromSuperview()
                 }else{
-                    imageView.removeFromSuperview()
-                    noticeWhenLoadingData.removeFromSuperview()
+                    self.StopLoadingAnimation()
                 }
                 if responseObject.result.error?.localizedDescription != "cancelled" && responseObject.result.error?.localizedDescription as! String != "已取消"{
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -1420,471 +1483,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
 //    }
 //
    
-//    //设置权重
-//    @objc func setQuotePriceWeight(){
-//        let setParameterVC = SetParamtersViewController(roleType: roleType)
-//        self.present(setParameterVC, animated: true, completion: nil)
-//    }
-//    //点击接受设计按钮：
-//    @objc func acceptDesignBtnClicked(_ button:UIButton){
-//        //点击接受设计按钮
-//
-//        for row in selectorParamters.values{
-//            if row == "\(button.tag)"{
-//                selectedIndex = button.tag
-//            }
-//        }
-//        let dictionaryObjectInOrderArray = orderArray[selectedIndex]
-//        let orderInfoObjects = dictionaryObjectInOrderArray.value(forKey: "orderinfo") as! NSDictionary
-//
-//
-//        let orderID = orderInfoObjects.value(forKey: "orderid") as! String
-//        let customID = orderInfoObjects.value(forKey: "customid") as! String
-//
-//        DispatchQueue.main.async(execute: {
-//            self.showBlurPopView(operaType: "acceptDesgin") //显示接受设计窗口
-//        })
-//        DispatchQueue.global(qos: .background).async(execute: {
-//            //获取订单详细信息
-//            DispatchQueue.main.async(execute: {
-//                //显示报价数据
-//                self.getOrderDetails(OrderID: orderID, CustomID: customID)
-//            })
-//            //当还没获取到订单时
-//            var count = 0
-//            while(true){
-//                count += 1
-//                print("get orderDetail at \(count)")
-//                if self.isOrderDetailsGets{
-//                    if self.orderDetail.count != 0{
-//                        DispatchQueue.main.async(execute: {
-//                            //显示报价数据
-//                            self.showBlurViewData()
-//                        })
-//                    }
-//                    break
-//                }
-//                //sleep(1)
-//            }
-//        })
-//    }
-//
-//    //点击接受设计
-//    @objc func confirmAcceptDesignBtnClicked(){
-//        //获取用户信息
-//        let userInfos = getCurrentUserInfo()
-//        let roletype = userInfos.value(forKey: "roletype") as? String
-//        let userid = userInfos.value(forKey: "userid") as? String
-//        let token = userInfos.value(forKey: "token") as? String
-//
-//        //获取订单信息
-//        let orderinfoObject = orderDetail[2].value(forKey: "orderinfo") as? NSDictionary
-//        let customID = orderinfoObject?.value(forKey: "customid") as? String
-//        let orderID = orderinfoObject?.value(forKey: "orderid") as? String
-//
-//        //获取列表
-//        let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
-//        let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
-//        let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
-//        //定义请求参数
-//        let params:NSMutableDictionary = NSMutableDictionary()
-//        params["userid"] = userid
-//        params["roletype"] = roletype
-//        params["token"] = token
-//        params["orderid"] = orderID
-//        params["customid"] = customID
-//        params["isreceive"] = 1
-//        params["commandcode"] = 143
-//
-//
-//        var requestUrl:String = ""
-//        if roletype == "2" {
-//            #if DEBUG
-//            requestUrl = apiAddresses.value(forKey: "acceptDesignDebug") as! String
-//            #else
-//            requestUrl = apiAddresses.value(forKey: "acceptDesign") as! String
-//            #endif
-//        }
-//        _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
-//            (responseObject) in
-//            switch responseObject.result.isSuccess{
-//            case true:
-//                if  let value = responseObject.result.value{
-//                    let json = JSON(value)
-//                    let statusObject = json["status","code"].int!
-//                    if statusObject == 0{
-//                        print("接受设计成功")
-//                        greyLayerPrompt.show(text: "接受设计成功")
-//                        self.closeQuotePriceView()
-//                    }else{
-//                        print("接受失败，code:\(statusObject)")
-//                        let errorMsg = json["status","msg"].string!
-//                        greyLayerPrompt.show(text: errorMsg)
-//                    }
-//                }
-//            case false:
-//                print("处理失败")
-//                greyLayerPrompt.show(text: "接受设计失败，请重试")
-//            }
-//        }
-//        print("接受设计按钮点击了")
-//
-//    }
-//    //点击报价按钮
-//    @objc func quotePriceBtnClicked(_ button:UIButton){
-//
-//        for row in selectorParamters.values{
-//            if row == "\(button.tag)"{
-//                selectedIndex = button.tag
-//            }
-//        }
-//        let dictionaryObjectInOrderArray = orderArray[selectedIndex]
-//        let orderInfoObjects = dictionaryObjectInOrderArray.value(forKey: "orderinfo") as! NSDictionary
-//
-//        let orderID = orderInfoObjects.value(forKey: "orderid") as! String
-//        let customID = orderInfoObjects.value(forKey: "customid") as! String
-//
-//        DispatchQueue.main.async(execute: {
-//            self.showBlurPopView(operaType: "quotePrice") //显示报价窗口
-//        })
-//        DispatchQueue.global(qos: .background).async(execute: {
-//            //获取订单详细信息
-//            DispatchQueue.main.async(execute: {
-//                //显示报价数据
-//                self.getOrderDetails(OrderID: orderID, CustomID: customID)
-//            })
-//            //当还没获取到订单时
-//            var count = 0
-//            while(true){
-//                count += 1
-//                print("get orderDetail at \(count)")
-//                if self.isOrderDetailsGets{
-//                    if self.orderDetail.count != 0{
-//                        DispatchQueue.main.async(execute: {
-//                            //显示报价数据
-//                            self.showBlurViewData()
-//                        })
-//                    }
-//                    break
-//                }
-//                //sleep(1)
-//            }
-//        })
-//        //展示报价页面
-//    }
-//
-//    @objc func confirmQuotePriceBtnClicked(){
-//        if produceTimeCostTextField.text == ""{
-//            greyLayerPrompt.show(text: "生产工期不能为空,请重试")
-//        }else{
-//
-//            //获取用户信息
-//            let userInfos = getCurrentUserInfo()
-//            let roletype = userInfos.value(forKey: "roletype") as? String
-//            let userid = userInfos.value(forKey: "userid") as? String
-//            let token = userInfos.value(forKey: "token") as? String
-//
-//
-//            //获取订单信息
-//            let dictionaryObjectInOrderArray = orderArray[selectedIndex]
-//
-//            let orderInfoObjects = dictionaryObjectInOrderArray.value(forKey: "orderinfo") as! NSDictionary
-//
-//            let customID = orderInfoObjects.value(forKey: "customid") as? String
-//            let orderid = orderInfoObjects.value(forKey: "orderid") as? String
-//            var deadline = 0
-//
-//            if orderInfoObjects.value(forKey: "deadline") as? Int == nil{
-//                deadline = 0
-//            }else{
-//                deadline = orderInfoObjects.value(forKey: "deadline") as! Int
-//            }
-//
-//            if (deadline < Int(produceTimeCostTextField.text!)!) && deadline != 0{
-//                greyLayerPrompt.show(text: "订单生产周期超过预期")
-//                //return
-//            }
-//            //获取报价信息
-//            let currentValueOfQuotePrice = quotePriceSlideBar.value
-//            //获取列表
-//            let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
-//            let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
-//            let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
-//            //定义请求参数
-//            let params:NSMutableDictionary = NSMutableDictionary()
-//            params["userId"] = userid
-//            params["roleType"] = roletype
-//            params["token"] = token
-//            params["customid"] = customID
-//            params["orderid"] = orderid
-//            params["returnprice"] = Int(currentValueOfQuotePrice)//String(format: "%.2f", currentValueOfQuotePrice)
-//            params["productioncycle"] = produceTimeCostTextField.text
-//            params["commandcode"] = 141
-//
-//            var requestUrl:String = ""
-//            if roletype == "3" {
-//                #if DEBUG
-//                requestUrl = apiAddresses.value(forKey: "quotePriceDebug") as! String
-//                #else
-//                requestUrl = apiAddresses.value(forKey: "quotePrice") as! String
-//                #endif
-//            }
-//            _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
-//                (responseObject) in
-//                switch responseObject.result.isSuccess{
-//                case true:
-//                    print("报价成功")
-//                    greyLayerPrompt.show(text: "报价成功")
-//                    self.closeQuotePriceView()
-//                case false:
-//                    print("处理失败")
-//                    greyLayerPrompt.show(text: "报价失败,请重试")
-//                }
-//            }
-//
-//        }
-//        print("报价按钮点击了")
-//    }
-//
-//    @objc func acceptProduceBtnClicked(_ button:UIButton){
-//
-//        for row in selectorParamters.values{
-//            if row == "\(button.tag)"{
-//                selectedIndex = button.tag
-//            }
-//        }
-//        let dictionaryObjectInOrderArray = orderArray[selectedIndex]
-//        let orderInfoObjects = dictionaryObjectInOrderArray.value(forKey: "orderinfo") as! NSDictionary
-//        // let orderStateObjects = dictionaryObjectInOrderArray.value(forKey: "state") as! NSDictionary
-//
-//        let orderID = orderInfoObjects.value(forKey: "orderid") as! String
-//        let customID = orderInfoObjects.value(forKey: "customid") as! String
-//
-//        //        //orderStateObjects.value(forKey: "payoffstate") as! NSDictionary).value(forKey: "code") as! Int == 1
-//        //        if (){//尚未定稿时
-//        //            greyLayerPrompt.show(text: "订单无定稿设计，请在网页上操作上传设计稿或选定设计方案")
-//        //            return
-//        //        }
-//
-//        DispatchQueue.main.async(execute: {
-//            self.showBlurPopView(operaType: "acceptProduce") //显示接受生产弹窗
-//        })
-//        DispatchQueue.global(qos: .background).async(execute: {
-//            //获取订单详细信息
-//            DispatchQueue.main.async(execute: {
-//                //显示报价数据
-//                self.getOrderDetails(OrderID: orderID, CustomID: customID)
-//            })
-//            //当还没获取到订单时
-//            var count = 0
-//            while(true){
-//                count += 1
-//                print("getting OrderDetails Data \(count)")
-//                if self.isOrderDetailsGets{
-//                    if self.orderDetail.count != 0{
-//                        DispatchQueue.main.async(execute: {
-//                            //显示生产数据
-//                            self.showBlurViewData()
-//                        })
-//                    }
-//                    break
-//                }
-//                //sleep(1)
-//            }
-//        })
-//        print("开始生产按钮点击了")
-//    }
-//    @objc func confirmAcceptProduceBtnClicked(){
-//        //确定点击接受生产按钮
-//        //获取用户信息
-//        let userInfos = getCurrentUserInfo()
-//        let roletype = userInfos.value(forKey: "roletype") as? String
-//        let userid = userInfos.value(forKey: "userid") as? String
-//        let token = userInfos.value(forKey: "token") as? String
-//
-//        //获取订单信息
-//        let orderinfoObject = orderDetail[2].value(forKey: "orderinfo") as? NSDictionary
-//        let customID = orderinfoObject?.value(forKey: "customid") as? String
-//        let orderID = orderinfoObject?.value(forKey: "orderid") as? String
-//        let goodsID = orderinfoObject?.value(forKey: "goodsid") as? String
-//
-//
-//        //获取订单信息
-//        var deadline = 0
-//
-//        if orderinfoObject?.value(forKey: "deadline") as? Int == nil{
-//            deadline = 0
-//        }else{
-//            deadline = orderinfoObject?.value(forKey: "deadline") as! Int
-//        }
-//
-//        if produceTimeCostTextField.text == ""{
-//            greyLayerPrompt.show(text: "生产工期不能为空,请重试")
-//            return
-//        }else{
-//            if (deadline < Int(produceTimeCostTextField.text!)!) && deadline != 0{
-//                greyLayerPrompt.show(text: "客户要求工期为\(deadline)天以内，请修改生产周期")
-//                return
-//            }
-//        }
-//        //获取列表
-//        let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
-//        let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
-//        let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
-//        //定义请求参数
-//        let params:NSMutableDictionary = NSMutableDictionary()
-//        params["userid"] = userid
-//        params["roletype"] = roletype
-//        params["token"] = token
-//        params["orderid"] = orderID
-//        params["customid"] = customID
-//        params["goodsid"] = goodsID
-//        params["isreceive"] = 1
-//        params["productioncycle"] = produceTimeCostTextField.text
-//        params["commandcode"] = 171
-//
-//
-//        var requestUrl:String = ""
-//        if roletype == "3" {
-//            #if DEBUG
-//            requestUrl = apiAddresses.value(forKey: "acceptProduceDebug") as! String
-//            #else
-//            requestUrl = apiAddresses.value(forKey: "acceptProduce") as! String
-//            #endif
-//        }
-//        _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
-//            (responseObject) in
-//            switch responseObject.result.isSuccess{
-//            case true:
-//                if  let value = responseObject.result.value{
-//                    let json = JSON(value)
-//                    let statusObject = json["status","code"].int!
-//                    if statusObject == 0{
-//                        print("接受生产成功")
-//                        greyLayerPrompt.show(text: "接受生产成功")
-//                        self.closeQuotePriceView()
-//                    }else{
-//                        print("接受失败，code:\(statusObject)")
-//                        let errorMsg = json["status","msg"].string!
-//                        greyLayerPrompt.show(text: errorMsg)
-//                    }
-//                }
-//            case false:
-//                print("处理失败")
-//                greyLayerPrompt.show(text: "接受生产失败，请重试")
-//            }
-//        }
-//        print("接受生产按钮点击了")
-//    }
-//
-//    //缩略图imageView点击
-//    @objc func imageViewTap(_ recognizer:UITapGestureRecognizer){
-//        //图片索引
-//        let index = 0
-//        //进入图片全屏展示
-//        //let previewVC = ImagePreviewVC(images: memoPictures, index: index) //(index-10)
-//        let previewVC = ImagePreviewVC(images:memoPictures , index: index, previewMode: .previewWithoutDelete)
-//        // previewVC.roleType = roleType
-//        //previewVC.previewMode = PreviewModeType.previewWithoutDelete
-//        previewVC.PreviewType = previewTypes
-//        self.present(previewVC, animated: true, completion: nil)
-//    }
-//
-//    //关闭报价按钮
-//    @objc func closeQuotePriceView(){
-//        UIView.animate(withDuration: 0.3, animations: {()->Void in
-//            for Closingviews in self.theChildViewNeedToClose{
-//                Closingviews.transform = CGAffineTransform(translationX: 0, y: (UIScreen.main.bounds.height))
-//            }
-//
-//        },completion:{
-//            Void in
-//            for childViews in self.theChildViewNeedToClose{
-//                childViews.removeFromSuperview()
-//                if childViews.isEqual(self.blurPopView){
-//                    for quotePriveSubViews in self.blurPopView.subviews{
-//                        quotePriveSubViews.removeFromSuperview()
-//                    }
-//                }
-//            }
-//        })
-//    }
-//
-//
-//    @objc func quotePriceSliderBarValueChanged(_ slider:UISlider){
-//        quotePriceWeight = getQuotePriceWeight()
-//        currentValueOnSliderTextField.text = "\(Int(slider.value/Float(quotePriceWeight))*quotePriceWeight).00"
-//    }
-//
-//
-//
-//    // 输入框的值发生变化
-//    func textFieldDidEndEditing(_ textField: UITextField) {
-//        currentValueOnSliderTextField.resignFirstResponder()
-//        produceTimeCostTextField.resignFirstResponder()
-//        if  textField.isEqual(currentValueOnSliderTextField){
-//            if currentValueOnSliderTextField.text == ""{
-//                currentValueOnSliderTextField.text = "0.00"
-//            }
-//            let sliderValue = currentValueOnSliderTextField.text
-//            if Float(sliderValue as! String)! > quotePriceSlideBar.maximumValue {
-//                quotePriceSlideBar.maximumValue = Float(sliderValue as! String)!
-//            }
-//            quotePriceSlideBar.setValue(Float(sliderValue as! String)!, animated: true)
-//            quotePriceSlideBarRightLabel.text = "¥\(quotePriceSlideBar.maximumValue)0"
-//            quotePriceSlideBarMidLabel.text = "¥\(quotePriceSlideBar.maximumValue/2)0"
-//            quotePriceSlideBarLeftLabel.text = "¥0.00"
-//        }else{
-//            print("工期完成输入")
-//        }
-//
-//    }
-//
-//    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-//        //自定义键盘按钮
-//        let topView = UIToolbar()
-//        topView.barStyle = .default
-//        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-//        let doneBtn = UIBarButtonItem(title: "确定", style: .done, target: self, action: #selector(textFieldDidEndEditing(_:)))
-//        let buttonsArray = [flexSpace,doneBtn]
-//        topView.items = buttonsArray
-//        topView.sizeToFit()
-//
-//        textField.inputAccessoryView = topView
-//        return true
-//    }
-//
-//    //键盘设置
-//    @objc func keyBoardWillShow(_notification: Notification){
-//        //获取userInfo
-//        let kbInfo = _notification.userInfo
-//        //键盘弹出的时间
-//        let duration = kbInfo?[UIKeyboardAnimationDurationUserInfoKey] as!Double
-//
-//        if currentValueOnSliderTextField.isFirstResponder{
-//            //界面偏移动画
-//            //UIScreen.main.bounds.height
-//            UIView.animate(withDuration: duration, animations: { ()->Void in
-//                self.blurPopView.transform = CGAffineTransform(translationX: 0, y:-(UIScreen.main.bounds.height + 130)) //-(height+300)+200
-//            })
-//        }
-//    }
-//
-//    //键盘的隐藏
-//    @objc func keyBoardWillHide(_notification: Notification){
-//
-//        let kbInfo = _notification.userInfo
-//        /*
-//         swift2.3正常，swift3.0取值为nil
-//         */
-//        let duration = kbInfo?[UIKeyboardAnimationDurationUserInfoKey] as!Double
-//
-//        if currentValueOnSliderTextField.isFirstResponder {
-//            UIView.animate(withDuration: duration, animations: {()->Void in
-//                self.blurPopView.transform = CGAffineTransform(translationX: 0, y: -(UIScreen.main.bounds.height-110))// -(height-35)+200  -632
-//            })
-//        }
-//    }
+
 //    //创建毛玻璃效果
 //    func showBlurEffect(text:String) -> UIVisualEffectView {
 //        //创建一个模糊效果
@@ -1945,11 +1544,11 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
     
     func emytyAreaShowingLabel(withRetry:Bool) {
         //什么都没有
-        let sizeOfNothing:Int = Int(UIScreen.main.bounds.width - 200)
-        let nothingToShow = UIImageView(frame: CGRect(x: 100, y:Int((UIScreen.main.bounds.height)/2) - 200, width: sizeOfNothing, height: sizeOfNothing))
+        let sizeOfNothing:Int = 180
+        let nothingToShow = UIImageView(frame: CGRect(x: 100, y:Int((UIScreen.main.bounds.height)/2) - 300, width: sizeOfNothing, height: sizeOfNothing))
         //设置文字标签
-        let nothingToSHowLabel:UILabel = UILabel.init(frame:CGRect(x: (sizeOfNothing + 200)/2-sizeOfNothing/2, y: Int((UIScreen.main.bounds.height)/2) - 20 , width: 200, height: 44))
-        nothingToSHowLabel.text = "这里还什么都没有呢"
+        let nothingToSHowLabel:UILabel = UILabel.init(frame:CGRect(x: (sizeOfNothing + 200)/2-sizeOfNothing/2, y: Int((UIScreen.main.bounds.height)/2) - 120 , width: 200, height: 44))
+        nothingToSHowLabel.text = "空空如也..."
         nothingToSHowLabel.alpha = 0.4
         nothingToSHowLabel.tag = 901
         nothingToSHowLabel.textColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
@@ -1977,11 +1576,11 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
     }
     func emytyAreaShowingLabel(){
         //什么都没有
-        let sizeOfNothing:Int = Int(UIScreen.main.bounds.width - 200)
-        let nothingToShow = UIImageView(frame: CGRect(x: 100, y:Int((UIScreen.main.bounds.height)/2) - 200, width: sizeOfNothing, height: sizeOfNothing))
+        let sizeOfNothing:Int = 180
+        let nothingToShow = UIImageView(frame: CGRect(x: 100, y:Int((UIScreen.main.bounds.height)/2) - 300, width: sizeOfNothing, height: sizeOfNothing))
         //设置文字标签
-        let nothingToSHowLabel:UILabel = UILabel.init(frame:CGRect(x: (sizeOfNothing + 200)/2-sizeOfNothing/2, y: Int((UIScreen.main.bounds.height)/2) - 20 , width: 200, height: 44))
-        nothingToSHowLabel.text = "这里还什么都没有呢"
+        let nothingToSHowLabel:UILabel = UILabel.init(frame:CGRect(x: (sizeOfNothing + 200)/2-sizeOfNothing/2, y: Int((UIScreen.main.bounds.height)/2) - 120 , width: 200, height: 44))
+        nothingToSHowLabel.text = "空空如也..."
         nothingToSHowLabel.alpha = 0.4
         nothingToSHowLabel.textColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         nothingToSHowLabel.font = UIFont.systemFont(ofSize: 15)

@@ -48,7 +48,7 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
         }
         //设置选中栏下方条的颜色
         var focusMode:MenuFocusMode {
-            return .underline(height: 2, color: UIColor.titleColors(color: .red), horizontalPadding: 0, verticalPadding: 0)
+            return .underline(height: 2, color: UIColor.titleColors(color: .red), horizontalPadding: 12, verticalPadding: 5) // 水平间距 0 ，垂直间距 0 
         }
         
     }
@@ -134,6 +134,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
         addChildViewController(pagingMenuController)
         //分页菜单控制器视图添加到当前视图中
         view.addSubview(pagingMenuController.view)
+        //print("分页显示出来了")
 
         titleBarView.frame = CGRect(x: 0, y: 20 + heightChangeForiPhoneXFromTop, width: kWidth, height: 44)
         scanQRCodeBtn.frame = CGRect(x: 20, y: 11, width: 22, height: 22)
@@ -178,8 +179,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
         titleBarView.addSubview(scanQRCodeBtn)
         titleBarView.addSubview(searchBarInOrders)
         titleBarView.addSubview(messageListBtn)
-        
-        
+
     }
     
     @objc func searchBarTaped(){

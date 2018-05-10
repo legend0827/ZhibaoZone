@@ -43,6 +43,7 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         orderCellView.layer.cornerRadius = 6
         orderCellView.layer.shadowOffset = CGSize.zero//CGSize(width: 0, height: 0)
         orderCellView.layer.shadowOpacity = 1.0
+        
         orderCellView.layer.shadowColor = UIColor.lineColors(color: .lightGray).cgColor//UIColor.black.cgColor
         
         
@@ -52,6 +53,9 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         orderCellImageView.layer.borderWidth = 0.5
         
         priceLabelBackgroundView.image = UIImage(named: "maskonimage")
+        priceLabelBackgroundView.layer.cornerRadius = 6
+        //priceLabelBackgroundView.layer.borderColor = UIColor.lineColors(color: .lightGray).cgColor
+       // priceLabelBackgroundView.layer.borderWidth = 0.5
         //priceLabelBackgroundView.alpha = 0.6
         
         priceLabel.text = "¥3000.00"

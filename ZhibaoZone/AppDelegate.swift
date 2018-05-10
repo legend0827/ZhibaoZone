@@ -64,7 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         
         // 创建View Controller
         let loginVC = ViewController()
-        let tabbarvc = TabBarController(royeType: 1)
+        let tabbarvc = TabBarController(royeType: 1) // 上线改成0
         if true{
             self.window?.rootViewController = tabbarvc
         }else{
@@ -73,8 +73,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
 
         if UIDevice.current.isX(){
             heightChangeForiPhoneXFromTop = 24.0
+            heightChangeForiPhoneXFromBottom = 34.0
         }else{
             heightChangeForiPhoneXFromTop = 0.0
+            heightChangeForiPhoneXFromBottom = 0.0
         }
         self.window?.backgroundColor = UIColor.white
         

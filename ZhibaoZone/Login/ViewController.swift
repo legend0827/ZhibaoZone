@@ -211,7 +211,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
             registerOrLoginBtn.setTitle("已有账号？去登录", for: .normal)
             registerOrLoginBtn.frame = CGRect(x: kWidth - 165, y: 308 + heightChangeForiPhoneXFromTop, width: 140, height: 20)//CGRect(x: 25, y: 308, width: 140, height: 22)
             SubmitBtn.frame = CGRect(x:25, y:408 + heightChangeForiPhoneXFromTop, width:kWidth - 50, height: 44)
-            useGestureLoginBtn.frame = CGRect(x: UIScreen.main.bounds.width - 120, y: 504 + heightChangeForiPhoneXFromTop, width: 100, height: 22)
+            useGestureLoginBtn.isHidden = true
             txtUser.text = ""
             txtPwd.text = ""
             seperateLineUnderRepeatPassword.isHidden = false
@@ -224,7 +224,8 @@ class ViewController: UIViewController,UITextFieldDelegate {
             registerOrLoginBtn.setTitle("还没有账号？点此注册", for: .normal)
             registerOrLoginBtn.frame = CGRect(x: kWidth - 185, y: 254 + heightChangeForiPhoneXFromTop, width: 160, height: 20)// CGRect(x: 0, y: 254, width: 200, height: 22)
             SubmitBtn.frame = CGRect(x:25, y:354 + heightChangeForiPhoneXFromTop, width:kWidth - 50, height: 44)
-            useGestureLoginBtn.frame = CGRect(x: UIScreen.main.bounds.width - 120, y: 444 + heightChangeForiPhoneXFromTop, width: 100, height: 22)
+            useGestureLoginBtn.isHidden = false
+            useGestureLoginBtn.frame = CGRect(x: 25, y: 254 + heightChangeForiPhoneXFromTop, width: 100, height: 22)
             txtUser.text = presentUsername
             seperateLineUnderRepeatPassword.isHidden = true
         }
@@ -319,7 +320,8 @@ class ViewController: UIViewController,UITextFieldDelegate {
         let result = checkSecuritySetting().1
         
         if result && checkSecuritySetting().0{  // 如果设置了手势登录（true)，并且是开着的(true)
-            useGestureLoginBtn.frame = CGRect(x: 25, y: 308 + heightChangeForiPhoneXFromTop, width: 100, height: 22)
+            
+            useGestureLoginBtn.frame = CGRect(x: 25, y: 254 + heightChangeForiPhoneXFromTop, width: 100, height: 22)
             useGestureLoginBtn.setTitle("使用手势登录", for: UIControlState())
             useGestureLoginBtn.setTitleColor(#colorLiteral(red: 0.9104188085, green: 0.2962309122, blue: 0.2970536053, alpha: 1), for: UIControlState())
             useGestureLoginBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)

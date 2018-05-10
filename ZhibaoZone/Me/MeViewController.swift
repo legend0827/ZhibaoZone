@@ -30,19 +30,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         setStatusBarBackgroundColor(color: .clear)
         UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent // 改成白色字体
         
-        //获取用户信息
-        let userInfos = getCurrentUserInfo()
-        let roletype = userInfos.value(forKey: "roletype") as? String
-        let userid = userInfos.value(forKey: "userid") as? String
-       // let token = userInfos.value(forKey: "token") as? String
-        
-        let userInfo = getUserAccountInfo() // 0.userName 1. nikeName
-     //   let userAccount = userInfo.0
-        let userName = userInfo.1
-        
-        _roleType = Int(roletype!)!
-        _accountID = userid!
-        _accountNickName = userName
+     
     }
     
     override func viewDidLoad() {
@@ -51,6 +39,20 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         let MeBackgroundImageView:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: 100 + heightChangeForiPhoneXFromTop))
         MeBackgroundImageView.image = UIImage(named: "meBackgroundImg")
         self.view.addSubview(MeBackgroundImageView)
+        
+        //获取用户信息
+        let userInfos = getCurrentUserInfo()
+        let roletype = userInfos.value(forKey: "roletype") as? String
+        let userid = userInfos.value(forKey: "userid") as? String
+        // let token = userInfos.value(forKey: "token") as? String
+        
+        let userInfo = getUserAccountInfo() // 0.userName 1. nikeName
+        //   let userAccount = userInfo.0
+        let userName = userInfo.1
+        
+        _roleType = Int(roletype!)!
+        _accountID = userid!
+        _accountNickName = userName
         
         self.tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), style: UITableViewStyle.grouped)
         
