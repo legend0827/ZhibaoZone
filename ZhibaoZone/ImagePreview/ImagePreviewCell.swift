@@ -25,7 +25,7 @@ class ImagePreviewCell: UICollectionViewCell {
     var imageView:UIImageView!
     
     //导航栏
-    let navigationBar:UINavigationBar = UINavigationBar.init(frame: CGRect(x: 0, y: -20, width: UIScreen.main.bounds.width, height: 60))
+    let navigationBar:UINavigationBar = UINavigationBar.init(frame: CGRect(x: 0, y: 0 + heightChangeForiPhoneXFromTop, width: UIScreen.main.bounds.width, height: 60))
     //let deleteBtn:UIButton = UIButton.init(frame: CGRect(x: UIScreen.main.bounds.width - 60, y: 40, width: 50, height: 50))
     
     //初始化
@@ -100,7 +100,7 @@ class ImagePreviewCell: UICollectionViewCell {
         navigationBar.isHidden = true
         navigationBar.backgroundColor = UIColor.clear
         navigationBar.barTintColor = UIColor.black
-        let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 50, height: 60))
+        let titleLabel = UILabel(frame: CGRect(x: 0, y: 20 + heightChangeForiPhoneXFromTop, width: 50, height: 60))
         titleLabel.text = "附件预览"
         titleLabel.textColor = UIColor.white
         titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
@@ -141,20 +141,27 @@ class ImagePreviewCell: UICollectionViewCell {
     
     //图片单击事件响应
     @objc func tapSingleDid(_ ges:UITapGestureRecognizer){
+        
+        
         if navigationBar.isHidden == true{
             UIView.animate(withDuration: 0.3, animations: {()->Void in
-                self.navigationBar.transform = CGAffineTransform(translationX: 0, y: 20)//UIScreen.main.bounds.height+300)
-            },completion: { (finished) in
                 self.navigationBar.isHidden = false
+                self.navigationBar.transform = CGAffineTransform(translationX: 0, y:  20)//向下移动
+                UIApplication.shared.isStatusBarHidden = false
+            },completion: { (finished) in
+                
             })
         }else{
             UIView.animate(withDuration: 0.3, animations: {()->Void in
-                self.navigationBar.transform = CGAffineTransform(translationX: 0, y: -60) //负数，向上移动
-            },completion: { (finished) in
                 self.navigationBar.isHidden = true
+                self.navigationBar.transform = CGAffineTransform(translationX: 0, y: -60) //负数，向上移动
+                UIApplication.shared.isStatusBarHidden = true
+            },completion: { (finished) in
+                
             })
         }
     }
+    
     
     //图片双击事件响应
     @objc func tapDoubleDid(_ ges:UITapGestureRecognizer){

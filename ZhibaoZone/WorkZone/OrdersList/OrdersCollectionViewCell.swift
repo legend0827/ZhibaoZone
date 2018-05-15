@@ -21,6 +21,7 @@ class OrdersCollectionViewCell: UICollectionViewCell {
     let shippingBtnInCell:UIButton = UIButton.init(type: .custom)
     let priceLabelBackgroundView:UIImageView = UIImageView.init()
     let priceLabel:UILabel = UILabel.init()
+    let statusImageView:UIImageView = UIImageView.init()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -37,7 +38,7 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         acceptProduceBtnInCell.frame = CGRect(x: (frame.width - 85) / 2, y: frame.width + 55, width: 85, height: 30)
         acceptDesignBtnInCell.frame = CGRect(x: (frame.width - 85) / 2, y: frame.width + 55, width: 85, height: 30)
         shippingBtnInCell.frame = CGRect(x: (frame.width - 85) / 2, y: frame.width + 55, width: 85, height: 30)
-        
+        statusImageView.frame = CGRect(x: frame.width/4 * 3 - 15 , y: 5, width: frame.width/4+10, height: frame.width/4+10)
         
         orderCellView.layer.backgroundColor = UIColor.backgroundColors(color: .white).cgColor
         orderCellView.layer.cornerRadius = 6
@@ -49,11 +50,13 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         
         orderCellImageView.image = UIImage(named: "defualt-design-pic")
         orderCellImageView.layer.cornerRadius = 6
+        orderCellImageView.layer.masksToBounds = true
         orderCellImageView.layer.borderColor = UIColor.lineColors(color: .lightGray).cgColor
         orderCellImageView.layer.borderWidth = 0.5
         
         priceLabelBackgroundView.image = UIImage(named: "maskonimage")
         priceLabelBackgroundView.layer.cornerRadius = 6
+        priceLabelBackgroundView.layer.masksToBounds = true
         //priceLabelBackgroundView.layer.borderColor = UIColor.lineColors(color: .lightGray).cgColor
        // priceLabelBackgroundView.layer.borderWidth = 0.5
         //priceLabelBackgroundView.alpha = 0.6
@@ -102,6 +105,12 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         shippingBtnInCell.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         shippingBtnInCell.setTitleColor(UIColor.titleColors(color: .white), for: UIControlState.normal)
         
+        statusImageView.isHidden = true
+        statusImageView.image = UIImage(named: "overbudgeticon")
+        statusImageView.layer.cornerRadius = 6
+        statusImageView.layer.borderColor = UIColor.clear.cgColor
+        statusImageView.layer.borderWidth = 0.5
+        statusImageView.layer.masksToBounds = true
         //self.backgroundColor = UIColor.orange
         self.addSubview(orderCellView)
         orderCellView.addSubview(orderCellImageView)
@@ -114,6 +123,7 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         orderCellView.addSubview(acceptProduceBtnInCell)
         orderCellView.addSubview(acceptDesignBtnInCell)
         orderCellView.addSubview(shippingBtnInCell)
+        orderCellView.addSubview(statusImageView)
     }
     
     required init?(coder aDecoder: NSCoder) {

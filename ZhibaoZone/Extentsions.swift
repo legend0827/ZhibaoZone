@@ -63,8 +63,10 @@ enum lineColorsType{
 //背景颜色枚举
 enum backgroundColorsType{
     case red
+    case lightRed
     case lightestgray
     case white
+    case black
 }
 
 //数据验证格式
@@ -101,6 +103,7 @@ enum actionType {
     case quotePrice
     case acceptDesign
     case acceptProduce
+    case shippingProduct
 }
 
 //头像外框形状类型
@@ -112,6 +115,14 @@ enum AvatarShape: String {
     /// 正方形
     case AvatarShapeTypeSquare
     
+}
+
+//客户心理价溢价类型
+enum quotePriceOverType: String {
+    /// 圆角正方形
+    case included
+    /// 圆形
+    case overBugget
 }
 
 class Extentsions: NSObject {
@@ -157,6 +168,8 @@ extension UIColor {
         switch color {
         case .red:
             tempColor = UIColor.colorWithRgba(232, g: 75, b: 76, a: 1.0)
+        case .lightRed:
+            tempColor = UIColor.colorWithRgba(255, g: 177, b: 177, a: 1.0)
         case .lightestRed:
             tempColor = UIColor.colorWithRgba(251, g: 242, b: 242, a: 1.0)
         case .white:
@@ -197,10 +210,14 @@ extension UIColor {
         switch color {
         case .red:
             tempColor = UIColor.colorWithRgba(232, g: 75, b: 76, a: 1.0)
+        case .lightRed:
+            tempColor = UIColor.colorWithRgba(255, g: 246, b: 246, a: 1.0)
         case .lightestgray:
             tempColor = UIColor.colorWithRgba(245, g: 245, b: 245, a: 1.0)
         case .white:
             tempColor = UIColor.colorWithRgba(255, g: 255, b: 255, a: 1.0)
+        case .black:
+            tempColor = UIColor.colorWithRgba(18, g: 18, b: 18, a: 1.0)
         default:
             tempColor = UIColor.colorWithRgba(245, g: 245, b: 245, a: 1.0)
         }
@@ -337,7 +354,7 @@ func setStatusBarBackgroundColor(color : UIColor) {
     if statusBar.responds(to:#selector(setter: UIView.backgroundColor)) {
         statusBar.backgroundColor = color
     }
-    if color == UIColor.backgroundColors(color: .red){
+    if color == UIColor.backgroundColors(color: .red) || color == UIColor.backgroundColors(color: .black){
         UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent // 改成白色字体
     }else{
         UIApplication.shared.statusBarStyle = UIStatusBarStyle.default // 改成深色字体
@@ -403,4 +420,12 @@ func createIcon(imageSize:CGFloat,locale:CGRect,iconShape:AvatarShape) -> UIView
     
     photo.image = image
     return photo
+}
+
+func calculateLabelHeightWithText(with text:String , labelWidth: CGFloat ,textFont:UIFont) -> CGFloat{ // 计算Label高度
+    var size = CGRect()
+    let size2 = CGSize(width: labelWidth, height: 0)//设置label的最大宽度
+    let attibute = [NSAttributedStringKey.font:textFont]
+    size = text.boundingRect(with: size2, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: attibute , context: nil);
+    return size.size.height
 }

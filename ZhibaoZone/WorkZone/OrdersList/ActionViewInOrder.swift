@@ -9,13 +9,13 @@
 import UIKit
 import Alamofire
 
-class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate {
+class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollViewDelegate {
     
     //弹窗ViewVC
     var popupVC = PopupViewController()
     
     //订单请求参数
-    var _royeType:Int = 1
+    var _roleType:Int = 1
     var _token:String?
     var _userId:String?
     var _actionType:actionType = .quotePrice
@@ -23,10 +23,16 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate {
     var _frame:CGRect = CGRect(x: 198, y: 50, width: 150, height: 30)
    
     var _orderID:String = "110000"
-    var _customID:String "10002020"
+    var _customID:String =  "10002020"
    
     //订单详情获取到了吗？
     var isOrderDetailsGets = false
+    var isBudgetOver = false
+    var isProduceCycleOver = false //
+    //获取订单截止工期
+    var deadline = 0
+    //客户心理价
+    var mindPrice:Float = 0.0
     
     //订单详情：
     var orderDetail:[NSDictionary] = []
@@ -36,12 +42,15 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate {
     
     //参考图列表
     var memoPictures:[UIImage] = []
+    //参考图类型
+    var previewTypes:[String] = []
     
     
     //页面元素
     let ActionTitle:UILabel = UILabel.init(frame: CGRect(x: kWidth/2 - 38, y: 20, width: 72, height: 25))
     let cancelBtn:UIButton = UIButton.init(type: .custom)
-    let backgroundView:UIView = UIView.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+    //let backgroundView:UIView = UIView.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+    let backgroundView:UIScrollView = UIScrollView.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
    
     //报价窗口变量定义
     var quotePriceWeight = 1
@@ -76,22 +85,46 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate {
     
     let quotePriceCurentLabel:UILabel =  UILabel.init(frame: CGRect(x: 80, y: 295, width: 200, height: 44))
     
-    let customerPriceValue:UILabel = UILabel.init(frame: CGRect(x: 225, y: 295, width: 200, height: 44))
-    let customerPriceLabel:UILabel = UILabel.init(frame: CGRect(x: 190, y: 295, width: 200, height: 44))
+    let budgetPriceValue:UILabel = UILabel.init(frame: CGRect(x: 225, y: 295, width: 200, height: 44))
+    let budgetPriceLabel:UILabel = UILabel.init(frame: CGRect(x: 190, y: 295, width: 200, height: 44))
+    let budgetOveredLabel:UILabel = UILabel.init(frame: CGRect(x: 190, y: 295, width: 200, height: 44))
+    let overBudgetBackgroundView:UIView = UILabel.init(frame: CGRect(x: 190, y: 295, width: 200, height: 44))
 
-    let designFeeValue:UILabel = UILabel.init(frame: CGRect(x: 65, y: 285, width: 200, height: 44))
+    //let designFeeValue:UILabel = UILabel.init(frame: CGRect(x: 65, y: 285, width: 200, height: 44))
     let setQuotePriceWeightBtn:UIButton = UIButton.init(type: .system)
     
     let quotePriceSlideBarRightLabel:UILabel = UILabel.init(frame: CGRect(x: 85, y: 415, width: 250, height: 30))
     let quotePriceSlideBarMidLabel:UILabel = UILabel.init(frame: CGRect(x: 15, y: 415, width: 320, height: 30))
     let quotePriceSlideBarLeftLabel:UILabel = UILabel.init(frame: CGRect(x: 15, y: 415, width: 250, height: 30))
     
+    let seperateLine2:UIView = UIView.init(frame: CGRect(x: 0, y: 1, width: kWidth, height: 5))
+    let seperateLine3:UIView = UIView.init(frame: CGRect(x: 0, y: 2, width: kWidth, height: 5))
+    let seperateLine4:UIView = UIView.init(frame: CGRect(x: 20, y: 3, width: kWidth - 40, height: 2))
+    let seperateLine5:UIView = UIView.init(frame: CGRect(x: 20, y: 4, width: kWidth - 40, height: 2))
+    
+    
     let quotePriceSubmitBtn:UIButton = UIButton.init(type: .custom)
     let acceptDesignConfirmBtn:UIButton = UIButton.init(type: .custom)
     let acceptProduceConfirmBtn:UIButton = UIButton.init(type: .custom)
     
     //生产工期Label
+    let isProduceCycleOverView:UIView = UIView.init(frame: CGRect(x:0, y: 0 , width: 110, height: 54))
     let produceTimeCostLabel:UILabel = UILabel.init(frame: CGRect(x: 85, y: 415, width: 250, height: 30))
+    let isProduceCycleOverLabel:UILabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+    let deadlineLabel:UILabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+    
+    //接受生产
+    let produceMemoLabel:UILabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+    let ProduceMemoValue:UILabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+    let produceTimeCostBackgroundView:UIView = UIView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: 52))
+    let orderPriceLabel:UILabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+    let orderPriceValue:UILabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+    
+    //接受设计
+    let designMemoLabel:UILabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+    let designMemoValue:UILabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+    let designFeeLabel:UILabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+    let designFeeValue:UILabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     
         //设置设计备注，订单备注输入框
     lazy var orderMemosForDesignOrProducer:UILabel = {
@@ -136,24 +169,37 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate {
     
         override init(frame: CGRect) {
         super.init(frame: frame)
-
-        
         //获取用户信息
         let userInfos = getCurrentUserInfo()
-        _royeType = Int((userInfos.value(forKey: "roletype") as? String)!)!
+        _roleType = Int((userInfos.value(forKey: "roletype") as? String)!)!
         _userId = userInfos.value(forKey: "userid") as? String
         _token = userInfos.value(forKey: "token") as? String
         _frame = frame
-
+        
+        //下载图片链接地址
+        let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
+        let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
+        let resourcesDownloadLinks:NSDictionary = data.value(forKey: "resourcesDownloadLinks") as! NSDictionary
+        #if DEBUG
+            downloadURLHeader = resourcesDownloadLinks.value(forKey: "imagesDownloadLinksDebug") as! String
+        #else
+            downloadURLHeader = resourcesDownloadLinks.value(forKey: "imagesDownloadLinks") as! String
+        #endif
     }
+    
     func getOrderDetailFromServer(){
         DispatchQueue.global(qos: .background).async {
-            self.getOrderDetails(OrderID: _orderID, CustomID: _customID)
+            self.getOrderDetails(OrderID: self._orderID, CustomID: self._customID)
         }
     }
     
     //使用ActionType创建View
     func createViewWithActionType(ActionType:actionType){
+        //设置点击类型值
+        _actionType = ActionType
+        
+        getOrderDetailFromServer()
+        
         self.layer.cornerRadius = 20
         self.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
         //初始化值
@@ -174,7 +220,16 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate {
         //背景页面值
         
         backgroundView.frame = CGRect(x: 0, y: 65, width: kWidth, height: self.frame.height - 207 - heightChangeForiPhoneXFromBottom)
+        backgroundView.contentSize = CGSize(width: kWidth, height: 541)
+        //backgroundView.frame = CGRect(x: 0, y: 65, width: kWidth, height: self.frame.height )
         backgroundView.backgroundColor = UIColor.backgroundColors(color: .white)
+        backgroundView.delegate = self
+        backgroundView.isDirectionalLockEnabled = true
+        backgroundView.isScrollEnabled = true
+        backgroundView.showsHorizontalScrollIndicator = false
+        backgroundView.showsVerticalScrollIndicator = false
+        backgroundView.setContentOffset(CGPoint(x: 0, y: 20),animated: true)// (10, 20), animated: false)
+        backgroundView.scrollRectToVisible(CGRect(x:0, y:0, width:100, height:300), animated: false)
         self.addSubview(backgroundView)
         
         orderIDLabel.frame = CGRect(x: 20, y: 12, width: 200, height: 20)
@@ -188,31 +243,33 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate {
         orderIDValue.textColor = UIColor.titleColors(color: .black)
         backgroundView.addSubview(orderIDValue)
         
-        orderIDValue.text = "10023012030123" // for debug
+        orderIDValue.text = "000000000" // for debug
         
         //订单时间
         orderTimeLabel.frame = CGRect(x: kWidth - 220, y: 12, width: 200, height: 20)
         orderTimeLabel.font = UIFont.systemFont(ofSize: 14)
         orderTimeLabel.textColor = UIColor.titleColors(color: .black)
         orderTimeLabel.textAlignment = .right
-        orderTimeLabel.text = "2018-01-29 12:00:12" // for debug
+        orderTimeLabel.text = "2017-10-16 09:00:00" // for debug
         backgroundView.addSubview(orderTimeLabel)
         
         let seperateLine1:UIView = UIView.init(frame: CGRect(x: 20, y: 44, width: kWidth - 40, height: 2))
         seperateLine1.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
         backgroundView.addSubview(seperateLine1)
         //参考图
-        orderDefaultPic.frame = CGRect(x: 20, y: 62, width: 118, height: 118)
+        orderDefaultPic.frame = CGRect(x: 20, y: 62, width: 118, height: 118) // y=62
         orderDefaultPic.image = UIImage(named: "defualt-design-pic")
         orderDefaultPic.layer.cornerRadius = 6
-        orderDefaultPic.layer.borderColor = UIColor.lineColors(color: .lightGray).cgColor
+        orderDefaultPic.layer.borderColor = UIColor.lineColors(color: .white).cgColor//UIColor.lineColors(color: .lightGray).cgColor
         orderDefaultPic.layer.borderWidth = 0.5
+        orderDefaultPic.layer.masksToBounds = true
         backgroundView.addSubview(orderDefaultPic)
         //点击预览层
         orderDefaultPicLayer.frame = CGRect(x: 20, y: 145, width: 118, height: 35)
         orderDefaultPicLayer.image = UIImage(named: "maskonimage")
         orderDefaultPicLayer.layer.cornerRadius = 6
-        backgroundView.addSubview(orderDefaultPicLayer)
+        orderDefaultPicLayer.layer.masksToBounds = true
+      //  backgroundView.addSubview(orderDefaultPicLayer)
 
         
         //产品类型
@@ -227,7 +284,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate {
         orderCountValue.font = UIFont.systemFont(ofSize: 14)
         orderCountValue.textColor = UIColor.titleColors(color: .darkGray)
         orderCountValue.textAlignment = .right
-        orderCountValue.text = "x200000" // for debug
+        orderCountValue.text = "x0" // for debug
         backgroundView.addSubview(orderCountValue)
         
         
@@ -236,48 +293,51 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate {
         makeStyleValue.numberOfLines = 3
         makeStyleValue.font = UIFont.systemFont(ofSize: 14)
         makeStyleValue.textColor = UIColor.titleColors(color: .darkGray)
-        makeStyleValue.text = "2D;烤漆;光磨;磨砂;亮黑;浅蓝;烤漆;粉紫;蓝色;烤漆黑;黑黄;白色金;锖" // for debug
+        makeStyleValue.text = "" // for debug
         backgroundView.addSubview(makeStyleValue)
         
         //材质 + 附件
         materialAccessoriesValue.frame = CGRect(x: 143, y: 86, width: 280, height: 20)
         materialAccessoriesValue.font = UIFont.systemFont(ofSize: 14)
         materialAccessoriesValue.textColor = UIColor.titleColors(color: .darkGray)
-        materialAccessoriesValue.text = "锌合金  别针；" // for debug
+        materialAccessoriesValue.text = "" // for debug
         backgroundView.addSubview(materialAccessoriesValue)
         //产品尺寸
         //长
-        // x: 190
-        productSizeValue.frame = CGRect(x: 143, y: 166, width: 200, height: 20)
+        productSizeValue.frame = CGRect(x: 143, y: 146, width: 200, height: 20)
         productSizeValue.font = UIFont.systemFont(ofSize: 14)
         productSizeValue.textColor = UIColor.titleColors(color: .darkGray)
-        productSizeValue.text = "300.5×300×200(mm)" // for debug
+        productSizeValue.text = "0×0×0(mm)" // for debug
         backgroundView.addSubview(productSizeValue)
         
-        productSizeHint.frame = CGRect(x: 143, y: 186, width: 200, height: 20)
+        productSizeHint.frame = CGRect(x: 143, y: 166, width: 200, height: 20)
         productSizeHint.font = UIFont.systemFont(ofSize: 10)
         productSizeHint.textColor = UIColor.titleColors(color: .gray)
         productSizeHint.text = "注：圆形产品直径参考长度(或宽度)值"
         backgroundView.addSubview(productSizeHint)
         
         quotePriceSubmitBtn.frame = CGRect(x: kWidth - 120, y: self.frame.height - 142 - heightChangeForiPhoneXFromBottom, width: 120, height: 56)
-        quotePriceSubmitBtn.backgroundColor = UIColor.iconColors(color: .red)
+       // quotePriceSubmitBtn.backgroundColor = UIColor.iconColors(color: .red)
+        quotePriceSubmitBtn.backgroundColor = UIColor.gray
         quotePriceSubmitBtn.setTitle("提交报价", for: .normal)
         quotePriceSubmitBtn.setTitleColor(UIColor.titleColors(color: .white), for: .normal)
+        quotePriceSubmitBtn.backgroundColor = UIColor.gray
         quotePriceSubmitBtn.addTarget(self, action: #selector(confirmQuotePriceBtnClicked), for: .touchUpInside)
         
         acceptDesignConfirmBtn.frame = CGRect(x: kWidth - 120, y: self.frame.height - 142 - heightChangeForiPhoneXFromBottom, width: 120, height: 56)
         acceptDesignConfirmBtn.backgroundColor = UIColor.iconColors(color: .red)
         acceptDesignConfirmBtn.setTitle("接受设计", for: .normal)
         acceptDesignConfirmBtn.setTitleColor(UIColor.titleColors(color: .white), for: .normal)
-        quotePriceSubmitBtn.addTarget(self, action: #selector(confirmAcceptDesignBtnClicked), for: .touchUpInside)
+        acceptDesignConfirmBtn.backgroundColor = UIColor.gray
+        acceptDesignConfirmBtn.addTarget(self, action: #selector(confirmAcceptDesignBtnClicked), for: .touchUpInside)
         
         
         acceptProduceConfirmBtn.frame = CGRect(x: kWidth - 120, y: self.frame.height - 142 - heightChangeForiPhoneXFromBottom, width: 120, height: 56)
         acceptProduceConfirmBtn.backgroundColor = UIColor.iconColors(color: .red)
         acceptProduceConfirmBtn.setTitle("接受生产", for: .normal)
         acceptProduceConfirmBtn.setTitleColor(UIColor.titleColors(color: .white), for: .normal)
-        quotePriceSubmitBtn.addTarget(self, action: #selector(confirmAcceptProduceBtnClicked), for: .touchUpInside)
+        acceptProduceConfirmBtn.backgroundColor = UIColor.gray
+        acceptProduceConfirmBtn.addTarget(self, action: #selector(confirmAcceptProduceBtnClicked), for: .touchUpInside)
         
         self.addSubview(quotePriceSubmitBtn)
         self.addSubview(acceptDesignConfirmBtn)
@@ -301,7 +361,11 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate {
             acceptDesignConfirmBtn.isHidden = true
             acceptProduceConfirmBtn.isHidden = true
             
-            let seperateLine2:UIView = UIView.init(frame: CGRect(x: 0, y: productSizeHint.frame.maxY + 5, width: kWidth, height: 5))
+            seperateLine2.frame = CGRect(x: 0, y: productSizeHint.frame.maxY + 5, width: kWidth, height: 5)
+            seperateLine3.frame = CGRect(x: 0, y: seperateLine2.frame.maxY + 52, width: kWidth, height: 5)
+            seperateLine4.frame = CGRect(x: 20, y: seperateLine3.frame.maxY + 52, width: kWidth - 40, height: 2)
+            seperateLine5.frame = CGRect(x: 20, y: seperateLine4.frame.maxY + 52, width: kWidth - 40, height: 2)
+            
             seperateLine2.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
             backgroundView.addSubview(seperateLine2)
             
@@ -310,13 +374,13 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate {
             quotePriceAtLastLabel.font = UIFont.systemFont(ofSize: 16)
             backgroundView.addSubview(quotePriceAtLastLabel)
             
-            quotePriceAtLastTimeValue.text = "¥5392.00" //for debug
+            quotePriceAtLastTimeValue.text = "¥0.00" //for debug
             quotePriceAtLastTimeValue.textColor = UIColor.titleColors(color: .red)
             quotePriceAtLastTimeValue.frame = CGRect(x: 100, y: seperateLine2.frame.maxY + 15 , width: 100, height: 22)
             quotePriceAtLastTimeValue.font = UIFont.systemFont(ofSize: 16)
             backgroundView.addSubview(quotePriceAtLastTimeValue)
             
-            let seperateLine3:UIView = UIView.init(frame: CGRect(x: 0, y: seperateLine2.frame.maxY + 52, width: kWidth, height: 5))
+            
             seperateLine3.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
             backgroundView.addSubview(seperateLine3)
             
@@ -332,7 +396,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate {
             currentValueOnSliderTextField.placeholder = "填写金额"
             backgroundView.addSubview(currentValueOnSliderTextField)
             
-            let seperateLine4:UIView = UIView.init(frame: CGRect(x: 20, y: seperateLine3.frame.maxY + 52, width: kWidth - 40, height: 2))
+            
             seperateLine4.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
             backgroundView.addSubview(seperateLine4)
             
@@ -341,16 +405,40 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate {
             produceTimeCostLabel.font = UIFont.systemFont(ofSize: 16)
             backgroundView.addSubview(produceTimeCostLabel)
             
-            produceTimeCostTextField.text = "18" // for debug
+            produceTimeCostTextField.text = "" // for debug
             produceTimeCostTextField.frame = CGRect(x: 100, y: seperateLine4.frame.maxY + 4 , width: kWidth - 120, height: 44)
             produceTimeCostTextField.textColor = UIColor.titleColors(color: .black)
             produceTimeCostTextField.font = UIFont.systemFont(ofSize: 16)
             produceTimeCostTextField.placeholder = "填写完成生产、发货时间"
             backgroundView.addSubview(produceTimeCostTextField)
             
-            let seperateLine5:UIView = UIView.init(frame: CGRect(x: 20, y: seperateLine4.frame.maxY + 52, width: kWidth - 40, height: 2))
             seperateLine5.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
             backgroundView.addSubview(seperateLine5)
+            
+            isProduceCycleOverView.frame =  CGRect(x:kWidth - 110, y: seperateLine4.frame.maxY - 1 , width: 110, height: 54)
+            isProduceCycleOverView.backgroundColor = UIColor.backgroundColors(color: .lightRed)
+            isProduceCycleOverView.layer.borderColor = UIColor.iconColors(color: .lightRed).cgColor
+            isProduceCycleOverView.layer.borderWidth = 1
+            isProduceCycleOverView.isHidden = true
+            backgroundView.addSubview(isProduceCycleOverView)
+            
+            isProduceCycleOverLabel.text = "超客户工期"
+            isProduceCycleOverLabel.textColor = UIColor.titleColors(color: .red)
+            isProduceCycleOverLabel.frame = CGRect(x:kWidth - 110, y: seperateLine4.frame.maxY - 1 , width: 110, height: 27)
+            isProduceCycleOverLabel.font = UIFont.systemFont(ofSize: 14)
+            isProduceCycleOverLabel.textAlignment = .center
+            isProduceCycleOverLabel.isHidden = true
+            backgroundView.addSubview(isProduceCycleOverLabel)
+            
+            
+            deadlineLabel.text = "客户工期: "
+            deadlineLabel.textColor = UIColor.titleColors(color: .red)
+            deadlineLabel.frame = CGRect(x:kWidth - 110, y: seperateLine4.frame.maxY + 26 , width: 110, height: 27)
+            deadlineLabel.font = UIFont.systemFont(ofSize: 14)
+            deadlineLabel.textAlignment = .center
+            deadlineLabel.isHidden = true
+            backgroundView.addSubview(deadlineLabel)
+
             
             setQuotePriceWeightBtn.frame = CGRect(x: 20, y: seperateLine5.frame.maxY + 15, width: 100, height: 22)
             setQuotePriceWeightBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
@@ -361,23 +449,24 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate {
             backgroundView.addSubview(setQuotePriceWeightBtn)
             
             quotePriceSlideBar.frame = CGRect(x: 20, y: seperateLine5.frame.maxY + 51, width: kWidth - 40, height: 20)
+            quotePriceSlideBar.addTarget(self, action: #selector(quotePriceSliderBarValueChanged(_:)), for: .valueChanged)
             backgroundView.addSubview(quotePriceSlideBar)
             
             quotePriceSlideBarRightLabel.frame = CGRect(x: quotePriceSlideBar.frame.width - 180, y: seperateLine5.frame.maxY + 72, width: 200, height: 22)
             quotePriceSlideBarRightLabel.text = "¥5000.00"
             quotePriceSlideBarRightLabel.textAlignment = .right
-            quotePriceSlideBarRightLabel.textColor = UIColor.titleColors(color: .lightGray)
+            quotePriceSlideBarRightLabel.textColor = UIColor.titleColors(color: .gray)
             quotePriceSlideBarRightLabel.font = UIFont.systemFont(ofSize: 12)
             
             quotePriceSlideBarMidLabel.frame = CGRect(x:  quotePriceSlideBar.frame.width/2 - 80 , y: seperateLine5.frame.maxY + 72, width: 200, height: 22)
-            quotePriceSlideBarMidLabel.text = "¥10.00"
+            quotePriceSlideBarMidLabel.text = "¥2500.00"
             quotePriceSlideBarMidLabel.textAlignment = .center
-            quotePriceSlideBarMidLabel.textColor = UIColor.titleColors(color: .lightGray)
+            quotePriceSlideBarMidLabel.textColor = UIColor.titleColors(color: .gray)
             quotePriceSlideBarMidLabel.font = UIFont.systemFont(ofSize: 12)
             
             quotePriceSlideBarLeftLabel.frame = CGRect(x: 20, y: seperateLine5.frame.maxY + 72, width: 200, height: 22)
             quotePriceSlideBarLeftLabel.text = "¥0.00"
-            quotePriceSlideBarLeftLabel.textColor = UIColor.titleColors(color: .lightGray)
+            quotePriceSlideBarLeftLabel.textColor = UIColor.titleColors(color: .gray)
             quotePriceSlideBarLeftLabel.font = UIFont.systemFont(ofSize: 12)
             
             backgroundView.addSubview(quotePriceSlideBarRightLabel)
@@ -386,6 +475,8 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate {
             
             
         case .acceptDesign:
+            backgroundView.contentSize = CGSize(width: kWidth, height: 441)
+            
             ActionTitle.text = "接受设计"
             quotePriceAtLastLabel.isHidden = true
             quotePriceAtLastTimeValue.isHidden = true
@@ -402,13 +493,46 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate {
             acceptDesignConfirmBtn.isHidden = false
             acceptProduceConfirmBtn.isHidden = true
             
+            seperateLine2.frame = CGRect(x: 0, y: productSizeHint.frame.maxY + 5, width: kWidth, height: 5)
+            seperateLine2.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+            backgroundView.addSubview(seperateLine2)
+            
+            designMemoLabel.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
+            designMemoValue.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
+            designFeeLabel.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
+            designFeeValue.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
+            
+            designMemoLabel.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 15 , width: 100, height: 22)
+            designMemoLabel.text = "设计备注:"
+            designMemoLabel.font = UIFont.systemFont(ofSize: 16)
+            backgroundView.addSubview(designMemoLabel)
+            
+            
+            designMemoValue.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 37 , width: kWidth - 40, height: 22)
+            designMemoValue.numberOfLines = 10
+            designMemoValue.font = UIFont.systemFont(ofSize: 14)
+            backgroundView.addSubview(designMemoValue)
+            
+            designFeeLabel.text = "设计费:"
+            designFeeLabel.frame = CGRect(x: 20, y: self.frame.height - 133 - heightChangeForiPhoneXFromBottom, width: 120, height: 37)
+            designFeeLabel.font = UIFont.systemFont(ofSize: 16)
+            
+            designFeeValue.frame = CGRect(x: 80, y: self.frame.height - 133 - heightChangeForiPhoneXFromBottom, width: 120, height: 37)
+            designFeeValue.font = UIFont.systemFont(ofSize: 26)
+            designFeeValue.textColor = UIColor.titleColors(color: .red)
+            self.addSubview(designFeeValue)
+            self.addSubview(designFeeLabel)
+            
         case .acceptProduce:
+            // BackRoundView
+            backgroundView.contentSize = CGSize(width: kWidth, height: 441)
+            
             ActionTitle.text = "接受生产"
             quotePriceAtLastLabel.isHidden = true
             quotePriceAtLastTimeValue.isHidden = true
             quotePriceCurentLabel.isHidden = true
             currentValueOnSliderTextField.isHidden = true
-            produceTimeCostLabel.isHidden = true
+            produceTimeCostLabel.isHidden = false
             setQuotePriceWeightBtn.isHidden = true
             quotePriceSlideBar.isHidden = true
             quotePriceSlideBarRightLabel.isHidden = true
@@ -419,8 +543,81 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate {
             acceptDesignConfirmBtn.isHidden = true
             acceptProduceConfirmBtn.isHidden = false
             
+            seperateLine2.frame = CGRect(x: 0, y: productSizeHint.frame.maxY + 5, width: kWidth, height: 5)
+            seperateLine2.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+            backgroundView.addSubview(seperateLine2)
+            
+            
+            produceMemoLabel.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 15 , width: 100, height: 22)
+            produceMemoLabel.text = "生产备注:"
+            produceMemoLabel.font = UIFont.systemFont(ofSize: 16)
+            backgroundView.addSubview(produceMemoLabel)
+            
+            
+            ProduceMemoValue.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 37 , width: kWidth - 40, height: 22)
+            ProduceMemoValue.numberOfLines = 10
+            ProduceMemoValue.font = UIFont.systemFont(ofSize: 14)
+            backgroundView.addSubview(ProduceMemoValue)
+            
+            
+            produceTimeCostBackgroundView.frame =  CGRect(x: 0, y: self.frame.height - 194 - heightChangeForiPhoneXFromBottom, width: kWidth, height: 52)
+            produceTimeCostBackgroundView.backgroundColor = UIColor.backgroundColors(color: .white)
+            self.addSubview(produceTimeCostBackgroundView)
+            
+            seperateLine3.frame = CGRect(x: 0, y: 0, width: kWidth, height: 2)
+            seperateLine3.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+            produceTimeCostBackgroundView.addSubview(seperateLine3)
+            
+            produceTimeCostLabel.text = "填写工期:"
+            produceTimeCostLabel.frame = CGRect(x: 20, y: seperateLine3.frame.maxY + 15 , width: 100, height: 22)
+            produceTimeCostLabel.font = UIFont.systemFont(ofSize: 16)
+            produceTimeCostBackgroundView.addSubview(produceTimeCostLabel)
+            
+            produceTimeCostTextField.text = "" // for debug
+            produceTimeCostTextField.frame = CGRect(x: 100, y: seperateLine3.frame.maxY + 4 , width: kWidth - 120, height: 44)
+            produceTimeCostTextField.textColor = UIColor.titleColors(color: .black)
+            produceTimeCostTextField.font = UIFont.systemFont(ofSize: 16)
+            produceTimeCostTextField.placeholder = "填写完成生产、发货时间"
+            produceTimeCostBackgroundView.addSubview(produceTimeCostTextField)
+            
+            
+            isProduceCycleOverView.frame =  CGRect(x:kWidth - 110, y: seperateLine3.frame.maxY - 1 , width: 110, height: 54)
+            isProduceCycleOverView.backgroundColor = UIColor.backgroundColors(color: .lightRed)
+            isProduceCycleOverView.layer.borderColor = UIColor.iconColors(color: .lightRed).cgColor
+            isProduceCycleOverView.layer.borderWidth = 1
+            isProduceCycleOverView.isHidden = true
+            produceTimeCostBackgroundView.addSubview(isProduceCycleOverView)
+            
+            isProduceCycleOverLabel.text = "超客户工期"
+            isProduceCycleOverLabel.textColor = UIColor.titleColors(color: .red)
+            isProduceCycleOverLabel.frame = CGRect(x:kWidth - 110, y: seperateLine3.frame.maxY - 1 , width: 110, height: 27)
+            isProduceCycleOverLabel.font = UIFont.systemFont(ofSize: 14)
+            isProduceCycleOverLabel.textAlignment = .center
+            isProduceCycleOverLabel.isHidden = true
+            produceTimeCostBackgroundView.addSubview(isProduceCycleOverLabel)
+            
+            
+            deadlineLabel.text = "客户工期: "
+            deadlineLabel.textColor = UIColor.titleColors(color: .red)
+            deadlineLabel.frame = CGRect(x:kWidth - 110, y: seperateLine3.frame.maxY + 26 , width: 110, height: 27)
+            deadlineLabel.font = UIFont.systemFont(ofSize: 14)
+            deadlineLabel.textAlignment = .center
+            deadlineLabel.isHidden = true
+            produceTimeCostBackgroundView.addSubview(deadlineLabel)
+            
+           
+            orderPriceLabel.text = "预算金额:"
+            orderPriceLabel.frame = CGRect(x: 20, y: self.frame.height - 133 - heightChangeForiPhoneXFromBottom, width: 120, height: 37)
+            orderPriceLabel.font = UIFont.systemFont(ofSize: 16)
+            
+            orderPriceValue.frame = CGRect(x: 100, y: self.frame.height - 133 - heightChangeForiPhoneXFromBottom, width: 120, height: 37)
+            orderPriceValue.font = UIFont.systemFont(ofSize: 26)
+            orderPriceValue.textColor = UIColor.titleColors(color: .red)
+            self.addSubview(orderPriceValue)
+            self.addSubview(orderPriceLabel)
+            
         default:
-            ActionTitle.text = "订单报价"
+            ActionTitle.text = "邮寄投递"
             quotePriceAtLastLabel.isHidden = true
             quotePriceAtLastTimeValue.isHidden = true
             quotePriceCurentLabel.isHidden = true
@@ -446,7 +643,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate {
     
     //设置权重
     @objc func setQuotePriceWeight(){
-        let setParameterVC = SetParamtersViewController(roleType: _royeType)
+        let setParameterVC = SetParamtersViewController(roleType: _roleType)
         popupVC.present(setParameterVC, animated: true, completion: nil)
     }
     
@@ -513,8 +710,15 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate {
     }
    
     @objc func confirmQuotePriceBtnClicked(){
+        quotePriceSubmitBtn.backgroundColor = UIColor.gray
+        acceptDesignConfirmBtn.backgroundColor = UIColor.gray
+        acceptProduceConfirmBtn.backgroundColor = UIColor.gray
         if produceTimeCostTextField.text == ""{
             greyLayerPrompt.show(text: "生产工期不能为空,请重试")
+            
+            self.quotePriceSubmitBtn.backgroundColor = UIColor.iconColors(color: .red)
+            self.acceptDesignConfirmBtn.backgroundColor = UIColor.iconColors(color: .red)
+            self.acceptProduceConfirmBtn.backgroundColor = UIColor.iconColors(color: .red)
         }else{
 
             //获取用户信息
@@ -539,13 +743,45 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate {
             }else{
                 deadline = orderInfoObjects.value(forKey: "deadline") as! Int
             }
-
+            
+            
             if (deadline < Int(produceTimeCostTextField.text!)!) && deadline != 0{
                 greyLayerPrompt.show(text: "订单生产周期超过预期")
+                isProduceCycleOverView.isHidden = false
+                isProduceCycleOverLabel.isHidden = false
+                deadlineLabel.isHidden = false
+                isProduceCycleOver = true
+                deadlineLabel.text = "客户工期: \(deadline)"
                 //return
+            }else{
+                isProduceCycleOverView.isHidden = true
+                isProduceCycleOverLabel.isHidden = true
+                deadlineLabel.isHidden = true
+                isProduceCycleOver = false
             }
             //获取报价信息
             let currentValueOfQuotePrice = quotePriceSlideBar.value
+            
+            
+            //如果工厂身份，并且报价高于客户心理价，显示客户心理价. 否则不显示
+            if mindPrice != 0.0 {
+                if _roleType != 1{
+                    if _roleType == 3 && (mindPrice < currentValueOfQuotePrice){
+                        adjustQuotePriceViewHeight(buggetType: .overBugget, bugget: mindPrice)
+                        isBudgetOver = true
+                    }else{
+                        adjustQuotePriceViewHeight(buggetType: .included, bugget: mindPrice)
+                        isBudgetOver = false
+                    }
+                }else{
+                    adjustQuotePriceViewHeight(buggetType: .overBugget, bugget: mindPrice)
+                    isBudgetOver = true
+                }
+            }else{
+                adjustQuotePriceViewHeight(buggetType: .included, bugget: mindPrice)
+                isBudgetOver = false
+            }
+            
             //获取列表
             let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
             let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
@@ -573,13 +809,37 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate {
                 (responseObject) in
                 switch responseObject.result.isSuccess{
                 case true:
-                    print("报价成功")
-                    greyLayerPrompt.show(text: "报价成功")
-                    self.closeActionView()
+                    if  let value = responseObject.result.value{
+                        let json = JSON(value)
+                        let statusObject = json["status","code"].int!
+                        if statusObject == 0{
+                            if self.isProduceCycleOver {
+                                greyLayerPrompt.show(text: "报价成功,但是超过了客户工期")
+                            }
+                            
+                            if self.isBudgetOver{
+                                greyLayerPrompt.show(text: "报价成功,但是超过了客户预算")
+                                self.quotePriceAtLastTimeValue.text = "¥\(currentValueOfQuotePrice)0"
+                                self.adjustQuotePriceViewHeight(buggetType: .overBugget, bugget: self.mindPrice)
+                            }
+                            
+                            if !self.isProduceCycleOver && !self.isBudgetOver{
+                                greyLayerPrompt.show(text: "报价成功")
+                                self.closeActionView()
+                            }
+                        }else{
+                            print("报价失败，code:\(statusObject)")
+                            let errorMsg = json["status","msg"].string!
+                            greyLayerPrompt.show(text: errorMsg)
+                        }
+                    }
                 case false:
                     print("处理失败")
                     greyLayerPrompt.show(text: "报价失败,请重试")
                 }
+                self.quotePriceSubmitBtn.backgroundColor = UIColor.iconColors(color: .red)
+                self.acceptDesignConfirmBtn.backgroundColor = UIColor.iconColors(color: .red)
+                self.acceptProduceConfirmBtn.backgroundColor = UIColor.iconColors(color: .red)
             }
 
         }
@@ -602,8 +862,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate {
         let goodsID = orderinfoObject?.value(forKey: "goodsid") as? String
 
 
-        //获取订单信息
-        var deadline = 0
+        
 
         if orderinfoObject?.value(forKey: "deadline") as? Int == nil{
             deadline = 0
@@ -676,7 +935,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate {
         let index = 0
         //进入图片全屏展示
         let previewVC = ImagePreviewVC(images:memoPictures , index: index, previewMode: .previewWithoutDelete)
-        //previewVC.PreviewType = previewTypes
+        previewVC.PreviewType = previewTypes
         popupVC.present(previewVC, animated: true, completion: nil)
         
         
@@ -764,11 +1023,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate {
     }
     
     func getOrderDetails(OrderID:String,CustomID:String){
-        let userAccountInfo = getCurrentUserInfo()
-        let userID = userAccountInfo.value(forKey: "userid")
-        let token = userAccountInfo.value(forKey: "token")
-        let roletype = userAccountInfo.value(forKey: "roletype") as? String
-        
+
         //获取列表
         let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
         let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
@@ -780,11 +1035,11 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate {
         #endif
         //定义请求参数
         let params:NSMutableDictionary = NSMutableDictionary()
-        params["userId"] =  userID
+        params["userId"] =  _userId// userID
         params["orderId"] =  OrderID
         params["customId"] =  CustomID
-        params["roletype"] = roletype
-        params["token"] = token
+        params["roletype"] = _roleType// roletype
+        params["token"] = _token// token
         
         _ = Alamofire.request(newTaskUpdateURL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
             (responseObject) in
@@ -792,28 +1047,672 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate {
             case true:
                 if  let value = responseObject.result.value{
                     let json = JSON(value)
-                    self.orderDetail.removeAll()
-                    
-                    let userinfoItem = json["userinfo"].dictionaryObject! as NSDictionary
-                    let orderaddinfoItem = json["orderaddinfo"].dictionaryObject! as NSDictionary
-                    let ordersummaryItem = json["ordersummary"].dictionaryObject! as NSDictionary
-                    let nicknameItem = json["nickname"].dictionaryObject! as NSDictionary
-                    let useraddressItem = json["useraddress"].dictionaryObject! as NSDictionary
-                    let designinfoItem = json["designinfo"].dictionaryObject! as NSDictionary
-                    self.orderDetail.append(userinfoItem)
-                    self.orderDetail.append(orderaddinfoItem)
-                    self.orderDetail.append(ordersummaryItem)
-                    self.orderDetail.append(nicknameItem)
-                    self.orderDetail.append(useraddressItem)
-                    self.orderDetail.append(designinfoItem)
-                    
-                    print("get order detail successed")
+                    let statusObject = json["status","code"].string!
+                    if statusObject == "0"{
+                        print("获取订单详情成功")
+                        self.orderDetail.removeAll()
+                        let userinfoItem = json["userinfo"].dictionaryObject! as NSDictionary
+                        let orderaddinfoItem = json["orderaddinfo"].dictionaryObject! as NSDictionary
+                        let ordersummaryItem = json["ordersummary"].dictionaryObject! as NSDictionary
+                        let nicknameItem = json["nickname"].dictionaryObject! as NSDictionary
+                        let useraddressItem = json["useraddress"].dictionaryObject! as NSDictionary
+                        let designinfoItem = json["designinfo"].dictionaryObject! as NSDictionary
+                        self.orderDetail.append(userinfoItem)
+                        self.orderDetail.append(orderaddinfoItem)
+                        self.orderDetail.append(ordersummaryItem)
+                        self.orderDetail.append(nicknameItem)
+                        self.orderDetail.append(useraddressItem)
+                        self.orderDetail.append(designinfoItem)
+                        print("get order detail successed")
+                        //获取成功数据了，刷新UI
+                        DispatchQueue.main.async {
+                            self.updateViewData()
+                        }
+                    }else{
+                        print("接受失败，code:\(statusObject)")
+                        let errorMsg = json["status","msg"].string!
+                        greyLayerPrompt.show(text: "获取订单详情失败,\(errorMsg)")
+                    }
                 }
-                self.isOrderDetailsGets = true
             case false:
+                greyLayerPrompt.show(text: "服务器异常，获取订单信息失败")
                 print("get order detail failed")
-                self.isOrderDetailsGets = true
             }
         }
     }
+    
+    func updateViewData(){
+        //初始化值
+        var maxPrice = 5000.0
+        var currentValue:Float = 0.0
+        
+        //设置客户心理价(预算）
+        
+        var quotePriceOfFactory:Float = 0.0
+        
+        let dictionaryObjectInOrderArray = orderDetail
+        let priceInfoObjects = dictionaryObjectInOrderArray[2].value(forKey: "price") as! NSDictionary
+        let statusObjects = dictionaryObjectInOrderArray[2].value(forKey: "state") as! NSDictionary
+        let goodsInfoObjects = dictionaryObjectInOrderArray[2].value(forKey: "goodsinfo") as! NSDictionary
+        let orderInfoObjects = dictionaryObjectInOrderArray[2].value(forKey: "orderinfo") as! NSDictionary
+        
+        let orderaddinfos = dictionaryObjectInOrderArray[1]
+        
+        let accessoriesObject = goodsInfoObjects.value(forKey: "accessoriesname")
+        let colorObject = goodsInfoObjects.value(forKey: "color")
+        let sizeObject = goodsInfoObjects.value(forKey: "size") as! NSDictionary
+        
+        //附件图片数目
+        var attachImageCount:Int = 0
+        //设计师图递增
+        if _roleType == 2{
+            memoPictures.removeAll()
+            previewTypes.removeAll()
+            if orderaddinfos.value(forKey: "imageurl1") as? String != nil && orderaddinfos.value(forKey: "imageurl1") as? String != "" {
+                let imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "imageurl1") as! String)"
+                let url = URL(string: imageURLString)!
+                do{
+                    let data = try Data.init(contentsOf: url)
+                    let image = UIImage.gif(data:data)
+                    memoPictures.append(image!)
+                    previewTypes.append("public.image")
+                    attachImageCount += 1
+                }catch{
+                    print(error)
+                }
+            }
+            if orderaddinfos.value(forKey: "imageurl2") as? String != nil && orderaddinfos.value(forKey: "imageurl2") as? String != "" {
+                let imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "imageurl2") as! String)"
+                let url = URL(string: imageURLString)!
+                do{
+                    let data = try Data.init(contentsOf: url)
+                    let image = UIImage.gif(data:data)
+                    memoPictures.append(image!)
+                    previewTypes.append("public.image")
+                    attachImageCount += 1
+                }catch{
+                    print(error)
+                }
+                
+            }
+            if orderaddinfos.value(forKey: "imageurl3") as? String != nil && orderaddinfos.value(forKey: "imageurl3") as? String != ""{
+                let imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "imageurl3") as! String)"
+                let url = URL(string: imageURLString)!
+                do{
+                    let data = try Data.init(contentsOf: url)
+                    let image = UIImage.gif(data:data)
+                    memoPictures.append(image!)
+                    previewTypes.append("public.image")
+                    attachImageCount += 1
+                }catch{
+                    print(error)
+                }
+            }
+        }
+        //工厂图递增
+        if _roleType == 3{
+            memoPictures.removeAll()
+            previewTypes.removeAll()
+            if orderaddinfos.value(forKey: "fimageurl1") as? String != nil && orderaddinfos.value(forKey: "fimageurl1") as? String != ""{
+                let imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "fimageurl1") as! String)"
+                let url = URL(string: imageURLString)!
+                do{
+                    let data = try Data.init(contentsOf: url)
+                    let image = UIImage.gif(data:data)
+                    memoPictures.append(image!)
+                    previewTypes.append("public.image")
+                    attachImageCount += 1
+                }catch{
+                    print(error)
+                }
+            }
+            if orderaddinfos.value(forKey: "fimageurl2") as? String != nil && orderaddinfos.value(forKey: "fimageurl2") as? String != ""{
+                let imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "fimageurl2") as! String)"
+                let url = URL(string: imageURLString)!
+                do{
+                    let data = try Data.init(contentsOf: url)
+                    let image = UIImage.gif(data:data)
+                    memoPictures.append(image!)
+                    previewTypes.append("public.image")
+                    attachImageCount += 1
+                }catch{
+                    print(error)
+                }
+            }
+            if orderaddinfos.value(forKey: "fimageurl3") as? String != nil && orderaddinfos.value(forKey: "fimageurl3") as? String != ""{
+                let imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "fimageurl3") as! String)"
+                let url = URL(string: imageURLString)!
+                do{
+                    let data = try Data.init(contentsOf: url)
+                    let image = UIImage.gif(data:data)
+                    memoPictures.append(image!)
+                    previewTypes.append("public.image")
+                    attachImageCount += 1
+                }catch{
+                    print(error)
+                }
+            }
+            
+            //没有一张工厂的参考图
+            if attachImageCount == 0{
+                if orderaddinfos.value(forKey: "imageurl1") as? String != nil && orderaddinfos.value(forKey: "imageurl1") as? String != ""{
+                    let imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "imageurl1") as! String)"
+                    let url = URL(string: imageURLString)!
+                    do{
+                        let data = try Data.init(contentsOf: url)
+                        let image = UIImage.gif(data:data)
+                        memoPictures.append(image!)
+                        previewTypes.append("public.image")
+                        attachImageCount += 1
+                    }catch{
+                        print(error)
+                    }
+                }
+                if orderaddinfos.value(forKey: "imageurl2") as? String != nil && orderaddinfos.value(forKey: "imageurl2") as? String != "" {
+                    let imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "imageurl2") as! String)"
+                    let url = URL(string: imageURLString)!
+                    do{
+                        let data = try Data.init(contentsOf: url)
+                        let image = UIImage.gif(data:data)
+                        memoPictures.append(image!)
+                        previewTypes.append("public.image")
+                        attachImageCount += 1
+                    }catch{
+                        print(error)
+                    }
+                }
+                if orderaddinfos.value(forKey: "imageurl3") as? String != nil && orderaddinfos.value(forKey: "imageurl3") as? String != ""{
+                    let imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "imageurl3") as! String)"
+                    let url = URL(string: imageURLString)!
+                    do{
+                        let data = try Data.init(contentsOf: url)
+                        let image = UIImage.gif(data:data)
+                        memoPictures.append(image!)
+                        previewTypes.append("public.image")
+                        attachImageCount += 1
+                    }catch{
+                        print(error)
+                    }
+                }
+            }
+        }
+        
+        orderDefaultPicLayer.removeFromSuperview()
+        for subview in orderDefaultPic.subviews{
+            subview.removeFromSuperview()
+        }
+        
+        if attachImageCount != 0{
+            orderDefaultPicLayer.frame = CGRect(x: 0, y: 118 - 35, width: 118, height: 35)
+            orderDefaultPic.addSubview(orderDefaultPicLayer)
+            for i in 1...attachImageCount{
+                //附件数目小红点
+                let pointSize:CGSize = CGSize(width: 5, height: 5)
+                let positionOffset:CGFloat = 35.0
+                let positionLength = orderDefaultPicLayer.frame.width
+                
+                let xPoint = (positionLength - positionOffset * 2) / CGFloat(attachImageCount + 1) + positionOffset - pointSize.width / 2
+                let pointGrow = (positionLength - positionOffset * 2) / CGFloat(attachImageCount + 1)
+                let imageCountLabel:UILabel = UILabel.init(frame: CGRect(x: xPoint + pointGrow * CGFloat(i - 1), y: 103, width: 5, height: 5))
+                imageCountLabel.backgroundColor = UIColor.white
+                imageCountLabel.layer.cornerRadius = 2.5
+                //imageCountLabel.text = "\(attachImageCount)"
+                imageCountLabel.textColor =  #colorLiteral(red: 0.9104188085, green: 0.2962309122, blue: 0.2970536053, alpha: 1)
+                imageCountLabel.textAlignment = .center
+                imageCountLabel.clipsToBounds = true // 对Label切角度
+                
+                orderDefaultPic.addSubview(imageCountLabel)
+            }
+            orderDefaultPic.isUserInteractionEnabled = true
+            
+            let tapSingle=UITapGestureRecognizer(target:self,
+                                                 action:#selector(imageViewTap(_:)))
+            tapSingle.numberOfTapsRequired = 1
+            tapSingle.numberOfTouchesRequired = 1
+            
+            orderDefaultPic.addGestureRecognizer(tapSingle)
+        }
+        
+        
+        //设置图片
+        if _roleType == 2 {
+            var imageURLString:String = ""
+            if orderaddinfos.value(forKey: "imageurl1") as? String == nil {
+                if orderaddinfos.value(forKey: "imageurl2") as? String == nil {
+                    if orderaddinfos.value(forKey: "imageurl3") as? String == nil {
+                        orderDefaultPic.image = UIImage(named:"defualt-design-pic")
+                    }else{
+                        //第三张图不为空
+                        imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "imageurl3") as! String)"
+                        let url = URL(string: imageURLString)!
+                        do{
+                            let data = try Data.init(contentsOf: url)
+                            let image = UIImage.gif(data:data)
+                            orderDefaultPic.image = image//  UIImage(image:image)
+                        }catch{
+                            print(error)
+                        }
+                    }
+                }else{
+                    //第二不为空
+                    imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "imageurl2") as! String)"
+                    let url = URL(string: imageURLString)!
+                    do{
+                        let data = try Data.init(contentsOf: url)
+                        let image = UIImage.gif(data:data)
+                        orderDefaultPic.image = image//  UIImage(image:image)
+                    }catch{
+                        print(error)
+                    }
+                }
+            }else{
+                //第一张图不为空
+                imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "imageurl1") as! String)"
+                let url = URL(string: imageURLString)!
+                do{
+                    let data = try Data.init(contentsOf: url)
+                    let image = UIImage.gif(data:data)
+                    orderDefaultPic.image = image//  UIImage(image:image)
+                }catch{
+                    print(error)
+                }
+            }
+        }else if _roleType == 3{
+            var imageURLString:String = ""
+            if orderaddinfos.value(forKey: "fimageurl1") as? String == nil {
+                if orderaddinfos.value(forKey: "fimageurl2") as? String == nil {
+                    if orderaddinfos.value(forKey: "fimageurl3") as? String == nil {
+                        //三张工厂参考图都为空，加载设计参考图
+                        if orderaddinfos.value(forKey: "imageurl1") as? String == nil {
+                            if orderaddinfos.value(forKey: "imageurl2") as? String == nil {
+                                if orderaddinfos.value(forKey: "imageurl3") as? String == nil {
+                                    orderDefaultPic.image = UIImage(named:"defualt-design-pic")
+                                }else{
+                                    //第三张图不为空
+                                    imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "imageurl3") as! String)"
+                                    let url = URL(string: imageURLString)!
+                                    do{
+                                        let data = try Data.init(contentsOf: url)
+                                        let image = UIImage.gif(data:data)
+                                        orderDefaultPic.image = image//  UIImage(image:image)
+                                    }catch{
+                                        print(error)
+                                    }
+                                }
+                            }else{
+                                //第二不为空
+                                imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "imageurl2") as! String)"
+                                let url = URL(string: imageURLString)!
+                                do{
+                                    let data = try Data.init(contentsOf: url)
+                                    let image = UIImage.gif(data:data)
+                                    orderDefaultPic.image = image//  UIImage(image:image)
+                                }catch{
+                                    print(error)
+                                }
+                            }
+                        }else{
+                            //第一张图不为空
+                            imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "imageurl1") as! String)"
+                            let url = URL(string: imageURLString)!
+                            do{
+                                let data = try Data.init(contentsOf: url)
+                                let image = UIImage.gif(data:data)
+                                orderDefaultPic.image = image//  UIImage(image:image)
+                            }catch{
+                                print(error)
+                            }
+                        }
+                    }else{
+                        //第三张图不为空
+                        imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "fimageurl3") as! String)"
+                        let url = URL(string: imageURLString)!
+                        do{
+                            let data = try Data.init(contentsOf: url)
+                            let image = UIImage.gif(data:data)
+                            orderDefaultPic.image = image//  UIImage(image:image)
+                        }catch{
+                            print(error)
+                        }
+                    }
+                }else{
+                    //第二不为空
+                    imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "fimageurl2") as! String)"
+                    let url = URL(string: imageURLString)!
+                    do{
+                        let data = try Data.init(contentsOf: url)
+                        let image = UIImage.gif(data:data)
+                        orderDefaultPic.image = image//  UIImage(image:image)
+                    }catch{
+                        print(error)
+                    }
+                }
+            }else{
+                //第一张图不为空
+                imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "fimageurl1") as! String)"
+                let url = URL(string: imageURLString)!
+                do{
+                    let data = try Data.init(contentsOf: url)
+                    let image = UIImage.gif(data:data)
+                    orderDefaultPic.image = image//  UIImage(image:image)
+                }catch{
+                    print(error)
+                }
+            }
+        }else{
+            orderDefaultPic.image = UIImage(named:"defualt-design-pic")
+        }
+        
+        
+        //订单号
+        orderIDValue.text = orderInfoObjects.value(forKey: "orderid") as? String
+        //订单时间
+        orderTimeLabel.text = orderInfoObjects.value(forKey: "createtime") as? String
+        
+        //参考图
+       // orderDefaultPic.image = UIImage(named: "defualt-design-pic")
+        //点击预览层
+        
+        //产品类型
+        productTypeNameValue.text = orderInfoObjects.value(forKey: "goodsclass") as? String
+        
+        //订购数目
+        if goodsInfoObjects.value(forKey: "number") as? Int != nil{
+            orderCountValue.text = "x\(goodsInfoObjects.value(forKey: "number") as! Int)" //"1000"
+        }else{
+            orderCountValue.text = "x0"
+        }
+
+        // 设置材质+附件值
+        var tempMaterialAndAccessoriesValue = ""
+        if goodsInfoObjects.value(forKey: "texturename") as? String != nil{
+            let texturenameValue = goodsInfoObjects.value(forKey: "texturename") as! String
+            tempMaterialAndAccessoriesValue = "\(texturenameValue) "
+        }
+        if accessoriesObject as? String != nil{
+            let accessoriesValue  = accessoriesObject as! String
+            tempMaterialAndAccessoriesValue = tempMaterialAndAccessoriesValue + accessoriesValue
+        }
+        //材质 + 附件
+        materialAccessoriesValue.text = tempMaterialAndAccessoriesValue
+        
+        //设置工艺值
+        var tempMakeStyleValue = ""
+        var colorValue = ""
+        if colorObject as? String != nil {
+            colorValue = colorObject as! String
+            tempMakeStyleValue += ",\(colorValue)"
+        }
+        var shapeVlaue = ""
+        if goodsInfoObjects.value(forKey: "shape") as? String != nil{
+            shapeVlaue = goodsInfoObjects.value(forKey: "shape") as! String
+            tempMakeStyleValue += ",\(shapeVlaue)"
+        }
+        
+        var technologyValue = ""
+        if goodsInfoObjects.value(forKey: "technology") as? String != nil{
+            technologyValue = goodsInfoObjects.value(forKey: "technology") as! String
+            tempMakeStyleValue += ",\(technologyValue)"
+        }
+        
+        tempMakeStyleValue.remove(at: tempMakeStyleValue.startIndex) //删除掉开头的“，”
+        tempMakeStyleValue = tempMakeStyleValue.replacingOccurrences(of: ";,", with: ";") //将“;,替换为;
+        makeStyleValue.text = tempMakeStyleValue
+        let heightOfLabel = calculateLabelHeightWithText(with: tempMakeStyleValue, labelWidth: makeStyleValue.frame.width, textFont: makeStyleValue.font)
+        makeStyleValue.frame = CGRect(x: 143, y: 106, width: kWidth - 163, height: heightOfLabel + 10)
+        
+        //产品尺寸
+        var produceSizeValue = ""
+        if sizeObject.value(forKey: "length") as? Float != nil {
+            produceSizeValue = "\(sizeObject.value(forKey: "length")as! Float)"
+        }else{
+            produceSizeValue = ""
+        }
+        
+        if sizeObject.value(forKey: "width") as? Float != nil {
+            produceSizeValue = produceSizeValue + "x\(sizeObject.value(forKey: "width")as! Float)"
+        }else{
+            produceSizeValue = produceSizeValue + "x "
+        }
+        if sizeObject.value(forKey: "height") as? Float != nil {
+            produceSizeValue = produceSizeValue + "x\(sizeObject.value(forKey: "height")as! Float)(mm)"
+        }else{
+            produceSizeValue = produceSizeValue + "x (mm)"
+        }
+        productSizeValue.text = produceSizeValue
+        
+        if heightOfLabel > 40{
+            productSizeHint.frame = CGRect(x: 143, y: 186, width: 200, height: 20)
+            productSizeValue.frame = CGRect(x: 143, y: 166, width: 200, height: 20)
+        }
+
+        switch _actionType {
+        case .quotePrice:
+            //优先客户心理价，再估价，再系统估价
+            if priceInfoObjects.value(forKey: "mindprice") as? Float == nil || priceInfoObjects.value(forKey: "mindprice") as! Float == 0.0{
+                if priceInfoObjects.value(forKey: "extent1") as? Float == nil || priceInfoObjects.value(forKey: "extent1") as! Float == 0.0{
+                    if priceInfoObjects.value(forKey: "returnprice") as? Float == nil || priceInfoObjects.value(forKey: "returnprice") as! Float == 0.0{
+                        maxPrice = 5000.0
+                    }else{
+                        maxPrice = Double(priceInfoObjects.value(forKey: "returnprice") as! Float) * 3
+                    }
+                }else{
+                    maxPrice = Double(priceInfoObjects.value(forKey: "extent1") as! Float) * 3
+                }
+            }else{
+                maxPrice = Double((priceInfoObjects.value(forKey: "mindprice") as! Float)*3)
+            }
+            
+            //设置上次报价
+            if priceInfoObjects.value(forKey: "returnprice") as? Float == nil{
+                quotePriceAtLastTimeValue.text = "¥0.00"
+            }else{
+                quotePriceAtLastTimeValue.text = "¥\(priceInfoObjects.value(forKey: "returnprice") as! Float)0"
+                quotePriceOfFactory = priceInfoObjects.value(forKey: "returnprice") as! Float
+                currentValue = Float(priceInfoObjects.value(forKey: "returnprice") as! Float)
+            }
+            quotePriceSlideBarRightLabel.text = "¥\(maxPrice)0"
+            quotePriceSlideBarMidLabel.text = "¥\(maxPrice/2)0"
+            quotePriceSlideBarLeftLabel.text = "¥0.00"
+            currentValueOnSliderTextField.text = "\(currentValue)"
+            quotePriceSlideBar.maximumValue = Float(maxPrice)
+            quotePriceSlideBar.setValue(currentValue, animated: true)
+            
+            if priceInfoObjects.value(forKey: "mindprice") as? Float == nil{
+                budgetPriceValue.text = "¥0.00"
+            }else{
+                budgetPriceValue.text = "¥\(priceInfoObjects.value(forKey: "mindprice") as! Float)0"
+                mindPrice = priceInfoObjects.value(forKey: "mindprice") as! Float
+            }
+            
+            
+            //如果工厂身份，并且报价高于客户心理价，显示客户心理价. 否则不显示
+            if mindPrice != 0.0 {
+                if _roleType != 1{
+                    if _roleType == 3 && (mindPrice < quotePriceOfFactory){
+                        if (statusObjects.value(forKey:"payoffstate") as! NSDictionary).value(forKey: "code") as! Int == 1{
+                            adjustQuotePriceViewHeight(buggetType: .included, bugget: mindPrice)
+                            isBudgetOver = false
+                        }else{
+                            adjustQuotePriceViewHeight(buggetType: .overBugget, bugget: mindPrice)
+                            isBudgetOver = true
+                        }
+                    }else{
+                        adjustQuotePriceViewHeight(buggetType: .included, bugget: mindPrice)
+                        isBudgetOver = false
+                    }
+                }else{
+                    adjustQuotePriceViewHeight(buggetType: .overBugget, bugget: mindPrice)
+                    isBudgetOver = true
+                }
+            }else{
+                adjustQuotePriceViewHeight(buggetType: .included, bugget: mindPrice)
+                isBudgetOver = false
+            }
+        case .acceptDesign:
+            print("设置接受设计的值")
+            if orderaddinfos.value(forKey: "remarks") as? String != nil && orderaddinfos.value(forKey: "remarks") as! String != ""{
+                
+                let designMemo = orderaddinfos.value(forKey: "remarks") as! String
+                designMemoValue.text = designMemo
+                let heightOfProduceMemoLabel = calculateLabelHeightWithText(with: designMemo, labelWidth: designMemoValue.frame.width, textFont: UIFont.systemFont(ofSize: 14))
+                designMemoValue.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 37 , width: kWidth - 40, height: heightOfProduceMemoLabel + 10)
+            }
+            
+            //如果没有报过价，则显示finalPrice。 如果报过价，取低值
+            if priceInfoObjects.value(forKey: "designprice") as? Float == nil || priceInfoObjects.value(forKey: "designprice") as? Float == 0.0{
+                designFeeValue.text = "¥8.00"
+            }else{
+                designFeeValue.text = "¥\(priceInfoObjects.value(forKey: "designprice") as! Float)0"
+            }
+        case .acceptProduce:
+           print("设置接受生产的值")
+           if orderaddinfos.value(forKey: "fremarks") as? String != nil && orderaddinfos.value(forKey: "fremarks") as! String != ""{
+            
+                let ProduceMemo = orderaddinfos.value(forKey: "fremarks") as! String
+                ProduceMemoValue.text = ProduceMemo
+                let heightOfProduceMemoLabel = calculateLabelHeightWithText(with: ProduceMemo, labelWidth: ProduceMemoValue.frame.width, textFont: UIFont.systemFont(ofSize: 14))
+                ProduceMemoValue.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 37 , width: kWidth - 40, height: heightOfProduceMemoLabel + 10)
+           }
+           
+           //如果没有报过价，则显示finalPrice。 如果报过价，取低值
+           if priceInfoObjects.value(forKey: "returnprice") as? Float == nil || priceInfoObjects.value(forKey: "returnprice") as? Float == 0.0{
+                orderPriceValue.text = "¥\(priceInfoObjects.value(forKey: "finalprice") as! Float)0"
+           }else{
+                if priceInfoObjects.value(forKey: "finalprice") as! Float > priceInfoObjects.value(forKey: "returnprice") as! Float{
+                    orderPriceValue.text = "¥\(priceInfoObjects.value(forKey: "returnprice") as! Float)0"
+                }else{
+                    orderPriceValue.text = "¥\(priceInfoObjects.value(forKey: "finalprice") as! Float)0"
+                }
+           }
+            
+        default:
+            print("设置报价的值")
+        }
+        quotePriceSubmitBtn.backgroundColor = UIColor.iconColors(color: .red)
+        acceptDesignConfirmBtn.backgroundColor = UIColor.iconColors(color: .red)
+        acceptProduceConfirmBtn.backgroundColor = UIColor.iconColors(color: .red)
+//                if _roleType == 2{
+//                    //加载设计备注信息
+//                    var designMemoInfo = orderaddinfos.value(forKey: "remarks") as? String
+//                    if designMemoInfo == nil{
+//                        designMemoInfo = "无备注信息"
+//                    }else{
+//                        designMemoInfo = orderaddinfos.value(forKey: "remarks") as! String
+//                    }
+//                    orderMemosForDesignOrProducer.text = designMemoInfo
+//
+//                    designFeeValue.text =  "¥\(priceInfoObjects.value(forKey: "designprice") as! Float)0"
+//                }else if _roleType == 3{
+//                    //加载工厂备注信息
+//                    var factoryMemoInfo = orderaddinfos.value(forKey: "fremarks") as? String
+//                    if factoryMemoInfo == nil{
+//                        factoryMemoInfo = "无备注信息"
+//                    }else{
+//                        factoryMemoInfo = orderaddinfos.value(forKey: "fremarks") as! String
+//                    }
+//                    orderMemosForDesignOrProducer.text = factoryMemoInfo
+//                }else{
+//                    orderMemosForDesignOrProducer.text = "没有备注"
+//                }
+    }
+    
+    func adjustQuotePriceViewHeight(buggetType:quotePriceOverType,bugget:Float){
+        if buggetType == .overBugget{
+            budgetPriceLabel.isHidden = false
+            budgetPriceValue.isHidden = false
+            budgetOveredLabel.isHidden = false
+            overBudgetBackgroundView.isHidden = false
+            
+            seperateLine2.frame = CGRect(x: 0, y: productSizeHint.frame.maxY + 5, width: kWidth, height: 5)
+            seperateLine3.frame = CGRect(x: 0, y: seperateLine2.frame.maxY + 104, width: kWidth, height: 5)
+            seperateLine4.frame = CGRect(x: 20, y: seperateLine3.frame.maxY + 52, width: kWidth - 40, height: 2)
+            seperateLine5.frame = CGRect(x: 20, y: seperateLine4.frame.maxY + 52, width: kWidth - 40, height: 2)
+            
+            overBudgetBackgroundView.frame = CGRect(x: 0, y: seperateLine2.frame.maxY + 52, width: kWidth, height: 53)
+            overBudgetBackgroundView.backgroundColor = UIColor.backgroundColors(color: .lightRed)
+            overBudgetBackgroundView.layer.borderColor = UIColor.iconColors(color: .lightRed).cgColor
+            overBudgetBackgroundView.layer.borderWidth = 1
+            backgroundView.addSubview(overBudgetBackgroundView)
+            
+            budgetPriceLabel.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 67 , width: 100, height: 22)
+            budgetPriceLabel.text = "客户预算:"
+            budgetPriceLabel.font = UIFont.systemFont(ofSize: 16)
+            budgetPriceLabel.textColor = UIColor.titleColors(color: .red)
+            backgroundView.addSubview(budgetPriceLabel)
+            
+            budgetPriceValue.frame = CGRect(x: 100, y: seperateLine2.frame.maxY + 67 , width: 100, height: 22)
+            budgetPriceValue.text = "¥\(bugget)" //for debug
+            budgetPriceValue.textColor = UIColor.titleColors(color: .red)
+            budgetPriceValue.font = UIFont.systemFont(ofSize: 16)
+            backgroundView.addSubview(budgetPriceValue)
+            
+            budgetOveredLabel.frame = CGRect(x: kWidth - 120, y: seperateLine2.frame.maxY + 67 , width: 100, height: 22)
+            budgetOveredLabel.text = "超预算" //for debug
+            budgetOveredLabel.textAlignment = .right
+            budgetOveredLabel.textColor = UIColor.titleColors(color: .red)
+            budgetOveredLabel.font = UIFont.systemFont(ofSize: 16)
+            backgroundView.addSubview(budgetOveredLabel)
+
+            quotePriceCurentLabel.frame = CGRect(x: 20, y: seperateLine3.frame.maxY + 15 , width: 120, height: 22)
+            currentValueOnSliderTextField.frame = CGRect(x: 130, y: seperateLine3.frame.maxY + 4 , width: kWidth - 150, height: 44)
+            produceTimeCostLabel.frame = CGRect(x: 20, y: seperateLine4.frame.maxY + 15 , width: 100, height: 22)
+            isProduceCycleOverView.frame =  CGRect(x:kWidth - 110, y: seperateLine4.frame.maxY - 1 , width: 110, height: 54)
+            isProduceCycleOverLabel.frame = CGRect(x:kWidth - 100, y: seperateLine4.frame.maxY - 1 , width: 100, height: 27)
+            deadlineLabel.frame = CGRect(x:kWidth - 100, y: seperateLine4.frame.maxY + 26 , width: 100, height: 27)
+            produceTimeCostTextField.frame = CGRect(x: 100, y: seperateLine4.frame.maxY + 4 , width: kWidth - 120, height: 44)
+            setQuotePriceWeightBtn.frame = CGRect(x: 20, y: seperateLine5.frame.maxY + 15, width: 100, height: 22)
+            quotePriceSlideBar.frame = CGRect(x: 20, y: seperateLine5.frame.maxY + 51, width: kWidth - 40, height: 20)
+            quotePriceSlideBarRightLabel.frame = CGRect(x: quotePriceSlideBar.frame.width - 180, y: seperateLine5.frame.maxY + 72, width: 200, height: 22)
+            quotePriceSlideBarMidLabel.frame = CGRect(x:  quotePriceSlideBar.frame.width/2 - 80 , y: seperateLine5.frame.maxY + 72, width: 200, height: 22)
+            quotePriceSlideBarLeftLabel.frame = CGRect(x: 20, y: seperateLine5.frame.maxY + 72, width: 200, height: 22)
+
+        }else{
+            budgetPriceLabel.isHidden = true
+            budgetPriceValue.isHidden = true
+            budgetOveredLabel.isHidden = true
+            overBudgetBackgroundView.isHidden = true
+            
+            seperateLine2.frame = CGRect(x: 0, y: productSizeHint.frame.maxY + 5, width: kWidth, height: 5)
+            seperateLine3.frame = CGRect(x: 0, y: seperateLine2.frame.maxY + 52, width: kWidth, height: 5)
+            seperateLine4.frame = CGRect(x: 20, y: seperateLine3.frame.maxY + 52, width: kWidth - 40, height: 2)
+            seperateLine5.frame = CGRect(x: 20, y: seperateLine4.frame.maxY + 52, width: kWidth - 40, height: 2)
+            
+            quotePriceCurentLabel.frame = CGRect(x: 20, y: seperateLine3.frame.maxY + 15 , width: 120, height: 22)
+            currentValueOnSliderTextField.frame = CGRect(x: 130, y: seperateLine3.frame.maxY + 4 , width: kWidth - 150, height: 44)
+            produceTimeCostLabel.frame = CGRect(x: 20, y: seperateLine4.frame.maxY + 15 , width: 100, height: 22)
+            produceTimeCostTextField.frame = CGRect(x: 100, y: seperateLine4.frame.maxY + 4 , width: kWidth - 120, height: 44)
+            setQuotePriceWeightBtn.frame = CGRect(x: 20, y: seperateLine5.frame.maxY + 15, width: 100, height: 22)
+            quotePriceSlideBar.frame = CGRect(x: 20, y: seperateLine5.frame.maxY + 51, width: kWidth - 40, height: 20)
+            quotePriceSlideBarRightLabel.frame = CGRect(x: quotePriceSlideBar.frame.width - 180, y: seperateLine5.frame.maxY + 72, width: 200, height: 22)
+            quotePriceSlideBarMidLabel.frame = CGRect(x:  quotePriceSlideBar.frame.width/2 - 80 , y: seperateLine5.frame.maxY + 72, width: 200, height: 22)
+            quotePriceSlideBarLeftLabel.frame = CGRect(x: 20, y: seperateLine5.frame.maxY + 72, width: 200, height: 22)
+        }
+    }
+//    //视图滚动中一直触发
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        print("x:\(scrollView.contentOffset.x) y:\(scrollView.contentOffset.y)")
+//       // scrollView.contentSize =  CGSize(width: 0, height: kWidth)
+//        //scrollView.frame.offsetBy(dx: scrollView.contentOffset.x, dy: scrollView.contentOffset.y)
+//    }
 }
+
+//if orderstate < 7 { //订单状态小于7 ，订单出于生产前
+//    budgetPriceLabel.value = mindPrice
+//    if mindPrice != 0.0 {
+//        if mindPrice < returnPrice{
+//            budgetPriceLabel.show()
+//        }else{
+//            budgetPriceLabel.hide()
+//        }
+//    }else{
+//        budgetPriceLabel.hide()
+//    }
+//}else{
+//    budgetPriceLabel.show()
+//    if returnPrice = 0.0 {
+//        budgetPriceLabel.value = finalPrice
+//    }else{
+//        budgetPriceLabel.value = returnPrice
+//    }
+//}

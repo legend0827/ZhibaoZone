@@ -63,7 +63,7 @@ class ImagePreviewVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .black))
         //背景设为黑色
         self.view.backgroundColor = UIColor.black
         
@@ -110,6 +110,8 @@ class ImagePreviewVC: UIViewController {
         super.viewWillAppear(animated)
         //隐藏导航栏
         self.navigationController?.setNavigationBarHidden(true, animated: false)
+        UIApplication.shared.isStatusBarHidden = true
+        
     }
     
     //视图消失时
@@ -117,12 +119,13 @@ class ImagePreviewVC: UIViewController {
         super.viewWillDisappear(animated)
         //显示导航栏
         self.navigationController?.setNavigationBarHidden(false, animated: false)
+        UIApplication.shared.isStatusBarHidden = false
     }
     
-    //隐藏状态栏
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
+//    //隐藏状态栏
+//    override var prefersStatusBarHidden: Bool {
+//        return true
+//    }
     
     //将要对子视图布局时调用（横竖屏切换时）
     override func viewWillLayoutSubviews() {

@@ -252,13 +252,13 @@ class waitForHandleTaskListViewController: UIViewController,UITableViewDelegate,
         
         #if DEBUG
         var listOfURL:String = apiAddresses.value(forKey: "taskListDealingAPIDebug") as! String
-        if SwitchModelBtn.isOn {
-            //待处理任务
-            listOfURL = apiAddresses.value(forKey: "taskListDealingAPIDebug") as! String
-        }else{
-            //历史任务
-            listOfURL = apiAddresses.value(forKey: "taskListHistoryAPIDebug") as! String
-        }
+//        if SwitchModelBtn.isOn {
+//            //待处理任务
+//            listOfURL = apiAddresses.value(forKey: "taskListDealingAPIDebug") as! String
+//        }else{
+//            //历史任务
+//            listOfURL = apiAddresses.value(forKey: "taskListHistoryAPIDebug") as! String
+//        }
         #else
         var listOfURL:String = apiAddresses.value(forKey: "taskListDealingAPI") as! String
         if true {

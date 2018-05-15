@@ -852,8 +852,7 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
                 cell.contentLabel.textColor = UIColor.black
             }
             
-            let attibute = [NSAttributedStringKey.font:cell.contentLabel.font]
-            let height = autoLabelHeight(with: cell.contentLabel.text!, labelWidth: UIScreen.main.bounds.width - 75, attributes: attibute)
+            let height = autoLabelHeight(with: cell.contentLabel.text!, labelWidth: UIScreen.main.bounds.width - 75, textFont: cell.contentLabel.font)
             
             cell.contentLabel.numberOfLines = 100//Int(height/23)
             
@@ -998,8 +997,8 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
             }else{
                 labelContent = detailItem.value(forKey: "taskinfo") as! String
             }
-            let attibute = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 13)]
-            let tempCellHeight = autoLabelHeight(with: labelContent, labelWidth: UIScreen.main.bounds.width - 75, attributes: attibute)
+            
+            let tempCellHeight = autoLabelHeight(with: labelContent, labelWidth: UIScreen.main.bounds.width - 75, textFont: UIFont.systemFont(ofSize: 13))
             
             
             if attachmentPicCount[indexPath.row] != 0{
@@ -2178,11 +2177,12 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
         loadOrderDataFromServer()
     }
     
-    func autoLabelHeight(with text:String , labelWidth: CGFloat ,attributes : [NSAttributedStringKey: Any]) -> CGFloat{
+    func autoLabelHeight(with text:String , labelWidth: CGFloat ,textFont:UIFont) -> CGFloat{
         
         var size = CGRect()
         let size2 = CGSize(width: labelWidth, height: 0)//设置label的最大宽度
-        size = text.boundingRect(with: size2, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: attributes , context: nil);
+        let attibute = [NSAttributedStringKey.font:textFont]
+        size = text.boundingRect(with: size2, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: attibute , context: nil);
         return size.size.height
     }
 
