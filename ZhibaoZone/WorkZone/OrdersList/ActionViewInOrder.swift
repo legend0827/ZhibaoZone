@@ -24,6 +24,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
    
     var _orderID:String = "110000"
     var _customID:String =  "10002020"
+    var _goodsID:String = "12123213131"
    
     //订单详情获取到了吗？
     var isOrderDetailsGets = false
@@ -725,6 +726,68 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
     }
     @objc func confirmShippingBtnClicked(){
         print("确认邮寄投递按钮点击了")
+        //获取用户信息
+        let userInfos = getCurrentUserInfo()
+        let roletype = userInfos.value(forKey: "roletype") as? String
+        let userid = userInfos.value(forKey: "userid") as? String
+        let token = userInfos.value(forKey: "token") as? String
+        
+        //获取订单信息
+       // let orderinfoObject = orderDetail[2].value(forKey: "orderinfo") as? NSDictionary
+       // let customID = orderinfoObject?.value(forKey: "customid") as? String
+        //let orderID = orderinfoObject?.value(forKey: "orderid") as? String
+        //let goodsID = orderinfoObject?.value(forKey: "goodsid") as? String
+        
+        //获取列表
+        let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
+        let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
+        let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
+        //定义请求参数
+        let params:NSMutableDictionary = NSMutableDictionary()
+        params["userid"] = userid
+        params["roletype"] = roletype
+        params["token"] = token
+        params["orderid"] = _orderID //orderID
+        params["customid"] = _customID// customID
+        params["isreceive"] = 1
+        params["commandcode"] = 58
+        params["goodsid"] = _goodsID
+        params["logisticscompany"] = shippingCompanyNameValue.text as! String
+        params["logisticssheetid"] = shippingCodeValue.text as! String
+        
+        
+        var requestUrl:String = ""
+        if roletype == "3" {
+            #if DEBUG
+            requestUrl = apiAddresses.value(forKey: "shippingConfirmDebug") as! String
+            #else
+            requestUrl = apiAddresses.value(forKey: "shippingConfirm") as! String
+            #endif
+        }
+        _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
+            (responseObject) in
+            switch responseObject.result.isSuccess{
+            case true:
+                if  let value = responseObject.result.value{
+                    let json = JSON(value)
+                    let statusObject = json["status","code"].int!
+                    if statusObject == 0{
+                        print("发货成功")
+                        greyLayerPrompt.show(text: "发货成功成功")
+                        self.closeActionView()
+                    }else{
+                        print("发货失败，code:\(statusObject)")
+                        let errorMsg = json["status","msg"].string!
+                        greyLayerPrompt.show(text: errorMsg)
+                    }
+                }
+            case false:
+                print("处理失败")
+                greyLayerPrompt.show(text: "发货失败，请重试")
+            }
+        }
+        print("发货按钮按钮点击了")
+        
     }
     //设置权重
     @objc func setQuotePriceWeight(){

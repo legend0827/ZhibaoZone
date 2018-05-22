@@ -16,7 +16,6 @@ import QCloudCore
 import AudioToolbox
 
 private struct PagingMenuOptions:PagingMenuControllerCustomizable{
-    var roleType = getCurrentUserInfo().value(forKey: "roletype") as! Int
     //全部订单子视图
     private let allOrdersVC = AllOrdersViewController(orderlistTye: orderListCategoryType.allOrderCategory)
     //待报价子视图
@@ -25,12 +24,7 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
     private let quoteAlreadyVC = AllOrdersViewController(orderlistTye: orderListCategoryType.alreadyQuotedOderCategory)//AllOrdersViewController()//QuoteAlreadyViewController()
     //待接受生产子视图
     private let waitForProduceVC = AllOrdersViewController(orderlistTye: orderListCategoryType.waitForAcceptProduceOrderCategory)//AllOrdersViewController()//WaitForAccpetProduceViewController()
-    
-    private let WaitForDesignVC = AllOrdersViewController(orderlistTye: orderListCategoryType.waitForDesignCategory)
-    
-    private let WaitForModifyVC = AllOrdersViewController(orderlistTye: orderListCategoryType.waitForModifyCategory)
-    
-    private let DesignConfirmedVC = AllOrdersViewController(orderlistTye: orderListCategoryType.DesignConfirmedCategory)
+
     //生产中子视图
     private let producingVC = AllOrdersViewController(orderlistTye: orderListCategoryType.producingOrderCategory)//AllOrdersViewController()//ProducingViewController()
     
@@ -45,11 +39,7 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
     
     //所有子视图控制器
     fileprivate var pagingControllers: [UIViewController] {
-        if roleType == 2{
-            return [WaitForDesignVC,WaitForModifyVC,DesignConfirmedVC]
-        }else{
-            return [allOrdersVC,notQuoteYetVC,quoteAlreadyVC,waitForProduceVC,producingVC]
-        }
+        return [allOrdersVC,notQuoteYetVC,quoteAlreadyVC,waitForProduceVC,producingVC]
     }
     
     //菜单配置项

@@ -62,7 +62,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         layout.sectionInset = UIEdgeInsets.init(top: 5, left: 20, bottom: 5, right: 20)            //section四周的缩进
         layout.scrollDirection = UICollectionViewScrollDirection.vertical  //滚动方向
         
-        let tempCollectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: kWidth, height: kHight - 205),collectionViewLayout:layout)
+        let tempCollectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: kWidth, height: kHight - 165),collectionViewLayout:layout) // 
         tempCollectionView.backgroundColor = UIColor.backgroundColors(color: .white)
         tempCollectionView.delegate = self
         tempCollectionView.dataSource = self
@@ -492,7 +492,9 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         
         let orderID = orderInfoObjects.value(forKey: "orderid") as! String
         let customID = orderInfoObjects.value(forKey: "customid") as! String
-        let acceptProduceView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 363 + heightChangeForiPhoneXFromTop, width: kWidth, height: kHight))
+        let goodsID = orderInfoObjects.value(forKey: "goodsid") as! String
+        
+        let shippingView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 363 + heightChangeForiPhoneXFromTop, width: kWidth, height: kHight))
         
         
         let popVC = PopupViewController()
@@ -500,13 +502,14 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         popVC.view.addSubview(showBlurEffect()) //UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
         popVC.view.addSubview(popVC.grayLayer)
         popVC.modalPresentationCapturesStatusBarAppearance = true
-        acceptProduceView.popupVC = popVC
-        acceptProduceView._orderID = orderID
-        acceptProduceView._customID = customID
+        shippingView.popupVC = popVC
+        shippingView._orderID = orderID
+        shippingView._customID = customID
+        shippingView._goodsID = goodsID
         
-        acceptProduceView.createViewWithActionType(ActionType: .shippingProduct)
+        shippingView.createViewWithActionType(ActionType: .shippingProduct)
         popVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext //
-        popVC.view.addSubview(acceptProduceView)
+        popVC.view.addSubview(shippingView)
         
         self.present(popVC, animated: true, completion: nil)
     }
