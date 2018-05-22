@@ -1,14 +1,15 @@
 //
-//  OrdersCollectionViewCell.swift
+//  orderSearchCollectionViewCell.swift
 //  ZhibaoZone
 //
-//  Created by Kevin on 2018/4/30.
+//  Created by Kevin on 2018/5/17.
 //  Copyright © 2018 Kevin. All rights reserved.
 //
 
 import UIKit
 
-class OrdersCollectionViewCell: UICollectionViewCell {
+class OrderSearchCollectionViewCell: UICollectionViewCell {
+    
     
     let orderCellView:UIView = UIView.init()
     let orderCellImageView:UIImageView = UIImageView.init()
@@ -19,28 +20,35 @@ class OrdersCollectionViewCell: UICollectionViewCell {
     let acceptProduceBtnInCell:UIButton = UIButton.init(type: .custom)
     let acceptDesignBtnInCell:UIButton = UIButton.init(type: .custom)
     let shippingBtnInCell:UIButton = UIButton.init(type: .custom)
-    let priceLabelBackgroundView:UIImageView = UIImageView.init()
+    //let priceLabelBackgroundView:UIImageView = UIImageView.init()
     let priceLabel:UILabel = UILabel.init()
     let statusImageView:UIImageView = UIImageView.init()
+    let orderIDLabel:UILabel = UILabel.init()
     let orderIDValue:UILabel = UILabel.init()
+    let orderTimeValue:UILabel = UILabel.init()
+    let seperateLineView:UIView = UIView.init()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        orderCellView.frame =  CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
-        orderCellImageView.frame = CGRect(x: 5, y: 5, width: frame.width - 10, height: frame.width - 10)
-        priceLabelBackgroundView.frame = CGRect(x: 5, y: frame.width - 35, width: frame.width - 10, height: 30)
-        priceLabel.frame = CGRect(x: 5, y: frame.width - 30, width: frame.width - 10, height: 20)
-        productTypeAndMaterialInCell.frame = CGRect(x: 5, y: frame.width - 5, width: 100, height: 20)
-        productSize.frame =  CGRect(x: 5, y: frame.width + 15, width: (kWidth - 60)/2, height: 20)
-        productQuantityInCell.frame = CGRect(x: 5, y: frame.width + 35, width: 100, height: 20)
+        orderCellView.frame =  CGRect(x: 15, y: 10, width: frame.width - 30 , height: frame.height - 20)
+        orderIDLabel.frame = CGRect(x: 10, y: 11, width: 200, height: 20)
+        orderIDValue.frame = CGRect(x: 60, y: 11, width: 200, height: 20)
+        orderTimeValue.frame = CGRect(x: frame.width - 240 , y: 11, width: 200, height: 20)
+        seperateLineView.frame = CGRect(x: 10, y: 42, width: orderCellView.frame.width - 20 , height: 1)
+        orderCellImageView.frame = CGRect(x: 10, y: seperateLineView.frame.maxY + 11, width: 118, height: 118)
+        priceLabel.frame = CGRect(x: 140, y: 151, width: frame.width - 10, height: 22)
+        productTypeAndMaterialInCell.frame = CGRect(x: 140, y: 55, width: 100, height: 20)
+        productSize.frame =  CGRect(x: 140, y: 79, width: (kWidth - 60)/2, height: 20)
+        productQuantityInCell.frame = CGRect(x: 140, y: 101, width: 100, height: 20)
         
-        quotePriceBtnInCell.frame = CGRect(x: (frame.width - 85) / 2 , y: frame.width + 55, width: 85, height: 30)
-        acceptProduceBtnInCell.frame = CGRect(x: (frame.width - 85) / 2, y: frame.width + 55, width: 85, height: 30)
-        acceptDesignBtnInCell.frame = CGRect(x: (frame.width - 85) / 2, y: frame.width + 55, width: 85, height: 30)
-        shippingBtnInCell.frame = CGRect(x: (frame.width - 85) / 2, y: frame.width + 55, width: 85, height: 30)
-        statusImageView.frame = CGRect(x: frame.width/4 * 3 - 15 , y: 5, width: frame.width/4+10, height: frame.width/4+10)
-        orderIDValue.frame = CGRect(x: 5, y: frame.width - 5, width: 200, height: 20)
+        quotePriceBtnInCell.frame = CGRect(x: orderCellView.frame.width - 95, y: 143, width: 85, height: 30)
+        acceptProduceBtnInCell.frame = CGRect(x: orderCellView.frame.width - 95, y: 143, width: 85, height: 30)
+        acceptDesignBtnInCell.frame = CGRect(x: orderCellView.frame.width - 95, y: 143, width: 85, height: 30)
+        shippingBtnInCell.frame = CGRect(x: orderCellView.frame.width - 95, y: 143, width: 85, height: 30)
+        statusImageView.frame = CGRect(x: 80 , y: seperateLineView.frame.maxY + 11, width: 48, height: 48)
+        
+        
         
         orderCellView.layer.backgroundColor = UIColor.backgroundColors(color: .white).cgColor
         orderCellView.layer.cornerRadius = 6
@@ -56,33 +64,39 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         orderCellImageView.layer.borderColor = UIColor.lineColors(color: .lightGray).cgColor
         orderCellImageView.layer.borderWidth = 0.5
         
-        priceLabelBackgroundView.image = UIImage(named: "maskonimage")
-        priceLabelBackgroundView.layer.cornerRadius = 6
-        priceLabelBackgroundView.layer.masksToBounds = true
-        //priceLabelBackgroundView.layer.borderColor = UIColor.lineColors(color: .lightGray).cgColor
-       // priceLabelBackgroundView.layer.borderWidth = 0.5
-        //priceLabelBackgroundView.alpha = 0.6
         
         priceLabel.text = "¥3000.00"
-        priceLabel.textAlignment  = .center
-        priceLabel.textColor = UIColor.titleColors(color: .white)
+        priceLabel.textAlignment  = .left
+        priceLabel.textColor = UIColor.titleColors(color: .red)
         priceLabel.font = UIFont.systemFont(ofSize: 14)
+        
+        
+        orderTimeValue.text = "2018-01-01 21:00:00"
+        orderTimeValue.textColor = UIColor.titleColors(color: .black)
+        orderTimeValue.font = UIFont.systemFont(ofSize: 14)
+        orderTimeValue.textAlignment = .right
+        
+        
+        orderIDLabel.text = "订单号:"
+        orderIDLabel.textColor = UIColor.titleColors(color: .black)
+        orderIDLabel.font = UIFont.systemFont(ofSize: 14)
+        
+        seperateLineView.backgroundColor = UIColor.lineColors(color: .lightGray)
         
         productTypeAndMaterialInCell.text = "徽章 锌合金"
         productTypeAndMaterialInCell.textColor = UIColor.titleColors(color: .black)
         productTypeAndMaterialInCell.font = UIFont.systemFont(ofSize: 14)
-
+        
         orderIDValue.text = "10000000"
-        orderIDValue.textColor = UIColor.titleColors(color: .darkGray)
+        orderIDValue.textColor = UIColor.titleColors(color: .black)
         orderIDValue.font = UIFont.systemFont(ofSize: 14)
-        orderIDValue.isHidden = true
         
         productSize.text = "300x300x30(mm)"
         productSize.textColor = UIColor.titleColors(color: .darkGray)
         productSize.font = UIFont.systemFont(ofSize: 14)
         
         productQuantityInCell.text = "x3000"
-        productQuantityInCell.textColor = UIColor.titleColors(color: .red)
+        productQuantityInCell.textColor = UIColor.titleColors(color: .darkGray)
         productQuantityInCell.font = UIFont.systemFont(ofSize: 14)
         
         
@@ -119,8 +133,8 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         statusImageView.layer.masksToBounds = true
         //self.backgroundColor = UIColor.orange
         self.addSubview(orderCellView)
+        orderCellView.addSubview(seperateLineView)
         orderCellView.addSubview(orderCellImageView)
-        orderCellView.addSubview(priceLabelBackgroundView)
         orderCellView.addSubview(priceLabel)
         orderCellView.addSubview(productTypeAndMaterialInCell)
         orderCellView.addSubview(productSize)
@@ -131,6 +145,8 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         orderCellView.addSubview(shippingBtnInCell)
         orderCellView.addSubview(statusImageView)
         orderCellView.addSubview(orderIDValue)
+        orderCellView.addSubview(orderIDLabel)
+        orderCellView.addSubview(orderTimeValue)
     }
     
     required init?(coder aDecoder: NSCoder) {

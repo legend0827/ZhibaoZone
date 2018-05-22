@@ -62,12 +62,5 @@ class NewTaskViewCell: UITableViewCell {
         return tempTitleLabel
     }()
     
-//    lazy var actionBtn:UIButton = {
-//        let tempActionBtn = UIButton()
-//        tempActionBtn.backgroundColor = UIColor.cyan
-//        tempActionBtn.setTitle("点下按钮", for: .normal)
-//        //tempActionBtn.addTarget(self, action: #selector(actionBtnClick), for: .touchUpInside)
-//        return tempActionBtn
-//    }()
-    
+
 }

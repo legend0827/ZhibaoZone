@@ -314,8 +314,11 @@ class ViewController: UIViewController,UITextFieldDelegate {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .red))
+    }
     override func viewDidAppear(_ animated: Bool) {
+        setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .red))
         //返回值，前一个是已设置安全登录（true 是，false 否），后一个当前是关着还是开着的(true 开， false 关）
         let result = checkSecuritySetting().1
         

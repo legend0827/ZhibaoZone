@@ -88,13 +88,16 @@ enum searchContentsType {
     case orderidAndWangWangID
 }
 
-//订单分类距离：
+//订单分类举例：
 enum orderListCategoryType{
     case allOrderCategory
     case notQuotePriceYetOrderCategory
     case alreadyQuotedOderCategory
     case waitForAcceptProduceOrderCategory
     case producingOrderCategory
+    case waitForDesignCategory
+    case waitForModifyCategory
+    case DesignConfirmedCategory
     //case allOrderCategory
 }
 
@@ -147,11 +150,11 @@ extension UIColor {
         case .white:
             tempColor = UIColor.colorWithRgba(255, g: 255, b: 255, a: 1.0)
         case .black:
-            tempColor = UIColor.colorWithRgba(68, g: 68, b: 68, a: 1.0)
+            tempColor = UIColor.colorWithRgba(51, g: 51, b: 51, a: 1.0)
         case .lightGray:
             tempColor = UIColor.colorWithRgba(221, g: 221, b: 221, a: 1.0)
         case .gray:
-            tempColor = UIColor.colorWithRgba(155, g: 155, b: 155, a: 1.0)
+            tempColor = UIColor.colorWithRgba(153, g: 153, b: 153, a: 1.0)
         case .darkGray:
             tempColor = UIColor.colorWithRgba(102, g: 102, b: 102, a: 1.0)
         case .blue:

@@ -64,7 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         
         // 创建View Controller
         let loginVC = ViewController()
-        let tabbarvc = TabBarController(royeType: 1) // 上线改成0
+        let tabbarvc = TabBarController(royeType: 1)// 上线改成0
         if true{
             self.window?.rootViewController = tabbarvc
         }else{

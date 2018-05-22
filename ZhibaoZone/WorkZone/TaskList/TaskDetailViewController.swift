@@ -101,7 +101,7 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
     var replyTaskViewTitle:UILabel = UILabel.init(frame:CGRect(x: UIScreen.main.bounds.width/2 - 44, y: 13, width: 88, height: 30))
     let placeholderLabel = UILabel.init() // placeholderLabel是全局属性
     let textNumberLimit:UILabel = UILabel.init(frame: CGRect(x: UIScreen.main.bounds.width - 115, y: UIScreen.main.bounds.height - 410, width: 100, height: 40))
-    
+    let taskSendToNameLabel:UILabel = UILabel.init(frame: CGRect(x: kWidth - 220, y: 32, width: 200, height: 20))
     let progressBtn = KVProgressBar.init(frame: CGRect(x: UIScreen.main.bounds.width - 115, y: UIScreen.main.bounds.height - 410, width: 30, height: 30))
     lazy var progressLabel:UILabel = {
         let tempLabel:UILabel = UILabel.init(frame:CGRect(x: UIScreen.main.bounds.width/2 - 50, y: 33, width: 100, height: 30))
@@ -127,27 +127,41 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
         get {
             if countdownTime <= 0 {
                 
-                return "00:00:00"
+                return "0分钟"
                 
             } else {
                 
-
-                return String(format:"%02d:%02d:%02d",Int(countdownTime)/3600
-                              ,Int(countdownTime)/60%60,Int(countdownTime)%60)
+                
+                return String(format:"%02d小时%02d分钟",Int(countdownTime)/3600
+                    ,Int(countdownTime)/60%60)
             }
         }
     }
+    //显示成）00:00:00
+//    var currentTimeString:String {
+//        get {
+//            if countdownTime <= 0 {
+//
+//                return "00:00:00"
+//
+//            } else {
+//
+//
+//                return String(format:"%02d:%02d:%02d",Int(countdownTime)/3600
+//                              ,Int(countdownTime)/60%60,Int(countdownTime)%60)
+//            }
+//        }
+//    }
     
     //任务详情页面数据集合
-    var taskCountDownTimerValue:UILabel = UILabel.init(frame: CGRect(x: 92, y: 5, width: 200, height: 30))
-    var taskSenderNameValue:UILabel = UILabel.init(frame: CGRect(x: 65, y: 125, width: 200, height: 30))
-    var taskOrderIDValue:UILabel = UILabel.init(frame: CGRect(x: 248, y: 125, width: 200, height: 30))
-    var taskDeadlineValue:UILabel = UILabel.init(frame: CGRect(x: 78, y: 165, width: 200, height: 30))
-    var taskCreateTimeValue:UILabel = UILabel.init(frame: CGRect(x: 228, y: 165, width: 200, height: 30))
-    var taskSendToNameValue:UILabel = UILabel.init(frame: CGRect(x: 65, y: 205, width: 200, height: 30))
-    var taskContentValue:UILabel = UILabel.init(frame: CGRect(x: 15, y: 285, width: 200, height: 30))
-    let taskCountDownGrayLayerBackground:UIView = UIView.init(frame: CGRect(x: 0, y: 85, width: UIScreen.main.bounds.width, height: 40))
-
+    var taskCountDownTimerValue:UILabel = UILabel.init(frame: CGRect(x: 77, y: 15, width: 200, height: 20))
+    var taskSenderNameValue:UILabel = UILabel.init(frame: CGRect(x: 70, y: 32, width: 200, height: 20))
+    var taskOrderIDValue:UILabel = UILabel.init(frame: CGRect(x: 84, y: 10, width: 200, height: 20))
+    let taskDeadlineValue:UILabel = UILabel.init(frame: CGRect(x: kWidth - 220, y: 10, width: 200, height: 20))
+    var taskCreateTimeValue:UILabel = UILabel.init(frame: CGRect(x: kWidth - 220 , y: 15, width: 200, height: 20))
+    var taskContentValue:UILabel = UILabel.init(frame: CGRect(x: 20, y: 37, width: kWidth - 40, height: 20))
+    let taskInfoBackgroundView:UIView = UIView.init(frame: CGRect(x: 0, y: 5, width: kWidth, height: 193))
+    let taskReplyBtn:UIButton = UIButton.init(type: .custom)
     //回复窗口
     let greyMask:UIView = UIView.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
     
@@ -157,11 +171,11 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
     let doneBtnOnReplyView:UIButton = UIButton.init(type: .system)
     
     //导航栏
-    let navigationBarInTaskDetail:UINavigationBar = UINavigationBar.init(frame: CGRect(x: 0, y: 20, width: UIScreen.main.bounds.width, height: 30))
+    //let navigationBarInTaskDetail:UINavigationBar = UINavigationBar.init(frame: CGRect(x: 0, y: 20+heightChangeForiPhoneXFromTop, width: UIScreen.main.bounds.width, height: 30))
     
     //任务详情回复内容表
     lazy var taskContentTableView:UITableView = {
-        let temTableView:UITableView = UITableView.init(frame: CGRect(x: 0, y: 280, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 280))
+        let temTableView:UITableView = UITableView.init(frame: CGRect(x: 0, y: 322 + heightChangeForiPhoneXFromTop, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 357))
         temTableView.backgroundColor = UIColor.white
         temTableView.separatorColor = UIColor.colorWithRgba(230, g: 230, b: 230, a: 1.0)
         temTableView.separatorStyle = .none//.singleLineEtched
@@ -180,34 +194,54 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
         NotificationCenter.default.addObserver(self, selector: #selector(keyBoardWillShow(_notification:)), name:NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyBoardWillHide(_notification:)), name:NSNotification.Name.UIKeyboardWillHide, object: nil)
         
-        self.view.backgroundColor = UIColor.white
        
-        navigationBarInTaskDetail.isHidden = false
-        navigationBarInTaskDetail.backgroundColor = UIColor.white
-        navigationBarInTaskDetail.barTintColor = UIColor.white
-        let titleLabel = UILabel(frame: CGRect(x: 0, y: 13, width: 50, height: 60))
-        titleLabel.text = "任务详情"
-        titleLabel.textColor = UIColor.black
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        //先隐藏系统提供的导航栏
+        self.navigationController?.isNavigationBarHidden = true
         
+        //自定义导航栏 navigationBar
+        let navBar = UINavigationBar(frame: CGRect(x:0, y:20 + heightChangeForiPhoneXFromTop, width:kWidth, height:44))
+        // 导航栏背景颜色
+        navBar.backgroundColor = UIColor.backgroundColors(color: .red)
+        navBar.barTintColor = UIColor.backgroundColors(color: .red)
+        navBar.isTranslucent = false //关闭模糊效果
+        //这里是导航栏透明
+        //navBar.shadowImage = UIImage()
+        //navBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        
+        // 自定义导航栏的title，用UILabel实现
+        let titleLabel = UILabel(frame: CGRect(x:0,y:0,width:50,height:60))
+        titleLabel.text = "新建任务"
+        titleLabel.textColor = UIColor.titleColors(color: .white)
+        // 这里使用系统自定义的字体
+        titleLabel.font = UIFont.systemFont(ofSize: 18)
+        
+        // 创建导航栏组件
         let navItem = UINavigationItem()
+        // 设置自定义的title
         navItem.titleView = titleLabel
         
-        let leftButton = UIBarButtonItem(title: "返回", style: .plain, target: self, action: #selector(cancelBtnClicked))
-        leftButton.setTitleTextAttributes([NSAttributedStringKey.font: UIFont.systemFont(ofSize: 17)], for: .normal)
-        leftButton.tintColor = #colorLiteral(red: 0.9104188085, green: 0.2962309122, blue: 0.2970536053, alpha: 1)
+        //        // 创建左侧按钮
+        let backImg=UIImage(named: "left-arrow-white")
+        let leftBarItem=UIBarButtonItem(image: backImg, style: UIBarButtonItemStyle.plain, target: self, action: #selector(cancelBtnClicked))
+        leftBarItem.tintColor = UIColor.backgroundColors(color: .white)
         
-        let rightButton = UIBarButtonItem(title: "完成任务", style: .done, target: self, action: #selector(taskFinishedBtnClicked))
-        rightButton.setTitleTextAttributes([NSAttributedStringKey.font : UIFont.systemFont(ofSize: 17)], for: .normal)
+        //添加导航栏右侧的取消按钮
+        let rightBarItem = UIBarButtonItem(title: "完成任务", style: .plain,
+                                           target: self, action: #selector(taskFinishedBtnClicked))
+        rightBarItem.tintColor = UIColor.backgroundColors(color: .white)
+        //        // 添加左侧、右侧按钮
+        navItem.setLeftBarButton(leftBarItem, animated: false)
+        navItem.setRightBarButton(rightBarItem, animated: false)
         
-        rightButton.tintColor = #colorLiteral(red: 0.9104188085, green: 0.2962309122, blue: 0.2970536053, alpha: 1)
-        rightButton.titleTextAttributes(for: .normal)
+        navigationItem.setHidesBackButton(true, animated: false)
+        // 把导航栏组件加入导航栏
+        navBar.pushItem(navItem, animated: false)
         
-        
-        navItem.setLeftBarButton(leftButton, animated: false)
-        navItem.setRightBarButton(rightButton, animated: false)
-        navigationBarInTaskDetail.pushItem(navItem, animated: false)
-        self.view.addSubview(navigationBarInTaskDetail)
+        // 导航栏添加到view上
+        self.view.addSubview(navBar)
+        //灰层
+        self.view.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+
         loadTaskDetailBasicInfo(taskType: currentTaskType!)
         //        if isRepling {
         //            self.view.bringSubview(toFront: self.greyMask)
@@ -238,9 +272,12 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
         }
         replyTaskTableView.keyboardDismissMode = .interactive
     }
+    
     private func refresh() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-            self.loadOrderDataFromServer()
+        DispatchQueue.global(qos: .background).async {
+            DispatchQueue.main.async(execute: {
+                self.loadOrderDataFromServer()
+            })
             var count = 0
             while true{
                 count += 1
@@ -249,7 +286,6 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
                     DispatchQueue.main.async(execute: {
                         self.loadTaskDetailViewData(taskType: self.currentTaskType!)
                     })
-                    
                     self.isTaskDetailLoadEnd = false
                     break
                 }
@@ -261,6 +297,7 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
         
     }
     override func viewWillAppear(_ animated: Bool) {
+        setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .red))
         replyTextView.becomeFirstResponder()
         isTaskDetailInfosLoadEnd = true
         //下载图片链接地址
@@ -278,59 +315,96 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
     func loadTaskDetailBasicInfo(taskType:Int){
         //加载任务基本信息
         //标准任务界面
-        let taskCountDownTimerIcon:UIImageView = UIImageView.init(frame: CGRect(x: 15, y: 5, width: 30, height: 30))
-        taskCountDownTimerIcon.image = UIImage(named: "timericon-black")
+        let timerBackgroundView:UIView = UIView.init(frame: CGRect(x: 0, y: 69 + heightChangeForiPhoneXFromTop, width: kWidth, height: 50))
+        timerBackgroundView.backgroundColor = UIColor.backgroundColors(color: .white)
         
-        taskCountDownGrayLayerBackground.backgroundColor = UIColor.init(red: 243/255, green: 243/255, blue: 243/255, alpha: 1.0)//UIColor.lightGray
+        let taskCountDownTimerIcon:UIImageView = UIImageView.init(frame: CGRect(x: 24, y: 13, width: 16, height: 24))
+        taskCountDownTimerIcon.image = UIImage(named: "timericon-normal")
         
-        let taskCountDownTimerLabel:UILabel = UILabel.init(frame: CGRect(x: 45, y: 5, width: 88, height: 30))
-        taskCountDownTimerLabel.text = "距结束"
-        taskCountDownTimerLabel.textColor = UIColor.black
+        let taskCountDownTimerLabel:UILabel = UILabel.init(frame: CGRect(x: 49, y: 15, width: 200, height: 20))
+        taskCountDownTimerLabel.text = "剩余"
+        taskCountDownTimerLabel.textColor = UIColor.titleColors(color: .red)
         taskCountDownTimerLabel.font = UIFont.systemFont(ofSize: 14)
         
+        taskCountDownTimerValue.text = "0分钟"
+        taskCountDownTimerValue.textColor = UIColor.titleColors(color: .red)
+        taskCountDownTimerValue.font = UIFont.systemFont(ofSize: 14)
         
-        let taskSenderNameLabel:UILabel = UILabel.init(frame: CGRect(x: 15, y: 125, width: 88, height: 30))
+        taskCreateTimeValue.text = "2018-01 12:99:12"
+        taskCreateTimeValue.textAlignment = .right
+        taskCreateTimeValue.textColor = UIColor.titleColors(color: .black)
+        taskCreateTimeValue.font = UIFont.systemFont(ofSize: 14)
+        
+        timerBackgroundView.addSubview(taskCountDownTimerValue)
+        timerBackgroundView.addSubview(taskCreateTimeValue)
+        timerBackgroundView.addSubview(taskCountDownTimerLabel)
+        timerBackgroundView.addSubview(taskCountDownTimerIcon)
+        self.view.addSubview(timerBackgroundView)
+        
+        
+        taskInfoBackgroundView.frame = CGRect(x: 0, y: 124 + heightChangeForiPhoneXFromTop, width: kWidth, height: 193)
+        taskInfoBackgroundView.backgroundColor = UIColor.backgroundColors(color: .white)
+        
+        let taskSenderNameLabel:UILabel = UILabel.init(frame: CGRect(x: 20, y: 32, width: 88, height: 20))
         taskSenderNameLabel.text = "发送者:"
-        taskSenderNameLabel.textColor = UIColor.lightGray
+        taskSenderNameLabel.textColor = UIColor.titleColors(color: .gray)
         taskSenderNameLabel.font = UIFont.systemFont(ofSize: 14)
         
-        let taskOrderIDLabel:UILabel = UILabel.init(frame: CGRect(x: 185, y: 125, width: 88, height: 30))
+        let taskOrderIDLabel:UILabel = UILabel.init(frame: CGRect(x: 20, y: 10, width: 88, height: 20))
         taskOrderIDLabel.text = "相关订单:"
-        taskOrderIDLabel.textColor = UIColor.lightGray
+        taskOrderIDLabel.textColor = UIColor.titleColors(color: .black)
         taskOrderIDLabel.font = UIFont.systemFont(ofSize: 14)
         
-        let taskDeadlineLabel:UILabel = UILabel.init(frame: CGRect(x: 15, y: 165, width: 88, height: 30))
-        taskDeadlineLabel.text = "任务期限:"
-        taskDeadlineLabel.textColor = UIColor.lightGray
-        taskDeadlineLabel.font = UIFont.systemFont(ofSize: 14)
+        taskOrderIDValue.font = UIFont.systemFont(ofSize: 14)
+        taskOrderIDValue.textColor = UIColor.titleColors(color: .black)
         
-        let taskCreateTimeLabel:UILabel = UILabel.init(frame: CGRect(x: 165, y: 165, width: 88, height: 30))
-        taskCreateTimeLabel.text = "发起时间:"
-        taskCreateTimeLabel.textColor = UIColor.lightGray
-        taskCreateTimeLabel.font = UIFont.systemFont(ofSize: 14)
+        taskDeadlineValue.text = "期限:"
+        taskDeadlineValue.textAlignment = .right
+        taskDeadlineValue.textColor = UIColor.titleColors(color: .black)
+        taskDeadlineValue.font = UIFont.systemFont(ofSize: 14)
         
-        let taskSendToNameLabel:UILabel = UILabel.init(frame: CGRect(x: 15, y: 205, width: 88, height: 30))
         taskSendToNameLabel.text = "接受者:"
-        taskSendToNameLabel.textColor = UIColor.lightGray
+        taskSendToNameLabel.textColor =  UIColor.titleColors(color: .gray)
+        taskSendToNameLabel.textAlignment = .right
         taskSendToNameLabel.font = UIFont.systemFont(ofSize: 14)
         
-        let taskContentLabel:UILabel = UILabel.init(frame: CGRect(x: 15, y: 245, width: 88, height: 30))
+        taskSenderNameValue.font = UIFont.systemFont(ofSize: 14)
+        taskSenderNameValue.textColor = UIColor.titleColors(color: .gray)
+        
+        
+        let sepereateLine:UIView = UIView.init(frame: CGRect(x: 20, y: 62, width: kWidth - 40, height: 1))
+        sepereateLine.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+        
+        let taskContentLabel:UILabel = UILabel.init(frame: CGRect(x: 20, y: 73, width: 88, height: 20))
         taskContentLabel.text = "任务详情:"
-        taskContentLabel.textColor = UIColor.lightGray
+        taskContentLabel.textColor = UIColor.titleColors(color: .black)
         taskContentLabel.font = UIFont.systemFont(ofSize: 14)
         
-        taskCountDownGrayLayerBackground.addSubview(taskCountDownTimerIcon)
-        taskCountDownGrayLayerBackground.addSubview(taskCountDownTimerLabel)
+        taskContentValue.frame = CGRect(x: 20, y: 100, width: kWidth - 40, height: 20)
+        taskContentValue.font = UIFont.systemFont(ofSize: 14)
+        taskContentValue.textColor = UIColor.titleColors(color: .black)
         
-        self.view.addSubview(taskCountDownGrayLayerBackground)
-        self.view.addSubview(taskSenderNameLabel)
-        self.view.addSubview(taskOrderIDLabel)
-        self.view.addSubview(taskDeadlineLabel)
-        self.view.addSubview(taskCreateTimeLabel)
-        self.view.addSubview(taskSendToNameLabel)
-        self.view.addSubview(taskContentLabel)
-//        let positon = CGRect(x: UIScreen.main.bounds.width/2 - 90, y: 420, width: 20, height: 20)
-//        loadingView(postion: positon, loadType: loadViewOpreaType.start, superView: self.view)
+        let replyImg:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: 25, height: 18))
+        replyImg.image = UIImage(named: "replyicon")
+        taskReplyBtn.addSubview(replyImg)
+        print("frame: \(taskInfoBackgroundView.frame.maxY - 23)")
+        taskReplyBtn.frame = CGRect(x: kWidth - 45, y: taskInfoBackgroundView.frame.height - 23, width: 25, height: 18)
+        replySelectorParamters[0] = "\(0)"
+        taskReplyBtn.tag = 0
+        taskReplyBtn.addTarget(self, action: #selector(replyBtnClicked(_:)), for: .touchUpInside)
+        
+        self.view.addSubview(taskInfoBackgroundView)
+        taskInfoBackgroundView.addSubview(sepereateLine)
+        taskInfoBackgroundView.addSubview(taskSenderNameLabel)
+        taskInfoBackgroundView.addSubview(taskSenderNameValue)
+        taskInfoBackgroundView.addSubview(taskOrderIDLabel)
+        taskInfoBackgroundView.addSubview(taskOrderIDValue)
+        taskInfoBackgroundView.addSubview(taskDeadlineValue)
+        taskInfoBackgroundView.addSubview(taskSendToNameLabel)
+        taskInfoBackgroundView.addSubview(taskContentLabel)
+        taskInfoBackgroundView.addSubview(taskContentValue)
+        taskInfoBackgroundView.addSubview(taskReplyBtn)
+
     }
     
     func loadTaskDetailViewData(taskType:Int){
@@ -339,18 +413,11 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
             let taskInfoObject = taskInfoDic
             
             //值
-            taskSenderNameValue.textColor = UIColor.black
-            taskSenderNameValue.font = UIFont.systemFont(ofSize: 14)
             if taskInfoObject.value(forKey: "tasksendername") as? String == nil{
                 taskSenderNameValue.text = "未找到任务发起者"
             }else{
                 taskSenderNameValue.text = taskInfoDic.value(forKey: "tasksendername") as! String
             }
-            
-            taskCountDownTimerValue.text = "00:00:00"
-            taskCountDownTimerValue.textColor = #colorLiteral(red: 0.9104188085, green: 0.2962309122, blue: 0.2970536053, alpha: 1)
-            taskCountDownTimerValue.font = UIFont.systemFont(ofSize: 14)
-            
             
             //任务订单号
             if taskInfoDic.value(forKey: "orderid") as? String == nil{
@@ -358,11 +425,7 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
             }else{
                 taskOrderIDValue.text = taskInfoDic.value(forKey: "orderid") as! String
             }
-            taskOrderIDValue.textColor = UIColor.black
-            taskOrderIDValue.font = UIFont.systemFont(ofSize: 14)
-            
 
-            
             //任务创建时间
             if taskInfoDic.value(forKey: "tasksendtime") as? String == nil{
                 taskCreateTimeValue.text = "2018-01-01 00:00:00"
@@ -373,12 +436,6 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
                     taskCreateTimeValue.text = "2018-01-01 00:00:00"
                 }
             }
-            
-            
-            taskCreateTimeValue.textColor = UIColor.black
-            taskCreateTimeValue.font = UIFont.systemFont(ofSize: 12)
-            
-            
             //任务截止时间
             // 获取当前系统时间
             
@@ -397,28 +454,21 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
             let result = gregorian?.components(.second, from: dateResult!, to: now!, options: NSCalendar.Options.init(rawValue: 0)).second as! Int
             
             if taskInfoDic.value(forKey: "taskperiod") as? String == nil{
-                taskDeadlineValue.text = "30分钟"
+                taskDeadlineValue.text = "期限: 30分钟"
             }else{
                 countdownTime = Int((taskInfoDic.value(forKey: "taskperiod") as! String))!*60 - result
-                taskDeadlineValue.text = changeDeadLineFormat(deadLineInMins: Int((taskInfoDic.value(forKey: "taskperiod") as! String))!)
+                taskDeadlineValue.text = "期限: \(changeDeadLineFormat(deadLineInMins: Int((taskInfoDic.value(forKey: "taskperiod") as! String))!))"
             }
-            //taskDeadlineValue.text = "30分钟"
-            taskDeadlineValue.textColor = UIColor.black
-            taskDeadlineValue.font = UIFont.systemFont(ofSize: 12)
-            
-            
-            
+ 
             //倒计时开始计时
             timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(timeEventsOfCountDown), userInfo: nil, repeats: true)
             
             //接受任务人
             if taskInfoDic.value(forKey: "taskreceivername") as? String == nil{
-                taskSendToNameValue.text = "未指定任务接受者"
+                taskSendToNameLabel.text = "接受者: 未指定任务接受者"
             }else{
-                taskSendToNameValue.text = taskInfoDic.value(forKey: "taskreceivername") as! String
+                taskSendToNameLabel.text = "接受者: \(taskInfoDic.value(forKey: "taskreceivername") as! String)"
             }
-            taskSendToNameValue.textColor = UIColor.black
-            taskSendToNameValue.font = UIFont.systemFont(ofSize: 14)
             
             
             
@@ -537,32 +587,97 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
                 AttachmentExtensionsArray.append(AttachmentExtensions)
                 previewURLsArray.append(previewURLs)
             }
+            
+            // 加载任务内容
+            let detailItem = taskDetailArray[0]
+            
+            
+            //发送内容
+            if (detailItem.value(forKey: "taskinfo") as? String == nil){
+                taskContentValue.text = "无指定内容"
+                taskContentValue.textColor = UIColor.colorWithRgba(100, g: 100, b: 100, a: 1.0)
+            }else{
+                taskContentValue.text = detailItem.value(forKey: "taskinfo") as! String
+                taskContentValue.textColor = UIColor.black
+            }
+            
+            let height = autoLabelHeight(with: taskContentValue.text!, labelWidth: UIScreen.main.bounds.width - 75, textFont: taskContentValue.font)
+            
+            taskContentValue.numberOfLines = 100//Int(height/23)
+            
+            taskContentValue.frame =  CGRect(x: 20, y: 100, width: kWidth - 40, height: height + 10)
+            
+            taskInfoBackgroundView.frame = CGRect(x: 0, y: 124 + heightChangeForiPhoneXFromTop, width: kWidth, height: 193 + height)
+            taskReplyBtn.frame = CGRect(x: kWidth - 45, y: taskInfoBackgroundView.frame.height - 31, width: 25, height: 18)
+            taskContentTableView.frame = CGRect(x: 0, y: 322 + heightChangeForiPhoneXFromTop + height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 357 - height)
+            
+            //附件图片数量
+            var imageCount = 0
+            if detailItem.value(forKey: "taskimageurl1") as? String != nil && detailItem.value(forKey: "taskimageurl1") as! String != ""{
+                imageCount += 1
+            }
+            if detailItem.value(forKey: "taskimageurl2") as? String != nil && detailItem.value(forKey: "taskimageurl2") as! String != ""{
+                imageCount += 1
+            }
+            if detailItem.value(forKey: "taskimageurl3") as? String != nil && detailItem.value(forKey: "taskimageurl3") as! String != ""{
+                imageCount += 1
+            }
+            
+            attachmentPicCount[0] = imageCount
+            
+            if imageCount != 0{
+                //修改导航栏返回按钮文字
+                var count = 0
+                for i in 0..<attachmentPicCount[0]{
+                    let AttachPic = UIImageView()
+                    
+                    //let yOfAttachPic = Int(taskContentValue.frame.height + 35)
+                    
+                    AttachPic.frame = CGRect(x: 20 + i * 78, y: Int(taskInfoBackgroundView.frame.height - 81) , width: 68, height: 68)
+                    AttachPic.layer.cornerRadius = 6
+                    AttachPic.layer.masksToBounds = true
+                    let StringTag = "1\(i)\(0)\(10)"
+                    AttachPic.tag = Int(StringTag)!
+                    AttachPic.contentMode = .scaleAspectFill
+                    AttachPic.clipsToBounds = true
+                    
+                    if AttachmentPicsArray.count == 0{
+                        AttachPic.image =  UIImage(named: "defualt-design-pic-loading")
+                    }else{
+                        if AttachmentPicsArray[0].count == 0{
+                            AttachPic.image = UIImage(named: "defualt-design-pic-loading")
+                        }else{
+                            if i >= AttachmentPicsArray[0].count{
+                                AttachPic.image =  UIImage(named: "defualt-design-pic-loading")
+                            }else{
+                                AttachPic.image = AttachmentPicsArray[0][i]//UIImage(cgImage: AttachmentPicsArray[indexPath.row][i].cgImage!)
+                            }
+                        }
+                    }
+                    if self.view.viewWithTag(Int(StringTag)!) == nil{
+                        taskInfoBackgroundView.addSubview(AttachPic)
+                        print("AttachPic add count\(count+1)")
+                    }
+                }
+            }
+            
+            var heightForFooterItems = taskContentValue.frame.height + 28
+            if imageCount != 0 {
+                heightForFooterItems = taskContentValue.frame.height + 98
+            }
+            
             //加载附件图片（下载)
             DispatchQueue.global(qos: .background).async(execute: {
                 self.loadTaskDetailCommentsAttach()
             })
-            taskContentValue.textColor = UIColor.black
-            taskContentValue.font = UIFont.systemFont(ofSize: 14)
-            
-            taskCountDownGrayLayerBackground.addSubview(taskCountDownTimerValue)
 
-            
-            self.view.addSubview(taskSenderNameValue)
-            self.view.addSubview(taskOrderIDValue)
-            self.view.addSubview(taskDeadlineValue)
-            self.view.addSubview(taskCreateTimeValue)
-            self.view.addSubview(taskSendToNameValue)
-            self.view.addSubview(taskContentValue)
             
             self.view.addSubview(taskContentTableView)
             taskContentTableView.delegate = self
             taskContentTableView.dataSource = self
             
-//            if isRepling {
-//                self.view.bringSubview(toFront: self.greyMask)
-//                self.view.bringSubview(toFront: self.replyTaskView)
-//            }
         }
+        isTaskDetailLoadEnd = true
     }
     
     func loadTaskDetailCommentsAttach(){
@@ -793,18 +908,12 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
            // self.taskContentTableView.reloadData()
         }
         
-//        DispatchQueue.main.async(execute: {
-//            self.taskContentTableView.reloadData()
-//        })
-        
-//
-//        let position = CGRect(x: 0, y: 0, width: 0, height: 0)
-//        loadingView(postion: position, loadType: loadViewOpreaType.remove, superView: self.view)
+
         
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == taskContentTableView{
-            countOfContent = taskDetailArray.count
+            countOfContent = taskDetailArray.count - 1
             return countOfContent
         }else{
             return 1
@@ -817,22 +926,12 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
             let cell = TaskContentTableViewCell.customCell(tableView: taskContentTableView)
             cell.backgroundColor = UIColor.white//UIColor.init(red: 243/255, green: 243/255, blue: 243/255, alpha: 1.0)
             cell.selectionStyle = .none
-            
-            if indexPath.row == 0{
-                while cell.contentView.viewWithTag(65) != nil{
-                    cell.contentView.viewWithTag(65)?.removeFromSuperview()
-                }//  view.tag = 65 //65分割线
-            }
             //任务内容
-            
-            let detailItem = taskDetailArray[indexPath.row]
+
+            let detailItem = taskDetailArray[indexPath.row + 1]
             //发送者姓名
             if (detailItem.value(forKey: "tasksendername") as? String == nil){
-                if indexPath.row == 0{
-                    cell.senderInContentNameLabel.text = "无名氏："
-                }else{
-                    cell.senderInContentNameLabel.text = "无名氏："
-                }
+                cell.senderInContentNameLabel.text = "无名氏："
             }else{
                 cell.senderInContentNameLabel.text = "\(detailItem.value(forKey: "tasksendername") as! String):"
             }
@@ -856,7 +955,8 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
             
             cell.contentLabel.numberOfLines = 100//Int(height/23)
             
-            cell.contentLabel.frame =  CGRect(x: 60, y: 27, width: UIScreen.main.bounds.width - 75, height: height+10)
+            cell.contentLabel.frame =  CGRect(x: 20, y: 43, width: UIScreen.main.bounds.width - 75, height: height + 10)
+            
             
             //附件图片数量
             var imageCount = 0
@@ -870,18 +970,20 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
                 imageCount += 1
             }
             
-            attachmentPicCount[indexPath.row] = imageCount
+            attachmentPicCount[indexPath.row + 1] = imageCount
             
             if imageCount != 0{
                 //修改导航栏返回按钮文字
                 var count = 0
-                for i in 0..<attachmentPicCount[indexPath.row]{
+                for i in 0..<attachmentPicCount[indexPath.row + 1]{
                     let AttachPic = UIImageView()
                     
-                    let yOfAttachPic = Int(cell.contentLabel.frame.height + 35)
+                    let yOfAttachPic = Int(cell.contentLabel.frame.maxY + 12)
                     
-                    AttachPic.frame = CGRect(x: 60+i*70, y: yOfAttachPic , width: 60, height: 60)
-                    let StringTag = "1\(i)\(indexPath.row)\(10)"
+                    AttachPic.frame = CGRect(x: 20 + i * 78, y: yOfAttachPic , width: 68, height: 68)
+                    let StringTag = "1\(i)\(indexPath.row + 1)\(10)"
+                    AttachPic.layer.cornerRadius = 6
+                    AttachPic.layer.masksToBounds = true
                     AttachPic.tag = Int(StringTag)!
                     AttachPic.contentMode = .scaleAspectFill
                     AttachPic.clipsToBounds = true
@@ -889,18 +991,14 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
                     if AttachmentPicsArray.count == 0{
                         AttachPic.image =  UIImage(named: "defualt-design-pic-loading")
                     }else{
-                        if AttachmentPicsArray[indexPath.row].count == 0{
+                        if AttachmentPicsArray[indexPath.row +  1].count == 0{
                             AttachPic.image = UIImage(named: "defualt-design-pic-loading")
                         }else{
-                            if i >= AttachmentPicsArray[indexPath.row].count{
+                            if i >= AttachmentPicsArray[indexPath.row + 1].count{
                                AttachPic.image =  UIImage(named: "defualt-design-pic-loading")
                             }else{
-                                print("loaded image at\(indexPath.row),\(i)")
-                                if indexPath.row == 0 && i == 0{
-                                    print("hello")
-                                }
-                                //AttachPic.image =
-                                AttachPic.image = AttachmentPicsArray[indexPath.row][i]//UIImage(cgImage: AttachmentPicsArray[indexPath.row][i].cgImage!)
+                                print("loaded image at\(indexPath.row + 1),\(i)")
+                                AttachPic.image = AttachmentPicsArray[indexPath.row + 1][i]//UIImage(cgImage: AttachmentPicsArray[indexPath.row][i].cgImage!)
                             }
                         }
                     }
@@ -915,11 +1013,11 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
             if imageCount != 0 {
                 heightForFooterItems = cell.contentLabel.frame.height + 98
             }
-            cell.replyBtn.frame = CGRect(x: UIScreen.main.bounds.width - 60, y: heightForFooterItems, width: 40, height: 20)
-            replySelectorParamters[indexPath.row] = "\(indexPath.row)"
-            cell.replyBtn.tag = indexPath.row
+            cell.replyBtn.frame = CGRect(x: UIScreen.main.bounds.width - 44, y: heightForFooterItems, width: 40, height: 20)
+            replySelectorParamters[indexPath.row + 1] = "\(indexPath.row + 1)"
+            cell.replyBtn.tag = indexPath.row + 1
             cell.replyBtn.addTarget(self, action: #selector(replyBtnClicked), for: .touchUpInside)
-            cell.sendTimeInCotentLabel.frame = CGRect(x: 60, y: heightForFooterItems, width: 120, height: 20)
+           // cell.sendTimeInCotentLabel.frame = CGRect(x: 60, y: heightForFooterItems, width: 120, height: 20)
             return cell
             
         }else{
@@ -951,8 +1049,8 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
                 //修改导航栏返回按钮文字
                 for i in 0..<attachmentPicCountInReply{
                     let AttachPic = UIImageView()
-                    AttachPic.frame = CGRect(x: 15+i*70, y: Int(UIScreen.main.bounds.height - 465 + iPhoneXHeightChange) , width: 60, height: 60)
-                    AttachPic.tag = i+10
+                    AttachPic.frame = CGRect(x: 20 + i * 78, y: Int(UIScreen.main.bounds.height - 465 + iPhoneXHeightChange) , width: 68, height: 68)
+                    AttachPic.tag = i + 10
                     AttachPic.contentMode = .scaleAspectFill
                     AttachPic.clipsToBounds = true
                     AttachPic.image = UIImage(cgImage: AttachmentPicsInReply[i].cgImage!)
@@ -988,7 +1086,7 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if tableView == taskContentTableView{
-            let detailItem = taskDetailArray[indexPath.row]
+            let detailItem = taskDetailArray[indexPath.row + 1]
             
             var labelContent = ""
             //发送内容
@@ -1001,14 +1099,14 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
             let tempCellHeight = autoLabelHeight(with: labelContent, labelWidth: UIScreen.main.bounds.width - 75, textFont: UIFont.systemFont(ofSize: 13))
             
             
-            if attachmentPicCount[indexPath.row] != 0{
-                return tempCellHeight + 90+48//150
+            if attachmentPicCount[indexPath.row + 1] != 0{
+                return tempCellHeight + 78+68//150
             }else{
                 if self.view.viewWithTag(10) != nil{
                     self.view.viewWithTag(10)?.removeFromSuperview()
                 }
-                return tempCellHeight + 30+48
-                }
+                return tempCellHeight + 78
+            }
             
         }else{
             //回复表格
@@ -1105,14 +1203,6 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
         })
         replyTextView.becomeFirstResponder()
 
-//        let replyView:UIView = UIView.init(frame: CGRect(x: 0, y: 300, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 300))
-//        replyView.backgroundColor = UIColor.white
-//
-//        let attributedText:NSAttributedString = NSAttributedString.init(string: "回复xxxxx：")
-//        replyTextView.attributedText = attributedText
-//        replyView.addSubview(replyTextView)
-//        replyTextView.becomeFirstResponder()
-//        self.view.addSubview(replyView)
     }
     
     //MARK3 - Text View控制区域
@@ -1150,24 +1240,7 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
         textView.inputAccessoryView = topView
         return true
     }
-//    func textViewDidEndEditing(_ textView: UITextView) {
-//
-//    }
-//    func textViewDidBeginEditing(_ textView: UITextView) {
-//
-//        print("textViewDidBeginEditing")
-//    }
-//    func textViewDidChange(_ textView: UITextView) {
-////        let textcount = textView.text.count
-////        if textcount > 300 {
-////            textNumberLimit.textColor = UIColor.red
-////        }else{
-////            textNumberLimit.textColor = UIColor.gray
-////        }
-////        textNumberLimit.text = "\(textcount)\\300"
-////        self.updateCellView(tableView: self.newTaskTableView)
-////        checkSendBtnAvailable()
-//    }
+
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text.isEmpty{
@@ -1416,13 +1489,7 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
             }else{
                 iPhoneXHeightChange = 0.0
             }
-          //  replyTaskTableView.reloadData()
-           
-//            //界面偏移动画
-//            UIView.animate(withDuration: duration, animations: { ()->Void in
-//                print("向上移动y=\(UIScreen.main.bounds.height + 300)")
-//                self.newTaksView.transform = CGAffineTransform(translationX: 0, y:-(UIScreen.main.bounds.height + 300))
-//            })
+
         }
     }
     
@@ -2124,6 +2191,8 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
                     imageView.removeFromSuperview()
                     noticeWhenLoadingData.removeFromSuperview()
                 }
+                self.taskContentTableView.reloadData()
+                self.taskContentTableView.es.stopPullToRefresh()
                 self.isTaskDetailLoadEnd = true
             case false:
                 imageView.removeFromSuperview()

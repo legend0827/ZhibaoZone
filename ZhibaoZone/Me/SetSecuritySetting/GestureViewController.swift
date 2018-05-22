@@ -47,7 +47,7 @@ class GestureViewController: UIViewController {
     /// infoView
     fileprivate var infoView: CircleInfoView?
     
-    let navigationBarInGestureView:UINavigationBar = UINavigationBar.init(frame: CGRect(x: 0, y: 27, width: UIScreen.main.bounds.width, height: 45))
+    let navigationBarInGestureView:UINavigationBar = UINavigationBar.init(frame: CGRect(x: 0, y: 27+heightChangeForiPhoneXFromTop, width: UIScreen.main.bounds.width, height: 45))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,8 +63,7 @@ class GestureViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        
+        setStatusBarBackgroundColor(color: .white)
         
         if self.type == GestureViewControllerType.login {
             navigationController?.isNavigationBarHidden = true
@@ -74,6 +73,9 @@ class GestureViewController: UIViewController {
         CircleView.saveGesture(nil, key: gestureOneSaveKey)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        
+    }
     
     func setupSameUI(){
         

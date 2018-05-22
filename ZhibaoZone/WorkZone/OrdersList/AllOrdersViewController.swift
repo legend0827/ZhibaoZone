@@ -12,6 +12,18 @@ import CoreData
 
 class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     
+    //定义订单列表的类型
+    var _orderlistTye:orderListCategoryType = .allOrderCategory
+    
+    init(orderlistTye:orderListCategoryType) {
+        super.init(nibName: nil, bundle: nil)
+        _orderlistTye = orderlistTye
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     //MARK:-网络请求管理
     static fileprivate var requestCacheArr = [DataRequest]();
     
@@ -24,20 +36,15 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
     var _roleType = 1//1 客服 2设计师 3 工厂 0 普通用户
     var orderCount = 0//订单数目
     var orderArray:[NSDictionary] = []
+    var orderCreateTimeArray:[NSDictionary] = []
+    var orderCreateTimes:[String] = []
     var page: Int = 1
     var totalPageCount: Int = 1
     var selectorParamters = [Int:String]()
-    //var theChildViewNeedToClose:[UIView] = []
     
-//    //订单详情
-//    var isOrderDetailsGets = false
-//    //订单详情：
-//    var orderDetail:[NSDictionary] = []
+   
+    let heightHeader:CGFloat = 40.0
     
-//    //定价
-//    var memoPictures:[UIImage] = []
-//    //参考图类型
-//    var previewTypes:[String] = []
     //选择的订单的index
     var selectedIndex = 0
     
@@ -61,11 +68,79 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         tempCollectionView.dataSource = self
         tempCollectionView.isScrollEnabled = true // 允许拖动
         tempCollectionView.register(OrdersCollectionViewCell.self, forCellWithReuseIdentifier: CELL_ID)
+        // 注册一个headView
+        tempCollectionView.register(CollectionReusableViewHeader.self, forSupplementaryViewOfKind:UICollectionElementKindSectionHeader, withReuseIdentifier: headerIdentifier)
         return tempCollectionView
     }()
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return orderArray.count
+        //return orderCreateTimeArray[section].value(forKey: "count") as! Int
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        //restoreCreateTimesArray()
+       // return orderCreateTimeArray.count
+        return 1
+    }
+//    // 返回HeadView的宽高
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize
+//    {
+//        return CGSize(width: kWidth, height: heightHeader)
+//    }
+    
+//    // 返回自定义HeadView或者FootView，我这里以headview为例
+//    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView
+//    {
+//        var reusableview:UICollectionReusableView!
+//
+//        if kind == UICollectionElementKindSectionHeader
+//        {
+//            reusableview = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as! CollectionReusableViewHeader
+//            //reusableview.backgroundColor = UIColor.green
+//            let timeLabelValue = orderCreateTimeArray[indexPath.section].value(forKey: "createDate") as! String
+//
+//            let date = NSDate()
+//            let timeFormatter = DateFormatter()
+//            timeFormatter.dateFormat = "yyyy-MM-dd"
+//            let strNowTime = timeFormatter.string(from: date as Date) as String
+//            if strNowTime == timeLabelValue {
+//                    (reusableview as! CollectionReusableViewHeader).label.text = "今天"
+//            }else{
+//                 (reusableview as! CollectionReusableViewHeader).label.text = timeLabelValue
+//            }
+//
+//        }
+//
+//        return reusableview
+//    }
+    
+    func restoreCreateTimesArray(){
+        orderCreateTimeArray.removeAll()
+        //orderCreateTimes.removeAll()
+        var tempTimes:[String] = []
+        for item in orderCreateTimes{
+            let index = item.index(item.startIndex, offsetBy: 10)
+            let tempItem = item.substring(to: index)
+            tempTimes.append(tempItem)
+        }
+        print("tempTimes\(tempTimes)")
+        //去重获得有多少日期
+        let variableTempTimes:[String] = Array(Set(tempTimes)).sorted(by: {return $0 > $1})
+        
+        print("variableTempTimes\(variableTempTimes)")
+        for item in variableTempTimes{
+            var count = 0
+            let createDate = item
+            for time in tempTimes{
+                if time == createDate{
+                    count += 1
+                }
+            }
+            let tempDic:NSDictionary = ["createDate":createDate,"count":count]
+            orderCreateTimeArray.append(tempDic)
+        }
+        print(orderCreateTimeArray)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -77,6 +152,15 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         let orderInfoObjects = dictionaryObjectInOrderArray.value(forKey: "orderinfo") as! NSDictionary
         let priceInfoObjects = dictionaryObjectInOrderArray.value(forKey: "price") as! NSDictionary
         
+      //  cell.productSize.text = orderInfoObjects.value(forKey: "createtime") as! String // for debug after delete
+      //  cell.productQuantityInCell.text =  orderCreateTimeArray[indexPath.section].value(forKey: "createDate") as! String //
+
+//        var tempDateTime = orderInfoObjects.value(forKey: "createtime") as! String
+//        let index = tempDateTime.index(tempDateTime.startIndex, offsetBy: 10)
+//        tempDateTime = tempDateTime.substring(to: index)
+//        if orderCreateTimeArray[indexPath.section].value(forKey: "createDate") as! String != tempDateTime{
+//            return cell
+//        }
         //获取订单图片
         if orderInfoObjects.value(forKey: "goodsimage") as? String == nil{ // 图片字段为空
             cell.orderCellImageView.image = UIImage(named:"defualt-design-pic")
@@ -96,7 +180,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         // cell.orderTimeLabel.text = orderInfoObjects.value(forKey: "createtime") as? String //订单创建时间
         // cell.orderID.text = orderInfoObjects.value(forKey: "orderid") as? String // 订单号
         cell.productTypeAndMaterialInCell.text = "\(orderInfoObjects.value(forKey: "goodsclass") as! String) \(goodsInfoObjects.value(forKey: "texturename") as! String)" //订单产品类别 材质
-        
+        cell.productQuantityInCell.text = "x\(goodsInfoObjects.value(forKey: "number") as! Int)"
         //设置产品尺寸
         let sizeObject = goodsInfoObjects.value(forKey: "size") as! NSDictionary
         var sizeString:String = ""
@@ -117,6 +201,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
             sizeString += "x (mm)"
         }
         cell.productSize.text = sizeString
+        
         
         cell.acceptDesignBtnInCell.isHidden = true
         cell.acceptProduceBtnInCell.isHidden = true
@@ -139,9 +224,16 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         case 2:
             // print("RoleType 为 2")
             //设置师角色，并且订单状态为2
-            if (statusObjects.value(forKey: "orderstate") as! NSDictionary).value(forKey: "orderstate") as! Int == 2{
+//            if (statusObjects.value(forKey: "orderstate") as! NSDictionary).value(forKey: "designreceivestate") as? Int == nil{
+//                print("hello")
+//            }
+            // let designreceiveStateObjec = (statusObjects.value(forKey: "orderstate") as! NSDictionary).value(forKey: "designreceivestate") as? NSDictionary
+            if (statusObjects.value(forKey: "designreceivestate") as! NSDictionary).value(forKey: "code")  as! Int == 0{
                 cell.acceptDesignBtnInCell.isHidden = false
             }
+//            if orderInfoObjects.value(forKey: "orderid") as! String  == "205176634213032"{
+//                print("hellp")
+//            }
             
             //设置设计费显示
             if priceInfoObjects.value(forKey: "designprice") as? Float == nil{
@@ -194,6 +286,14 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
             //订单在生产中，允许上传物流
             if (statusObjects.value(forKey: "orderstate") as! NSDictionary).value(forKey: "orderstate") as! Int == 8{
                 cell.shippingBtnInCell.isHidden = false
+                cell.orderIDValue.isHidden = false
+                cell.orderIDValue.text = orderInfoObjects.value(forKey: "orderid") as! String
+                cell.productSize.isHidden = true
+                cell.productTypeAndMaterialInCell.frame = cell.productSize.frame
+            }else{
+                cell.orderIDValue.isHidden = true
+                cell.productSize.isHidden = false
+                cell.productTypeAndMaterialInCell.frame = CGRect(x: 5, y: cell.frame.width - 5, width: 100, height: 20)
             }
             
             if priceInfoObjects.value(forKey: "mindprice") as? Float != nil && priceInfoObjects.value(forKey: "mindprice") as? Float != 0.0{
@@ -249,10 +349,18 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
             _userid = userInfos.value(forKey: "userid") as? String
             _token = userInfos.value(forKey: "token") as? String
        // }
-        
-        StartLoadingAnimation()
-        DispatchQueue.global().async {
-            self.loadOrderDataFromServer(pages: 1, categoryType: .allOrderCategory)
+        if _orderlistTye == .allOrderCategory{
+            StartLoadingAnimation()
+            DispatchQueue.global().async {
+            self.loadOrderDataFromServer(pages: 1, categoryType: self._orderlistTye)
+            }
+        }else{
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                self.StartLoadingAnimation()
+                DispatchQueue.global().async {
+                    self.loadOrderDataFromServer(pages: 1, categoryType: self._orderlistTye)
+                }
+            }
         }
 
         //添加下拉刷新
@@ -272,7 +380,9 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
             self.page = 1
             self.orderArray.removeAll()
-            self.loadOrderDataFromServer(pages: 1, categoryType: .allOrderCategory)
+            self.orderCreateTimes.removeAll()
+            self.orderCreateTimeArray.removeAll()
+            self.loadOrderDataFromServer(pages: 1, categoryType: self._orderlistTye)
         }
     }
     
@@ -280,7 +390,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
             self.page += 1
             if self.page <= self.totalPageCount{
-                self.loadOrderDataFromServer(pages: self.page, categoryType: .allOrderCategory)
+                self.loadOrderDataFromServer(pages: self.page, categoryType: self._orderlistTye)
                 self.AllOrdersCollectionView.reloadData()
                 self.AllOrdersCollectionView.es.stopLoadingMore()
             }else{
@@ -373,8 +483,32 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         
         self.present(popVC, animated: true, completion: nil)
     }
-    @objc func shippingBtnClicked(){
+    @objc func shippingBtnClicked(_ button:UIButton){
         print("点击了发货按钮")
+        selectedIndex = button.tag
+        let dictionaryObjectInOrderArray = orderArray[selectedIndex]
+        let orderInfoObjects = dictionaryObjectInOrderArray.value(forKey: "orderinfo") as! NSDictionary
+        
+        
+        let orderID = orderInfoObjects.value(forKey: "orderid") as! String
+        let customID = orderInfoObjects.value(forKey: "customid") as! String
+        let acceptProduceView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 363 + heightChangeForiPhoneXFromTop, width: kWidth, height: kHight))
+        
+        
+        let popVC = PopupViewController()
+        popVC.view.backgroundColor = UIColor.clear
+        popVC.view.addSubview(showBlurEffect()) //UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
+        popVC.view.addSubview(popVC.grayLayer)
+        popVC.modalPresentationCapturesStatusBarAppearance = true
+        acceptProduceView.popupVC = popVC
+        acceptProduceView._orderID = orderID
+        acceptProduceView._customID = customID
+        
+        acceptProduceView.createViewWithActionType(ActionType: .shippingProduct)
+        popVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext //
+        popVC.view.addSubview(acceptProduceView)
+        
+        self.present(popVC, animated: true, completion: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -451,22 +585,53 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
                 self.view.viewWithTag(903)?.removeFromSuperview()
             }
         }
-        
-        
- 
+
         let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
         let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
         let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
         var requestURL:String = ""
-        #if DEBUG
-        requestURL = apiAddresses.value(forKey: "orderListOfAllOrdersDebug") as! String
-        #else
-        requestURL = apiAddresses.value(forKey: "orderListOfAllOrders") as! String
-        #endif
         
         
+        switch categoryType {
+        case orderListCategoryType.allOrderCategory:
+            #if DEBUG
+            requestURL = apiAddresses.value(forKey: "orderListOfAllOrdersDebug") as! String
+            #else
+            requestURL = apiAddresses.value(forKey: "orderListOfAllOrders") as! String
+            #endif
+        case orderListCategoryType.notQuotePriceYetOrderCategory:
+            #if DEBUG
+            requestURL = apiAddresses.value(forKey: "orderListOfNotQuoteYetDebug") as! String
+            #else
+            requestURL = apiAddresses.value(forKey: "orderListOfNotQuoteYet") as! String
+            #endif
+        case orderListCategoryType.alreadyQuotedOderCategory:
+            #if DEBUG
+            requestURL = apiAddresses.value(forKey: "orderListOfAlreadyQuoteDebug") as! String
+            #else
+            requestURL = apiAddresses.value(forKey: "orderListOfAlreadyQuote") as! String
+            #endif
+        case orderListCategoryType.waitForAcceptProduceOrderCategory:
+            #if DEBUG
+            requestURL = apiAddresses.value(forKey: "orderListOfWaitForProduceDebug") as! String
+            #else
+            requestURL = apiAddresses.value(forKey: "orderListOfWaitForProduce") as! String
+            #endif
+        case orderListCategoryType.producingOrderCategory:
+            #if DEBUG
+            requestURL = apiAddresses.value(forKey: "orderListOfProducingDebug") as! String
+            #else
+            requestURL = apiAddresses.value(forKey: "orderListOfProducing") as! String
+            #endif
+        default:
+            #if DEBUG
+            requestURL = apiAddresses.value(forKey: "orderListOfAllOrdersDebug") as! String
+            #else
+            requestURL = apiAddresses.value(forKey: "orderListOfAllOrders") as! String
+            #endif
+        }
         
-        
+
         //定义请求参数
         let params:NSMutableDictionary = NSMutableDictionary()
         
@@ -481,9 +646,17 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         params["ranktype"] = 1
         params["inorder"] = 0
         params["token"] = _token
+        if _roleType == 2{
+            params["mark"] = 1 // 1时间升序
+            params["rushorders"] = 1
+        }
+
 
         let dataRequest = Alamofire.request(requestURL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
             (responseObject) in
+            if orderListCategoryType.producingOrderCategory == categoryType  {
+                print("hello")
+            }
             switch responseObject.result.isSuccess{
             case true:
                 if let value = responseObject.result.value{
@@ -494,6 +667,10 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
                         for item in json["ordersummary","orderarray"].array! {
                             let restoreItem = item.dictionaryObject as! NSDictionary
                             self.orderArray.append(restoreItem)
+                            //添加订单时间字典
+                            var tempTime = (restoreItem.value(forKey: "orderinfo") as! NSDictionary).value(forKey: "createtime") as! String
+                            self.orderCreateTimes.append(tempTime)
+                            //self.orderCreateTimeArray.
                         }
                         if !self.view.subviews.contains(self.AllOrdersCollectionView) {
                             self.view.addSubview(self.AllOrdersCollectionView)
@@ -516,6 +693,29 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
                     self.AllOrdersCollectionView.removeFromSuperview()
                 }else{
                     self.StopLoadingAnimation()
+                    let loadingFailedLabel:UILabel = UILabel.init(frame: CGRect(x: UIScreen.main.bounds.width/2 - 100, y: UIScreen.main.bounds.height/2 - 200, width: 200, height: 200))
+                    loadingFailedLabel.text = "加载失败，请重试..."
+                    loadingFailedLabel.tag = 100
+                    loadingFailedLabel.font = UIFont.systemFont(ofSize: 14)
+                    loadingFailedLabel.textColor = UIColor.gray
+                    loadingFailedLabel.textAlignment = .center
+                    
+                    let retryBtn:UIButton = UIButton.init(type: .system)
+                    retryBtn.frame = CGRect(x: UIScreen.main.bounds.width/2 - 75, y: UIScreen.main.bounds.height/2 - 50, width: 150, height: 44)
+                    retryBtn.backgroundColor = UIColor.white
+                    retryBtn.layer.cornerRadius = 5
+                    retryBtn.layer.borderColor = #colorLiteral(red: 0.9104188085, green: 0.2962309122, blue: 0.2970536053, alpha: 1)
+                    retryBtn.layer.borderWidth = 1
+                    retryBtn.setTitle("重试", for: .normal)
+                    retryBtn.setTitleColor(#colorLiteral(red: 0.9104188085, green: 0.2962309122, blue: 0.2970536053, alpha: 1), for: .normal)
+                    retryBtn.tag = 101
+                    retryBtn.addTarget(self, action: #selector(self.retryBtnInViewClicked), for: .touchUpInside)
+                    //先删除后添加，防止重复点击重复创建
+                    self.view.viewWithTag(100)?.removeFromSuperview()
+                    self.view.viewWithTag(101)?.removeFromSuperview()
+                    
+                    self.view.addSubview(loadingFailedLabel)
+                    self.view.addSubview(retryBtn)
                 }
                 if responseObject.result.error?.localizedDescription != "cancelled" && responseObject.result.error?.localizedDescription as! String != "已取消"{
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -560,10 +760,13 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
     
     @objc func retryBtnInViewClicked(){
         orderArray.removeAll()
-        loadOrderDataFromServer(pages: 1, categoryType: .allOrderCategory)
+        orderCreateTimes.removeAll()
+        orderCreateTimeArray.removeAll()
+        loadOrderDataFromServer(pages: 1, categoryType: _orderlistTye)
     }
 
-    override func viewWillAppear(_ animated: Bool) {        
+    override func viewWillAppear(_ animated: Bool) {
+        self.view.backgroundColor = UIColor.white
         //从datacore获取用户数据
         //获取管理的数据上下文，对象
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -645,14 +848,5 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         nothingToShow.alpha = 0.4
         self.view.addSubview(nothingToShow)
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

@@ -287,7 +287,7 @@ class chooseContactViewController: UIViewController,UITableViewDelegate,UITableV
             for index in 0..<contactCount {
                 contactsArray.append(tempContacts![index] as! NSDictionary)
             }
-            //self.view.addSubview(chooseContactTableView)
+            //contactCountself.view.addSubview(chooseContactTableView)
         }
         self.view.backgroundColor = UIColor.white
     }

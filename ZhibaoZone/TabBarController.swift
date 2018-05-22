@@ -38,8 +38,10 @@ class TabBarController: UITabBarController {
         
         if _roleType == 0{
             self.viewControllers = [normalUserVC,meVC]
-        }else{
+        }else if _roleType == 2 || _roleType == 3{
             self.viewControllers = [orderVC,taskVC,meVC]
+        }else{
+            self.viewControllers = [taskVC,meVC]
         }
         self.tabBar.tintColor = UIColor.iconColors(color: .red)
     }

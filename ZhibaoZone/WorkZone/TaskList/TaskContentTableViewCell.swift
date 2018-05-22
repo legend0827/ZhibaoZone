@@ -10,11 +10,11 @@ import UIKit
 
 class TaskContentTableViewCell: UITableViewCell {
     
-    let senderInContentNameLabel:UILabel = UILabel.init(frame: CGRect(x: 60, y: 0, width: 200, height: 30))
-    let senderInCotentAvatarLocal = CGRect(x: 15, y: 5, width: 40, height: 40)
-    let contentLabel:UILabel = UILabel.init(frame: CGRect(x: 60, y: 27, width: UIScreen.main.bounds.width - 75, height: 30))
-    let sendTimeInCotentLabel:UILabel = UILabel.init(frame: CGRect(x: 60 , y: -5, width: 120, height: 40))
-    let replyBtn:UIButton = UIButton.init(frame: CGRect(x: UIScreen.main.bounds.width - 60, y: 22, width: 50, height: 40))
+    let senderInContentNameLabel:UILabel = UILabel.init(frame: CGRect(x: 54, y: 11, width: 200, height: 20))
+    let senderInCotentAvatarLocal = CGRect(x: 20, y: 10, width: 24, height: 24)
+    let contentLabel:UILabel = UILabel.init(frame: CGRect(x: 20, y: 43, width: kWidth - 40, height: 20))
+    let sendTimeInCotentLabel:UILabel = UILabel.init(frame: CGRect(x: kWidth - 220 , y: 11, width: 200, height: 20))
+    let replyBtn:UIButton = UIButton.init(frame: CGRect(x: kWidth - 44, y: 22, width: 24, height: 18))
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -31,38 +31,36 @@ class TaskContentTableViewCell: UITableViewCell {
         
         
         senderInContentNameLabel.text = "谁谁谁说:"
-        senderInContentNameLabel.font = UIFont.systemFont(ofSize: 14)
-        senderInContentNameLabel.textColor = UIColor.colorWithRgba(94, g: 170, b: 224, a: 1.0)//淡蓝色
+        senderInContentNameLabel.font = UIFont.systemFont(ofSize: 16)
+        senderInContentNameLabel.textColor = UIColor.titleColors(color: .black)//UIColor.colorWithRgba(94, g: 170, b: 224, a: 1.0)//淡蓝色
         
        // senderInCotentAvatarLocal
         
-        let avatar = createIcon(imageSize: 40, locale: senderInCotentAvatarLocal, iconShape: AvatarShape.AvatarShapeTypeSquareWithRadius)
+        let avatar = createIcon(imageSize: 24, locale: senderInCotentAvatarLocal, iconShape: AvatarShape.AvatarShapeTypeSquareWithRadius)
         
         contentView.addSubview(avatar)
         
         sendTimeInCotentLabel.text = "2018-10-10 00:00:00"
-        sendTimeInCotentLabel.textColor = UIColor.lightGray
-        sendTimeInCotentLabel.font = UIFont.systemFont(ofSize: 11)
-        
+        sendTimeInCotentLabel.textColor = UIColor.titleColors(color: .darkGray)
+        sendTimeInCotentLabel.font = UIFont.systemFont(ofSize: 14)
+        sendTimeInCotentLabel.textAlignment = .right
         
         contentLabel.text = "12"
-        contentLabel.textColor = UIColor.black
-        contentLabel.layer.borderWidth = 0
-        contentLabel.layer.borderColor = UIColor.clear.cgColor
-//        contentLabel.numberOfLines = 0
-       // contentLabel.lineBreakMode = .byWordWrapping
-        contentLabel.backgroundColor = UIColor.init(red: 243/255, green: 243/255, blue: 243/255, alpha: 1.0)
-        contentLabel.font = UIFont.systemFont(ofSize: 13)
+        contentLabel.textColor = UIColor.titleColors(color: .black)
+        contentLabel.font = UIFont.systemFont(ofSize: 14)
         
-        replyBtn.setTitle("回复", for: .normal)
-        replyBtn.setTitleColor(#colorLiteral(red: 0.9104188085, green: 0.2962309122, blue: 0.2970536053, alpha: 1), for: .normal)
-        replyBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        let replyImg:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: 24, height: 18))
+        replyImg.image = UIImage(named: "replyicon")
+        replyBtn.addSubview(replyImg)
+       // replyBtn.setTitle("回复", for: .normal)
+       // replyBtn.setTitleColor(#colorLiteral(red: 0.9104188085, green: 0.2962309122, blue: 0.2970536053, alpha: 1), for: .normal)
+      //  replyBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         
         
         let heightForFooterItems = contentLabel.frame.height + 20
         
-        sendTimeInCotentLabel.frame = CGRect(x: 60, y: heightForFooterItems , width: 120, height: 40)
-        replyBtn.frame = CGRect(x: UIScreen.main.bounds.width - 60, y: heightForFooterItems, width: 120, height: 40)
+        //sendTimeInCotentLabel.frame = CGRect(x: 60, y: heightForFooterItems , width: 120, height: 40)
+        replyBtn.frame = CGRect(x: kWidth - 44, y: heightForFooterItems, width: 24, height: 18)
         
         contentView.addSubview(sendTimeInCotentLabel)
         contentView.addSubview(senderInContentNameLabel)

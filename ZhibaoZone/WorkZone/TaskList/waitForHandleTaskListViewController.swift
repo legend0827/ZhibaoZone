@@ -96,10 +96,10 @@ class waitForHandleTaskListViewController: UIViewController,UITableViewDelegate,
         }
         
         if dictionaryObjectInTaskArray.value(forKey: "orderid") as? String == nil{
-            cell.taskOrderIDInList.textColor = UIColor.gray
-            cell.taskOrderIDInList.text = "未指定订单号"
+            cell.taskOrderIDLabel.textColor = UIColor.gray
+            cell.taskOrderIDLabel.text = "订单号: 未指定订单号"
         }else{
-            cell.taskOrderIDInList.text = (dictionaryObjectInTaskArray.value(forKey: "orderid") as! String)
+            cell.taskOrderIDLabel.text = "订单号: \(dictionaryObjectInTaskArray.value(forKey: "orderid") as! String)"
         }
         
         if dictionaryObjectInTaskArray.value(forKey: "tasksendername") as? String == nil{
@@ -110,10 +110,10 @@ class waitForHandleTaskListViewController: UIViewController,UITableViewDelegate,
         }
         
         if dictionaryObjectInTaskArray.value(forKey: "taskperiod") as? Int == nil{
-            cell.taskDeadLineInList.textColor = UIColor.gray
-            cell.taskDeadLineInList.text = "未指定任务期限"
+            cell.taskDeadlineInList.textColor = UIColor.gray
+            cell.taskDeadlineInList.text = "未指定任务期限"
         }else{
-            cell.taskDeadLineInList.text = "\(dictionaryObjectInTaskArray.value(forKey: "taskperiod") as! Int)分钟"
+            cell.taskDeadlineInList.text = "\(dictionaryObjectInTaskArray.value(forKey: "taskperiod") as! Int)分钟"
         }
         return cell
     }
@@ -169,8 +169,9 @@ class waitForHandleTaskListViewController: UIViewController,UITableViewDelegate,
             GoodsID = dictionaryObjectInTaskArray.value(forKey: "goodsid") as! String
         }
         let taskDetailView = TaskDetailViewController(currentTaskID: taskID, currentCustomid: customeID, currentOrderID: OrderID!, currentGoodsID: GoodsID!, currentTaskType: TaskType!)
-        self.present(taskDetailView, animated: true, completion: nil)
-        //self.navigationController?.pushViewController(taskDetailView, animated: true)
+        let nav:UINavigationController = UINavigationController.init(rootViewController: taskDetailView)
+        self.present(nav, animated: true, completion: nil)
+        
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 130
@@ -191,8 +192,8 @@ class waitForHandleTaskListViewController: UIViewController,UITableViewDelegate,
     
     lazy var TaskListTableView:UITableView = {
         //height -77 调好的
-        var heightOfTableView = UIScreen.main.bounds.height - 96
-        var tempTableView = UITableView(frame: CGRect(x: 0, y: 50, width: UIScreen.main.bounds.width, height: heightOfTableView), style: UITableViewStyle.plain)
+        //var heightOfTableView = UIScreen.main.bounds.height - 96
+        var tempTableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: kHight - 90), style: UITableViewStyle.plain)
         tempTableView.delegate = self
         tempTableView.dataSource = self
         

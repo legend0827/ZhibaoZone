@@ -27,6 +27,22 @@
 		<string>http://192.168.1.150:8082/zb-order-web/order/quotation.do</string>
 		<key>orderListOfNotQuoteYet</key>
 		<string>http://118.126.116.76:8082/zb-order-web/order/quotation.do</string>
+		<key>orderListOfAlreadyQuoteDebug</key>
+		<string>http://192.168.1.150:8082/zb-order-web/order/hasQuotation.do</string>
+		<key>orderListOfAlreadyQuote</key>
+		<string>http://118.126.116.76:8082/zb-order-web/order/hasQuotation.do</string>
+		<key>orderListOfWaitForProduceDebug</key>
+		<string>http://192.168.1.150:8082/zb-order-web/order/newFactoryOrder.do</string>
+		<key>orderListOfWaitForProduce</key>
+		<string>http://118.126.116.76:8082/zb-order-web/order/newFactoryOrder.do</string>
+		<key>orderListOfProducingDebug</key>
+		<string>http://192.168.1.150:8082/zb-order-web/order/inProduction.do</string>
+		<key>orderListOfProducing</key>
+		<string>http://118.126.116.76:8082/zb-order-web/order/inProduction.do</string>
+		<key>orderSearchDebug</key>
+		<string>http://192.168.1.150:8082/zb-order-web/order/orderinfo.do</string>
+		<key>orderSearch</key>
+		<string>http://118.126.116.76:8082/zb-order-web/order/orderinfo.do</string>
 		<key>taskListDealingAPIDebug</key>
 		<string>http://192.168.1.150:8082/zb-manager-web/page/unDoneTaskList.do</string>
 		<key>taskListDealingAPI</key>

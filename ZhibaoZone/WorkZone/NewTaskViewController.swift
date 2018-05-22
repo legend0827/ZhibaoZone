@@ -168,6 +168,8 @@ class NewTaskViewController:UIViewController,UITableViewDelegate,UITableViewData
         self.navigationController?.dismiss(animated: true, completion: nil)
     }
     @objc func sendBtnClicked(){
+        self.navigationController?.dismiss(animated: true, completion: nil)
+        greyLayerPrompt.show(text: "发送中,请稍后...")
         if imageURLs.count != 0{
             taskImages = uploadFiles(images: imageURLs)
         }else{

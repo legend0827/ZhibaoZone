@@ -9,18 +9,30 @@
 import UIKit
 import CoreData
 import PagingMenuController
+import Photos
+import Alamofire
+import QCloudCOSXML
+import QCloudCore
+import AudioToolbox
 
 private struct PagingMenuOptions:PagingMenuControllerCustomizable{
+    var roleType = getCurrentUserInfo().value(forKey: "roletype") as! Int
     //全部订单子视图
-    private let allOrdersVC = AllOrdersViewController()
+    private let allOrdersVC = AllOrdersViewController(orderlistTye: orderListCategoryType.allOrderCategory)
     //待报价子视图
-    private let notQuoteYetVC = NotQuoteYetViewController()
+    private let notQuoteYetVC = AllOrdersViewController(orderlistTye: orderListCategoryType.notQuotePriceYetOrderCategory)//NotQuoteYetViewController()
     //已报价子视图
-    private let quoteAlreadyVC = QuoteAlreadyViewController()
+    private let quoteAlreadyVC = AllOrdersViewController(orderlistTye: orderListCategoryType.alreadyQuotedOderCategory)//AllOrdersViewController()//QuoteAlreadyViewController()
     //待接受生产子视图
-    private let waitForProduceVC = WaitForAccpetProduceViewController()
+    private let waitForProduceVC = AllOrdersViewController(orderlistTye: orderListCategoryType.waitForAcceptProduceOrderCategory)//AllOrdersViewController()//WaitForAccpetProduceViewController()
+    
+    private let WaitForDesignVC = AllOrdersViewController(orderlistTye: orderListCategoryType.waitForDesignCategory)
+    
+    private let WaitForModifyVC = AllOrdersViewController(orderlistTye: orderListCategoryType.waitForModifyCategory)
+    
+    private let DesignConfirmedVC = AllOrdersViewController(orderlistTye: orderListCategoryType.DesignConfirmedCategory)
     //生产中子视图
-    private let producingVC = ProducingViewController()
+    private let producingVC = AllOrdersViewController(orderlistTye: orderListCategoryType.producingOrderCategory)//AllOrdersViewController()//ProducingViewController()
     
     var backgroundColor: UIColor = UIColor.backgroundColors(color: .white) // 设置菜单栏底色
 
@@ -33,7 +45,11 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
     
     //所有子视图控制器
     fileprivate var pagingControllers: [UIViewController] {
-        return [allOrdersVC,notQuoteYetVC,quoteAlreadyVC,waitForProduceVC,producingVC]
+        if roleType == 2{
+            return [WaitForDesignVC,WaitForModifyVC,DesignConfirmedVC]
+        }else{
+            return [allOrdersVC,notQuoteYetVC,quoteAlreadyVC,waitForProduceVC,producingVC]
+        }
     }
     
     //菜单配置项
@@ -58,7 +74,7 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
         //自定义菜单项名称
         var displayMode: MenuItemDisplayMode {
             //return .text(title: MenuItemText(text: "全部"))
-            return .text(title: MenuItemText(text: "全部", color: UIColor.titleColors(color: .black), selectedColor: UIColor.titleColors(color: .red), font: UIFont.systemFont(ofSize: 16), selectedFont: UIFont.systemFont(ofSize: 16)))
+                return .text(title: MenuItemText(text: "全部", color: UIColor.titleColors(color: .black), selectedColor: UIColor.titleColors(color: .red), font: UIFont.systemFont(ofSize: 16), selectedFont: UIFont.systemFont(ofSize: 16)))
         }
     }
     
@@ -93,9 +109,48 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
             return .text(title: MenuItemText(text: "待发货", color: UIColor.titleColors(color: .black), selectedColor: UIColor.titleColors(color: .red), font: UIFont.systemFont(ofSize: 16), selectedFont: UIFont.systemFont(ofSize: 16)))
         }
     }
+    //第6个菜单项
+    fileprivate struct MenuItem6: MenuItemViewCustomizable {
+        //自定义菜单项名称
+        var displayMode: MenuItemDisplayMode {
+            return .text(title: MenuItemText(text: "待接单", color: UIColor.titleColors(color: .black), selectedColor: UIColor.titleColors(color: .red), font: UIFont.systemFont(ofSize: 16), selectedFont: UIFont.systemFont(ofSize: 16)))
+        }
+    }
+    //第7个菜单项
+    fileprivate struct MenuItem7: MenuItemViewCustomizable {
+        //自定义菜单项名称
+        var displayMode: MenuItemDisplayMode {
+            return .text(title: MenuItemText(text: "待修改", color: UIColor.titleColors(color: .black), selectedColor: UIColor.titleColors(color: .red), font: UIFont.systemFont(ofSize: 16), selectedFont: UIFont.systemFont(ofSize: 16)))
+        }
+    }
+    //第8个菜单项
+    fileprivate struct MenuItem8: MenuItemViewCustomizable {
+        //自定义菜单项名称
+        var displayMode: MenuItemDisplayMode {
+            return .text(title: MenuItemText(text: "已定稿", color: UIColor.titleColors(color: .black), selectedColor: UIColor.titleColors(color: .red), font: UIFont.systemFont(ofSize: 16), selectedFont: UIFont.systemFont(ofSize: 16)))
+        }
+    }
 }
 
 class OrdersViewController:UIViewController,UITextFieldDelegate {
+    
+    //系统声音播放
+    var isPlaying = false
+    var isTheAlertPlayed = false
+    
+    //获取消息列表
+    var timerForMessageList:Timer!
+    var messagesList:[NSDictionary] = []
+    var previewsMessagesIDList:[String] = []
+    var currentMessagesIDList:[String] = []
+    var currentMessagesTypeList:[Int] = []
+    var isNeedsAlert = true
+    var getMessagesCount = 0
+    
+    //消息数目
+    let messageCountLabel:UILabel = UILabel.init(frame: CGRect(x: 13, y: -5, width: 22, height: 16))
+    
+    //用户角色
     var _roleType = 1
     
     //标题栏背景
@@ -112,6 +167,11 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
         super.viewDidLoad()
         //设置状态栏颜色
         setStatusBarBackgroundColor(color: .titleColors(color: .red))
+        
+        
+        //每30秒获取一次消息列表
+        getMessageList()//先获取一次
+        timerForMessageList = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(getMessageList), userInfo: nil, repeats: true)
         
         /// 菜单栏配置
         
@@ -159,7 +219,18 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
         let msgListImg = UIImageView(frame: CGRect(x: 0, y: 3, width: 22, height: 18))
         msgListImg.image =  UIImage(named:"messagelisticon")
         self.view.addSubview(messageListBtn)
+        
+        messageCountLabel.backgroundColor = UIColor.backgroundColors(color: .white)
+        messageCountLabel.layer.cornerRadius = 7
+        messageCountLabel.text = "\(messagesList.count)"
+        messageCountLabel.font = UIFont.systemFont(ofSize: 11)
+        messageCountLabel.textColor = UIColor.titleColors(color: .red)
+        messageCountLabel.textAlignment = .center
+        messageCountLabel.clipsToBounds = true // 对Label切角度
+        messageCountLabel.isHidden = true
+        messageListBtn.addSubview(messageCountLabel)
         messageListBtn.addSubview(msgListImg)
+        
         
         //设置搜索栏
         searchBarInOrders.backgroundColor = UIColor.colorWithRgba(236, g: 133, b: 133, a: 1.0)
@@ -190,10 +261,10 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
         searchBarInOrders.backgroundColor = UIColor.clear
         
         if _roleType == 1{
-            let searchOrderVC = OrderSearchViewController(searchModel: .orderidAndWangWangID)
+            let searchOrderVC = OrderSearchViewController(searchModel: .orderidAndWangWangID, roleType: _roleType)
             self.present(searchOrderVC, animated: true, completion: nil)
         }else{
-            let searchOrderVC = OrderSearchViewController(searchModel: .orderidOnly)
+            let searchOrderVC = OrderSearchViewController(searchModel: .orderidOnly, roleType: _roleType)
             self.present(searchOrderVC, animated: true, completion: nil)
         }
     }
@@ -202,6 +273,11 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
     }
     @objc func messageListBtnClicked(){
         print("消息列表按钮点击了")
+        let msgVC = MessageListViewController()
+        msgVC.messagesList = messagesList
+        //设置跳转带navigation controller的跳转
+        let nav = UINavigationController(rootViewController: msgVC)
+        self.present(nav, animated: true, completion: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -210,6 +286,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
 //        searchBarInOrders.backgroundColor = UIColor.clear
     }
     override func viewWillAppear(_ animated: Bool) {
+        self.view.backgroundColor = UIColor.white
         setStatusBarBackgroundColor(color: UIColor.titleColors(color: .red))
         titleBarView.backgroundColor = UIColor.backgroundColors(color: .red)
         searchBarInOrders.backgroundColor = UIColor.colorWithRgba(236, g: 133, b: 133, a: 1.0)
@@ -223,6 +300,253 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    
+    //获取消息列表
+    @objc func getMessageList(){
+        DispatchQueue.global(qos: .background).async {
+            DispatchQueue.main.async(execute: {
+                //获取列表
+                
+                let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
+                let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
+                let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
+                #if DEBUG
+                //            let newTaskUpdateURL:String = "http://192.168.1.102:8068/task/createTasklist.do"
+                let newTaskUpdateURL:String = apiAddresses.value(forKey: "getMessagesListDebug") as! String
+                #else
+                let newTaskUpdateURL:String = apiAddresses.value(forKey: "getMessagesList") as! String
+                #endif
+                //定义请求参数
+                let params:NSMutableDictionary = NSMutableDictionary()
+                
+                //从datacore获取用户数据
+                //获取管理的数据上下文，对象
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                let managedObjectContext = appDelegate.persistentContainer.viewContext
+                
+                //声明数据的请求
+                let fetchRequest =  NSFetchRequest<UserAccount>(entityName:"UserAccount")
+                let fetchRequestOfToken = NSFetchRequest<TokenRestored>(entityName:"TokenRestored")
+                //        fetchRequest.fetchLimit = 10 //限定查询结果的数量
+                //        fetchRequest.fetchOffset = 0 //查询到偏移量
+                fetchRequest.returnsObjectsAsFaults = false
+                fetchRequestOfToken.returnsObjectsAsFaults = false
+                
+                // 设置查询条件
+                let predicate = NSPredicate(format: "id = '1'")
+                fetchRequest.predicate = predicate
+                
+                // 设置查询条件
+                let predicateOfToken = NSPredicate(format: "id = '1'")
+                fetchRequestOfToken.predicate = predicateOfToken
+                //查询操作
+                do {
+                    let fetchedObjects = try managedObjectContext.fetch(fetchRequest)
+                    
+                    //遍历查询结果
+                    for info in fetchedObjects{
+                        //更新数据
+                        //设置获取全部订单参数组
+                        
+                        params["userid"] =  info.userId
+                        params["roletype"] = info.roleType
+                        params["commandcode"] = 110
+                        params["isnew"] = 0
+                        try managedObjectContext.save()
+                    }
+                } catch  {
+                    fatalError("获取失败")
+                }
+                
+                //查询操作
+                do {
+                    let fetchedObjects = try managedObjectContext.fetch(fetchRequestOfToken)
+                    
+                    //遍历查询结果
+                    for info in fetchedObjects{
+                        //更新数据
+                        //设置获取全部订单参数组
+                        params["token"] = info.token
+                        try managedObjectContext.save()
+                    }
+                } catch  {
+                    fatalError("获取失败")
+                }
+                _ = Alamofire.request(newTaskUpdateURL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
+                    (responseObject) in
+                    switch responseObject.result.isSuccess{
+                    case true:
+                        if  let value = responseObject.result.value{
+                            let json = JSON(value)
+                            self.messagesList.removeAll()
+                            if json["status","code"].int! == 0{
+                                for item in json["msginfo"].array! {
+                                    let restoreItem = item.dictionaryObject as! NSDictionary
+                                    self.messagesList.append(restoreItem)
+                                }
+                                self.getMessagesCount = self.messagesList.count
+                            }else if json["status","code"].int! == 1{
+                                self.getMessagesCount = 0
+                            }
+                            if self.messagesList.count == 0{
+                               // self.messageBtnLayer.isHidden = true
+                                self.messageCountLabel.isHidden = true
+                            }else{
+                                //self.messageBtnLayer.isHidden = false
+                                self.messageCountLabel.isHidden = false
+                                if self.messagesList.count > 99{
+                                    self.messageCountLabel.text = "99+"
+                                }else{
+                                    self.messageCountLabel.text = "\(self.messagesList.count)"
+                                }
+                                self.calculateWeatherNeedsAlert()
+                            }
+                        }
+                    case false:
+                        print("update failed")
+                    }
+                }
+            })
+        }
+    }
+    
+    func calculateWeatherNeedsAlert()
+    {
+        
+        isNeedsAlert = false
+        var AlertFrequencyValue = 0
+        //var isTheAlertPlayedThisRound = false
+        //遍历当前获取到的列表里的所有
+        currentMessagesTypeList.removeAll()
+        currentMessagesIDList.removeAll()
+        for i in 0..<messagesList.count{
+            let mSGType = messagesList[i].value(forKey: "msgtype") as! Int
+            let mSGID = messagesList[i].value(forKey: "msgid") as! String
+            currentMessagesTypeList.append(mSGType)
+            currentMessagesIDList.append(mSGID)
+        }
+        
+        //第一次获取消息,直接判断是不是需要提醒
+        if previewsMessagesIDList.count == 0{
+            
+            //遍历当前消息列表中的消息类型,以此得到是否需要提醒
+            var needsAlertFromCurrentAlertSettingForTargetMSGType = false
+            for msgType in currentMessagesTypeList{
+                let tempAlertTag = getMSGAlertSettings(index: msgType)
+                //将获取到的设置与变量取或： 如果有任何一个设置的为需要提醒，那么值将会得到True
+                needsAlertFromCurrentAlertSettingForTargetMSGType = needsAlertFromCurrentAlertSettingForTargetMSGType||tempAlertTag
+            }
+            
+            //获取当前设置，决定是否需要提醒，以及提醒多少次
+            let frequency = getMsgVoiceAlertFrequencyWeight()
+            print(frequency)
+            if frequency == 1{
+                // 不提醒
+                isNeedsAlert = false
+                AlertFrequencyValue = 0
+            }else if frequency == 10{
+                //提醒一次
+                //
+                isNeedsAlert = true && needsAlertFromCurrentAlertSettingForTargetMSGType
+                AlertFrequencyValue = 1
+            }else{
+                //提醒多次
+                //重新设置 needsAlertFromCurrentAlertSettingForTargetMSGType 值，遍历当前列表
+                for msgType in currentMessagesTypeList{
+                    let tempAlertTag = getMSGAlertSettings(index: msgType)
+                    //将获取到的设置与变量取或： 如果有任何一个设置的为需要提醒，那么值将会得到True
+                    needsAlertFromCurrentAlertSettingForTargetMSGType = needsAlertFromCurrentAlertSettingForTargetMSGType||tempAlertTag
+                }
+                isNeedsAlert = true && needsAlertFromCurrentAlertSettingForTargetMSGType
+                AlertFrequencyValue = 10
+            }
+            
+            //将当前获取的列表替换到上次的列表中，以便下次比对
+            previewsMessagesIDList.removeAll()
+            previewsMessagesIDList = currentMessagesIDList
+        }else{ //不是第一次获取消息了
+            var itemID = 0
+            var needsAlertFromCurrentAlertSettingForTargetMSGType = false
+            for id in currentMessagesIDList{
+                if !previewsMessagesIDList.contains(id){//这条消息不包含在之前的消息里
+                    //如果这条消息不在列表里，那么取对应的消息ID查询结果，并与定义的需要提醒取或，只要有一条消息需要提醒，那么值将会是true
+                    needsAlertFromCurrentAlertSettingForTargetMSGType =  needsAlertFromCurrentAlertSettingForTargetMSGType || getMSGAlertSettings(index: currentMessagesTypeList[itemID])
+                }
+                itemID += 1
+            }
+            //获取当前设置，决定是否需要提醒，以及提醒多少次
+            let frequency = getMsgVoiceAlertFrequencyWeight()
+            print(frequency)
+            if frequency == 1{
+                // 不提醒
+                isNeedsAlert = false
+                AlertFrequencyValue = 0
+            }else if frequency == 10{
+                //提醒一次
+                //
+                isNeedsAlert = true && needsAlertFromCurrentAlertSettingForTargetMSGType
+                AlertFrequencyValue = 1
+            }else{
+                //提醒多次
+                //重新设置 needsAlertFromCurrentAlertSettingForTargetMSGType 值，遍历当前列表
+                for msgType in currentMessagesTypeList{
+                    let tempAlertTag = getMSGAlertSettings(index: msgType)
+                    //将获取到的设置与变量取或： 如果有任何一个设置的为需要提醒，那么值将会得到True
+                    needsAlertFromCurrentAlertSettingForTargetMSGType = needsAlertFromCurrentAlertSettingForTargetMSGType||tempAlertTag
+                }
+                isNeedsAlert = true && needsAlertFromCurrentAlertSettingForTargetMSGType
+                AlertFrequencyValue = 10
+            }
+        }
+        
+        if isNeedsAlert == true{
+            if (AlertFrequencyValue == 1) && (isTheAlertPlayed == false){
+                playAudio()
+                isTheAlertPlayed = true
+            }else if AlertFrequencyValue == 10{
+                playAudio()
+            }
+        }
+        
+    }
+    
+    func playAudio(){
+        
+        if !isPlaying{
+            //建立的SystemSoundID对象
+            var soundID:SystemSoundID = 0
+            //获取声音地址
+            let path = Bundle.main.path(forResource: "msg", ofType: "wav")
+            //地址转换
+            let baseURL = NSURL(fileURLWithPath: path!)
+            //赋值
+            AudioServicesCreateSystemSoundID(baseURL, &soundID)
+            
+            //添加音频结束时的回调
+            let observer = UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
+            AudioServicesAddSystemSoundCompletion(soundID, nil, nil, {
+                (soundID, inClientData) -> Void in
+                let mySelf = Unmanaged<OrdersViewController>.fromOpaque(inClientData!)
+                    .takeUnretainedValue()
+                mySelf.audioServicesPlaySystemSoundCompleted(soundID: soundID)
+            }, observer)
+            
+            //播放声音
+            AudioServicesPlaySystemSound(soundID)
+            isPlaying = true
+        }
+        
+        
+    }
+    //音频结束时的回调
+    func audioServicesPlaySystemSoundCompleted(soundID: SystemSoundID) {
+        print("Completion")
+        isPlaying = false
+        AudioServicesRemoveSystemSoundCompletion(soundID)
+        AudioServicesDisposeSystemSoundID(soundID)
+    }
+
 
 }
 
