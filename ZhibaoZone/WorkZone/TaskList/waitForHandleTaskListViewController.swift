@@ -19,9 +19,19 @@ class waitForHandleTaskListViewController: UIViewController,UITableViewDelegate,
     var historyNum = 0 //历史任务数
     var page: Int = 1
     var totalPageCount: Int = 1
+    var ListType:taskListType = .waitToHandle
     //任务
     var taskListArray:[NSDictionary] = []
 
+    init(listType:taskListType){
+        ListType = listType
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -251,25 +261,34 @@ class waitForHandleTaskListViewController: UIViewController,UITableViewDelegate,
         let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
         let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
         
-        #if DEBUG
-        var listOfURL:String = apiAddresses.value(forKey: "taskListDealingAPIDebug") as! String
-//        if SwitchModelBtn.isOn {
-//            //待处理任务
-//            listOfURL = apiAddresses.value(forKey: "taskListDealingAPIDebug") as! String
-//        }else{
-//            //历史任务
-//            listOfURL = apiAddresses.value(forKey: "taskListHistoryAPIDebug") as! String
-//        }
-        #else
-        var listOfURL:String = apiAddresses.value(forKey: "taskListDealingAPI") as! String
-        if true {
-            //待处理任务
-            listOfURL = apiAddresses.value(forKey: "taskListDealingAPI") as! String
-        }else{
-            //历史任务
+        var listOfURL:String = ""
+        switch ListType {
+        case .waitToHandle:
+            #if DEBUG
+                listOfURL = apiAddresses.value(forKey: "taskListDealingAPIDebug") as! String
+            #else
+                listOfURL = apiAddresses.value(forKey: "taskListDealingAPI") as! String
+            #endif
+        case .taskHistory:
+            #if DEBUG
+            listOfURL = apiAddresses.value(forKey: "taskListHistoryAPIDebug") as! String
+            #else
             listOfURL = apiAddresses.value(forKey: "taskListHistoryAPI") as! String
+            #endif
+        case .mineCreation:
+            #if DEBUG
+            listOfURL = apiAddresses.value(forKey: "taskListDealingAPIDebug") as! String
+            #else
+            listOfURL = apiAddresses.value(forKey: "taskListDealingAPI") as! String
+            #endif
+        default:
+            #if DEBUG
+            listOfURL = apiAddresses.value(forKey: "taskListDealingAPIDebug") as! String
+            #else
+            listOfURL = apiAddresses.value(forKey: "taskListDealingAPI") as! String
+            #endif
         }
-        #endif
+       
         //定义请求参数
         let params:NSMutableDictionary = NSMutableDictionary()
         
@@ -337,7 +356,7 @@ class waitForHandleTaskListViewController: UIViewController,UITableViewDelegate,
                 if let value = responseObject.result.value{
                     let json = JSON(value)
                     //print(json)
-                    if true {// 待处理任务
+                    if self.ListType == .mineCreation || self.ListType == .waitToHandle {// 待处理任务
                         self.toDealNum = json["taskinfo","todealtask"].count//获取待处理任务总数
                         if self.toDealNum != 0{
                             self.totalPageCount = json["taskinfo","todealnum"].int!/self.toDealNum//获取待处理任务总数
@@ -353,6 +372,9 @@ class waitForHandleTaskListViewController: UIViewController,UITableViewDelegate,
                                 print("view not exists")
                                 imageView.removeFromSuperview()
                                 noticeWhenLoadingData.removeFromSuperview()
+                            }
+                            if self.ListType == .mineCreation{
+                                self.filterMyTask()
                             }
                             self.TaskListTableView.reloadData()
                             self.TaskListTableView.es.stopPullToRefresh()
@@ -450,6 +472,13 @@ class waitForHandleTaskListViewController: UIViewController,UITableViewDelegate,
         taskListArray.removeAll()
         loadOrderDataFromServer(pages: 1)
         
+    }
+    func filterMyTask(){
+        var i = 0
+        for item in taskListArray{
+          //  item.value(forKey: "tasksendername") as? String =
+            i += 1
+        }
     }
     
     func emytyAreaShowingLabel(withRetry:Bool) {

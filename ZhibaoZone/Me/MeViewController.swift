@@ -78,15 +78,16 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         //设置登录按钮
         let LogoutBtn:UIButton = UIButton.init(type: UIButtonType.system)
         if UIDevice.current.isX() {
-            LogoutBtn.frame = CGRect(x:45, y:UIScreen.main.bounds.height-201, width:UIScreen.main.bounds.width - 90, height: 44)
+            LogoutBtn.frame = CGRect(x:20, y:UIScreen.main.bounds.height-201, width:UIScreen.main.bounds.width - 40, height: 45)
         }else{
-            LogoutBtn.frame = CGRect(x:45, y:UIScreen.main.bounds.height-140, width:UIScreen.main.bounds.width - 90, height: 44)
+            LogoutBtn.frame = CGRect(x:20, y:UIScreen.main.bounds.height-140, width:UIScreen.main.bounds.width - 40, height: 45)
         }
-        LogoutBtn.layer.borderColor = UIColor.lightGray.cgColor
+//        LogoutBtn.layer.borderColor = UIColor.lightGray.cgColor
         LogoutBtn.layer.cornerRadius = 6
-        LogoutBtn.layer.borderWidth = 0.5
+//        LogoutBtn.layer.borderWidth = 0.5
         LogoutBtn.layer.backgroundColor = UIColor.iconColors(color: .red).cgColor
         LogoutBtn.setTitle("退出", for: UIControlState.normal)
+        LogoutBtn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         LogoutBtn.setTitleColor(UIColor.titleColors(color: .white), for: UIControlState.normal)
         LogoutBtn.setTitleColor(UIColor.clear, for: UIControlState.highlighted)
         
@@ -227,10 +228,10 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         unlockHitTitleLabel.font = UIFont.systemFont(ofSize: 16)
         unlockHitTitleLabel.textAlignment = .left
         
-        let imageViewOfArrow:UIImageView = UIImageView.init(frame: CGRect(x: UIScreen.main.bounds.width - 30, y: 15, width: 30, height: 30))
+        let imageViewOfArrow:UIImageView = UIImageView.init(frame: CGRect(x: UIScreen.main.bounds.width - 38, y: 15, width: 30, height: 30))
 
         imageViewOfArrow.image = UIImage(named:"right-arrow")
-        imageViewOfArrow.bounds = CGRect(x:UIScreen.main.bounds.width - 30,y:8,width:15,height:15)
+        imageViewOfArrow.bounds = CGRect(x:UIScreen.main.bounds.width - 30,y:8,width:18,height:18)
         
         SetQuickAccessPermitCell.addSubview(iconImageview)
         SetQuickAccessPermitCell.addSubview(imageViewOfArrow)
@@ -249,10 +250,10 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         parameterHitTitleLabel.font = UIFont.systemFont(ofSize: 16)
         parameterHitTitleLabel.textAlignment = .left
         
-        let imageViewOfArrow:UIImageView = UIImageView.init(frame: CGRect(x: UIScreen.main.bounds.width - 30, y: 15, width: 30, height: 30))
+        let imageViewOfArrow:UIImageView = UIImageView.init(frame: CGRect(x: UIScreen.main.bounds.width - 38, y: 15, width: 30, height: 30))
         
         imageViewOfArrow.image = UIImage(named:"right-arrow")
-        imageViewOfArrow.bounds = CGRect(x:UIScreen.main.bounds.width - 30,y: 8,width:15,height:15)
+        imageViewOfArrow.bounds = CGRect(x:UIScreen.main.bounds.width - 30,y: 8,width:18,height:18)
         
         SetParametersCell.addSubview(iconImageview)
         SetParametersCell.addSubview(imageViewOfArrow)

@@ -640,29 +640,6 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
                     self.orderSearchCollectionView.removeFromSuperview()
                 }else{
                     self.StopLoadingAnimation()
-                    let loadingFailedLabel:UILabel = UILabel.init(frame: CGRect(x: UIScreen.main.bounds.width/2 - 100, y: UIScreen.main.bounds.height/2 - 200, width: 200, height: 200))
-                    loadingFailedLabel.text = "加载失败，请重试..."
-                    loadingFailedLabel.tag = 100
-                    loadingFailedLabel.font = UIFont.systemFont(ofSize: 14)
-                    loadingFailedLabel.textColor = UIColor.gray
-                    loadingFailedLabel.textAlignment = .center
-                    
-                    let retryBtn:UIButton = UIButton.init(type: .system)
-                    retryBtn.frame = CGRect(x: UIScreen.main.bounds.width/2 - 75, y: UIScreen.main.bounds.height/2 - 50, width: 150, height: 44)
-                    retryBtn.backgroundColor = UIColor.white
-                    retryBtn.layer.cornerRadius = 5
-                    retryBtn.layer.borderColor = #colorLiteral(red: 0.9104188085, green: 0.2962309122, blue: 0.2970536053, alpha: 1)
-                    retryBtn.layer.borderWidth = 1
-                    retryBtn.setTitle("重试", for: .normal)
-                    retryBtn.setTitleColor(#colorLiteral(red: 0.9104188085, green: 0.2962309122, blue: 0.2970536053, alpha: 1), for: .normal)
-                    retryBtn.tag = 101
-                    retryBtn.addTarget(self, action: #selector(self.retryBtnInViewClicked), for: .touchUpInside)
-                    //先删除后添加，防止重复点击重复创建
-                    self.view.viewWithTag(100)?.removeFromSuperview()
-                    self.view.viewWithTag(101)?.removeFromSuperview()
-                    
-                    self.view.addSubview(loadingFailedLabel)
-                    self.view.addSubview(retryBtn)
                 }
                 if responseObject.result.error?.localizedDescription != "cancelled" && responseObject.result.error?.localizedDescription as! String != "已取消"{
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -713,6 +690,9 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    override func viewWillDisappear(_ animated: Bool) {
+        //titleBarView.backgroundColor = UIColor.backgroundColors(color: .red)
+    }
     
     @objc func searchBarCancelButtonClicked() {
         self.dismiss(animated: true, completion: nil)
@@ -721,9 +701,9 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
     func emytyAreaShowingLabel(withRetry:Bool) {
         //什么都没有
         let sizeOfNothing:Int = 180
-        let nothingToShow = UIImageView(frame: CGRect(x: 100, y:Int((UIScreen.main.bounds.height)/2) - 300, width: sizeOfNothing, height: sizeOfNothing))
+        let nothingToShow = UIImageView(frame: CGRect(x: 100, y:Int((UIScreen.main.bounds.height)/2) - 100, width: sizeOfNothing, height: sizeOfNothing))
         //设置文字标签
-        let nothingToSHowLabel:UILabel = UILabel.init(frame:CGRect(x: (sizeOfNothing + 200)/2-sizeOfNothing/2, y: Int((UIScreen.main.bounds.height)/2) - 120 , width: 200, height: 44))
+        let nothingToSHowLabel:UILabel = UILabel.init(frame:CGRect(x: (sizeOfNothing + 200)/2-sizeOfNothing/2, y: Int((UIScreen.main.bounds.height)/2) + 120 , width: 200, height: 44))
         nothingToSHowLabel.text = "空空如也..."
         nothingToSHowLabel.alpha = 0.4
         nothingToSHowLabel.tag = 901

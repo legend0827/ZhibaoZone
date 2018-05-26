@@ -62,7 +62,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         layout.sectionInset = UIEdgeInsets.init(top: 5, left: 20, bottom: 5, right: 20)            //section四周的缩进
         layout.scrollDirection = UICollectionViewScrollDirection.vertical  //滚动方向
         
-        let tempCollectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: kWidth, height: kHight - 165),collectionViewLayout:layout) // 
+        let tempCollectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: kWidth, height: kHight - 145),collectionViewLayout:layout) // 
         tempCollectionView.backgroundColor = UIColor.backgroundColors(color: .white)
         tempCollectionView.delegate = self
         tempCollectionView.dataSource = self
@@ -255,7 +255,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
                 cell.quotePriceBtnInCell.isHidden = true
             }
             //分配生产之前，价格显示报价价格 //设置自己的报价
-            if ((statusObjects.value(forKey: "orderstate") as! NSDictionary).value(forKey: "orderstate") as! Int) <= 7{
+            if ((statusObjects.value(forKey: "orderstate") as! NSDictionary).value(forKey: "orderstate") as! Int) < 7{
                // cell.quotePriceBtnInCell.isHidden = false
                 
                 if priceInfoObjects.value(forKey: "returnprice") as? Float == nil{
@@ -769,6 +769,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .red))
         self.view.backgroundColor = UIColor.white
         //从datacore获取用户数据
         //获取管理的数据上下文，对象

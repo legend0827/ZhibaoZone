@@ -14,6 +14,7 @@ import Alamofire
 import QCloudCOSXML
 import QCloudCore
 import AudioToolbox
+import AVFoundation
 
 private struct PagingMenuOptions:PagingMenuControllerCustomizable{
     //全部订单子视图
@@ -136,9 +137,14 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
     var currentMessagesTypeList:[Int] = []
     var isNeedsAlert = true
     var getMessagesCount = 0
+    lazy var tabBarVC: TabBarController = {
+        return TabBarController(royeType: 1)
+    }()
+    //var tabBarVC = TabBarController(royeType: 1)
     
     //消息数目
-    let messageCountLabel:UILabel = UILabel.init(frame: CGRect(x: 13, y: -5, width: 22, height: 16))
+    let messageCountBackLabel:UIView = UIView.init(frame: CGRect(x: 53, y: -5, width: 22, height: 16))
+    let messageCountLabel:UILabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: 22, height: 16))
     
     //用户角色
     var _roleType = 1
@@ -187,12 +193,12 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
         //print("分页显示出来了")
 
         titleBarView.frame = CGRect(x: 0, y: 20 + heightChangeForiPhoneXFromTop, width: kWidth, height: 44)
-        scanQRCodeBtn.frame = CGRect(x: 20, y: 11, width: 22, height: 22)
-        messageListBtn.frame = CGRect(x: kWidth - 42, y: 11, width: 22, height: 22)
+        scanQRCodeBtn.frame = CGRect(x: 20, y: 11, width: 62, height: 22)
+        messageListBtn.frame = CGRect(x: kWidth - 82, y: 11, width: 62, height: 22)
         searchBarInOrders.frame = CGRect(x: 52, y: 8, width:kWidth - 104, height: 28)
         //为搜索框添加点击事件
         let gestureRecognizerOfSearach = UITapGestureRecognizer(target: self, action:#selector(searchBarTaped))
-        titleBarView.addGestureRecognizer(gestureRecognizerOfSearach)
+        searchBarInOrders.addGestureRecognizer(gestureRecognizerOfSearach)
         
         //顶部titlebar显示
         titleBarView.backgroundColor = UIColor.backgroundColors(color: .red) // 红色主色调
@@ -206,20 +212,33 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
         
         //设置消息按钮样式和响应
         messageListBtn.addTarget(self, action: #selector(messageListBtnClicked), for: UIControlEvents.touchUpInside)
-        let msgListImg = UIImageView(frame: CGRect(x: 0, y: 3, width: 22, height: 18))
+        let msgListImg = UIImageView(frame: CGRect(x: 40, y: 3, width: 22, height: 18))
         msgListImg.image =  UIImage(named:"messagelisticon")
         self.view.addSubview(messageListBtn)
         
+        
+        
+        messageCountBackLabel.layer.cornerRadius = 7
+        messageCountBackLabel.clipsToBounds = true // 对Label切角度
+        messageCountBackLabel.isHidden = true
+        messageCountBackLabel.backgroundColor = UIColor.backgroundColors(color: .white)
         messageCountLabel.backgroundColor = UIColor.backgroundColors(color: .white)
+//        let backLayer = CALayer()
+//        backLayer.backgroundColor = UIColor.backgroundColors(color: .white).cgColor
+//        backLayer.bounds  = CGRect(x: 0, y: 0, width: 22, height: 16)
+//        backLayer.position = CGPoint(x: 11, y: 8)
+//        messageCountBackLabel.layer.addSublayer(backLayer)
         messageCountLabel.layer.cornerRadius = 7
         messageCountLabel.text = "\(messagesList.count)"
         messageCountLabel.font = UIFont.systemFont(ofSize: 11)
         messageCountLabel.textColor = UIColor.titleColors(color: .red)
         messageCountLabel.textAlignment = .center
         messageCountLabel.clipsToBounds = true // 对Label切角度
-        messageCountLabel.isHidden = true
-        messageListBtn.addSubview(messageCountLabel)
+        messageCountLabel.isHidden = false
         messageListBtn.addSubview(msgListImg)
+        messageListBtn.addSubview(messageCountBackLabel)
+        messageCountBackLabel.addSubview(messageCountLabel)
+        
         
         
         //设置搜索栏
@@ -237,8 +256,8 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
         searchBarInOrders.addSubview(searchBarHintText)
 
         self.view.addSubview(titleBarView)
-        titleBarView.addSubview(scanQRCodeBtn)
         titleBarView.addSubview(searchBarInOrders)
+        titleBarView.addSubview(scanQRCodeBtn)
         titleBarView.addSubview(messageListBtn)
 
     }
@@ -246,9 +265,9 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
     @objc func searchBarTaped(){
         print("点击了搜索区域")
         
-        setStatusBarBackgroundColor(color: .clear)
-        titleBarView.backgroundColor = UIColor.clear
-        searchBarInOrders.backgroundColor = UIColor.clear
+//        setStatusBarBackgroundColor(color: .clear)
+//        titleBarView.backgroundColor = UIColor.clear
+//        searchBarInOrders.backgroundColor = UIColor.clear
         
         if _roleType == 1{
             let searchOrderVC = OrderSearchViewController(searchModel: .orderidAndWangWangID, roleType: _roleType)
@@ -260,6 +279,9 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
     }
     @objc func scanQRCodeBtnClicked(){
         print("扫描二维码按钮点击了")
+        let scanQRcodeVC = ScanCodeViewController(scanType: .qrCode)
+        let nav = UINavigationController.init(rootViewController: scanQRcodeVC)
+        self.present(nav, animated: true, completion: nil)
     }
     @objc func messageListBtnClicked(){
         print("消息列表按钮点击了")
@@ -270,10 +292,9 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
         self.present(nav, animated: true, completion: nil)
     }
     
+    
     override func viewWillDisappear(_ animated: Bool) {
-//        setStatusBarBackgroundColor(color: .clear)
-//        titleBarView.backgroundColor = UIColor.clear
-//        searchBarInOrders.backgroundColor = UIColor.clear
+
     }
     override func viewWillAppear(_ animated: Bool) {
         self.view.backgroundColor = UIColor.white
@@ -291,7 +312,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    
+
     //获取消息列表
     @objc func getMessageList(){
         DispatchQueue.global(qos: .background).async {
@@ -378,13 +399,16 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
                                 self.getMessagesCount = self.messagesList.count
                             }else if json["status","code"].int! == 1{
                                 self.getMessagesCount = 0
+                                self.tabBarVC.redDot.isHidden = true
                             }
                             if self.messagesList.count == 0{
+                                self.tabBarVC.redDot.isHidden = true
                                // self.messageBtnLayer.isHidden = true
-                                self.messageCountLabel.isHidden = true
+                                self.messageCountBackLabel.isHidden = true
                             }else{
+                                self.tabBarVC.redDot.isHidden = false
                                 //self.messageBtnLayer.isHidden = false
-                                self.messageCountLabel.isHidden = false
+                                self.messageCountBackLabel.isHidden = false
                                 if self.messagesList.count > 99{
                                     self.messageCountLabel.text = "99+"
                                 }else{

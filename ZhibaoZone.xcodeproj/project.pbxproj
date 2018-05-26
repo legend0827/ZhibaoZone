@@ -60,6 +60,7 @@
 		0A9716832009F910007922FB /* NewTaskViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9716822009F910007922FB /* NewTaskViewCell.swift */; };
 		0A99705D20ADB8C500E4D37C /* OrderSearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A99705C20ADB8C500E4D37C /* OrderSearchCollectionViewCell.swift */; };
 		0A99706B20AED7C500E4D37C /* CollectionReusableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A99706A20AED7C500E4D37C /* CollectionReusableViewHeader.swift */; };
+		0A9970AD20B64A2400E4D37C /* ScanCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9970AC20B64A2400E4D37C /* ScanCodeViewController.swift */; };
 		0AB76696200CA8AB00851E16 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AB76695200CA8AB00851E16 /* config.plist */; };
 		0AB766A6200DC46900851E16 /* HGImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB7669F200DC46800851E16 /* HGImageCollectionViewCell.swift */; };
 		0AB766A7200DC46900851E16 /* HGImage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AB766A0200DC46900851E16 /* HGImage.storyboard */; };
@@ -255,6 +256,7 @@
 		0A9716822009F910007922FB /* NewTaskViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskViewCell.swift; sourceTree = "<group>"; };
 		0A99705C20ADB8C500E4D37C /* OrderSearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSearchCollectionViewCell.swift; sourceTree = "<group>"; };
 		0A99706A20AED7C500E4D37C /* CollectionReusableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionReusableViewHeader.swift; sourceTree = "<group>"; };
+		0A9970AC20B64A2400E4D37C /* ScanCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanCodeViewController.swift; sourceTree = "<group>"; };
 		0AB76695200CA8AB00851E16 /* config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
 		0AB7669F200DC46800851E16 /* HGImageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HGImageCollectionViewCell.swift; path = ../../../../../Downloads/hangge_1512/hangge_1512/HGImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		0AB766A0200DC46900851E16 /* HGImage.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = HGImage.storyboard; path = ../../../../../Downloads/hangge_1512/hangge_1512/HGImage.storyboard; sourceTree = "<group>"; };
@@ -499,6 +501,14 @@
 			path = SwiftGifCommon;
 			sourceTree = "<group>";
 		};
+		0A9970AB20B64A0600E4D37C /* scanCode */ = {
+			isa = PBXGroup;
+			children = (
+				0A9970AC20B64A2400E4D37C /* ScanCodeViewController.swift */,
+			);
+			path = scanCode;
+			sourceTree = "<group>";
+		};
 		0AB7669E200DC43600851E16 /* HGImage */ = {
 			isa = PBXGroup;
 			children = (
@@ -601,6 +611,7 @@
 		0ADCB8012011ED3800DCD7C8 /* OrdersList */ = {
 			isa = PBXGroup;
 			children = (
+				0A9970AB20B64A0600E4D37C /* scanCode */,
 				0A09185420AAC0300054749B /* shipingCompanyList */,
 				0A244E55209709D000203463 /* getOrders */,
 				0A0235B31FFD23B900CBD846 /* OrdersViewController.swift */,
@@ -890,6 +901,7 @@
 				0AE149C62001E3BD005A2E55 /* NewTaskViewController.swift in Sources */,
 				0A6B3F101FFB38BE0014AF24 /* AccountInfo.xcdatamodeld in Sources */,
 				0A3AA2171FF61C6E00EBC482 /* MeViewController.swift in Sources */,
+				0A9970AD20B64A2400E4D37C /* ScanCodeViewController.swift in Sources */,
 				0AF06C4B20171D40008E2DE9 /* ESRefreshComponent.swift in Sources */,
 				0AF06C582018F465008E2DE9 /* TaskDetailViewController.swift in Sources */,
 				0A3CC3B9209572970055B5DD /* Extentsions.swift in Sources */,
@@ -1177,8 +1189,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = Doulian.ZhibaoZone;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d7108691-007c-4776-a62c-b595e0f83aa7";
-				PROVISIONING_PROFILE_SPECIFIER = "Xiaogang Dev Cer manual Profile";
+				PROVISIONING_PROFILE = "341408e4-bc42-40db-ae74-755f0aad498f";
+				PROVISIONING_PROFILE_SPECIFIER = "test Release";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;

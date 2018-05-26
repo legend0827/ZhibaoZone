@@ -40,32 +40,32 @@ class NewTaskViewController:UIViewController,UITableViewDelegate,UITableViewData
     let doneBtnOnTaskView:UIButton = UIButton.init(type: .system)
     
     //订单号
-    let orderIDLabel:UILabel = UILabel.init(frame: CGRect(x: 15, y: 10, width: 100, height: 30))
-    let orderIDTextField:UITextField = UITextField.init(frame: CGRect(x: 80, y: 11, width: 200, height: 30))
+    let orderIDLabel:UILabel = UILabel.init(frame: CGRect(x: 20, y: 15, width: 100, height: 22))
+    let orderIDTextField:UITextField = UITextField.init(frame: CGRect(x: 117, y: 10, width: kWidth - 139, height: 30))
     //mark  3 字 y = 60, 4字 y = 75
     //处理期限
-    let deadlineTextField:UILabel = UILabel.init(frame: CGRect(x: 95, y: 9, width: 200, height: 30))
+    let deadlineTextField:UILabel = UILabel.init(frame: CGRect(x: 117, y: 15, width: kWidth - 139, height: 22))
     let deadlineDatePicker:UIDatePicker = UIDatePicker.init(frame: CGRect(x: 0, y: 30, width: UIScreen.main.bounds.width, height: 216))
-    let deadlineLabel:UILabel = UILabel.init(frame: CGRect(x: 15, y: 10, width: 100, height: 30))
+    let deadlineLabel:UILabel = UILabel.init(frame: CGRect(x: 20, y: 15, width: 100, height: 30))
     
     //任务类型
-    let taskTypeLabel:UILabel = UILabel.init(frame: CGRect(x: 15, y: 10, width: 100, height: 30))
-    let taskTypePickerLabel:UILabel = UILabel.init(frame: CGRect(x: 95, y: 9, width: 200, height: 30))
+    let taskTypeLabel:UILabel = UILabel.init(frame: CGRect(x: 20, y: 15, width: 100, height: 22))
+    let taskTypePickerLabel:UILabel = UILabel.init(frame: CGRect(x: 117, y: 15, width: kWidth - 139, height: 22))
     //发送给
-    let postToPplLabel:UILabel = UILabel.init(frame: CGRect(x: 15, y: 10, width: 100, height: 30))
-    let postToPplTextFeild:UITextView = UITextView.init(frame: CGRect(x: 80, y: 9, width: 250, height: 30))
+    let postToPplLabel:UILabel = UILabel.init(frame: CGRect(x: 20, y: 15, width: 100, height: 22))
+    let postToPplTextFeild:UITextView = UITextView.init(frame: CGRect(x: 117, y: 10, width: kWidth - 139, height: 30))
     let postToPplAddContact:UIButton = UIButton.init(type: UIButtonType.contactAdd)
     //上传图片，视频
-    let uploadPicLabel:UILabel = UILabel.init(frame: CGRect(x: 15, y: 10, width: 100, height: 30))
-    let uploadPicBtn:UIButton = UIButton.init(frame: CGRect(x: 95, y: 10, width: 100, height: 30))
-    let uploadPicHit:UILabel = UILabel.init(frame: CGRect(x: 210, y: 10, width: 150, height: 30))
+    let uploadPicLabel:UILabel = UILabel.init(frame: CGRect(x: 20, y: 15, width: 100, height: 22))
+    let uploadPicBtn:UIButton = UIButton.init(frame: CGRect(x: 117, y: 10, width: 100, height: 30))
+    let uploadPicHit:UILabel = UILabel.init(frame: CGRect(x: 240, y: 10, width: 150, height: 30))
     var AttachmentPics:[UIImage] = []
     var AttachmentTypes:[String] = []
     
     
     //任务详情
-    let taskDetailLabel:UILabel = UILabel.init(frame: CGRect(x: 15, y: 10, width: 100, height: 30))
-    let taskDetailTextView:UITextView = UITextView.init(frame: CGRect(x: 10, y: 35, width: UIScreen.main.bounds.width - 30, height: 40))
+    let taskDetailLabel:UILabel = UILabel.init(frame: CGRect(x: 20, y: 15, width: 100, height: 22))
+    let taskDetailTextView:UITextView = UITextView.init(frame: CGRect(x: 15, y: 35, width: UIScreen.main.bounds.width - 30, height: 40))
     let textNumberLimit:UILabel = UILabel.init(frame: CGRect(x: UIScreen.main.bounds.width - 115, y: 10, width: 100, height: 40))
     
     var deadlineSelectedFlag = 0
@@ -726,7 +726,7 @@ class NewTaskViewController:UIViewController,UITableViewDelegate,UITableViewData
         
         if indexPath.row == 0 {
             //订单号
-            orderIDTextField.font = UIFont.systemFont(ofSize: 14)
+            orderIDTextField.font = UIFont.systemFont(ofSize: 16)
             orderIDTextField.delegate = self
             cell.contentView.addSubview(orderIDLabel)
             cell.addSubview(orderIDTextField)
@@ -734,13 +734,13 @@ class NewTaskViewController:UIViewController,UITableViewDelegate,UITableViewData
         }else if indexPath.row == 1{
             //处理期限
             deadlineDatePicker.addTarget(self, action: #selector(dateChanged(datePicker:)), for: .valueChanged)
-            deadlineTextField.font = UIFont.systemFont(ofSize: 14)
+            deadlineTextField.font = UIFont.systemFont(ofSize: 16)
             cell.addSubview(deadlineLabel)
             cell.addSubview(deadlineTextField)
             return cell
         }else if indexPath.row == 2{
             //任务类型
-            taskTypePickerLabel.font = UIFont.systemFont(ofSize: 14)
+            taskTypePickerLabel.font = UIFont.systemFont(ofSize: 16)
             taskTypePickerLabel.text = "普通任务"
             cell.addSubview(taskTypeLabel)
             cell.addSubview(taskTypePickerLabel)
@@ -749,7 +749,7 @@ class NewTaskViewController:UIViewController,UITableViewDelegate,UITableViewData
         }else if indexPath.row == 3{
             //发送给
             postToPplTextFeild.delegate = self
-            postToPplTextFeild.font = UIFont.systemFont(ofSize: 14)
+            postToPplTextFeild.font = UIFont.systemFont(ofSize: 16)
             postToPplTextFeild.allowsEditingTextAttributes = false
             postToPplTextFeild.textContainer.maximumNumberOfLines = 1
             postToPplTextFeild.textContainer.lineBreakMode = .byClipping
@@ -782,7 +782,7 @@ class NewTaskViewController:UIViewController,UITableViewDelegate,UITableViewData
             
             //加下面一句话的目的是，是为了调整光标的位置，让光标出现在UITextView的正中间
             taskDetailTextView.textContainerInset = UIEdgeInsetsMake(10, 0, 0, 0)
-            taskDetailTextView.font = UIFont.systemFont(ofSize: 14)
+            taskDetailTextView.font = UIFont.systemFont(ofSize: 16)
             taskDetailTextView.textColor = UIColor.black
             taskDetailTextView.textAlignment = NSTextAlignment.left
             taskDetailTextView.isScrollEnabled = false
@@ -840,7 +840,7 @@ class NewTaskViewController:UIViewController,UITableViewDelegate,UITableViewData
     }
     //设置联系人结构化String
     func setPostToPplTextField(text:String){
-        let myAttribute =  [NSAttributedStringKey.foregroundColor: UIColor.blue,NSAttributedStringKey.font:UIFont.systemFont(ofSize: 14)]
+        let myAttribute =  [NSAttributedStringKey.foregroundColor: UIColor.blue,NSAttributedStringKey.font:UIFont.systemFont(ofSize: 16)]
         
         let myAttriString = NSAttributedString(string: text, attributes: myAttribute as [NSAttributedStringKey : Any])
         postToPplTextFeild.attributedText = myAttriString

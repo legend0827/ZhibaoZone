@@ -67,6 +67,7 @@ enum backgroundColorsType{
     case lightestgray
     case white
     case black
+    case clear
 }
 
 //数据验证格式
@@ -127,7 +128,16 @@ enum quotePriceOverType: String {
     /// 圆形
     case overBugget
 }
+enum taskListType:String{
+    case waitToHandle
+    case mineCreation
+    case taskHistory
+}
 
+enum scanCodeActionType:String{
+    case qrCode
+    case barCode
+}
 class Extentsions: NSObject {
 
 }
@@ -221,6 +231,8 @@ extension UIColor {
             tempColor = UIColor.colorWithRgba(255, g: 255, b: 255, a: 1.0)
         case .black:
             tempColor = UIColor.colorWithRgba(18, g: 18, b: 18, a: 1.0)
+        case .clear:
+            tempColor = UIColor.clear
         default:
             tempColor = UIColor.colorWithRgba(245, g: 245, b: 245, a: 1.0)
         }
@@ -279,7 +291,6 @@ extension UITextView {
         self.attributedText = attrString
     }
 }
-
 
 func getRandomName()->String{
     var randomCharactors = ""
@@ -357,7 +368,7 @@ func setStatusBarBackgroundColor(color : UIColor) {
     if statusBar.responds(to:#selector(setter: UIView.backgroundColor)) {
         statusBar.backgroundColor = color
     }
-    if color == UIColor.backgroundColors(color: .red) || color == UIColor.backgroundColors(color: .black){
+    if color == UIColor.backgroundColors(color: .red) || color == UIColor.backgroundColors(color: .black) || color == UIColor.backgroundColors(color: .clear){
         UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent // 改成白色字体
     }else{
         UIApplication.shared.statusBarStyle = UIStatusBarStyle.default // 改成深色字体

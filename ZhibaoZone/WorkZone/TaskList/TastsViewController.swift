@@ -14,11 +14,11 @@ import PagingMenuController
 private struct PagingMenuOptions:PagingMenuControllerCustomizable{
     
     //待处理任务视图
-    private let waitForHandleTaskListVC = waitForHandleTaskListViewController()
+    private let waitForHandleTaskListVC = waitForHandleTaskListViewController(listType: taskListType.waitToHandle)
     //我的发布任务视图
-    private let mineCreationTaskListVC = MineCreationTaskListViewController()
+    private let mineCreationTaskListVC = waitForHandleTaskListViewController(listType: taskListType.mineCreation)//MineCreationTaskListViewController()
     //已完成子视图
-    private let finishedTaskListVC = FinishedTaskListViewController()
+    private let finishedTaskListVC = waitForHandleTaskListViewController(listType: taskListType.taskHistory)// FinishedTaskListViewController()
     
     var backgroundColor: UIColor = UIColor.backgroundColors(color: .white) // 设置菜单栏底色
     

@@ -13,7 +13,7 @@ class SecuritySettingViewController: UIViewController,UITableViewDelegate,UITabl
     
     var MeVC = MeViewController()
 
-    let navigationBarInSecuritySettings:UINavigationBar = UINavigationBar.init(frame: CGRect(x: 0, y: 27, width: UIScreen.main.bounds.width, height: 45))
+    let navigationBarInSecuritySettings:UINavigationBar = UINavigationBar.init(frame: CGRect(x: 0, y: 27 + heightChangeForiPhoneXFromTop, width: UIScreen.main.bounds.width, height: 45))
     
     lazy var switchForSecurity:UISwitch = {
         let tempSwitch:UISwitch = UISwitch.init(frame: CGRect(x: UIScreen.main.bounds.width - 70, y: 7, width: 60, height: 30))
@@ -36,7 +36,9 @@ class SecuritySettingViewController: UIViewController,UITableViewDelegate,UITabl
         
         return tempTableView
     }()
-
+    override func viewWillAppear(_ animated: Bool) {
+        setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .white))
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         //设置导航栏
@@ -117,6 +119,7 @@ class SecuritySettingViewController: UIViewController,UITableViewDelegate,UITabl
     }
     
     @objc func cancelBtnClicked(){
+        setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .red))
             self.dismiss(animated: true, completion: nil)
     }
     
