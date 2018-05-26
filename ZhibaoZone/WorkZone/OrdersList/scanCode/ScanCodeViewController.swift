@@ -10,6 +10,7 @@ import UIKit
 import AVFoundation
 class ScanCodeViewController: UIViewController {
     var _scanType:scanCodeActionType = .qrCode
+    var ActionViewObject = ActionViewInOrder()
     
     let scancodeBackImage:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: 64, width: kWidth, height: kWidth))
     let noticeLabel:UILabel = UILabel.init(frame: CGRect(x: 0, y: 9, width: 225, height: 20))
@@ -62,7 +63,7 @@ class ScanCodeViewController: UIViewController {
         setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .clear))
         
        
-        if _scanType == .barCode{
+        if _scanType == .barCode || _scanType == .barCodeForShipping {
             scancodeBackImage.image = UIImage(named: "barcodebackimg")
         }else{
             scancodeBackImage.image = UIImage(named: "scancodebackimg")
@@ -125,9 +126,7 @@ class ScanCodeViewController: UIViewController {
         let seperateLine:UIImageView = UIImageView.init(frame: CGRect(x: kWidth/2, y: QRTypeBtn.frame.minY + 25, width: 1, height: 40))
         seperateLine.image = UIImage(named: "seperatelineinscancode")
         self.view.addSubview(seperateLine)
-        
-    
-        
+
         // 提示信息
         let scancodeNoticeImg:UIImageView = UIImageView.init(frame: CGRect(x: (kWidth-225)/2, y: QRTypeBtn.frame.minY - 60, width: 225, height: 38))
         scancodeNoticeImg.image = UIImage(named: "scancodenoticebgimg")
@@ -141,7 +140,7 @@ class ScanCodeViewController: UIViewController {
         scanlineImgForBarCode.image = UIImage(named: "scancodelineimg")
         self.view.addSubview(scanlineImgForBarCode)
         //提示文字
-        if _scanType == .barCode{
+        if _scanType == .barCode || _scanType == .barCodeForShipping {
             noticeLabel.text = "将条形码放入框内"
             scanlineImg.isHidden = true
             scanlineImgForBarCode.isHidden = false
@@ -165,6 +164,10 @@ class ScanCodeViewController: UIViewController {
         
         UIView.animate(withDuration: 3.0, delay: 0.5, options: [.autoreverse,.repeat,.curveLinear], animations: {
             self.scanlineImg.transform = CGAffineTransform(translationX: 0, y: 295)
+        }, completion: nil)
+        
+        UIView.animate(withDuration: 2.0, delay: 0.5, options: [.autoreverse,.repeat,.curveLinear], animations: {
+            self.scanlineImgForBarCode.transform = CGAffineTransform(translationX: 0, y: 133)
         }, completion: nil)
         //先隐藏系统提供的导航栏
         self.navigationController?.isNavigationBarHidden = true
@@ -219,7 +222,7 @@ class ScanCodeViewController: UIViewController {
         //灰层
        // self.view.backgroundColor = UIColor.backgroundColors(color: .white)
         
-        //starScan()
+        starScan()
         
         // Do any additional setup after loading the view.
     }
@@ -242,7 +245,7 @@ class ScanCodeViewController: UIViewController {
     }
     
     @objc func switchToBarcode(){
-        if _scanType != .barCode{
+        if _scanType != .barCode && _scanType != .barCodeForShipping {
             _scanType = .barCode
             scancodeBackImage.image = UIImage(named: "barcodebackimg")
             noticeLabel.text = "将条形码放入框内"
@@ -308,19 +311,24 @@ extension ScanCodeViewController: AVCaptureMetadataOutputObjectsDelegate {
                     UIApplication.shared.open(url)
                     self.dismiss(animated: true, completion: nil)
                 } else {
-                    //获取非链接结果
-                    let alertViewController = UIAlertController(title: "扫描结果", message: (object as AnyObject).stringValue, preferredStyle: .alert)
-                    let actionCancel = UIAlertAction(title: "退出", style: .cancel, handler: { (action) in
+                    if _scanType == .barCodeForShipping{
+                        ActionViewObject.shippingCodeValue.text = (object as AnyObject).stringValue
                         self.dismiss(animated: true, completion: nil)
-                       // _ = self.navigationController?.popViewController(animated: true)
-                    })
-                    let actinSure = UIAlertAction(title: "再次扫描", style: .default, handler: { (action) in
-                        self.session.startRunning()
-                    })
-                    alertViewController.addAction(actionCancel)
-                    alertViewController.addAction(actinSure)
-                    self.present(alertViewController, animated: true, completion: nil)
-                    //self.dismiss(animated: true, completion: nil)
+                    }else{
+                        //获取非链接结果
+                        let alertViewController = UIAlertController(title: "扫描结果", message: (object as AnyObject).stringValue, preferredStyle: .alert)
+                        let actionCancel = UIAlertAction(title: "退出", style: .cancel, handler: { (action) in
+                            self.dismiss(animated: true, completion: nil)
+                           // _ = self.navigationController?.popViewController(animated: true)
+                        })
+                        let actinSure = UIAlertAction(title: "再次扫描", style: .default, handler: { (action) in
+                            self.session.startRunning()
+                        })
+                        alertViewController.addAction(actionCancel)
+                        alertViewController.addAction(actinSure)
+                        self.present(alertViewController, animated: true, completion: nil)
+                        //self.dismiss(animated: true, completion: nil)
+                        }
                 }
             }
         }

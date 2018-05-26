@@ -714,13 +714,27 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             shippingCodeValue.keyboardType = .decimalPad
             backgroundView.addSubview(shippingCodeValue)
             
+            let shippingCodeScanBtn:UIButton = UIButton.init(type: .custom)
+            //设置扫描二维码按钮样式
+            shippingCodeScanBtn.frame = CGRect(x: kWidth - 42, y: seperateLine5.frame.maxY + 20, width: 22, height: 22)
+            shippingCodeScanBtn.addTarget(self, action: #selector(scanQRCodeBtnClicked), for: UIControlEvents.touchUpInside)
+            let qrcodeImg = UIImageView(frame: CGRect(x: 0, y: 0, width: 22, height: 22))
+            qrcodeImg.image =  UIImage(named:"scanqrcodeicon-gray")//  UIImage(named:"messagelisticon")
+            shippingCodeScanBtn.addSubview(qrcodeImg)
+            backgroundView.addSubview(shippingCodeScanBtn)
+            
             seperateLine6.frame = CGRect(x: 20, y: seperateLine5.frame.maxY + 65, width: kWidth - 40, height: 2)
             seperateLine6.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
             backgroundView.addSubview(seperateLine6)
             
         }
     }
-
+    @objc func scanQRCodeBtnClicked(){
+        let scanQRcodeVC = ScanCodeViewController(scanType: .barCodeForShipping)
+        scanQRcodeVC.ActionViewObject = self
+        let nav = UINavigationController.init(rootViewController: scanQRcodeVC)
+        popupVC.present(nav, animated: true, completion: nil)
+    }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

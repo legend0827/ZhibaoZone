@@ -137,6 +137,7 @@ enum taskListType:String{
 enum scanCodeActionType:String{
     case qrCode
     case barCode
+    case barCodeForShipping
 }
 class Extentsions: NSObject {
 
