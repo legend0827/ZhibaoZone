@@ -50,7 +50,8 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         orderCellView.layer.shadowColor = UIColor.lineColors(color: .lightGray).cgColor//UIColor.black.cgColor
         
         
-        orderCellImageView.image = UIImage(named: "defualt-design-pic")
+        orderCellImageView.image = UIImage(named: "defualt-design-pic-loading")
+        orderCellImageView.contentMode = .scaleAspectFit//.scaleAspectFill
         orderCellImageView.layer.cornerRadius = 6
         orderCellImageView.layer.masksToBounds = true
         orderCellImageView.layer.borderColor = UIColor.lineColors(color: .lightGray).cgColor

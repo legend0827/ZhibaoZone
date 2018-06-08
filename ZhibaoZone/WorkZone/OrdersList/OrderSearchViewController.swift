@@ -23,6 +23,7 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
     static fileprivate var requestCacheArr = [DataRequest]();
     
     var downloadURLHeader = ""
+    var downloadURLHeaderForThumbnail = ""
     
     //用户角色信息
     var _userid:String?
@@ -40,6 +41,8 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
     //搜索字符
     var searchText = ""
     
+    //tabbarController
+    var tabbarObject = TabBarController(royeType: 3)
     //加载中的动画集合
     var theLoadingViewNeedsToBeKill:[UIView] = []
     
@@ -120,8 +123,10 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
         let resourcesDownloadLinks:NSDictionary = data.value(forKey: "resourcesDownloadLinks") as! NSDictionary
         #if DEBUG
         downloadURLHeader = resourcesDownloadLinks.value(forKey: "imagesDownloadLinksDebug") as! String
+        downloadURLHeaderForThumbnail = resourcesDownloadLinks.value(forKey: "imagesDownloadLinksThumbnailDebug") as! String
         #else
         downloadURLHeader = resourcesDownloadLinks.value(forKey: "imagesDownloadLinks") as! String
+        downloadURLHeaderForThumbnail = resourcesDownloadLinks.value(forKey: "imagesDownloadLinksThumbnail") as! String
         #endif
         
         //获取用户信息
@@ -185,14 +190,23 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
         if orderInfoObjects.value(forKey: "goodsimage") as? String == nil{ // 图片字段为空
             cell.orderCellImageView.image = UIImage(named:"defualt-design-pic")
         }else{
-            let imageURLString:String = "\(downloadURLHeader)\(orderInfoObjects.value(forKey: "goodsimage") as! String)"
+            let imageURLString:String = "\(downloadURLHeaderForThumbnail)\(orderInfoObjects.value(forKey: "goodsimage") as! String)"
             let url = URL(string: imageURLString)!
             do{
                 let data = try Data.init(contentsOf: url)
                 let image = UIImage.gif(data:data)
                 cell.orderCellImageView.image = image//  UIImage(image:image)
             }catch{
-                print(error)
+                let imageURLString:String = "\(downloadURLHeader)\(orderInfoObjects.value(forKey: "goodsimage") as! String)"
+                let url = URL(string: imageURLString)!
+                do{
+                    let data = try Data.init(contentsOf: url)
+                    let image = UIImage.gif(data:data)
+                    cell.orderCellImageView.image = image//  UIImage(image:image)
+                }catch{
+                    print(error)
+                }
+                print("无缩略图")
             }
             
         }
@@ -695,7 +709,14 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
     }
     
     @objc func searchBarCancelButtonClicked() {
-        self.dismiss(animated: true, completion: nil)
+        
+        self.view.window?.rootViewController = tabbarObject//TabBarController(royeType: _roleType)
+//        self.view.window?.rootViewController?.dismiss(animated: true) {
+//            self.removeFromParentViewController()
+//            print("removed")
+//        }
+        self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+       // self.dismiss(animated: true, completion: nil)
     }
 
     func emytyAreaShowingLabel(withRetry:Bool) {

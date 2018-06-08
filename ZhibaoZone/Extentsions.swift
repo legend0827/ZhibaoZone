@@ -110,6 +110,15 @@ enum actionType {
     case shippingProduct
 }
 
+//工艺属性类型：
+enum produceType:String {
+    case mold
+    case produceStyle
+    case color
+    case taxRadio
+}
+
+
 //头像外框形状类型
 enum AvatarShape: String {
     /// 圆角正方形
@@ -128,6 +137,7 @@ enum quotePriceOverType: String {
     /// 圆形
     case overBugget
 }
+
 enum taskListType:String{
     case waitToHandle
     case mineCreation
@@ -364,6 +374,7 @@ public extension UIView {
 
 //设置状态栏颜色
 func setStatusBarBackgroundColor(color : UIColor) {
+    
     let statusBarWindow : UIView = UIApplication.shared.value(forKey: "statusBarWindow") as! UIView
     let statusBar : UIView = statusBarWindow.value(forKey: "statusBar") as! UIView
     if statusBar.responds(to:#selector(setter: UIView.backgroundColor)) {

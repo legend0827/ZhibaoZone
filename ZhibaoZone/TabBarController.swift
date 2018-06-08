@@ -30,7 +30,9 @@ class TabBarController: UITabBarController {
         let taskVC = TastsViewController()
         let meVC = MeViewController()
         let normalUserVC = normalUserViewController()
-        orderVC.tabBarVC = self
+        let quotepriceVC = QuotePriceViewController()
+        
+        orderVC._tabBarVC = self
         
         let item1PositonX = kWidth/6 + 5
         redDot.frame = CGRect(x:item1PositonX , y: tabBar.frame.minY + 3 - heightChangeForiPhoneXFromBottom, width: 12, height: 12)
@@ -59,10 +61,13 @@ class TabBarController: UITabBarController {
         meVC.tabBarItem.image = UIImage(named:"accounticon")
         meVC.tabBarItem.selectedImage = UIImage(named: "accounticonselected")
         normalUserVC.tabBarItem.image = UIImage(named:"homeicon")
+        quotepriceVC.tabBarItem.selectedImage = UIImage(named: "quotepriceiconselected")
+        quotepriceVC.tabBarItem.image = UIImage(named: "quotepriceicon")
         
         orderVC.tabBarItem.title = "订单"
         taskVC.tabBarItem.title = "任务"
         meVC.tabBarItem.title = "我的"
+        quotepriceVC.tabBarItem.title = "估价"
         normalUserVC.tabBarItem.title = "首页"
         
         if _roleType == 0{
@@ -70,7 +75,7 @@ class TabBarController: UITabBarController {
         }else if _roleType == 2 || _roleType == 3{
             self.viewControllers = [orderVC,taskVC,meVC]
         }else{
-            self.viewControllers = [taskVC,meVC]
+            self.viewControllers = [quotepriceVC,taskVC,meVC]
         }
         self.tabBar.tintColor = UIColor.iconColors(color: .red)
     }

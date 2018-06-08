@@ -40,6 +40,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
     
     //附件图片下载地址
     var downloadURLHeader = ""
+    var downloadURLHeaderForThumbnail = ""
     
     //参考图列表
     var memoPictures:[UIImage] = []
@@ -184,10 +185,17 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
         let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
         let resourcesDownloadLinks:NSDictionary = data.value(forKey: "resourcesDownloadLinks") as! NSDictionary
+//        #if DEBUG
+//            downloadURLHeader = resourcesDownloadLinks.value(forKey: "imagesDownloadLinksDebug") as! String
+//        #else
+//            downloadURLHeader = resourcesDownloadLinks.value(forKey: "imagesDownloadLinks") as! String
+//        #endif
         #if DEBUG
-            downloadURLHeader = resourcesDownloadLinks.value(forKey: "imagesDownloadLinksDebug") as! String
+        downloadURLHeader = resourcesDownloadLinks.value(forKey: "imagesDownloadLinksDebug") as! String
+        downloadURLHeaderForThumbnail = resourcesDownloadLinks.value(forKey: "imagesDownloadLinksThumbnailDebug") as! String
         #else
-            downloadURLHeader = resourcesDownloadLinks.value(forKey: "imagesDownloadLinks") as! String
+        downloadURLHeader = resourcesDownloadLinks.value(forKey: "imagesDownloadLinks") as! String
+        downloadURLHeaderForThumbnail = resourcesDownloadLinks.value(forKey: "imagesDownloadLinksThumbnail") as! String
         #endif
             
         NotificationCenter.default.addObserver(self, selector: #selector(keyBoardWillShow(_notification:)), name:NSNotification.Name.UIKeyboardWillShow, object: nil)
@@ -269,6 +277,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             //参考图
             orderDefaultPic.frame = CGRect(x: 20, y: 62, width: 118, height: 118) // y=62
             orderDefaultPic.image = UIImage(named: "defualt-design-pic")
+            orderDefaultPic.contentMode = .scaleAspectFit
             orderDefaultPic.layer.cornerRadius = 6
             orderDefaultPic.layer.borderColor = UIColor.lineColors(color: .white).cgColor//UIColor.lineColors(color: .lightGray).cgColor
             orderDefaultPic.layer.borderWidth = 0.5
@@ -279,7 +288,6 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             orderDefaultPicLayer.image = UIImage(named: "maskonimage")
             orderDefaultPicLayer.layer.cornerRadius = 6
             orderDefaultPicLayer.layer.masksToBounds = true
-            //  backgroundView.addSubview(orderDefaultPicLayer)
             
             
             //产品类型
@@ -410,13 +418,13 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 seperateLine4.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
                 backgroundView.addSubview(seperateLine4)
                 
-                produceTimeCostLabel.text = "填写工期:"
+                produceTimeCostLabel.text = "填写工期(天):"
                 produceTimeCostLabel.frame = CGRect(x: 20, y: seperateLine4.frame.maxY + 15 , width: 100, height: 22)
                 produceTimeCostLabel.font = UIFont.systemFont(ofSize: 16)
                 backgroundView.addSubview(produceTimeCostLabel)
                 
                 produceTimeCostTextField.text = "" // for debug
-                produceTimeCostTextField.frame = CGRect(x: 100, y: seperateLine4.frame.maxY + 4 , width: kWidth - 120, height: 44)
+                produceTimeCostTextField.frame = CGRect(x: 130, y: seperateLine4.frame.maxY + 4 , width: kWidth - 120, height: 44)
                 produceTimeCostTextField.textColor = UIColor.titleColors(color: .black)
                 produceTimeCostTextField.font = UIFont.systemFont(ofSize: 16)
                 produceTimeCostTextField.placeholder = "填写完成生产、发货时间"
@@ -578,13 +586,13 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 seperateLine3.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
                 produceTimeCostBackgroundView.addSubview(seperateLine3)
                 
-                produceTimeCostLabel.text = "填写工期:"
+                produceTimeCostLabel.text = "填写工期(天):"
                 produceTimeCostLabel.frame = CGRect(x: 20, y: seperateLine3.frame.maxY + 15 , width: 100, height: 22)
                 produceTimeCostLabel.font = UIFont.systemFont(ofSize: 16)
                 produceTimeCostBackgroundView.addSubview(produceTimeCostLabel)
                 
                 produceTimeCostTextField.text = "" // for debug
-                produceTimeCostTextField.frame = CGRect(x: 100, y: seperateLine3.frame.maxY + 4 , width: kWidth - 120, height: 44)
+                produceTimeCostTextField.frame = CGRect(x: 130, y: seperateLine3.frame.maxY + 4 , width: kWidth - 120, height: 44)
                 produceTimeCostTextField.textColor = UIColor.titleColors(color: .black)
                 produceTimeCostTextField.font = UIFont.systemFont(ofSize: 16)
                 produceTimeCostTextField.placeholder = "填写完成生产、发货时间"
@@ -1287,7 +1295,201 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         }
     }
     
+    func downloadOrderImages(){
+        DispatchQueue.global().async {
+            //订单详情信息
+            let dictionaryObjectInOrderArray = self.orderDetail
+            let orderaddinfos = dictionaryObjectInOrderArray[1]
+            
+            //附件图片数目
+            var attachImageCount:Int = 0
+            //下载缩略图
+            if orderaddinfos.value(forKey: "imageurl1") as? String != nil && orderaddinfos.value(forKey: "imageurl1") as? String != "" {
+                let imageURLString = "\(self.downloadURLHeaderForThumbnail)\(orderaddinfos.value(forKey: "imageurl1") as! String)"
+                let url = URL(string: imageURLString)!
+                do{
+                    let data = try Data.init(contentsOf: url)
+                    let image = UIImage.gif(data:data)
+                    DispatchQueue.main.async {
+                        self.orderDefaultPic.image = image
+                    }
+                }catch{
+                    print(error)
+                    //缩略图下载失败，下载原图
+                    let imageURLString = "\(self.downloadURLHeader)\(orderaddinfos.value(forKey: "imageurl1") as! String)"
+                    let url = URL(string: imageURLString)!
+                    do{
+                        let data = try Data.init(contentsOf: url)
+                        let image = UIImage.gif(data:data)
+                        DispatchQueue.main.async {
+                            self.orderDefaultPic.image = image
+                        }
+                    }catch{
+                        print(error)
+                        DispatchQueue.main.async {
+                            self.orderDefaultPic.image = UIImage(named:"defualt-design-pic")//  UIImage(image:image)
+                        }
+                        //原图也下载失败
+                    }
+                    print("无缩略图")
+                }
+            }else if orderaddinfos.value(forKey: "imageurl2") as? String != nil && orderaddinfos.value(forKey: "imageurl2") as? String != "" {
+                //第一张图不存在，下载第二张图的缩略图
+                let imageURLString = "\(self.downloadURLHeaderForThumbnail)\(orderaddinfos.value(forKey: "imageurl2") as! String)"
+                let url = URL(string: imageURLString)!
+                do{
+                    let data = try Data.init(contentsOf: url)
+                    let image = UIImage.gif(data:data)
+                    DispatchQueue.main.async {
+                        self.orderDefaultPic.image = image
+                    }
+                }catch{
+                    print(error)
+                    //缩略图下载失败，下载原图
+                    let imageURLString = "\(self.downloadURLHeader)\(orderaddinfos.value(forKey: "imageurl2") as! String)"
+                    let url = URL(string: imageURLString)!
+                    do{
+                        let data = try Data.init(contentsOf: url)
+                        let image = UIImage.gif(data:data)
+                        DispatchQueue.main.async {
+                            self.orderDefaultPic.image = image
+                        }
+                    }catch{
+                        print(error)
+                        DispatchQueue.main.async {
+                            self.orderDefaultPic.image = UIImage(named:"defualt-design-pic")
+                        }
+                        //原图也下载失败
+                    }
+                    print("无缩略图")
+                }
+            }else if orderaddinfos.value(forKey: "imageurl3") as? String != nil && orderaddinfos.value(forKey: "imageurl3") as? String != "" {
+                //第二张图也不存在,下载第三张图
+                let imageURLString = "\(self.downloadURLHeaderForThumbnail)\(orderaddinfos.value(forKey: "imageurl3") as! String)"
+                let url = URL(string: imageURLString)!
+                do{
+                    let data = try Data.init(contentsOf: url)
+                    let image = UIImage.gif(data:data)
+                    DispatchQueue.main.async {
+                        self.orderDefaultPic.image = image
+                    }
+                }catch{
+                    print(error)
+                    //缩略图下载失败，下载原图
+                    let imageURLString = "\(self.downloadURLHeader)\(orderaddinfos.value(forKey: "imageurl3") as! String)"
+                    let url = URL(string: imageURLString)!
+                    do{
+                        let data = try Data.init(contentsOf: url)
+                        let image = UIImage.gif(data:data)
+                        DispatchQueue.main.async {
+                            self.orderDefaultPic.image = image
+                        }
+                    }catch{
+                        print(error)
+                        DispatchQueue.main.async {
+                            self.orderDefaultPic.image = UIImage(named:"defualt-design-pic")
+                        }
+                        //原图也下载失败
+                    }
+                    print("无缩略图")
+                }
+            }else{
+                //所有图片都没有，显示默认图
+                DispatchQueue.main.async {
+                    self.orderDefaultPic.image = UIImage(named:"defualt-design-pic")
+                }
+            }
+            
+            
+            //
+            //下载原图
+            //
+            //设计师图递增
+            self.memoPictures.removeAll()
+            self.previewTypes.removeAll()
+            if orderaddinfos.value(forKey: "imageurl1") as? String != nil && orderaddinfos.value(forKey: "imageurl1") as? String != "" {
+                let imageURLString = "\(self.downloadURLHeader)\(orderaddinfos.value(forKey: "imageurl1") as! String)"
+                let url = URL(string: imageURLString)!
+                do{
+                    let data = try Data.init(contentsOf: url)
+                    let image = UIImage.gif(data:data)
+                    self.memoPictures.append(image!)
+                    self.previewTypes.append("public.image")
+                    attachImageCount += 1
+                }catch{
+                    print(error)
+                }
+            }
+            if orderaddinfos.value(forKey: "imageurl2") as? String != nil && orderaddinfos.value(forKey: "imageurl2") as? String != "" {
+                let imageURLString = "\(self.downloadURLHeader)\(orderaddinfos.value(forKey: "imageurl2") as! String)"
+                let url = URL(string: imageURLString)!
+                do{
+                    let data = try Data.init(contentsOf: url)
+                    let image = UIImage.gif(data:data)
+                    self.memoPictures.append(image!)
+                    self.previewTypes.append("public.image")
+                    attachImageCount += 1
+                }catch{
+                    print(error)
+                }
+                
+            }
+            if orderaddinfos.value(forKey: "imageurl3") as? String != nil && orderaddinfos.value(forKey: "imageurl3") as? String != ""{
+                let imageURLString = "\(self.downloadURLHeader)\(orderaddinfos.value(forKey: "imageurl3") as! String)"
+                let url = URL(string: imageURLString)!
+                do{
+                    let data = try Data.init(contentsOf: url)
+                    let image = UIImage.gif(data:data)
+                    self.memoPictures.append(image!)
+                    self.previewTypes.append("public.image")
+                    attachImageCount += 1
+                }catch{
+                    print(error)
+                }
+            }
+            
+            DispatchQueue.main.async {
+                self.orderDefaultPicLayer.removeFromSuperview()
+                for subview in self.orderDefaultPic.subviews{
+                    subview.removeFromSuperview()
+                }
+                if attachImageCount != 0{
+                    self.orderDefaultPicLayer.frame = CGRect(x: 0, y: 118 - 35, width: 118, height: 35)
+                    self.orderDefaultPic.addSubview(self.orderDefaultPicLayer)
+                    for i in 1...attachImageCount{
+                        //附件数目小红点
+                        let pointSize:CGSize = CGSize(width: 5, height: 5)
+                        let positionOffset:CGFloat = 35.0
+                        let positionLength = self.orderDefaultPicLayer.frame.width
+                        
+                        let xPoint = (positionLength - positionOffset * 2) / CGFloat(attachImageCount + 1) + positionOffset - pointSize.width / 2
+                        let pointGrow = (positionLength - positionOffset * 2) / CGFloat(attachImageCount + 1)
+                        let imageCountLabel:UILabel = UILabel.init(frame: CGRect(x: xPoint + pointGrow * CGFloat(i - 1), y: 103, width: 5, height: 5))
+                        imageCountLabel.backgroundColor = UIColor.white
+                        imageCountLabel.layer.cornerRadius = 2.5
+                        //imageCountLabel.text = "\(attachImageCount)"
+                        imageCountLabel.textColor =  #colorLiteral(red: 0.9104188085, green: 0.2962309122, blue: 0.2970536053, alpha: 1)
+                        imageCountLabel.textAlignment = .center
+                        imageCountLabel.clipsToBounds = true // 对Label切角度
+                        
+                        self.orderDefaultPic.addSubview(imageCountLabel)
+                    }
+                    self.orderDefaultPic.isUserInteractionEnabled = true
+                    
+                    let tapSingle=UITapGestureRecognizer(target:self,
+                                                         action:#selector(self.imageViewTap(_:)))
+                    tapSingle.numberOfTapsRequired = 1
+                    tapSingle.numberOfTouchesRequired = 1
+                    
+                    self.orderDefaultPic.addGestureRecognizer(tapSingle)
+                }
+            }
+        }
+    }
+    
     func updateViewData(){
+        //下载图片
+        downloadOrderImages()
         //初始化值
         var maxPrice = 5000.0
         var currentValue:Float = 0.0
@@ -1308,306 +1510,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         let colorObject = goodsInfoObjects.value(forKey: "color")
         let sizeObject = goodsInfoObjects.value(forKey: "size") as! NSDictionary
         
-        //附件图片数目
-        var attachImageCount:Int = 0
-        //设计师图递增
-        if _roleType == 2{
-            memoPictures.removeAll()
-            previewTypes.removeAll()
-            if orderaddinfos.value(forKey: "imageurl1") as? String != nil && orderaddinfos.value(forKey: "imageurl1") as? String != "" {
-                let imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "imageurl1") as! String)"
-                let url = URL(string: imageURLString)!
-                do{
-                    let data = try Data.init(contentsOf: url)
-                    let image = UIImage.gif(data:data)
-                    memoPictures.append(image!)
-                    previewTypes.append("public.image")
-                    attachImageCount += 1
-                }catch{
-                    print(error)
-                }
-            }
-            if orderaddinfos.value(forKey: "imageurl2") as? String != nil && orderaddinfos.value(forKey: "imageurl2") as? String != "" {
-                let imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "imageurl2") as! String)"
-                let url = URL(string: imageURLString)!
-                do{
-                    let data = try Data.init(contentsOf: url)
-                    let image = UIImage.gif(data:data)
-                    memoPictures.append(image!)
-                    previewTypes.append("public.image")
-                    attachImageCount += 1
-                }catch{
-                    print(error)
-                }
-                
-            }
-            if orderaddinfos.value(forKey: "imageurl3") as? String != nil && orderaddinfos.value(forKey: "imageurl3") as? String != ""{
-                let imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "imageurl3") as! String)"
-                let url = URL(string: imageURLString)!
-                do{
-                    let data = try Data.init(contentsOf: url)
-                    let image = UIImage.gif(data:data)
-                    memoPictures.append(image!)
-                    previewTypes.append("public.image")
-                    attachImageCount += 1
-                }catch{
-                    print(error)
-                }
-            }
-        }
-        //工厂图递增
-        if _roleType == 3{
-            memoPictures.removeAll()
-            previewTypes.removeAll()
-            if orderaddinfos.value(forKey: "fimageurl1") as? String != nil && orderaddinfos.value(forKey: "fimageurl1") as? String != ""{
-                let imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "fimageurl1") as! String)"
-                let url = URL(string: imageURLString)!
-                do{
-                    let data = try Data.init(contentsOf: url)
-                    let image = UIImage.gif(data:data)
-                    memoPictures.append(image!)
-                    previewTypes.append("public.image")
-                    attachImageCount += 1
-                }catch{
-                    print(error)
-                }
-            }
-            if orderaddinfos.value(forKey: "fimageurl2") as? String != nil && orderaddinfos.value(forKey: "fimageurl2") as? String != ""{
-                let imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "fimageurl2") as! String)"
-                let url = URL(string: imageURLString)!
-                do{
-                    let data = try Data.init(contentsOf: url)
-                    let image = UIImage.gif(data:data)
-                    memoPictures.append(image!)
-                    previewTypes.append("public.image")
-                    attachImageCount += 1
-                }catch{
-                    print(error)
-                }
-            }
-            if orderaddinfos.value(forKey: "fimageurl3") as? String != nil && orderaddinfos.value(forKey: "fimageurl3") as? String != ""{
-                let imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "fimageurl3") as! String)"
-                let url = URL(string: imageURLString)!
-                do{
-                    let data = try Data.init(contentsOf: url)
-                    let image = UIImage.gif(data:data)
-                    memoPictures.append(image!)
-                    previewTypes.append("public.image")
-                    attachImageCount += 1
-                }catch{
-                    print(error)
-                }
-            }
-            
-            //没有一张工厂的参考图
-            if attachImageCount == 0{
-                if orderaddinfos.value(forKey: "imageurl1") as? String != nil && orderaddinfos.value(forKey: "imageurl1") as? String != ""{
-                    let imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "imageurl1") as! String)"
-                    let url = URL(string: imageURLString)!
-                    do{
-                        let data = try Data.init(contentsOf: url)
-                        let image = UIImage.gif(data:data)
-                        memoPictures.append(image!)
-                        previewTypes.append("public.image")
-                        attachImageCount += 1
-                    }catch{
-                        print(error)
-                    }
-                }
-                if orderaddinfos.value(forKey: "imageurl2") as? String != nil && orderaddinfos.value(forKey: "imageurl2") as? String != "" {
-                    let imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "imageurl2") as! String)"
-                    let url = URL(string: imageURLString)!
-                    do{
-                        let data = try Data.init(contentsOf: url)
-                        let image = UIImage.gif(data:data)
-                        memoPictures.append(image!)
-                        previewTypes.append("public.image")
-                        attachImageCount += 1
-                    }catch{
-                        print(error)
-                    }
-                }
-                if orderaddinfos.value(forKey: "imageurl3") as? String != nil && orderaddinfos.value(forKey: "imageurl3") as? String != ""{
-                    let imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "imageurl3") as! String)"
-                    let url = URL(string: imageURLString)!
-                    do{
-                        let data = try Data.init(contentsOf: url)
-                        let image = UIImage.gif(data:data)
-                        memoPictures.append(image!)
-                        previewTypes.append("public.image")
-                        attachImageCount += 1
-                    }catch{
-                        print(error)
-                    }
-                }
-            }
-        }
-        
-        orderDefaultPicLayer.removeFromSuperview()
-        for subview in orderDefaultPic.subviews{
-            subview.removeFromSuperview()
-        }
-        
-        if attachImageCount != 0{
-            orderDefaultPicLayer.frame = CGRect(x: 0, y: 118 - 35, width: 118, height: 35)
-            orderDefaultPic.addSubview(orderDefaultPicLayer)
-            for i in 1...attachImageCount{
-                //附件数目小红点
-                let pointSize:CGSize = CGSize(width: 5, height: 5)
-                let positionOffset:CGFloat = 35.0
-                let positionLength = orderDefaultPicLayer.frame.width
-                
-                let xPoint = (positionLength - positionOffset * 2) / CGFloat(attachImageCount + 1) + positionOffset - pointSize.width / 2
-                let pointGrow = (positionLength - positionOffset * 2) / CGFloat(attachImageCount + 1)
-                let imageCountLabel:UILabel = UILabel.init(frame: CGRect(x: xPoint + pointGrow * CGFloat(i - 1), y: 103, width: 5, height: 5))
-                imageCountLabel.backgroundColor = UIColor.white
-                imageCountLabel.layer.cornerRadius = 2.5
-                //imageCountLabel.text = "\(attachImageCount)"
-                imageCountLabel.textColor =  #colorLiteral(red: 0.9104188085, green: 0.2962309122, blue: 0.2970536053, alpha: 1)
-                imageCountLabel.textAlignment = .center
-                imageCountLabel.clipsToBounds = true // 对Label切角度
-                
-                orderDefaultPic.addSubview(imageCountLabel)
-            }
-            orderDefaultPic.isUserInteractionEnabled = true
-            
-            let tapSingle=UITapGestureRecognizer(target:self,
-                                                 action:#selector(imageViewTap(_:)))
-            tapSingle.numberOfTapsRequired = 1
-            tapSingle.numberOfTouchesRequired = 1
-            
-            orderDefaultPic.addGestureRecognizer(tapSingle)
-        }
-        
-        
-        //设置图片
-        if _roleType == 2 {
-            var imageURLString:String = ""
-            if orderaddinfos.value(forKey: "imageurl1") as? String == nil {
-                if orderaddinfos.value(forKey: "imageurl2") as? String == nil {
-                    if orderaddinfos.value(forKey: "imageurl3") as? String == nil {
-                        orderDefaultPic.image = UIImage(named:"defualt-design-pic")
-                    }else{
-                        //第三张图不为空
-                        imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "imageurl3") as! String)"
-                        let url = URL(string: imageURLString)!
-                        do{
-                            let data = try Data.init(contentsOf: url)
-                            let image = UIImage.gif(data:data)
-                            orderDefaultPic.image = image//  UIImage(image:image)
-                        }catch{
-                            print(error)
-                        }
-                    }
-                }else{
-                    //第二不为空
-                    imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "imageurl2") as! String)"
-                    let url = URL(string: imageURLString)!
-                    do{
-                        let data = try Data.init(contentsOf: url)
-                        let image = UIImage.gif(data:data)
-                        orderDefaultPic.image = image//  UIImage(image:image)
-                    }catch{
-                        print(error)
-                    }
-                }
-            }else{
-                //第一张图不为空
-                imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "imageurl1") as! String)"
-                let url = URL(string: imageURLString)!
-                do{
-                    let data = try Data.init(contentsOf: url)
-                    let image = UIImage.gif(data:data)
-                    orderDefaultPic.image = image//  UIImage(image:image)
-                }catch{
-                    print(error)
-                }
-            }
-        }else if _roleType == 3{
-            var imageURLString:String = ""
-            if orderaddinfos.value(forKey: "fimageurl1") as? String == nil {
-                if orderaddinfos.value(forKey: "fimageurl2") as? String == nil {
-                    if orderaddinfos.value(forKey: "fimageurl3") as? String == nil {
-                        //三张工厂参考图都为空，加载设计参考图
-                        if orderaddinfos.value(forKey: "imageurl1") as? String == nil {
-                            if orderaddinfos.value(forKey: "imageurl2") as? String == nil {
-                                if orderaddinfos.value(forKey: "imageurl3") as? String == nil {
-                                    orderDefaultPic.image = UIImage(named:"defualt-design-pic")
-                                }else{
-                                    //第三张图不为空
-                                    imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "imageurl3") as! String)"
-                                    let url = URL(string: imageURLString)!
-                                    do{
-                                        let data = try Data.init(contentsOf: url)
-                                        let image = UIImage.gif(data:data)
-                                        orderDefaultPic.image = image//  UIImage(image:image)
-                                    }catch{
-                                        print(error)
-                                    }
-                                }
-                            }else{
-                                //第二不为空
-                                imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "imageurl2") as! String)"
-                                let url = URL(string: imageURLString)!
-                                do{
-                                    let data = try Data.init(contentsOf: url)
-                                    let image = UIImage.gif(data:data)
-                                    orderDefaultPic.image = image//  UIImage(image:image)
-                                }catch{
-                                    print(error)
-                                }
-                            }
-                        }else{
-                            //第一张图不为空
-                            imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "imageurl1") as! String)"
-                            let url = URL(string: imageURLString)!
-                            do{
-                                let data = try Data.init(contentsOf: url)
-                                let image = UIImage.gif(data:data)
-                                orderDefaultPic.image = image//  UIImage(image:image)
-                            }catch{
-                                print(error)
-                            }
-                        }
-                    }else{
-                        //第三张图不为空
-                        imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "fimageurl3") as! String)"
-                        let url = URL(string: imageURLString)!
-                        do{
-                            let data = try Data.init(contentsOf: url)
-                            let image = UIImage.gif(data:data)
-                            orderDefaultPic.image = image//  UIImage(image:image)
-                        }catch{
-                            print(error)
-                        }
-                    }
-                }else{
-                    //第二不为空
-                    imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "fimageurl2") as! String)"
-                    let url = URL(string: imageURLString)!
-                    do{
-                        let data = try Data.init(contentsOf: url)
-                        let image = UIImage.gif(data:data)
-                        orderDefaultPic.image = image//  UIImage(image:image)
-                    }catch{
-                        print(error)
-                    }
-                }
-            }else{
-                //第一张图不为空
-                imageURLString = "\(downloadURLHeader)\(orderaddinfos.value(forKey: "fimageurl1") as! String)"
-                let url = URL(string: imageURLString)!
-                do{
-                    let data = try Data.init(contentsOf: url)
-                    let image = UIImage.gif(data:data)
-                    orderDefaultPic.image = image//  UIImage(image:image)
-                }catch{
-                    print(error)
-                }
-            }
-        }else{
-            orderDefaultPic.image = UIImage(named:"defualt-design-pic")
-        }
+        //订单图片
         
         
         //订单号
@@ -1849,7 +1752,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             isProduceCycleOverView.frame =  CGRect(x:kWidth - 110, y: seperateLine4.frame.maxY - 1 , width: 110, height: 54)
             isProduceCycleOverLabel.frame = CGRect(x:kWidth - 100, y: seperateLine4.frame.maxY - 1 , width: 100, height: 27)
             deadlineLabel.frame = CGRect(x:kWidth - 100, y: seperateLine4.frame.maxY + 26 , width: 100, height: 27)
-            produceTimeCostTextField.frame = CGRect(x: 100, y: seperateLine4.frame.maxY + 4 , width: kWidth - 120, height: 44)
+            produceTimeCostTextField.frame = CGRect(x: 130, y: seperateLine4.frame.maxY + 4 , width: kWidth - 120, height: 44)
             setQuotePriceWeightBtn.frame = CGRect(x: 20, y: seperateLine5.frame.maxY + 15, width: 100, height: 22)
             quotePriceSlideBar.frame = CGRect(x: 20, y: seperateLine5.frame.maxY + 51, width: kWidth - 40, height: 20)
             quotePriceSlideBarRightLabel.frame = CGRect(x: quotePriceSlideBar.frame.width - 180, y: seperateLine5.frame.maxY + 72, width: 200, height: 22)
@@ -1870,7 +1773,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             quotePriceCurentLabel.frame = CGRect(x: 20, y: seperateLine3.frame.maxY + 15 , width: 120, height: 22)
             currentValueOnSliderTextField.frame = CGRect(x: 130, y: seperateLine3.frame.maxY + 4 , width: kWidth - 150, height: 44)
             produceTimeCostLabel.frame = CGRect(x: 20, y: seperateLine4.frame.maxY + 15 , width: 100, height: 22)
-            produceTimeCostTextField.frame = CGRect(x: 100, y: seperateLine4.frame.maxY + 4 , width: kWidth - 120, height: 44)
+            produceTimeCostTextField.frame = CGRect(x: 130, y: seperateLine4.frame.maxY + 4 , width: kWidth - 120, height: 44)
             setQuotePriceWeightBtn.frame = CGRect(x: 20, y: seperateLine5.frame.maxY + 15, width: 100, height: 22)
             quotePriceSlideBar.frame = CGRect(x: 20, y: seperateLine5.frame.maxY + 51, width: kWidth - 40, height: 20)
             quotePriceSlideBarRightLabel.frame = CGRect(x: quotePriceSlideBar.frame.width - 180, y: seperateLine5.frame.maxY + 72, width: 200, height: 22)

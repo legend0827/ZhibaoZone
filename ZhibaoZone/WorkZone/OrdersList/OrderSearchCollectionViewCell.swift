@@ -59,6 +59,7 @@ class OrderSearchCollectionViewCell: UICollectionViewCell {
         
         
         orderCellImageView.image = UIImage(named: "defualt-design-pic")
+        orderCellImageView.contentMode = .scaleAspectFit
         orderCellImageView.layer.cornerRadius = 6
         orderCellImageView.layer.masksToBounds = true
         orderCellImageView.layer.borderColor = UIColor.lineColors(color: .lightGray).cgColor

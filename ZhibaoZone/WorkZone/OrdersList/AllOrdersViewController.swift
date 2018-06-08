@@ -15,6 +15,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
     //定义订单列表的类型
     var _orderlistTye:orderListCategoryType = .allOrderCategory
     
+
     init(orderlistTye:orderListCategoryType) {
         super.init(nibName: nil, bundle: nil)
         _orderlistTye = orderlistTye
@@ -28,7 +29,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
     static fileprivate var requestCacheArr = [DataRequest]();
     
     var downloadURLHeader = ""
-    
+    var downloadURLHeaderForThumbnail = ""
     //用户角色信息
     var _userid:String?
     var _token:String?
@@ -41,7 +42,12 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
     var page: Int = 1
     var totalPageCount: Int = 1
     var selectorParamters = [Int:String]()
+    //图片下载队列
+    let queue = OperationQueue()
+    var testQueue = 0
     
+    //订单图
+    var orderImages:[Int:UIImage] = [:]
    
     let heightHeader:CGFloat = 40.0
     
@@ -62,7 +68,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         layout.sectionInset = UIEdgeInsets.init(top: 5, left: 20, bottom: 5, right: 20)            //section四周的缩进
         layout.scrollDirection = UICollectionViewScrollDirection.vertical  //滚动方向
         
-        let tempCollectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: kWidth, height: kHight - 145),collectionViewLayout:layout) // 
+        let tempCollectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: kWidth, height: kHight - 160 - heightChangeForiPhoneXFromBottom ),collectionViewLayout:layout) // 
         tempCollectionView.backgroundColor = UIColor.backgroundColors(color: .white)
         tempCollectionView.delegate = self
         tempCollectionView.dataSource = self
@@ -142,8 +148,9 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         }
         print(orderCreateTimeArray)
     }
-    
+    //func downloadImages
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        //let cellidentifier = NSString.init(format: "cell%ld%ld", indexPath.section,indexPath.row)
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CELL_ID, for: indexPath) as! OrdersCollectionViewCell
         
         let dictionaryObjectInOrderArray = orderArray[indexPath.row]
@@ -151,34 +158,15 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         let goodsInfoObjects = dictionaryObjectInOrderArray.value(forKey: "goodsinfo") as! NSDictionary
         let orderInfoObjects = dictionaryObjectInOrderArray.value(forKey: "orderinfo") as! NSDictionary
         let priceInfoObjects = dictionaryObjectInOrderArray.value(forKey: "price") as! NSDictionary
-        
-      //  cell.productSize.text = orderInfoObjects.value(forKey: "createtime") as! String // for debug after delete
-      //  cell.productQuantityInCell.text =  orderCreateTimeArray[indexPath.section].value(forKey: "createDate") as! String //
-
-//        var tempDateTime = orderInfoObjects.value(forKey: "createtime") as! String
-//        let index = tempDateTime.index(tempDateTime.startIndex, offsetBy: 10)
-//        tempDateTime = tempDateTime.substring(to: index)
-//        if orderCreateTimeArray[indexPath.section].value(forKey: "createDate") as! String != tempDateTime{
-//            return cell
-//        }
-        //获取订单图片
-        if orderInfoObjects.value(forKey: "goodsimage") as? String == nil{ // 图片字段为空
-            cell.orderCellImageView.image = UIImage(named:"defualt-design-pic")
-        }else{
-            let imageURLString:String = "\(downloadURLHeader)\(orderInfoObjects.value(forKey: "goodsimage") as! String)"
-            let url = URL(string: imageURLString)!
-            do{
-                let data = try Data.init(contentsOf: url)
-                let image = UIImage.gif(data:data)
-                cell.orderCellImageView.image = image//  UIImage(image:image)
-            }catch{
-                print(error)
+   
+        //设置图片
+           // if indexPath.row < orderImages.count{
+            if orderImages.keys.contains(indexPath.row) {
+                cell.orderCellImageView.image = (orderImages as NSDictionary).object(forKey: indexPath.row) as! UIImage// value(forKey: "\(indexPath.row)") as! UIImage//orderImages[indexPath.row]
+            }else{
+                cell.orderCellImageView.image = UIImage(named: "defualt-design-pic-loading")
             }
-            
-        }
         
-        // cell.orderTimeLabel.text = orderInfoObjects.value(forKey: "createtime") as? String //订单创建时间
-        // cell.orderID.text = orderInfoObjects.value(forKey: "orderid") as? String // 订单号
         cell.productTypeAndMaterialInCell.text = "\(orderInfoObjects.value(forKey: "goodsclass") as! String) \(goodsInfoObjects.value(forKey: "texturename") as! String)" //订单产品类别 材质
         cell.productQuantityInCell.text = "x\(goodsInfoObjects.value(forKey: "number") as! Int)"
         //设置产品尺寸
@@ -333,9 +321,12 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         let resourcesDownloadLinks:NSDictionary = data.value(forKey: "resourcesDownloadLinks") as! NSDictionary
         #if DEBUG
         downloadURLHeader = resourcesDownloadLinks.value(forKey: "imagesDownloadLinksDebug") as! String
+        downloadURLHeaderForThumbnail = resourcesDownloadLinks.value(forKey: "imagesDownloadLinksThumbnailDebug") as! String
         #else
         downloadURLHeader = resourcesDownloadLinks.value(forKey: "imagesDownloadLinks") as! String
+        downloadURLHeaderForThumbnail = resourcesDownloadLinks.value(forKey: "imagesDownloadLinksThumbnail") as! String
         #endif
+        
         
         //获取用户信息
         
@@ -377,17 +368,14 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
     }
     
     private func refresh() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.page = 1
-            self.orderArray.removeAll()
-            self.orderCreateTimes.removeAll()
-            self.orderCreateTimeArray.removeAll()
             self.loadOrderDataFromServer(pages: 1, categoryType: self._orderlistTye)
         }
     }
     
     private func loadMore() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.page += 1
             if self.page <= self.totalPageCount{
                 self.loadOrderDataFromServer(pages: self.page, categoryType: self._orderlistTye)
@@ -399,6 +387,77 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
             }
         }
     }
+    
+//    func exdispatchQueue(){
+//        let serialQ = DispatchQueue(label: "getimage", qos: .background, attributes: .concurrent, autoreleaseFrequency: .inherit, target:)
+//    }
+    
+    //下载订单图片
+    func downloadOrderImages(){
+        testQueue += 1
+        let downloadImageOpt = BlockOperation{
+            let temp = self.testQueue
+            
+            for index in (self.page - 1)*5 ..< self.page * 5{
+                
+                let dictionaryObjectInOrderArray = self.orderArray[index]
+                let orderInfoObjects = dictionaryObjectInOrderArray.value(forKey: "orderinfo") as! NSDictionary
+                if orderInfoObjects.value(forKey: "goodsimage") as? String == nil || orderInfoObjects.value(forKey: "goodsimage") as? String == ""{ // 图片字段为空
+//                    if self.testQueue != temp{
+//                        break
+//                    }
+                    self.orderImages.updateValue(UIImage(named:"defualt-design-pic")!, forKey: index)
+                    //self.orderImages.append(UIImage(named:"defualt-design-pic")!)
+                }else{
+                    let imageURLString:String = "\(self.downloadURLHeaderForThumbnail)\(orderInfoObjects.value(forKey: "goodsimage") as! String)"
+                    let url = URL(string: imageURLString)!
+                    do{
+                        let data = try Data.init(contentsOf: url)
+                        let image = UIImage.gif(data:data)
+//                        if self.testQueue != temp{
+//                            break
+//                        }
+                        self.orderImages.updateValue(image!, forKey: index)
+                       // self.orderImages.append(image!)
+                    }catch{
+                        let imageURLString:String = "\(self.downloadURLHeader)\(orderInfoObjects.value(forKey: "goodsimage") as! String)"
+                        let url = URL(string: imageURLString)!
+                        do{
+                            let data = try Data.init(contentsOf: url)
+                            let image = UIImage.gif(data:data)
+//                            if self.testQueue != temp{
+//                                break
+//                            }
+                            self.orderImages.updateValue(image!, forKey: index)
+                           // self.orderImages.append(image!)
+                            
+                        }catch{
+                            print(error)
+//                            if self.testQueue != temp{
+//                                break
+//                            }
+                            self.orderImages.updateValue(UIImage(named:"defualt-design-pic")!, forKey: index)
+                           // self.orderImages.append(UIImage(named:"defualt-design-pic")!)
+                        }
+                        print("无缩略图")
+                    }
+                }
+                //图片下载完了,重新加载表格
+                OperationQueue.main.addOperation({
+                    self.AllOrdersCollectionView.reloadData()
+                })
+                
+            }
+            
+            
+//            for item in self.orderArray
+            
+        }
+        queue.cancelAllOperations()
+       // orderImages.removeAll()
+        queue.addOperation(downloadImageOpt)
+    }
+    
     
     @objc func acceptDesignBtnClicked(_ button:UIButton){
         print("点击了接受设计按钮")
@@ -665,6 +724,12 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
                 if let value = responseObject.result.value{
                     let json = JSON(value)
                     if json.count == 3 {
+                        if pages == 1{
+                            self.orderArray.removeAll()
+                            self.orderCreateTimes.removeAll()
+                            self.orderCreateTimeArray.removeAll()
+                            self.orderImages.removeAll()
+                        }
                         self.orderCount = json["ordersummary","returnum"].int!//获取订单数
                         self.totalPageCount = json["ordersummary","totalnum"].int!/self.orderCount
                         for item in json["ordersummary","orderarray"].array! {
@@ -679,6 +744,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
                             self.view.addSubview(self.AllOrdersCollectionView)
                             self.StopLoadingAnimation()
                         }
+                        self.downloadOrderImages()
                         self.AllOrdersCollectionView.reloadData()
                         self.AllOrdersCollectionView.es.stopPullToRefresh()
                     }else{
@@ -765,6 +831,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         orderArray.removeAll()
         orderCreateTimes.removeAll()
         orderCreateTimeArray.removeAll()
+        orderImages.removeAll()
         loadOrderDataFromServer(pages: 1, categoryType: _orderlistTye)
     }
 

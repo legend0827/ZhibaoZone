@@ -12,6 +12,8 @@ class ScanCodeViewController: UIViewController {
     var _scanType:scanCodeActionType = .qrCode
     var ActionViewObject = ActionViewInOrder()
     
+    var orderVCObject = OrdersViewController()
+    
     let scancodeBackImage:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: 64, width: kWidth, height: kWidth))
     let noticeLabel:UILabel = UILabel.init(frame: CGRect(x: 0, y: 9, width: 225, height: 20))
     let scanlineImg:UIImageView = UIImageView.init(frame: CGRect(x: kWidth/10, y: 104, width: kWidth/10*8, height: 4))
@@ -316,18 +318,32 @@ extension ScanCodeViewController: AVCaptureMetadataOutputObjectsDelegate {
                         self.dismiss(animated: true, completion: nil)
                     }else{
                         //获取非链接结果
-                        let alertViewController = UIAlertController(title: "扫描结果", message: (object as AnyObject).stringValue, preferredStyle: .alert)
-                        let actionCancel = UIAlertAction(title: "退出", style: .cancel, handler: { (action) in
-                            self.dismiss(animated: true, completion: nil)
-                           // _ = self.navigationController?.popViewController(animated: true)
-                        })
-                        let actinSure = UIAlertAction(title: "再次扫描", style: .default, handler: { (action) in
-                            self.session.startRunning()
-                        })
-                        alertViewController.addAction(actionCancel)
-                        alertViewController.addAction(actinSure)
-                        self.present(alertViewController, animated: true, completion: nil)
-                        //self.dismiss(animated: true, completion: nil)
+                        let userinfo = getCurrentUserInfo()
+                        let searchVC = OrderSearchViewController(searchModel: .orderidOnly, roleType: Int(userinfo.value(forKey: "roletype") as! String) as! Int)
+                        searchVC.searchBar.text = (object as AnyObject).stringValue
+                        searchVC.tabbarObject = orderVCObject._tabBarVC
+                        self.present(searchVC, animated: true) {
+                            searchVC.searchBar.resignFirstResponder()
+                        }
+                        
+//
+//
+                      //  self.dismiss(animated: true, completion: nil)
+//                        self.dismiss(animated: true) {
+//                            self.orderListVC.searchBarTaped()
+//                        }
+//                        let alertViewController = UIAlertController(title: "扫描结果", message: (object as AnyObject).stringValue, preferredStyle: .alert)
+//                        let actionCancel = UIAlertAction(title: "退出", style: .cancel, handler: { (action) in
+//                            self.dismiss(animated: true, completion: nil)
+//                           // _ = self.navigationController?.popViewController(animated: true)
+//                        })
+//                        let actinSure = UIAlertAction(title: "再次扫描", style: .default, handler: { (action) in
+//                            self.session.startRunning()
+//                        })
+//                        alertViewController.addAction(actionCancel)
+//                        alertViewController.addAction(actinSure)
+//                        self.present(alertViewController, animated: true, completion: nil)
+//                        //self.dismiss(animated: true, completion: nil)
                         }
                 }
             }

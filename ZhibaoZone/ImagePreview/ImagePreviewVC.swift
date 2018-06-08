@@ -185,6 +185,7 @@ class ImagePreviewVC: UIViewController {
                 taskDetailReplyObject.replyTextView.becomeFirstResponder()
             }
             self.dismiss(animated: true, completion: nil)
+            setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .red))
         }
     }
 

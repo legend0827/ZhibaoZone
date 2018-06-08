@@ -8,6 +8,10 @@
 		<string>http://test-1255653994.cos.ap-chengdu.myqcloud.com/</string>
 		<key>imagesDownloadLinks</key>
 		<string>http://resource-1255653994.coscd.myqcloud.com/</string>
+		<key>imagesDownloadLinksThumbnailDebug</key>
+		<string>http://test-1255653994.cos.ap-chengdu.myqcloud.com/small/</string>
+		<key>imagesDownloadLinksThumbnail</key>
+		<string>http://resource-1255653994.coscd.myqcloud.com/small/</string>
 	</dict>
 	<key>apiAddress</key>
 	<dict>
@@ -107,6 +111,14 @@
 		<string>http://192.168.1.150:8082/zb-order-web/newmsginfo/empty.do</string>
 		<key>clearNotificationMsg</key>
 		<string>http://118.126.116.76:8082/zb-order-web/newmsginfo/empty.do</string>
+		<key>checklistItemsDebug</key>
+		<string>http://192.168.1.150:8082/zb-order-web/order/material.do</string>
+		<key>checklistItems</key>
+		<string>http://118.126.116.76:8082/zb-order-web/order/material.do</string>
+		<key>autoPriceDebug</key>
+		<string>http://192.168.1.150:8082/zb-order-web/order/autoPrice.do</string>
+		<key>autoPrice</key>
+		<string>http://118.126.116.76:8082/zb-order-web/order/autoPrice.do</string>
 	</dict>
 </dict>
 </plist>

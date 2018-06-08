@@ -61,6 +61,9 @@
 		0A99705D20ADB8C500E4D37C /* OrderSearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A99705C20ADB8C500E4D37C /* OrderSearchCollectionViewCell.swift */; };
 		0A99706B20AED7C500E4D37C /* CollectionReusableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A99706A20AED7C500E4D37C /* CollectionReusableViewHeader.swift */; };
 		0A9970AD20B64A2400E4D37C /* ScanCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9970AC20B64A2400E4D37C /* ScanCodeViewController.swift */; };
+		0AAAFA5A20BD4C7C005C7F25 /* QuotePriceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAAFA5920BD4C7C005C7F25 /* QuotePriceViewController.swift */; };
+		0AAAFA5C20BE5B67005C7F25 /* QuotePriceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAAFA5B20BE5B67005C7F25 /* QuotePriceTableViewCell.swift */; };
+		0AAAFA6020BE83D6005C7F25 /* ParasActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAAFA5F20BE83D6005C7F25 /* ParasActionView.swift */; };
 		0AB76696200CA8AB00851E16 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AB76695200CA8AB00851E16 /* config.plist */; };
 		0AB766A6200DC46900851E16 /* HGImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB7669F200DC46800851E16 /* HGImageCollectionViewCell.swift */; };
 		0AB766A7200DC46900851E16 /* HGImage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AB766A0200DC46900851E16 /* HGImage.storyboard */; };
@@ -78,6 +81,8 @@
 		0AC1AC63204E6F210096A6F6 /* KVProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC1AC62204E6F210096A6F6 /* KVProgressBar.swift */; };
 		0AC967C31FFC8B8300ABEEAB /* SwiftNotice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC967BB1FFC8B8300ABEEAB /* SwiftNotice.swift */; };
 		0ACD41362064B4B4002F1D14 /* normalUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACD41352064B4B4002F1D14 /* normalUserViewController.swift */; };
+		0ACDF10720BFBDAE0024FC68 /* checkListItemsArray.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0ACDF10620BFBDAD0024FC68 /* checkListItemsArray.plist */; };
+		0ACDF10920C1249A0024FC68 /* ParasTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACDF10820C1249A0024FC68 /* ParasTableViewCell.swift */; };
 		0AD2829B1FF47BD50044E41C /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD2828E1FF47BBC0044E41C /* Alamofire.framework */; };
 		0AD2829C1FF47BD50044E41C /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD2828E1FF47BBC0044E41C /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0AD282A01FF4B3A50044E41C /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD2829F1FF4B3A50044E41C /* SwiftyJSON.swift */; };
@@ -257,6 +262,9 @@
 		0A99705C20ADB8C500E4D37C /* OrderSearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSearchCollectionViewCell.swift; sourceTree = "<group>"; };
 		0A99706A20AED7C500E4D37C /* CollectionReusableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionReusableViewHeader.swift; sourceTree = "<group>"; };
 		0A9970AC20B64A2400E4D37C /* ScanCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanCodeViewController.swift; sourceTree = "<group>"; };
+		0AAAFA5920BD4C7C005C7F25 /* QuotePriceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotePriceViewController.swift; sourceTree = "<group>"; };
+		0AAAFA5B20BE5B67005C7F25 /* QuotePriceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotePriceTableViewCell.swift; sourceTree = "<group>"; };
+		0AAAFA5F20BE83D6005C7F25 /* ParasActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParasActionView.swift; sourceTree = "<group>"; };
 		0AB76695200CA8AB00851E16 /* config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
 		0AB7669F200DC46800851E16 /* HGImageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HGImageCollectionViewCell.swift; path = ../../../../../Downloads/hangge_1512/hangge_1512/HGImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		0AB766A0200DC46900851E16 /* HGImage.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = HGImage.storyboard; path = ../../../../../Downloads/hangge_1512/hangge_1512/HGImage.storyboard; sourceTree = "<group>"; };
@@ -274,6 +282,8 @@
 		0AC1AC62204E6F210096A6F6 /* KVProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KVProgressBar.swift; sourceTree = "<group>"; };
 		0AC967BB1FFC8B8300ABEEAB /* SwiftNotice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftNotice.swift; path = "../../../../Downloads/SwiftNotice-swift4/SwiftNotice.swift"; sourceTree = "<group>"; };
 		0ACD41352064B4B4002F1D14 /* normalUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = normalUserViewController.swift; sourceTree = "<group>"; };
+		0ACDF10620BFBDAD0024FC68 /* checkListItemsArray.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = checkListItemsArray.plist; path = ../../../Desktop/checkListItemsArray.plist; sourceTree = "<group>"; };
+		0ACDF10820C1249A0024FC68 /* ParasTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParasTableViewCell.swift; sourceTree = "<group>"; };
 		0AD282821FF47BBC0044E41C /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = "Alamofire-master/Alamofire.xcodeproj"; sourceTree = "<group>"; };
 		0AD2829F1FF4B3A50044E41C /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		0AD282AF1FF60E7A0044E41C /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -422,6 +432,7 @@
 				0A92C13720233E750062553A /* deviceToken.plist */,
 				0AB76695200CA8AB00851E16 /* config.plist */,
 				0A25DF96201D7E63009CBDEA /* contactList.plist */,
+				0ACDF10620BFBDAD0024FC68 /* checkListItemsArray.plist */,
 				0A09185220AABFF20054749B /* shippingCompanyNameList.plist */,
 				0A00793D1FFCB626005E93B6 /* SwiftNotice.swift */,
 				0A1295552072EB5E00C21C66 /* msg.wav */,
@@ -448,8 +459,8 @@
 		0A6AD6561FF1EFB4009A511A /* ZhibaoZone */ = {
 			isa = PBXGroup;
 			children = (
-				0AD282AF1FF60E7A0044E41C /* TabBarController.swift */,
 				0AD2829F1FF4B3A50044E41C /* SwiftyJSON.swift */,
+				0AD282AF1FF60E7A0044E41C /* TabBarController.swift */,
 				0A6AD6571FF1EFB4009A511A /* AppDelegate.swift */,
 				0A3CC3B8209572970055B5DD /* Extentsions.swift */,
 				0A83CA63205F6AE400F59A70 /* SwiftGifCommon */,
@@ -507,6 +518,17 @@
 				0A9970AC20B64A2400E4D37C /* ScanCodeViewController.swift */,
 			);
 			path = scanCode;
+			sourceTree = "<group>";
+		};
+		0AAAFA5820BD4C5B005C7F25 /* QuotePrice */ = {
+			isa = PBXGroup;
+			children = (
+				0AAAFA5920BD4C7C005C7F25 /* QuotePriceViewController.swift */,
+				0AAAFA5B20BE5B67005C7F25 /* QuotePriceTableViewCell.swift */,
+				0AAAFA5F20BE83D6005C7F25 /* ParasActionView.swift */,
+				0ACDF10820C1249A0024FC68 /* ParasTableViewCell.swift */,
+			);
+			path = QuotePrice;
 			sourceTree = "<group>";
 		};
 		0AB7669E200DC43600851E16 /* HGImage */ = {
@@ -580,6 +602,7 @@
 				0A594E252070794B00A67950 /* ReplyView */,
 				0A54F30120567AB400103FD8 /* MessageList */,
 				0ADCB8022011ED5700DCD7C8 /* TaskList */,
+				0AAAFA5820BD4C5B005C7F25 /* QuotePrice */,
 				0ADCB8012011ED3800DCD7C8 /* OrdersList */,
 				0AE149C52001E3BD005A2E55 /* NewTaskViewController.swift */,
 				0A3AA20D1FF61C5F00EBC482 /* WorkZoneViewController.swift */,
@@ -862,6 +885,7 @@
 				0A09185320AABFF20054749B /* shippingCompanyNameList.plist in Resources */,
 				0A25DF97201D7E63009CBDEA /* contactList.plist in Resources */,
 				0A1295562072EB5E00C21C66 /* msg.wav in Resources */,
+				0ACDF10720BFBDAE0024FC68 /* checkListItemsArray.plist in Resources */,
 				0AB76696200CA8AB00851E16 /* config.plist in Resources */,
 				0AF06C5620187F4A008E2DE9 /* Assets.xcassets in Resources */,
 				0A2C801C20ABF44E00873162 /* Images.xcassets in Resources */,
@@ -909,6 +933,7 @@
 				0A244E5F2098617700203463 /* FinishedTaskListViewController.swift in Sources */,
 				0A99705D20ADB8C500E4D37C /* OrderSearchCollectionViewCell.swift in Sources */,
 				0AF06C4920171D40008E2DE9 /* ESPullToRefresh+Manager.swift in Sources */,
+				0AAAFA5C20BE5B67005C7F25 /* QuotePriceTableViewCell.swift in Sources */,
 				0A09185120AAB2320054749B /* OrdersCollectionViewCell.swift in Sources */,
 				0AF06C5220171D40008E2DE9 /* ESPullToRefresh.swift in Sources */,
 				0ADCB7FB200EEAD500DCD7C8 /* ImagePreviewVC.swift in Sources */,
@@ -919,6 +944,7 @@
 				0A244E612098917C00203463 /* TestPushViewController.swift in Sources */,
 				0A54F30A20567AE800103FD8 /* MessageListViewController.swift in Sources */,
 				0A6AD65A1FF1EFB4009A511A /* ViewController.swift in Sources */,
+				0ACDF10920C1249A0024FC68 /* ParasTableViewCell.swift in Sources */,
 				0AC967C31FFC8B8300ABEEAB /* SwiftNotice.swift in Sources */,
 				0A38068A2035C9680077E77F /* Circle.swift in Sources */,
 				0AF06C4A20171D40008E2DE9 /* ESRefreshAnimator.swift in Sources */,
@@ -945,7 +971,9 @@
 				0A5B5C201FF2536300A92C20 /* CoreDataOperation.swift in Sources */,
 				0A610D8C201C282A00DE46B7 /* chooseContactTableViewController.swift in Sources */,
 				0A244E542096F35D00203463 /* ActionViewInOrder.swift in Sources */,
+				0AAAFA6020BE83D6005C7F25 /* ParasActionView.swift in Sources */,
 				0ACD41362064B4B4002F1D14 /* normalUserViewController.swift in Sources */,
+				0AAAFA5A20BD4C7C005C7F25 /* QuotePriceViewController.swift in Sources */,
 				0A0235B41FFD23B900CBD846 /* OrdersViewController.swift in Sources */,
 				0AB766A6200DC46900851E16 /* HGImageCollectionViewCell.swift in Sources */,
 				0A3806842031E0B30077E77F /* LockLabel.swift in Sources */,

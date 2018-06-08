@@ -78,6 +78,7 @@ class ImagePreviewCell: UICollectionViewCell {
             taskDetailReplyObject.replyTextView.becomeFirstResponder()
         }
         responder?.dismiss(animated: true, completion: nil)
+        setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .red))
     }
     //重置单元格内元素尺寸
     func resetSize(){

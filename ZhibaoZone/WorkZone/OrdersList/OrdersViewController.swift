@@ -137,10 +137,12 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
     var currentMessagesTypeList:[Int] = []
     var isNeedsAlert = true
     var getMessagesCount = 0
-    lazy var tabBarVC: TabBarController = {
+    lazy var _tabBarVC: TabBarController = {
         return TabBarController(royeType: 1)
     }()
-    //var tabBarVC = TabBarController(royeType: 1)
+    
+//    //跟视图
+//    var _tabBarVC = TabBarController(royeType: 1)
     
     //消息数目
     let messageCountBackLabel:UIView = UIView.init(frame: CGRect(x: 53, y: -5, width: 22, height: 16))
@@ -271,15 +273,18 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
         
         if _roleType == 1{
             let searchOrderVC = OrderSearchViewController(searchModel: .orderidAndWangWangID, roleType: _roleType)
+            searchOrderVC.tabbarObject = _tabBarVC
             self.present(searchOrderVC, animated: true, completion: nil)
         }else{
             let searchOrderVC = OrderSearchViewController(searchModel: .orderidOnly, roleType: _roleType)
+            searchOrderVC.tabbarObject = _tabBarVC
             self.present(searchOrderVC, animated: true, completion: nil)
         }
     }
     @objc func scanQRCodeBtnClicked(){
         print("扫描二维码按钮点击了")
         let scanQRcodeVC = ScanCodeViewController(scanType: .qrCode)
+        scanQRcodeVC.orderVCObject = self
         let nav = UINavigationController.init(rootViewController: scanQRcodeVC)
         self.present(nav, animated: true, completion: nil)
     }
@@ -315,6 +320,9 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
 
     //获取消息列表
     @objc func getMessageList(){
+        if _roleType != 2 && _roleType != 3{
+            return
+        }
         DispatchQueue.global(qos: .background).async {
             DispatchQueue.main.async(execute: {
                 //获取列表
@@ -399,14 +407,14 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
                                 self.getMessagesCount = self.messagesList.count
                             }else if json["status","code"].int! == 1{
                                 self.getMessagesCount = 0
-                                self.tabBarVC.redDot.isHidden = true
+                                self._tabBarVC.redDot.isHidden = true
                             }
                             if self.messagesList.count == 0{
-                                self.tabBarVC.redDot.isHidden = true
+                                self._tabBarVC.redDot.isHidden = true
                                // self.messageBtnLayer.isHidden = true
                                 self.messageCountBackLabel.isHidden = true
                             }else{
-                                self.tabBarVC.redDot.isHidden = false
+                                self._tabBarVC.redDot.isHidden = false
                                 //self.messageBtnLayer.isHidden = false
                                 self.messageCountBackLabel.isHidden = false
                                 if self.messagesList.count > 99{
