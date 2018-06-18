@@ -98,7 +98,7 @@ enum orderListCategoryType{
     case producingOrderCategory
     case waitForDesignCategory
     case waitForModifyCategory
-    case DesignConfirmedCategory
+    case DesigningCategory
     //case allOrderCategory
 }
 
@@ -108,6 +108,8 @@ enum actionType {
     case acceptDesign
     case acceptProduce
     case shippingProduct
+    case designRequires
+    case modifyRequires
 }
 
 //工艺属性类型：

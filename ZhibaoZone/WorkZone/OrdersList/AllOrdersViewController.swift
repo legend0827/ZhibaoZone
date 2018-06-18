@@ -148,7 +148,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         }
         print(orderCreateTimeArray)
     }
-    //func downloadImages
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         //let cellidentifier = NSString.init(format: "cell%ld%ld", indexPath.section,indexPath.row)
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CELL_ID, for: indexPath) as! OrdersCollectionViewCell
@@ -195,33 +195,45 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         cell.acceptProduceBtnInCell.isHidden = true
         cell.quotePriceBtnInCell.isHidden = true
         cell.shippingBtnInCell.isHidden = true
+        cell.designRequiresBtnInCell.isHidden = true
+        cell.modifyRequiresBtnInCell.isHidden = true
         
         cell.acceptDesignBtnInCell.addTarget(self, action: #selector(acceptDesignBtnClicked), for: .touchUpInside)
         cell.quotePriceBtnInCell.addTarget(self, action: #selector(quotePriceBtnClicked), for: .touchUpInside)
         cell.acceptProduceBtnInCell.addTarget(self, action: #selector(acceptProduceBtnClicked), for: .touchUpInside)
         cell.shippingBtnInCell.addTarget(self, action: #selector(shippingBtnClicked), for: .touchUpInside)
+        cell.designRequiresBtnInCell.addTarget(self, action: #selector(designRequireBtnClicked), for: .touchUpInside)
+        cell.modifyRequiresBtnInCell.addTarget(self, action: #selector(modifyRequireBtnClicked), for: .touchUpInside)
+        
         
         cell.acceptDesignBtnInCell.tag = indexPath.row
         cell.quotePriceBtnInCell.tag = indexPath.row
         cell.acceptProduceBtnInCell.tag = indexPath.row
         cell.shippingBtnInCell.tag = indexPath.row
+        cell.designRequiresBtnInCell.tag = indexPath.row
+        cell.modifyRequiresBtnInCell.tag = indexPath.row
         
         switch _roleType {
         case 1:
             print("RoleType 为 1")
         case 2:
-            // print("RoleType 为 2")
-            //设置师角色，并且订单状态为2
-//            if (statusObjects.value(forKey: "orderstate") as! NSDictionary).value(forKey: "designreceivestate") as? Int == nil{
-//                print("hello")
-//            }
-            // let designreceiveStateObjec = (statusObjects.value(forKey: "orderstate") as! NSDictionary).value(forKey: "designreceivestate") as? NSDictionary
+            
+            //显示接受设计按钮
             if (statusObjects.value(forKey: "designreceivestate") as! NSDictionary).value(forKey: "code")  as! Int == 0{
                 cell.acceptDesignBtnInCell.isHidden = false
+                cell.designRequiresBtnInCell.isHidden = true
+                cell.modifyRequiresBtnInCell.isHidden = true
+            }else if ((statusObjects.value(forKey: "orderstate") as! NSDictionary).value(forKey: "orderstate") as! Int) == 5 {
+                cell.acceptDesignBtnInCell.isHidden = true
+                cell.designRequiresBtnInCell.isHidden = true
+                cell.modifyRequiresBtnInCell.isHidden = false
             }
-//            if orderInfoObjects.value(forKey: "orderid") as! String  == "205176634213032"{
-//                print("hellp")
-//            }
+            //显示查看设计要求按钮
+            else if ((statusObjects.value(forKey: "designstate") as! NSDictionary).value(forKey: "code") as! Int) == 0 || ((statusObjects.value(forKey: "designstate") as! NSDictionary).value(forKey: "code") as! Int) == 1 || ((statusObjects.value(forKey: "designstate") as! NSDictionary).value(forKey: "code") as! Int) == 3{
+                cell.acceptDesignBtnInCell.isHidden = true
+                cell.designRequiresBtnInCell.isHidden = false
+                cell.modifyRequiresBtnInCell.isHidden = true
+            }
             
             //设置设计费显示
             if priceInfoObjects.value(forKey: "designprice") as? Float == nil{
@@ -230,21 +242,15 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
                 cell.priceLabel.text = "¥\(priceInfoObjects.value(forKey: "designprice") as! Float)0"
             }
         case 3:
-            //  print("RoleType 为 3")
-            //支付状态
+
             let paystate = (statusObjects.value(forKey: "payoffstate") as! NSDictionary).value(forKey: "code") as! Int
-            //支付之前，显示报价按钮
-//            if orderInfoObjects.value(forKey: "orderid") as! String == "205176654690393" {
-//                print("paystate = \(paystate)")
-//            }
+
             if paystate < 1{
                 cell.quotePriceBtnInCell.isHidden = false
             }else{
                 cell.quotePriceBtnInCell.isHidden = true
             }
-            //分配生产之前，价格显示报价价格 //设置自己的报价
             if ((statusObjects.value(forKey: "orderstate") as! NSDictionary).value(forKey: "orderstate") as! Int) < 7{
-               // cell.quotePriceBtnInCell.isHidden = false
                 
                 if priceInfoObjects.value(forKey: "returnprice") as? Float == nil{
                     cell.priceLabel.text = "¥0.00"
@@ -329,18 +335,12 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         
         
         //获取用户信息
-        
         let userInfos = getCurrentUserInfo()
-//        if userInfos.count == 0{
-//            _roleType = 1
-//            _userid = "000100101"
-//            _token = "1102312312"
-//        }else{
-            _roleType = Int((userInfos.value(forKey: "roletype") as? String)!)!
-            _userid = userInfos.value(forKey: "userid") as? String
-            _token = userInfos.value(forKey: "token") as? String
-       // }
-        if _orderlistTye == .allOrderCategory{
+        _roleType = Int((userInfos.value(forKey: "roletype") as? String)!)!
+        _userid = userInfos.value(forKey: "userid") as? String
+        _token = userInfos.value(forKey: "token") as? String
+        
+        if _orderlistTye == .allOrderCategory || _orderlistTye == .waitForDesignCategory{
             StartLoadingAnimation()
             DispatchQueue.global().async {
             self.loadOrderDataFromServer(pages: 1, categoryType: self._orderlistTye)
@@ -398,7 +398,8 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         let downloadImageOpt = BlockOperation{
             let temp = self.testQueue
             
-            for index in (self.page - 1)*5 ..< self.page * 5{
+            let rangeMax = (self.orderArray.count <= self.page * 5) ? self.orderArray.count : (self.page * 5)
+            for index in (self.page - 1)*5 ..< rangeMax{
                 
                 let dictionaryObjectInOrderArray = self.orderArray[index]
                 let orderInfoObjects = dictionaryObjectInOrderArray.value(forKey: "orderinfo") as! NSDictionary
@@ -487,6 +488,60 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         self.present(popVC, animated: true, completion: nil)
     }
     
+    @objc func designRequireBtnClicked(_ button:UIButton){
+        print("点击了查看设计要求按钮")
+        selectedIndex = button.tag
+        let dictionaryObjectInOrderArray = orderArray[selectedIndex]
+        let orderInfoObjects = dictionaryObjectInOrderArray.value(forKey: "orderinfo") as! NSDictionary
+        
+        
+        let orderID = orderInfoObjects.value(forKey: "orderid") as! String
+        let customID = orderInfoObjects.value(forKey: "customid") as! String
+        let acceptDesignView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight))
+        
+        
+        let popVC = PopupViewController()
+        popVC.view.backgroundColor = UIColor.clear
+        popVC.view.addSubview(showBlurEffect()) //UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
+        popVC.view.addSubview(popVC.grayLayer)
+        popVC.modalPresentationCapturesStatusBarAppearance = true
+        acceptDesignView.popupVC = popVC
+        acceptDesignView._orderID = orderID
+        acceptDesignView._customID = customID
+        
+        acceptDesignView.createViewWithActionType(ActionType: .designRequires)
+        popVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext //
+        popVC.view.addSubview(acceptDesignView)
+        
+        self.present(popVC, animated: true, completion: nil)
+    }
+    @objc func modifyRequireBtnClicked(_ button:UIButton){
+        print("点击了查看修改要求按钮")
+        selectedIndex = button.tag
+        let dictionaryObjectInOrderArray = orderArray[selectedIndex]
+        let orderInfoObjects = dictionaryObjectInOrderArray.value(forKey: "orderinfo") as! NSDictionary
+        
+        
+        let orderID = orderInfoObjects.value(forKey: "orderid") as! String
+        let customID = orderInfoObjects.value(forKey: "customid") as! String
+        let acceptDesignView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight))
+        
+        
+        let popVC = PopupViewController()
+        popVC.view.backgroundColor = UIColor.clear
+        popVC.view.addSubview(showBlurEffect()) //UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
+        popVC.view.addSubview(popVC.grayLayer)
+        popVC.modalPresentationCapturesStatusBarAppearance = true
+        acceptDesignView.popupVC = popVC
+        acceptDesignView._orderID = orderID
+        acceptDesignView._customID = customID
+        
+        acceptDesignView.createViewWithActionType(ActionType: .modifyRequires)
+        popVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext //
+        popVC.view.addSubview(acceptDesignView)
+        
+        self.present(popVC, animated: true, completion: nil)
+    }
     @objc func quotePriceBtnClicked(_ button:UIButton){
         print("点击了报价按钮")
         
@@ -652,8 +707,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
         let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
         var requestURL:String = ""
-        
-        
+
         switch categoryType {
         case orderListCategoryType.allOrderCategory:
             #if DEBUG
@@ -684,6 +738,25 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
             requestURL = apiAddresses.value(forKey: "orderListOfProducingDebug") as! String
             #else
             requestURL = apiAddresses.value(forKey: "orderListOfProducing") as! String
+            #endif
+        case orderListCategoryType.waitForDesignCategory:
+            //待接受设计
+            #if DEBUG
+            requestURL = apiAddresses.value(forKey: "orderListOfWaitForDesignDebug") as! String
+            #else
+            requestURL = apiAddresses.value(forKey: "orderListOfWaitForDesign") as! String
+            #endif
+        case orderListCategoryType.waitForModifyCategory:
+            #if DEBUG
+            requestURL = apiAddresses.value(forKey: "orderListOfWaitForModifyDebug") as! String
+            #else
+            requestURL = apiAddresses.value(forKey: "orderListOfWaitForModify") as! String
+            #endif
+        case orderListCategoryType.DesigningCategory:
+            #if DEBUG
+            requestURL = apiAddresses.value(forKey: "orderListOfDesignningDebug") as! String
+            #else
+            requestURL = apiAddresses.value(forKey: "orderListOfDesignning") as! String
             #endif
         default:
             #if DEBUG

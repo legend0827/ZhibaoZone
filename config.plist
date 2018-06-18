@@ -43,6 +43,18 @@
 		<string>http://192.168.1.150:8082/zb-order-web/order/inProduction.do</string>
 		<key>orderListOfProducing</key>
 		<string>http://118.126.116.76:8082/zb-order-web/order/inProduction.do</string>
+		<key>orderListOfWaitForDesignDebug</key>
+		<string>http://192.168.1.150:8082/zb-order-web/order/waitDesign.do</string>
+		<key>orderListOfWaitForDesign</key>
+		<string>http://118.126.116.76:8082/zb-order-web/order/waitDesign.do</string>
+		<key>orderListOfWaitForModifyDebug</key>
+		<string>http://192.168.1.150:8082/zb-order-web/order/againDesign.do</string>
+		<key>orderListOfWaitForModify</key>
+		<string>http://118.126.116.76:8082/zb-order-web/order/againDesign.do</string>
+		<key>orderListOfDesignningDebug</key>
+		<string>http://192.168.1.150:8082/zb-order-web/order/designing.do</string>
+		<key>orderListOfDesignning</key>
+		<string>http://118.126.116.76:8082/zb-order-web/order/designing.do</string>
 		<key>shippingConfirmDebug</key>
 		<string>http://192.168.1.150:8082/zb-logistics-web/logistics/insertIntoLogistics.do</string>
 		<key>shippingConfirm</key>

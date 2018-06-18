@@ -19,6 +19,8 @@ class OrdersCollectionViewCell: UICollectionViewCell {
     let acceptProduceBtnInCell:UIButton = UIButton.init(type: .custom)
     let acceptDesignBtnInCell:UIButton = UIButton.init(type: .custom)
     let shippingBtnInCell:UIButton = UIButton.init(type: .custom)
+    let designRequiresBtnInCell:UIButton = UIButton.init(type: .custom)
+    let modifyRequiresBtnInCell:UIButton = UIButton.init(type: .custom)
     let priceLabelBackgroundView:UIImageView = UIImageView.init()
     let priceLabel:UILabel = UILabel.init()
     let statusImageView:UIImageView = UIImageView.init()
@@ -39,6 +41,8 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         acceptProduceBtnInCell.frame = CGRect(x: (frame.width - 85) / 2, y: frame.width + 55, width: 85, height: 30)
         acceptDesignBtnInCell.frame = CGRect(x: (frame.width - 85) / 2, y: frame.width + 55, width: 85, height: 30)
         shippingBtnInCell.frame = CGRect(x: (frame.width - 85) / 2, y: frame.width + 55, width: 85, height: 30)
+        designRequiresBtnInCell.frame = CGRect(x: (frame.width - 85) / 2, y: frame.width + 55, width: 85, height: 30)
+        modifyRequiresBtnInCell.frame = CGRect(x: (frame.width - 85) / 2, y: frame.width + 55, width: 85, height: 30)
         statusImageView.frame = CGRect(x: frame.width/4 * 3 - 15 , y: 5, width: frame.width/4+10, height: frame.width/4+10)
         orderIDValue.frame = CGRect(x: 5, y: frame.width - 5, width: 200, height: 20)
         
@@ -112,6 +116,18 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         shippingBtnInCell.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         shippingBtnInCell.setTitleColor(UIColor.titleColors(color: .white), for: UIControlState.normal)
         
+        designRequiresBtnInCell.layer.cornerRadius = 6
+        designRequiresBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .red).cgColor
+        designRequiresBtnInCell.setTitle("设计要求", for: UIControlState.normal)
+        designRequiresBtnInCell.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        designRequiresBtnInCell.setTitleColor(UIColor.titleColors(color: .white), for: UIControlState.normal)
+        
+        modifyRequiresBtnInCell.layer.cornerRadius = 6
+        modifyRequiresBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .red).cgColor
+        modifyRequiresBtnInCell.setTitle("修改意见", for: UIControlState.normal)
+        modifyRequiresBtnInCell.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        modifyRequiresBtnInCell.setTitleColor(UIColor.titleColors(color: .white), for: UIControlState.normal)
+        
         statusImageView.isHidden = true
         statusImageView.image = UIImage(named: "overbudgeticon")
         statusImageView.layer.cornerRadius = 6
@@ -132,6 +148,8 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         orderCellView.addSubview(shippingBtnInCell)
         orderCellView.addSubview(statusImageView)
         orderCellView.addSubview(orderIDValue)
+        orderCellView.addSubview(designRequiresBtnInCell)
+        orderCellView.addSubview(modifyRequiresBtnInCell)
     }
     
     required init?(coder aDecoder: NSCoder) {

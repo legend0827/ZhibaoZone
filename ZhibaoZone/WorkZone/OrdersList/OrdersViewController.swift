@@ -17,32 +17,54 @@ import AudioToolbox
 import AVFoundation
 
 private struct PagingMenuOptions:PagingMenuControllerCustomizable{
+    //角色
+    var roleTypeForController = 1
     //全部订单子视图
     private let allOrdersVC = AllOrdersViewController(orderlistTye: orderListCategoryType.allOrderCategory)
     //待报价子视图
-    private let notQuoteYetVC = AllOrdersViewController(orderlistTye: orderListCategoryType.notQuotePriceYetOrderCategory)//NotQuoteYetViewController()
+    private let notQuoteYetVC = AllOrdersViewController(orderlistTye: orderListCategoryType.notQuotePriceYetOrderCategory)
     //已报价子视图
-    private let quoteAlreadyVC = AllOrdersViewController(orderlistTye: orderListCategoryType.alreadyQuotedOderCategory)//AllOrdersViewController()//QuoteAlreadyViewController()
+    private let quoteAlreadyVC = AllOrdersViewController(orderlistTye: orderListCategoryType.alreadyQuotedOderCategory)
     //待接受生产子视图
-    private let waitForProduceVC = AllOrdersViewController(orderlistTye: orderListCategoryType.waitForAcceptProduceOrderCategory)//AllOrdersViewController()//WaitForAccpetProduceViewController()
-
+    private let waitForProduceVC = AllOrdersViewController(orderlistTye: orderListCategoryType.waitForAcceptProduceOrderCategory)
     //生产中子视图
-    private let producingVC = AllOrdersViewController(orderlistTye: orderListCategoryType.producingOrderCategory)//AllOrdersViewController()//ProducingViewController()
+    private let producingVC = AllOrdersViewController(orderlistTye: orderListCategoryType.producingOrderCategory)
+
+    ///// 设计师
+    //待接单
+    private let waitForDesignVC = AllOrdersViewController(orderlistTye: orderListCategoryType.waitForDesignCategory)
+    //待修改
+    private let waitForModifyVC = AllOrdersViewController(orderlistTye: orderListCategoryType.waitForModifyCategory)
+    //已定稿
+    private let DesignConfirmedVC = AllOrdersViewController(orderlistTye: orderListCategoryType.DesigningCategory)
     
     var backgroundColor: UIColor = UIColor.backgroundColors(color: .white) // 设置菜单栏底色
 
     //组件类型
     fileprivate var componentType: ComponentType{
+        switch roleTypeForController {
+        case 1:
+            return .all(menuOptions: MenuOptions(), pagingControllers: pagingControllers)
+        case 2:
+            return .all(menuOptions: MenuOptionsForDesign(), pagingControllers: pagingControllersForDesign)
+        case 3:
+            return .all(menuOptions: MenuOptions(), pagingControllers: pagingControllers)
+        case 4:
+            return .all(menuOptions: MenuOptions(), pagingControllers: pagingControllers)
+        default:
+            print("nothing")
+        }
         return .all(menuOptions: MenuOptions(), pagingControllers: pagingControllers)
     }
     
-    
-    
+    //所有子视图控制器
+    fileprivate var pagingControllersForDesign: [UIViewController] {
+        return [waitForDesignVC,waitForModifyVC,DesignConfirmedVC]
+    }
     //所有子视图控制器
     fileprivate var pagingControllers: [UIViewController] {
         return [allOrdersVC,notQuoteYetVC,quoteAlreadyVC,waitForProduceVC,producingVC]
     }
-    
     //菜单配置项
     fileprivate struct MenuOptions: MenuViewCustomizable {
         //菜单显示模式
@@ -60,6 +82,22 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
         
     }
     
+    //菜单配置项
+    fileprivate struct MenuOptionsForDesign: MenuViewCustomizable {
+        //菜单显示模式
+        var displayMode: MenuDisplayMode {
+            return .segmentedControl
+        }
+        //菜单项
+        var itemsOptions: [MenuItemViewCustomizable] {
+            return [MenuItem6(), MenuItem7(),MenuItem8()]
+        }
+        //设置选中栏下方条的颜色
+        var focusMode:MenuFocusMode {
+            return .underline(height: 2, color: UIColor.titleColors(color: .red), horizontalPadding: 12, verticalPadding: 5) // 水平间距 0 ，垂直间距 0
+        }
+        
+    }
     //第1个菜单项
     fileprivate struct MenuItem1: MenuItemViewCustomizable {
         //自定义菜单项名称
@@ -118,7 +156,7 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
     fileprivate struct MenuItem8: MenuItemViewCustomizable {
         //自定义菜单项名称
         var displayMode: MenuItemDisplayMode {
-            return .text(title: MenuItemText(text: "已定稿", color: UIColor.titleColors(color: .black), selectedColor: UIColor.titleColors(color: .red), font: UIFont.systemFont(ofSize: 16), selectedFont: UIFont.systemFont(ofSize: 16)))
+            return .text(title: MenuItemText(text: "设计中", color: UIColor.titleColors(color: .black), selectedColor: UIColor.titleColors(color: .red), font: UIFont.systemFont(ofSize: 16), selectedFont: UIFont.systemFont(ofSize: 16)))
         }
     }
 }
@@ -165,18 +203,19 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
         super.viewDidLoad()
         //设置状态栏颜色
         setStatusBarBackgroundColor(color: .titleColors(color: .red))
-        
+        let userinfos = getCurrentUserInfo()
+        _roleType = Int(userinfos.value(forKey: "roletype") as! String)!
         
         //每30秒获取一次消息列表
         getMessageList()//先获取一次
         timerForMessageList = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(getMessageList), userInfo: nil, repeats: true)
         
-        /// 菜单栏配置
-        
         //分页菜单配置
-        let options = PagingMenuOptions()
+        var options = PagingMenuOptions()
+        options.roleTypeForController = _roleType
         //分页菜单控制器初始化
         let pagingMenuController = PagingMenuController(options: options)
+        
         //分页菜单控制器尺寸设置
         pagingMenuController.view.frame.origin.y += 28 //(4 + heightChangeForiPhoneXFromTop)*3
         pagingMenuController.view.frame.size.height -= 5
@@ -308,8 +347,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
         searchBarInOrders.backgroundColor = UIColor.colorWithRgba(236, g: 133, b: 133, a: 1.0)
         
         //self.view.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
-        let userinfos = getCurrentUserInfo()
-        _roleType = Int(userinfos.value(forKey: "roletype") as! String)!
+        
     }
     
     override func didReceiveMemoryWarning() {

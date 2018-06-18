@@ -20,6 +20,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
     var RoleTypeCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44))
     var SetQuickAccessPermitCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44))
     var SetParametersCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44))
+    var versionCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44))
     
     var _roleType = 0 // 定义角色
     var _accountID = "1000000"// 定义用户ID
@@ -92,6 +93,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         LogoutBtn.setTitleColor(UIColor.clear, for: UIControlState.highlighted)
         
         tableView?.addSubview(LogoutBtn)
+            
         LogoutBtn.addTarget(self, action: #selector(LogoutBtnClick), for: UIControlEvents.touchUpInside)
 
         //登出按钮左侧图标
@@ -104,6 +106,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         createRoleBanner()
         createUnlockBanner()
         createSetBanner()
+        createVersionBanner()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -114,7 +117,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         }
     }
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 5
+        return 6
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
@@ -163,12 +166,26 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
             SetParametersCell.alpha = 1.0
             SetParametersCell.selectionStyle = UITableViewCellSelectionStyle.none
             
+            return SetParametersCell
+        }else if (indexPath.section == 5){
+            //设置分割线
+            let seperateLine:UIView = UIView.init(frame: CGRect(x: 20, y: 0, width: kWidth - 30, height: 1))
+            seperateLine.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+            
+            versionCell.addSubview(seperateLine)
+            
+            //参数设置
+            versionCell.alpha = 1.0
+            versionCell.selectionStyle = UITableViewCellSelectionStyle.none
+            
             //设置分割线
             let seperateLineBottom:UIView = UIView.init(frame: CGRect(x: 20, y: 60, width: kWidth - 30, height: 1))
             seperateLineBottom.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
-            SetParametersCell.addSubview(seperateLineBottom)
+            versionCell.addSubview(seperateLineBottom)
+        
             
-            return SetParametersCell
+            return versionCell
+            
         }else{
             RoleTypeCell.alpha = 1.0
             RoleTypeCell.selectionStyle = UITableViewCellSelectionStyle.none
@@ -348,6 +365,37 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         nameBannerCell.addSubview(userNameLabel)
         tableView?.addSubview(nameBannerCell)
     }
+    
+    func createVersionBanner(){
+        
+        let iconImageview:UIImageView = UIImageView.init(frame: CGRect(x: 20, y: 18, width: 24, height: 24))
+        let userAccountLabel:UILabel = UILabel.init(frame: CGRect(x: 64, y: 8, width: 200, height: 44))
+        let version:UILabel =  UILabel.init(frame: CGRect(x: 20, y: 8, width: kWidth - 40, height: 44))
+        
+        //设置icon
+        iconImageview.image = UIImage(named: "versionicon")
+        //设置账号标签
+        userAccountLabel.text = "关于制宝"
+        userAccountLabel.font = UIFont.systemFont(ofSize: 16)
+        userAccountLabel.textAlignment = .left
+        
+        version.text = "V2.0.4"
+        version.font = UIFont.systemFont(ofSize: 14)
+        version.textColor = UIColor.titleColors(color: .gray)
+        version.textAlignment = .right
+        
+        //设置账号
+        
+        versionCell.addSubview(iconImageview)
+        versionCell.addSubview(userAccountLabel)
+        versionCell.addSubview(version)
+        
+        tableView?.addSubview(versionCell)
+        
+
+
+    }
+
     
     /*
     // MARK: - Navigation

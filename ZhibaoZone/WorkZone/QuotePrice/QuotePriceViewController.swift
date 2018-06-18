@@ -888,11 +888,13 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
                         
                         let errorMsg = json["status","msg"].string!
                         print("报价失败，msg:\(errorMsg)")
+                        self.currentPriceLabel.text = "¥0.00"
                         greyLayerPrompt.show(text: errorMsg)
                     }
                 }
             case false:
                 print("处理失败")
+                self.currentPriceLabel.text = "¥0.00"
                 greyLayerPrompt.show(text: "更新报价失败")
             }
             self.updatingPriceLabel.isHidden = true
