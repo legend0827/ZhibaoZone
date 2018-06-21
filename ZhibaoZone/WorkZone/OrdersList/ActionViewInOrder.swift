@@ -1377,32 +1377,40 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             case true:
                 if  let value = responseObject.result.value{
                     let json = JSON(value)
-                    let statusObject = json["status","code"].string!
-                    if statusObject == "0"{
-                        print("获取订单详情成功")
-                        self.orderDetail.removeAll()
-                        let userinfoItem = json["userinfo"].dictionaryObject! as NSDictionary
-                        let orderaddinfoItem = json["orderaddinfo"].dictionaryObject! as NSDictionary
-                        let ordersummaryItem = json["ordersummary"].dictionaryObject! as NSDictionary
-                        let nicknameItem = json["nickname"].dictionaryObject! as NSDictionary
-                        let useraddressItem = json["useraddress"].dictionaryObject! as NSDictionary
-                        let designinfoItem = json["designinfo"].dictionaryObject! as NSDictionary
-                        self.orderDetail.append(userinfoItem)
-                        self.orderDetail.append(orderaddinfoItem)
-                        self.orderDetail.append(ordersummaryItem)
-                        self.orderDetail.append(nicknameItem)
-                        self.orderDetail.append(useraddressItem)
-                        self.orderDetail.append(designinfoItem)
-                        print("get order detail successed")
-                        //获取成功数据了，刷新UI
-                        DispatchQueue.main.async {
-                            self.updateViewData()
+                    do {
+                        let statusObject = try json["status","code"].int!
+                        if statusObject == 0{
+                            print("获取订单详情成功")
+                            self.orderDetail.removeAll()
+                            let userinfoItem = json["userinfo"].dictionaryObject! as NSDictionary
+                            let orderaddinfoItem = json["orderaddinfo"].dictionaryObject! as NSDictionary
+                            let ordersummaryItem = json["ordersummary"].dictionaryObject! as NSDictionary
+                            let nicknameItem = json["nickname"].dictionaryObject! as NSDictionary
+                            let useraddressItem = json["useraddress"].dictionaryObject! as NSDictionary
+                            let designinfoItem = json["designinfo"].dictionaryObject! as NSDictionary
+                            self.orderDetail.append(userinfoItem)
+                            self.orderDetail.append(orderaddinfoItem)
+                            self.orderDetail.append(ordersummaryItem)
+                            self.orderDetail.append(nicknameItem)
+                            self.orderDetail.append(useraddressItem)
+                            self.orderDetail.append(designinfoItem)
+                            print("get order detail successed")
+                            //获取成功数据了，刷新UI
+                            DispatchQueue.main.async {
+                                self.updateViewData()
+                            }
+                        }else{
+                            print("接受失败，code:\(statusObject)")
+                            let errorMsg = json["status","msg"].string!
+                            greyLayerPrompt.show(text: "获取订单详情失败,\(errorMsg)")
                         }
-                    }else{
-                        print("接受失败，code:\(statusObject)")
-                        let errorMsg = json["status","msg"].string!
-                        greyLayerPrompt.show(text: "获取订单详情失败,\(errorMsg)")
+                    } catch {
+                        // Replace this implementation with code to handle the error appropriately.
+                        // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                        greyLayerPrompt.show(text: "程序错误. Code:1")
                     }
+                    
+                    
                 }
             case false:
                 greyLayerPrompt.show(text: "服务器异常，获取订单信息失败")

@@ -72,6 +72,7 @@
 		0AB766AA200DC46900851E16 /* HGImageCompleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB766A3200DC46900851E16 /* HGImageCompleteButton.swift */; };
 		0AB766AB200DC46900851E16 /* HGImage.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AB766A4200DC46900851E16 /* HGImage.xcassets */; };
 		0AB766AC200DC46900851E16 /* HGImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB766A5200DC46900851E16 /* HGImagePickerController.swift */; };
+		0AB7C3F120DA01B600D0D26B /* checkListItemsArray.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AB7C3F020DA01B600D0D26B /* checkListItemsArray.plist */; };
 		0AC1AC57204E2B260096A6F6 /* QCloudCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC1AC55204E2B250096A6F6 /* QCloudCore.framework */; };
 		0AC1AC58204E2B260096A6F6 /* QCloudCOSXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC1AC56204E2B250096A6F6 /* QCloudCOSXML.framework */; };
 		0AC1AC5B204E2B890096A6F6 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC1AC5A204E2B890096A6F6 /* CoreTelephony.framework */; };
@@ -81,7 +82,6 @@
 		0AC1AC63204E6F210096A6F6 /* KVProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC1AC62204E6F210096A6F6 /* KVProgressBar.swift */; };
 		0AC967C31FFC8B8300ABEEAB /* SwiftNotice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC967BB1FFC8B8300ABEEAB /* SwiftNotice.swift */; };
 		0ACD41362064B4B4002F1D14 /* normalUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACD41352064B4B4002F1D14 /* normalUserViewController.swift */; };
-		0ACDF10720BFBDAE0024FC68 /* checkListItemsArray.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0ACDF10620BFBDAD0024FC68 /* checkListItemsArray.plist */; };
 		0ACDF10920C1249A0024FC68 /* ParasTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACDF10820C1249A0024FC68 /* ParasTableViewCell.swift */; };
 		0AD2829B1FF47BD50044E41C /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD2828E1FF47BBC0044E41C /* Alamofire.framework */; };
 		0AD2829C1FF47BD50044E41C /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD2828E1FF47BBC0044E41C /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -273,6 +273,7 @@
 		0AB766A3200DC46900851E16 /* HGImageCompleteButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HGImageCompleteButton.swift; path = ../../../../../Downloads/hangge_1512/hangge_1512/HGImageCompleteButton.swift; sourceTree = "<group>"; };
 		0AB766A4200DC46900851E16 /* HGImage.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = HGImage.xcassets; path = ../../../../../Downloads/hangge_1512/hangge_1512/HGImage.xcassets; sourceTree = "<group>"; };
 		0AB766A5200DC46900851E16 /* HGImagePickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HGImagePickerController.swift; path = ../../../../../Downloads/hangge_1512/hangge_1512/HGImagePickerController.swift; sourceTree = "<group>"; };
+		0AB7C3F020DA01B600D0D26B /* checkListItemsArray.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = checkListItemsArray.plist; sourceTree = "<group>"; };
 		0AC1AC55204E2B250096A6F6 /* QCloudCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = QCloudCore.framework; sourceTree = "<group>"; };
 		0AC1AC56204E2B250096A6F6 /* QCloudCOSXML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = QCloudCOSXML.framework; sourceTree = "<group>"; };
 		0AC1AC5A204E2B890096A6F6 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -282,7 +283,6 @@
 		0AC1AC62204E6F210096A6F6 /* KVProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KVProgressBar.swift; sourceTree = "<group>"; };
 		0AC967BB1FFC8B8300ABEEAB /* SwiftNotice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftNotice.swift; path = "../../../../Downloads/SwiftNotice-swift4/SwiftNotice.swift"; sourceTree = "<group>"; };
 		0ACD41352064B4B4002F1D14 /* normalUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = normalUserViewController.swift; sourceTree = "<group>"; };
-		0ACDF10620BFBDAD0024FC68 /* checkListItemsArray.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = checkListItemsArray.plist; path = ../../../Desktop/checkListItemsArray.plist; sourceTree = "<group>"; };
 		0ACDF10820C1249A0024FC68 /* ParasTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParasTableViewCell.swift; sourceTree = "<group>"; };
 		0AD282821FF47BBC0044E41C /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = "Alamofire-master/Alamofire.xcodeproj"; sourceTree = "<group>"; };
 		0AD2829F1FF4B3A50044E41C /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
@@ -431,8 +431,8 @@
 			children = (
 				0A92C13720233E750062553A /* deviceToken.plist */,
 				0AB76695200CA8AB00851E16 /* config.plist */,
+				0AB7C3F020DA01B600D0D26B /* checkListItemsArray.plist */,
 				0A25DF96201D7E63009CBDEA /* contactList.plist */,
-				0ACDF10620BFBDAD0024FC68 /* checkListItemsArray.plist */,
 				0A09185220AABFF20054749B /* shippingCompanyNameList.plist */,
 				0A00793D1FFCB626005E93B6 /* SwiftNotice.swift */,
 				0A1295552072EB5E00C21C66 /* msg.wav */,
@@ -885,7 +885,7 @@
 				0A09185320AABFF20054749B /* shippingCompanyNameList.plist in Resources */,
 				0A25DF97201D7E63009CBDEA /* contactList.plist in Resources */,
 				0A1295562072EB5E00C21C66 /* msg.wav in Resources */,
-				0ACDF10720BFBDAE0024FC68 /* checkListItemsArray.plist in Resources */,
+				0AB7C3F120DA01B600D0D26B /* checkListItemsArray.plist in Resources */,
 				0AB76696200CA8AB00851E16 /* config.plist in Resources */,
 				0AF06C5620187F4A008E2DE9 /* Assets.xcassets in Resources */,
 				0A2C801C20ABF44E00873162 /* Images.xcassets in Resources */,

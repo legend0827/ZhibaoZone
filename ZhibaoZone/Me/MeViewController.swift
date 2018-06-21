@@ -97,9 +97,9 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         LogoutBtn.addTarget(self, action: #selector(LogoutBtnClick), for: UIControlEvents.touchUpInside)
 
         //登出按钮左侧图标
-        let imgLogout = UIImageView(frame: CGRect(x: 5, y: (44-30)/2, width: 30, height: 30))
-        imgLogout.image = UIImage(named:"logouticon-white")
-        LogoutBtn.addSubview(imgLogout)
+//        let imgLogout = UIImageView(frame: CGRect(x: 5, y: (44-30)/2, width: 30, height: 30))
+//        imgLogout.image = UIImage(named:"logouticon-white")
+//        LogoutBtn.addSubview(imgLogout)
         //emytyAreaShowingLabel()
         createNameBanner()
         createAccountBanner()
@@ -279,7 +279,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
     }
     func createRoleBanner() {
         
-        let iconImageview:UIImageView = UIImageView.init(frame: CGRect(x: 20, y: 18, width: 24, height: 18))
+        let iconImageview:UIImageView = UIImageView.init(frame: CGRect(x: 20, y: 21, width: 24, height: 18))
         let roleNameLabel:UILabel = UILabel.init(frame: CGRect(x: 64, y: 8, width: 200, height: 44))
         let roleStringLabel:UILabel = UILabel.init(frame: CGRect(x: 93+44, y: 8, width: 200, height: 44))
         
@@ -379,7 +379,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         userAccountLabel.font = UIFont.systemFont(ofSize: 16)
         userAccountLabel.textAlignment = .left
         
-        version.text = "V2.0.4"
+        version.text = "V2.0.5"
         version.font = UIFont.systemFont(ofSize: 14)
         version.textColor = UIColor.titleColors(color: .gray)
         version.textAlignment = .right

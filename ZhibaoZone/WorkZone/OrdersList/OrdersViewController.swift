@@ -40,6 +40,8 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
     
     var backgroundColor: UIColor = UIColor.backgroundColors(color: .white) // 设置菜单栏底色
 
+    //lazy loading页面数量
+    var lazyLoadingPage: LazyLoadingPage = .three
     //组件类型
     fileprivate var componentType: ComponentType{
         switch roleTypeForController {

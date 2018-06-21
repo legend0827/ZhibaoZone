@@ -59,7 +59,7 @@ class TabBarController: UITabBarController {
         taskVC.tabBarItem.image = UIImage(named: "tasksicon")
         taskVC.tabBarItem.selectedImage = UIImage(named: "tasksiconselected")
         meVC.tabBarItem.image = UIImage(named:"accounticon")
-        meVC.tabBarItem.selectedImage = UIImage(named: "accounticonselected")
+        meVC.tabBarItem.selectedImage = UIImage(named: "accounticon-selected")
         normalUserVC.tabBarItem.image = UIImage(named:"homeicon")
         quotepriceVC.tabBarItem.selectedImage = UIImage(named: "quotepriceiconselected")
         quotepriceVC.tabBarItem.image = UIImage(named: "quotepriceicon")

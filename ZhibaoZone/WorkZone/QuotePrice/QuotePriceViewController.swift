@@ -12,7 +12,7 @@ import Alamofire
 class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate {
    
    // 产品参数字典
-    var ProductParams:[[NSDictionary]] = [[]]
+    var ProductParams:[[String]] = [[]]
     var parasCounts:[Int] = []
     
     //开模方式选中项
@@ -44,15 +44,39 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
     //产品类型
     let productTypeLabel:UILabel = UILabel.init()
     let productTypeValue:UILabel = UILabel.init()
-    let ProductTypePicker:UIPickerView = UIPickerView.init()
+    
+    lazy var ProductTypePicker:UIPickerView = {
+        let tempPicker = UIPickerView.init()
+        tempPicker.frame = CGRect(x: 0, y: 30, width: kWidth, height: 150)
+       // tempPicker.selectRow(0, inComponent: 0, animated: true)
+        tempPicker.reloadComponent(0)
+        tempPicker.delegate = self
+        tempPicker.isHidden = true
+        return tempPicker
+    }()
     //产品材质
     let productMaterialLabel:UILabel = UILabel.init()
     let productMaterialValue:UILabel = UILabel.init()
-    let ProductMaterialPicker:UIPickerView = UIPickerView.init()
+    lazy var ProductMaterialPicker:UIPickerView = {
+        let tempPicker = UIPickerView.init()
+        tempPicker.frame = CGRect(x: 0, y: 30, width: kWidth, height: 150)
+        tempPicker.delegate = self
+        tempPicker.reloadComponent(0)
+      //  tempPicker.selectRow(0, inComponent: 0, animated: true)
+        tempPicker.isHidden = true
+        return tempPicker
+    }()
     //附件
     let productAccessoriesLabel:UILabel = UILabel.init()
     let productAccessoriesValue:UILabel = UILabel.init()
-    let ProductAccessoriesPicker:UIPickerView = UIPickerView.init()
+    lazy var ProductAccessoriesPicker:UIPickerView = {
+        let tempPicker = UIPickerView.init()
+        tempPicker.frame = CGRect(x: 0, y: 30, width: kWidth, height: 150)
+       // tempPicker.selectRow(0, inComponent: 0, animated: true)
+        tempPicker.delegate = self
+        tempPicker.isHidden = true
+        return tempPicker
+    }()
     //开模方式
     let productMoldStyleLabel:UILabel = UILabel.init()
     let productMoldStyleValue:UILabel = UILabel.init()
@@ -111,27 +135,29 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
         
         //setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .red))
         super.viewDidLoad()
+        setupUI()
         //获取数据
-        //从plist获取联系人数目
+        //从plist获取CheckListItem
         let plistFile = Bundle.main.path(forResource: "checkListItemsArray", ofType: "plist")
         let tempParaItems = NSArray.init(contentsOfFile: plistFile!)
         ProductParams.removeAll()
         
         if tempParaItems?.count == 0{
-            //loadOrderDataFromServer()
+            loadOrderDataFromServer()
         }else{
-            print(tempParaItems)
             for i in tempParaItems!{
-                ProductParams.append(i as! [NSDictionary])
+                ProductParams.append(i as! [String])
             }
             parasCounts.removeAll()
             for items in ProductParams{
                 parasCounts.append(items.count)
             }
+            self.view.addSubview(quotePriceParasTable)
+            setupSelectedItems()
             //contactCountself.view.addSubview(chooseContactTableView)
         }
-        setupUI()
-        setupSelectedItems()
+        
+        
         // Do any additional setup after loading the view.
     }
 
@@ -142,6 +168,26 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
     
     override func viewWillAppear(_ animated: Bool) {
         setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .red))
+        //获取数据
+        //从plist获取CheckListItem
+        let plistFile = Bundle.main.path(forResource: "checkListItemsArray", ofType: "plist")
+        let tempParaItems = NSArray.init(contentsOfFile: plistFile!)
+        ProductParams.removeAll()
+        
+        if tempParaItems?.count == 0{
+            loadOrderDataFromServer()
+        }else{
+            for i in tempParaItems!{
+                ProductParams.append(i as! [String])
+            }
+            parasCounts.removeAll()
+            for items in ProductParams{
+                parasCounts.append(items.count)
+            }
+            self.view.addSubview(quotePriceParasTable)
+            setupSelectedItems()
+            //contactCountself.view.addSubview(chooseContactTableView)
+        }
     }
     
     private func setupUI(){
@@ -247,7 +293,7 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
         taxResultBgView.addSubview(payWithoutTaxBtn)
         taxResultBgView.addSubview(taxRadioBtn)
         
-        self.view.addSubview(quotePriceParasTable)
+        
         
         //表格中的cell
         //产品类别
@@ -261,20 +307,11 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
         productTypeValue.textColor = UIColor.titleColors(color: .black)
         productTypeValue.font = UIFont.systemFont(ofSize: 16)
         
-        ProductTypePicker.frame = CGRect(x: 0, y: 30, width: kWidth, height: 150)
-        ProductTypePicker.selectRow(0, inComponent: 0, animated: true)
-        ProductTypePicker.reloadComponent(0)
-        ProductTypePicker.delegate = self
-        
         //生产材质
         productMaterialLabel.frame = CGRect(x: 15, y: 15, width: 200, height: 22)
         productMaterialLabel.text = "产品材质:"
         productMaterialLabel.textColor = UIColor.titleColors(color: .black)
         productMaterialLabel.font = UIFont.systemFont(ofSize: 16)
-        ProductMaterialPicker.frame = CGRect(x: 0, y: 30, width: kWidth, height: 150)
-        ProductMaterialPicker.delegate = self
-        ProductMaterialPicker.reloadComponent(0)
-        ProductMaterialPicker.selectRow(0, inComponent: 0, animated: true)
         
         productMaterialValue.frame = CGRect(x: 125, y: 15, width: 200, height: 22)
         productMaterialValue.text = "锌合金"
@@ -291,10 +328,6 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
         productAccessoriesValue.text = "蝴蝶扣"
         productAccessoriesValue.textColor = UIColor.titleColors(color: .black)
         productAccessoriesValue.font = UIFont.systemFont(ofSize: 16)
-        
-        ProductAccessoriesPicker.frame = CGRect(x: 0, y: 30, width: kWidth, height: 150)
-        ProductAccessoriesPicker.selectRow(0, inComponent: 0, animated: true)
-        ProductAccessoriesPicker.delegate = self
         
         //开模方式
         productMoldStyleLabel.frame = CGRect(x: 15, y: 15, width: 200, height: 22)
@@ -376,10 +409,6 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
         seperateLine4.backgroundColor = UIColor.lineColors(color: .lightGray)
         seperateLine5.backgroundColor = UIColor.lineColors(color: .lightGray)
         seperateLine6.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
-        
-        ProductAccessoriesPicker.isHidden = true
-        ProductMaterialPicker.isHidden = true
-        ProductTypePicker.isHidden = true
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
@@ -510,8 +539,6 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
         ProductAccessoriesPicker.isHidden = true
         ProductMaterialPicker.isHidden = true
         ProductTypePicker.isHidden = true
-
- 
         switch indexPath.row {
         case 0:
             //更改展开状态
@@ -660,15 +687,15 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
             case ProductTypePicker:
                 
                 let productItems = ProductParams[0]
-                pickerLabel?.text = productItems[row].value(forKey: "productname") as! String
+                pickerLabel?.text = productItems[row]
             case ProductMaterialPicker:
                 
                 let productItems = ProductParams[1]
-                pickerLabel?.text = productItems[row].value(forKey: "texturename") as! String
+                pickerLabel?.text = productItems[row]
             case ProductAccessoriesPicker:
                 
                 let productItems = ProductParams[2]
-                pickerLabel?.text = productItems[row].value(forKey: "accessoriesname") as! String
+                pickerLabel?.text = productItems[row]
             default:
                 pickerLabel?.text = String(row)
             }
@@ -679,13 +706,13 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
         switch pickerView {
         case ProductTypePicker:
             let productItems = ProductParams[0]
-            productTypeValue.text = productItems[row].value(forKey: "productname") as! String
+            productTypeValue.text = productItems[row]
         case ProductMaterialPicker:
             let productItems = ProductParams[1]
-            productMaterialValue.text = productItems[row].value(forKey: "texturename") as! String
+            productMaterialValue.text = productItems[row]
         case ProductAccessoriesPicker:
             let productItems = ProductParams[2]
-            productAccessoriesValue.text = productItems[row].value(forKey: "accessoriesname") as! String
+            productAccessoriesValue.text = productItems[row]
         default:
             print("something was wrong")
         }
@@ -732,16 +759,16 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
             case true:
                 if  let value = responseObject.result.value{
                     let json = JSON(value)
-
+                    
                         let plistFile = Bundle.main.path(forResource: "checkListItemsArray", ofType: "plist")
                         //临时存储参数列表
-                        var tempParamsArray:[[NSDictionary]] = [[]]
-                        var productArray:[NSDictionary] = []
-                        var colorArray:[NSDictionary] = []
-                        var materialArray:[NSDictionary] = []
-                        var modeArray:[NSDictionary] = []
-                        var produceStyleArray:[NSDictionary] = []
-                        var accessoriesArray:[NSDictionary] = []
+                        var tempParamsArray:[[String]] = [[]]
+                        var productArray:[String] = []
+                        var colorArray:[String] = []
+                        var materialArray:[String] = []
+                        var modeArray:[String] = []
+                        var produceStyleArray:[String] = []
+                        var accessoriesArray:[String] = []
                         //清除现有的文件列表
                         let emptyArray:NSArray = []
                         emptyArray.write(toFile: plistFile!, atomically: true)
@@ -750,48 +777,48 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
                         tempParamsArray.removeAll()
                         //产品类型
                         for item in json["product"].array! {
-                            let restoreItem = item.dictionaryObject! as NSDictionary
-                            productArray.append(restoreItem)
+                            let restoreItem = item.string// dictionaryObject! as NSDictionary
+                            productArray.append(restoreItem!)
                         }
                         self.ProductParams.append(productArray)
                         tempParamsArray.append(productArray)
                         self.parasCounts.append(productArray.count)
                         //产品材质
                         for item in json["material"].array! {
-                            let restoreItem = item.dictionaryObject! as NSDictionary
-                            materialArray.append(restoreItem)
+                            let restoreItem = item.string //dictionaryObject! as NSDictionary
+                            materialArray.append(restoreItem!)
                         }
                         self.ProductParams.append(materialArray)
                         tempParamsArray.append(materialArray)
                         self.parasCounts.append(materialArray.count)
                         //产品附件
                         for item in json["fitting"].array! {
-                            let restoreItem = item.dictionaryObject! as NSDictionary
-                            accessoriesArray.append(restoreItem)
+                            let restoreItem = item.string //dictionaryObject! as NSDictionary
+                            accessoriesArray.append(restoreItem!)
                         }
                         self.ProductParams.append(accessoriesArray)
                         tempParamsArray.append(accessoriesArray)
                         self.parasCounts.append(accessoriesArray.count)
                         //生产工艺
                         for item in json["technology"].array! {
-                            let restoreItem = item.dictionaryObject! as NSDictionary
-                            produceStyleArray.append(restoreItem)
+                            let restoreItem = item.string //dictionaryObject! as NSDictionary
+                            produceStyleArray.append(restoreItem!)
                         }
                         self.ProductParams.append(produceStyleArray)
                         tempParamsArray.append(produceStyleArray)
                         self.parasCounts.append(produceStyleArray.count)
                         //开模方式
                         for item in json["mold"].array! {
-                            let restoreItem = item.dictionaryObject! as NSDictionary
-                            modeArray.append(restoreItem)
+                            let restoreItem = item.string //dictionaryObject! as NSDictionary
+                            modeArray.append(restoreItem!)
                         }
                         self.ProductParams.append(modeArray)
                         tempParamsArray.append(modeArray)
                         self.parasCounts.append(modeArray.count)
                         //电镀色
                         for item in json["color"].array! {
-                            let restoreItem = item.dictionaryObject! as NSDictionary
-                            colorArray.append(restoreItem)
+                            let restoreItem = item.string // dictionaryObject! as NSDictionary
+                            colorArray.append(restoreItem!)
                         }
                         self.ProductParams.append(colorArray)
                         tempParamsArray.append(colorArray)
@@ -812,7 +839,7 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
                         //let array = NSArray(array: productArray)
                         //将数组写入联系人列表
                         array.write(toFile: plistFile!, atomically: true)
-
+                        self.quotePriceParasTable.reloadData()
                 }
             case false:
                 print("处理失败")
@@ -950,18 +977,18 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
     }
     func setupSelectedItems(){
         for item in ProductParams[3]{ // 开模方式
-            if (productMoldStyleValue.text?.contains(item.value(forKey: "moldname") as! String))!{
-                moldSelectedItems.append(item.value(forKey: "moldname") as! String)
+            if (productMoldStyleValue.text?.contains(item))!{
+                moldSelectedItems.append(item)
             }
         }
         for item in ProductParams[4]{ // 生产工艺
-            if (productProduceStyleValue.text?.contains(item.value(forKey: "technologyname") as! String))!{
-                produceStyleSelectedItems.append(item.value(forKey: "technologyname") as! String)
+            if (productProduceStyleValue.text?.contains(item))!{
+                produceStyleSelectedItems.append(item)
             }
         }
         for item in ProductParams[5]{ // 电镀色
-            if (productColorValue.text?.contains(item.value(forKey: "colorname") as! String))!{
-                colorSelectedItems.append(item.value(forKey: "colorname") as! String)
+            if (productColorValue.text?.contains(item))!{
+                colorSelectedItems.append(item)
             }
         }
         
