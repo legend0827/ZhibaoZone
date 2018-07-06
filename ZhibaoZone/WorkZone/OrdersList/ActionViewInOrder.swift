@@ -101,6 +101,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
     let quotePriceSlideBarMidLabel:UILabel = UILabel.init(frame: CGRect(x: 15, y: 415, width: 320, height: 30))
     let quotePriceSlideBarLeftLabel:UILabel = UILabel.init(frame: CGRect(x: 15, y: 415, width: 250, height: 30))
     
+    let dashLine:UIImageView = UIImageView.init()
     let seperateLine2:UIView = UIView.init(frame: CGRect(x: 0, y: 1, width: kWidth, height: 5))
     let seperateLine3:UIView = UIView.init(frame: CGRect(x: 0, y: 2, width: kWidth, height: 5))
     let seperateLine4:UIView = UIView.init(frame: CGRect(x: 20, y: 3, width: kWidth - 40, height: 2))
@@ -235,7 +236,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         //背景页面值
         
         backgroundView.frame = CGRect(x: 0, y: 65, width: kWidth, height: self.frame.height - 207 - heightChangeForiPhoneXFromBottom)
-        backgroundView.contentSize = CGSize(width: kWidth, height: 541)
+        backgroundView.contentSize = CGSize(width: kWidth, height: 661)
         //backgroundView.frame = CGRect(x: 0, y: 65, width: kWidth, height: self.frame.height )
         backgroundView.backgroundColor = UIColor.backgroundColors(color: .white)
         backgroundView.delegate = self
@@ -282,7 +283,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             orderDefaultPic.image = UIImage(named: "defualt-design-pic")
             orderDefaultPic.contentMode = .scaleAspectFit
             orderDefaultPic.layer.cornerRadius = 6
-            orderDefaultPic.layer.borderColor = UIColor.lineColors(color: .white).cgColor//UIColor.lineColors(color: .lightGray).cgColor
+            orderDefaultPic.layer.borderColor = UIColor.lineColors(color: .lightGray).cgColor//UIColor.lineColors(color: .lightGray).cgColor
             orderDefaultPic.layer.borderWidth = 0.5
             orderDefaultPic.layer.masksToBounds = true
             backgroundView.addSubview(orderDefaultPic)
@@ -291,7 +292,6 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             orderDefaultPicLayer.image = UIImage(named: "maskonimage")
             orderDefaultPicLayer.layer.cornerRadius = 6
             orderDefaultPicLayer.layer.masksToBounds = true
-            
             
             //产品类型
             productTypeNameValue.frame = CGRect(x: 143, y: 63, width: 250, height: 22)
@@ -381,14 +381,29 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 quotePriceSubmitBtn.isHidden = false
                 acceptDesignConfirmBtn.isHidden = true
                 acceptProduceConfirmBtn.isHidden = true
+            
                 
-                seperateLine2.frame = CGRect(x: 0, y: productSizeHint.frame.maxY + 5, width: kWidth, height: 5)
+                dashLine.frame = CGRect(x: 20, y: productSizeHint.frame.maxY + 5, width: kWidth - 40, height: 1)
+                dashLine.image = UIImage(named: "dashlineimg")
+                backgroundView.addSubview(dashLine)
+
+                produceMemoLabel.frame = CGRect(x: 20, y: dashLine.frame.maxY + 15, width: 100, height: 22)
+                produceMemoLabel.text = "生产要求:"
+                produceMemoLabel.font = UIFont.systemFont(ofSize: 16)
+                backgroundView.addSubview(produceMemoLabel)
+                
+                ProduceMemoValue.frame = CGRect(x: 20, y: produceMemoLabel.frame.maxY + 15, width: kWidth + 40, height: 22)
+                ProduceMemoValue.numberOfLines = 10
+                ProduceMemoValue.font = UIFont.systemFont(ofSize: 14)
+                backgroundView.addSubview(ProduceMemoValue)
+                
+                seperateLine2.frame = CGRect(x: 0, y: ProduceMemoValue.frame.maxY + 5, width: kWidth, height: 5)
+                seperateLine2.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+                backgroundView.addSubview(seperateLine2)
+                
                 seperateLine3.frame = CGRect(x: 0, y: seperateLine2.frame.maxY + 52, width: kWidth, height: 5)
                 seperateLine4.frame = CGRect(x: 20, y: seperateLine3.frame.maxY + 52, width: kWidth - 40, height: 2)
                 seperateLine5.frame = CGRect(x: 20, y: seperateLine4.frame.maxY + 52, width: kWidth - 40, height: 2)
-                
-                seperateLine2.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
-                backgroundView.addSubview(seperateLine2)
                 
                 quotePriceAtLastLabel.text = "上次报价:"
                 quotePriceAtLastLabel.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 15 , width: 100, height: 22)
@@ -772,11 +787,24 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             //ActionTitle.frame  = CGRect(x: kWidth/2 - 50, y: 20, width: 100, height: 25)
             ActionTitle.text = "发货"
             
-            backgroundView.frame = CGRect(x: 0, y: 65, width: kWidth , height: 360) // 360
-            backgroundView.contentSize = CGSize(width: kWidth, height: 239)
+            backgroundView.frame = CGRect(x: 0, y: 65, width: kWidth , height: 460) // 360
+            backgroundView.contentSize = CGSize(width: kWidth, height: 369)
             
             cancelBtn.frame = CGRect(x: 20, y: 22, width: 60, height: 22)
             cancelBtn.contentHorizontalAlignment = .left
+            
+            //参考图
+            orderDefaultPic.frame = CGRect(x: 20, y: 20, width: 118, height: 118) // y=62
+            orderDefaultPic.image = UIImage(named: "defualt-design-pic")
+            orderDefaultPic.contentMode = .scaleAspectFit
+            orderDefaultPic.layer.cornerRadius = 6
+            orderDefaultPic.layer.borderColor = UIColor.lineColors(color: .lightGray).cgColor//UIColor.lineColors(color: .lightGray).cgColor
+            orderDefaultPic.layer.borderWidth = 0.5
+            orderDefaultPic.layer.masksToBounds = true
+            backgroundView.addSubview(orderDefaultPic)
+            
+            orderIDLabel.frame = CGRect(x: 158, y: 20, width: 200, height: 20)
+            orderIDValue.frame = CGRect(x: 158, y: 45, width: 200, height: 20)
             
             //确定按钮
             confirmShippingBtn.frame = CGRect(x: kWidth - 80, y: 22 , width: 60, height: 22)
@@ -788,15 +816,12 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             self.addSubview(confirmShippingBtn)
             
             
-            orderIDLabel.frame = CGRect(x: 20, y: 20, width: 200, height: 25)
             orderIDLabel.font = UIFont.systemFont(ofSize: 18)
-            
-            orderIDValue.frame = CGRect(x: 20, y: 20, width: kWidth - 40, height: 25)
             orderIDValue.font = UIFont.systemFont(ofSize: 18)
-            orderIDValue.textAlignment = .center
+            orderIDValue.textAlignment = .left
             orderIDValue.text = _orderID
             
-            seperateLine4.frame = CGRect(x: 20, y: 65, width: kWidth - 40, height: 2)
+            seperateLine4.frame = CGRect(x: 20, y: 158, width: kWidth - 40, height: 2)
             seperateLine4.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
             backgroundView.addSubview(seperateLine4)
             
@@ -853,6 +878,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             
         }
     }
+    
     @objc func scanQRCodeBtnClicked(){
         let scanQRcodeVC = ScanCodeViewController(scanType: .barCodeForShipping)
         scanQRcodeVC.ActionViewObject = self
@@ -1315,7 +1341,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             case .quotePrice:
                 UIView.animate(withDuration: duration) {
                     ()->Void in
-                    self.transform = CGAffineTransform(translationX: 0, y: -76 )
+                    self.transform = CGAffineTransform(translationX: 0, y: -216 ) // -76
                 }
             default:
                 print("nothing")
@@ -1739,6 +1765,21 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 maxPrice = Double((priceInfoObjects.value(forKey: "mindprice") as! Float)*3)
             }
             
+            print("设置接受生产的值")
+            if orderaddinfos.value(forKey: "fremarks") as? String != nil && orderaddinfos.value(forKey: "fremarks") as! String != ""{
+                
+                let ProduceMemo = orderaddinfos.value(forKey: "fremarks") as! String
+                ProduceMemoValue.text = ProduceMemo
+                let heightOfProduceMemoLabel = calculateLabelHeightWithText(with: ProduceMemo, labelWidth: ProduceMemoValue.frame.width, textFont: UIFont.systemFont(ofSize: 14))
+                ProduceMemoValue.frame = CGRect(x: 20, y: produceMemoLabel.frame.maxY + 15 , width: kWidth - 40, height: heightOfProduceMemoLabel + 10)
+            }else{
+                ProduceMemoValue.text = "无备注信息"
+                ProduceMemoValue.textColor = UIColor.titleColors(color: .lightGray)
+            }
+            seperateLine2.frame = CGRect(x: 0, y: ProduceMemoValue.frame.maxY + 5, width: kWidth, height: 5)
+            quotePriceAtLastLabel.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 15 , width: 100, height: 22)
+            quotePriceAtLastTimeValue.frame = CGRect(x: 100, y: seperateLine2.frame.maxY + 15 , width: 100, height: 22)
+            
             //设置上次报价
             if priceInfoObjects.value(forKey: "returnprice") as? Float == nil{
                 quotePriceAtLastTimeValue.text = "¥0.00"
@@ -1819,12 +1860,13 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
            
            //如果没有报过价，则显示finalPrice。 如果报过价，取低值
            if priceInfoObjects.value(forKey: "returnprice") as? Float == nil || priceInfoObjects.value(forKey: "returnprice") as? Float == 0.0{
-                orderPriceValue.text = "¥\(priceInfoObjects.value(forKey: "finalprice") as! Float)0"
+                orderPriceValue.text = "¥\(priceInfoObjects.value(forKey: "finalprice") as! NSNumber)"//"¥\(priceInfoObjects.value(forKey: "finalprice") as! Float)0"
            }else{
-                if priceInfoObjects.value(forKey: "finalprice") as! Float > priceInfoObjects.value(forKey: "returnprice") as! Float{
+            
+                if Float(priceInfoObjects.value(forKey: "finalprice") as! NSNumber) > (priceInfoObjects.value(forKey: "returnprice") as! Float){
                     orderPriceValue.text = "¥\(priceInfoObjects.value(forKey: "returnprice") as! Float)0"
                 }else{
-                    orderPriceValue.text = "¥\(priceInfoObjects.value(forKey: "finalprice") as! Float)0"
+                    orderPriceValue.text = "¥\(priceInfoObjects.value(forKey: "finalprice") as! NSNumber)"
                 }
            }
         case .designRequires:
@@ -1895,7 +1937,9 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             budgetOveredLabel.isHidden = false
             overBudgetBackgroundView.isHidden = false
             
-            seperateLine2.frame = CGRect(x: 0, y: productSizeHint.frame.maxY + 5, width: kWidth, height: 5)
+            dashLine.frame = CGRect(x: 20, y: productSizeHint.frame.maxY + 5, width: kWidth + 40, height: 1)
+            
+            seperateLine2.frame = CGRect(x: 0, y: ProduceMemoValue.frame.maxY + 5, width: kWidth, height: 5)
             seperateLine3.frame = CGRect(x: 0, y: seperateLine2.frame.maxY + 104, width: kWidth, height: 5)
             seperateLine4.frame = CGRect(x: 20, y: seperateLine3.frame.maxY + 52, width: kWidth - 40, height: 2)
             seperateLine5.frame = CGRect(x: 20, y: seperateLine4.frame.maxY + 52, width: kWidth - 40, height: 2)
@@ -1944,7 +1988,9 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             budgetOveredLabel.isHidden = true
             overBudgetBackgroundView.isHidden = true
             
-            seperateLine2.frame = CGRect(x: 0, y: productSizeHint.frame.maxY + 5, width: kWidth, height: 5)
+            dashLine.frame = CGRect(x: 20, y: productSizeHint.frame.maxY + 5, width: kWidth + 40, height: 1)
+            
+            seperateLine2.frame = CGRect(x: 0, y: ProduceMemoValue.frame.maxY + 5, width: kWidth, height: 5)
             seperateLine3.frame = CGRect(x: 0, y: seperateLine2.frame.maxY + 52, width: kWidth, height: 5)
             seperateLine4.frame = CGRect(x: 20, y: seperateLine3.frame.maxY + 52, width: kWidth - 40, height: 2)
             seperateLine5.frame = CGRect(x: 20, y: seperateLine4.frame.maxY + 52, width: kWidth - 40, height: 2)

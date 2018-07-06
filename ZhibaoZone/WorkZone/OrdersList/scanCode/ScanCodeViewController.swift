@@ -81,14 +81,14 @@ class ScanCodeViewController: UIViewController {
         let scanBackImg:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: kHight - 90 - heightChangeForiPhoneXFromBottom, width: kWidth, height: 90))
         scanBackImg.image = UIImage(named: "qrbarcodeicon-normal")
         
-        if UIDevice.current.isX(){
-            let scancodeBackImgBottom:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: kHight - heightChangeForiPhoneXFromBottom, width: kWidth, height: heightChangeForiPhoneXFromBottom))
-            scancodeBackImgBottom.image = UIImage(named: "qrbarcodeicon-normal")
-            let scancodeBackImgBottom2:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: kHight - heightChangeForiPhoneXFromBottom, width: kWidth, height: heightChangeForiPhoneXFromBottom))
-            scancodeBackImgBottom2.image = UIImage(named: "qrbarcodeicon-normal")
-            self.view.addSubview(scancodeBackImgBottom)
-            self.view.addSubview(scancodeBackImgBottom2)
-        }
+//        if UIDevice.current.isX(){
+//            let scancodeBackImgBottom:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: kHight - heightChangeForiPhoneXFromBottom, width: kWidth, height: heightChangeForiPhoneXFromBottom))
+//            scancodeBackImgBottom.image = UIImage(named: "qrbarcodeicon-normal")
+//            let scancodeBackImgBottom2:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: kHight - heightChangeForiPhoneXFromBottom, width: kWidth, height: heightChangeForiPhoneXFromBottom))
+//            scancodeBackImgBottom2.image = UIImage(named: "qrbarcodeicon-normal")
+//            self.view.addSubview(scancodeBackImgBottom)
+//            self.view.addSubview(scancodeBackImgBottom2)
+//        }
         self.view.addSubview(scanBackImg)
         self.view.addSubview(scancodeBackImageMask)
         self.view.addSubview(scancodeBackImage)

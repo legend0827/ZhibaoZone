@@ -462,6 +462,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
                                 }else{
                                     self.messageCountLabel.text = "\(self.messagesList.count)"
                                 }
+                                print("message count = \(self.messagesList.count)")
                                 self.calculateWeatherNeedsAlert()
                             }
                         }
@@ -475,7 +476,8 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
     
     func calculateWeatherNeedsAlert()
     {
-        
+        var messageAlertArray:[Bool] = []
+        print("begain to calculate")
         isNeedsAlert = false
         var AlertFrequencyValue = 0
         //var isTheAlertPlayedThisRound = false
@@ -488,14 +490,17 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
             currentMessagesTypeList.append(mSGType)
             currentMessagesIDList.append(mSGID)
         }
-        
+        for i in 0..<24{
+            messageAlertArray.append(getMSGAlertSettings(index: i))
+        }
+        print("get Array finised")
         //第一次获取消息,直接判断是不是需要提醒
         if previewsMessagesIDList.count == 0{
             
             //遍历当前消息列表中的消息类型,以此得到是否需要提醒
             var needsAlertFromCurrentAlertSettingForTargetMSGType = false
             for msgType in currentMessagesTypeList{
-                let tempAlertTag = getMSGAlertSettings(index: msgType)
+                let tempAlertTag = messageAlertArray[msgType] //getMSGAlertSettings(index: msgType)
                 //将获取到的设置与变量取或： 如果有任何一个设置的为需要提醒，那么值将会得到True
                 needsAlertFromCurrentAlertSettingForTargetMSGType = needsAlertFromCurrentAlertSettingForTargetMSGType||tempAlertTag
             }
@@ -516,7 +521,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
                 //提醒多次
                 //重新设置 needsAlertFromCurrentAlertSettingForTargetMSGType 值，遍历当前列表
                 for msgType in currentMessagesTypeList{
-                    let tempAlertTag = getMSGAlertSettings(index: msgType)
+                    let tempAlertTag = messageAlertArray[msgType]//getMSGAlertSettings(index: msgType)
                     //将获取到的设置与变量取或： 如果有任何一个设置的为需要提醒，那么值将会得到True
                     needsAlertFromCurrentAlertSettingForTargetMSGType = needsAlertFromCurrentAlertSettingForTargetMSGType||tempAlertTag
                 }
@@ -533,7 +538,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
             for id in currentMessagesIDList{
                 if !previewsMessagesIDList.contains(id){//这条消息不包含在之前的消息里
                     //如果这条消息不在列表里，那么取对应的消息ID查询结果，并与定义的需要提醒取或，只要有一条消息需要提醒，那么值将会是true
-                    needsAlertFromCurrentAlertSettingForTargetMSGType =  needsAlertFromCurrentAlertSettingForTargetMSGType || getMSGAlertSettings(index: currentMessagesTypeList[itemID])
+                    needsAlertFromCurrentAlertSettingForTargetMSGType =  needsAlertFromCurrentAlertSettingForTargetMSGType || messageAlertArray[currentMessagesTypeList[itemID]] /*getMSGAlertSettings(index: currentMessagesTypeList[itemID]*/
                 }
                 itemID += 1
             }
@@ -553,7 +558,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
                 //提醒多次
                 //重新设置 needsAlertFromCurrentAlertSettingForTargetMSGType 值，遍历当前列表
                 for msgType in currentMessagesTypeList{
-                    let tempAlertTag = getMSGAlertSettings(index: msgType)
+                    let tempAlertTag = messageAlertArray[msgType] // getMSGAlertSettings(index: msgType)
                     //将获取到的设置与变量取或： 如果有任何一个设置的为需要提醒，那么值将会得到True
                     needsAlertFromCurrentAlertSettingForTargetMSGType = needsAlertFromCurrentAlertSettingForTargetMSGType||tempAlertTag
                 }

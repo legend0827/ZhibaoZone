@@ -19,14 +19,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
 
     var launchImageCombineView:UIImageView!
     let animationDuration = 0.8
+    var umUserInfo:[AnyHashable:Any]?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+
+        //Umeng推送
+        let appKey = "5b3ecd6a8f4a9d69e70000a1"
+        UMConfigure.initWithAppkey(appKey, channel: "App Store") // 设置推送AppKey
+        UMConfigure.setLogEnabled(true)
+        
+       // let appMasterSecret = "c8y0p2bmp3j6p3qzqbr4qbxkmgal0fpa"
         
         //注册用户通知
         if #available(iOS 10.0, *) {
             let notifiCenter = UNUserNotificationCenter.current()
             notifiCenter.delegate = self 
             let types = UNAuthorizationOptions(arrayLiteral: [.alert, .badge, .sound])
+            
             notifiCenter.requestAuthorization(options: types) { (flag, error) in
                 if flag {
                     print("iOS request notification success")
@@ -41,6 +51,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
             UIApplication.shared.registerUserNotificationSettings(setting)
         }
         
+        let entity = UMessageRegisterEntity.init()
+        entity.types = Int(UMessageAuthorizationOptions.alert.rawValue|UMessageAuthorizationOptions.badge.rawValue|UMessageAuthorizationOptions.sound.rawValue)
+           // [UMessageAuthorizationOptions.alert,UMessageAuthorizationOptions.badge,UMessageAuthorizationOptions.sound] //Int(UInt8(UMessageAuthorizationOptions.badge.rawValue)||UInt8(UMessageAuthorizationOptions.alert.rawValue)||UInt8(UMessageAuthorizationOptions.sound.rawValue))
+        UMessage.registerForRemoteNotifications(launchOptions: launchOptions, entity: entity) { (granted, error) in
+            if granted {
+                // 用户接收到了PUSH消息
+            }else{
+                //用户拒绝接受PUSH
+                print("用户拒绝接受PUSH消息")
+            }
+        }
         UIApplication.shared.registerForRemoteNotifications()
         
         // 创建腾讯云所需的配置
@@ -83,55 +104,90 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         return true
     }
     
-    //注册远程通知
-    private func registerAppNotificationSettings(launchOptions: [NSObject: AnyObject]?) {
-        if #available(iOS 10.0, *) {
-            let notifiCenter = UNUserNotificationCenter.current()
-            notifiCenter.delegate = self
-            let types = UNAuthorizationOptions(arrayLiteral: [.alert, .badge, .sound])
-            notifiCenter.requestAuthorization(options: types) { (flag, error) in
-            if flag {
-                print("iOS request notification success")
-                //MPrintLog("iOS request notification success")
-            }else{
-                print("iOS 10 request notification fail")
-                //MPrintLog(" iOS 10 request notification fail")
-            }
-        }
-        } else { //iOS8,iOS9注册通知
-            let setting = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-            UIApplication.shared.registerUserNotificationSettings(setting)
-        }
-        
-        UIApplication.shared.registerForRemoteNotifications()
-    }
+//    //注册远程通知
+//    private func registerAppNotificationSettings(launchOptions: [NSObject: AnyObject]?) {
+//        if #available(iOS 10.0, *) {
+//            let notifiCenter = UNUserNotificationCenter.current()
+//            notifiCenter.delegate = self
+//            let types = UNAuthorizationOptions(arrayLiteral: [.alert, .badge, .sound])
+//            notifiCenter.requestAuthorization(options: types) { (flag, error) in
+//            if flag {
+//                print("iOS request notification success")
+//                //MPrintLog("iOS request notification success")
+//            }else{
+//                print("iOS 10 request notification fail")
+//                //MPrintLog(" iOS 10 request notification fail")
+//            }
+//        }
+//        } else { //iOS8,iOS9注册通知
+//            let setting = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+//            UIApplication.shared.registerUserNotificationSettings(setting)
+//        }
+//
+//        UIApplication.shared.registerForRemoteNotifications()
+//    }
     
     //iOS10新增：处理前台收到通知的代理方法
     
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         let userInfo = notification.request.content.userInfo
+        if notification.request.trigger is UNPushNotificationTrigger{
+            //应用处于前台时远程推送接收
+            //关闭友盟自带弹窗
+            UMessage.setAutoAlert(false)
+            //
+            UMessage.didReceiveRemoteNotification(userInfo)
+        }else{
+            //应用处于后台时本地推送接受
+        }
         print("userInfo10:\(userInfo)")
-        completionHandler([.sound,.alert])
+        //completionHandler([.sound,.alert])
+        completionHandler(UNNotificationPresentationOptions(rawValue: UNNotificationPresentationOptions.RawValue(UNNotificationPresentationOptions.sound.rawValue)|UNNotificationPresentationOptions.alert.rawValue|UNNotificationPresentationOptions.badge.rawValue))
     }
+    
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         let userInfo = response.notification.request.content.userInfo
         print("userInfo10:\(userInfo)")
+        if response.notification.request.trigger is UNPushNotificationTrigger{
+            //应用处于前台时远程推送接收
+            //关闭友盟自带弹窗
+            UMessage.setAutoAlert(false)
+            //
+            UMessage.didReceiveRemoteNotification(userInfo)
+        }else{
+            //应用处于后态时本地推送接受
+        }
         
         completionHandler()
     }
     
-    @available(iOS 9.0, *)
+    @available(iOS 10.0, *)
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
         print("收到新消息Active\(userInfo)")
-        if application.applicationState == UIApplicationState.active {
-            // 代表从前台接受消息app
-        }else{
-            // 代表从后台接受消息后进入app
-            UIApplication.shared.applicationIconBadgeNumber = 0
+        UMessage.setAutoAlert(false) // 关闭友盟自带的弹窗出框
+        if UIDevice.current.systemVersion < "10"{
+            UMessage.didReceiveRemoteNotification(userInfo)
+            self.umUserInfo = userInfo
+            
+            //定制自定的弹窗框
+            if UIApplication.shared.applicationState == .active{
+                let alertViewVC = UIAlertController.init(title: "通知消息", message: "Test On ApplicationStateActive", preferredStyle: UIAlertControllerStyle.alert)
+                alertViewVC.addAction(UIAlertAction.init(title: "确定", style: UIAlertActionStyle.default, handler: { (alertView) in
+                    //sure Clickjedd
+                }))
+                self.window?.rootViewController?.present(alertViewVC, animated: true, completion: nil)
+            }
+            completionHandler(UIBackgroundFetchResult.newData)
         }
-        completionHandler(.newData)
+//        if application.applicationState == UIApplicationState.active {
+//            // 代表从前台接受消息app
+//        }else{
+//            // 代表从后台接受消息后进入app
+//            UIApplication.shared.applicationIconBadgeNumber = 0
+//        }
+//        completionHandler(.newData)
     
     }
     
@@ -148,13 +204,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         // 发送给我们自己的服务器
       //  let tokenString = deviceToken.hexString
-        
         let device = NSData(data: deviceToken)
-        let deviceID = device.description.replacingOccurrences(of:"<", with:"").replacingOccurrences(of:">", with:"").replacingOccurrences(of:" ", with:"")
-        print("我的deviceToken：\(deviceID)")
+        var token = device.description.replacingOccurrences(of: "<", with: "")
+        token = token.replacingOccurrences(of: ">", with: "")
+        token = token.replacingOccurrences(of: " ", with: "")
         
-        UserDefaults.standard.set(deviceID, forKey: "myDeviceToken")
-        UserDefaults.standard.synchronize()
+       // let device = NSData(data: deviceToken)
+       // let deviceID = device.description.replacingOccurrences(of:"<", with:"").replacingOccurrences(of:">", with:"").replacingOccurrences(of:" ", with:"")
+        print("我的deviceToken：\(token)")
+        
+       // UserDefaults.standard.set(deviceID, forKey: "myDeviceToken")
+      //  UserDefaults.standard.synchronize()
         
     }
 

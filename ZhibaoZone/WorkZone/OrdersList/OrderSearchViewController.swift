@@ -309,10 +309,10 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
             }else{
                 //订单支付之后，如果报过价格，价格显示报价价格否则显示finlprice
                 if priceInfoObjects.value(forKey: "returnprice") as? Float == nil || priceInfoObjects.value(forKey: "returnprice") as? Float == 0.0{
-                    if priceInfoObjects.value(forKey: "finalprice") as? Float == nil{
+                    if priceInfoObjects.value(forKey: "finalprice") as? NSNumber == nil{
                         cell.priceLabel.text = "¥0.0"
                     }else{
-                        cell.priceLabel.text = "¥\(priceInfoObjects.value(forKey: "finalprice") as! Float)0"
+                        cell.priceLabel.text = "¥\(priceInfoObjects.value(forKey: "finalprice") as! NSNumber)"
                     }
                     //cell.priceLabel.text = "¥0.00"
                 }else{

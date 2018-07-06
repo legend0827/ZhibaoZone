@@ -16,6 +16,7 @@
 		0A09185620AAC06C0054749B /* ShippingCompanyNameListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A09185520AAC06C0054749B /* ShippingCompanyNameListViewController.swift */; };
 		0A09185820AAC08F0054749B /* ShippingCompanyNameListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A09185720AAC08F0054749B /* ShippingCompanyNameListTableViewCell.swift */; };
 		0A1295562072EB5E00C21C66 /* msg.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0A1295552072EB5E00C21C66 /* msg.wav */; };
+		0A129C3020EF482600319A4C /* libz.1.1.3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A129C2F20EF482600319A4C /* libz.1.1.3.tbd */; };
 		0A20028A206134CD00A81D21 /* TaskContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A200289206134CD00A81D21 /* TaskContentTableViewCell.swift */; };
 		0A244E542096F35D00203463 /* ActionViewInOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A244E532096F35D00203463 /* ActionViewInOrder.swift */; };
 		0A244E5B2098614E00203463 /* waitForHandleTaskListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A244E5A2098614E00203463 /* waitForHandleTaskListViewController.swift */; };
@@ -55,6 +56,8 @@
 		0A6AD6701FF1EFB4009A511A /* ZhibaoZoneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6AD66F1FF1EFB4009A511A /* ZhibaoZoneTests.swift */; };
 		0A6AD67B1FF1EFB4009A511A /* ZhibaoZoneUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6AD67A1FF1EFB4009A511A /* ZhibaoZoneUITests.swift */; };
 		0A6B3F101FFB38BE0014AF24 /* AccountInfo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0A6B3F0E1FFB38BE0014AF24 /* AccountInfo.xcdatamodeld */; };
+		0A709E6820EF17CE00E4CF46 /* UMPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A709E6720EF17CE00E4CF46 /* UMPush.framework */; };
+		0A709E6B20EF40DC00E4CF46 /* UMCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A709E6A20EF40DC00E4CF46 /* UMCommon.framework */; };
 		0A83CA6C205F6AE500F59A70 /* UIImage+Gif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A83CA64205F6AE400F59A70 /* UIImage+Gif.swift */; };
 		0A92C13820233E750062553A /* deviceToken.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A92C13720233E750062553A /* deviceToken.plist */; };
 		0A9716832009F910007922FB /* NewTaskViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9716822009F910007922FB /* NewTaskViewCell.swift */; };
@@ -73,6 +76,8 @@
 		0AB766AB200DC46900851E16 /* HGImage.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AB766A4200DC46900851E16 /* HGImage.xcassets */; };
 		0AB766AC200DC46900851E16 /* HGImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB766A5200DC46900851E16 /* HGImagePickerController.swift */; };
 		0AB7C3F120DA01B600D0D26B /* checkListItemsArray.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AB7C3F020DA01B600D0D26B /* checkListItemsArray.plist */; };
+		0AB7C43A20EF0FDE00D0D26B /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB7C43920EF0FDE00D0D26B /* libsqlite3.tbd */; };
+		0AB7C43C20EF0FFF00D0D26B /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB7C43B20EF0FFF00D0D26B /* UserNotifications.framework */; };
 		0AC1AC57204E2B260096A6F6 /* QCloudCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC1AC55204E2B250096A6F6 /* QCloudCore.framework */; };
 		0AC1AC58204E2B260096A6F6 /* QCloudCOSXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC1AC56204E2B250096A6F6 /* QCloudCOSXML.framework */; };
 		0AC1AC5B204E2B890096A6F6 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC1AC5A204E2B890096A6F6 /* CoreTelephony.framework */; };
@@ -212,6 +217,7 @@
 		0A09185520AAC06C0054749B /* ShippingCompanyNameListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShippingCompanyNameListViewController.swift; sourceTree = "<group>"; };
 		0A09185720AAC08F0054749B /* ShippingCompanyNameListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShippingCompanyNameListTableViewCell.swift; sourceTree = "<group>"; };
 		0A1295552072EB5E00C21C66 /* msg.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = msg.wav; sourceTree = "<group>"; };
+		0A129C2F20EF482600319A4C /* libz.1.1.3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.1.3.tbd; path = usr/lib/libz.1.1.3.tbd; sourceTree = SDKROOT; };
 		0A200289206134CD00A81D21 /* TaskContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskContentTableViewCell.swift; sourceTree = "<group>"; };
 		0A244E532096F35D00203463 /* ActionViewInOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionViewInOrder.swift; sourceTree = "<group>"; };
 		0A244E5A2098614E00203463 /* waitForHandleTaskListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = waitForHandleTaskListViewController.swift; sourceTree = "<group>"; };
@@ -256,6 +262,9 @@
 		0A6AD67A1FF1EFB4009A511A /* ZhibaoZoneUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZhibaoZoneUITests.swift; sourceTree = "<group>"; };
 		0A6AD67C1FF1EFB4009A511A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A6B3F0F1FFB38BE0014AF24 /* AccountInfo.xcdatamodel */ = {isa = PBXFileReference; explicitFileType = wrapper.xcdatamodel; path = AccountInfo.xcdatamodel; sourceTree = "<group>"; };
+		0A709E6720EF17CE00E4CF46 /* UMPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMPush.framework; sourceTree = "<group>"; };
+		0A709E6A20EF40DC00E4CF46 /* UMCommon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMCommon.framework; sourceTree = "<group>"; };
+		0A709E6C20EF418200E4CF46 /* UMPush-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UMPush-Bridging-Header.h"; sourceTree = "<group>"; };
 		0A83CA64205F6AE400F59A70 /* UIImage+Gif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Gif.swift"; sourceTree = "<group>"; };
 		0A92C13720233E750062553A /* deviceToken.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = deviceToken.plist; sourceTree = "<group>"; };
 		0A9716822009F910007922FB /* NewTaskViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskViewCell.swift; sourceTree = "<group>"; };
@@ -274,6 +283,8 @@
 		0AB766A4200DC46900851E16 /* HGImage.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = HGImage.xcassets; path = ../../../../../Downloads/hangge_1512/hangge_1512/HGImage.xcassets; sourceTree = "<group>"; };
 		0AB766A5200DC46900851E16 /* HGImagePickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HGImagePickerController.swift; path = ../../../../../Downloads/hangge_1512/hangge_1512/HGImagePickerController.swift; sourceTree = "<group>"; };
 		0AB7C3F020DA01B600D0D26B /* checkListItemsArray.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = checkListItemsArray.plist; sourceTree = "<group>"; };
+		0AB7C43920EF0FDE00D0D26B /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		0AB7C43B20EF0FFF00D0D26B /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		0AC1AC55204E2B250096A6F6 /* QCloudCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = QCloudCore.framework; sourceTree = "<group>"; };
 		0AC1AC56204E2B250096A6F6 /* QCloudCOSXML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = QCloudCOSXML.framework; sourceTree = "<group>"; };
 		0AC1AC5A204E2B890096A6F6 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -314,12 +325,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A129C3020EF482600319A4C /* libz.1.1.3.tbd in Frameworks */,
+				0AB7C43C20EF0FFF00D0D26B /* UserNotifications.framework in Frameworks */,
 				0A2C801A20ABF3E900873162 /* PagingMenuController.framework in Frameworks */,
 				0AC1AC61204E2BAD0096A6F6 /* libstdc++.tbd in Frameworks */,
+				0AB7C43A20EF0FDE00D0D26B /* libsqlite3.tbd in Frameworks */,
 				0AC1AC5F204E2BA20096A6F6 /* SystemConfiguration.framework in Frameworks */,
 				0AC1AC5D204E2B980096A6F6 /* Foundation.framework in Frameworks */,
 				0AC1AC5B204E2B890096A6F6 /* CoreTelephony.framework in Frameworks */,
+				0A709E6820EF17CE00E4CF46 /* UMPush.framework in Frameworks */,
 				0AC1AC58204E2B260096A6F6 /* QCloudCOSXML.framework in Frameworks */,
+				0A709E6B20EF40DC00E4CF46 /* UMCommon.framework in Frameworks */,
 				0AC1AC57204E2B260096A6F6 /* QCloudCore.framework in Frameworks */,
 				0AD2829B1FF47BD50044E41C /* Alamofire.framework in Frameworks */,
 			);
@@ -557,6 +573,9 @@
 		0AC1AC59204E2B890096A6F6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0A129C2F20EF482600319A4C /* libz.1.1.3.tbd */,
+				0AB7C43B20EF0FFF00D0D26B /* UserNotifications.framework */,
+				0AB7C43920EF0FDE00D0D26B /* libsqlite3.tbd */,
 				0AC1AC60204E2BAD0096A6F6 /* libstdc++.tbd */,
 				0AC1AC5E204E2BA20096A6F6 /* SystemConfiguration.framework */,
 				0AC1AC5C204E2B980096A6F6 /* Foundation.framework */,
@@ -666,6 +685,8 @@
 		0AF06C3A20171D40008E2DE9 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				0A709E6A20EF40DC00E4CF46 /* UMCommon.framework */,
+				0A709E6720EF17CE00E4CF46 /* UMPush.framework */,
 				0AF06C3B20171D40008E2DE9 /* ESPullToRefresh+Manager.swift */,
 				0AF06C3C20171D40008E2DE9 /* ESRefreshAnimator.swift */,
 				0AF06C3D20171D40008E2DE9 /* ESRefreshComponent.swift */,
@@ -674,6 +695,7 @@
 				0AF06C4720171D40008E2DE9 /* ES.swift */,
 				0AF06C4820171D40008E2DE9 /* ESPullToRefresh.swift */,
 				0AC1AC62204E6F210096A6F6 /* KVProgressBar.swift */,
+				0A709E6C20EF418200E4CF46 /* UMPush-Bridging-Header.h */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -1174,10 +1196,12 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ZhibaoZone/QCloudCore",
+					"$(PROJECT_DIR)/ZhibaoZone/Sources",
 				);
 				INFOPLIST_FILE = ZhibaoZone/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
 					"-Objc",
 					"-all_load",
@@ -1186,6 +1210,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "d7108691-007c-4776-a62c-b595e0f83aa7";
 				PROVISIONING_PROFILE_SPECIFIER = "Xiaogang Dev Cer manual Profile";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/ZhibaoZone/Sources/UMPush-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1207,10 +1232,12 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ZhibaoZone/QCloudCore",
+					"$(PROJECT_DIR)/ZhibaoZone/Sources",
 				);
 				INFOPLIST_FILE = ZhibaoZone/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -1219,6 +1246,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "d7108691-007c-4776-a62c-b595e0f83aa7";
 				PROVISIONING_PROFILE_SPECIFIER = "Xiaogang Dev Cer manual Profile";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/ZhibaoZone/Sources/UMPush-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;

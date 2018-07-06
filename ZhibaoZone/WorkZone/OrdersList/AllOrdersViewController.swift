@@ -260,10 +260,10 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
             }else{
                 //订单支付之后，如果报过价格，价格显示报价价格否则显示finlprice
                 if priceInfoObjects.value(forKey: "returnprice") as? Float == nil || priceInfoObjects.value(forKey: "returnprice") as? Float == 0.0{
-                    if priceInfoObjects.value(forKey: "finalprice") as? Float == nil{
+                    if priceInfoObjects.value(forKey: "finalprice") as? NSNumber == nil{
                         cell.priceLabel.text = "¥0.0"
                     }else{
-                        cell.priceLabel.text = "¥\(priceInfoObjects.value(forKey: "finalprice") as! Float)0"
+                        cell.priceLabel.text = "¥\(priceInfoObjects.value(forKey: "finalprice") as! NSNumber)"
                     }
                     //cell.priceLabel.text = "¥0.00"
                 }else{
@@ -397,10 +397,12 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         testQueue += 1
         let downloadImageOpt = BlockOperation{
             let temp = self.testQueue
-            
             let rangeMax = (self.orderArray.count <= self.page * 5) ? self.orderArray.count : (self.page * 5)
             for index in (self.page - 1)*5 ..< rangeMax{
-                
+                print("index of range is \(index) and rangMax = \(rangeMax), temp = \(temp)")
+                if self.orderArray.count < index{
+                    return
+                }
                 let dictionaryObjectInOrderArray = self.orderArray[index]
                 let orderInfoObjects = dictionaryObjectInOrderArray.value(forKey: "orderinfo") as! NSDictionary
                 if orderInfoObjects.value(forKey: "goodsimage") as? String == nil || orderInfoObjects.value(forKey: "goodsimage") as? String == ""{ // 图片字段为空
@@ -455,7 +457,6 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
             
         }
         queue.cancelAllOperations()
-       // orderImages.removeAll()
         queue.addOperation(downloadImageOpt)
     }
     
@@ -608,7 +609,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         let customID = orderInfoObjects.value(forKey: "customid") as! String
         let goodsID = orderInfoObjects.value(forKey: "goodsid") as! String
         
-        let shippingView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 363 + heightChangeForiPhoneXFromTop, width: kWidth, height: kHight))
+        let shippingView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 303 + heightChangeForiPhoneXFromTop, width: kWidth, height: kHight))
         
         
         let popVC = PopupViewController()

@@ -81,7 +81,7 @@
 		<string>http://118.126.116.76:8081/zb-manager-web/task/writebackmsg.do</string>
 		<key>taskFinishedAPIDebug</key>
 		<string>http://192.168.1.150:8082/zb-manager-web/task/finishworkinfo.do</string>
-		<key>taskFInishedAPI</key>
+		<key>taskFinishedAPI</key>
 		<string>http://118.126.116.76:8081/zb-manager-web/task/finishworkinfo.do</string>
 		<key>createTaskAPIDebug</key>
 		<string>http://192.168.1.150:8082/zb-manager-web/task/createTasklist.do</string>

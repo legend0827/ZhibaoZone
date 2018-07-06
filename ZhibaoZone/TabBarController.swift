@@ -35,7 +35,7 @@ class TabBarController: UITabBarController {
         orderVC._tabBarVC = self
         
         let item1PositonX = kWidth/6 + 5
-        redDot.frame = CGRect(x:item1PositonX , y: tabBar.frame.minY + 3 - heightChangeForiPhoneXFromBottom, width: 12, height: 12)
+        redDot.frame = CGRect(x:item1PositonX + 30 , y: tabBar.frame.minY + 3 - heightChangeForiPhoneXFromBottom, width: 12, height: 12)
         
         let myLayer = CALayer()
         myLayer.bounds = CGRect.init(x: 0, y: 0, width: 12, height: 12)
@@ -73,9 +73,9 @@ class TabBarController: UITabBarController {
         if _roleType == 0{
             self.viewControllers = [normalUserVC,meVC]
         }else if _roleType == 2 || _roleType == 3{
-            self.viewControllers = [orderVC,taskVC,meVC]
+            self.viewControllers = [orderVC,meVC]
         }else{
-            self.viewControllers = [quotepriceVC,taskVC,meVC]
+            self.viewControllers = [quotepriceVC,meVC]
         }
         self.tabBar.tintColor = UIColor.iconColors(color: .red)
     }
