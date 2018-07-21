@@ -64,6 +64,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         }
         UIApplication.shared.registerForRemoteNotifications()
         
+        
+        //open after killed
+        if #available(iOS 10.0, *){
+            
+        }else{
+            if let notification = launchOptions?[.remoteNotification] as? [String:AnyObject]{
+                guard notification["key"] != nil else{
+                    return true
+                }
+                
+                guard notification["value"] != nil else{
+                    return true
+                }
+                
+                let key = notification["key"] as! String
+                let value = notification["value"] as! String
+                
+                switch key{
+                case "1" :
+                    handlePushNotificationTo(key:"1")
+                case "2" :
+                    break
+                default:
+                    break
+                }
+            }
+        }
+        
+        
+        
+        
         // 创建腾讯云所需的配置
         // 实例化QCloudServiceConfiguration
         
@@ -127,6 +158,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
 //        UIApplication.shared.registerForRemoteNotifications()
 //    }
     
+    func handlePushNotificationTo(key:String){
+//        guard key > 0 else {
+//            return
+//        }
+//        if let nextViewController = ViewController.storyboardInstance(){
+//            nextViewController.key
+//        }
+    }
+    
+    
     //iOS10新增：处理前台收到通知的代理方法
     
     @available(iOS 10.0, *)
@@ -156,6 +197,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
             UMessage.setAutoAlert(false)
             //
             UMessage.didReceiveRemoteNotification(userInfo)
+            
+            
+            
         }else{
             //应用处于后态时本地推送接受
         }
@@ -163,10 +207,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         completionHandler()
     }
     
-    @available(iOS 10.0, *)
-    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+   // @available(iOS 10.0, *)
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         print("收到新消息Active\(userInfo)")
         UMessage.setAutoAlert(false) // 关闭友盟自带的弹窗出框
+        print("message received")
+        
+        let meVC = MeViewController()
+        self.window?.rootViewController?.present(meVC, animated: true, completion: nil)
+        
         if UIDevice.current.systemVersion < "10"{
             UMessage.didReceiveRemoteNotification(userInfo)
             self.umUserInfo = userInfo

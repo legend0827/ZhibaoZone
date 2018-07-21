@@ -175,9 +175,9 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
         let backImg=UIImage(named: "left-arrow-white")
         let leftBarItem=UIBarButtonItem(image: backImg, style: UIBarButtonItemStyle.plain, target: self, action: #selector(cancelBtnClicked))
         leftBarItem.tintColor = UIColor.backgroundColors(color: .white)
-        
+        let delImg = UIImage(named: "clearmsgimg-white")
         //添加导航栏右侧的取消按钮
-        let rightBarItem = UIBarButtonItem(title: "清空列表", style: .plain,
+        let rightBarItem = UIBarButtonItem(image: delImg, style: .plain,
                                            target: self, action: #selector(clearAllMessgesInList))
         rightBarItem.tintColor = UIColor.backgroundColors(color: .white)
         //        // 添加左侧、右侧按钮
@@ -335,6 +335,7 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
     @objc func cancelBtnClicked(){
         self.dismiss(animated: true, completion: nil)
     }
+    
     @objc func clearAllMessgesInList(){
         print("清空消息列表")
         //获取用户信息
@@ -734,10 +735,13 @@ func getCurrentUserInfo() -> NSDictionary{
             UserInfos["userid"] = "\(info.userId)"
             UserInfos["roletype"] = String(info.roleType)
             UserInfos["password"] = info.password
-
+            UserInfos["nikename"] = info.nickName
+            UserInfos["username"] = info.userName
         }
     } catch  {
+        
         fatalError("获取失败")
+       // return [:]
     }
     
     //查询操作
@@ -752,6 +756,132 @@ func getCurrentUserInfo() -> NSDictionary{
         }
     } catch  {
         fatalError("获取失败")
+       // return [:]
+    }
+    
+    return UserInfos as NSDictionary
+}
+
+
+// 获取用户信息
+func getAddtionalUserInfo() -> NSDictionary{
+    var UserInfos = [String:String]()
+    
+    //从datacore获取用户数据
+    //获取管理的数据上下文，对象
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let managedObjectContext = appDelegate.persistentContainer.viewContext
+    
+    //声明数据的请求
+    let fetchRequest =  NSFetchRequest<UserAccount>(entityName:"UserAccount")
+    let fetchRequestOfToken = NSFetchRequest<TokenRestored>(entityName:"TokenRestored")
+    //        fetchRequest.fetchLimit = 10 //限定查询结果的数量
+    //        fetchRequest.fetchOffset = 0 //查询到偏移量
+    fetchRequest.returnsObjectsAsFaults = false
+    fetchRequestOfToken.returnsObjectsAsFaults = false
+    
+    // 设置查询条件
+    let predicate = NSPredicate(format: "id = '2'")
+    fetchRequest.predicate = predicate
+    
+    // 设置查询条件
+    let predicateOfToken = NSPredicate(format: "id = '2'")
+    fetchRequestOfToken.predicate = predicateOfToken
+    //查询操作
+    do {
+        let fetchedObjects = try managedObjectContext.fetch(fetchRequest)
+        
+        //遍历查询结果
+        for info in fetchedObjects{
+            //更新数据
+            //设置获取全部订单参数组
+            UserInfos["userid"] = "\(info.userId)"
+            UserInfos["roletype"] = String(info.roleType)
+            UserInfos["password"] = info.password
+            UserInfos["nikename"] = info.nickName
+            UserInfos["username"] = info.userName
+        }
+    } catch  {
+        
+        fatalError("获取失败")
+        // return [:]
+    }
+    
+    //查询操作
+    do {
+        let fetchedObjects = try managedObjectContext.fetch(fetchRequestOfToken)
+        
+        //遍历查询结果
+        for info in fetchedObjects{
+            //更新数据
+            //设置获取全部订单参数组
+            UserInfos["token"] = info.token
+        }
+    } catch  {
+        fatalError("获取失败")
+        // return [:]
+    }
+    
+    return UserInfos as NSDictionary
+}
+
+// 获取用户信息
+func getProducerOfManagerInfo() -> NSDictionary{
+    var UserInfos = [String:String]()
+    
+    //从datacore获取用户数据
+    //获取管理的数据上下文，对象
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let managedObjectContext = appDelegate.persistentContainer.viewContext
+    
+    //声明数据的请求
+    let fetchRequest =  NSFetchRequest<UserAccount>(entityName:"UserAccount")
+    let fetchRequestOfToken = NSFetchRequest<TokenRestored>(entityName:"TokenRestored")
+    //        fetchRequest.fetchLimit = 10 //限定查询结果的数量
+    //        fetchRequest.fetchOffset = 0 //查询到偏移量
+    fetchRequest.returnsObjectsAsFaults = false
+    fetchRequestOfToken.returnsObjectsAsFaults = false
+    
+    // 设置查询条件
+    let predicate = NSPredicate(format: "id = '3'")
+    fetchRequest.predicate = predicate
+    
+    // 设置查询条件
+    let predicateOfToken = NSPredicate(format: "id = '3'")
+    fetchRequestOfToken.predicate = predicateOfToken
+    //查询操作
+    do {
+        let fetchedObjects = try managedObjectContext.fetch(fetchRequest)
+        
+        //遍历查询结果
+        for info in fetchedObjects{
+            //更新数据
+            //设置获取全部订单参数组
+            UserInfos["userid"] = "\(info.userId)"
+            UserInfos["roletype"] = String(info.roleType)
+            UserInfos["password"] = info.password
+            UserInfos["nikename"] = info.nickName
+            UserInfos["username"] = info.userName
+        }
+    } catch  {
+        
+        fatalError("获取失败")
+        // return [:]
+    }
+    
+    //查询操作
+    do {
+        let fetchedObjects = try managedObjectContext.fetch(fetchRequestOfToken)
+        
+        //遍历查询结果
+        for info in fetchedObjects{
+            //更新数据
+            //设置获取全部订单参数组
+            UserInfos["token"] = info.token
+        }
+    } catch  {
+        fatalError("获取失败")
+        // return [:]
     }
     
     return UserInfos as NSDictionary

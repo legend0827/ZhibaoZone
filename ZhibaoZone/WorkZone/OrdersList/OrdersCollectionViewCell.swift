@@ -19,6 +19,7 @@ class OrdersCollectionViewCell: UICollectionViewCell {
     let acceptProduceBtnInCell:UIButton = UIButton.init(type: .custom)
     let acceptDesignBtnInCell:UIButton = UIButton.init(type: .custom)
     let shippingBtnInCell:UIButton = UIButton.init(type: .custom)
+    let takePhotoForProductBtnInCell:UIButton = UIButton.init(type: .custom)
     let designRequiresBtnInCell:UIButton = UIButton.init(type: .custom)
     let modifyRequiresBtnInCell:UIButton = UIButton.init(type: .custom)
     let priceLabelBackgroundView:UIImageView = UIImageView.init()
@@ -40,6 +41,7 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         quotePriceBtnInCell.frame = CGRect(x: (frame.width - 85) / 2 , y: frame.width + 55, width: 85, height: 30)
         acceptProduceBtnInCell.frame = CGRect(x: (frame.width - 85) / 2, y: frame.width + 55, width: 85, height: 30)
         acceptDesignBtnInCell.frame = CGRect(x: (frame.width - 85) / 2, y: frame.width + 55, width: 85, height: 30)
+        takePhotoForProductBtnInCell.frame = CGRect(x: 5, y: frame.width + 15, width: (kWidth - 60)/2, height: 30)
         shippingBtnInCell.frame = CGRect(x: (frame.width - 85) / 2, y: frame.width + 55, width: 85, height: 30)
         designRequiresBtnInCell.frame = CGRect(x: (frame.width - 85) / 2, y: frame.width + 55, width: 85, height: 30)
         modifyRequiresBtnInCell.frame = CGRect(x: (frame.width - 85) / 2, y: frame.width + 55, width: 85, height: 30)
@@ -110,6 +112,16 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         acceptDesignBtnInCell.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         acceptDesignBtnInCell.setTitleColor(UIColor.titleColors(color: .white), for: UIControlState.normal)
         
+        let takePhotoiCon:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: 5, width: 22, height: 17))
+        takePhotoiCon.image = UIImage(named: "takePhotoiconimg")
+        takePhotoForProductBtnInCell.addSubview(takePhotoiCon)
+        takePhotoForProductBtnInCell.layer.cornerRadius = 6
+        takePhotoForProductBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .white).cgColor
+        takePhotoForProductBtnInCell.setTitle("       拍摄成品", for: UIControlState.normal)
+        takePhotoForProductBtnInCell.contentHorizontalAlignment = .left
+        takePhotoForProductBtnInCell.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        takePhotoForProductBtnInCell.setTitleColor(UIColor.titleColors(color: .black), for: UIControlState.normal)
+        
         shippingBtnInCell.layer.cornerRadius = 6
         shippingBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .red).cgColor
         shippingBtnInCell.setTitle("上传物流", for: UIControlState.normal)
@@ -150,6 +162,7 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         orderCellView.addSubview(orderIDValue)
         orderCellView.addSubview(designRequiresBtnInCell)
         orderCellView.addSubview(modifyRequiresBtnInCell)
+        orderCellView.addSubview(takePhotoForProductBtnInCell)
     }
     
     required init?(coder aDecoder: NSCoder) {

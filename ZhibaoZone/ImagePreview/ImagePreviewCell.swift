@@ -113,7 +113,7 @@ class ImagePreviewCell: UICollectionViewCell {
         
         let rightButton = UIBarButtonItem(image: UIImage(named:"delete-white"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(deleteBtnClicked))
         rightButton.tintColor = UIColor.white
-        print("previewModel in cell is \(previewModel)")
+//        print("previewModel in cell is \(previewModel)")
         if previewModel == .previewWithDelete{
             navItem.setRightBarButton(rightButton, animated: false)
         }

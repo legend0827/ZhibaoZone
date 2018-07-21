@@ -118,9 +118,19 @@ enum produceType:String {
     case produceStyle
     case color
     case taxRadio
+    case size
 }
 
-
+//参数更改弹窗的类型
+enum paraSourceType:String{
+    case quotePrice
+    case editOrder
+}
+//转接订单类型：
+enum switchOrderType:String{
+    case designingOrder
+    case producingOrder
+}
 //头像外框形状类型
 enum AvatarShape: String {
     /// 圆角正方形
@@ -307,18 +317,20 @@ extension UITextView {
 
 func getRandomName()->String{
     var randomCharactors = ""
-    let repeatCount = 6 + arc4random()%120
+    let repeatCount = 28//6 + arc4random()%120
     for i in 1 ... repeatCount{
-        var num = 0 + arc4random()%61 // 自定义ASCII码范围从48到122
-        if num >= 0 && num <= 9{
-            num += 48
-        }else if (num >= 10 && num <= 35){
-            num += 55
-        }else if (num >= 36 && num <= 61){
-            num += 61
-        }
-        var randomCharactor = Character(UnicodeScalar(num)!)
-        randomCharactors.append(randomCharactor)
+        var num = 0 + arc4random()%9 // 自定义ASCII码范围从48到122
+        //var num = 0 + arc4random()%61 // 自定义ASCII码范围从48到122
+//        if num >= 0 && num <= 9{
+//            num += 48
+//        }else if (num >= 10 && num <= 35){
+//            num += 55
+//        }else if (num >= 36 && num <= 61){
+//            num += 61
+//        }
+//        var randomCharactor = Character(UnicodeScalar(num)!)
+        randomCharactors += "\(num)"
+       // randomCharactors.append(num)
     }
     return randomCharactors
 }
@@ -389,7 +401,13 @@ func setStatusBarBackgroundColor(color : UIColor) {
     }
 }
 
-
+//设置状态栏显示或隐藏
+func setStatusBarHiden(toHidden:Bool,ViewController:UIViewController){
+    UIApplication.shared.isStatusBarHidden = toHidden
+    UIView.animate(withDuration: 0.5) { () -> Void in
+        ViewController.setNeedsStatusBarAppearanceUpdate()
+    }
+}
 //创建毛玻璃效果
 func showBlurEffect() -> UIVisualEffectView {
     //创建一个模糊效果
@@ -457,3 +475,4 @@ func calculateLabelHeightWithText(with text:String , labelWidth: CGFloat ,textFo
     size = text.boundingRect(with: size2, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: attibute , context: nil);
     return size.size.height
 }
+

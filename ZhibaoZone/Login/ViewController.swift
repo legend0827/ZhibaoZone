@@ -317,6 +317,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
     }
     override func viewWillAppear(_ animated: Bool) {
         setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .red))
+       
     }
     override func viewDidAppear(_ animated: Bool) {
         setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .red))
@@ -408,4 +409,5 @@ func getUserAccountInfo()->(String,String){
     }
     return ("_NONE","_NONE")
 }
+
 

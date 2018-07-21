@@ -31,9 +31,10 @@ class TabBarController: UITabBarController {
         let meVC = MeViewController()
         let normalUserVC = normalUserViewController()
         let quotepriceVC = QuotePriceViewController()
-        
+        let managerVC = ManagerViewController()
         orderVC._tabBarVC = self
-        
+        managerVC._tabBarVC = self
+        meVC._tabBarVC = self
         let item1PositonX = kWidth/6 + 5
         redDot.frame = CGRect(x:item1PositonX + 30 , y: tabBar.frame.minY + 3 - heightChangeForiPhoneXFromBottom, width: 12, height: 12)
         
@@ -61,21 +62,25 @@ class TabBarController: UITabBarController {
         meVC.tabBarItem.image = UIImage(named:"accounticon")
         meVC.tabBarItem.selectedImage = UIImage(named: "accounticon-selected")
         normalUserVC.tabBarItem.image = UIImage(named:"homeicon")
+        normalUserVC.tabBarItem.selectedImage = UIImage(named: "homeicon-selected")
         quotepriceVC.tabBarItem.selectedImage = UIImage(named: "quotepriceiconselected")
         quotepriceVC.tabBarItem.image = UIImage(named: "quotepriceicon")
-        
+        managerVC.tabBarItem.image = UIImage(named: "managericon")
+        managerVC.tabBarItem.selectedImage = UIImage(named: "managericon-selected")
         orderVC.tabBarItem.title = "订单"
         taskVC.tabBarItem.title = "任务"
         meVC.tabBarItem.title = "我的"
         quotepriceVC.tabBarItem.title = "估价"
         normalUserVC.tabBarItem.title = "首页"
-        
+        managerVC.tabBarItem.title = "事物处理"
         if _roleType == 0{
             self.viewControllers = [normalUserVC,meVC]
-        }else if _roleType == 2 || _roleType == 3{
+        }else if _roleType == 2 || _roleType == 3 {
             self.viewControllers = [orderVC,meVC]
-        }else{
+        }else if _roleType == 1{
             self.viewControllers = [quotepriceVC,meVC]
+        }else if _roleType == 4{
+            self.viewControllers = [orderVC,managerVC,meVC]
         }
         self.tabBar.tintColor = UIColor.iconColors(color: .red)
     }

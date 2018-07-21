@@ -195,6 +195,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         cell.acceptProduceBtnInCell.isHidden = true
         cell.quotePriceBtnInCell.isHidden = true
         cell.shippingBtnInCell.isHidden = true
+        cell.takePhotoForProductBtnInCell.isHidden = true
         cell.designRequiresBtnInCell.isHidden = true
         cell.modifyRequiresBtnInCell.isHidden = true
         
@@ -202,6 +203,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         cell.quotePriceBtnInCell.addTarget(self, action: #selector(quotePriceBtnClicked), for: .touchUpInside)
         cell.acceptProduceBtnInCell.addTarget(self, action: #selector(acceptProduceBtnClicked), for: .touchUpInside)
         cell.shippingBtnInCell.addTarget(self, action: #selector(shippingBtnClicked), for: .touchUpInside)
+        cell.takePhotoForProductBtnInCell.addTarget(self, action: #selector(takePhotoBtnCliced), for: .touchUpInside)
         cell.designRequiresBtnInCell.addTarget(self, action: #selector(designRequireBtnClicked), for: .touchUpInside)
         cell.modifyRequiresBtnInCell.addTarget(self, action: #selector(modifyRequireBtnClicked), for: .touchUpInside)
         
@@ -210,6 +212,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         cell.quotePriceBtnInCell.tag = indexPath.row
         cell.acceptProduceBtnInCell.tag = indexPath.row
         cell.shippingBtnInCell.tag = indexPath.row
+        cell.takePhotoForProductBtnInCell.tag = indexPath.row
         cell.designRequiresBtnInCell.tag = indexPath.row
         cell.modifyRequiresBtnInCell.tag = indexPath.row
         
@@ -280,13 +283,17 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
             //订单在生产中，允许上传物流
             if (statusObjects.value(forKey: "orderstate") as! NSDictionary).value(forKey: "orderstate") as! Int == 8{
                 cell.shippingBtnInCell.isHidden = false
+                cell.takePhotoForProductBtnInCell.isHidden = false
+                cell.productTypeAndMaterialInCell.isHidden = true
                 cell.orderIDValue.isHidden = false
                 cell.orderIDValue.text = orderInfoObjects.value(forKey: "orderid") as! String
                 cell.productSize.isHidden = true
-                cell.productTypeAndMaterialInCell.frame = cell.productSize.frame
+                cell.productQuantityInCell.isHidden = true
             }else{
                 cell.orderIDValue.isHidden = true
                 cell.productSize.isHidden = false
+                cell.productTypeAndMaterialInCell.isHidden = false
+                cell.productQuantityInCell.isHidden = false
                 cell.productTypeAndMaterialInCell.frame = CGRect(x: 5, y: cell.frame.width - 5, width: 100, height: 20)
             }
             
@@ -598,6 +605,29 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         
         self.present(popVC, animated: true, completion: nil)
     }
+    
+    @objc func takePhotoBtnCliced(_ button:UIButton){
+        print("点击了拍摄成品按钮在\(button.tag)")
+        let uploadVC = UploadProductImageViewController()
+        
+        let dictionaryObjectInOrderArray = orderArray[selectedIndex]
+        //let orderInfoObjects = dictionaryObjectInOrderArray.value(forKey: "orderinfo") as! NSDictionary
+        uploadVC.orderObject = dictionaryObjectInOrderArray
+        
+//        let orderID = orderInfoObjects.value(forKey: "orderid") as! String
+//        let customID = orderInfoObjects.value(forKey: "customid") as! String
+//        let goodsID = orderInfoObjects.value(forKey: "goodsid") as! String
+//        let goodsImage = orderInfoObjects.value(forKey: "goodsimage") as! String
+//        uploadVC._goodsImage =
+//        uploadVC._orderID = orderID
+//        uploadVC._productType
+//        uploadVC._modalAndColor
+//        uploadVC._materialAndAccessory
+        
+        let nav = UINavigationController.init(rootViewController: uploadVC)
+        self.present(nav, animated: true, completion: nil)
+    }
+    
     @objc func shippingBtnClicked(_ button:UIButton){
         print("点击了发货按钮")
         selectedIndex = button.tag
@@ -621,7 +651,11 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         shippingView._orderID = orderID
         shippingView._customID = customID
         shippingView._goodsID = goodsID
-        
+        if orderImages[selectedIndex] == nil{
+            shippingView.googsImge = UIImage(named: "defualt-design-pic")! 
+        }else{
+            shippingView.googsImge = orderImages[selectedIndex]!
+        }
         shippingView.createViewWithActionType(ActionType: .shippingProduct)
         popVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext //
         popVC.view.addSubview(shippingView)

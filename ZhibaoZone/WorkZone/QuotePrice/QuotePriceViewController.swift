@@ -88,22 +88,28 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
     let productColorValue:UILabel = UILabel.init()
     //尺寸
     let productSizeLabel:UILabel = UILabel.init()
-    let productLengthValue:UITextField = UITextField.init()
-    let productWidthValue:UITextField = UITextField.init()
-    let productHeightValue:UITextField = UITextField.init()
-    let byLabel1:UILabel = UILabel.init()
-    let byLabel2:UILabel = UILabel.init()
+    let productSizeValue:UILabel = UILabel.init()
+    var productLengthValue:String = "30.0"
+    var productWidthValue:String = "30.0"
+    var productHeightValue:String = "2.0"
+//    let productLengthValue:UITextField = UITextField.init()
+//    let productWidthValue:UITextField = UITextField.init()
+//    let productHeightValue:UITextField = UITextField.init()
+//    let byLabel1:UILabel = UILabel.init()
+//    let byLabel2:UILabel = UILabel.init()
     //数量
     let productAmountLabel:UILabel = UILabel.init()
     let productAmountValue:UITextField = UITextField.init()
     
     //分割线
-    let seperateLine1:UIView = UIView.init(frame: CGRect(x: 15, y: 0, width: kWidth - 30, height: 1))
-    let seperateLine2:UIView = UIView.init(frame: CGRect(x: 15, y: 0, width: kWidth - 30, height: 1))
-    let seperateLine3:UIView = UIView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: 3))
-    let seperateLine4:UIView = UIView.init(frame: CGRect(x: 15, y: 0, width: kWidth - 30, height: 1))
-    let seperateLine5:UIView = UIView.init(frame: CGRect(x: 15, y: 0, width: kWidth - 30, height: 1))
-    let seperateLine6:UIView = UIView.init(frame: CGRect(x: 0, y: 0, width: kWidth , height: 3))
+    let seperateLine1:UIView = UIView.init(frame: CGRect(x: 15, y: 0, width: kWidth - 30, height: 0.5))
+    let seperateLine2:UIView = UIView.init(frame: CGRect(x: 15, y: 0, width: kWidth - 30, height: 0.5))
+    let seperateLine3:UIImageView = UIImageView.init(frame: CGRect(x: 15, y: 0, width: kWidth - 30, height: 1))
+    let seperateLine4:UIView = UIView.init(frame: CGRect(x: 15, y: 0, width: kWidth - 30, height: 0.5))
+    let seperateLine5:UIView = UIView.init(frame: CGRect(x: 15, y: 0, width: kWidth - 30, height: 0.5))
+    let seperateLine6:UIView = UIView.init(frame: CGRect(x: 15, y: 0, width: kWidth - 30 , height: 0.5))
+    let seperateLine7:UIView = UIView.init(frame: CGRect(x: 15, y: 0, width: kWidth - 30 , height: 0.5))
+    let seperateLine8:UIView = UIView.init(frame: CGRect(x: 15, y: 52, width: kWidth - 30 , height: 0.5))
     
     //判断cell是否展开
     var isProductTypeExpand = false
@@ -191,9 +197,9 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
     }
     
     private func setupUI(){
-//        DispatchQueue.main.async {
-//            //self.loadOrderDataFromServer()
-//        }
+        DispatchQueue.main.async {
+            self.loadOrderDataFromServer()
+        }
         
         //背景颜色
         self.view.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
@@ -363,52 +369,61 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
         productColorValue.font = UIFont.systemFont(ofSize: 16)
         
         //尺寸
-        productSizeLabel.frame = CGRect(x: 15, y: 5, width: 200, height: 22)
+        productSizeLabel.frame = CGRect(x: 15, y: 15, width: 200, height: 22)
         productSizeLabel.text = "长×宽×厚(mm):"
         productSizeLabel.textColor = UIColor.titleColors(color: .black)
         productSizeLabel.font = UIFont.systemFont(ofSize: 16)
         
-        productLengthValue.frame = CGRect(x: 15, y: 32, width: (kWidth-120)/3, height: 32)
-        productLengthValue.text = "30.0"
-        productLengthValue.textAlignment = .center
-        productLengthValue.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
-        productLengthValue.layer.cornerRadius = 4
-        productLengthValue.delegate = self
+        //尺寸
+        productSizeValue.frame = CGRect(x: 150, y: 15, width: kWidth - 170, height: 22)
+        productSizeValue.text = productLengthValue + "x" + productWidthValue + "x" + productHeightValue
+        productSizeValue.textColor = UIColor.titleColors(color: .black)
+        productSizeValue.font = UIFont.systemFont(ofSize: 16)
         
-        productWidthValue.frame = CGRect(x: productLengthValue.frame.maxX + 45, y: 32, width: (kWidth-120)/3, height: 32)
-        productWidthValue.text = "30.0"
-        productWidthValue.textAlignment = .center
-        productWidthValue.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
-        productWidthValue.layer.cornerRadius = 4
-        productWidthValue.delegate = self
-        
-        productHeightValue.frame = CGRect(x: productWidthValue.frame.maxX + 45, y: 32, width: (kWidth-120)/3, height: 32)
-        productHeightValue.text = "2.0"
-        productHeightValue.textAlignment = .center
-        productHeightValue.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
-        productHeightValue.layer.cornerRadius = 4
-        productHeightValue.delegate = self
+//        productLengthValue.frame = CGRect(x: 15, y: 32, width: (kWidth-120)/3, height: 32)
+//        productLengthValue.text = "30.0"
+//        productLengthValue.textAlignment = .center
+//        productLengthValue.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+//        productLengthValue.layer.cornerRadius = 4
+//        productLengthValue.delegate = self
+//
+//        productWidthValue.frame = CGRect(x: productLengthValue.frame.maxX + 45, y: 32, width: (kWidth-120)/3, height: 32)
+//        productWidthValue.text = "30.0"
+//        productWidthValue.textAlignment = .center
+//        productWidthValue.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+//        productWidthValue.layer.cornerRadius = 4
+//        productWidthValue.delegate = self
+//
+//        productHeightValue.frame = CGRect(x: productWidthValue.frame.maxX + 45, y: 32, width: (kWidth-120)/3, height: 32)
+//        productHeightValue.text = "2.0"
+//        productHeightValue.textAlignment = .center
+//        productHeightValue.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+//        productHeightValue.layer.cornerRadius = 4
+//        productHeightValue.delegate = self
         
         //数量
-        productAmountLabel.frame = CGRect(x: 15, y: 0, width: 200, height: 22)
-        productAmountLabel.text = "数量:"
+        productAmountLabel.frame = CGRect(x: 15, y: 15, width: 200, height: 22)
+        productAmountLabel.text = "数 量:"
         productAmountLabel.textColor = UIColor.titleColors(color: .black)
         productAmountLabel.font = UIFont.systemFont(ofSize: 16)
         
-        productAmountValue.frame = CGRect(x: 15, y: 27, width: kWidth - 30, height: 36)
+        productAmountValue.frame = CGRect(x: 125, y: 15, width: 200, height: 22)
         productAmountValue.text = "0"
-        productAmountValue.textAlignment = .center
-        productAmountValue.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+        productAmountValue.textAlignment = .left
+        productAmountValue.backgroundColor = UIColor.backgroundColors(color: .white)
         productAmountValue.layer.cornerRadius = 4
         productAmountValue.delegate = self
+        productAmountValue.keyboardType = .numberPad
         
         //分割线
         seperateLine1.backgroundColor = UIColor.lineColors(color: .lightGray)
         seperateLine2.backgroundColor = UIColor.lineColors(color: .lightGray)
-        seperateLine3.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+        seperateLine3.image = UIImage(named: "dashlineimg")
         seperateLine4.backgroundColor = UIColor.lineColors(color: .lightGray)
         seperateLine5.backgroundColor = UIColor.lineColors(color: .lightGray)
-        seperateLine6.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+        seperateLine6.backgroundColor = UIColor.lineColors(color: .lightGray)
+        seperateLine7.backgroundColor = UIColor.lineColors(color: .lightGray)
+        seperateLine8.backgroundColor = UIColor.lineColors(color: .lightGray)
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
@@ -436,9 +451,6 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
         return true
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
-        productLengthValue.resignFirstResponder()
-        productWidthValue.resignFirstResponder()
-        productHeightValue.resignFirstResponder()
         productAmountValue.resignFirstResponder()
        //
         //textField.resignFirstResponder()
@@ -487,21 +499,17 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
             return cell
         case 6:
             cell.contentView.addSubview(seperateLine6)
-            cell.contentView.addSubview(productSizeLabel)
-            cell.contentView.addSubview(productLengthValue)
-            byLabel1.frame = CGRect(x: productLengthValue.frame.maxX + 17, y: 32, width: 30, height: 32)
-            byLabel1.text = "X"
-            byLabel2.frame = CGRect(x: productWidthValue.frame.maxX + 17, y: 32, width: 30, height: 32)
-            byLabel2.text = "X"
-            cell.contentView.addSubview(byLabel1)
-            cell.contentView.addSubview(byLabel2)
-            
-            cell.contentView.addSubview(productWidthValue)
-            cell.contentView.addSubview(productHeightValue)
-            return cell
-        case 7:
             cell.contentView.addSubview(productAmountLabel)
             cell.contentView.addSubview(productAmountValue)
+            return cell
+        case 7:
+            cell.contentView.addSubview(seperateLine7)
+            cell.contentView.addSubview(productSizeLabel)
+            cell.contentView.addSubview(productSizeValue)
+            let rightArrow:UIImageView = UIImageView.init(frame: CGRect(x: kWidth - 35, y: 16, width: 20, height: 20))
+            rightArrow.image = UIImage(named: "right-arrow")
+            cell.contentView.addSubview(rightArrow)
+            cell.contentView.addSubview(seperateLine8)
             return cell
         default:
             return cell
@@ -526,12 +534,12 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
             }
            // print("\(indexPath.row) height = \(tempHeight)")
             return tempHeight
-        case 3,4,5:
+        case 3,4,5,6:
             return 52.0
-        case 6,7:
-            return 74.0
+        case 7:
+            return 53.0
         default:
-            return 52
+            return 52.0
         }
     }
     
@@ -548,9 +556,7 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
             if isProductTypeExpand{
                 ProductTypePicker.isHidden = false
             }
-            productLengthValue.resignFirstResponder()
-            productWidthValue.resignFirstResponder()
-            productHeightValue.resignFirstResponder()
+
             productAmountValue.resignFirstResponder()
         case 1:
             //更改展开状态
@@ -560,9 +566,7 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
             if isProductMaterialExpand{
                 ProductMaterialPicker.isHidden = false
             }
-            productLengthValue.resignFirstResponder()
-            productWidthValue.resignFirstResponder()
-            productHeightValue.resignFirstResponder()
+
             productAmountValue.resignFirstResponder()
         case 2:
             //更改展开状态
@@ -572,18 +576,14 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
             if isProductAccessoriesExpand{
                 ProductAccessoriesPicker.isHidden = false
             }
-            productLengthValue.resignFirstResponder()
-            productWidthValue.resignFirstResponder()
-            productHeightValue.resignFirstResponder()
+
             productAmountValue.resignFirstResponder()
         case 3:
             isProductTypeExpand = false
             isProductAccessoriesExpand = false
             isProductMaterialExpand = false
             print("3 pressed")
-            productLengthValue.resignFirstResponder()
-            productWidthValue.resignFirstResponder()
-            productHeightValue.resignFirstResponder()
+
             productAmountValue.resignFirstResponder()
             //定义参数弹出层
             let popVC = PopupViewController()
@@ -598,6 +598,7 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
             ParasView.titleOfView.text = "开模方式"
             ParasView.popupVC = popVC
             ParasView.quotePriceVC = self
+            ParasView.sourceVC = .quotePrice
             popVC.view.addSubview(ParasView)
             self.present(popVC, animated: true, completion: nil)
         case 4:
@@ -605,9 +606,7 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
             isProductAccessoriesExpand = false
             isProductMaterialExpand = false
             print("4 pressed")
-            productLengthValue.resignFirstResponder()
-            productWidthValue.resignFirstResponder()
-            productHeightValue.resignFirstResponder()
+
             productAmountValue.resignFirstResponder()
             //定义参数弹出层
             let popVC = PopupViewController()
@@ -620,6 +619,7 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
             ParasView.titleOfView.text = "生产工艺"
             ParasView.popupVC = popVC
             ParasView.quotePriceVC = self
+            ParasView.sourceVC = .quotePrice
             popVC.view.addSubview(ParasView)
             self.present(popVC, animated: true, completion: nil)
         case 5:
@@ -627,9 +627,7 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
             isProductAccessoriesExpand = false
             isProductMaterialExpand = false
             print("5 pressed")
-            productLengthValue.resignFirstResponder()
-            productWidthValue.resignFirstResponder()
-            productHeightValue.resignFirstResponder()
+
             productAmountValue.resignFirstResponder()
             
             //定义参数弹出层
@@ -644,13 +642,36 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
             ParasView.titleOfView.text = "电镀色"
             ParasView.popupVC = popVC
             ParasView.quotePriceVC = self
+            ParasView.sourceVC = .quotePrice
             popVC.view.addSubview(ParasView)
             self.present(popVC, animated: true, completion: nil)
-        case 6,7:
+        case 6:
             isProductTypeExpand = false
             isProductAccessoriesExpand = false
             isProductMaterialExpand = false
             print("Pressed 6,7 and doing nothing")
+        case 7:
+            isProductTypeExpand = false
+            isProductAccessoriesExpand = false
+            isProductMaterialExpand = false
+            
+            //定义参数弹出层
+            let popVC = PopupViewController()
+            popVC.view.backgroundColor = UIColor.clear
+            popVC.view.addSubview(showBlurEffect()) //UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
+            popVC.view.addSubview(popVC.grayLayer)
+            popVC.modalPresentationCapturesStatusBarAppearance = true
+            popVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext //
+            let ParasView = ParasActionView(frame: CGRect(x: 0, y: kHight - 459 - heightChangeForiPhoneXFromBottom, width: kWidth, height: 459 + heightChangeForiPhoneXFromBottom),paraDic:ProductParams[4],paraCount:ProductParams[4].count,seleItems:produceStyleSelectedItems,itemType:.size)
+            ParasView.titleOfView.text = "尺寸"
+            ParasView.popupVC = popVC
+            ParasView.quotePriceVC = self
+            ParasView.sourceVC = .quotePrice
+            ParasView.lengthValue.text = productLengthValue
+            ParasView.widthValue.text = productWidthValue
+            ParasView.heightValue.text = productHeightValue
+            popVC.view.addSubview(ParasView)
+            self.present(popVC, animated: true, completion: nil)
         default:
             print("defualt")
         }
@@ -774,6 +795,7 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
                         emptyArray.write(toFile: plistFile!, atomically: true)
                         
                         self.ProductParams.removeAll()
+                        self.parasCounts.removeAll()
                         tempParamsArray.removeAll()
                         //产品类型
                         for item in json["product"].array! {
@@ -799,14 +821,7 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
                         self.ProductParams.append(accessoriesArray)
                         tempParamsArray.append(accessoriesArray)
                         self.parasCounts.append(accessoriesArray.count)
-                        //生产工艺
-                        for item in json["technology"].array! {
-                            let restoreItem = item.string //dictionaryObject! as NSDictionary
-                            produceStyleArray.append(restoreItem!)
-                        }
-                        self.ProductParams.append(produceStyleArray)
-                        tempParamsArray.append(produceStyleArray)
-                        self.parasCounts.append(produceStyleArray.count)
+                    
                         //开模方式
                         for item in json["mold"].array! {
                             let restoreItem = item.string //dictionaryObject! as NSDictionary
@@ -815,6 +830,14 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
                         self.ProductParams.append(modeArray)
                         tempParamsArray.append(modeArray)
                         self.parasCounts.append(modeArray.count)
+                        //生产工艺
+                        for item in json["technology"].array! {
+                            let restoreItem = item.string //dictionaryObject! as NSDictionary
+                            produceStyleArray.append(restoreItem!)
+                        }
+                        self.ProductParams.append(produceStyleArray)
+                        tempParamsArray.append(produceStyleArray)
+                        self.parasCounts.append(produceStyleArray.count)
                         //电镀色
                         for item in json["color"].array! {
                             let restoreItem = item.string // dictionaryObject! as NSDictionary
@@ -840,6 +863,9 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
                         //将数组写入联系人列表
                         array.write(toFile: plistFile!, atomically: true)
                         self.quotePriceParasTable.reloadData()
+                        self.ProductTypePicker.reloadAllComponents()
+                        self.ProductMaterialPicker.reloadAllComponents()
+                        self.ProductAccessoriesPicker.reloadAllComponents()
                 }
             case false:
                 print("处理失败")
@@ -878,9 +904,9 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
         params["color"] = productColorValue.text as! String
         params["shape"] = productMoldStyleValue.text as! String
         params["technology"] = productProduceStyleValue.text as! String
-        params["length"] = productLengthValue.text as! String
-        params["width"] = productWidthValue.text as! String
-        params["height"] = productHeightValue.text as! String
+        params["length"] = productLengthValue
+        params["width"] = productWidthValue
+        params["height"] = productHeightValue
         params["accessoriesname"] = productAccessoriesValue.text as! String
         params["goodsid"] = "abcd123456"
         
@@ -976,6 +1002,9 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
         
     }
     func setupSelectedItems(){
+        moldSelectedItems.removeAll()
+        produceStyleSelectedItems.removeAll()
+        colorSelectedItems.removeAll()
         for item in ProductParams[3]{ // 开模方式
             if (productMoldStyleValue.text?.contains(item))!{
                 moldSelectedItems.append(item)

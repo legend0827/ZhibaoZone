@@ -84,8 +84,24 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
         
     }
     
-    //菜单配置项
+    //菜单配置项 - 设计
     fileprivate struct MenuOptionsForDesign: MenuViewCustomizable {
+        //菜单显示模式
+        var displayMode: MenuDisplayMode {
+            return .segmentedControl
+        }
+        //菜单项
+        var itemsOptions: [MenuItemViewCustomizable] {
+            return [MenuItem6(), MenuItem7(),MenuItem8()]
+        }
+        //设置选中栏下方条的颜色
+        var focusMode:MenuFocusMode {
+            return .underline(height: 2, color: UIColor.titleColors(color: .red), horizontalPadding: 12, verticalPadding: 5) // 水平间距 0 ，垂直间距 0
+        }
+        
+    }
+    //菜单配置项 - 经理
+    fileprivate struct MenuOptionsForManager: MenuViewCustomizable {
         //菜单显示模式
         var displayMode: MenuDisplayMode {
             return .segmentedControl
@@ -161,9 +177,23 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
             return .text(title: MenuItemText(text: "设计中", color: UIColor.titleColors(color: .black), selectedColor: UIColor.titleColors(color: .red), font: UIFont.systemFont(ofSize: 16), selectedFont: UIFont.systemFont(ofSize: 16)))
         }
     }
+    //第9个菜单项
+    fileprivate struct MenuItem9: MenuItemViewCustomizable {
+        //自定义菜单项名称
+        var displayMode: MenuItemDisplayMode {
+            return .text(title: MenuItemText(text: "咨询中", color: UIColor.titleColors(color: .black), selectedColor: UIColor.titleColors(color: .red), font: UIFont.systemFont(ofSize: 16), selectedFont: UIFont.systemFont(ofSize: 16)))
+        }
+    }
+    //第10个菜单项
+    fileprivate struct MenuItem10: MenuItemViewCustomizable {
+        //自定义菜单项名称
+        var displayMode: MenuItemDisplayMode {
+            return .text(title: MenuItemText(text: "待支付", color: UIColor.titleColors(color: .black), selectedColor: UIColor.titleColors(color: .red), font: UIFont.systemFont(ofSize: 16), selectedFont: UIFont.systemFont(ofSize: 16)))
+        }
+    }
 }
 
-class OrdersViewController:UIViewController,UITextFieldDelegate {
+class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDelegate{
     
     //系统声音播放
     var isPlaying = false
@@ -181,15 +211,60 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
         return TabBarController(royeType: 1)
     }()
     
+//    let CELL_ID = "cell_id";
+//
+//    lazy var StatisticCollectionView:UICollectionView = {
+//
+//        let layout = UICollectionViewFlowLayout()
+//        layout.itemSize = CGSize(width:(kWidth - 50)/2,height: (kWidth - 50)/2 + 92)  //设置item尺寸
+//        layout.minimumLineSpacing = 5  //上下间隔
+//        layout.minimumInteritemSpacing = 5 //左右间隔
+//        layout.sectionInset = UIEdgeInsets.init(top: 5, left: 20, bottom: 5, right: 20)            //section四周的缩进
+//        layout.scrollDirection = UICollectionViewScrollDirection.vertical  //滚动方向
+//
+//        let tempCollectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: kWidth, height: kHight - 160 - heightChangeForiPhoneXFromBottom ),collectionViewLayout:layout) //
+//        tempCollectionView.backgroundColor = UIColor.backgroundColors(color: .white)
+//        tempCollectionView.delegate = self
+//        tempCollectionView.dataSource = self
+//        tempCollectionView.isScrollEnabled = true // 允许拖动
+//        tempCollectionView.register(StatisticCollectionViewCell.self, forCellWithReuseIdentifier: CELL_ID)
+//        // 注册一个headView
+//        tempCollectionView.register(CollectionReusableViewHeader.self, forSupplementaryViewOfKind:UICollectionElementKindSectionHeader, withReuseIdentifier: headerIdentifier)
+//        return tempCollectionView
+//    }()
 //    //跟视图
 //    var _tabBarVC = TabBarController(royeType: 1)
     
     //消息数目
-    let messageCountBackLabel:UIView = UIView.init(frame: CGRect(x: 53, y: -5, width: 22, height: 16))
+    let messageCountBackLabel:UIView = UIView.init(frame: CGRect(x: 50, y: -5, width: 22, height: 16))
     let messageCountLabel:UILabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: 22, height: 16))
     
     //用户角色
     var _roleType = 1
+    lazy var scrollBackView:UIScrollView = {
+        let tempScrollView = UIScrollView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: kHight))
+        tempScrollView.contentSize = CGSize(width: kWidth, height: 667)
+        //backgroundView.frame = CGRect(x: 0, y: 65, width: kWidth, height: self.frame.height )
+        tempScrollView.backgroundColor = UIColor.backgroundColors(color: .white)
+        tempScrollView.delegate = self
+        //tempScrollView.delegate = self
+        tempScrollView.isDirectionalLockEnabled = true
+        tempScrollView.isScrollEnabled = true
+        tempScrollView.showsHorizontalScrollIndicator = false
+        tempScrollView.showsVerticalScrollIndicator = false
+        tempScrollView.setContentOffset(CGPoint(x: 0, y: 20),animated: true)// (10, 20), animated: false)
+        tempScrollView.scrollRectToVisible(CGRect(x:0, y:0, width:100, height:300), animated: false)
+        return tempScrollView
+    }()
+    //统计数字
+    var AllOrderCount:UILabel = UILabel.init()
+    var FinishedOrderCount:UILabel = UILabel.init()
+    var InQuoteOrderCount:UILabel = UILabel.init()
+    var InDesignOrderCount:UILabel = UILabel.init()
+    var WaitForPayOrderCount:UILabel = UILabel.init()
+    var WaitForProduceOrderCount:UILabel = UILabel.init()
+    var ProducingOrderCount:UILabel = UILabel.init()
+    var ShippingOrderCount:UILabel = UILabel.init()
     
     //标题栏背景
     let titleBarView:UIView = UIView.init(frame: CGRect(x: 0, y: 20 + heightChangeForiPhoneXFromTop, width: kWidth, height: 44))
@@ -208,33 +283,36 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
         let userinfos = getCurrentUserInfo()
         _roleType = Int(userinfos.value(forKey: "roletype") as! String)!
         
-        //每30秒获取一次消息列表
-        getMessageList()//先获取一次
-        timerForMessageList = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(getMessageList), userInfo: nil, repeats: true)
-        
-        //分页菜单配置
-        var options = PagingMenuOptions()
-        options.roleTypeForController = _roleType
-        //分页菜单控制器初始化
-        let pagingMenuController = PagingMenuController(options: options)
-        
-        //分页菜单控制器尺寸设置
-        pagingMenuController.view.frame.origin.y += 28 //(4 + heightChangeForiPhoneXFromTop)*3
-        pagingMenuController.view.frame.size.height -= 5
-
-        if UIDevice.current.isX(){
-            heightChangeForiPhoneXFromTop = 24.0
-            pagingMenuController.view.frame.origin.y += 56
+        if _roleType == 4{
+            setupUIForManager()
         }else{
-            heightChangeForiPhoneXFromTop = 0.0
-            pagingMenuController.view.frame.origin.y += 32//5
-        }
-        //建立父子关系
-        addChildViewController(pagingMenuController)
-        //分页菜单控制器视图添加到当前视图中
-        view.addSubview(pagingMenuController.view)
-        //print("分页显示出来了")
+            //每30秒获取一次消息列表
+            getMessageList()//先获取一次
+            timerForMessageList = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(getMessageList), userInfo: nil, repeats: true)
+            
+            //分页菜单配置
+            var options = PagingMenuOptions()
+            options.roleTypeForController = _roleType
+            //分页菜单控制器初始化
+            let pagingMenuController = PagingMenuController(options: options)
+            
+            //分页菜单控制器尺寸设置
+            pagingMenuController.view.frame.origin.y += 28 //(4 + heightChangeForiPhoneXFromTop)*3
+            pagingMenuController.view.frame.size.height -= 5
 
+            if UIDevice.current.isX(){
+                heightChangeForiPhoneXFromTop = 24.0
+                pagingMenuController.view.frame.origin.y += 56
+            }else{
+                heightChangeForiPhoneXFromTop = 0.0
+                pagingMenuController.view.frame.origin.y += 32//5
+            }
+            //建立父子关系
+            addChildViewController(pagingMenuController)
+            //分页菜单控制器视图添加到当前视图中
+            view.addSubview(pagingMenuController.view)
+            //print("分页显示出来了")
+        }
         titleBarView.frame = CGRect(x: 0, y: 20 + heightChangeForiPhoneXFromTop, width: kWidth, height: 44)
         scanQRCodeBtn.frame = CGRect(x: 20, y: 11, width: 62, height: 22)
         messageListBtn.frame = CGRect(x: kWidth - 82, y: 11, width: 62, height: 22)
@@ -255,7 +333,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
         
         //设置消息按钮样式和响应
         messageListBtn.addTarget(self, action: #selector(messageListBtnClicked), for: UIControlEvents.touchUpInside)
-        let msgListImg = UIImageView(frame: CGRect(x: 40, y: 3, width: 22, height: 18))
+        let msgListImg = UIImageView(frame: CGRect(x: 40, y: 1, width: 24, height: 20))
         msgListImg.image =  UIImage(named:"messagelisticon")
         self.view.addSubview(messageListBtn)
         
@@ -305,6 +383,173 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
 
     }
     
+    @objc func setupUIForManager(){
+        self.view.backgroundColor = UIColor.backgroundColors(color: .white)
+        self.view.addSubview(scrollBackView)
+        pullStatistics()
+        let noticeOfSearch:UILabel = UILabel.init(frame: CGRect(x: 0, y: 64 + heightChangeForiPhoneXFromTop, width: kWidth, height: 44))
+        noticeOfSearch.text = "如果需要编辑订单参数，请搜索订单后进行操作"
+        noticeOfSearch.textAlignment = .center
+        noticeOfSearch.font = UIFont.systemFont(ofSize: 12)
+        noticeOfSearch.textColor = UIColor.titleColors(color: .red)
+        
+
+        
+        let titleOfPage:UILabel = UILabel.init(frame: CGRect(x: 15, y: noticeOfSearch.frame.maxY - 5, width: kWidth, height: 44))
+        titleOfPage.text = "数据统计"
+        titleOfPage.textColor = UIColor.titleColors(color: .black)
+        titleOfPage.textAlignment = .left
+        titleOfPage.font = UIFont.boldSystemFont(ofSize: 22)
+        
+        let dashLine:UIView = UIView.init(frame: CGRect(x: 15, y: titleOfPage.frame.maxY + 5, width: kWidth - 30, height: 1))
+        //dashLine.image = UIImage(named: "dashlineimg")
+        dashLine.backgroundColor = UIColor.backgroundColors(color: .lightestgray)// titleColors(color: .lightGray)
+        
+        let orderStatisticBoard1:UIImageView = UIImageView.init(frame: CGRect(x: 2, y: dashLine.frame.maxY + 10, width: kWidth - 4, height: 120))
+        orderStatisticBoard1.image = UIImage(named: "statisticboardbgimg")
+        let seperateLine1:UIView = UIView.init(frame: CGRect(x: kWidth/2, y: 40, width: 0.5, height: orderStatisticBoard1.frame.height - 80))
+        seperateLine1.backgroundColor = UIColor.lineColors(color: .lightGray)
+        orderStatisticBoard1.addSubview(seperateLine1)
+        //全部订单统计
+        AllOrderCount.frame = CGRect(x: 20, y: 32, width: orderStatisticBoard1.frame.width/2 - 40, height: 33)
+        AllOrderCount.textAlignment = .center
+        AllOrderCount.textColor = UIColor.titleColors(color: .black)
+        AllOrderCount.text = "0"
+        AllOrderCount.font = UIFont.boldSystemFont(ofSize: 24)
+        
+        let allorderLabel:UILabel = UILabel.init(frame: CGRect(x: 20, y: 68, width: AllOrderCount.frame.width, height: 20))
+        allorderLabel.text = "全部订单"
+        allorderLabel.textColor = UIColor.titleColors(color: .darkGray)
+        allorderLabel.textAlignment = .center
+        allorderLabel.font = UIFont.systemFont(ofSize: 14)
+        orderStatisticBoard1.addSubview(AllOrderCount)
+        orderStatisticBoard1.addSubview(allorderLabel)
+        //已完成订单统计
+        FinishedOrderCount.frame = CGRect(x: orderStatisticBoard1.frame.width/2 + 20, y: 32, width: orderStatisticBoard1.frame.width/2 - 40, height: 33)
+        FinishedOrderCount.textAlignment = .center
+        FinishedOrderCount.textColor = UIColor.titleColors(color: .black)
+        FinishedOrderCount.text = "0"
+        FinishedOrderCount.font = UIFont.boldSystemFont(ofSize: 24)
+        
+        let finishedorderLabel:UILabel = UILabel.init(frame: CGRect(x: orderStatisticBoard1.frame.width/2 + 20, y: 68, width: FinishedOrderCount.frame.width, height: 20))
+        finishedorderLabel.text = "已完成订单"
+        finishedorderLabel.textColor = UIColor.titleColors(color: .darkGray)
+        finishedorderLabel.textAlignment = .center
+        finishedorderLabel.font = UIFont.systemFont(ofSize: 14)
+        orderStatisticBoard1.addSubview(FinishedOrderCount)
+        orderStatisticBoard1.addSubview(finishedorderLabel)
+        
+        let orderStatisticBoard2:UIImageView = UIImageView.init(frame: CGRect(x: 2, y: orderStatisticBoard1.frame.maxY - 15, width: kWidth - 4, height: 120))
+        orderStatisticBoard2.image = UIImage(named: "statisticboardbgimg")
+        let seperateLine2:UIView = UIView.init(frame: CGRect(x: kWidth/2, y: 40, width: 0.5, height: orderStatisticBoard2.frame.height - 80))
+        seperateLine2.backgroundColor = UIColor.lineColors(color: .lightGray)
+        orderStatisticBoard2.addSubview(seperateLine2)
+        //咨询中的订单统计
+        InQuoteOrderCount.frame = CGRect(x: 20, y: 32, width: orderStatisticBoard2.frame.width/2 - 40, height: 33)
+        InQuoteOrderCount.textAlignment = .center
+        InQuoteOrderCount.textColor = UIColor.titleColors(color: .black)
+        InQuoteOrderCount.text = "0"
+        InQuoteOrderCount.font = UIFont.boldSystemFont(ofSize: 24)
+        
+        let inQuoteorderLabel:UILabel = UILabel.init(frame: CGRect(x: 20, y: 68, width: InQuoteOrderCount.frame.width, height: 20))
+        inQuoteorderLabel.text = "咨询中的订单"
+        inQuoteorderLabel.textColor = UIColor.titleColors(color: .darkGray)
+        inQuoteorderLabel.textAlignment = .center
+        inQuoteorderLabel.font = UIFont.systemFont(ofSize: 14)
+        orderStatisticBoard2.addSubview(InQuoteOrderCount)
+        orderStatisticBoard2.addSubview(inQuoteorderLabel)
+        //设计中的订单统计
+        InDesignOrderCount.frame = CGRect(x: orderStatisticBoard2.frame.width/2 + 20, y: 32, width: orderStatisticBoard2.frame.width/2 - 40, height: 33)
+        InDesignOrderCount.textAlignment = .center
+        InDesignOrderCount.textColor = UIColor.titleColors(color: .black)
+        InDesignOrderCount.text = "0"
+        InDesignOrderCount.font = UIFont.boldSystemFont(ofSize: 24)
+        
+        let inDesignorderLabel:UILabel = UILabel.init(frame: CGRect(x: orderStatisticBoard2.frame.width/2 + 20, y: 68, width: InDesignOrderCount.frame.width, height: 20))
+        inDesignorderLabel.text = "设计中的订单"
+        inDesignorderLabel.textColor = UIColor.titleColors(color: .darkGray)
+        inDesignorderLabel.textAlignment = .center
+        inDesignorderLabel.font = UIFont.systemFont(ofSize: 14)
+        orderStatisticBoard2.addSubview(InDesignOrderCount)
+        orderStatisticBoard2.addSubview(inDesignorderLabel)
+        
+        let orderStatisticBoard3:UIImageView = UIImageView.init(frame: CGRect(x: 2, y: orderStatisticBoard2.frame.maxY - 15, width: kWidth - 4, height: 120))
+        orderStatisticBoard3.image = UIImage(named: "statisticboardbgimg")
+        let seperateLine3:UIView = UIView.init(frame: CGRect(x: kWidth/2, y: 40, width: 0.5, height: orderStatisticBoard3.frame.height - 80))
+        seperateLine3.backgroundColor = UIColor.lineColors(color: .lightGray)
+        orderStatisticBoard3.addSubview(seperateLine3)
+        //待支付的订单统计
+        WaitForPayOrderCount.frame = CGRect(x: 20, y: 32, width: orderStatisticBoard3.frame.width/2 - 40, height: 33)
+        WaitForPayOrderCount.textAlignment = .center
+        WaitForPayOrderCount.textColor = UIColor.titleColors(color: .black)
+        WaitForPayOrderCount.text = "0"
+        WaitForPayOrderCount.font = UIFont.boldSystemFont(ofSize: 24)
+        
+        let waitForPayorderLabel:UILabel = UILabel.init(frame: CGRect(x: 20, y: 68, width: WaitForPayOrderCount.frame.width, height: 20))
+        waitForPayorderLabel.text = "待支付的订单"
+        waitForPayorderLabel.textColor = UIColor.titleColors(color: .darkGray)
+        waitForPayorderLabel.textAlignment = .center
+        waitForPayorderLabel.font = UIFont.systemFont(ofSize: 14)
+        orderStatisticBoard3.addSubview(WaitForPayOrderCount)
+        orderStatisticBoard3.addSubview(waitForPayorderLabel)
+        //待生产的订单统计
+        WaitForProduceOrderCount.frame = CGRect(x: orderStatisticBoard3.frame.width/2 + 20, y: 32, width: orderStatisticBoard3.frame.width/2 - 40, height: 33)
+        WaitForProduceOrderCount.textAlignment = .center
+        WaitForProduceOrderCount.textColor = UIColor.titleColors(color: .black)
+        WaitForProduceOrderCount.text = "0"
+        WaitForProduceOrderCount.font = UIFont.boldSystemFont(ofSize: 24)
+        
+        let waitForProduceorderLabel:UILabel = UILabel.init(frame: CGRect(x: orderStatisticBoard3.frame.width/2 + 20, y: 68, width: WaitForProduceOrderCount.frame.width, height: 20))
+        waitForProduceorderLabel.text = "待分配生产的订单"
+        waitForProduceorderLabel.textColor = UIColor.titleColors(color: .darkGray)
+        waitForProduceorderLabel.textAlignment = .center
+        waitForProduceorderLabel.font = UIFont.systemFont(ofSize: 14)
+        orderStatisticBoard3.addSubview(WaitForProduceOrderCount)
+        orderStatisticBoard3.addSubview(waitForProduceorderLabel)
+        
+        let orderStatisticBoard4:UIImageView = UIImageView.init(frame: CGRect(x: 2, y: orderStatisticBoard3.frame.maxY - 15, width: kWidth - 4, height: 120))
+        orderStatisticBoard4.image = UIImage(named: "statisticboardbgimg")
+        let seperateLine4:UIView = UIView.init(frame: CGRect(x: kWidth/2, y: 40, width: 0.5, height: orderStatisticBoard4.frame.height - 80))
+        seperateLine4.backgroundColor = UIColor.lineColors(color: .lightGray)
+        orderStatisticBoard4.addSubview(seperateLine4)
+        //生产中的订单统计
+        ProducingOrderCount.frame = CGRect(x: 20, y: 32, width: orderStatisticBoard4.frame.width/2 - 40, height: 33)
+        ProducingOrderCount.textAlignment = .center
+        ProducingOrderCount.textColor = UIColor.titleColors(color: .black)
+        ProducingOrderCount.text = "0"
+        ProducingOrderCount.font = UIFont.boldSystemFont(ofSize: 24)
+        
+        let producingorderLabel:UILabel = UILabel.init(frame: CGRect(x: 20, y: 68, width: ProducingOrderCount.frame.width, height: 20))
+        producingorderLabel.text = "生产中的订单"
+        producingorderLabel.textColor = UIColor.titleColors(color: .darkGray)
+        producingorderLabel.textAlignment = .center
+        producingorderLabel.font = UIFont.systemFont(ofSize: 14)
+        orderStatisticBoard4.addSubview(ProducingOrderCount)
+        orderStatisticBoard4.addSubview(producingorderLabel)
+        //邮寄中的订单统计
+        ShippingOrderCount.frame = CGRect(x: orderStatisticBoard4.frame.width/2 + 20, y: 32, width: orderStatisticBoard4.frame.width/2 - 40, height: 33)
+        ShippingOrderCount.textAlignment = .center
+        ShippingOrderCount.textColor = UIColor.titleColors(color: .black)
+        ShippingOrderCount.text = "0"
+        ShippingOrderCount.font = UIFont.boldSystemFont(ofSize: 24)
+        
+        let shippingorderLabel:UILabel = UILabel.init(frame: CGRect(x: orderStatisticBoard4.frame.width/2 + 20, y: 68, width: ShippingOrderCount.frame.width, height: 20))
+        shippingorderLabel.text = "邮寄中的订单"
+        shippingorderLabel.textColor = UIColor.titleColors(color: .darkGray)
+        shippingorderLabel.textAlignment = .center
+        shippingorderLabel.font = UIFont.systemFont(ofSize: 14)
+        orderStatisticBoard4.addSubview(ShippingOrderCount)
+        orderStatisticBoard4.addSubview(shippingorderLabel)
+        
+        scrollBackView.addSubview(noticeOfSearch)
+        scrollBackView.addSubview(dashLine)
+        scrollBackView.addSubview(titleOfPage)
+        scrollBackView.addSubview(orderStatisticBoard1)
+        scrollBackView.addSubview(orderStatisticBoard2)
+        scrollBackView.addSubview(orderStatisticBoard3)
+        scrollBackView.addSubview(orderStatisticBoard4)
+    }
+    
     @objc func searchBarTaped(){
         print("点击了搜索区域")
         
@@ -322,6 +567,16 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
             self.present(searchOrderVC, animated: true, completion: nil)
         }
     }
+    
+//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        return 8
+//    }
+//    
+//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CELL_ID, for: indexPath) as! StatisticCollectionViewCell
+//        return cell
+//    }
+    
     @objc func scanQRCodeBtnClicked(){
         print("扫描二维码按钮点击了")
         let scanQRcodeVC = ScanCodeViewController(scanType: .qrCode)
@@ -338,6 +593,69 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
         self.present(nav, animated: true, completion: nil)
     }
     
+    func pullStatistics(){
+        //确定点击接受生产按钮
+        //获取用户信息
+        let userInfos = getCurrentUserInfo()
+        let roletype = userInfos.value(forKey: "roletype") as? String
+        let userid = userInfos.value(forKey: "userid") as? String
+        let token = userInfos.value(forKey: "token") as? String
+       
+        
+       // userid=10000005&token=a7562fe8-a7d0-40bb-a635-afe7d4523a2d&roletype=4
+        
+        //获取列表
+        let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
+        let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
+        let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
+        //定义请求参数
+        let params:NSMutableDictionary = NSMutableDictionary()
+        params["userid"] = userid
+        params["roletype"] = roletype
+        params["token"] = token
+        
+        
+        var requestUrl:String = ""
+        if roletype == "4" {
+            #if DEBUG
+            requestUrl = apiAddresses.value(forKey: "statisticDebug") as! String
+            #else
+            requestUrl = apiAddresses.value(forKey: "statistic") as! String
+            #endif
+        }
+        _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
+            (responseObject) in
+            switch responseObject.result.isSuccess{
+            case true:
+                if  let value = responseObject.result.value{
+                    let json = JSON(value)
+                    let statusObject = json["status","code"].int!
+                    if statusObject == 0{
+                        var workFlows:[NSDictionary] = []
+                        for item in json["workflow"].array!{
+                            workFlows.append(item.dictionaryObject as! NSDictionary)
+                        }
+                        self.AllOrderCount.text = "\(workFlows[0].value(forKey: "num") as! Int)"
+                        self.FinishedOrderCount.text = "\(workFlows[13].value(forKey: "num") as! Int)"
+                        self.InQuoteOrderCount.text = "\(workFlows[2].value(forKey: "num") as! Int)"
+                        self.InDesignOrderCount.text = "\((workFlows[3].value(forKey: "num") as! Int) + (workFlows[4].value(forKey: "num") as! Int))"
+                        self.WaitForPayOrderCount.text = "\(workFlows[5].value(forKey: "num") as! Int)"
+                        self.WaitForProduceOrderCount.text = "\(workFlows[6].value(forKey: "num") as! Int)"
+                        self.ProducingOrderCount.text = "\(workFlows[7].value(forKey: "num") as! Int)"
+                        self.ShippingOrderCount.text = "\(workFlows[8].value(forKey: "num") as! Int)"
+                    }else{
+                        print("获取数据失败，code:\(statusObject)")
+                        let errorMsg = json["status","msg"].string!
+                        greyLayerPrompt.show(text: errorMsg)
+                    }
+                }
+            case false:
+                print("处理失败")
+                greyLayerPrompt.show(text: "获取数据失败，请重试")
+            }
+        }
+        print("接受生产按钮点击了")
+    }
     
     override func viewWillDisappear(_ animated: Bool) {
 
@@ -357,7 +675,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-
+    
     //获取消息列表
     @objc func getMessageList(){
         if _roleType != 2 && _roleType != 3{

@@ -20,6 +20,8 @@ class OrderSearchCollectionViewCell: UICollectionViewCell {
     let acceptProduceBtnInCell:UIButton = UIButton.init(type: .custom)
     let acceptDesignBtnInCell:UIButton = UIButton.init(type: .custom)
     let shippingBtnInCell:UIButton = UIButton.init(type: .custom)
+    let editOrderBtnInCell:UIButton = UIButton.init(type: .custom)
+    let takePhotoForProductBtnInCell:UIButton = UIButton.init(type: .custom)
     //let priceLabelBackgroundView:UIImageView = UIImageView.init()
     let priceLabel:UILabel = UILabel.init()
     let statusImageView:UIImageView = UIImageView.init()
@@ -46,6 +48,8 @@ class OrderSearchCollectionViewCell: UICollectionViewCell {
         acceptProduceBtnInCell.frame = CGRect(x: orderCellView.frame.width - 95, y: 143, width: 85, height: 30)
         acceptDesignBtnInCell.frame = CGRect(x: orderCellView.frame.width - 95, y: 143, width: 85, height: 30)
         shippingBtnInCell.frame = CGRect(x: orderCellView.frame.width - 95, y: 143, width: 85, height: 30)
+        editOrderBtnInCell.frame = CGRect(x: orderCellView.frame.width - 95, y: 143, width: 85, height: 30)
+        takePhotoForProductBtnInCell.frame = CGRect(x: productQuantityInCell.frame.minX, y: productQuantityInCell.frame.maxY , width: 100, height: 30)
         statusImageView.frame = CGRect(x: 80 , y: seperateLineView.frame.maxY + 11, width: 48, height: 48)
         
         
@@ -126,6 +130,23 @@ class OrderSearchCollectionViewCell: UICollectionViewCell {
         shippingBtnInCell.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         shippingBtnInCell.setTitleColor(UIColor.titleColors(color: .white), for: UIControlState.normal)
         
+        editOrderBtnInCell.layer.cornerRadius = 6
+        editOrderBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .red).cgColor
+        editOrderBtnInCell.setTitle("编辑参数", for: UIControlState.normal)
+        editOrderBtnInCell.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        editOrderBtnInCell.setTitleColor(UIColor.titleColors(color: .white), for: UIControlState.normal)
+        
+        let takePhotoiCon:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: 5, width: 22, height: 17))
+        takePhotoiCon.image = UIImage(named: "takePhotoiconimg")
+        takePhotoForProductBtnInCell.addSubview(takePhotoiCon)
+        takePhotoForProductBtnInCell.layer.cornerRadius = 6
+        takePhotoForProductBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .white).cgColor
+        takePhotoForProductBtnInCell.setTitle("       拍摄成品", for: UIControlState.normal)
+        takePhotoForProductBtnInCell.contentHorizontalAlignment = .left
+        takePhotoForProductBtnInCell.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        takePhotoForProductBtnInCell.setTitleColor(UIColor.titleColors(color: .black), for: UIControlState.normal)
+        takePhotoForProductBtnInCell.isHidden = true
+        
         statusImageView.isHidden = true
         statusImageView.image = UIImage(named: "overbudgeticon")
         statusImageView.layer.cornerRadius = 6
@@ -148,6 +169,8 @@ class OrderSearchCollectionViewCell: UICollectionViewCell {
         orderCellView.addSubview(orderIDValue)
         orderCellView.addSubview(orderIDLabel)
         orderCellView.addSubview(orderTimeValue)
+        orderCellView.addSubview(takePhotoForProductBtnInCell)
+        orderCellView.addSubview(editOrderBtnInCell)
     }
     
     required init?(coder aDecoder: NSCoder) {

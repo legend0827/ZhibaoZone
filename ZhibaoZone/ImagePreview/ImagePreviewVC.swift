@@ -22,6 +22,7 @@ class ImagePreviewVC: UIViewController {
     
     var createNewTaskVCObject =  NewTaskViewController()
     var taskDetailReplyObject = TaskDetailViewController(currentTaskID: "nothing", currentCustomid: "123456", currentOrderID: "123456", currentGoodsID: "123456", currentTaskType: 0)
+    var uploadProductImageVCObject = UploadProductImageViewController()
     
     var PreviewType:[String] = []//"public.image" // 默认为图片.
     var imageUrls:[URL] = []
@@ -52,7 +53,7 @@ class ImagePreviewVC: UIViewController {
         self.images = images
         self.index = index
         self.previewMode = previewMode
-        print("init with previewMode\(previewMode)")
+       // print("init with previewMode\(previewMode)")
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -177,9 +178,12 @@ class ImagePreviewVC: UIViewController {
         print("delete succeed on index\(indexPath.row)")
         if previewSourceVC == "WorkZoneVC"{
             createNewTaskVCObject.deleteAttachment(atIndex:indexPath.row)
+        }else if previewSourceVC == "UploadProductImageVC"{
+            uploadProductImageVCObject.deleteAttachment(atIndex: indexPath.row)
         }else{
             taskDetailReplyObject.deleteAttachment(atIndex:indexPath.row)
         }
+        
         if lastPic {
             if previewSourceVC != "WorkZoneVC"{
                 taskDetailReplyObject.replyTextView.becomeFirstResponder()

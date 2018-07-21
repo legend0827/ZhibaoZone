@@ -1,4 +1,4 @@
-//
+ //
 //  OrderSearchViewController.swift
 //  ZhibaoZone
 //
@@ -250,17 +250,22 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
         cell.acceptProduceBtnInCell.isHidden = true
         cell.quotePriceBtnInCell.isHidden = true
         cell.shippingBtnInCell.isHidden = true
+        cell.takePhotoForProductBtnInCell.isHidden = true
+        cell.editOrderBtnInCell.isHidden = true
         
         cell.acceptDesignBtnInCell.addTarget(self, action: #selector(acceptDesignBtnClicked), for: .touchUpInside)
         cell.quotePriceBtnInCell.addTarget(self, action: #selector(quotePriceBtnClicked), for: .touchUpInside)
         cell.acceptProduceBtnInCell.addTarget(self, action: #selector(acceptProduceBtnClicked), for: .touchUpInside)
         cell.shippingBtnInCell.addTarget(self, action: #selector(shippingBtnClicked), for: .touchUpInside)
+        cell.takePhotoForProductBtnInCell.addTarget(self, action: #selector(takePhotoBtnCliced), for: .touchUpInside)
+        cell.editOrderBtnInCell.addTarget(self, action: #selector(editOrderParas), for: .touchUpInside)
         
         cell.acceptDesignBtnInCell.tag = indexPath.row
         cell.quotePriceBtnInCell.tag = indexPath.row
         cell.acceptProduceBtnInCell.tag = indexPath.row
         cell.shippingBtnInCell.tag = indexPath.row
-        
+        cell.takePhotoForProductBtnInCell.tag = indexPath.row
+        cell.editOrderBtnInCell.tag = indexPath.row
         switch _roleType {
         case 1:
             print("RoleType 为 1")
@@ -329,6 +334,7 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
             //订单在生产中，允许上传物流
             if (statusObjects.value(forKey: "orderstate") as! NSDictionary).value(forKey: "orderstate") as! Int == 8{
                 cell.shippingBtnInCell.isHidden = false
+                cell.takePhotoForProductBtnInCell.isHidden = false
             }
             cell.orderIDValue.text = orderInfoObjects.value(forKey: "orderid") as! String
 
@@ -348,6 +354,7 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
             
         case 4:
             print("RoleType 为 4")
+            cell.editOrderBtnInCell.isHidden = false
         default:
             print("RoleType 为 default")
         }
@@ -453,6 +460,23 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
                 item.removeFromSuperview()
             }
         }
+    }
+    @objc func editOrderParas(_ button:UIButton){
+        print("点击了编辑参数按钮")
+        let editOrderVC = EditOrderParameters()
+        selectedIndex = button.tag
+        
+        editOrderVC.orderObject = orderArray[selectedIndex]
+        editOrderVC.orderVCObject = self
+        let nav = UINavigationController.init(rootViewController: editOrderVC)
+        self.present(nav, animated: true, completion: nil)
+    }
+    @objc func takePhotoBtnCliced(_ button:UIButton){
+        print("点击了拍摄成品按钮在\(button.tag)")
+        let uploadVC = UploadProductImageViewController()
+        uploadVC.orderObject = orderArray[selectedIndex]
+        let nav = UINavigationController.init(rootViewController: uploadVC)
+        self.present(nav, animated: true, completion: nil)
     }
     
     @objc func acceptDesignBtnClicked(_ button:UIButton){

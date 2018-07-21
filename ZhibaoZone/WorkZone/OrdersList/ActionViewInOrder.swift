@@ -25,6 +25,9 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
     var _orderID:String = "110000"
     var _customID:String =  "10002020"
     var _goodsID:String = "12123213131"
+    
+    //发货的时候显示的订单图
+    var googsImge:UIImage = UIImage()
    
     //订单详情获取到了吗？
     var isOrderDetailsGets = false
@@ -795,7 +798,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             
             //参考图
             orderDefaultPic.frame = CGRect(x: 20, y: 20, width: 118, height: 118) // y=62
-            orderDefaultPic.image = UIImage(named: "defualt-design-pic")
+            orderDefaultPic.image = googsImge //UIImage(named: "defualt-design-pic")
             orderDefaultPic.contentMode = .scaleAspectFit
             orderDefaultPic.layer.cornerRadius = 6
             orderDefaultPic.layer.borderColor = UIColor.lineColors(color: .lightGray).cgColor//UIColor.lineColors(color: .lightGray).cgColor
@@ -1660,11 +1663,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         let colorObject = goodsInfoObjects.value(forKey: "color")
         let sizeObject = goodsInfoObjects.value(forKey: "size") as! NSDictionary
         
-
-        
-        
         //订单图片
-        
         
         //订单号
         orderIDValue.text = orderInfoObjects.value(forKey: "orderid") as? String

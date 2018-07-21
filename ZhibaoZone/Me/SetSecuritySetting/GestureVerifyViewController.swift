@@ -19,7 +19,7 @@ class GestureVerifyViewController: UIViewController,UITextFieldDelegate {
     fileprivate var msgLabel:LockLabel?
     
     //导航条
-    let navigationBarInResetGestureView:UINavigationBar = UINavigationBar.init(frame: CGRect(x: 0, y: 27, width: UIScreen.main.bounds.width, height: 45))
+    let navigationBarInResetGestureView:UINavigationBar = UINavigationBar.init(frame: CGRect(x: 0, y: 20 + heightChangeForiPhoneXFromTop, width: UIScreen.main.bounds.width, height: 45))
     //
     let passwordBox:UITextField = UITextField.init(frame: CGRect(x: 120, y: 328, width: UIScreen.main.bounds.width - 40, height: 40))
     

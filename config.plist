@@ -107,6 +107,10 @@
 		<string>http://192.168.1.150:8082/zb-order-web/order/orderDetail.do</string>
 		<key>orderDetails</key>
 		<string>http://118.126.116.76:8082/zb-order-web/order/orderDetail.do</string>
+		<key>updateOrderInfoAPIDebug</key>
+		<string>http://192.168.1.150:8082/zb-order-web/order/updateOrderSummary.do</string>
+		<key>updateOrderInfoAPI</key>
+		<string>http://118.126.116.76:8082/zb-order-web/order/updateOrderSummary.do</string>
 		<key>quotePriceDebug</key>
 		<string>http://192.168.1.150:8082/zb-order-web/order/updateInquiryRule.do</string>
 		<key>quotePrice</key>
@@ -131,6 +135,26 @@
 		<string>http://192.168.1.150:8082/zb-order-web/order/autoPrice.do</string>
 		<key>autoPrice</key>
 		<string>http://118.126.116.76:8082/zb-order-web/order/autoPrice.do</string>
+		<key>statisticDebug</key>
+		<string>http://192.168.1.150:8082/zb-manager-web/workflow/statistics.do</string>
+		<key>statistic</key>
+		<string>http://118.126.116.76:8081/zb-manager-web/workflow/statistics.do</string>
+		<key>managerGetOrderListAPIDebug</key>
+		<string>http://192.168.1.150:8082/zb-order-web/order/managerOrder.do</string>
+		<key>managerGetOrderListAPI</key>
+		<string>http://118.126.116.76:8082/zb-order-web/order/managerOrder.do</string>
+		<key>switchOrderSearchAPIDebug</key>
+		<string>http://192.168.1.150:8082/zb-order-web/order/managerOrderSerach.do</string>
+		<key>switchOrderSearchAPI</key>
+		<string>http://118.126.116.76:8082/zb-order-web/order/managerOrderSerach.do</string>
+		<key>switchOrderAPIDebug</key>
+		<string>http://192.168.1.150:8082/zb-order-web/order/managerOrderRevice.do</string>
+		<key>switchOrderAPI</key>
+		<string>http://118.126.116.76:8082/zb-order-web/order/managerOrderRevice.do</string>
+		<key>uploadProuctImageAPIDebug</key>
+		<string>http://192.168.1.150:8082/zb-order-web/order/uploadFacImages.do</string>
+		<key>uploadProuctImageAPI</key>
+		<string>http://118.126.116.76:8082/zb-order-web/order/uploadFacImages.do</string>
 	</dict>
 </dict>
 </plist>

@@ -11,12 +11,14 @@
 		0A0235B61FFD23C600CBD846 /* TastsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0235B51FFD23C600CBD846 /* TastsViewController.swift */; };
 		0A036A512027FE7F00A2F036 /* UnlockGestureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A036A502027FE7F00A2F036 /* UnlockGestureView.swift */; };
 		0A036A5B2028682D00A2F036 /* SecuritySettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A036A5A2028682D00A2F036 /* SecuritySettingViewController.swift */; };
+		0A053D5D210084EB00E6A006 /* VerifyPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A053D5C210084EB00E6A006 /* VerifyPasswordViewController.swift */; };
 		0A09185120AAB2320054749B /* OrdersCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A09185020AAB2310054749B /* OrdersCollectionViewCell.swift */; };
 		0A09185320AABFF20054749B /* shippingCompanyNameList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A09185220AABFF20054749B /* shippingCompanyNameList.plist */; };
 		0A09185620AAC06C0054749B /* ShippingCompanyNameListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A09185520AAC06C0054749B /* ShippingCompanyNameListViewController.swift */; };
 		0A09185820AAC08F0054749B /* ShippingCompanyNameListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A09185720AAC08F0054749B /* ShippingCompanyNameListTableViewCell.swift */; };
 		0A1295562072EB5E00C21C66 /* msg.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0A1295552072EB5E00C21C66 /* msg.wav */; };
 		0A129C3020EF482600319A4C /* libz.1.1.3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A129C2F20EF482600319A4C /* libz.1.1.3.tbd */; };
+		0A129C3D20F44A8B00319A4C /* UploadProductImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A129C3C20F44A8B00319A4C /* UploadProductImageViewController.swift */; };
 		0A20028A206134CD00A81D21 /* TaskContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A200289206134CD00A81D21 /* TaskContentTableViewCell.swift */; };
 		0A244E542096F35D00203463 /* ActionViewInOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A244E532096F35D00203463 /* ActionViewInOrder.swift */; };
 		0A244E5B2098614E00203463 /* waitForHandleTaskListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A244E5A2098614E00203463 /* waitForHandleTaskListViewController.swift */; };
@@ -85,6 +87,12 @@
 		0AC1AC5F204E2BA20096A6F6 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC1AC5E204E2BA20096A6F6 /* SystemConfiguration.framework */; };
 		0AC1AC61204E2BAD0096A6F6 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC1AC60204E2BAD0096A6F6 /* libstdc++.tbd */; };
 		0AC1AC63204E6F210096A6F6 /* KVProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC1AC62204E6F210096A6F6 /* KVProgressBar.swift */; };
+		0AC4B49320F7023200312092 /* ManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC4B49220F7023200312092 /* ManagerViewController.swift */; };
+		0AC4B49520F709CB00312092 /* EditOrderParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC4B49420F709CB00312092 /* EditOrderParameters.swift */; };
+		0AC4B49720F711C700312092 /* StatisticCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC4B49620F711C700312092 /* StatisticCollectionViewCell.swift */; };
+		0AC4B49A20FD878700312092 /* SwitchOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC4B49920FD878700312092 /* SwitchOrderViewController.swift */; };
+		0AC4B49C20FDA4D600312092 /* switchOrderListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC4B49B20FDA4D600312092 /* switchOrderListTableViewCell.swift */; };
+		0AC4B49E20FDE31500312092 /* accountListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC4B49D20FDE31500312092 /* accountListTableViewCell.swift */; };
 		0AC967C31FFC8B8300ABEEAB /* SwiftNotice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC967BB1FFC8B8300ABEEAB /* SwiftNotice.swift */; };
 		0ACD41362064B4B4002F1D14 /* normalUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACD41352064B4B4002F1D14 /* normalUserViewController.swift */; };
 		0ACDF10920C1249A0024FC68 /* ParasTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACDF10820C1249A0024FC68 /* ParasTableViewCell.swift */; };
@@ -212,12 +220,14 @@
 		0A0235B51FFD23C600CBD846 /* TastsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TastsViewController.swift; sourceTree = "<group>"; };
 		0A036A502027FE7F00A2F036 /* UnlockGestureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockGestureView.swift; sourceTree = "<group>"; };
 		0A036A5A2028682D00A2F036 /* SecuritySettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySettingViewController.swift; sourceTree = "<group>"; };
+		0A053D5C210084EB00E6A006 /* VerifyPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyPasswordViewController.swift; sourceTree = "<group>"; };
 		0A09185020AAB2310054749B /* OrdersCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrdersCollectionViewCell.swift; sourceTree = "<group>"; };
 		0A09185220AABFF20054749B /* shippingCompanyNameList.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = shippingCompanyNameList.plist; sourceTree = "<group>"; };
 		0A09185520AAC06C0054749B /* ShippingCompanyNameListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShippingCompanyNameListViewController.swift; sourceTree = "<group>"; };
 		0A09185720AAC08F0054749B /* ShippingCompanyNameListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShippingCompanyNameListTableViewCell.swift; sourceTree = "<group>"; };
 		0A1295552072EB5E00C21C66 /* msg.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = msg.wav; sourceTree = "<group>"; };
 		0A129C2F20EF482600319A4C /* libz.1.1.3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.1.3.tbd; path = usr/lib/libz.1.1.3.tbd; sourceTree = SDKROOT; };
+		0A129C3C20F44A8B00319A4C /* UploadProductImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadProductImageViewController.swift; sourceTree = "<group>"; };
 		0A200289206134CD00A81D21 /* TaskContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskContentTableViewCell.swift; sourceTree = "<group>"; };
 		0A244E532096F35D00203463 /* ActionViewInOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionViewInOrder.swift; sourceTree = "<group>"; };
 		0A244E5A2098614E00203463 /* waitForHandleTaskListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = waitForHandleTaskListViewController.swift; sourceTree = "<group>"; };
@@ -292,6 +302,12 @@
 		0AC1AC5E204E2BA20096A6F6 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		0AC1AC60204E2BAD0096A6F6 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		0AC1AC62204E6F210096A6F6 /* KVProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KVProgressBar.swift; sourceTree = "<group>"; };
+		0AC4B49220F7023200312092 /* ManagerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagerViewController.swift; sourceTree = "<group>"; };
+		0AC4B49420F709CB00312092 /* EditOrderParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditOrderParameters.swift; sourceTree = "<group>"; };
+		0AC4B49620F711C700312092 /* StatisticCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticCollectionViewCell.swift; sourceTree = "<group>"; };
+		0AC4B49920FD878700312092 /* SwitchOrderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchOrderViewController.swift; sourceTree = "<group>"; };
+		0AC4B49B20FDA4D600312092 /* switchOrderListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = switchOrderListTableViewCell.swift; sourceTree = "<group>"; };
+		0AC4B49D20FDE31500312092 /* accountListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = accountListTableViewCell.swift; sourceTree = "<group>"; };
 		0AC967BB1FFC8B8300ABEEAB /* SwiftNotice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftNotice.swift; path = "../../../../Downloads/SwiftNotice-swift4/SwiftNotice.swift"; sourceTree = "<group>"; };
 		0ACD41352064B4B4002F1D14 /* normalUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = normalUserViewController.swift; sourceTree = "<group>"; };
 		0ACDF10820C1249A0024FC68 /* ParasTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParasTableViewCell.swift; sourceTree = "<group>"; };
@@ -584,6 +600,19 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		0AC4B48920F701ED00312092 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				0AC4B49220F7023200312092 /* ManagerViewController.swift */,
+				0AC4B49920FD878700312092 /* SwitchOrderViewController.swift */,
+				0AC4B49D20FDE31500312092 /* accountListTableViewCell.swift */,
+				0AC4B49B20FDA4D600312092 /* switchOrderListTableViewCell.swift */,
+				0AC4B49420F709CB00312092 /* EditOrderParameters.swift */,
+				0AC4B49620F711C700312092 /* StatisticCollectionViewCell.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
 		0ACD412D2064B44C002F1D14 /* WebPage */ = {
 			isa = PBXGroup;
 			children = (
@@ -618,6 +647,7 @@
 		0ADCB7FE2011ECAD00DCD7C8 /* WorkZone */ = {
 			isa = PBXGroup;
 			children = (
+				0AC4B48920F701ED00312092 /* Manager */,
 				0A594E252070794B00A67950 /* ReplyView */,
 				0A54F30120567AB400103FD8 /* MessageList */,
 				0ADCB8022011ED5700DCD7C8 /* TaskList */,
@@ -643,6 +673,7 @@
 			isa = PBXGroup;
 			children = (
 				0A3AA2161FF61C6E00EBC482 /* MeViewController.swift */,
+				0A053D5C210084EB00E6A006 /* VerifyPasswordViewController.swift */,
 				0A68BBB420294D1300359A78 /* SetSecuritySetting */,
 				0A036A59202867FB00A2F036 /* SecuritySetting */,
 				0A594E15206C841600A67950 /* SetParameters */,
@@ -659,6 +690,7 @@
 				0A0235B31FFD23B900CBD846 /* OrdersViewController.swift */,
 				0A09185020AAB2310054749B /* OrdersCollectionViewCell.swift */,
 				0A252F312095DD6E00C1F7F4 /* AllOrdersViewController.swift */,
+				0A129C3C20F44A8B00319A4C /* UploadProductImageViewController.swift */,
 				0A244E532096F35D00203463 /* ActionViewInOrder.swift */,
 				0A252F432096111B00C1F7F4 /* OrderSearchViewController.swift */,
 				0A99705C20ADB8C500E4D37C /* OrderSearchCollectionViewCell.swift */,
@@ -938,6 +970,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A0235B61FFD23C600CBD846 /* TastsViewController.swift in Sources */,
+				0AC4B49720F711C700312092 /* StatisticCollectionViewCell.swift in Sources */,
 				0AB766A8200DC46900851E16 /* HGImageCollectionViewController.swift in Sources */,
 				0A610D8F201C296B00DE46B7 /* chooseContactTableViewCell.swift in Sources */,
 				0A036A5B2028682D00A2F036 /* SecuritySettingViewController.swift in Sources */,
@@ -952,9 +985,11 @@
 				0AF06C582018F465008E2DE9 /* TaskDetailViewController.swift in Sources */,
 				0A3CC3B9209572970055B5DD /* Extentsions.swift in Sources */,
 				0AC1AC63204E6F210096A6F6 /* KVProgressBar.swift in Sources */,
+				0A129C3D20F44A8B00319A4C /* UploadProductImageViewController.swift in Sources */,
 				0A244E5F2098617700203463 /* FinishedTaskListViewController.swift in Sources */,
 				0A99705D20ADB8C500E4D37C /* OrderSearchCollectionViewCell.swift in Sources */,
 				0AF06C4920171D40008E2DE9 /* ESPullToRefresh+Manager.swift in Sources */,
+				0AC4B49E20FDE31500312092 /* accountListTableViewCell.swift in Sources */,
 				0AAAFA5C20BE5B67005C7F25 /* QuotePriceTableViewCell.swift in Sources */,
 				0A09185120AAB2320054749B /* OrdersCollectionViewCell.swift in Sources */,
 				0AF06C5220171D40008E2DE9 /* ESPullToRefresh.swift in Sources */,
@@ -963,11 +998,14 @@
 				0AB766AA200DC46900851E16 /* HGImageCompleteButton.swift in Sources */,
 				0AB766A9200DC46900851E16 /* HGImagePickerCell.swift in Sources */,
 				0AB766AC200DC46900851E16 /* HGImagePickerController.swift in Sources */,
+				0AC4B49520F709CB00312092 /* EditOrderParameters.swift in Sources */,
 				0A244E612098917C00203463 /* TestPushViewController.swift in Sources */,
 				0A54F30A20567AE800103FD8 /* MessageListViewController.swift in Sources */,
 				0A6AD65A1FF1EFB4009A511A /* ViewController.swift in Sources */,
+				0AC4B49C20FDA4D600312092 /* switchOrderListTableViewCell.swift in Sources */,
 				0ACDF10920C1249A0024FC68 /* ParasTableViewCell.swift in Sources */,
 				0AC967C31FFC8B8300ABEEAB /* SwiftNotice.swift in Sources */,
+				0A053D5D210084EB00E6A006 /* VerifyPasswordViewController.swift in Sources */,
 				0A38068A2035C9680077E77F /* Circle.swift in Sources */,
 				0AF06C4A20171D40008E2DE9 /* ESRefreshAnimator.swift in Sources */,
 				0A6AD6581FF1EFB4009A511A /* AppDelegate.swift in Sources */,
@@ -985,6 +1023,7 @@
 				0A594E272070797800A67950 /* ReplyTableViewTableViewController.swift in Sources */,
 				0A38068C2035D6560077E77F /* GestureViewController.swift in Sources */,
 				0AF06C4D20171D40008E2DE9 /* ESRefreshHeaderAnimator.swift in Sources */,
+				0AC4B49A20FD878700312092 /* SwitchOrderViewController.swift in Sources */,
 				0A036A512027FE7F00A2F036 /* UnlockGestureView.swift in Sources */,
 				0AF06C5020171D40008E2DE9 /* ESRefreshProtocol.swift in Sources */,
 				0A252F322095DD6E00C1F7F4 /* AllOrdersViewController.swift in Sources */,
@@ -992,6 +1031,7 @@
 				0AF06C5120171D40008E2DE9 /* ES.swift in Sources */,
 				0A5B5C201FF2536300A92C20 /* CoreDataOperation.swift in Sources */,
 				0A610D8C201C282A00DE46B7 /* chooseContactTableViewController.swift in Sources */,
+				0AC4B49320F7023200312092 /* ManagerViewController.swift in Sources */,
 				0A244E542096F35D00203463 /* ActionViewInOrder.swift in Sources */,
 				0AAAFA6020BE83D6005C7F25 /* ParasActionView.swift in Sources */,
 				0ACD41362064B4B4002F1D14 /* normalUserViewController.swift in Sources */,
