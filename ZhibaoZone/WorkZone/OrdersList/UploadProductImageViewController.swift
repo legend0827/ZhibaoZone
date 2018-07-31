@@ -1466,6 +1466,24 @@ class UploadProductImageViewController: UIViewController,UIImagePickerController
         self.cancelBtnClicked()
     }
     
+    func clearImageCache(){
+        
+        //Home目录
+        let homeDirectory = NSHomeDirectory()
+        let documentPath = homeDirectory + "/Documents/ProductImage"
+        //文件管理器
+        let fileManager: FileManager = FileManager.default
+        //把刚刚图片转换的data对象拷贝至沙盒中 并保存为image.png
+        do {
+            //try fileManager.createDirectory(atPath: documentPath, withIntermediateDirectories: true, attributes: nil)
+            var currentPath = try fileManager.currentDirectoryPath
+            currentPath.removeAll()
+        }
+        catch  {
+            print("something wrong was happening")
+        }
+    }
+    
     @objc func uploadBtnClicked(){
         changePositionOfPictures()
         taskImages = uploadFiles(images: imageURLs)

@@ -219,18 +219,18 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
         let sizeObject = goodsInfoObjects.value(forKey: "size") as! NSDictionary
         var sizeString:String = ""
         //长
-        if sizeObject.value(forKey: "length") as? Float != nil {
-            sizeString += "\(sizeObject.value(forKey: "length")as! Float)"
+        if sizeObject.value(forKey: "length") as? NSNumber != nil {
+            sizeString += "\(sizeObject.value(forKey: "length")as! NSNumber)"
         }
         //宽
-        if sizeObject.value(forKey: "width") as? Float != nil {
-            sizeString += "x\(sizeObject.value(forKey: "width")as! Float)"
+        if sizeObject.value(forKey: "width") as? NSNumber != nil {
+            sizeString += "x\(sizeObject.value(forKey: "width")as! NSNumber)"
         }else{
             sizeString += "x "
         }
         //高
-        if sizeObject.value(forKey: "height") as? Float != nil {
-            sizeString += "x\(sizeObject.value(forKey: "height")as! Float)(mm)"
+        if sizeObject.value(forKey: "height") as? NSNumber != nil {
+            sizeString += "x\(sizeObject.value(forKey: "height")as! NSNumber)(mm)"
         }else{
             sizeString += "x (mm)"
         }

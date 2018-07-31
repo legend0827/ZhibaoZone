@@ -179,8 +179,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
             UMessage.setAutoAlert(false)
             //
             UMessage.didReceiveRemoteNotification(userInfo)
+            print("message present at A")
         }else{
             //应用处于后台时本地推送接受
+            print("message present at B")
         }
         print("userInfo10:\(userInfo)")
         //completionHandler([.sound,.alert])
@@ -197,25 +199,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
             UMessage.setAutoAlert(false)
             //
             UMessage.didReceiveRemoteNotification(userInfo)
-            
-            
-            
+            print("message recived at A")
         }else{
             //应用处于后态时本地推送接受
+            print("message recived at B")
         }
         
         completionHandler()
     }
     
    // @available(iOS 10.0, *)
-    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    private func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         print("收到新消息Active\(userInfo)")
         UMessage.setAutoAlert(false) // 关闭友盟自带的弹窗出框
         print("message received")
         
         let meVC = MeViewController()
         self.window?.rootViewController?.present(meVC, animated: true, completion: nil)
-        
+      
         if UIDevice.current.systemVersion < "10"{
             UMessage.didReceiveRemoteNotification(userInfo)
             self.umUserInfo = userInfo

@@ -476,3 +476,28 @@ func calculateLabelHeightWithText(with text:String , labelWidth: CGFloat ,textFo
     return size.size.height
 }
 
+func compressionImage(with image:UIImage) -> NSData{
+    print("Original Size \(image.size)")
+    //实现等比缩放
+    let hfactor = image.size.width / kScreenW
+    let vfactor = image.size.width / kScreenH
+    let factor = fmax(hfactor, vfactor)
+    //画布大小
+    let newWidth:CGFloat = image.size.width / factor
+    let newHeight:CGFloat = image.size.height / factor
+    let newSize = CGSize(width: newWidth, height: newHeight)
+    
+    UIGraphicsBeginImageContext(newSize)
+    image.draw(in: CGRect(x: 0, y: 0, width: newWidth, height: newHeight))
+    let newImage = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    //图像压缩
+    let newImageData = UIImageJPEGRepresentation(newImage!, 0.5)
+    print("Compressed Size \(newImage?.size)")
+    print("Compressed Data\(newImageData?.description)")
+    return newImageData! as NSData
+}
+
+func clearImageCache(){
+    
+}

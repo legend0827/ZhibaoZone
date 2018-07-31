@@ -47,12 +47,12 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         let tempLabel = UILabel.init(frame: CGRect(x: 20, y: 40, width: kWidth - 40, height: 25))
         tempLabel.text = "无相关信息"
         
-        let tempLine1:UIView = UIView.init(frame: CGRect(x: 40, y: 12, width: 60, height: 0.5))
-        tempLine1.backgroundColor = UIColor.titleColors(color: .darkGray)
+        let tempLine1:UIView = UIView.init(frame: CGRect(x: 30, y: 12, width: 90, height: 0.5))
+        tempLine1.backgroundColor = UIColor.titleColors(color: .lightGray)
         tempLabel.addSubview(tempLine1)
         
-        let tempLine2:UIView = UIView.init(frame: CGRect(x: tempLabel.frame.width - 100, y: 12, width: 60, height: 0.5))
-        tempLine2.backgroundColor = UIColor.titleColors(color: .darkGray)
+        let tempLine2:UIView = UIView.init(frame: CGRect(x: tempLabel.frame.width - 120, y: 12, width: 90, height: 0.5))
+        tempLine2.backgroundColor = UIColor.titleColors(color: .lightGray)
         tempLabel.addSubview(tempLine2)
         
         tempLabel.textColor = UIColor.titleColors(color: .gray)
@@ -201,7 +201,7 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         tempTableView.delegate = self
         tempTableView.dataSource = self
         tempTableView.separatorStyle = .none
-        tempTableView.backgroundColor = UIColor.backgroundColors(color: .white)
+        tempTableView.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
         tempTableView.estimatedSectionHeaderHeight = 0
         tempTableView.estimatedSectionFooterHeight = 0
 //        tempTableView.tableHeaderView = UITableViewHeaderFooterView.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: CGFloat.leastNormalMagnitude))
@@ -878,7 +878,7 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
                             self.orderCount  = self.searchResultList.count
                             greyLayerPrompt.show(text: "未搜索到相关订单")
                             self.noticeOfEmpty.isHidden = false
-                            self.orderListTable.backgroundColor = UIColor.backgroundColors(color: .white)
+                            self.orderListTable.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
                         }
                         
                     }else {
@@ -889,7 +889,7 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
             case false:
                 print("获取列表失败")
                 self.noticeOfEmpty.isHidden = false
-                self.orderListTable.backgroundColor = UIColor.backgroundColors(color: .white)
+                self.orderListTable.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
                 //greyLayerPrompt.show(text: "清空失败,请重试")
             }
             self.orderListTable.reloadData()

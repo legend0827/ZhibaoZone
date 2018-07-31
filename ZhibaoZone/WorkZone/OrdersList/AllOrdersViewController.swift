@@ -173,18 +173,18 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         let sizeObject = goodsInfoObjects.value(forKey: "size") as! NSDictionary
         var sizeString:String = ""
         //长
-        if sizeObject.value(forKey: "length") as? Float != nil {
-            sizeString += "\(sizeObject.value(forKey: "length")as! Float)"
+        if sizeObject.value(forKey: "length") as? NSNumber != nil {
+            sizeString += "\(sizeObject.value(forKey: "length")as! NSNumber)"
         }
         //宽
-        if sizeObject.value(forKey: "width") as? Float != nil {
-            sizeString += "x\(sizeObject.value(forKey: "width")as! Float)"
+        if sizeObject.value(forKey: "width") as? NSNumber != nil {
+            sizeString += "x\(sizeObject.value(forKey: "width")as! NSNumber)"
         }else{
             sizeString += "x "
         }
         //高
-        if sizeObject.value(forKey: "height") as? Float != nil {
-            sizeString += "x\(sizeObject.value(forKey: "height")as! Float)(mm)"
+        if sizeObject.value(forKey: "height") as? NSNumber != nil {
+            sizeString += "x\(sizeObject.value(forKey: "height")as! NSNumber)(mm)"
         }else{
             sizeString += "x (mm)"
         }
@@ -406,7 +406,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
             let temp = self.testQueue
             let rangeMax = (self.orderArray.count <= self.page * 5) ? self.orderArray.count : (self.page * 5)
             for index in (self.page - 1)*5 ..< rangeMax{
-                print("index of range is \(index) and rangMax = \(rangeMax), temp = \(temp)")
+               // print("index of range is \(index) and rangMax = \(rangeMax), temp = \(temp)")
                 if self.orderArray.count < index{
                     return
                 }
@@ -423,7 +423,8 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
                     let url = URL(string: imageURLString)!
                     do{
                         let data = try Data.init(contentsOf: url)
-                        let image = UIImage.gif(data:data)
+                        let oImage = UIImage.gif(data:data)
+                        let image = UIImage(data: compressionImage(with: oImage!) as Data)// compressionImage(with: oImage!)
 //                        if self.testQueue != temp{
 //                            break
 //                        }
@@ -434,10 +435,11 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
                         let url = URL(string: imageURLString)!
                         do{
                             let data = try Data.init(contentsOf: url)
-                            let image = UIImage.gif(data:data)
-//                            if self.testQueue != temp{
-//                                break
-//                            }
+                            let oImage = UIImage.gif(data:data)
+                            let image = UIImage(data: compressionImage(with: oImage!) as Data)// compressionImage(with: oImage!)
+                            //                        if self.testQueue != temp{
+                            //                            break
+                            //                        }
                             self.orderImages.updateValue(image!, forKey: index)
                            // self.orderImages.append(image!)
                             

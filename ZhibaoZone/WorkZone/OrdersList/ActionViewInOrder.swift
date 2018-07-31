@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 
+
 class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollViewDelegate {
     
     //弹窗ViewVC
@@ -1447,6 +1448,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             }
         }
     }
+
     
     func downloadOrderImages(){
         DispatchQueue.global().async {
@@ -1462,10 +1464,12 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 let url = URL(string: imageURLString)!
                 do{
                     let data = try Data.init(contentsOf: url)
-                    let image = UIImage.gif(data:data)
+                    let oImage = UIImage.gif(data:data)
+                    let image = UIImage(data: compressionImage(with: oImage!) as Data)
                     DispatchQueue.main.async {
                         self.orderDefaultPic.image = image
                     }
+                    
                 }catch{
                     print(error)
                     //缩略图下载失败，下载原图
@@ -1473,7 +1477,8 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                     let url = URL(string: imageURLString)!
                     do{
                         let data = try Data.init(contentsOf: url)
-                        let image = UIImage.gif(data:data)
+                        let oImage = UIImage.gif(data:data)
+                    let image = UIImage(data: compressionImage(with: oImage!) as Data)
                         DispatchQueue.main.async {
                             self.orderDefaultPic.image = image
                         }
@@ -1492,7 +1497,8 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 let url = URL(string: imageURLString)!
                 do{
                     let data = try Data.init(contentsOf: url)
-                    let image = UIImage.gif(data:data)
+                    let oImage = UIImage.gif(data:data)
+                    let image = UIImage(data: compressionImage(with: oImage!) as Data)
                     DispatchQueue.main.async {
                         self.orderDefaultPic.image = image
                     }
@@ -1503,7 +1509,8 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                     let url = URL(string: imageURLString)!
                     do{
                         let data = try Data.init(contentsOf: url)
-                        let image = UIImage.gif(data:data)
+                        let oImage = UIImage.gif(data:data)
+                    let image = UIImage(data: compressionImage(with: oImage!) as Data)
                         DispatchQueue.main.async {
                             self.orderDefaultPic.image = image
                         }
@@ -1522,7 +1529,8 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 let url = URL(string: imageURLString)!
                 do{
                     let data = try Data.init(contentsOf: url)
-                    let image = UIImage.gif(data:data)
+                    let oImage = UIImage.gif(data:data)
+                    let image = UIImage(data: compressionImage(with: oImage!) as Data)
                     DispatchQueue.main.async {
                         self.orderDefaultPic.image = image
                     }
@@ -1533,7 +1541,8 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                     let url = URL(string: imageURLString)!
                     do{
                         let data = try Data.init(contentsOf: url)
-                        let image = UIImage.gif(data:data)
+                        let oImage = UIImage.gif(data:data)
+                    let image = UIImage(data: compressionImage(with: oImage!) as Data)
                         DispatchQueue.main.async {
                             self.orderDefaultPic.image = image
                         }
@@ -1565,7 +1574,8 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 let url = URL(string: imageURLString)!
                 do{
                     let data = try Data.init(contentsOf: url)
-                    let image = UIImage.gif(data:data)
+                    let oImage = UIImage.gif(data:data)
+                    let image = UIImage(data: compressionImage(with: oImage!) as Data)
                     self.memoPictures.append(image!)
                     self.previewTypes.append("public.image")
                     attachImageCount += 1
@@ -1578,7 +1588,8 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 let url = URL(string: imageURLString)!
                 do{
                     let data = try Data.init(contentsOf: url)
-                    let image = UIImage.gif(data:data)
+                    let oImage = UIImage.gif(data:data)
+                    let image = UIImage(data: compressionImage(with: oImage!) as Data)
                     self.memoPictures.append(image!)
                     self.previewTypes.append("public.image")
                     attachImageCount += 1
@@ -1592,7 +1603,8 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 let url = URL(string: imageURLString)!
                 do{
                     let data = try Data.init(contentsOf: url)
-                    let image = UIImage.gif(data:data)
+                    let oImage = UIImage.gif(data:data)
+                    let image = UIImage(data: compressionImage(with: oImage!) as Data)
                     self.memoPictures.append(image!)
                     self.previewTypes.append("public.image")
                     attachImageCount += 1
@@ -1724,19 +1736,19 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         
         //产品尺寸
         var produceSizeValue = ""
-        if sizeObject.value(forKey: "length") as? Float != nil {
-            produceSizeValue = "\(sizeObject.value(forKey: "length")as! Float)"
+        if sizeObject.value(forKey: "length") as? NSNumber != nil {
+            produceSizeValue = "\(sizeObject.value(forKey: "length")as! NSNumber)"
         }else{
             produceSizeValue = ""
         }
         
-        if sizeObject.value(forKey: "width") as? Float != nil {
-            produceSizeValue = produceSizeValue + "x\(sizeObject.value(forKey: "width")as! Float)"
+        if sizeObject.value(forKey: "width") as? NSNumber != nil {
+            produceSizeValue = produceSizeValue + "x\(sizeObject.value(forKey: "width")as! NSNumber)"
         }else{
             produceSizeValue = produceSizeValue + "x "
         }
-        if sizeObject.value(forKey: "height") as? Float != nil {
-            produceSizeValue = produceSizeValue + "x\(sizeObject.value(forKey: "height")as! Float)(mm)"
+        if sizeObject.value(forKey: "height") as? NSNumber != nil {
+            produceSizeValue = produceSizeValue + "x\(sizeObject.value(forKey: "height")as! NSNumber)(mm)"
         }else{
             produceSizeValue = produceSizeValue + "x (mm)"
         }
@@ -2012,6 +2024,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
 //       // scrollView.contentSize =  CGSize(width: 0, height: kWidth)
 //        //scrollView.frame.offsetBy(dx: scrollView.contentOffset.x, dy: scrollView.contentOffset.y)
 //    }
+    
 }
 
 //if orderstate < 7 { //订单状态小于7 ，订单出于生产前
