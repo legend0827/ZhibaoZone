@@ -46,6 +46,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setStatusBarHiden(toHidden: false, ViewController: self)
         setStatusBarBackgroundColor(color: .backgroundColors(color: .red))
         
         self.view.backgroundColor = UIColor.white
@@ -316,10 +317,11 @@ class ViewController: UIViewController,UITextFieldDelegate {
         super.didReceiveMemoryWarning()
     }
     override func viewWillAppear(_ animated: Bool) {
+        setStatusBarHiden(toHidden: false, ViewController: self)
         setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .red))
-       
     }
     override func viewDidAppear(_ animated: Bool) {
+        setStatusBarHiden(toHidden: false, ViewController: self)
         setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .red))
         //返回值，前一个是已设置安全登录（true 是，false 否），后一个当前是关着还是开着的(true 开， false 关）
         let result = checkSecuritySetting().1
@@ -340,6 +342,20 @@ class ViewController: UIViewController,UITextFieldDelegate {
             gestureVC.type = GestureViewControllerType.login
             gestureVC.gestureTextBeforeSet = "手势登录"
             self.present(gestureVC, animated: false, completion: nil)
+        }
+        
+        //检查是否已经登录过账号
+        let dataOperator = CoreDataOperation()
+        let isAccountAvailable = dataOperator.checkAccountAvaiable(forAddtional: false) // 检查附属账号是否可用
+        
+        if isAccountAvailable {
+            let userinfo = getCurrentUserInfo()
+            let username = userinfo.value(forKey: "username") as! String
+            let password = userinfo.value(forKey: "password") as! String
+            
+            let hub = pleaseWait()
+            let loginUser = User()
+            loginUser.Login(username: username, password: password,view:self,hub:hub)
         }
     }
     @objc func useGestureBtnClicked(){

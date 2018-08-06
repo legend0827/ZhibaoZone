@@ -360,7 +360,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
     @objc func LogoutBtnClick(){
         //跳转页面
         let LoginVC = ViewController()
-        let appDelegate = AppDelegate()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
         appDelegate.window?.rootViewController = LoginVC
         self.present(LoginVC, animated: true, completion: nil)

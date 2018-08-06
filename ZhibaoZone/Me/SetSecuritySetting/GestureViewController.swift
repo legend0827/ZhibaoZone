@@ -360,7 +360,7 @@ extension GestureViewController: CircleViewDelegate {
                 let userinfos = getCurrentUserInfo()
                 let roleType = Int(userinfos.value(forKey: "roletype") as! String)
                 let tabbar = TabBarController(royeType: roleType!)
-                let appDelegate = AppDelegate()
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 appDelegate.window?.rootViewController = tabbar
                 self.present(tabbar, animated: true, completion: nil)
         

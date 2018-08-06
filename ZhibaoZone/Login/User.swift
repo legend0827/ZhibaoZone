@@ -304,8 +304,9 @@ class User: NSObject {
                         
                         //跳转页面
                         let tabBar = TabBarController(royeType: Int(roleType))
-                        let appDelegate = AppDelegate()
-                        appDelegate.window?.rootViewController = tabBar
+                        //let appDelegate = AppDelegate()
+                        let appDelegate = UIApplication.shared.delegate
+                        appDelegate?.window??.rootViewController = tabBar
                         view.present(tabBar, animated: true, completion: nil)
                     }else{
                         hub.hide()
@@ -406,7 +407,8 @@ class User: NSObject {
                         
                         //跳转页面
                         let tabBar = TabBarController(royeType: Int(roleType))
-                        let appDelegate = AppDelegate()
+                        //let appDelegate = AppDelegate()
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
                         appDelegate.window?.rootViewController = tabBar
                         view.present(tabBar, animated: true, completion: nil)
                         
