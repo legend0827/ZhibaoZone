@@ -16,7 +16,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
     var txtUser:UITextField!
     var txtPwd:UITextField!
     var repeatTxtPwd:UITextField!
-    
+    var needsAutoLogin:Bool = true
     //使用手势登录按钮
     let useGestureLoginBtn:UIButton = UIButton.init(type: .system)
     
@@ -348,7 +348,8 @@ class ViewController: UIViewController,UITextFieldDelegate {
         let dataOperator = CoreDataOperation()
         let isAccountAvailable = dataOperator.checkAccountAvaiable(forAddtional: false) // 检查附属账号是否可用
         
-        if isAccountAvailable {
+        if isAccountAvailable && needsAutoLogin {
+            needsAutoLogin = true //下次自动登录
             let userinfo = getCurrentUserInfo()
             let username = userinfo.value(forKey: "username") as! String
             let password = userinfo.value(forKey: "password") as! String

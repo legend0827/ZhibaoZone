@@ -361,6 +361,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         //跳转页面
         let LoginVC = ViewController()
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        LoginVC.needsAutoLogin = false
         
         appDelegate.window?.rootViewController = LoginVC
         self.present(LoginVC, animated: true, completion: nil)
