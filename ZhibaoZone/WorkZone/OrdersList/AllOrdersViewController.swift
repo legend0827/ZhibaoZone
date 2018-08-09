@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import CoreData
 
-class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
+class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate {
     
     //定义订单列表的类型
     var _orderlistTye:orderListCategoryType = .allOrderCategory
@@ -53,12 +53,17 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
     
     //选择的订单的index
     var selectedIndex = 0
-    
     //加载中的动画集合
     var theLoadingViewNeedsToBeKill:[UIView] = []
     
     let CELL_ID = "cell_id";
-
+    lazy var scrollView:UIScrollView = {
+        let tempScrollView = UIScrollView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: kHight))
+        tempScrollView.contentSize = CGSize(width: kWidth, height: kHight - 40)
+        tempScrollView.delegate = self
+        return tempScrollView
+    }()
+    
     lazy var AllOrdersCollectionView:UICollectionView = {
         
         let layout = UICollectionViewFlowLayout()
@@ -72,7 +77,9 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         tempCollectionView.backgroundColor = UIColor.backgroundColors(color: .white)
         tempCollectionView.delegate = self
         tempCollectionView.dataSource = self
-        tempCollectionView.isScrollEnabled = true // 允许拖动
+        tempCollectionView.isScrollEnabled = true
+        
+      //  tempCollectionView.isScrollEnabled = true // 允许拖动
         tempCollectionView.register(OrdersCollectionViewCell.self, forCellWithReuseIdentifier: CELL_ID)
         // 注册一个headView
         tempCollectionView.register(CollectionReusableViewHeader.self, forSupplementaryViewOfKind:UICollectionElementKindSectionHeader, withReuseIdentifier: headerIdentifier)
@@ -81,49 +88,15 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return orderArray.count
-        //return orderCreateTimeArray[section].value(forKey: "count") as! Int
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        //restoreCreateTimesArray()
-       // return orderCreateTimeArray.count
         return 1
     }
-//    // 返回HeadView的宽高
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize
-//    {
-//        return CGSize(width: kWidth, height: heightHeader)
-//    }
-    
-//    // 返回自定义HeadView或者FootView，我这里以headview为例
-//    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView
-//    {
-//        var reusableview:UICollectionReusableView!
-//
-//        if kind == UICollectionElementKindSectionHeader
-//        {
-//            reusableview = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as! CollectionReusableViewHeader
-//            //reusableview.backgroundColor = UIColor.green
-//            let timeLabelValue = orderCreateTimeArray[indexPath.section].value(forKey: "createDate") as! String
-//
-//            let date = NSDate()
-//            let timeFormatter = DateFormatter()
-//            timeFormatter.dateFormat = "yyyy-MM-dd"
-//            let strNowTime = timeFormatter.string(from: date as Date) as String
-//            if strNowTime == timeLabelValue {
-//                    (reusableview as! CollectionReusableViewHeader).label.text = "今天"
-//            }else{
-//                 (reusableview as! CollectionReusableViewHeader).label.text = timeLabelValue
-//            }
-//
-//        }
-//
-//        return reusableview
-//    }
+
     
     func restoreCreateTimesArray(){
         orderCreateTimeArray.removeAll()
-        //orderCreateTimes.removeAll()
         var tempTimes:[String] = []
         for item in orderCreateTimes{
             let index = item.index(item.startIndex, offsetBy: 10)
@@ -360,18 +333,30 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
                 }
             }
         }
-
-        //添加下拉刷新
-        AllOrdersCollectionView.es.addPullToRefresh {
-            [weak self] in
-            self?.refresh()
-        }
-        //添加上拉加载
-        AllOrdersCollectionView.es.addInfiniteScrolling {
-            [weak self] in
-            self?.loadMore()
-        }
+       // self.view.addSubview(AllOrdersCollectionView)
+        self.view.addSubview(scrollView)
+//        //添加下拉刷新
+//        AllOrdersCollectionView.es.addPullToRefresh {
+//            [weak self] in
+//            self?.refresh()
+//        }
+//        //添加上拉加载
+//        AllOrdersCollectionView.es.addInfiniteScrolling {
+//            [weak self] in
+//            self?.loadMore()
+//        }
         
+                //添加下拉刷新
+                scrollView.es.addPullToRefresh {
+                    [weak self] in
+                    self?.refresh()
+                }
+                //添加上拉加载
+                scrollView.es.addInfiniteScrolling {
+                    [weak self] in
+                    self?.loadMore()
+                }
+
     }
     
     private func refresh() {
@@ -387,9 +372,9 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
             if self.page <= self.totalPageCount{
                 self.loadOrderDataFromServer(pages: self.page, categoryType: self._orderlistTye)
                 self.AllOrdersCollectionView.reloadData()
-                self.AllOrdersCollectionView.es.stopLoadingMore()
+                self.scrollView.es.stopLoadingMore()
             }else{
-                self.AllOrdersCollectionView.es.noticeNoMoreData()
+                self.scrollView.es.noticeNoMoreData()
                 
             }
         }
@@ -490,6 +475,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         acceptDesignView.popupVC = popVC
         acceptDesignView._orderID = orderID
         acceptDesignView._customID = customID
+        acceptDesignView.allOrderVC = self
         
         acceptDesignView.createViewWithActionType(ActionType: .acceptDesign)
         popVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext //
@@ -518,6 +504,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         acceptDesignView.popupVC = popVC
         acceptDesignView._orderID = orderID
         acceptDesignView._customID = customID
+        acceptDesignView.allOrderVC = self
         
         acceptDesignView.createViewWithActionType(ActionType: .designRequires)
         popVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext //
@@ -545,6 +532,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         acceptDesignView.popupVC = popVC
         acceptDesignView._orderID = orderID
         acceptDesignView._customID = customID
+        acceptDesignView.allOrderVC = self
         
         acceptDesignView.createViewWithActionType(ActionType: .modifyRequires)
         popVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext //
@@ -573,6 +561,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         quotePriceView.popupVC = popVC
         quotePriceView._orderID = orderID
         quotePriceView._customID = customID
+        quotePriceView.allOrderVC = self
         
         quotePriceView.createViewWithActionType(ActionType: .quotePrice)
         popVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext //
@@ -600,6 +589,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         acceptProduceView.popupVC = popVC
         acceptProduceView._orderID = orderID
         acceptProduceView._customID = customID
+        acceptProduceView.allOrderVC = self
         
         acceptProduceView.createViewWithActionType(ActionType: .acceptProduce)
         popVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext //
@@ -653,6 +643,8 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         shippingView._orderID = orderID
         shippingView._customID = customID
         shippingView._goodsID = goodsID
+        shippingView.allOrderVC = self
+        
         if orderImages[selectedIndex] == nil{
             shippingView.googsImge = UIImage(named: "defualt-design-pic")! 
         }else{
@@ -850,25 +842,26 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
                             self.orderCreateTimes.append(tempTime)
                             //self.orderCreateTimeArray.
                         }
-                        if !self.view.subviews.contains(self.AllOrdersCollectionView) {
-                            self.view.addSubview(self.AllOrdersCollectionView)
+                        if !self.scrollView.subviews.contains(self.AllOrdersCollectionView) {
+                            self.scrollView.addSubview(self.AllOrdersCollectionView)
                             self.StopLoadingAnimation()
                         }
                         self.downloadOrderImages()
                         self.AllOrdersCollectionView.reloadData()
-                        self.AllOrdersCollectionView.es.stopPullToRefresh()
+                        self.scrollView.es.stopPullToRefresh()
                     }else{
                         if self.page == 1{
                             self.StopLoadingAnimation()
                             self.emytyAreaShowingLabel(withRetry: true)
+                            self.scrollView.es.stopPullToRefresh()
                         }else{
-                            self.AllOrdersCollectionView.es.noticeNoMoreData()
+                            self.scrollView.es.noticeNoMoreData()
                         }
                     }
                 }
             case false:
-                self.AllOrdersCollectionView.es.stopPullToRefresh()
-                if self.view.subviews.contains(self.AllOrdersCollectionView) {
+                self.scrollView.es.stopPullToRefresh()
+                if self.scrollView.subviews.contains(self.AllOrdersCollectionView) {
                     self.AllOrdersCollectionView.removeFromSuperview()
                 }else{
                     self.StopLoadingAnimation()
@@ -947,6 +940,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
 
     override func viewWillAppear(_ animated: Bool) {
         setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .red))
+        setStatusBarHiden(toHidden: false, ViewController: self)
         self.view.backgroundColor = UIColor.white
         //从datacore获取用户数据
         //获取管理的数据上下文，对象
@@ -1029,5 +1023,9 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         nothingToShow.alpha = 0.4
         self.view.addSubview(nothingToShow)
     }
-
+    
+    func reloadData(){
+        loadOrderDataFromServer(pages: 1, categoryType: self._orderlistTye)
+    }
+    
 }

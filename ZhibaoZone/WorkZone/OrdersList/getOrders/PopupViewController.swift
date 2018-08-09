@@ -37,17 +37,7 @@ class PopupViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         UIApplication.shared.isStatusBarHidden = false
     }
-    override func viewDidDisappear(_ animated: Bool) {
-//        super.viewDidDisappear(animated)
-//        if let nc = self.navigationController{
-//            //仍在后台
-//            print("at backends")
-//        }else{
-//            //已关闭
-//            print("closed")
-//            self.view = nil
-//        }
-    }
+
     /*
     // MARK: - Navigation
 

@@ -295,7 +295,9 @@ class User: NSObject {
                         
                         print("login succeed")
                         hub.hide()
-                        let deviceToken = UserDefaults.standard.object(forKey: "myDeviceToken")
+                        let deviceToken = UserDefaults.standard.object(forKey: "myDeviceToken") as! String
+                        updatesDeviceToken(withDeviceToken: deviceToken, user: newuserId!, toBind: true)
+                        
                         DispatchQueue.global().async {
                             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
                                 view.successNotice("登录成功", autoClear: true)
@@ -415,7 +417,8 @@ class User: NSObject {
                         
                         print("login succeed")
                         hub.hide()
-                        let deviceToken = UserDefaults.standard.object(forKey: "myDeviceToken")
+                        let deviceToken = UserDefaults.standard.object(forKey: "myDeviceToken") as! String
+                        updatesDeviceToken(withDeviceToken: deviceToken, user: newuserId!, toBind: true)
                         DispatchQueue.global().async {
                             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
                                 view.successNotice("注册成功", autoClear: true)
@@ -532,6 +535,51 @@ class User: NSObject {
         }
         freeifaddrs(ifaddr)
         return address
+    }
+}
+
+func updatesDeviceToken(withDeviceToken deviceToken:String, user userid:String, toBind isToBind:Bool){
+
+    //获取列表
+    let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
+    let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
+    let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
+    //定义请求参数
+    let params:NSMutableDictionary = NSMutableDictionary()
+    params["userid"] = userid
+    params["devicetoken"] = deviceToken
+    
+    var requestUrl:String = ""
+    if isToBind {
+        #if DEBUG
+        requestUrl = apiAddresses.value(forKey: "binddevicetokenAPIDebug") as! String
+        #else
+        requestUrl = apiAddresses.value(forKey: "binddevicetokenAPI") as! String
+        #endif
+    }else{
+        #if DEBUG
+        requestUrl = apiAddresses.value(forKey: "unbinddevicetokenAPIDebug") as! String
+        #else
+        requestUrl = apiAddresses.value(forKey: "unbinddevicetokenAPI") as! String
+        #endif
+    }
+    _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
+        (responseObject) in
+        switch responseObject.result.isSuccess{
+        case true:
+            if  let value = responseObject.result.value{
+                let json = JSON(value)
+                let statusObject = json["code"].int!
+                if statusObject == 0{
+                    print("绑定成功")
+                }else{
+                    print("绑定失败，code:\(statusObject)")
+                }
+            }
+        case false:
+            print("处理失败")
+          //  greyLayerPrompt.show(text: "接受生产失败，请重试")
+        }
     }
 }
 

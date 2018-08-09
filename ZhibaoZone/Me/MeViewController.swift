@@ -363,6 +363,9 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         LoginVC.needsAutoLogin = false
         
+        //变更devicetoken
+        let deviceToken = UserDefaults.standard.object(forKey: "myDeviceToken") as! String
+        updatesDeviceToken(withDeviceToken: deviceToken, user: _accountID, toBind: false)
         appDelegate.window?.rootViewController = LoginVC
         self.present(LoginVC, animated: true, completion: nil)
     }
@@ -630,8 +633,6 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         let index = gesture.view?.tag as! Int
         print("pressed on \(index)")
         if index == 2 && !addtionalAccountAvailable{
-            //TODO: 设置附属账号
-            print("设置附属账号")
             let verifyVC = VerifyPasswordViewController()
             verifyVC.meVC = self
             self.present(verifyVC, animated: true, completion: nil)
@@ -641,12 +642,15 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
                 greyLayerPrompt.show(text: "选择当前账户,不必切换")
             }else{
                 print("需要切换账户")
-                
                 if index == 1{
                     let alert = UIAlertController(title: "确认切换", message: "确认切换到经理账号?", preferredStyle: .alert)
                     let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
                     let confirmAction = UIAlertAction(title: "切换", style: .default) { (action) in
                         print("点击了确定")
+                        //解绑当前账户的devicetoken
+                        let deviceToken = UserDefaults.standard.value(forKey: "myDeviceToken") as! String
+                        updatesDeviceToken(withDeviceToken: deviceToken, user: self._accountID, toBind: false)
+                        
                         setStatusBarHiden(toHidden: false, ViewController: self)
                         let lgoinUser = User()
                         let hub = self.pleaseWait()
@@ -664,6 +668,10 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
                     let confirmAction = UIAlertAction(title: "切换", style: .default) { (action) in
                         setStatusBarHiden(toHidden: false, ViewController: self)
                         print("点击了确定")
+                        //解绑当前账户的devicetoken
+                        let deviceToken = UserDefaults.standard.value(forKey: "myDeviceToken") as! String
+                        updatesDeviceToken(withDeviceToken: deviceToken, user: self._accountID, toBind: false)
+                        
                         let lgoinUser = User()
                         let hub = self.pleaseWait()
                         lgoinUser.isSwitching = true

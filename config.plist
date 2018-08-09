@@ -155,6 +155,14 @@
 		<string>http://192.168.1.150:8082/zb-order-web/order/uploadFacImages.do</string>
 		<key>uploadProuctImageAPI</key>
 		<string>http://118.126.116.76:8082/zb-order-web/order/uploadFacImages.do</string>
+		<key>binddevicetokenAPIDebug</key>
+		<string>http://192.168.1.150:8082/zb-manager-web/bunding.do</string>
+		<key>binddevicetokenAPI</key>
+		<string>http://118.126.116.76:8081/zb-manager-web/bunding.do</string>
+		<key>unbinddevicetokenAPIDebug</key>
+		<string>http://192.168.1.150:8082/zb-manager-web/unbunding.do</string>
+		<key>unbinddevicetokenAPI</key>
+		<string>http://118.126.116.76:8081/zb-manager-web/unbunding.do</string>
 	</dict>
 </dict>
 </plist>

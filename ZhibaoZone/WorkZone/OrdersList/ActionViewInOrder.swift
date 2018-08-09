@@ -20,6 +20,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
     var _token:String?
     var _userId:String?
     var _actionType:actionType = .quotePrice
+    lazy var allOrderVC = AllOrdersViewController(orderlistTye: orderListCategoryType.allOrderCategory)
     //页面frame
     var _frame:CGRect = CGRect(x: 198, y: 50, width: 150, height: 30)
    
@@ -892,7 +893,9 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     @objc func confirmShippingBtnClicked(){
+        
         print("确认邮寄投递按钮点击了")
         //获取用户信息
         let userInfos = getCurrentUserInfo()
@@ -965,6 +968,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
     
     //点击接受设计
     @objc func confirmAcceptDesignBtnClicked(){
+        
         //获取用户信息
         let userInfos = getCurrentUserInfo()
         let roletype = userInfos.value(forKey: "roletype") as? String
@@ -1129,6 +1133,10 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                         let json = JSON(value)
                         let statusObject = json["status","code"].int!
                         if statusObject == 0{
+                            
+                            if self.allOrderVC != nil {
+                                self.allOrderVC.reloadData()
+                            }
                             if self.isProduceCycleOver {
                                 greyLayerPrompt.show(text: "报价成功,但是超过了客户工期")
                             }
@@ -1137,6 +1145,8 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                                 greyLayerPrompt.show(text: "报价成功,但是超过了客户预算")
                                 self.quotePriceAtLastTimeValue.text = "¥\(currentValueOfQuotePrice)0"
                                 self.adjustQuotePriceViewHeight(buggetType: .overBugget, bugget: self.mindPrice)
+                                
+                                
                             }
                             
                             if !self.isProduceCycleOver && !self.isBudgetOver{
@@ -1268,6 +1278,10 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
     }
     //关闭报价按钮
     @objc func closeActionView(){
+        //更新订单条目
+        if allOrderVC != nil{
+            allOrderVC.reloadData()
+        }
         popupVC.dismiss(animated: true, completion: nil)
     }
 
