@@ -364,8 +364,11 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         LoginVC.needsAutoLogin = false
         
         //变更devicetoken
-        let deviceToken = UserDefaults.standard.object(forKey: "myDeviceToken") as! String
-        updatesDeviceToken(withDeviceToken: deviceToken, user: _accountID, toBind: false)
+        let deviceToken = UserDefaults.standard.object(forKey: "myDeviceToken")
+        if deviceToken != nil{
+            updatesDeviceToken(withDeviceToken: deviceToken as! String, user: _accountID, toBind: false)
+        }
+        
         appDelegate.window?.rootViewController = LoginVC
         self.present(LoginVC, animated: true, completion: nil)
     }
@@ -515,7 +518,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         userAccountLabel.font = UIFont.systemFont(ofSize: 16)
         userAccountLabel.textAlignment = .left
         
-        version.text = "V2.0.8"
+        version.text = "V2.1.0"
         version.font = UIFont.systemFont(ofSize: 14)
         version.textColor = UIColor.titleColors(color: .gray)
         version.textAlignment = .right
@@ -648,8 +651,10 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
                     let confirmAction = UIAlertAction(title: "切换", style: .default) { (action) in
                         print("点击了确定")
                         //解绑当前账户的devicetoken
-                        let deviceToken = UserDefaults.standard.value(forKey: "myDeviceToken") as! String
-                        updatesDeviceToken(withDeviceToken: deviceToken, user: self._accountID, toBind: false)
+                        let deviceToken = UserDefaults.standard.value(forKey: "myDeviceToken")
+                        if deviceToken != nil{
+                            updatesDeviceToken(withDeviceToken: deviceToken as! String, user: self._accountID, toBind: false)
+                        }
                         
                         setStatusBarHiden(toHidden: false, ViewController: self)
                         let lgoinUser = User()
@@ -669,8 +674,10 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
                         setStatusBarHiden(toHidden: false, ViewController: self)
                         print("点击了确定")
                         //解绑当前账户的devicetoken
-                        let deviceToken = UserDefaults.standard.value(forKey: "myDeviceToken") as! String
-                        updatesDeviceToken(withDeviceToken: deviceToken, user: self._accountID, toBind: false)
+                        let deviceToken = UserDefaults.standard.value(forKey: "myDeviceToken")
+                        if deviceToken != nil{
+                            updatesDeviceToken(withDeviceToken: deviceToken as! String, user: self._accountID, toBind: false)
+                        }
                         
                         let lgoinUser = User()
                         let hub = self.pleaseWait()

@@ -295,8 +295,10 @@ class User: NSObject {
                         
                         print("login succeed")
                         hub.hide()
-                        let deviceToken = UserDefaults.standard.object(forKey: "myDeviceToken") as! String
-                        updatesDeviceToken(withDeviceToken: deviceToken, user: newuserId!, toBind: true)
+                        let deviceToken = UserDefaults.standard.object(forKey: "myDeviceToken")
+                        if deviceToken != nil{
+                            updatesDeviceToken(withDeviceToken: deviceToken as! String, user: newuserId!, toBind: true)
+                        }
                         
                         DispatchQueue.global().async {
                             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
@@ -417,8 +419,11 @@ class User: NSObject {
                         
                         print("login succeed")
                         hub.hide()
-                        let deviceToken = UserDefaults.standard.object(forKey: "myDeviceToken") as! String
-                        updatesDeviceToken(withDeviceToken: deviceToken, user: newuserId!, toBind: true)
+                        let deviceToken = UserDefaults.standard.object(forKey: "myDeviceToken")
+                        if deviceToken != nil{
+                            updatesDeviceToken(withDeviceToken: deviceToken as! String, user: newuserId!, toBind: true)
+                        }
+                        
                         DispatchQueue.global().async {
                             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
                                 view.successNotice("注册成功", autoClear: true)
