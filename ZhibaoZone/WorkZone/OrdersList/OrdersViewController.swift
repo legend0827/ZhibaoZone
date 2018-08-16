@@ -808,7 +808,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
             currentMessagesTypeList.append(mSGType)
             currentMessagesIDList.append(mSGID)
         }
-        for i in 0..<24{
+        for i in 0..<26{
             messageAlertArray.append(getMSGAlertSettings(index: i))
         }
         print("get Array finised")

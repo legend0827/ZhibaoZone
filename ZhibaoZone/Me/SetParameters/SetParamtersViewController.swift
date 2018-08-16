@@ -513,7 +513,7 @@ func getMSGAlertSettings(index:Int) ->Bool{
             case 23:
                 value = info.attribute23
             default:
-                print("default")
+                value = false
             }
         }
     } catch {
@@ -635,7 +635,7 @@ func saveMSGAlertSettings(value:Bool,index:Int){
             case 23:
                 messageAlertSettings.attribute23 = value
             default:
-                print("default")
+                messageAlertSettings.attribute23 = false
             }
             try context.save()
             print("inserted recoreds in MessageAlertSettings")
