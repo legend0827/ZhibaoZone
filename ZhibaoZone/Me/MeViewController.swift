@@ -518,7 +518,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         userAccountLabel.font = UIFont.systemFont(ofSize: 16)
         userAccountLabel.textAlignment = .left
         
-        version.text = "V2.1.0"
+        version.text = "V2.0.9"
         version.font = UIFont.systemFont(ofSize: 14)
         version.textColor = UIColor.titleColors(color: .gray)
         version.textAlignment = .right

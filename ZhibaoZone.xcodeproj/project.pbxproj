@@ -28,6 +28,7 @@
 		0A252F322095DD6E00C1F7F4 /* AllOrdersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A252F312095DD6E00C1F7F4 /* AllOrdersViewController.swift */; };
 		0A252F442096111B00C1F7F4 /* OrderSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A252F432096111B00C1F7F4 /* OrderSearchViewController.swift */; };
 		0A25DF97201D7E63009CBDEA /* contactList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A25DF96201D7E63009CBDEA /* contactList.plist */; };
+		0A2B67572130EBA000E9B81A /* UIKVAnimationLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2B67562130EBA000E9B81A /* UIKVAnimationLabel.swift */; };
 		0A2C801A20ABF3E900873162 /* PagingMenuController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A252F0F2095D44800C1F7F4 /* PagingMenuController.framework */; };
 		0A2C801C20ABF44E00873162 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A2C801B20ABF44E00873162 /* Images.xcassets */; };
 		0A2C801D20ABF51800873162 /* PagingMenuController.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0A252F0F2095D44800C1F7F4 /* PagingMenuController.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -117,6 +118,7 @@
 		0AF06C5620187F4A008E2DE9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AF06C5520187F4A008E2DE9 /* Assets.xcassets */; };
 		0AF06C582018F465008E2DE9 /* TaskDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF06C572018F465008E2DE9 /* TaskDetailViewController.swift */; };
 		0AF6AD9020A1E77400B07459 /* PopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF6AD8F20A1E77400B07459 /* PopupViewController.swift */; };
+		C286D176BCE061577D64E843 /* Pods_ZhibaoZone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EA081A8638E81DD323BAF0C /* Pods_ZhibaoZone.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -238,6 +240,7 @@
 		0A252F312095DD6E00C1F7F4 /* AllOrdersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllOrdersViewController.swift; sourceTree = "<group>"; };
 		0A252F432096111B00C1F7F4 /* OrderSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSearchViewController.swift; sourceTree = "<group>"; };
 		0A25DF96201D7E63009CBDEA /* contactList.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = contactList.plist; sourceTree = "<group>"; };
+		0A2B67562130EBA000E9B81A /* UIKVAnimationLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKVAnimationLabel.swift; sourceTree = "<group>"; };
 		0A2C801B20ABF44E00873162 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0A38067A2031DB680077E77F /* CircleInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleInfoView.swift; sourceTree = "<group>"; };
 		0A3806832031E0B30077E77F /* LockLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockLabel.swift; sourceTree = "<group>"; };
@@ -334,6 +337,9 @@
 		0AF06C5520187F4A008E2DE9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ZhibaoZone/Assets.xcassets; sourceTree = SOURCE_ROOT; };
 		0AF06C572018F465008E2DE9 /* TaskDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailViewController.swift; sourceTree = "<group>"; };
 		0AF6AD8F20A1E77400B07459 /* PopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupViewController.swift; sourceTree = "<group>"; };
+		0EA081A8638E81DD323BAF0C /* Pods_ZhibaoZone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZhibaoZone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4E7E0F93938462229C2D6202 /* Pods-ZhibaoZone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZhibaoZone.release.xcconfig"; path = "ZhibaoZone.xcodeproj/Pods/Target Support Files/Pods-ZhibaoZone/Pods-ZhibaoZone.release.xcconfig"; sourceTree = "<group>"; };
+		779F6F5DC19F357D7BA26B91 /* Pods-ZhibaoZone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZhibaoZone.debug.xcconfig"; path = "ZhibaoZone.xcodeproj/Pods/Target Support Files/Pods-ZhibaoZone/Pods-ZhibaoZone.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -354,6 +360,7 @@
 				0A709E6B20EF40DC00E4CF46 /* UMCommon.framework in Frameworks */,
 				0AC1AC57204E2B260096A6F6 /* QCloudCore.framework in Frameworks */,
 				0AD2829B1FF47BD50044E41C /* Alamofire.framework in Frameworks */,
+				C286D176BCE061577D64E843 /* Pods_ZhibaoZone.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -475,6 +482,7 @@
 				0A6AD6791FF1EFB4009A511A /* ZhibaoZoneUITests */,
 				0A6AD6551FF1EFB4009A511A /* Products */,
 				0AC1AC59204E2B890096A6F6 /* Frameworks */,
+				75C0A973F2CE60AEFBED2CE3 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -495,6 +503,7 @@
 				0AD282AF1FF60E7A0044E41C /* TabBarController.swift */,
 				0A6AD6571FF1EFB4009A511A /* AppDelegate.swift */,
 				0A3CC3B8209572970055B5DD /* Extentsions.swift */,
+				0A2B67562130EBA000E9B81A /* UIKVAnimationLabel.swift */,
 				0A83CA63205F6AE400F59A70 /* SwiftGifCommon */,
 				0AC1AC4D204E2B070096A6F6 /* QCloudCore */,
 				0ADD51CD2022ED5F008FE934 /* ZhibaoZone.entitlements */,
@@ -596,6 +605,7 @@
 				0AC1AC5E204E2BA20096A6F6 /* SystemConfiguration.framework */,
 				0AC1AC5C204E2B980096A6F6 /* Foundation.framework */,
 				0AC1AC5A204E2B890096A6F6 /* CoreTelephony.framework */,
+				0EA081A8638E81DD323BAF0C /* Pods_ZhibaoZone.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -743,6 +753,15 @@
 			path = Animator;
 			sourceTree = "<group>";
 		};
+		75C0A973F2CE60AEFBED2CE3 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				779F6F5DC19F357D7BA26B91 /* Pods-ZhibaoZone.debug.xcconfig */,
+				4E7E0F93938462229C2D6202 /* Pods-ZhibaoZone.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -750,10 +769,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0A6AD67F1FF1EFB4009A511A /* Build configuration list for PBXNativeTarget "ZhibaoZone" */;
 			buildPhases = (
+				C790435526D975D76F415B37 /* [CP] Check Pods Manifest.lock */,
 				0A6AD6501FF1EFB4009A511A /* Sources */,
 				0A6AD6511FF1EFB4009A511A /* Frameworks */,
 				0A6AD6521FF1EFB4009A511A /* Resources */,
 				0AD282811FF47B3D0044E41C /* Embed Frameworks */,
+				2666C8C5B988C54149211877 /* [CP] Embed Pods Frameworks */,
+				2B55C2E7A27F8BDCFD2717B4 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -964,6 +986,66 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		2666C8C5B988C54149211877 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/ZhibaoZone.xcodeproj/Pods/Target Support Files/Pods-ZhibaoZone/Pods-ZhibaoZone-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
+				"${BUILT_PRODUCTS_DIR}/ChartsRealm/ChartsRealm.framework",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChartsRealm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/ZhibaoZone.xcodeproj/Pods/Target Support Files/Pods-ZhibaoZone/Pods-ZhibaoZone-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2B55C2E7A27F8BDCFD2717B4 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/ZhibaoZone.xcodeproj/Pods/Target Support Files/Pods-ZhibaoZone/Pods-ZhibaoZone-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C790435526D975D76F415B37 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ZhibaoZone-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		0A6AD6501FF1EFB4009A511A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -1041,6 +1123,7 @@
 				0A3806842031E0B30077E77F /* LockLabel.swift in Sources */,
 				0A54F30C20567B2000103FD8 /* MessagesTableViewCell.swift in Sources */,
 				0A20028A206134CD00A81D21 /* TaskContentTableViewCell.swift in Sources */,
+				0A2B67572130EBA000E9B81A /* UIKVAnimationLabel.swift in Sources */,
 				0A252F442096111B00C1F7F4 /* OrderSearchViewController.swift in Sources */,
 				0AF06C542018638F008E2DE9 /* TaskListTableViewCell.swift in Sources */,
 				0A83CA6C205F6AE500F59A70 /* UIImage+Gif.swift in Sources */,
@@ -1223,6 +1306,7 @@
 		};
 		0A6AD6801FF1EFB4009A511A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 779F6F5DC19F357D7BA26B91 /* Pods-ZhibaoZone.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1259,6 +1343,7 @@
 		};
 		0A6AD6811FF1EFB4009A511A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4E7E0F93938462229C2D6202 /* Pods-ZhibaoZone.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;

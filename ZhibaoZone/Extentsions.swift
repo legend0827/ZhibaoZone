@@ -161,6 +161,12 @@ enum scanCodeActionType:String{
     case barCode
     case barCodeForShipping
 }
+
+enum KVAnimationType:String{
+    case Float
+    case Int
+}
+
 class Extentsions: NSObject {
 
 }
@@ -499,5 +505,12 @@ func compressionImage(with image:UIImage) -> NSData{
 }
 
 func clearImageCache(){
+    
+}
+
+func increamingNumberAnimation(from startNum:Float, to endNum:Float, on Label:UILabel){
+    let repeatCount = 10
+    let repeatRate = 0.001 / (Double(startNum) - Double(endNum))
+    Label.text = "\(startNum)"
     
 }
