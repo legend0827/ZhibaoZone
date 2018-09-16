@@ -15,6 +15,9 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
     //弹窗ViewVC
     var popupVC = PopupViewController()
     
+    //键盘页面
+    var calculatorView = calculatorKeyboard(frame: CGRect(x: 0, y: 100, width: kWidth, height: 383))
+    
     //订单请求参数
     var _roleType:Int = 1
     var _token:String?
@@ -172,12 +175,11 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         }()
     
         //当前设置报价框
-        lazy var currentValueOnSliderTextField:UITextField = {
+        lazy var currentValueOnSliderTextField:UILabel = {
             //label值55，当前值62 差 7
-            var tempSliderTextField = UITextField.init(frame: CGRect(x: 110, y: 342, width: 86, height: 30)) // width 225 。 位置 335
+            var tempSliderTextField = UILabel.init(frame: CGRect(x: 110, y: 342, width: 86, height: 30)) // width 225 。 位置 335
             tempSliderTextField.backgroundColor = UIColor.clear//UIColor.init(red: 244.0 / 255.0, green: 245.0 / 255.0, blue: 245.0 / 255.0, alpha: 1.0)
             tempSliderTextField.layer.cornerRadius = 5
-            tempSliderTextField.delegate = self
             return tempSliderTextField
         }()
     
@@ -434,7 +436,13 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 currentValueOnSliderTextField.textColor = UIColor.titleColors(color: .red)
                 currentValueOnSliderTextField.font = UIFont.systemFont(ofSize: 16)
                 currentValueOnSliderTextField.frame = CGRect(x: 130, y: seperateLine3.frame.maxY + 4 , width: kWidth - 150, height: 44)
-                currentValueOnSliderTextField.placeholder = "填写金额"
+               // currentValueOnSliderTextField.placeholder = "填写金额"
+                let singleTap = UITapGestureRecognizer(target: self, action: #selector(quetePriceClicked))
+                singleTap.numberOfTapsRequired = 1
+                singleTap.numberOfTouchesRequired = 1
+                currentValueOnSliderTextField.addGestureRecognizer(singleTap)
+                currentValueOnSliderTextField.isUserInteractionEnabled = true
+                
                 backgroundView.addSubview(currentValueOnSliderTextField)
                 
                 
@@ -883,7 +891,14 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             
         }
     }
-    
+    @objc func quetePriceClicked(){
+        print("priceLabelClicked")
+        self.addSubview(calculatorView)
+        self.bringSubview(toFront: calculatorView)
+        calculatorView.frame = CGRect(x: 0, y: kHight - 383 - self.frame.minY - heightChangeForiPhoneXFromBottom, width: kWidth, height: 383)
+        //calculatorView
+        
+    }
     @objc func scanQRCodeBtnClicked(){
         let scanQRcodeVC = ScanCodeViewController(scanType: .barCodeForShipping)
         scanQRcodeVC.ActionViewObject = self

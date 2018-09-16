@@ -104,6 +104,7 @@
 		0ADCB7FB200EEAD500DCD7C8 /* ImagePreviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADCB7FA200EEAD500DCD7C8 /* ImagePreviewVC.swift */; };
 		0ADCB7FD200EEB2500DCD7C8 /* ImagePreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADCB7FC200EEB2500DCD7C8 /* ImagePreviewCell.swift */; };
 		0AE149C62001E3BD005A2E55 /* NewTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE149C52001E3BD005A2E55 /* NewTaskViewController.swift */; };
+		0AEC502C214CB1850000D06C /* calculatorKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEC502B214CB1850000D06C /* calculatorKeyboard.swift */; };
 		0AF06C4920171D40008E2DE9 /* ESPullToRefresh+Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF06C3B20171D40008E2DE9 /* ESPullToRefresh+Manager.swift */; };
 		0AF06C4A20171D40008E2DE9 /* ESRefreshAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF06C3C20171D40008E2DE9 /* ESRefreshAnimator.swift */; };
 		0AF06C4B20171D40008E2DE9 /* ESRefreshComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF06C3D20171D40008E2DE9 /* ESRefreshComponent.swift */; };
@@ -118,7 +119,7 @@
 		0AF06C5620187F4A008E2DE9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AF06C5520187F4A008E2DE9 /* Assets.xcassets */; };
 		0AF06C582018F465008E2DE9 /* TaskDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF06C572018F465008E2DE9 /* TaskDetailViewController.swift */; };
 		0AF6AD9020A1E77400B07459 /* PopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF6AD8F20A1E77400B07459 /* PopupViewController.swift */; };
-		C286D176BCE061577D64E843 /* Pods_ZhibaoZone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EA081A8638E81DD323BAF0C /* Pods_ZhibaoZone.framework */; };
+		35A1F0F7376099939BEF6957 /* Pods_ZhibaoZone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCADC2D65E042A0C39B397A0 /* Pods_ZhibaoZone.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -321,6 +322,7 @@
 		0ADCB7FC200EEB2500DCD7C8 /* ImagePreviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewCell.swift; sourceTree = "<group>"; };
 		0ADD51CD2022ED5F008FE934 /* ZhibaoZone.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ZhibaoZone.entitlements; sourceTree = "<group>"; };
 		0AE149C52001E3BD005A2E55 /* NewTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskViewController.swift; sourceTree = "<group>"; };
+		0AEC502B214CB1850000D06C /* calculatorKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calculatorKeyboard.swift; sourceTree = "<group>"; };
 		0AF06C3B20171D40008E2DE9 /* ESPullToRefresh+Manager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ESPullToRefresh+Manager.swift"; sourceTree = "<group>"; };
 		0AF06C3C20171D40008E2DE9 /* ESRefreshAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ESRefreshAnimator.swift; sourceTree = "<group>"; };
 		0AF06C3D20171D40008E2DE9 /* ESRefreshComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ESRefreshComponent.swift; sourceTree = "<group>"; };
@@ -337,9 +339,9 @@
 		0AF06C5520187F4A008E2DE9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ZhibaoZone/Assets.xcassets; sourceTree = SOURCE_ROOT; };
 		0AF06C572018F465008E2DE9 /* TaskDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailViewController.swift; sourceTree = "<group>"; };
 		0AF6AD8F20A1E77400B07459 /* PopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupViewController.swift; sourceTree = "<group>"; };
-		0EA081A8638E81DD323BAF0C /* Pods_ZhibaoZone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZhibaoZone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4E7E0F93938462229C2D6202 /* Pods-ZhibaoZone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZhibaoZone.release.xcconfig"; path = "ZhibaoZone.xcodeproj/Pods/Target Support Files/Pods-ZhibaoZone/Pods-ZhibaoZone.release.xcconfig"; sourceTree = "<group>"; };
-		779F6F5DC19F357D7BA26B91 /* Pods-ZhibaoZone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZhibaoZone.debug.xcconfig"; path = "ZhibaoZone.xcodeproj/Pods/Target Support Files/Pods-ZhibaoZone/Pods-ZhibaoZone.debug.xcconfig"; sourceTree = "<group>"; };
+		2BABC7F623C5D7D38A59524F /* Pods-ZhibaoZone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZhibaoZone.debug.xcconfig"; path = "ZhibaoZone.xcodeproj/Pods/Target Support Files/Pods-ZhibaoZone/Pods-ZhibaoZone.debug.xcconfig"; sourceTree = "<group>"; };
+		BCADC2D65E042A0C39B397A0 /* Pods_ZhibaoZone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZhibaoZone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC5E0AF6ACACC06A039C10F6 /* Pods-ZhibaoZone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZhibaoZone.release.xcconfig"; path = "ZhibaoZone.xcodeproj/Pods/Target Support Files/Pods-ZhibaoZone/Pods-ZhibaoZone.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -360,7 +362,7 @@
 				0A709E6B20EF40DC00E4CF46 /* UMCommon.framework in Frameworks */,
 				0AC1AC57204E2B260096A6F6 /* QCloudCore.framework in Frameworks */,
 				0AD2829B1FF47BD50044E41C /* Alamofire.framework in Frameworks */,
-				C286D176BCE061577D64E843 /* Pods_ZhibaoZone.framework in Frameworks */,
+				35A1F0F7376099939BEF6957 /* Pods_ZhibaoZone.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -482,7 +484,7 @@
 				0A6AD6791FF1EFB4009A511A /* ZhibaoZoneUITests */,
 				0A6AD6551FF1EFB4009A511A /* Products */,
 				0AC1AC59204E2B890096A6F6 /* Frameworks */,
-				75C0A973F2CE60AEFBED2CE3 /* Pods */,
+				659EB4A20F8371DA545B524D /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -605,7 +607,7 @@
 				0AC1AC5E204E2BA20096A6F6 /* SystemConfiguration.framework */,
 				0AC1AC5C204E2B980096A6F6 /* Foundation.framework */,
 				0AC1AC5A204E2B890096A6F6 /* CoreTelephony.framework */,
-				0EA081A8638E81DD323BAF0C /* Pods_ZhibaoZone.framework */,
+				BCADC2D65E042A0C39B397A0 /* Pods_ZhibaoZone.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -702,6 +704,7 @@
 				0A252F312095DD6E00C1F7F4 /* AllOrdersViewController.swift */,
 				0A129C3C20F44A8B00319A4C /* UploadProductImageViewController.swift */,
 				0A244E532096F35D00203463 /* ActionViewInOrder.swift */,
+				0AEC5037214CB1AF0000D06C /* calculator */,
 				0A252F432096111B00C1F7F4 /* OrderSearchViewController.swift */,
 				0A99705C20ADB8C500E4D37C /* OrderSearchCollectionViewCell.swift */,
 				0A99706A20AED7C500E4D37C /* CollectionReusableViewHeader.swift */,
@@ -722,6 +725,14 @@
 				0A244E602098917C00203463 /* TestPushViewController.swift */,
 			);
 			path = TaskList;
+			sourceTree = "<group>";
+		};
+		0AEC5037214CB1AF0000D06C /* calculator */ = {
+			isa = PBXGroup;
+			children = (
+				0AEC502B214CB1850000D06C /* calculatorKeyboard.swift */,
+			);
+			path = calculator;
 			sourceTree = "<group>";
 		};
 		0AF06C3A20171D40008E2DE9 /* Sources */ = {
@@ -753,11 +764,11 @@
 			path = Animator;
 			sourceTree = "<group>";
 		};
-		75C0A973F2CE60AEFBED2CE3 /* Pods */ = {
+		659EB4A20F8371DA545B524D /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				779F6F5DC19F357D7BA26B91 /* Pods-ZhibaoZone.debug.xcconfig */,
-				4E7E0F93938462229C2D6202 /* Pods-ZhibaoZone.release.xcconfig */,
+				2BABC7F623C5D7D38A59524F /* Pods-ZhibaoZone.debug.xcconfig */,
+				FC5E0AF6ACACC06A039C10F6 /* Pods-ZhibaoZone.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -1095,6 +1106,7 @@
 				0A244E5D2098616900203463 /* MineCreationTaskListViewController.swift in Sources */,
 				0AD282B01FF60E7A0044E41C /* TabBarController.swift in Sources */,
 				0A244E5B2098614E00203463 /* waitForHandleTaskListViewController.swift in Sources */,
+				0AEC502C214CB1850000D06C /* calculatorKeyboard.swift in Sources */,
 				0A38067B2031DB680077E77F /* CircleInfoView.swift in Sources */,
 				0A9716832009F910007922FB /* NewTaskViewCell.swift in Sources */,
 				0ADCB7FD200EEB2500DCD7C8 /* ImagePreviewCell.swift in Sources */,
@@ -1306,7 +1318,7 @@
 		};
 		0A6AD6801FF1EFB4009A511A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 779F6F5DC19F357D7BA26B91 /* Pods-ZhibaoZone.debug.xcconfig */;
+			baseConfigurationReference = 2BABC7F623C5D7D38A59524F /* Pods-ZhibaoZone.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1325,7 +1337,7 @@
 				INFOPLIST_FILE = ZhibaoZone/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/ZhibaoZone.xcodeproj/Pods/Realm/core";
 				OTHER_LDFLAGS = (
 					"-Objc",
 					"-all_load",
@@ -1343,7 +1355,7 @@
 		};
 		0A6AD6811FF1EFB4009A511A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4E7E0F93938462229C2D6202 /* Pods-ZhibaoZone.release.xcconfig */;
+			baseConfigurationReference = FC5E0AF6ACACC06A039C10F6 /* Pods-ZhibaoZone.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1362,7 +1374,7 @@
 				INFOPLIST_FILE = ZhibaoZone/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/ZhibaoZone.xcodeproj/Pods/Realm/core";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
