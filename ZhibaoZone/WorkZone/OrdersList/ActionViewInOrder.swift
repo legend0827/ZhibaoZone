@@ -16,7 +16,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
     var popupVC = PopupViewController()
     
     //键盘页面
-    var calculatorView = calculatorKeyboard(frame: CGRect(x: 0, y: 100, width: kWidth, height: 383))
+    var calculatorView = calculatorKeyboard(frame: CGRect(x: 0, y: 100, width: kWidth, height: 416))
     
     //订单请求参数
     var _roleType:Int = 1
@@ -243,7 +243,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         //背景页面值
         
         backgroundView.frame = CGRect(x: 0, y: 65, width: kWidth, height: self.frame.height - 207 - heightChangeForiPhoneXFromBottom)
-        backgroundView.contentSize = CGSize(width: kWidth, height: 661)
+        backgroundView.contentSize = CGSize(width: kWidth, height: 661 + 216)
         //backgroundView.frame = CGRect(x: 0, y: 65, width: kWidth, height: self.frame.height )
         backgroundView.backgroundColor = UIColor.backgroundColors(color: .white)
         backgroundView.delegate = self
@@ -495,11 +495,11 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 setQuotePriceWeightBtn.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
                 setQuotePriceWeightBtn.setTitle("设置精准度", for: .normal)
                 setQuotePriceWeightBtn.addTarget(self, action: #selector(setQuotePriceWeight), for: .touchUpInside)
-                backgroundView.addSubview(setQuotePriceWeightBtn)
+               // backgroundView.addSubview(setQuotePriceWeightBtn)
                 
                 quotePriceSlideBar.frame = CGRect(x: 20, y: seperateLine5.frame.maxY + 51, width: kWidth - 40, height: 20)
                 quotePriceSlideBar.addTarget(self, action: #selector(quotePriceSliderBarValueChanged(_:)), for: .valueChanged)
-                backgroundView.addSubview(quotePriceSlideBar)
+               // backgroundView.addSubview(quotePriceSlideBar)
                 
                 quotePriceSlideBarRightLabel.frame = CGRect(x: quotePriceSlideBar.frame.width - 180, y: seperateLine5.frame.maxY + 72, width: 200, height: 22)
                 quotePriceSlideBarRightLabel.text = "¥5000.00"
@@ -518,9 +518,9 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 quotePriceSlideBarLeftLabel.textColor = UIColor.titleColors(color: .gray)
                 quotePriceSlideBarLeftLabel.font = UIFont.systemFont(ofSize: 12)
                 
-                backgroundView.addSubview(quotePriceSlideBarRightLabel)
-                backgroundView.addSubview(quotePriceSlideBarMidLabel)
-                backgroundView.addSubview(quotePriceSlideBarLeftLabel)
+               // backgroundView.addSubview(quotePriceSlideBarRightLabel)
+              //  backgroundView.addSubview(quotePriceSlideBarMidLabel)
+              //  backgroundView.addSubview(quotePriceSlideBarLeftLabel)
                 
                 
             case .acceptDesign:
@@ -895,7 +895,15 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         print("priceLabelClicked")
         self.addSubview(calculatorView)
         self.bringSubview(toFront: calculatorView)
-        calculatorView.frame = CGRect(x: 0, y: kHight - 383 - self.frame.minY - heightChangeForiPhoneXFromBottom, width: kWidth, height: 383)
+        calculatorView.frame = CGRect(x: 0, y: kHight, width: kWidth, height: 416) // kHight - 416 - self.frame.minY - heightChangeForiPhoneXFromBottom
+        calculatorView._roleType = _roleType
+        calculatorView.popupVC = popupVC
+        calculatorView.actionView = self
+        UIView.animate(withDuration: 0.3) {
+            self.calculatorView.transform = CGAffineTransform(translationX: 0, y: -420 + 216 - heightChangeForiPhoneXFromBottom - self.frame.minY)
+            self.transform = CGAffineTransform(translationX: 0, y: -216)
+        }
+        //self.frame = CGRect(x: _frame.midX, y: _frame.minY, width: _frame.width, height: _frame.height + 216)
         //calculatorView
         
     }
@@ -1312,22 +1320,6 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
     func textFieldDidEndEditing(_ textField: UITextField) {
         currentValueOnSliderTextField.resignFirstResponder()
         produceTimeCostTextField.resignFirstResponder()
-        if  textField.isEqual(currentValueOnSliderTextField){
-            if currentValueOnSliderTextField.text == ""{
-                currentValueOnSliderTextField.text = "0.00"
-            }
-            let sliderValue = currentValueOnSliderTextField.text
-            if Float(sliderValue as! String)! > quotePriceSlideBar.maximumValue {
-                quotePriceSlideBar.maximumValue = Float(sliderValue as! String)!
-            }
-            quotePriceSlideBar.setValue(Float(sliderValue as! String)!, animated: true)
-            quotePriceSlideBarRightLabel.text = "¥\(quotePriceSlideBar.maximumValue)0"
-            quotePriceSlideBarMidLabel.text = "¥\(quotePriceSlideBar.maximumValue/2)0"
-            quotePriceSlideBarLeftLabel.text = "¥0.00"
-        }else{
-            print("工期完成输入")
-        }
-
     }
 
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
@@ -1339,7 +1331,14 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         let buttonsArray = [flexSpace,doneBtn]
         topView.items = buttonsArray
         topView.sizeToFit()
-
+        
+        //收起计算报价的键盘
+        if self.subviews.contains(calculatorView){
+            UIView.animate(withDuration: 0.3) {
+                self.calculatorView.transform = CGAffineTransform(translationX: 0, y: 0)
+            }
+        }
+        
         textField.inputAccessoryView = topView
         return true
     }
@@ -1393,22 +1392,13 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         let duration = kbInfo?[UIKeyboardAnimationDurationUserInfoKey] as!Double
 
         if currentValueOnSliderTextField.isFirstResponder {
-//            UIView.animate(withDuration: duration, animations: {()->Void in
-//                self.blurPopView.transform = CGAffineTransform(translationX: 0, y: -(UIScreen.main.bounds.height-110))// -(height-35)+200  -632
-//            })
+
         }
-       // if  shippingCodeValue.isFirstResponder{
+
             UIView.animate(withDuration: duration) {
                 ()->Void in
                 self.transform = CGAffineTransform(translationX: 0, y: 0) //(UIScreen.main.bounds.height + 130)
             }
-//        }
-//        if  produceTimeCostTextField.isFirstResponder && _actionType == .acceptProduce{
-//            UIView.animate(withDuration: duration) {
-//                ()->Void in
-//                self.transform = CGAffineTransform(translationX: 0, y: 0) //(UIScreen.main.bounds.height + 130)
-//            }
-//        }
     }
     
     func getOrderDetails(OrderID:String,CustomID:String){

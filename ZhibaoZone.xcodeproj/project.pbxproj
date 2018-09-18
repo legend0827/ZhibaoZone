@@ -119,7 +119,7 @@
 		0AF06C5620187F4A008E2DE9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AF06C5520187F4A008E2DE9 /* Assets.xcassets */; };
 		0AF06C582018F465008E2DE9 /* TaskDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF06C572018F465008E2DE9 /* TaskDetailViewController.swift */; };
 		0AF6AD9020A1E77400B07459 /* PopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF6AD8F20A1E77400B07459 /* PopupViewController.swift */; };
-		35A1F0F7376099939BEF6957 /* Pods_ZhibaoZone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCADC2D65E042A0C39B397A0 /* Pods_ZhibaoZone.framework */; };
+		A5F33257F62CABE01E797A04 /* Pods_ZhibaoZone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD5C003530853A92BEB827AF /* Pods_ZhibaoZone.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -339,9 +339,9 @@
 		0AF06C5520187F4A008E2DE9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ZhibaoZone/Assets.xcassets; sourceTree = SOURCE_ROOT; };
 		0AF06C572018F465008E2DE9 /* TaskDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailViewController.swift; sourceTree = "<group>"; };
 		0AF6AD8F20A1E77400B07459 /* PopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupViewController.swift; sourceTree = "<group>"; };
-		2BABC7F623C5D7D38A59524F /* Pods-ZhibaoZone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZhibaoZone.debug.xcconfig"; path = "ZhibaoZone.xcodeproj/Pods/Target Support Files/Pods-ZhibaoZone/Pods-ZhibaoZone.debug.xcconfig"; sourceTree = "<group>"; };
-		BCADC2D65E042A0C39B397A0 /* Pods_ZhibaoZone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZhibaoZone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		FC5E0AF6ACACC06A039C10F6 /* Pods-ZhibaoZone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZhibaoZone.release.xcconfig"; path = "ZhibaoZone.xcodeproj/Pods/Target Support Files/Pods-ZhibaoZone/Pods-ZhibaoZone.release.xcconfig"; sourceTree = "<group>"; };
+		63FC8A1224D0469FB7082588 /* Pods-ZhibaoZone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZhibaoZone.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ZhibaoZone/Pods-ZhibaoZone.debug.xcconfig"; sourceTree = "<group>"; };
+		BD5C003530853A92BEB827AF /* Pods_ZhibaoZone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZhibaoZone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D7E78EC11FEADCD608EB3444 /* Pods-ZhibaoZone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZhibaoZone.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZhibaoZone/Pods-ZhibaoZone.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -362,7 +362,7 @@
 				0A709E6B20EF40DC00E4CF46 /* UMCommon.framework in Frameworks */,
 				0AC1AC57204E2B260096A6F6 /* QCloudCore.framework in Frameworks */,
 				0AD2829B1FF47BD50044E41C /* Alamofire.framework in Frameworks */,
-				35A1F0F7376099939BEF6957 /* Pods_ZhibaoZone.framework in Frameworks */,
+				A5F33257F62CABE01E797A04 /* Pods_ZhibaoZone.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -484,7 +484,7 @@
 				0A6AD6791FF1EFB4009A511A /* ZhibaoZoneUITests */,
 				0A6AD6551FF1EFB4009A511A /* Products */,
 				0AC1AC59204E2B890096A6F6 /* Frameworks */,
-				659EB4A20F8371DA545B524D /* Pods */,
+				B10D36AD92B4448DE00327DA /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -607,7 +607,7 @@
 				0AC1AC5E204E2BA20096A6F6 /* SystemConfiguration.framework */,
 				0AC1AC5C204E2B980096A6F6 /* Foundation.framework */,
 				0AC1AC5A204E2B890096A6F6 /* CoreTelephony.framework */,
-				BCADC2D65E042A0C39B397A0 /* Pods_ZhibaoZone.framework */,
+				BD5C003530853A92BEB827AF /* Pods_ZhibaoZone.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -764,11 +764,11 @@
 			path = Animator;
 			sourceTree = "<group>";
 		};
-		659EB4A20F8371DA545B524D /* Pods */ = {
+		B10D36AD92B4448DE00327DA /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				2BABC7F623C5D7D38A59524F /* Pods-ZhibaoZone.debug.xcconfig */,
-				FC5E0AF6ACACC06A039C10F6 /* Pods-ZhibaoZone.release.xcconfig */,
+				63FC8A1224D0469FB7082588 /* Pods-ZhibaoZone.debug.xcconfig */,
+				D7E78EC11FEADCD608EB3444 /* Pods-ZhibaoZone.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -780,13 +780,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0A6AD67F1FF1EFB4009A511A /* Build configuration list for PBXNativeTarget "ZhibaoZone" */;
 			buildPhases = (
-				C790435526D975D76F415B37 /* [CP] Check Pods Manifest.lock */,
+				ED457B540C5DF9CC7D0938BA /* [CP] Check Pods Manifest.lock */,
 				0A6AD6501FF1EFB4009A511A /* Sources */,
 				0A6AD6511FF1EFB4009A511A /* Frameworks */,
 				0A6AD6521FF1EFB4009A511A /* Resources */,
 				0AD282811FF47B3D0044E41C /* Embed Frameworks */,
-				2666C8C5B988C54149211877 /* [CP] Embed Pods Frameworks */,
-				2B55C2E7A27F8BDCFD2717B4 /* [CP] Copy Pods Resources */,
+				86BE5667AF3FAADEF9A9A461 /* [CP] Embed Pods Frameworks */,
+				6684D6AE9560EECD697E2A7B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -998,13 +998,28 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2666C8C5B988C54149211877 /* [CP] Embed Pods Frameworks */ = {
+		6684D6AE9560EECD697E2A7B /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/ZhibaoZone.xcodeproj/Pods/Target Support Files/Pods-ZhibaoZone/Pods-ZhibaoZone-frameworks.sh",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ZhibaoZone/Pods-ZhibaoZone-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		86BE5667AF3FAADEF9A9A461 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-ZhibaoZone/Pods-ZhibaoZone-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
 				"${BUILT_PRODUCTS_DIR}/ChartsRealm/ChartsRealm.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
@@ -1019,25 +1034,10 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/ZhibaoZone.xcodeproj/Pods/Target Support Files/Pods-ZhibaoZone/Pods-ZhibaoZone-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ZhibaoZone/Pods-ZhibaoZone-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		2B55C2E7A27F8BDCFD2717B4 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/ZhibaoZone.xcodeproj/Pods/Target Support Files/Pods-ZhibaoZone/Pods-ZhibaoZone-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C790435526D975D76F415B37 /* [CP] Check Pods Manifest.lock */ = {
+		ED457B540C5DF9CC7D0938BA /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1318,7 +1318,7 @@
 		};
 		0A6AD6801FF1EFB4009A511A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2BABC7F623C5D7D38A59524F /* Pods-ZhibaoZone.debug.xcconfig */;
+			baseConfigurationReference = 63FC8A1224D0469FB7082588 /* Pods-ZhibaoZone.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1355,7 +1355,7 @@
 		};
 		0A6AD6811FF1EFB4009A511A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FC5E0AF6ACACC06A039C10F6 /* Pods-ZhibaoZone.release.xcconfig */;
+			baseConfigurationReference = D7E78EC11FEADCD608EB3444 /* Pods-ZhibaoZone.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;

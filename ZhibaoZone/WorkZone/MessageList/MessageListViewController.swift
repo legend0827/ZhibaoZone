@@ -534,7 +534,7 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
         /*roletype 1:客服，2:设计师，3:工厂
          */
         if msgtype == 1 && roletype == "3"/*发起询价*/{
-            let quotePriceView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight))
+            let quotePriceView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight + 216))
             
             let popVC = PopupViewController()
             popVC.view.backgroundColor = UIColor.clear
@@ -552,7 +552,7 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
             self.present(popVC, animated: true, completion: nil)
             //展示报价页面
         }else if msgtype == 4 && roletype == "2"/*发起设计*/{
-            let acceptDesignView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight))
+            let acceptDesignView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight + 216))
             
             let popVC = PopupViewController()
             popVC.view.backgroundColor = UIColor.clear
@@ -570,7 +570,7 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
             self.present(popVC, animated: true, completion: nil)
             //跳转接受设计页面
         }else if msgtype == 10 && roletype == "3" /*发起生产*/{
-            let acceptProduceView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight))
+            let acceptProduceView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight + 216))
             
             let popVC = PopupViewController()
             popVC.view.backgroundColor = UIColor.clear

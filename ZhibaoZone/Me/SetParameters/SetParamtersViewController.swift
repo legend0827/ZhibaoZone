@@ -53,7 +53,7 @@ class SetParamtersViewController: UIViewController,UITableViewDelegate,UITableVi
     
     var selectorParamters = [Int:String]()
     
-    let navigationBarInParameterSettings:UINavigationBar = UINavigationBar.init(frame: CGRect(x: 0, y: 27, width: UIScreen.main.bounds.width, height: 45))
+    let navigationBarInParameterSettings:UINavigationBar = UINavigationBar.init(frame: CGRect(x: 0, y: 27+heightChangeForiPhoneXFromTop, width: UIScreen.main.bounds.width, height: 45))
     
     //报价的滑动条
     lazy var quotePriceWeightSlideBar:MarkSlider = {
@@ -83,7 +83,7 @@ class SetParamtersViewController: UIViewController,UITableViewDelegate,UITableVi
     }()
     
     lazy var ParameterSettingTableView:UITableView = {
-        let tempTableView:UITableView = UITableView.init(frame: CGRect(x: 0, y: 72, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
+        let tempTableView:UITableView = UITableView.init(frame: CGRect(x: 0, y: 72+heightChangeForiPhoneXFromTop, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
         tempTableView.backgroundColor = #colorLiteral(red: 0.9421117902, green: 0.9367800951, blue: 0.9586003423, alpha: 1)
         tempTableView.delegate = self
         tempTableView.dataSource = self
@@ -118,7 +118,7 @@ class SetParamtersViewController: UIViewController,UITableViewDelegate,UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white // 白色背景
-        
+        setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .white))
         //设置导航栏
         
         navigationBarInParameterSettings.isHidden = false
@@ -417,15 +417,13 @@ class SetParamtersViewController: UIViewController,UITableViewDelegate,UITableVi
     @objc func cancelBtnClicked(){
         self.dismiss(animated: true, completion: nil)
     }
-    
-    func setParametersView(roleType:Int){
-        if roleType == 3{
-            
-        }
-    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .red))
     }
     
    

@@ -350,7 +350,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         
       //  setStatusBarHiden(toHidden: false, ViewController: (self.window?.rootViewController)!)
         
-        let acceptDesignView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight))
+        let acceptDesignView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight + 216))
         
         let popVC = PopupViewController()
         popVC.view.backgroundColor = UIColor.clear

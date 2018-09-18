@@ -9,9 +9,69 @@
 import UIKit
 
 class calculatorKeyboard: UIView {
-    
+    //弹窗ViewVC
+    var popupVC = PopupViewController()
+    lazy var actionView = ActionViewInOrder()
+    var _roleType = 3
+    //背景View
     let backgroundView:UIView = UIView.init()
     let resultView:UIView = UIView.init()
+    let quotePriceResult:UILabel = UILabel.init()
+    //结果处理
+    var targetResult = 0
+    //取整
+    var isCutResultTail:Bool = false
+    var quotePriceWeight = 1
+    lazy var upToNextIntBtn:UIButton = {
+        let tempButton:UIButton = UIButton.init(type: .custom)
+        tempButton.frame = CGRect(x: 15, y: 124, width: 72, height: 30)
+        tempButton.setTitle("取整", for: .normal)
+        tempButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        tempButton.setTitleColor(UIColor.titleColors(color: .white), for: .normal)
+        tempButton.contentHorizontalAlignment = .center
+        tempButton.layer.cornerRadius = 2
+        tempButton.layer.borderColor = UIColor.clear.cgColor
+        tempButton.backgroundColor = UIColor.backgroundColors(color: .red)
+        tempButton.layer.borderWidth = 1
+        tempButton.tag = 101
+        tempButton.addTarget(self, action: #selector(switchResultOperation(_:)), for: .touchUpInside)
+        return tempButton
+    }()
+
+    
+    lazy var cutTailBtn:UIButton = {
+        let tempButton:UIButton = UIButton.init(type: .custom)
+        tempButton.frame = CGRect(x: 102, y: 124, width: 72, height: 30)
+        tempButton.setTitle("抹零", for: .normal)
+        tempButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        tempButton.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
+        tempButton.contentHorizontalAlignment = .center
+        tempButton.layer.cornerRadius = 2
+        tempButton.layer.borderColor = UIColor.lineColors(color: .lightGray).cgColor
+        tempButton.layer.borderWidth = 1
+        tempButton.tag = 102
+        tempButton.addTarget(self, action: #selector(switchResultOperation(_:)), for: .touchUpInside)
+        return tempButton
+    }()
+    //笑脸图标
+    lazy var smileLabel:UIImageView = {
+        let tempLalbel = UIImageView.init(frame: CGRect(x: kWidth - 93, y: 85, width: 18, height: 18))
+        tempLalbel.image = UIImage(named: "smileimg")
+        tempLalbel.isHidden = true
+        return tempLalbel
+    }()
+    
+    lazy var operatonLabel:UILabel = {
+        let tempLabel:UILabel = UILabel.init(frame: CGRect(x: kWidth - 70, y: 84, width: 55, height: 20))
+        tempLabel.text = "已取整"
+        tempLabel.textColor = UIColor.colorWithRgba(255, g: 120, b: 83, a: 1.0)
+        tempLabel.isHidden = true
+        tempLabel.font = UIFont.systemFont(ofSize: 14)
+        return tempLabel
+    }()
+    
+    //设置报价精准度
+    let setQuotePriceWeightBtn:UIButton = UIButton.init(type: .system)
     
     lazy var resultLabel:UILabel = {
         let tempLabel:UILabel = UILabel.init(frame: CGRect(x: 15, y: 18, width: kWidth - 30, height: 40))
@@ -19,6 +79,17 @@ class calculatorKeyboard: UIView {
         tempLabel.textColor = UIColor.titleColors(color: .white)
         tempLabel.font = UIFont.systemFont(ofSize: 28)
         return tempLabel
+    }()
+    
+    lazy var closeLayer:UIButton = {
+        let tempButton:UIButton = UIButton.init(type: .custom)
+        tempButton.frame = CGRect(x: kWidth - 65, y: 6, width: 55, height: 20)
+        tempButton.setTitle("关闭", for: .normal)
+        tempButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        tempButton.setTitleColor(UIColor.titleColors(color: .white), for: .normal)
+        tempButton.contentHorizontalAlignment = .right
+        tempButton.addTarget(self, action: #selector(closeBtnClicked), for: .touchUpInside)
+        return tempButton
     }()
     // 1
     lazy var oneKeyBtn:UIButton = {
@@ -264,7 +335,7 @@ class calculatorKeyboard: UIView {
     */
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundView.frame = CGRect(x: 0, y: 0, width: kWidth, height: 383)
+        backgroundView.frame = CGRect(x: 0, y: 0, width: kWidth, height: 416)
         backgroundView.backgroundColor = UIColor.backgroundColors(color: .white)
         setupKeyboard()
     }
@@ -277,12 +348,33 @@ class calculatorKeyboard: UIView {
         let keyWight:CGFloat = kWidth/4
         let keyHeight:CGFloat = 255/5
         
-        let keyboardBG:UIView = UIView.init(frame: CGRect(x: 0, y: 128, width: kWidth, height: 255))
+        let keyboardBG:UIView = UIView.init(frame: CGRect(x: 0, y: 169, width: kWidth, height: 255))
         keyboardBG.backgroundColor = UIColor.colorWithRgba(250, g: 251, b: 251, a: 1.0)
+        
+        //报价值和标题
+        let quotePriceResultLabel:UILabel = UILabel.init(frame: CGRect(x: 15, y: 84, width: 80, height: 22))
+        quotePriceResultLabel.text = "报价："
+        quotePriceResultLabel.font = UIFont.systemFont(ofSize: 16)
+        
+        quotePriceResult.frame = CGRect(x: 83, y: 82, width: kWidth - 100, height: 25)
+        quotePriceResult.text = "¥0.0"
+        quotePriceResult.font = UIFont.systemFont(ofSize: 18)
+        quotePriceResult.textColor = UIColor.titleColors(color: .darkGray)
         
         resultView.frame = CGRect(x: 0, y: 0, width: kWidth, height: 64)
         resultView.backgroundColor = UIColor.colorWithRgba(34, g: 27, b: 27, a: 0.85)
         resultView.addSubview(resultLabel)
+        
+        let seperateLine:UIView = UIView.init(frame: CGRect(x: 15, y: 122, width: kWidth - 15, height: 0.5))
+        seperateLine.backgroundColor = UIColor.lineColors(color: .lightGray)
+        
+        setQuotePriceWeightBtn.frame = CGRect(x: kWidth - 115, y: seperateLine.frame.maxY + 4, width: 100, height: 20)
+        setQuotePriceWeightBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        setQuotePriceWeightBtn.contentHorizontalAlignment = .right
+        setQuotePriceWeightBtn.setTitleColor(UIColor.titleColors(color: .darkGray), for: .normal)
+        setQuotePriceWeightBtn.setTitle("设置精准度", for: .normal)
+        setQuotePriceWeightBtn.addTarget(self, action: #selector(setQuotePriceWeight), for: .touchUpInside)
+        backgroundView.addSubview(setQuotePriceWeightBtn)
         
         plusKeyBtn.frame =      CGRect(x: 1,              y: 1,               width: keyWight - 2,     height: keyHeight - 3)
         minusKeyBtn.frame =     CGRect(x: 1 + keyWight,   y: 1,               width: keyWight - 2,     height: keyHeight - 3)
@@ -349,6 +441,7 @@ class calculatorKeyboard: UIView {
         keyboardBG.addSubview(devideKeyBtn)
         keyboardBG.addSubview(acKeyBtn)
         
+        
         let horizentalLine1:UIView = UIView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: 0.5))
         horizentalLine1.backgroundColor = UIColor.lineColors(color: .lightGray)
         keyboardBG.addSubview(horizentalLine1)
@@ -388,7 +481,125 @@ class calculatorKeyboard: UIView {
         self.addSubview(backgroundView)
         backgroundView.addSubview(keyboardBG)
         backgroundView.addSubview(resultView)
+        backgroundView.addSubview(quotePriceResultLabel)
+        backgroundView.addSubview(quotePriceResult)
+        backgroundView.addSubview(closeLayer)
+        backgroundView.addSubview(upToNextIntBtn)
+        backgroundView.addSubview(cutTailBtn)
+        backgroundView.addSubview(smileLabel)
+        backgroundView.addSubview(operatonLabel)
         print("keyboard setuped")
+    }
+    
+    @objc func closeBtnClicked(){
+        UIView.animate(withDuration: 0.3) {
+            self.transform = CGAffineTransform(translationX: 0, y: 0)
+            self.actionView.transform = CGAffineTransform(translationX: 0, y: 0)
+        }
+        self.removeFromSuperview()
+    }
+    @objc func switchResultOperation(_ button:UIButton){
+        let pressIndex = button.tag
+        if pressIndex == 101 {
+            //取整
+            isCutResultTail = false
+            
+            cutTailBtn.layer.cornerRadius = 2
+            cutTailBtn.layer.borderColor = UIColor.lineColors(color: .lightGray).cgColor
+            cutTailBtn.layer.borderWidth = 1
+            cutTailBtn.backgroundColor = UIColor.clear
+            cutTailBtn.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
+            
+            upToNextIntBtn.layer.cornerRadius = 2
+            upToNextIntBtn.layer.borderColor = UIColor.clear.cgColor
+            upToNextIntBtn.layer.borderWidth = 1
+            upToNextIntBtn.backgroundColor = UIColor.backgroundColors(color: .red)
+            upToNextIntBtn.setTitleColor(UIColor.titleColors(color: .white), for: .normal)
+            
+            opreationValue(with: targetResult)
+        }else if pressIndex == 102 {
+            //抹零
+            isCutResultTail = true
+            upToNextIntBtn.layer.cornerRadius = 2
+            upToNextIntBtn.layer.borderColor = UIColor.lineColors(color: .lightGray).cgColor
+            upToNextIntBtn.layer.borderWidth = 1
+            upToNextIntBtn.backgroundColor = UIColor.clear
+            upToNextIntBtn.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
+            
+            cutTailBtn.layer.cornerRadius = 2
+            cutTailBtn.layer.borderColor = UIColor.clear.cgColor
+            cutTailBtn.layer.borderWidth = 1
+            cutTailBtn.backgroundColor = UIColor.backgroundColors(color: .red)
+            cutTailBtn.setTitleColor(UIColor.titleColors(color: .white), for: .normal)
+            opreationValue(with: targetResult)
+        }else{
+            print("wrong Press Index pressed")
+        }
+    }
+    func opreationValue(with Value:Int){
+        //进行抹零还是取整操作
+        quotePriceWeight = getQuotePriceWeight()
+        
+        smileLabel.isHidden = true
+        operatonLabel.isHidden = true
+        
+        if Value <= 0 {
+            quotePriceResult.text = "¥\(String(format: "%d", Value))"
+            return
+        }
+        
+        if isCutResultTail {
+            //去尾
+            
+            if quotePriceWeight == 1{
+                quotePriceResult.text = "¥\(String(format: "%d", Value))"
+            }else if quotePriceWeight == 10{
+                if String(Value).lengthOfBytes(using: .utf8) < 2 {
+                    quotePriceResult.text = "¥\(String(format: "%d", Value))"
+                }else{
+                    quotePriceResult.text = "¥\(String(format: "%d", Value/10))0" // 最后1位替换成0
+                    smileLabel.isHidden = false
+                    operatonLabel.isHidden = false
+                    operatonLabel.text = "已抹零"
+                }
+            }else{
+                
+                if String(Value).lengthOfBytes(using: .utf8) < 3 {
+                    quotePriceResult.text = "¥\(String(format: "%d", Value))"
+                }else{
+                    quotePriceResult.text = "¥\(String(format: "%d", Value/100))00" // 最后2位替换成0
+                    smileLabel.isHidden = false
+                    operatonLabel.isHidden = false
+                    operatonLabel.text = "已抹零"
+                }
+            }
+            
+        }else{
+            //取整
+            if quotePriceWeight == 1{
+                quotePriceResult.text = "¥\(String(format: "%d", Value))"
+            }else if quotePriceWeight == 10{
+                quotePriceResult.text = "¥\(String(format: "%d", Value/10*10 + 10))"
+                smileLabel.isHidden = false
+                operatonLabel.isHidden = false
+                operatonLabel.text = "已取整"
+            }else{
+                
+                if String(Value).lengthOfBytes(using: .utf8) < 2 {
+                    quotePriceResult.text = "¥\(String(format: "%d", Value))"
+                }else{
+                    quotePriceResult.text = "¥\(String(format: "%d", Value/100*100 + 100))"
+                    smileLabel.isHidden = false
+                    operatonLabel.isHidden = false
+                    operatonLabel.text = "已取整"
+                }
+            }
+        }
+    }
+    //设置权重
+    @objc func setQuotePriceWeight(){
+        let setParameterVC = SetParamtersViewController(roleType: _roleType)
+        popupVC.present(setParameterVC, animated: true, completion: nil)
     }
     
     @objc func keyboardKeyPressed(_ button:UIButton){
@@ -521,23 +732,20 @@ class calculatorKeyboard: UIView {
             }
             
         case 12:
-            
-            // confrim
-            //            if lengthValue.isFirstResponder {
-            //                currentText = lengthValue.text ?? "" // 如果lengthValue.text 为空 则使用"0.0"
-            //                lengthValue.text = currentText + "2"
-            //            }else if widthValue.isFirstResponder{
-            //                currentText = widthValue.text ?? ""
-            //                widthValue.text = currentText + "2"
-            //            }else if heightValue.isFirstResponder{
-            //                currentText = heightValue.text ?? ""
-            //                heightValue.text = currentText + "2"
-            //            }else{
+            actionView.currentValueOnSliderTextField.text = quotePriceResult.text// resultLabel.text
+            UIView.animate(withDuration: 0.3) {
+                self.transform = CGAffineTransform(translationX: 0, y: 0)
+                self.actionView.transform = CGAffineTransform(translationX: 0, y: 0)
+            }
+            self.removeFromSuperview()
             print("confirmKeyPressed")
         //            }
         case 13: // 等于
             print("equalKeyPressed")
             if !(currentText.contains("+") || currentText.contains("-") || currentText.contains("*") || currentText.contains("/")){
+                quotePriceResult.text = "¥\(String(format: "%d", Double(currentText)!))"
+                targetResult = Int(Double(currentText)!)
+                opreationValue(with: targetResult)
                 return
             }else{
                 var calculationNum:[Double] = [] //存放操作数
@@ -613,6 +821,7 @@ class calculatorKeyboard: UIView {
                             if calculationNum[byOrDevideIndex + 1] == 0{
                                 resultLabel.text = "0"
                                 greyLayerPrompt.show(text: "算式错误，除数不能为0")
+                                targetResult = 0
                                 return
                             }else{
                                 calculationNum[byOrDevideIndex] = calculationNum[byOrDevideIndex] / calculationNum[byOrDevideIndex + 1]
@@ -643,8 +852,8 @@ class calculatorKeyboard: UIView {
                 }
                 //计算完成
                 resultLabel.text = "\(calculationNum[0])"
-                
-                
+                targetResult = Int(calculationNum[0])
+                opreationValue(with: targetResult)
             }
         case 14: //加
             if currentText == ""{
@@ -680,6 +889,22 @@ class calculatorKeyboard: UIView {
             resultLabel.text = "0"
         default:
             print("wrong key pressed")
+        }
+        
+        // 计算文本长度以调整Label字体大小
+        resultLabel.numberOfLines = 1
+        resultLabel.frame =  CGRect(x: 15, y: 18, width: kWidth - 30, height: 40)
+        
+        if (resultLabel.text?.lengthOfBytes(using: .utf8))! <= 17{
+            resultLabel.font = UIFont.systemFont(ofSize: 28)
+        }else if (resultLabel.text?.lengthOfBytes(using: .utf8))! > 17 && (resultLabel.text?.lengthOfBytes(using: .utf8))! <= 28{
+            resultLabel.font = UIFont.systemFont(ofSize: 18)
+        }else if (resultLabel.text?.lengthOfBytes(using: .utf8))! > 28 && (resultLabel.text?.lengthOfBytes(using: .utf8))! < 38{
+            resultLabel.font = UIFont.systemFont(ofSize: 14)
+        }else{
+            resultLabel.font = UIFont.systemFont(ofSize: 12)
+            resultLabel.numberOfLines = 2
+            resultLabel.frame =  CGRect(x: 15, y: 18, width: kWidth - 30, height: 40)
         }
     }
 }

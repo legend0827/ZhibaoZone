@@ -550,7 +550,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         
         let orderID = orderInfoObjects.value(forKey: "orderid") as! String
         let customID = orderInfoObjects.value(forKey: "customid") as! String
-        let quotePriceView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight))
+        let quotePriceView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight + 216))
         
         
         let popVC = PopupViewController()
@@ -578,7 +578,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         
         let orderID = orderInfoObjects.value(forKey: "orderid") as! String
         let customID = orderInfoObjects.value(forKey: "customid") as! String
-        let acceptProduceView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight))
+        let acceptProduceView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight + 216))
         
         
         let popVC = PopupViewController()
