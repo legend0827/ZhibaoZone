@@ -104,6 +104,7 @@
 		0ADCB7FB200EEAD500DCD7C8 /* ImagePreviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADCB7FA200EEAD500DCD7C8 /* ImagePreviewVC.swift */; };
 		0ADCB7FD200EEB2500DCD7C8 /* ImagePreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADCB7FC200EEB2500DCD7C8 /* ImagePreviewCell.swift */; };
 		0AE149C62001E3BD005A2E55 /* NewTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE149C52001E3BD005A2E55 /* NewTaskViewController.swift */; };
+		0AE645282152054D00918DCE /* DINPro-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0AE645272152054D00918DCE /* DINPro-Medium.otf */; };
 		0AEC502C214CB1850000D06C /* calculatorKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEC502B214CB1850000D06C /* calculatorKeyboard.swift */; };
 		0AF06C4920171D40008E2DE9 /* ESPullToRefresh+Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF06C3B20171D40008E2DE9 /* ESPullToRefresh+Manager.swift */; };
 		0AF06C4A20171D40008E2DE9 /* ESRefreshAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF06C3C20171D40008E2DE9 /* ESRefreshAnimator.swift */; };
@@ -322,6 +323,7 @@
 		0ADCB7FC200EEB2500DCD7C8 /* ImagePreviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewCell.swift; sourceTree = "<group>"; };
 		0ADD51CD2022ED5F008FE934 /* ZhibaoZone.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ZhibaoZone.entitlements; sourceTree = "<group>"; };
 		0AE149C52001E3BD005A2E55 /* NewTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskViewController.swift; sourceTree = "<group>"; };
+		0AE645272152054D00918DCE /* DINPro-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DINPro-Medium.otf"; sourceTree = "<group>"; };
 		0AEC502B214CB1850000D06C /* calculatorKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calculatorKeyboard.swift; sourceTree = "<group>"; };
 		0AF06C3B20171D40008E2DE9 /* ESPullToRefresh+Manager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ESPullToRefresh+Manager.swift"; sourceTree = "<group>"; };
 		0AF06C3C20171D40008E2DE9 /* ESRefreshAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ESRefreshAnimator.swift; sourceTree = "<group>"; };
@@ -470,13 +472,6 @@
 		0A6AD64B1FF1EFB4009A511A = {
 			isa = PBXGroup;
 			children = (
-				0A92C13720233E750062553A /* deviceToken.plist */,
-				0AB76695200CA8AB00851E16 /* config.plist */,
-				0AB7C3F020DA01B600D0D26B /* checkListItemsArray.plist */,
-				0A25DF96201D7E63009CBDEA /* contactList.plist */,
-				0A09185220AABFF20054749B /* shippingCompanyNameList.plist */,
-				0A00793D1FFCB626005E93B6 /* SwiftNotice.swift */,
-				0A1295552072EB5E00C21C66 /* msg.wav */,
 				0A252F0A2095D44800C1F7F4 /* PagingMenuController.xcodeproj */,
 				0AD282821FF47BBC0044E41C /* Alamofire.xcodeproj */,
 				0A6AD6561FF1EFB4009A511A /* ZhibaoZone */,
@@ -501,6 +496,7 @@
 		0A6AD6561FF1EFB4009A511A /* ZhibaoZone */ = {
 			isa = PBXGroup;
 			children = (
+				0AE6451E215203D900918DCE /* Support Files */,
 				0AD2829F1FF4B3A50044E41C /* SwiftyJSON.swift */,
 				0AD282AF1FF60E7A0044E41C /* TabBarController.swift */,
 				0A6AD6571FF1EFB4009A511A /* AppDelegate.swift */,
@@ -725,6 +721,21 @@
 				0A244E602098917C00203463 /* TestPushViewController.swift */,
 			);
 			path = TaskList;
+			sourceTree = "<group>";
+		};
+		0AE6451E215203D900918DCE /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				0AE645272152054D00918DCE /* DINPro-Medium.otf */,
+				0A92C13720233E750062553A /* deviceToken.plist */,
+				0AB76695200CA8AB00851E16 /* config.plist */,
+				0AB7C3F020DA01B600D0D26B /* checkListItemsArray.plist */,
+				0A25DF96201D7E63009CBDEA /* contactList.plist */,
+				0A09185220AABFF20054749B /* shippingCompanyNameList.plist */,
+				0A00793D1FFCB626005E93B6 /* SwiftNotice.swift */,
+				0A1295552072EB5E00C21C66 /* msg.wav */,
+			);
+			path = "Support Files";
 			sourceTree = "<group>";
 		};
 		0AEC5037214CB1AF0000D06C /* calculator */ = {
@@ -971,6 +982,7 @@
 				0A92C13820233E750062553A /* deviceToken.plist in Resources */,
 				0A09185320AABFF20054749B /* shippingCompanyNameList.plist in Resources */,
 				0A25DF97201D7E63009CBDEA /* contactList.plist in Resources */,
+				0AE645282152054D00918DCE /* DINPro-Medium.otf in Resources */,
 				0A1295562072EB5E00C21C66 /* msg.wav in Resources */,
 				0AB7C3F120DA01B600D0D26B /* checkListItemsArray.plist in Resources */,
 				0AB76696200CA8AB00851E16 /* config.plist in Resources */,

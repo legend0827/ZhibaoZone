@@ -55,7 +55,7 @@ class calculatorKeyboard: UIView {
     }()
     //笑脸图标
     lazy var smileLabel:UIImageView = {
-        let tempLalbel = UIImageView.init(frame: CGRect(x: kWidth - 93, y: 85, width: 18, height: 18))
+        let tempLalbel = UIImageView.init(frame: CGRect(x: kWidth - 80, y: 85, width: 18, height: 18))
         tempLalbel.image = UIImage(named: "smileimg")
         tempLalbel.isHidden = true
         return tempLalbel
@@ -64,6 +64,7 @@ class calculatorKeyboard: UIView {
     lazy var operatonLabel:UILabel = {
         let tempLabel:UILabel = UILabel.init(frame: CGRect(x: kWidth - 70, y: 84, width: 55, height: 20))
         tempLabel.text = "已取整"
+        tempLabel.textAlignment = .right
         tempLabel.textColor = UIColor.colorWithRgba(255, g: 120, b: 83, a: 1.0)
         tempLabel.isHidden = true
         tempLabel.font = UIFont.systemFont(ofSize: 14)

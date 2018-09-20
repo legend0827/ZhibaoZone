@@ -550,7 +550,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         
         let orderID = orderInfoObjects.value(forKey: "orderid") as! String
         let customID = orderInfoObjects.value(forKey: "customid") as! String
-        let quotePriceView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight + 216))
+        let quotePriceView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight + 166))
         
         
         let popVC = PopupViewController()
@@ -578,7 +578,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         
         let orderID = orderInfoObjects.value(forKey: "orderid") as! String
         let customID = orderInfoObjects.value(forKey: "customid") as! String
-        let acceptProduceView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight + 216))
+        let acceptProduceView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight + 166))
         
         
         let popVC = PopupViewController()
@@ -939,7 +939,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .red))
+        setStatusBarBackgroundColor(color: UIColor.clear)
         setStatusBarHiden(toHidden: false, ViewController: self)
         self.view.backgroundColor = UIColor.white
         //从datacore获取用户数据

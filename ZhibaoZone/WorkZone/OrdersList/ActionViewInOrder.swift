@@ -243,7 +243,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         //背景页面值
         
         backgroundView.frame = CGRect(x: 0, y: 65, width: kWidth, height: self.frame.height - 207 - heightChangeForiPhoneXFromBottom)
-        backgroundView.contentSize = CGSize(width: kWidth, height: 661 + 216)
+        backgroundView.contentSize = CGSize(width: kWidth, height: 661 + 166)
         //backgroundView.frame = CGRect(x: 0, y: 65, width: kWidth, height: self.frame.height )
         backgroundView.backgroundColor = UIColor.backgroundColors(color: .white)
         backgroundView.delegate = self
@@ -344,7 +344,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             productSizeHint.text = "注：圆形产品直径参考长度(或宽度)值"
             backgroundView.addSubview(productSizeHint)
             
-            quotePriceSubmitBtn.frame = CGRect(x: kWidth - 120, y: self.frame.height - 142 - heightChangeForiPhoneXFromBottom, width: 120, height: 56)
+            quotePriceSubmitBtn.frame = CGRect(x: kWidth - 120, y: self.frame.height - 308 - heightChangeForiPhoneXFromBottom, width: 120, height: 56)
             // quotePriceSubmitBtn.backgroundColor = UIColor.iconColors(color: .red)
             quotePriceSubmitBtn.backgroundColor = UIColor.gray
             quotePriceSubmitBtn.setTitle("提交报价", for: .normal)
@@ -895,13 +895,13 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         print("priceLabelClicked")
         self.addSubview(calculatorView)
         self.bringSubview(toFront: calculatorView)
-        calculatorView.frame = CGRect(x: 0, y: kHight, width: kWidth, height: 416) // kHight - 416 - self.frame.minY - heightChangeForiPhoneXFromBottom
+        calculatorView.frame = CGRect(x: 0, y: kHight, width: kWidth, height: 416 + heightChangeForiPhoneXFromBottom) // kHight - 416 - self.frame.minY - heightChangeForiPhoneXFromBottom
         calculatorView._roleType = _roleType
         calculatorView.popupVC = popupVC
         calculatorView.actionView = self
         UIView.animate(withDuration: 0.3) {
-            self.calculatorView.transform = CGAffineTransform(translationX: 0, y: -420 + 216 - heightChangeForiPhoneXFromBottom - self.frame.minY)
-            self.transform = CGAffineTransform(translationX: 0, y: -216)
+            self.calculatorView.transform = CGAffineTransform(translationX: 0, y: -420 + 166 - heightChangeForiPhoneXFromBottom - self.frame.minY)
+            self.transform = CGAffineTransform(translationX: 0, y: -166)
         }
         //self.frame = CGRect(x: _frame.midX, y: _frame.minY, width: _frame.width, height: _frame.height + 216)
         //calculatorView
@@ -1360,7 +1360,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         if shippingCodeValue.isFirstResponder {
             UIView.animate(withDuration: duration) {
                 ()->Void in
-                self.transform = CGAffineTransform(translationX: 0, y: -216) 
+                self.transform = CGAffineTransform(translationX: 0, y: -166)
             }
         }
         if produceTimeCostTextField.isFirstResponder{
@@ -1373,7 +1373,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             case .quotePrice:
                 UIView.animate(withDuration: duration) {
                     ()->Void in
-                    self.transform = CGAffineTransform(translationX: 0, y: -216 ) // -76
+                    self.transform = CGAffineTransform(translationX: 0, y: -166 ) // -76
                 }
             default:
                 print("nothing")
