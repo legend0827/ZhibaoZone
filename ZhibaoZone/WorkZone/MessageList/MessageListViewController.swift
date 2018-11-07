@@ -12,8 +12,8 @@ import Alamofire
 
 class MessageListViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate {
 
-    //workzone object
-    var workZoneVC = WorkZoneViewController()
+    //OrderList object
+    lazy var OrderMainObject = OrdersViewController()
     
     var roleType = 0// 角色类型
     //任务列表
@@ -232,59 +232,42 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        getMessageList()
+        setStatusBarBackgroundColor(color: .backgroundColors(color: .red))
+        setStatusBarHiden(toHidden: false, ViewController: self)
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        setStatusBarBackgroundColor(color: .clear)
+        setStatusBarHiden(toHidden: false, ViewController: self)
+    }
     func getMessageList(){
         //获取列表
         let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
         let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
         let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
         #if DEBUG
-            //            let newTaskUpdateURL:String = "http://192.168.1.102:8068/task/createTasklist.do"
-            let newTaskUpdateURL:String = apiAddresses.value(forKey: "getMessagesListDebug") as! String
+            let requestURL:String = apiAddresses.value(forKey: "getMessagesListDebug") as! String
         #else
-            let newTaskUpdateURL:String = apiAddresses.value(forKey: "getMessagesList") as! String
+            let requestURL:String = apiAddresses.value(forKey: "getMessagesList") as! String
         #endif
         //定义请求参数
         let params:NSMutableDictionary = NSMutableDictionary()
-        
+        var hearder:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
         //从datacore获取用户数据
         //获取管理的数据上下文，对象
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let managedObjectContext = appDelegate.persistentContainer.viewContext
         
         //声明数据的请求
-        let fetchRequest =  NSFetchRequest<UserAccount>(entityName:"UserAccount")
         let fetchRequestOfToken = NSFetchRequest<TokenRestored>(entityName:"TokenRestored")
         //        fetchRequest.fetchLimit = 10 //限定查询结果的数量
         //        fetchRequest.fetchOffset = 0 //查询到偏移量
-        fetchRequest.returnsObjectsAsFaults = false
         fetchRequestOfToken.returnsObjectsAsFaults = false
-        
-        // 设置查询条件
-        let predicate = NSPredicate(format: "id = '1'")
-        fetchRequest.predicate = predicate
         
         // 设置查询条件
         let predicateOfToken = NSPredicate(format: "id = '1'")
         fetchRequestOfToken.predicate = predicateOfToken
-        //查询操作
-        do {
-            let fetchedObjects = try managedObjectContext.fetch(fetchRequest)
-            
-            //遍历查询结果
-            for info in fetchedObjects{
-                //更新数据
-                //设置获取全部订单参数组
-                
-                params["userid"] =  info.userId
-                params["roletype"] = info.roleType
-                params["commandcode"] = 110
-                params["isnew"] = 0
-                try managedObjectContext.save()
-            }
-        } catch  {
-            fatalError("获取失败")
-        }
-        
         //查询操作
         do {
             let fetchedObjects = try managedObjectContext.fetch(fetchRequestOfToken)
@@ -293,34 +276,43 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
             for info in fetchedObjects{
                 //更新数据
                 //设置获取全部订单参数组
-                params["token"] = info.token
+                hearder["token"] = info.token
                 try managedObjectContext.save()
             }
         } catch  {
             fatalError("获取失败")
         }
-        for item in params{
-            print(item)
-        }
-        _ = Alamofire.request(newTaskUpdateURL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
+        
+        params["sortType"] =  "desc"//info.userId
+        params["sortField"] = "createtime"//info.roleType
+        params["isRead"] = "0"
+        params["pageNum"] = "1"
+        params["pageSize"] = "100"
+        
+        //print(params)
+        _ = Alamofire.request(requestURL,method:.get, parameters:params as? [String:AnyObject], encoding: URLEncoding.default, headers:hearder) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{
             case true:
+                print("在消息列表中调用了获取消息")
                 if  let value = responseObject.result.value{
                     let json = JSON(value)
                     self.messagesList.removeAll()
-                    if json["status","code"].int! == 3{
-                        for item in json["msginfo"].array! {
-                            let restoreItem = item.dictionaryObject as! NSDictionary
+                    if json["code"].int == 200{
+                        for item in json["data","pageData"].array! {
+                            let restoreItem = item.dictionaryObject! as NSDictionary
                             self.messagesList.append(restoreItem)
                         }
                         self.getMessagesCount = self.messagesList.count
-                    }else if json["status","code"].int! == 0{
+                    }else {
+                        let errorMsg = json["error"].string
+                        greyLayerPrompt.show(text: errorMsg!)
                         self.getMessagesCount = 0
                     }
                     print("messageList successed")
                     self.messageListTableView.reloadData()
                     self.messageListTableView.es.stopPullToRefresh()
+                  //  self.getMessageList()
                 }
             case false:
                 print("update failed")
@@ -349,34 +341,31 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
         let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
         let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
         //定义请求参数
-        let params:NSMutableDictionary = NSMutableDictionary()
-        params["userid"] = userid
-        params["roletype"] = roletype
-        params["token"] = token
-        params["commandcode"] = 100
+        var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
+        header["token"] = token
         
         var requestUrl:String = ""
-        if roletype == "3" {
-            #if DEBUG
-                requestUrl = apiAddresses.value(forKey: "clearNotificationMsgDebug") as! String
-            #else
-                requestUrl = apiAddresses.value(forKey: "clearNotificationMsg") as! String
-            #endif
-        }
-        _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
+        #if DEBUG
+            requestUrl = apiAddresses.value(forKey: "clearNotificationMsgDebug") as! String
+        #else
+            requestUrl = apiAddresses.value(forKey: "clearNotificationMsg") as! String
+        #endif
+       // _ = Alamofire.request(requestURL, method: HTTPMethod.get, parameters: nil, encoding: JSONEncoding.default, headers: header) .responseJSON{
+
+        _ = Alamofire.request(requestUrl, method:HTTPMethod.post, parameters:nil ,encoding: JSONEncoding.default,headers:header) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{
             case true:
                 if  let value = responseObject.result.value{
                     let json = JSON(value)
-                    let statusObject = json["status","code"].int!
-                    if statusObject == 0{
+                    let statusObject = json["code"].int!
+                    if statusObject == 200{
                         print("消息清除成功")
                         greyLayerPrompt.show(text: "清除成功")
                         self.getMessageList()
                     }else{
                         print("报价失败，code:\(statusObject)")
-                        let errorMsg = json["status","msg"].string!
+                        let errorMsg = json["message"].string!
                         greyLayerPrompt.show(text: errorMsg)
                         //self.closeQuotePriceView()
                         //self.getMessageList()
@@ -409,16 +398,16 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
 //            }
         }else{
             let dictionaryObjectInTaskArray = messagesList[indexPath.row]
-            if dictionaryObjectInTaskArray.value(forKey: "msgsendtime") as? String == nil{
+            if dictionaryObjectInTaskArray.value(forKey: "updatetime") as? String == nil{
                 cell.msgCreateTimeInList.text = "2018-01-01 11:07:28"
             }else{
-                cell.msgCreateTimeInList.text = dictionaryObjectInTaskArray.value(forKey: "msgsendtime") as? String
+                cell.msgCreateTimeInList.text = dictionaryObjectInTaskArray.value(forKey: "updatetime") as? String
             }
             
-            if dictionaryObjectInTaskArray.value(forKey: "msgtitle") as? String == nil{
+            if dictionaryObjectInTaskArray.value(forKey: "title") as? String == nil{
                 cell.msgTitleInList.text = "标准消息"
             }else{
-                cell.msgTitleInList.text = dictionaryObjectInTaskArray.value(forKey: "msgtitle") as? String
+                cell.msgTitleInList.text = dictionaryObjectInTaskArray.value(forKey: "title") as? String
             }
             
             if dictionaryObjectInTaskArray.value(forKey: "orderid") as? String == nil{
@@ -427,10 +416,10 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
                 cell.msgOrderIDInList.text = dictionaryObjectInTaskArray.value(forKey: "orderid") as? String
             }
             
-            if dictionaryObjectInTaskArray.value(forKey: "msgcontent") as? String == nil{
+            if dictionaryObjectInTaskArray.value(forKey: "msgContent") as? String == nil{
                 cell.msgContentInList.text = "无内容"
             }else{
-                cell.msgContentInList.text = dictionaryObjectInTaskArray.value(forKey: "msgcontent") as? String
+                cell.msgContentInList.text = dictionaryObjectInTaskArray.value(forKey: "msgContent") as? String
             }
             
         }
@@ -478,38 +467,10 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       // print("\(indexPath.row) selected")
-        
-        /* msgtype
-         0：系统消息
-         1：发起询价 -
-         2：报价 -
-         3：定价 -
-         4：发起设计 -
-         5：接受设计单 -
-         6：提交设计稿 -
-         7：重新设计 -
-         8：定稿 -
-         9：付款 -
-         10：发送新订单-
-         11：开始生产 -
-         12：中断生产 -
-         13：邮递 -
-         14：确认收货 -
-         15：发起售后 -
-         16：退货后退款
-         17：退款 -
-         18：退货后重做
-         19：重做 -
-         20：确认退款 -
-         21：信息交流
-         22：催单信息
-         23：其他信息
-         */
         
         
         let dictionaryObjectInTaskArray = messagesList[indexPath.row]
-        let msgtype = dictionaryObjectInTaskArray.value(forKey: "msgtype") as! Int
+        let msgtype = dictionaryObjectInTaskArray.value(forKey: "msgType") as! Int
         
         var messageID:String = "0"
         var orderID:String = "10000"
@@ -523,24 +484,27 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
             customID = (dictionaryObjectInTaskArray.value(forKey: "customid") as? String)!
         }
         
-        if dictionaryObjectInTaskArray.value(forKey: "msgid") as? String == nil{
-            messageID = "0"
-        }else{
-            messageID = (dictionaryObjectInTaskArray.value(forKey: "msgid") as? String)!
-        }
+        messageID = String(dictionaryObjectInTaskArray.value(forKey: "id") as! Int)
+        
+        let visitable = dictionaryObjectInTaskArray.value(forKey: "isVisit") as! Int
 
         let userInfos = getCurrentUserInfo()
         let roletype = userInfos.value(forKey: "roletype") as? String
         /*roletype 1:客服，2:设计师，3:工厂
          */
-        if msgtype == 1 && roletype == "3"/*发起询价*/{
-            let quotePriceView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight + 216))
+        if visitable == 0{
+            dealMsg(MessageID: messageID)
+            return
+        }
+        if msgtype == 1001 && roletype == "3"/*发起询价*/{
+            let quotePriceView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight + 166))
             
             let popVC = PopupViewController()
             popVC.view.backgroundColor = UIColor.clear
             popVC.view.addSubview(showBlurEffect()) //UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
             popVC.view.addSubview(popVC.grayLayer)
             popVC.modalPresentationCapturesStatusBarAppearance = true
+            popVC.actionFromMessage = true
             quotePriceView.popupVC = popVC
             quotePriceView._orderID = orderID
             quotePriceView._customID = customID
@@ -551,14 +515,33 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
             
             self.present(popVC, animated: true, completion: nil)
             //展示报价页面
-        }else if msgtype == 4 && roletype == "2"/*发起设计*/{
-            let acceptDesignView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight + 216))
+        }else if msgtype == 1003 && roletype == "3"/*处理议价*/ {
+            let quotePriceView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight + 166))
             
             let popVC = PopupViewController()
             popVC.view.backgroundColor = UIColor.clear
             popVC.view.addSubview(showBlurEffect()) //UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
             popVC.view.addSubview(popVC.grayLayer)
             popVC.modalPresentationCapturesStatusBarAppearance = true
+            popVC.actionFromMessage = true
+            quotePriceView.popupVC = popVC
+            quotePriceView._orderID = orderID
+            quotePriceView._customID = customID
+            
+            quotePriceView.createViewWithActionType(ActionType: .dealBargain)
+            popVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext //
+            popVC.view.addSubview(quotePriceView)
+            
+            self.present(popVC, animated: true, completion: nil)
+        }else if msgtype == 2001 && roletype == "2"/*发起设计*/{
+            let acceptDesignView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight))
+            
+            let popVC = PopupViewController()
+            popVC.view.backgroundColor = UIColor.clear
+            popVC.view.addSubview(showBlurEffect()) //UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
+            popVC.view.addSubview(popVC.grayLayer)
+            popVC.modalPresentationCapturesStatusBarAppearance = true
+            popVC.actionFromMessage = true
             acceptDesignView.popupVC = popVC
             acceptDesignView._orderID = orderID
             acceptDesignView._customID = customID
@@ -569,14 +552,15 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
             
             self.present(popVC, animated: true, completion: nil)
             //跳转接受设计页面
-        }else if msgtype == 10 && roletype == "3" /*发起生产*/{
-            let acceptProduceView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight + 216))
+        }else if msgtype == 3001 && roletype == "3" /*发起生产*/{
+            let acceptProduceView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight))
             
             let popVC = PopupViewController()
             popVC.view.backgroundColor = UIColor.clear
             popVC.view.addSubview(showBlurEffect()) //UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
             popVC.view.addSubview(popVC.grayLayer)
             popVC.modalPresentationCapturesStatusBarAppearance = true
+            popVC.actionFromMessage = true
             acceptProduceView.popupVC = popVC
             acceptProduceView._orderID = orderID
             acceptProduceView._customID = customID
@@ -591,7 +575,7 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
             //其他处理方式
         }
         //处理消息
-      //  dealMsg(MessageID: messageID)
+        dealMsg(MessageID: messageID)
     }
     
     //缩略图imageView点击
@@ -619,71 +603,32 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
         #endif
         //定义请求参数
         let params:NSMutableDictionary = NSMutableDictionary()
-        
+        var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
         //从datacore获取用户数据
-        //获取管理的数据上下文，对象
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let managedObjectContext = appDelegate.persistentContainer.viewContext
+        let userinfos = getCurrentUserInfo()
+        let token = userinfos.value(forKey: "token") as! String
         
-        //声明数据的请求
-        let fetchRequest =  NSFetchRequest<UserAccount>(entityName:"UserAccount")
-        let fetchRequestOfToken = NSFetchRequest<TokenRestored>(entityName:"TokenRestored")
-        //        fetchRequest.fetchLimit = 10 //限定查询结果的数量
-        //        fetchRequest.fetchOffset = 0 //查询到偏移量
-        fetchRequest.returnsObjectsAsFaults = false
-        fetchRequestOfToken.returnsObjectsAsFaults = false
-        
-        // 设置查询条件
-        let predicate = NSPredicate(format: "id = '1'")
-        fetchRequest.predicate = predicate
-        
-        // 设置查询条件
-        let predicateOfToken = NSPredicate(format: "id = '1'")
-        fetchRequestOfToken.predicate = predicateOfToken
-        //查询操作
-        do {
-            let fetchedObjects = try managedObjectContext.fetch(fetchRequest)
-            
-            //遍历查询结果
-            for info in fetchedObjects{
-                //更新数据
-                //设置获取全部订单参数组
-                params["userid"] =  info.userId
-                params["roletype"] = info.roleType
-                params["commandcode"] = 111
-                params["msgid"] = MessageID
-                try managedObjectContext.save()
-            }
-        } catch  {
-            fatalError("获取失败")
-        }
-        
-        //查询操作
-        do {
-            let fetchedObjects = try managedObjectContext.fetch(fetchRequestOfToken)
-            
-            //遍历查询结果
-            for info in fetchedObjects{
-                //更新数据
-                //设置获取全部订单参数组
-                params["token"] = info.token
-                try managedObjectContext.save()
-            }
-        } catch  {
-            fatalError("获取失败")
-        }
-        for item in params{
-            print(item)
-        }
-        _ = Alamofire.request(requstURL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
+        header["token"] = token
+        params["wId"] = MessageID
+       
+        _ = Alamofire.request(requstURL,method:.post, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{
             case true:
-                print("处理成功")
+                if  let value = responseObject.result.value{
+                    let json = JSON(value)
+                    let statusCode = json["code"].int!
+                    if statusCode == 200{
+                        print("处理成功")
+                    }else{
+                        print("处理失败")
+                    }
+                }
                 self.getMessageList()
+                self.OrderMainObject.getMessageList()
             case false:
                 print("处理失败")
-                
+                self.OrderMainObject.getMessageList()
             }
         }
         
@@ -706,6 +651,7 @@ func getCurrentUserInfo() -> NSDictionary{
     
     //从datacore获取用户数据
     //获取管理的数据上下文，对象
+    
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let managedObjectContext = appDelegate.persistentContainer.viewContext
     

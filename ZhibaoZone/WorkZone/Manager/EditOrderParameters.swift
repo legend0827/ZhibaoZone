@@ -31,8 +31,10 @@ class EditOrderParameters: UIViewController,UITableViewDelegate,UITableViewDataS
     var orderPriceLabel:UIImageView = UIImageView.init()
 
     // 产品参数字典
-    var ProductParams:[[String]] = [[]]
+    var ProductParams:[[NSDictionary]] = [[]]
     var parasCounts:[Int] = []
+    //系统配置项目Dict
+    var systemParam:[AnyObject] = []
     
     //开模方式选中项
     var moldSelectedItems:[String] = []
@@ -84,6 +86,9 @@ class EditOrderParameters: UIViewController,UITableViewDelegate,UITableViewDataS
     var old_height:String = ""
     var old_color:String = ""
     var old_deadline:String = ""
+    var old_shop:String = ""
+    var old_customerWang:String = ""
+    var old_isCountinueOrder:String = ""
     //新值
     var new_productType:String = "徽章"
     var new_material:String = ""
@@ -96,6 +101,40 @@ class EditOrderParameters: UIViewController,UITableViewDelegate,UITableViewDataS
     var new_height:String = ""
     var new_color:String = ""
     var new_deadline:String = ""
+    var new_shop:String = ""
+    var new_customerWang:String = ""
+    var new_isCountinueOrder:String = ""
+    
+    //旧值-ID
+    var old_productType_ID:String = ""
+    var old_material_ID:String = ""
+    var old_accessories_ID:String = ""
+    var old_amount_ID:Int = 0
+    var old_modal_ID:String = ""
+    var old_produceStyle_ID:String = ""
+    var old_length_ID:String = ""
+    var old_width_ID:String = ""
+    var old_height_ID:String = ""
+    var old_color_ID:String = ""
+    var old_deadline_ID:String = ""
+    var old_shop_ID:String = ""
+    var old_customerWang_ID:String = ""
+    var old_isCountinueOrder_ID:String = ""
+    //新值-ID
+    var new_productType_ID:String = ""
+    var new_material_ID:String = ""
+    var new_accessories_ID:String = ""
+    var new_amount_ID:Int = 0
+    var new_modal_ID:String = ""
+    var new_produceStyle_ID:String = ""
+    var new_length_ID:String = ""
+    var new_width_ID:String = ""
+    var new_height_ID:String = ""
+    var new_color_ID:String = ""
+    var new_deadline_ID:String = ""
+    var new_shop_ID:String = ""
+    var new_customerWang_ID:String = ""
+    var new_isCountinueOrder_ID:String = ""
     //keywindows
   //  let keywindow = UIApplication.shared.keyWindow
  //   var window = UIWindow.init()
@@ -218,6 +257,7 @@ class EditOrderParameters: UIViewController,UITableViewDelegate,UITableViewDataS
         //setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .red))
         super.viewDidLoad()
         setupUI()
+        systemParam = getSystemParasFromPlist()
         //先隐藏系统提供的导航栏
         self.navigationController?.isNavigationBarHidden = true
         
@@ -261,30 +301,49 @@ class EditOrderParameters: UIViewController,UITableViewDelegate,UITableViewDataS
         
         //获取数据
         //从plist获取CheckListItem
-        let plistFileOfCheckItem = Bundle.main.path(forResource: "checkListItemsArray", ofType: "plist")
-        let tempParaItems = NSArray.init(contentsOfFile: plistFileOfCheckItem!)
-        ProductParams.removeAll()
         
-        if tempParaItems?.count == 0{
-            loadOrderDataFromServer()
-        }else{
-            for i in tempParaItems!{
-                ProductParams.append(i as! [String])
-            }
-            parasCounts.removeAll()
-            for items in ProductParams{
-                parasCounts.append(items.count)
-            }
-            self.view.addSubview(editOrderParasTable)
-            self.view.bringSubview(toFront: saveBtn)
-            setupSelectedItems()
-            //contactCountself.view.addSubview(chooseContactTableView)
+        ProductParams.removeAll()
+        let productParamDicObjec = systemParam[0] as! NSDictionary
+        
+        let productDicInArray = productParamDicObjec.value(forKey: "goodsClass") as! [NSDictionary]
+        let materialDicInArray = productParamDicObjec.value(forKey: "material") as! [NSDictionary]
+        let accessoriesDicInArray = productParamDicObjec.value(forKey: "accessories") as! [NSDictionary]
+        let modelDicInArray = productParamDicObjec.value(forKey: "model") as! [NSDictionary]
+        let technologyDicInArray = productParamDicObjec.value(forKey: "technology") as! [NSDictionary]
+        let colorDicInArray = productParamDicObjec.value(forKey: "color") as! [NSDictionary]
+        
+        ProductParams.append(productDicInArray)
+        ProductParams.append(materialDicInArray)
+        ProductParams.append(accessoriesDicInArray)
+        ProductParams.append(modelDicInArray)
+        ProductParams.append(technologyDicInArray)
+        ProductParams.append(colorDicInArray)
+        
+        parasCounts.removeAll()
+        for i in 0..<ProductParams.count{
+            parasCounts.append(ProductParams[i].count)
         }
         
+        self.view.addSubview(editOrderParasTable)
+        self.view.bringSubview(toFront: saveBtn)
+        setupSelectedItems()
+        
+//        if tempParaItems?.count == 0{
+//            loadOrderDataFromServer()
+//        }else{
+//            for i in tempParaItems!{
+//                ProductParams.append(i as! [NSDictionary])
+//            }
+//            parasCounts.removeAll()
+//            for items in ProductParams{
+//                parasCounts.append(items.count)
+//            }
+//
+//            //contactCountself.view.addSubview(chooseContactTableView)
+//        }
+//
         self.view.addSubview(saveBtn)
         self.view.bringSubview(toFront: saveBtn)
-
-
         // Do any additional setup after loading the view.
     }
     
@@ -295,33 +354,30 @@ class EditOrderParameters: UIViewController,UITableViewDelegate,UITableViewDataS
     
     override func viewWillAppear(_ animated: Bool) {
         setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .red))
-        //获取数据
-        //从plist获取CheckListItem
-        let plistFile = Bundle.main.path(forResource: "checkListItemsArray", ofType: "plist")
-        let tempParaItems = NSArray.init(contentsOfFile: plistFile!)
-        ProductParams.removeAll()
-        
-        if tempParaItems?.count == 0{
-            loadOrderDataFromServer()
-        }else{
-            for i in tempParaItems!{
-                ProductParams.append(i as! [String])
-            }
-            parasCounts.removeAll()
-            for items in ProductParams{
-                parasCounts.append(items.count)
-            }
-            self.view.addSubview(editOrderParasTable)
-            self.view.bringSubview(toFront: saveBtn)
-            setupSelectedItems()
-            //contactCountself.view.addSubview(chooseContactTableView)
-        }
+//        //获取数据
+//        //从plist获取CheckListItem
+//        let plistFile = Bundle.main.path(forResource: "checkListItemsArray", ofType: "plist")
+//        let tempParaItems = NSArray.init(contentsOfFile: plistFile!)
+//        ProductParams.removeAll()
+//
+//        if tempParaItems?.count == 0{
+//            loadOrderDataFromServer()
+//        }else{
+//            for i in tempParaItems!{
+//                ProductParams.append(i as! [String])
+//            }
+//            parasCounts.removeAll()
+//            for items in ProductParams{
+//                parasCounts.append(items.count)
+//            }
+//            self.view.addSubview(editOrderParasTable)
+//            self.view.bringSubview(toFront: saveBtn)
+//            setupSelectedItems()
+//            //contactCountself.view.addSubview(chooseContactTableView)
+//        }
     }
     
     private func setupUI(){
-        DispatchQueue.main.async {
-            self.loadOrderDataFromServer()
-        }
         
         //背景颜色
         self.view.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
@@ -530,7 +586,7 @@ class EditOrderParameters: UIViewController,UITableViewDelegate,UITableViewDataS
     }
     
     func loadData(){
-        let orderInfoObjects = orderObject.value(forKey: "orderinfo") as! NSDictionary
+        let orderInfoObjects = orderObject
         
         //下载订单图片
         if orderInfoObjects.value(forKey: "goodsimage") as? String == nil || orderInfoObjects.value(forKey: "goodsimage") as? String == ""{ // 图片字段为空
@@ -570,43 +626,83 @@ class EditOrderParameters: UIViewController,UITableViewDelegate,UITableViewDataS
                 greyLayerPrompt.show(text: "订单异常,请联系管理员")
                 return
             }
-            self.orderID.text = "订单号: \(orderInfoObjects.value(forKey: "orderid") as! String)"
+            
             self.customIDValue = orderInfoObjects.value(forKey: "customid") as! String
             self.orderIDValue = orderInfoObjects.value(forKey: "orderid") as! String
-            let orderstateObject = (self.orderObject.value(forKey: "state") as! NSDictionary).value(forKey: "ordersheetstate")
-            let designstateObject = (self.orderObject.value(forKey: "state") as! NSDictionary).value(forKey: "designstate")
-            let quotepricestateObject = (self.orderObject.value(forKey: "state") as! NSDictionary).value(forKey: "quotestate")
-            let paystateObject = (self.orderObject.value(forKey: "state") as! NSDictionary).value(forKey: "payoffstate")
-            let goodsInfoObject = self.orderObject.value(forKey: "goodsinfo") as! NSDictionary
-            self.orderState.text = "\((orderstateObject as! NSDictionary).value(forKey: "msg") as! String)"
-            self.designState.text = "\((designstateObject as! NSDictionary).value(forKey: "msg") as! String)"
-            self.quotePriceState.text = "\((quotepricestateObject as! NSDictionary).value(forKey: "msg") as! String)"
-            self.payState.text = "\((paystateObject as! NSDictionary).value(forKey: "msg") as! String)"
-            if (orderInfoObjects.value(forKey: "deadline") as? Int) == nil {
-                self.productDeadLineValue.text = "0"
+            self.orderID.text = "订单号: \(self.orderIDValue)"
+            
+            //状态Object
+            let statusObjects = self.systemParam[1] as! NSDictionary
+            //产品参数Object
+            let productObjets = self.systemParam[0] as! NSDictionary
+            
+            //设置订单状态
+            if (orderInfoObjects.value(forKey: "produceStatus") as! Int) == 0 {
+                self.orderState.text = "咨询中"
+            }else if (orderInfoObjects.value(forKey: "produceStatus") as! Int) == 1{
+                self.orderState.text = "待分配生产"
             }else{
-                self.productDeadLineValue.text = "\(orderInfoObjects.value(forKey: "deadline") as! Int)"
+                let statusCode = orderInfoObjects.value(forKey: "produceStatus") as! Int
+                self.orderState.text = "\(((statusObjects.value(forKey: "produceStatus") as! NSArray)[statusCode - 1] as! NSDictionary).value(forKey: "servicerTag") as! String)"
             }
             
-            self.old_productType = orderInfoObjects.value(forKey: "goodsclass") as! String
+            //设置设计状态
+            let designStatusCode = orderInfoObjects.value(forKey: "designStatus") as! Int
+            self.designState.text = "\(((statusObjects.value(forKey: "designStatus") as! NSArray)[designStatusCode - 1] as! NSDictionary).value(forKey: "servicerTag") as! String)"
+
+            //设置询价状态
+            let inquiryStatusCode = orderInfoObjects.value(forKey: "inquiryStatus") as! Int
+            self.quotePriceState.text = "\(((statusObjects.value(forKey: "inquiryStatus") as! NSArray)[inquiryStatusCode - 1] as! NSDictionary).value(forKey: "servicerTag") as! String)"
+            
+            //设置支付状态
+            if inquiryStatusCode == 6{
+                self.payState.text = "已支付"
+            }else{
+                self.payState.text = "未支付"
+            }
+            
+            if (orderInfoObjects.value(forKey: "userPeriod") as? Int) == nil {
+                self.productDeadLineValue.text = "0"
+            }else{
+                self.productDeadLineValue.text = "\(orderInfoObjects.value(forKey: "userPeriod") as! Int)"
+            }
+            
+            //产品类型
+            self.old_productType_ID = orderInfoObjects.value(forKey: "goodsClass") as! String
+            self.old_productType = ((productObjets.value(forKey: "goodsClass") as! NSArray)[Int(self.old_produceStyle_ID)! - 1] as! NSDictionary).value(forKey: "goodsClass") as! String
             self.productTypeValue.text = self.old_productType
-            
-            self.old_material = goodsInfoObject.value(forKey: "texturename") as! String
+            //材质
+            self.old_material_ID = orderInfoObjects.value(forKey: "material") as! String
+            self.old_material = ((productObjets.value(forKey: "material") as! NSArray)[Int(self.old_material_ID)! - 1] as! NSDictionary).value(forKey: "material") as! String
             self.productMaterialValue.text = self.old_material
-           
-            self.old_accessories = goodsInfoObject.value(forKey: "accessoriesname") as! String
+           //配件
+            self.old_accessories_ID = orderInfoObjects.value(forKey: "accessories") as! String
+            self.old_accessories = ((productObjets.value(forKey: "accessories") as! NSArray)[Int(self.old_accessories_ID)! - 1] as! NSDictionary).value(forKey: "accessories") as! String
             self.productAccessoriesValue.text = self.old_accessories
-            
-            self.old_modal = goodsInfoObject.value(forKey: "shape") as! String
+            //开模方式
+            self.old_modal_ID = orderInfoObjects.value(forKey: "model") as! String
+            let old_model_IDArray = self.old_modal_ID.split(separator: ",")
+            for item in old_model_IDArray{
+                self.old_modal += ((productObjets.value(forKey: "model") as! NSArray)[Int(item)! - 1] as! NSDictionary).value(forKey: "model") as! String
+            }
             self.productMoldStyleValue.text = self.old_modal
-            
-            self.old_produceStyle = goodsInfoObject.value(forKey: "technology") as! String
+            //工艺
+            self.old_produceStyle_ID = orderInfoObjects.value(forKey: "technology") as! String
+            let old_produceStyle_IDArray = self.old_produceStyle_ID.split(separator: ",")
+            for item in old_produceStyle_IDArray{
+                self.old_produceStyle += ((productObjets.value(forKey: "technology") as! NSArray)[Int(item)! - 1] as! NSDictionary).value(forKey: "technology") as! String
+            }
             self.productProduceStyleValue.text = self.old_produceStyle
-            
-            self.old_color = goodsInfoObject.value(forKey: "color") as! String
+            //颜色
+            self.old_color_ID = orderInfoObjects.value(forKey: "color") as! String
+            let old_color_IDArray = self.old_color_ID.split(separator: ",")
+            for item in old_color_IDArray{
+                self.old_color += ((productObjets.value(forKey: "color") as! NSArray)[Int(item)! - 1] as! NSDictionary).value(forKey: "color") as! String
+            }
             self.productColorValue.text = self.old_color
             
-            self.old_amount = goodsInfoObject.value(forKey: "number") as! Int
+            //数量
+            self.old_amount = orderInfoObjects.value(forKey: "number") as! Int
             self.productAmountValue.text = "\(self.old_amount)"
             
             if (orderInfoObjects.value(forKey: "deadline") as? Int) == nil {
@@ -615,14 +711,14 @@ class EditOrderParameters: UIViewController,UITableViewDelegate,UITableViewDataS
                 self.old_deadline = String(orderInfoObjects.value(forKey: "deadline") as! Int)
             }
             
-            self.old_length = String((goodsInfoObject.value(forKey: "size") as! NSDictionary).value(forKey: "length") as! Double)
-            self.productLengthValue = self.old_length
-            
-            self.old_width = String((goodsInfoObject.value(forKey: "size") as! NSDictionary).value(forKey: "width") as! Double)
-            self.productWidthValue = self.old_width
-            
-            self.old_height = String((goodsInfoObject.value(forKey: "size") as! NSDictionary).value(forKey: "height") as! Double)
-            self.productHeightValue = self.old_height
+//            self.old_length = String((goodsInfoObject.value(forKey: "size") as! NSDictionary).value(forKey: "length") as! Double)
+//            self.productLengthValue = self.old_length
+//
+//            self.old_width = String((goodsInfoObject.value(forKey: "size") as! NSDictionary).value(forKey: "width") as! Double)
+//            self.productWidthValue = self.old_width
+//
+//            self.old_height = String((goodsInfoObject.value(forKey: "size") as! NSDictionary).value(forKey: "height") as! Double)
+//            self.productHeightValue = self.old_height
             
             self.productSizeValue.text = "\(self.productLengthValue)x\(self.productWidthValue)x\(self.productHeightValue)"
         }
@@ -920,15 +1016,15 @@ class EditOrderParameters: UIViewController,UITableViewDelegate,UITableViewDataS
             switch pickerView {
             case ProductTypePicker:
                 let productItems = ProductParams[0]
-                pickerLabel?.text = productItems[row]
+                pickerLabel?.text = productItems[row].value(forKey: "goodsClass") as! String
             case ProductMaterialPicker:
                 
                 let productItems = ProductParams[1]
-                pickerLabel?.text = productItems[row]
+                pickerLabel?.text = productItems[row].value(forKey: "material") as! String
             case ProductAccessoriesPicker:
                 
                 let productItems = ProductParams[2]
-                pickerLabel?.text = productItems[row]
+                pickerLabel?.text = productItems[row].value(forKey: "accessories") as! String
             default:
                 pickerLabel?.text = String(row)
             }
@@ -939,143 +1035,29 @@ class EditOrderParameters: UIViewController,UITableViewDelegate,UITableViewDataS
         switch pickerView {
         case ProductTypePicker:
             let productItems = ProductParams[0]
-            productTypeValue.text = productItems[row]
-            new_productType = productItems[row]
+            productTypeValue.text = productItems[row].value(forKey: "goodsClass") as! String
+            new_productType = productItems[row].value(forKey: "goodsClass") as! String
+            new_productType_ID = String(productItems[row].value(forKey: "id") as! Int)
         case ProductMaterialPicker:
             let productItems = ProductParams[1]
-            productMaterialValue.text = productItems[row]
-            new_material = productItems[row]
+            productMaterialValue.text = productItems[row].value(forKey: "material") as! String
+            new_material = productItems[row].value(forKey: "material") as! String
+            new_material_ID = String(productItems[row].value(forKey: "id") as! Int)
         case ProductAccessoriesPicker:
             let productItems = ProductParams[2]
-            productAccessoriesValue.text = productItems[row]
-            new_accessories = productItems[row]
+            productAccessoriesValue.text = productItems[row].value(forKey: "accessories") as! String
+            new_accessories = productItems[row].value(forKey: "accessories") as! String
+            new_accessories_ID = String(productItems[row].value(forKey: "id") as! Int)
         default:
             print("something was wrong")
         }
         // pickerView.selectRow(row, inComponent: 0, animated: true)
 //        updatePrice()
     }
-
-    //加载数据
-    func loadOrderDataFromServer() {
-        //获取列表
-        let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
-        let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
-        let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
-        
-        var requestUrl:String = ""
-        #if DEBUG
-        requestUrl = apiAddresses.value(forKey: "checklistItemsDebug") as! String
-        #else
-        requestUrl = apiAddresses.value(forKey: "checklistItems") as! String
-        #endif
-        _ = Alamofire.request(requestUrl,method:.get,encoding: URLEncoding.default) .responseJSON{
-            (responseObject) in
-            switch responseObject.result.isSuccess{
-            case true:
-                if  let value = responseObject.result.value{
-                    let json = JSON(value)
-                    
-                    let plistFile = Bundle.main.path(forResource: "checkListItemsArray", ofType: "plist")
-                    //临时存储参数列表
-                    var tempParamsArray:[[String]] = [[]]
-                    var productArray:[String] = []
-                    var colorArray:[String] = []
-                    var materialArray:[String] = []
-                    var modeArray:[String] = []
-                    var produceStyleArray:[String] = []
-                    var accessoriesArray:[String] = []
-                    //清除现有的文件列表
-                    let emptyArray:NSArray = []
-                    emptyArray.write(toFile: plistFile!, atomically: true)
-                    
-                    self.ProductParams.removeAll()
-                    self.parasCounts.removeAll()
-                    tempParamsArray.removeAll()
-                    //产品类型 - 0
-                    for item in json["product"].array! {
-                        let restoreItem = item.string// dictionaryObject! as NSDictionary
-                        productArray.append(restoreItem!)
-                    }
-                    self.ProductParams.append(productArray)
-                    tempParamsArray.append(productArray)
-                    self.parasCounts.append(productArray.count)
-                    //产品材质 - 1
-                    for item in json["material"].array! {
-                        let restoreItem = item.string //dictionaryObject! as NSDictionary
-                        materialArray.append(restoreItem!)
-                    }
-                    self.ProductParams.append(materialArray)
-                    tempParamsArray.append(materialArray)
-                    self.parasCounts.append(materialArray.count)
-                    //产品附件 - 2
-                    for item in json["fitting"].array! {
-                        let restoreItem = item.string //dictionaryObject! as NSDictionary
-                        accessoriesArray.append(restoreItem!)
-                    }
-                    self.ProductParams.append(accessoriesArray)
-                    tempParamsArray.append(accessoriesArray)
-                    self.parasCounts.append(accessoriesArray.count)
-                    
-                    //开模方式 - 3
-                    for item in json["mold"].array! {
-                        let restoreItem = item.string //dictionaryObject! as NSDictionary
-                        modeArray.append(restoreItem!)
-                    }
-                    self.ProductParams.append(modeArray)
-                    tempParamsArray.append(modeArray)
-                    self.parasCounts.append(modeArray.count)
-
-                    //生产工艺 - 4
-                    for item in json["technology"].array! {
-                        let restoreItem = item.string //dictionaryObject! as NSDictionary
-                        produceStyleArray.append(restoreItem!)
-                    }
-                    self.ProductParams.append(produceStyleArray)
-                    tempParamsArray.append(produceStyleArray)
-                    self.parasCounts.append(produceStyleArray.count)
-                    
-                    //电镀色 - 5
-                    for item in json["color"].array! {
-                        let restoreItem = item.string // dictionaryObject! as NSDictionary
-                        colorArray.append(restoreItem!)
-                    }
-                    self.ProductParams.append(colorArray)
-                    tempParamsArray.append(colorArray)
-                    self.parasCounts.append(colorArray.count)
-                    
-                    //调试
-                    //productArray =
-                    tempParamsArray.removeAll()
-                    
-                    tempParamsArray.append(productArray)
-                    tempParamsArray.append(materialArray)
-                    tempParamsArray.append(accessoriesArray)
-                    tempParamsArray.append(modeArray)
-                    tempParamsArray.append(produceStyleArray)
-                    tempParamsArray.append(colorArray)
-                    
-                    let array = NSArray(array: tempParamsArray)
-                    //let array = NSArray(array: productArray)
-                    //将数组写入联系人列表
-                    array.write(toFile: plistFile!, atomically: true)
-                    self.editOrderParasTable.reloadData()
-                    self.ProductTypePicker.reloadAllComponents()
-                    self.ProductMaterialPicker.reloadAllComponents()
-                    self.ProductAccessoriesPicker.reloadAllComponents()
-                }
-            case false:
-                print("处理失败")
-                //greyLayerPrompt.show(text: "发货失败，请重试")
-            }
-        }
-    }
     
     func updateParams(){
         //获取用户信息
         let userInfos = getCurrentUserInfo()
-        let roletype = userInfos.value(forKey: "roletype") as? String
-        let userid = userInfos.value(forKey: "userid") as? String
         let token = userInfos.value(forKey: "token") as? String
         
         //获取列表
@@ -1084,36 +1066,35 @@ class EditOrderParameters: UIViewController,UITableViewDelegate,UITableViewDataS
         let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
         //定义请求参数
         let params:NSMutableDictionary = NSMutableDictionary()
-        params["userId"] = userid
-        params["roleType"] = roletype
-        params["token"] = token
-        params["customid"] = customIDValue
+        var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
+        
+        header["token"] = token
+        params["wCustomid"] = customIDValue
         params["orderid"] = orderIDValue
         params["number"] = new_amount// productAmountValue.text as! String //orderID
-        params["goodsclass"] = new_productType // productTypeValue.text as! String// customID
-        params["texturename"] = new_material//productMaterialValue.text as! String
-        params["commandcode"] = 102
+        params["goodsClass"] = new_productType // productTypeValue.text as! String// customID
+        params["material"] = new_material//productMaterialValue.text as! String
         params["length"] = new_length
         params["width"] = new_width
         params["height"] = new_height
         params["color"] = new_color// productColorValue.text as! String
-        params["shape"] = new_modal//productMoldStyleValue.text as! String
+        params["model"] = new_modal//productMoldStyleValue.text as! String
         params["technology"] = new_produceStyle//productProduceStyleValue.text as! String
-        params["deadline"] = new_deadline
+        params["userPeriod"] = new_deadline
        // params["length"] = productLengthValue.text as! String
       //  params["width"] = productWidthValue.text as! String
      //   params["height"] = productHeightValue.text as! String
-        params["accessoriesname"] = new_accessories//productAccessoriesValue.text as! String
-        params["goodsid"] = "abcd123456"
-        
-        
-        var requestUrl:String = ""
+        params["accessories"] = new_accessories//productAccessoriesValue.text as! String
+//        params["customerWang"] =
+//        params["shop"] =
+      //  params["isContinueOrder"] =
+
         #if DEBUG
-        requestUrl = apiAddresses.value(forKey: "updateOrderInfoAPIDebug") as! String
+        let requestUrl = apiAddresses.value(forKey: "updateOrderInfoAPIDebug") as! String
         #else
-        requestUrl = apiAddresses.value(forKey: "updateOrderInfoAPI") as! String
+        let requestUrl = apiAddresses.value(forKey: "updateOrderInfoAPI") as! String
         #endif
-        _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
+        _ = Alamofire.request(requestUrl,method:.post, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{
             case true:
@@ -1584,24 +1565,24 @@ class EditOrderParameters: UIViewController,UITableViewDelegate,UITableViewDataS
         
     }
     func setupSelectedItems(){
-        moldSelectedItems.removeAll()
-        produceStyleSelectedItems.removeAll()
-        colorSelectedItems.removeAll()
-        for item in ProductParams[3]{ // 开模方式
-            if (productMoldStyleValue.text?.contains(item))!{
-                moldSelectedItems.append(item)
-            }
-        }
-        for item in ProductParams[4]{ // 生产工艺
-            if (productProduceStyleValue.text?.contains(item))!{
-                produceStyleSelectedItems.append(item)
-            }
-        }
-        for item in ProductParams[5]{ // 电镀色
-            if (productColorValue.text?.contains(item))!{
-                colorSelectedItems.append(item)
-            }
-        }
+//        moldSelectedItems.removeAll()
+//        produceStyleSelectedItems.removeAll()
+//        colorSelectedItems.removeAll()
+//        for item in ProductParams[3]{ // 开模方式
+//            if (productMoldStyleValue.text?.contains(item))!{
+//                moldSelectedItems.append(item)
+//            }
+//        }
+//        for item in ProductParams[4]{ // 生产工艺
+//            if (productProduceStyleValue.text?.contains(item))!{
+//                produceStyleSelectedItems.append(item)
+//            }
+//        }
+//        for item in ProductParams[5]{ // 电镀色
+//            if (productColorValue.text?.contains(item))!{
+//                colorSelectedItems.append(item)
+//            }
+//        }
         
     }
     

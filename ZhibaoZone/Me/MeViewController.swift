@@ -21,8 +21,10 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
     var SetQuickAccessPermitCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44))
     var SetParametersCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44))
     var versionCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44))
+    var invoiceCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44))
     var switchAccountCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44))
-    
+    var logoutAccountCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44))
+    let LogoutBtn:UIButton = UIButton.init(type: UIButtonType.system)
     lazy var _tabBarVC = TabBarController(royeType: 4)
     //弹窗灰层
     lazy var blurView = showBlurEffect()
@@ -169,7 +171,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         }
         
         
-        self.tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), style: UITableViewStyle.grouped)
+        self.tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - heightChangeForiPhoneXFromBottom - 50), style: UITableViewStyle.grouped)
         
         tableView?.dataSource = self
         tableView?.delegate = self
@@ -190,25 +192,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         tableView?.bounces = true
         tableView?.separatorStyle = .singleLine
         
-        //设置登录按钮
-        let LogoutBtn:UIButton = UIButton.init(type: UIButtonType.system)
-        if UIDevice.current.isX() {
-            LogoutBtn.frame = CGRect(x:20, y:UIScreen.main.bounds.height-201, width:UIScreen.main.bounds.width - 40, height: 45)
-        }else{
-            LogoutBtn.frame = CGRect(x:20, y:UIScreen.main.bounds.height-140, width:UIScreen.main.bounds.width - 40, height: 45)
-        }
-//        LogoutBtn.layer.borderColor = UIColor.lightGray.cgColor
-        LogoutBtn.layer.cornerRadius = 6
-//        LogoutBtn.layer.borderWidth = 0.5
-        LogoutBtn.layer.backgroundColor = UIColor.iconColors(color: .red).cgColor
-        LogoutBtn.setTitle("退出", for: UIControlState.normal)
-        LogoutBtn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        LogoutBtn.setTitleColor(UIColor.titleColors(color: .white), for: UIControlState.normal)
-        LogoutBtn.setTitleColor(UIColor.clear, for: UIControlState.highlighted)
         
-        tableView?.addSubview(LogoutBtn)
-            
-        LogoutBtn.addTarget(self, action: #selector(LogoutBtnClick), for: UIControlEvents.touchUpInside)
 
         //登出按钮左侧图标
 //        let imgLogout = UIImageView(frame: CGRect(x: 5, y: (44-30)/2, width: 30, height: 30))
@@ -221,6 +205,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         createUnlockBanner()
         createSetBanner()
         createVersionBanner()
+        createInvoiceBanner()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -231,7 +216,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         }
     }
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 7
+        return 9
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
@@ -282,6 +267,24 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
             
             return SetParametersCell
         }else if (indexPath.section == 5){
+            
+            //设置分割线
+            let seperateLine:UIView = UIView.init(frame: CGRect(x: 20, y: 0, width: kWidth - 30, height: 1))
+            seperateLine.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+            
+            invoiceCell.addSubview(seperateLine)
+            
+            //参数设置
+            invoiceCell.alpha = 1.0
+            invoiceCell.selectionStyle = UITableViewCellSelectionStyle.none
+            
+            //设置分割线
+            let seperateLineBottom:UIView = UIView.init(frame: CGRect(x: 20, y: 60, width: kWidth - 30, height: 1))
+            seperateLineBottom.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+            invoiceCell.addSubview(seperateLineBottom)
+            return invoiceCell
+        }
+        else if (indexPath.section == 6){
             //设置分割线
             let seperateLine:UIView = UIView.init(frame: CGRect(x: 20, y: 0, width: kWidth - 30, height: 1))
             seperateLine.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
@@ -298,7 +301,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
             versionCell.addSubview(seperateLineBottom)
             return versionCell
             
-        }else if indexPath.section == 6{
+        }else if indexPath.section == 7{
             switchAccountCell.alpha = 1.0
             switchAccountCell.selectionStyle = .none
 //            if !addtionalAccountAvailable{
@@ -318,7 +321,31 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
            // }
             switchAccountCell.addSubview(switchAccountBtn)
             return switchAccountCell
-        }else{
+        }else if indexPath.section == 8{
+            //设置登录按钮
+            LogoutBtn.frame = CGRect(x: 20, y: 0, width: kWidth - 40, height: 44)
+//
+//            if UIDevice.current.isX() {
+//                LogoutBtn.frame = CGRect(x:20, y:UIScreen.main.bounds.height-151, width:UIScreen.main.bounds.width - 40, height: 45)
+//            }else{
+//                LogoutBtn.frame = CGRect(x:20, y:UIScreen.main.bounds.height-90, width:UIScreen.main.bounds.width - 40, height: 45)
+//            }
+            //        LogoutBtn.layer.borderColor = UIColor.lightGray.cgColor
+            LogoutBtn.layer.cornerRadius = 6
+            //        LogoutBtn.layer.borderWidth = 0.5
+            LogoutBtn.layer.backgroundColor = UIColor.iconColors(color: .red).cgColor
+            LogoutBtn.setTitle("退出", for: UIControlState.normal)
+            LogoutBtn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+            LogoutBtn.setTitleColor(UIColor.titleColors(color: .white), for: UIControlState.normal)
+            LogoutBtn.setTitleColor(UIColor.clear, for: UIControlState.highlighted)
+            
+            //  tableView?.addSubview(LogoutBtn)
+            
+            LogoutBtn.addTarget(self, action: #selector(LogoutBtnClick), for: UIControlEvents.touchUpInside)
+            tableView.addSubview(logoutAccountCell)
+            logoutAccountCell.addSubview(LogoutBtn)
+            return logoutAccountCell
+        } else{
             RoleTypeCell.alpha = 1.0
             RoleTypeCell.selectionStyle = UITableViewCellSelectionStyle.none
             return RoleTypeCell
@@ -333,6 +360,9 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
             let setParamtersVC = SetParamtersViewController(roleType: _roleType)
             setParamtersVC.MeVC = self
             self.present(setParamtersVC, animated: true, completion: nil)
+        }else if indexPath.section == 5{
+            let invoiceVC = invoiceViewController()
+            self.present(invoiceVC, animated: true, completion: nil)
         }
     }
     
@@ -357,6 +387,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     @objc func LogoutBtnClick(){
         //跳转页面
         let LoginVC = ViewController()
@@ -369,8 +400,51 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
             updatesDeviceToken(withDeviceToken: deviceToken as! String, user: _accountID, toBind: false)
         }
         
+        logoutFromServer()
+        
         appDelegate.window?.rootViewController = LoginVC
         self.present(LoginVC, animated: true, completion: nil)
+    }
+    
+    func logoutFromServer(){
+        
+        let userinfos = getCurrentUserInfo()
+        let token = userinfos.value(forKey: "token") as! String
+        
+        let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
+        let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
+        let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
+        #if DEBUG
+        let requstURL:String = apiAddresses.value(forKey: "logoutAPIDebug") as! String
+        #else
+        let requstURL:String = apiAddresses.value(forKey: "logoutAPI") as! String
+        #endif
+        //定义请求参数
+        let params:NSMutableDictionary = NSMutableDictionary()
+        var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
+        //从datacore获取用户数据
+        
+        header["token"] = token
+        params["onlineStatus"] = 0 //用户在线状态（0 离线，1在线，2 挂起）. Size: 0
+        
+        _ = Alamofire.request(requstURL,method:.post, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
+            (responseObject) in
+            switch responseObject.result.isSuccess{
+            case true:
+                if  let value = responseObject.result.value{
+                    let json = JSON(value)
+                    let statusCode = json["code"].int!
+                    if statusCode == 200{
+                        print("登出成功")
+                    }else{
+                        print("登出失败")
+                    }
+                }
+            case false:
+                print("处理失败")
+            }
+        }
+        
     }
     
     func createUnlockBanner(){
@@ -518,7 +592,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         userAccountLabel.font = UIFont.systemFont(ofSize: 16)
         userAccountLabel.textAlignment = .left
         
-        version.text = "V2.0.9"
+        version.text = "V2.2.1"
         version.font = UIFont.systemFont(ofSize: 14)
         version.textColor = UIColor.titleColors(color: .gray)
         version.textAlignment = .right
@@ -533,6 +607,32 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         
     }
 
+    func createInvoiceBanner(){
+        
+        let iconImageview:UIImageView = UIImageView.init(frame: CGRect(x: 20, y: 18, width: 24, height: 24))
+        let userAccountLabel:UILabel = UILabel.init(frame: CGRect(x: 64, y: 8, width: 200, height: 44))
+        //let version:UILabel =  UILabel.init(frame: CGRect(x: 20, y: 8, width: kWidth - 40, height: 44))
+        
+        //设置icon
+        iconImageview.image = UIImage(named: "invoiceiconimg")
+        //设置账号标签
+        userAccountLabel.text = "开票信息"
+        userAccountLabel.font = UIFont.systemFont(ofSize: 16)
+        userAccountLabel.textAlignment = .left
+        let imageViewOfArrow:UIImageView = UIImageView.init(frame: CGRect(x: UIScreen.main.bounds.width - 38, y: 15, width: 30, height: 30))
+        
+        imageViewOfArrow.image = UIImage(named:"right-arrow")
+        imageViewOfArrow.bounds = CGRect(x:UIScreen.main.bounds.width - 30,y: 8,width:18,height:18)
+        //设置账号
+        invoiceCell.addSubview(imageViewOfArrow)
+        invoiceCell.addSubview(iconImageview)
+        invoiceCell.addSubview(userAccountLabel)
+      //  versionCell.addSubview(version)
+        
+        tableView?.addSubview(invoiceCell)
+        
+    }
+    
     @objc func switchAccountBtnClicked(){
         print("切换账号按钮点击了")
         _tabBarVC.view.addSubview(blurView)

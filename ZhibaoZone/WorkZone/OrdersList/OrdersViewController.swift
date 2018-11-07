@@ -25,6 +25,10 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
     private let notQuoteYetVC = AllOrdersViewController(orderlistTye: orderListCategoryType.notQuotePriceYetOrderCategory)
     //已报价子视图
     private let quoteAlreadyVC = AllOrdersViewController(orderlistTye: orderListCategoryType.alreadyQuotedOderCategory)
+    //未处理议价
+    private let bargainNotDealedVC = AllOrdersViewController(orderlistTye: orderListCategoryType.bargainNotDealedCategory)
+    //已处理议价
+    private let bargainDealedVC = AllOrdersViewController(orderlistTye: orderListCategoryType.bargainDealedCategory)
     //待接受生产子视图
     private let waitForProduceVC = AllOrdersViewController(orderlistTye: orderListCategoryType.waitForAcceptProduceOrderCategory)
     //生产中子视图
@@ -36,7 +40,7 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
     //待修改
     private let waitForModifyVC = AllOrdersViewController(orderlistTye: orderListCategoryType.waitForModifyCategory)
     //已定稿
-    private let DesignConfirmedVC = AllOrdersViewController(orderlistTye: orderListCategoryType.DesigningCategory)
+    private let DesignConfirmedVC = AllOrdersViewController(orderlistTye: orderListCategoryType.customerConfirmedCategory)
     
     var backgroundColor: UIColor = UIColor.backgroundColors(color: .white) // 设置菜单栏底色
 
@@ -65,17 +69,18 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
     }
     //所有子视图控制器
     fileprivate var pagingControllers: [UIViewController] {
-        return [allOrdersVC,notQuoteYetVC,quoteAlreadyVC,waitForProduceVC,producingVC]
+        return [notQuoteYetVC,quoteAlreadyVC,bargainNotDealedVC,bargainDealedVC,waitForProduceVC,producingVC]
     }
     //菜单配置项
     fileprivate struct MenuOptions: MenuViewCustomizable {
         //菜单显示模式
         var displayMode: MenuDisplayMode {
-            return .segmentedControl
+            //return .segmentedControl
+            return .standard(widthMode: MenuItemWidthMode.flexible, centerItem: false, scrollingMode: MenuScrollingMode.scrollEnabled)
         }
         //菜单项
         var itemsOptions: [MenuItemViewCustomizable] {
-            return [MenuItem1(), MenuItem2(),MenuItem3(),MenuItem4(),MenuItem5()]
+            return [MenuItem2(),MenuItem3(),MenuItem11(),MenuItem12(),MenuItem4(),MenuItem5()]
         }
         //设置选中栏下方条的颜色
         var focusMode:MenuFocusMode {
@@ -174,7 +179,7 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
     fileprivate struct MenuItem8: MenuItemViewCustomizable {
         //自定义菜单项名称
         var displayMode: MenuItemDisplayMode {
-            return .text(title: MenuItemText(text: "设计中", color: UIColor.titleColors(color: .black), selectedColor: UIColor.titleColors(color: .red), font: UIFont.systemFont(ofSize: 16), selectedFont: UIFont.systemFont(ofSize: 16)))
+            return .text(title: MenuItemText(text: "已定稿", color: UIColor.titleColors(color: .black), selectedColor: UIColor.titleColors(color: .red), font: UIFont.systemFont(ofSize: 16), selectedFont: UIFont.systemFont(ofSize: 16)))
         }
     }
     //第9个菜单项
@@ -191,6 +196,20 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
             return .text(title: MenuItemText(text: "待支付", color: UIColor.titleColors(color: .black), selectedColor: UIColor.titleColors(color: .red), font: UIFont.systemFont(ofSize: 16), selectedFont: UIFont.systemFont(ofSize: 16)))
         }
     }
+    //第11个菜单项
+    fileprivate struct MenuItem11: MenuItemViewCustomizable {
+        //自定义菜单项名称
+        var displayMode: MenuItemDisplayMode {
+            return .text(title: MenuItemText(text: "未处理议价", color: UIColor.titleColors(color: .black), selectedColor: UIColor.titleColors(color: .red), font: UIFont.systemFont(ofSize: 16), selectedFont: UIFont.systemFont(ofSize: 16)))
+        }
+    }
+    //第12个菜单项
+    fileprivate struct MenuItem12: MenuItemViewCustomizable {
+        //自定义菜单项名称
+        var displayMode: MenuItemDisplayMode {
+            return .text(title: MenuItemText(text: "已处理议价", color: UIColor.titleColors(color: .black), selectedColor: UIColor.titleColors(color: .red), font: UIFont.systemFont(ofSize: 16), selectedFont: UIFont.systemFont(ofSize: 16)))
+        }
+    }
 }
 
 class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDelegate{
@@ -201,10 +220,6 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
     
     //获取消息列表
     var timerForMessageList:Timer!
-    var messagesList:[NSDictionary] = []
-    var previewsMessagesIDList:[String] = []
-    var currentMessagesIDList:[String] = []
-    var currentMessagesTypeList:[Int] = []
     var isNeedsAlert = true
     var getMessagesCount = 0
     lazy var _tabBarVC: TabBarController = {
@@ -214,6 +229,8 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
     //消息数目
     let messageCountBackLabel:UIView = UIView.init(frame: CGRect(x: 50, y: -5, width: 22, height: 16))
     let messageCountLabel:UILabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: 22, height: 16))
+    
+
     
     //用户角色
     var _roleType = 1
@@ -248,8 +265,10 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
     var producingOrderCount:UILabel = UILabel.init()
     var shippingOrderCount:UILabel = UILabel.init()
     //时间统计范围
-    var timeInterval_from:String = "1244411144444"
-    var timeInterval_to:String = "1244411144444"
+    var timeInterval_from:TimeInterval = 0
+    var timeInterval_to:TimeInterval = 0
+    //时间切换
+    let chooseTimeIntervalBtn:UIButton = UIButton.init(type: .custom)
     
     //标题栏背景
     let titleBarView:UIView = UIView.init(frame: CGRect(x: 0, y: 20 + heightChangeForiPhoneXFromTop, width: kWidth, height: 44))
@@ -263,8 +282,13 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
     
     let backgroundImageView:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: 200))
     
+    let noticeOfSearch:UIImageView = UIImageView.init(frame: CGRect(x: (kWidth - 147)/2, y: 64 + heightChangeForiPhoneXFromTop, width: 147, height: 17))
+    let downArrowImg:UIImageView = UIImageView.init(frame: CGRect(x: 55, y: 9, width: 9, height: 5))
     override func viewDidLoad() {
         super.viewDidLoad()
+       // getSystemParas()
+        timeInterval_from = dateAheadNow(before: 7, countAs: .PerDay)
+        timeInterval_to = getEndDateTimeStampOfToday()//1000
         //设置状态栏颜色
         setStatusBarBackgroundColor(color: UIColor.clear)
         let userinfos = getCurrentUserInfo()
@@ -335,13 +359,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         messageCountBackLabel.isHidden = true
         messageCountBackLabel.backgroundColor = UIColor.backgroundColors(color: .white)
         messageCountLabel.backgroundColor = UIColor.backgroundColors(color: .white)
-//        let backLayer = CALayer()
-//        backLayer.backgroundColor = UIColor.backgroundColors(color: .white).cgColor
-//        backLayer.bounds  = CGRect(x: 0, y: 0, width: 22, height: 16)
-//        backLayer.position = CGPoint(x: 11, y: 8)
-//        messageCountBackLabel.layer.addSublayer(backLayer)
         messageCountLabel.layer.cornerRadius = 7
-        messageCountLabel.text = "\(messagesList.count)"
         messageCountLabel.font = UIFont.systemFont(ofSize: 11)
         messageCountLabel.textColor = UIColor.titleColors(color: .red)
         messageCountLabel.textAlignment = .center
@@ -350,8 +368,6 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         messageListBtn.addSubview(msgListImg)
         messageListBtn.addSubview(messageCountBackLabel)
         messageCountBackLabel.addSubview(messageCountLabel)
-        
-        
         
         //设置搜索栏
         searchBarInOrders.backgroundColor = UIColor.backgroundColors(color: .white)
@@ -377,9 +393,9 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
     @objc func setupUIForManager(){
         self.view.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
         self.view.addSubview(scrollBackView)
-        pullStatistics()
+        
         //编辑订单请先搜索后进行操作
-        let noticeOfSearch:UIImageView = UIImageView.init(frame: CGRect(x: (kWidth - 201)/2, y: 64 + heightChangeForiPhoneXFromTop, width: 201, height: 17))
+        
         noticeOfSearch.image = UIImage(named: "noticeofsearchhintimg")
         //数据统计title
         let titleOfPage:UIImageView = UIImageView.init(frame: CGRect(x: 20, y: noticeOfSearch.frame.maxY + 30, width: 97, height: 23))
@@ -391,16 +407,15 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         let dashLine:UIView = UIView.init(frame: CGRect(x: 15, y: titleOfPage.frame.maxY + 5, width: kWidth - 30, height: 1))
         dashLine.backgroundColor = UIColor.backgroundColors(color: .lightestgray)// titleColors(color: .lightGray)
         
-        //时间切换
-        let chooseTimeIntervalBtn:UIButton = UIButton.init(type: .custom)
-        chooseTimeIntervalBtn.setTitle("最近一天", for: .normal)
+        //切换时间
+        chooseTimeIntervalBtn.setTitle("最近一周", for: .normal)
         chooseTimeIntervalBtn.frame = CGRect(x: titleOfPage.frame.maxX + 12, y: titleOfPage.frame.minY, width: 80, height: 23)
         chooseTimeIntervalBtn.contentVerticalAlignment = .center
         chooseTimeIntervalBtn.contentHorizontalAlignment = .left
         chooseTimeIntervalBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
         chooseTimeIntervalBtn.setTitleColor(UIColor.titleColors(color: .white), for: .normal)
         chooseTimeIntervalBtn.addTarget(self, action: #selector(changeTimeIntervalClicked), for: .touchUpInside)
-        let downArrowImg:UIImageView = UIImageView.init(frame: CGRect(x: 55, y: 9, width: 9, height: 5))
+        
         downArrowImg.image = UIImage(named: "down-arrow-white")
         chooseTimeIntervalBtn.addSubview(downArrowImg)
         scrollBackView.addSubview(chooseTimeIntervalBtn)
@@ -409,7 +424,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         transparentBGboard1.image = UIImage(named: "transparencybgimg")
         scrollBackView.addSubview(transparentBGboard1)
         
-        let orderStatisticBoard1:UIImageView = UIImageView.init(frame: CGRect(x: 2, y: dashLine.frame.maxY + 10, width: kWidth - 4, height: 135))
+        let orderStatisticBoard1:UIImageView = UIImageView.init(frame: CGRect(x: 2, y: dashLine.frame.maxY + 10, width: kWidth - 4, height: 155)) // 135
         orderStatisticBoard1.image = UIImage(named: "statisticboardbgimg")
         orderStatisticBoard1.isUserInteractionEnabled = true
         
@@ -422,7 +437,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         //在线客服数量：
         onlineCustomerServiceCount.frame = CGRect(x: kWidth - 156, y: customerServiceTitle.frame.minY, width: 138, height: 26)
         onlineCustomerServiceCount.setTitleColor(UIColor.lineColors(color: .gray), for: .normal)
-        onlineCustomerServiceCount.setTitle("在线客服：9999+", for: .normal)
+        onlineCustomerServiceCount.setTitle("在线客服：-", for: .normal)
         onlineCustomerServiceCount.contentHorizontalAlignment = .center
         onlineCustomerServiceCount.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         onlineCustomerServiceCount.layer.cornerRadius = 14
@@ -439,7 +454,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         gudanAmountCount.frame = CGRect(x: 23, y: gudanAmountTitle.frame.maxY + 9, width: kWidth/3, height: 21)
         gudanAmountCount.textAlignment = .left
         gudanAmountCount.textColor = UIColor.titleColors(color: .black)
-        gudanAmountCount.text = "¥99,122.00"
+        gudanAmountCount.text = "¥--"
         gudanAmountCount.font = UIFont(name: "DINPro-Medium", size: 16)
         
         orderStatisticBoard1.addSubview(gudanAmountTitle)
@@ -452,7 +467,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         dealAmountCount.frame = CGRect(x: (kWidth - 85)/2 + 2, y: gudanAmountTitle.frame.maxY + 9, width: kWidth/3, height: 21)
         dealAmountCount.textAlignment = .left
         dealAmountCount.textColor = UIColor.titleColors(color: .black)
-        dealAmountCount.text = "¥99,122.00"
+        dealAmountCount.text = "¥--"
         dealAmountCount.font = UIFont(name: "DINPro-Medium", size: 16)
         
         orderStatisticBoard1.addSubview(dealAmonuntTitle)
@@ -465,7 +480,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         transferAmountCount.frame = CGRect(x: kWidth - 104, y: gudanAmountTitle.frame.maxY + 9, width: kWidth/3, height: 21)
         transferAmountCount.textAlignment = .left
         transferAmountCount.textColor = UIColor.titleColors(color: .black)
-        transferAmountCount.text = "32.2%"
+        transferAmountCount.text = "--.-%"
         transferAmountCount.font = UIFont(name: "DINPro-Medium", size: 16)
         
         orderStatisticBoard1.addSubview(transferAmountLabel)
@@ -485,7 +500,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         newOrderAmountCount.frame = CGRect(x: 12, y: 20, width: newOrderStoryBoard.frame.width, height: 28)
         newOrderAmountCount.textAlignment = .left
         newOrderAmountCount.textColor = UIColor.titleColors(color: .black)
-        newOrderAmountCount.text = "1392881"
+        newOrderAmountCount.text = "--"
         newOrderAmountCount.font = UIFont(name: "DINPro-Medium", size: 22)
         
         scrollBackView.addSubview(newOrderStoryBoard)
@@ -506,7 +521,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         doneOrderAmountCount.frame = CGRect(x: 12, y: 20, width: doneOrderStoryBoard.frame.width, height: 28)
         doneOrderAmountCount.textAlignment = .left
         doneOrderAmountCount.textColor = UIColor.titleColors(color: .black)
-        doneOrderAmountCount.text = "1392881"
+        doneOrderAmountCount.text = "--"
         doneOrderAmountCount.font = UIFont(name: "DINPro-Medium", size: 22)
         
         scrollBackView.addSubview(doneOrderStoryBoard)
@@ -514,7 +529,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         doneOrderStoryBoard.addSubview(doneOrderAmountCount)
         
         //订单数统计 - 待支付订单
-        let waitForPayOrderStoryBoard:UIImageView = UIImageView.init(frame: CGRect(x: kWidth - 134, y: orderStatisticBoard1.frame.maxY, width: 129, height: 75 * 129 / 119))
+        let waitForPayOrderStoryBoard:UIImageView = UIImageView.init(frame: CGRect(x: kWidth - 131, y: orderStatisticBoard1.frame.maxY, width: 129, height: 75 * 129 / 119))
         waitForPayOrderStoryBoard.image = UIImage(named: "waitforpayorderbgimg")
         
         
@@ -527,7 +542,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         waitForPayOrderAmountCount.frame = CGRect(x: 12, y: 20, width: waitForPayOrderStoryBoard.frame.width, height: 28)
         waitForPayOrderAmountCount.textAlignment = .left
         waitForPayOrderAmountCount.textColor = UIColor.titleColors(color: .black)
-        waitForPayOrderAmountCount.text = "1392881"
+        waitForPayOrderAmountCount.text = "--"
         waitForPayOrderAmountCount.font = UIFont(name: "DINPro-Medium", size: 22)
         
         scrollBackView.addSubview(waitForPayOrderStoryBoard)
@@ -539,7 +554,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         transparentBGboard2.image = UIImage(named: "transparencybgimg")
         scrollBackView.addSubview(transparentBGboard2)
         
-        let orderStatisticBoard2:UIImageView = UIImageView.init(frame: CGRect(x: 2, y: transparentBGboard1.frame.maxY + 25, width: kWidth - 4, height: (kWidth - 4) * 150 / 355))
+        let orderStatisticBoard2:UIImageView = UIImageView.init(frame: CGRect(x: 2, y: transparentBGboard1.frame.maxY + 25, width: kWidth - 4, height: (kWidth - 4) * 150 / 355)) // Y+25
         orderStatisticBoard2.image = UIImage(named: "designdataboardimg")
         orderStatisticBoard2.isUserInteractionEnabled = true
         scrollBackView.addSubview(orderStatisticBoard2)
@@ -547,7 +562,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         //在线设计师数量：
         onlineDesignerCount.frame = CGRect(x: kWidth - 156, y: 5, width: 138, height: 26)
         onlineDesignerCount.setTitleColor(UIColor.lineColors(color: .gray), for: .normal)
-        onlineDesignerCount.setTitle("在线设计师：999+", for: .normal)
+        onlineDesignerCount.setTitle("在线设计师：-", for: .normal)
         onlineDesignerCount.contentHorizontalAlignment = .center
         onlineDesignerCount.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         onlineDesignerCount.layer.cornerRadius = 14
@@ -568,7 +583,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         waitForAcceptDesignCount.frame = CGRect(x: newOrderLabel.frame.minX, y: waitForAcceptDesignLabel.frame.maxY + 11, width: waitForPayOrderStoryBoard.frame.width, height: 28)
         waitForAcceptDesignCount.textAlignment = .center
         waitForAcceptDesignCount.textColor = UIColor.titleColors(color: .black)
-        waitForAcceptDesignCount.text = "1392881"
+        waitForAcceptDesignCount.text = "--"
         waitForAcceptDesignCount.font = UIFont(name: "DINPro-Medium", size: 22)
         orderStatisticBoard2.addSubview(waitForAcceptDesignCount)
         
@@ -583,7 +598,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         designningCount.frame = CGRect(x: doneOrderStoryBoard.frame.minX, y: designingLabel.frame.maxY + 11, width: waitForPayOrderStoryBoard.frame.width, height: 28)
         designningCount.textAlignment = .center
         designningCount.textColor = UIColor.titleColors(color: .black)
-        designningCount.text = "1392881"
+        designningCount.text = "--"
         designningCount.font = UIFont(name: "DINPro-Medium", size: 22)
         orderStatisticBoard2.addSubview(designningCount)
         
@@ -598,7 +613,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         customerConfirmedCount.frame = CGRect(x: waitForPayOrderStoryBoard.frame.minX, y: customerConfirmedDesignLabel.frame.maxY + 11, width: waitForPayOrderStoryBoard.frame.width, height: 28)
         customerConfirmedCount.textAlignment = .center
         customerConfirmedCount.textColor = UIColor.titleColors(color: .black)
-        customerConfirmedCount.text = "1392881"
+        customerConfirmedCount.text = "--"
         customerConfirmedCount.font = UIFont(name: "DINPro-Medium", size: 22)
         orderStatisticBoard2.addSubview(customerConfirmedCount)
         
@@ -621,7 +636,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         waitForProduceCount.frame = CGRect(x: newOrderLabel.frame.minX, y: waitForAcceptProduceLabel.frame.maxY + 11, width: waitForPayOrderStoryBoard.frame.width, height: 28)
         waitForProduceCount.textAlignment = .center
         waitForProduceCount.textColor = UIColor.titleColors(color: .black)
-        waitForProduceCount.text = "1392881"
+        waitForProduceCount.text = "--"
         waitForProduceCount.font = UIFont(name: "DINPro-Medium", size: 22)
         orderStatisticBoard3.addSubview(waitForProduceCount)
         
@@ -636,7 +651,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         producingOrderCount.frame = CGRect(x: doneOrderStoryBoard.frame.minX, y: producingLabel.frame.maxY + 11, width: waitForPayOrderStoryBoard.frame.width, height: 28)
         producingOrderCount.textAlignment = .center
         producingOrderCount.textColor = UIColor.titleColors(color: .black)
-        producingOrderCount.text = "1392881"
+        producingOrderCount.text = "--"
         producingOrderCount.font = UIFont(name: "DINPro-Medium", size: 22)
         orderStatisticBoard3.addSubview(producingOrderCount)
         
@@ -651,7 +666,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         shippingOrderCount.frame = CGRect(x: waitForPayOrderStoryBoard.frame.minX, y: shippingLabel.frame.maxY + 11, width: waitForPayOrderStoryBoard.frame.width, height: 28)
         shippingOrderCount.textAlignment = .center
         shippingOrderCount.textColor = UIColor.titleColors(color: .black)
-        shippingOrderCount.text = "1392881"
+        shippingOrderCount.text = "--"
         shippingOrderCount.font = UIFont(name: "DINPro-Medium", size: 22)
         orderStatisticBoard3.addSubview(shippingOrderCount)
         
@@ -661,8 +676,12 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         scrollBackView.addSubview(titleOfPage)
         backgroundImageView.addSubview(imgBG)
         scrollBackView.addSubview(orderStatisticBoard1)
+        
+        pullStatistics()
 
     }
+    
+    
     @objc func onlineCheckBtnClicked(_ button:UIButton){
         let index = button.tag
         if index == 1{
@@ -673,6 +692,36 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
     }
     @objc func changeTimeIntervalClicked(){
         print("改变时间段的按钮点击了")
+        
+        let timerInterval = ChooseTimeInterval(frame: CGRect(x: 0, y: kHight - heightChangeForiPhoneXFromBottom - 625, width: kWidth, height: 625))
+        
+        switch chooseTimeIntervalBtn.title(for: .normal) {
+        case "最近一天":
+            timerInterval.checkStatus = [true,false,false,false,false]
+        case "最近三天":
+            timerInterval.checkStatus = [false,true,false,false,false]
+        case "最近一周":
+            timerInterval.checkStatus = [false,false,true,false,false]
+        case "本月":
+            timerInterval.checkStatus = [false,false,false,true,false]
+        case "自定义日期":
+            timerInterval.checkStatus = [false,false,false,false,true]
+        default:
+            timerInterval.checkStatus = [false,false,true,false,false]
+        }
+        
+        let popVC = PopupViewController()
+        popVC.view.backgroundColor = UIColor.clear
+        popVC.view.addSubview(showBlurEffect()) //UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
+        popVC.view.addSubview(popVC.grayLayer)
+        popVC.modalPresentationCapturesStatusBarAppearance = true
+        timerInterval.popupVC = popVC
+        timerInterval.managerVC = self
+        popVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext //
+        popVC.view.addSubview(timerInterval)
+        
+        self.present(popVC, animated: true, completion: nil)
+
     }
     @objc func searchBarTaped(){
         if _roleType == 1{
@@ -692,24 +741,25 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         let nav = UINavigationController.init(rootViewController: scanQRcodeVC)
         self.present(nav, animated: true, completion: nil)
     }
+    
     @objc func messageListBtnClicked(){
         let msgVC = MessageListViewController()
-        msgVC.messagesList = messagesList
+        msgVC.OrderMainObject = self
+       // msgVC.messagesList = messagesList
         //设置跳转带navigation controller的跳转
         let nav = UINavigationController(rootViewController: msgVC)
         self.present(nav, animated: true, completion: nil)
     }
     
+    
+    
     func pullStatistics(){
         //确定点击接受生产按钮
         //获取用户信息
         let userInfos = getCurrentUserInfo()
-        let roletype = userInfos.value(forKey: "roletype") as? String
-        let userid = userInfos.value(forKey: "userid") as? String
         let token = userInfos.value(forKey: "token") as? String
        
-        
-       // userid=10000005&token=a7562fe8-a7d0-40bb-a635-afe7d4523a2d&roletype=4
+        noticeOfSearch.isHidden = false
         
         //获取列表
         let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
@@ -717,37 +767,69 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
         //定义请求参数
         let params:NSMutableDictionary = NSMutableDictionary()
-        params["userid"] = userid
-        params["roletype"] = roletype
-        params["token"] = token
+        var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
+        
+        //let now = NSDate()
+        let startTime = timeInterval_from// (Int(now.timeIntervalSince1970) - 2592000)*1000 //30天前   51840000
+        let endTime = timeInterval_to//getEndDateTimeStampOfToday() * 1000
+        
+        let startDate = Date(timeIntervalSince1970: startTime)
+        let endDate = Date(timeIntervalSince1970: endTime)
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        formatter.locale = .current
+        //let startTimeString = formatter.string(from: startTime)
+//        let startDate = NSDate(timeIntervalSince1970: startTime)
+//        let endDate = NSDate(timeIntervalSince1970: endTime)
+        
+        params["startTime"] = formatter.string(from: startDate)
+        params["endTime"] = formatter.string(from: endDate)
+        header["token"] = token
         
         
-        var requestUrl:String = ""
-        if roletype == "4" {
             #if DEBUG
-            requestUrl = apiAddresses.value(forKey: "statisticDebug") as! String
+            let requestUrl = apiAddresses.value(forKey: "statisticDebug") as! String
             #else
-            requestUrl = apiAddresses.value(forKey: "statistic") as! String
+            let requestUrl = apiAddresses.value(forKey: "statistic") as! String
             #endif
-        }
-        _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
+        _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{
             case true:
                 if  let value = responseObject.result.value{
                     let json = JSON(value)
-                    let statusObject = json["status","code"].int!
-                    if statusObject == 0{
-                        var workFlows:[NSDictionary] = []
-                        for item in json["workflow"].array!{
-                            workFlows.append(item.dictionaryObject as! NSDictionary)
+                    let statusObject = json["code"].int!
+                    if statusObject == 200{
+                        self.gudanAmountCount.text = "¥" + "\(json["data","mayBePrice"].int!)".addMicrometerLevel()
+                        self.dealAmountCount.text = "¥" + "\(json["data","payPrice"].int!)".addMicrometerLevel()
+                        
+                        if json["data","createCount"].int! == 0 {
+                            self.transferAmountCount.text = "--.-%"
+                        }else{
+//                            if json["data","ratio"].float! != nil{
+//                                self.transferAmountCount.text = "\(json["data","ratio"].float! * 100)%"
+//                            }
+                            self.transferAmountCount.text = "\(json["data","payCount"].int!/json["data","createCount"].int!)%"
+                            let ratio = (Double(json["data","payCount"].int!)/Double(json["data","createCount"].int!))*100
+                            self.transferAmountCount.text = String(format: "%.1f", ratio) + "%"
+                            
                         }
-                        self.gudanAmountCount.text = "\(workFlows[0].value(forKey: "num") as! Int)"
-                        self.producingOrderCount.text = "\(workFlows[7].value(forKey: "num") as! Int)"
-                        self.shippingOrderCount.text = "\(workFlows[8].value(forKey: "num") as! Int)"
+                        self.newOrderAmountCount.text = "\(json["data","createCount"].int!)".addMicrometerLevel()
+                        self.doneOrderAmountCount.text = "\(json["data","payCount"].int!)".addMicrometerLevel()
+                        self.waitForAcceptDesignCount.text = "\(json["data","designCount"].int!)".addMicrometerLevel()
+                        self.designningCount.text = "\(json["data","desigingCount"].int!)".addMicrometerLevel()
+                        self.customerConfirmedCount.text = "\(json["data","finalTextCount"].int!)".addMicrometerLevel()
+                        self.waitForPayOrderAmountCount.text = "\(json["data","waitPayCount"].int!)".addMicrometerLevel()
+                        self.waitForProduceCount.text = "\(json["data","waitProductCount"].int!)".addMicrometerLevel()
+                        self.producingOrderCount.text = "\(json["data","periodNear"].int!)".addMicrometerLevel()
+                        self.shippingOrderCount.text = "\(json["data","sendGoodsCount"].int!)".addMicrometerLevel()
+                       // self.producingOrderCount.text = "\(json["data","waitPayCount"].int!)"
+                        self.noticeOfSearch.isHidden = true
+                //
                     }else{
                         print("获取数据失败，code:\(statusObject)")
-                        let errorMsg = json["status","msg"].string!
+                        let errorMsg = json["message"].string!
                         greyLayerPrompt.show(text: errorMsg)
                     }
                 }
@@ -756,7 +838,6 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
                 greyLayerPrompt.show(text: "获取数据失败，请重试")
             }
         }
-        print("接受生产按钮点击了")
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -765,6 +846,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
     override func viewWillAppear(_ animated: Bool) {
         self.view.backgroundColor = UIColor.white
         setStatusBarBackgroundColor(color: UIColor.clear)
+        setStatusBarHiden(toHidden: true, ViewController: self)
         titleBarView.backgroundColor = UIColor.clear
         
     }
@@ -788,100 +870,68 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
                 let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
                 let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
                 #if DEBUG
-                //            let newTaskUpdateURL:String = "http://192.168.1.102:8068/task/createTasklist.do"
-                let newTaskUpdateURL:String = apiAddresses.value(forKey: "getMessagesListDebug") as! String
+                let requestURL:String = apiAddresses.value(forKey: "getMessageCountDebug") as! String
                 #else
-                let newTaskUpdateURL:String = apiAddresses.value(forKey: "getMessagesList") as! String
+                let requestURL:String = apiAddresses.value(forKey: "getMessageCount") as! String
                 #endif
-                //定义请求参数
-                let params:NSMutableDictionary = NSMutableDictionary()
-                
                 //从datacore获取用户数据
                 //获取管理的数据上下文，对象
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 let managedObjectContext = appDelegate.persistentContainer.viewContext
                 
                 //声明数据的请求
-                let fetchRequest =  NSFetchRequest<UserAccount>(entityName:"UserAccount")
                 let fetchRequestOfToken = NSFetchRequest<TokenRestored>(entityName:"TokenRestored")
-                //        fetchRequest.fetchLimit = 10 //限定查询结果的数量
                 //        fetchRequest.fetchOffset = 0 //查询到偏移量
-                fetchRequest.returnsObjectsAsFaults = false
                 fetchRequestOfToken.returnsObjectsAsFaults = false
-                
-                // 设置查询条件
-                let predicate = NSPredicate(format: "id = '1'")
-                fetchRequest.predicate = predicate
-                
+
                 // 设置查询条件
                 let predicateOfToken = NSPredicate(format: "id = '1'")
                 fetchRequestOfToken.predicate = predicateOfToken
-                //查询操作
-                do {
-                    let fetchedObjects = try managedObjectContext.fetch(fetchRequest)
-                    
-                    //遍历查询结果
-                    for info in fetchedObjects{
-                        //更新数据
-                        //设置获取全部订单参数组
-                        
-                        params["userid"] =  info.userId
-                        params["roletype"] = info.roleType
-                        params["commandcode"] = 110
-                        params["isnew"] = 0
-                        try managedObjectContext.save()
-                    }
-                } catch  {
-                    fatalError("获取失败")
-                }
-                
+
+                var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
                 //查询操作
                 do {
                     let fetchedObjects = try managedObjectContext.fetch(fetchRequestOfToken)
-                    
                     //遍历查询结果
                     for info in fetchedObjects{
                         //更新数据
                         //设置获取全部订单参数组
-                        params["token"] = info.token
+                        header["token"] = info.token
                         try managedObjectContext.save()
                     }
                 } catch  {
                     fatalError("获取失败")
                 }
-                _ = Alamofire.request(newTaskUpdateURL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
+                _ = Alamofire.request(requestURL, method: HTTPMethod.get, parameters: nil, encoding: JSONEncoding.default, headers: header) .responseJSON{
                     (responseObject) in
                     switch responseObject.result.isSuccess{
                     case true:
                         if  let value = responseObject.result.value{
                             let json = JSON(value)
-                            self.messagesList.removeAll()
-                            if json["status","code"].int! == 0{
-                                for item in json["msginfo"].array! {
-                                    let restoreItem = item.dictionaryObject as! NSDictionary
-                                    self.messagesList.append(restoreItem)
-                                }
-                                self.getMessagesCount = self.messagesList.count
-                            }else if json["status","code"].int! == 1{
-                                self.getMessagesCount = 0
-                                self._tabBarVC.redDot.isHidden = true
-                            }
-                            if self.messagesList.count == 0{
-                                self._tabBarVC.redDot.isHidden = true
-                               // self.messageBtnLayer.isHidden = true
-                                self.messageCountBackLabel.isHidden = true
-                            }else{
-                                self._tabBarVC.redDot.isHidden = false
-                                //self.messageBtnLayer.isHidden = false
-                                self.messageCountBackLabel.isHidden = false
-                                if self.messagesList.count > 99{
-                                    self.messageCountLabel.text = "99+"
+                            if json["code"].int! == 200{//正常获取消息
+                                self.getMessagesCount = json["data","didntRead"].int ?? 0
+                                
+                                if self.getMessagesCount == 0 {
+                                    self._tabBarVC.redDot.isHidden = true
+                                    self.messageCountBackLabel.isHidden = true
                                 }else{
-                                    self.messageCountLabel.text = "\(self.messagesList.count)"
+                                    self._tabBarVC.redDot.isHidden = false
+                                    self.messageCountBackLabel.isHidden = false
+                                    if self.getMessagesCount > 99{
+                                        self.messageCountLabel.text = "99+"
+                                    }else{
+                                        self.messageCountLabel.text = "\(self.getMessagesCount)"
+                                    }
+                                    if json["data","hasNewMessage"].int == 1{
+                                        self.playAudio()
+                                    }
+                                    self.calculateWeatherNeedsAlert()
                                 }
-                                print("message count = \(self.messagesList.count)")
-                                self.calculateWeatherNeedsAlert()
+                            }else{ //获取消息失败
+                                self._tabBarVC.redDot.isHidden = true
+                                self.messageCountBackLabel.isHidden = true
                             }
+                           
                         }
                     case false:
                         print("update failed")
@@ -893,105 +943,105 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
     
     func calculateWeatherNeedsAlert()
     {
-        var messageAlertArray:[Bool] = []
-        print("begain to calculate")
-        isNeedsAlert = false
-        var AlertFrequencyValue = 0
-        //var isTheAlertPlayedThisRound = false
-        //遍历当前获取到的列表里的所有
-        currentMessagesTypeList.removeAll()
-        currentMessagesIDList.removeAll()
-        for i in 0..<messagesList.count{
-            let mSGType = messagesList[i].value(forKey: "msgtype") as! Int
-            let mSGID = messagesList[i].value(forKey: "msgid") as! String
-            currentMessagesTypeList.append(mSGType)
-            currentMessagesIDList.append(mSGID)
-        }
-        for i in 0..<26{
-            messageAlertArray.append(getMSGAlertSettings(index: i))
-        }
-        print("get Array finised")
-        //第一次获取消息,直接判断是不是需要提醒
-        if previewsMessagesIDList.count == 0{
-            
-            //遍历当前消息列表中的消息类型,以此得到是否需要提醒
-            var needsAlertFromCurrentAlertSettingForTargetMSGType = false
-            for msgType in currentMessagesTypeList{
-                let tempAlertTag = messageAlertArray[msgType] //getMSGAlertSettings(index: msgType)
-                //将获取到的设置与变量取或： 如果有任何一个设置的为需要提醒，那么值将会得到True
-                needsAlertFromCurrentAlertSettingForTargetMSGType = needsAlertFromCurrentAlertSettingForTargetMSGType||tempAlertTag
-            }
-            
-            //获取当前设置，决定是否需要提醒，以及提醒多少次
-            let frequency = getMsgVoiceAlertFrequencyWeight()
-            print(frequency)
-            if frequency == 1{
-                // 不提醒
-                isNeedsAlert = false
-                AlertFrequencyValue = 0
-            }else if frequency == 10{
-                //提醒一次
-                //
-                isNeedsAlert = true && needsAlertFromCurrentAlertSettingForTargetMSGType
-                AlertFrequencyValue = 1
-            }else{
-                //提醒多次
-                //重新设置 needsAlertFromCurrentAlertSettingForTargetMSGType 值，遍历当前列表
-                for msgType in currentMessagesTypeList{
-                    let tempAlertTag = messageAlertArray[msgType]//getMSGAlertSettings(index: msgType)
-                    //将获取到的设置与变量取或： 如果有任何一个设置的为需要提醒，那么值将会得到True
-                    needsAlertFromCurrentAlertSettingForTargetMSGType = needsAlertFromCurrentAlertSettingForTargetMSGType||tempAlertTag
-                }
-                isNeedsAlert = true && needsAlertFromCurrentAlertSettingForTargetMSGType
-                AlertFrequencyValue = 10
-            }
-            
-            //将当前获取的列表替换到上次的列表中，以便下次比对
-            previewsMessagesIDList.removeAll()
-            previewsMessagesIDList = currentMessagesIDList
-        }else{ //不是第一次获取消息了
-            var itemID = 0
-            var needsAlertFromCurrentAlertSettingForTargetMSGType = false
-            for id in currentMessagesIDList{
-                if !previewsMessagesIDList.contains(id){//这条消息不包含在之前的消息里
-                    //如果这条消息不在列表里，那么取对应的消息ID查询结果，并与定义的需要提醒取或，只要有一条消息需要提醒，那么值将会是true
-                    needsAlertFromCurrentAlertSettingForTargetMSGType =  needsAlertFromCurrentAlertSettingForTargetMSGType || messageAlertArray[currentMessagesTypeList[itemID]] /*getMSGAlertSettings(index: currentMessagesTypeList[itemID]*/
-                }
-                itemID += 1
-            }
-            //获取当前设置，决定是否需要提醒，以及提醒多少次
-            let frequency = getMsgVoiceAlertFrequencyWeight()
-            print(frequency)
-            if frequency == 1{
-                // 不提醒
-                isNeedsAlert = false
-                AlertFrequencyValue = 0
-            }else if frequency == 10{
-                //提醒一次
-                //
-                isNeedsAlert = true && needsAlertFromCurrentAlertSettingForTargetMSGType
-                AlertFrequencyValue = 1
-            }else{
-                //提醒多次
-                //重新设置 needsAlertFromCurrentAlertSettingForTargetMSGType 值，遍历当前列表
-                for msgType in currentMessagesTypeList{
-                    let tempAlertTag = messageAlertArray[msgType] // getMSGAlertSettings(index: msgType)
-                    //将获取到的设置与变量取或： 如果有任何一个设置的为需要提醒，那么值将会得到True
-                    needsAlertFromCurrentAlertSettingForTargetMSGType = needsAlertFromCurrentAlertSettingForTargetMSGType||tempAlertTag
-                }
-                isNeedsAlert = true && needsAlertFromCurrentAlertSettingForTargetMSGType
-                AlertFrequencyValue = 10
-            }
-        }
-        
-        if isNeedsAlert == true{
-            if (AlertFrequencyValue == 1) && (isTheAlertPlayed == false){
-                playAudio()
-                isTheAlertPlayed = true
-            }else if AlertFrequencyValue == 10{
-                playAudio()
-            }
-        }
+//        var messageAlertArray:[Bool] = []
+//        print("begain to calculate")
+//        isNeedsAlert = false
+//        var AlertFrequencyValue = 0
+//        //var isTheAlertPlayedThisRound = false
+//        //遍历当前获取到的列表里的所有
+//        currentMessagesTypeList.removeAll()
+//        currentMessagesIDList.removeAll()
+//        for i in 0..<messagesList.count{
+//            let mSGType = messagesList[i].value(forKey: "msgtype") as! Int
+//            let mSGID = messagesList[i].value(forKey: "msgid") as! String
+//            currentMessagesTypeList.append(mSGType)
+//            currentMessagesIDList.append(mSGID)
+//        }
+//        for i in 0..<26{
+//            messageAlertArray.append(getMSGAlertSettings(index: i))
+//        }
+//        print("get Array finised")
+//        //第一次获取消息,直接判断是不是需要提醒
+//        if previewsMessagesIDList.count == 0{
+//
+//            //遍历当前消息列表中的消息类型,以此得到是否需要提醒
+//            var needsAlertFromCurrentAlertSettingForTargetMSGType = false
+//            for msgType in currentMessagesTypeList{
+//                let tempAlertTag = messageAlertArray[msgType] //getMSGAlertSettings(index: msgType)
+//                //将获取到的设置与变量取或： 如果有任何一个设置的为需要提醒，那么值将会得到True
+//                needsAlertFromCurrentAlertSettingForTargetMSGType = needsAlertFromCurrentAlertSettingForTargetMSGType||tempAlertTag
+//            }
+//
+//            //获取当前设置，决定是否需要提醒，以及提醒多少次
+//            let frequency = getMsgVoiceAlertFrequencyWeight()
+//            print(frequency)
+//            if frequency == 1{
+//                // 不提醒
+//                isNeedsAlert = false
+//                AlertFrequencyValue = 0
+//            }else if frequency == 10{
+//                //提醒一次
+//                //
+//                isNeedsAlert = true && needsAlertFromCurrentAlertSettingForTargetMSGType
+//                AlertFrequencyValue = 1
+//            }else{
+//                //提醒多次
+//                //重新设置 needsAlertFromCurrentAlertSettingForTargetMSGType 值，遍历当前列表
+//                for msgType in currentMessagesTypeList{
+//                    let tempAlertTag = messageAlertArray[msgType]//getMSGAlertSettings(index: msgType)
+//                    //将获取到的设置与变量取或： 如果有任何一个设置的为需要提醒，那么值将会得到True
+//                    needsAlertFromCurrentAlertSettingForTargetMSGType = needsAlertFromCurrentAlertSettingForTargetMSGType||tempAlertTag
+//                }
+//                isNeedsAlert = true && needsAlertFromCurrentAlertSettingForTargetMSGType
+//                AlertFrequencyValue = 10
+//            }
+//
+//            //将当前获取的列表替换到上次的列表中，以便下次比对
+//            previewsMessagesIDList.removeAll()
+//            previewsMessagesIDList = currentMessagesIDList
+//        }else{ //不是第一次获取消息了
+//            var itemID = 0
+//            var needsAlertFromCurrentAlertSettingForTargetMSGType = false
+//            for id in currentMessagesIDList{
+//                if !previewsMessagesIDList.contains(id){//这条消息不包含在之前的消息里
+//                    //如果这条消息不在列表里，那么取对应的消息ID查询结果，并与定义的需要提醒取或，只要有一条消息需要提醒，那么值将会是true
+//                    needsAlertFromCurrentAlertSettingForTargetMSGType =  needsAlertFromCurrentAlertSettingForTargetMSGType || messageAlertArray[currentMessagesTypeList[itemID]] /*getMSGAlertSettings(index: currentMessagesTypeList[itemID]*/
+//                }
+//                itemID += 1
+//            }
+//            //获取当前设置，决定是否需要提醒，以及提醒多少次
+//            let frequency = getMsgVoiceAlertFrequencyWeight()
+//            print(frequency)
+//            if frequency == 1{
+//                // 不提醒
+//                isNeedsAlert = false
+//                AlertFrequencyValue = 0
+//            }else if frequency == 10{
+//                //提醒一次
+//                //
+//                isNeedsAlert = true && needsAlertFromCurrentAlertSettingForTargetMSGType
+//                AlertFrequencyValue = 1
+//            }else{
+//                //提醒多次
+//                //重新设置 needsAlertFromCurrentAlertSettingForTargetMSGType 值，遍历当前列表
+//                for msgType in currentMessagesTypeList{
+//                    let tempAlertTag = messageAlertArray[msgType] // getMSGAlertSettings(index: msgType)
+//                    //将获取到的设置与变量取或： 如果有任何一个设置的为需要提醒，那么值将会得到True
+//                    needsAlertFromCurrentAlertSettingForTargetMSGType = needsAlertFromCurrentAlertSettingForTargetMSGType||tempAlertTag
+//                }
+//                isNeedsAlert = true && needsAlertFromCurrentAlertSettingForTargetMSGType
+//                AlertFrequencyValue = 10
+//            }
+//        }
+//
+//        if isNeedsAlert == true{
+//            if (AlertFrequencyValue == 1) && (isTheAlertPlayed == false){
+//                playAudio()
+//                isTheAlertPlayed = true
+//            }else if AlertFrequencyValue == 10{
+//                playAudio()
+//            }
+//        }
         
     }
     

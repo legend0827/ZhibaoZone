@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="17D102" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14315.18" systemVersion="18A391" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="MessageAlertSettings" representedClassName="MessageAlertSettings" syncable="YES" codeGenerationType="class">
         <attribute name="attribute0" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="attribute1" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
@@ -50,10 +50,10 @@
         <attribute name="userName" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
+        <element name="MessageAlertSettings" positionX="45" positionY="27" width="128" height="420"/>
         <element name="ParameterSettings" positionX="45" positionY="27" width="128" height="90"/>
         <element name="SecuritySettings" positionX="45" positionY="18" width="128" height="90"/>
         <element name="TokenRestored" positionX="153" positionY="3" width="128" height="75"/>
         <element name="UserAccount" positionX="-63" positionY="-18" width="135" height="135"/>
-        <element name="MessageAlertSettings" positionX="45" positionY="27" width="128" height="420"/>
     </elements>
 </model>

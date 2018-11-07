@@ -20,6 +20,7 @@ class OrdersCollectionViewCell: UICollectionViewCell {
     let acceptDesignBtnInCell:UIButton = UIButton.init(type: .custom)
     let shippingBtnInCell:UIButton = UIButton.init(type: .custom)
     let takePhotoForProductBtnInCell:UIButton = UIButton.init(type: .custom)
+    let dealBargainBtnInCell:UIButton = UIButton.init(type: .custom)
     let designRequiresBtnInCell:UIButton = UIButton.init(type: .custom)
     let modifyRequiresBtnInCell:UIButton = UIButton.init(type: .custom)
     let priceLabelBackgroundView:UIImageView = UIImageView.init()
@@ -39,6 +40,7 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         productQuantityInCell.frame = CGRect(x: 5, y: frame.width + 35, width: 100, height: 20)
         
         quotePriceBtnInCell.frame = CGRect(x: (frame.width - 85) / 2 , y: frame.width + 55, width: 85, height: 30)
+        dealBargainBtnInCell.frame = CGRect(x: (frame.width - 85) / 2 , y: frame.width + 55, width: 85, height: 30)
         acceptProduceBtnInCell.frame = CGRect(x: (frame.width - 85) / 2, y: frame.width + 55, width: 85, height: 30)
         acceptDesignBtnInCell.frame = CGRect(x: (frame.width - 85) / 2, y: frame.width + 55, width: 85, height: 30)
         takePhotoForProductBtnInCell.frame = CGRect(x: 5, y: frame.width + 15, width: (kWidth - 60)/2, height: 30)
@@ -99,6 +101,11 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         quotePriceBtnInCell.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         quotePriceBtnInCell.setTitleColor(UIColor.titleColors(color: .white), for: UIControlState.normal)
         
+        dealBargainBtnInCell.layer.cornerRadius = 6
+        dealBargainBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .red).cgColor
+        dealBargainBtnInCell.setTitle("处理议价", for: UIControlState.normal)
+        dealBargainBtnInCell.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        dealBargainBtnInCell.setTitleColor(UIColor.titleColors(color: .white), for: UIControlState.normal)
         
         acceptProduceBtnInCell.layer.cornerRadius = 6
         acceptProduceBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .red).cgColor
@@ -163,6 +170,7 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         orderCellView.addSubview(designRequiresBtnInCell)
         orderCellView.addSubview(modifyRequiresBtnInCell)
         orderCellView.addSubview(takePhotoForProductBtnInCell)
+        orderCellView.addSubview(dealBargainBtnInCell)
     }
     
     required init?(coder aDecoder: NSCoder) {

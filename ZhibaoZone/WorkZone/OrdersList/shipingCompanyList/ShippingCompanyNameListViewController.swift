@@ -12,7 +12,7 @@ class ShippingCompanyNameListViewController: UIViewController,UITableViewDelegat
 
     //联系人数组（原始）
     var shippingCompanyArray:[NSDictionary] = []
-    let indexSource:[String] = ["D","E", "F", "G", "H", "J", "Q", "S","U", "Y", "Z","#"]
+    let indexSource:[String] = ["A","D","E", "F", "G", "H", "J", "K", "L" ,"P" ,"Q", "S","U", "Y", "Z"]
     //公司列表为空
     var isEmptyCompanyBook:Bool = true
     var companyCount = 0
@@ -21,36 +21,44 @@ class ShippingCompanyNameListViewController: UIViewController,UITableViewDelegat
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
-        case 0: // D
+        case 0: // A
             return 1
-        case 1: //E
+        case 1: // D
             return 1
-        case 2: //F
+        case 2: //E
             return 1
-        case 3: //G
+        case 3: //F
             return 1
-        case 4://H
+        case 4: //G
+            return 1
+        case 5://H
             return 2
-        case 5://J
+        case 6://J
             return 1
-        case 6://Q
+        case 7: //K
             return 1
-        case 7://S
+        case 8: //L
+            return 1
+        case 9: //P
+            return 1
+        case 10://Q
+            return 1
+        case 11://S
+            return 4
+        case 12://U
+            return 1
+        case 13://Y
             return 3
-        case 8://U
+        case 14://Z
             return 1
-        case 9://Y
-            return 3
-        case 10://Z
-            return 1
-        case 11://#
-            return 1
+//        case 15://#
+//            return 1
         default:
             return 1
         }
     }
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 12
+        return 15
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -61,46 +69,56 @@ class ShippingCompanyNameListViewController: UIViewController,UITableViewDelegat
         tempLineBottom.backgroundColor = UIColor.lineColors(color: .lightGray)
         cell.addSubview(tempLineBottom)
         switch indexPath.section {
-        case 0: // D
+        case 0: // A
             cell.titleLabel.text = shippingCompanyArray[0].value(forKey: "name") as! String
-        case 1: //E
+        case 1: //D
             cell.titleLabel.text = shippingCompanyArray[1].value(forKey: "name") as! String
-        case 2: //F
+        case 2: //E
             cell.titleLabel.text = shippingCompanyArray[2].value(forKey: "name") as! String
-        case 3: //G
+        case 3: //F
             cell.titleLabel.text = shippingCompanyArray[3].value(forKey: "name") as! String
-        case 4://H
+        case 4://G
+            cell.titleLabel.text = shippingCompanyArray[4].value(forKey: "name") as! String
+        case 5://H
             if indexPath.row == 0{
-                cell.titleLabel.text = shippingCompanyArray[4].value(forKey: "name") as! String
-            }else{
                 cell.titleLabel.text = shippingCompanyArray[5].value(forKey: "name") as! String
-            }
-        case 5://J
-            cell.titleLabel.text = shippingCompanyArray[6].value(forKey: "name") as! String
-        case 6://Q
-            cell.titleLabel.text = shippingCompanyArray[7].value(forKey: "name") as! String
-        case 7://S
-            if indexPath.row == 0{
-                cell.titleLabel.text = shippingCompanyArray[8].value(forKey: "name") as! String
-            }else if indexPath.row == 1{
-                cell.titleLabel.text = shippingCompanyArray[9].value(forKey: "name") as! String
             }else{
-                cell.titleLabel.text = shippingCompanyArray[10].value(forKey: "name") as! String
+                cell.titleLabel.text = shippingCompanyArray[6].value(forKey: "name") as! String
             }
-        case 8://U
+        case 6://J
+            cell.titleLabel.text = shippingCompanyArray[7].value(forKey: "name") as! String
+        case 7://K
+            cell.titleLabel.text = shippingCompanyArray[8].value(forKey: "name") as! String
+        case 8://L
+            cell.titleLabel.text = shippingCompanyArray[9].value(forKey: "name") as! String
+        case 9://P
+            cell.titleLabel.text = shippingCompanyArray[10].value(forKey: "name") as! String
+        case 10://Q
             cell.titleLabel.text = shippingCompanyArray[11].value(forKey: "name") as! String
-        case 9://Y
+        case 11://S
             if indexPath.row == 0{
                 cell.titleLabel.text = shippingCompanyArray[12].value(forKey: "name") as! String
             }else if indexPath.row == 1{
                 cell.titleLabel.text = shippingCompanyArray[13].value(forKey: "name") as! String
-            }else{
+            }else if indexPath.row == 2{
                 cell.titleLabel.text = shippingCompanyArray[14].value(forKey: "name") as! String
+            }else{
+                cell.titleLabel.text = shippingCompanyArray[15].value(forKey: "name") as! String
             }
-        case 10://Z
-            cell.titleLabel.text = shippingCompanyArray[15].value(forKey: "name") as! String
-        case 11://#
-            cell.titleLabel.text = "其他"
+        case 12://U
+            cell.titleLabel.text = shippingCompanyArray[16].value(forKey: "name") as! String
+        case 13://Y
+            if indexPath.row == 0{
+                cell.titleLabel.text = shippingCompanyArray[17].value(forKey: "name") as! String
+            }else if indexPath.row == 1{
+                cell.titleLabel.text = shippingCompanyArray[18].value(forKey: "name") as! String
+            }else{
+                cell.titleLabel.text = shippingCompanyArray[19].value(forKey: "name") as! String
+            }
+        case 14://Z
+            cell.titleLabel.text = shippingCompanyArray[20].value(forKey: "name") as! String
+//        case 15://#
+//            cell.titleLabel.text = "其他"
         default:
             print("nothing")
         }
@@ -133,40 +151,73 @@ class ShippingCompanyNameListViewController: UIViewController,UITableViewDelegat
         switch indexPath {
         case [0,0]:
             actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[0].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[0].value(forKey: "id") as! String
         case [1,0]:
             actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[1].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[1].value(forKey: "id") as! String
         case [2,0]:
             actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[2].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[2].value(forKey: "id") as! String
         case [3,0]:
             actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[3].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[3].value(forKey: "id") as! String
         case [4,0]:
             actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[4].value(forKey: "name") as! String
-        case [4,1]:
-            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[5].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[4].value(forKey: "id") as! String
         case [5,0]:
+            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[5].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[5].value(forKey: "id") as! String
+        case [5,1]:
             actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[6].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[6].value(forKey: "id") as! String
         case [6,0]:
             actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[7].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[7].value(forKey: "id") as! String
         case [7,0]:
             actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[8].value(forKey: "name") as! String
-        case [7,1]:
-            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[9].value(forKey: "name") as! String
-        case [7,2]:
-            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[10].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[8].value(forKey: "id") as! String
         case [8,0]:
-            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[11].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[9].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[9].value(forKey: "id") as! String
         case [9,0]:
-            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[12].value(forKey: "name") as! String
-        case [9,1]:
-            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[13].value(forKey: "name") as! String
-        case [9,2]:
-            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[14].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[10].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[10].value(forKey: "id") as! String
         case [10,0]:
-            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[15].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[11].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[11].value(forKey: "id") as! String
         case [11,0]:
-            actionViewObject.shippingCompanyNameValue.text = "其他"
+            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[12].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[12].value(forKey: "id") as! String
+        case [11,1]:
+            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[13].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[13].value(forKey: "id") as! String
+        case [11,2]:
+            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[14].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[14].value(forKey: "id") as! String
+        case [11,3]:
+            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[15].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[15].value(forKey: "id") as! String
+        case [12,0]:
+            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[16].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[16].value(forKey: "id") as! String
+        case [13,0]:
+            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[17].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[17].value(forKey: "id") as! String
+        case [13,1]:
+            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[18].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[18].value(forKey: "id") as! String
+        case [13,2]:
+            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[19].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[19].value(forKey: "id") as! String
+        case [14,0]:
+            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[20].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[20].value(forKey: "id") as! String
+//        case [15,0]:
+//            actionViewObject.shippingCompanyNameValue.text = "其他"
+//            actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[0].value(forKey: "id") as! String
         default:
             actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[0].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[0].value(forKey: "id") as! String
         }
         self.navigationController?.dismiss(animated: true, completion: nil)
     }
@@ -183,30 +234,38 @@ class ShippingCompanyNameListViewController: UIViewController,UITableViewDelegat
         titleLabel.text = "#"
         tempView.addSubview(titleLabel)
         switch section {
-        case 0: // D
+        case 0:// A
+            titleLabel.text = "A"
+        case 1: // D
             titleLabel.text = "D"
-        case 1: //E
+        case 2: //E
             titleLabel.text = "E"
-        case 2: //F
+        case 3: //F
             titleLabel.text = "F"
-        case 3: //G
+        case 4: //G
             titleLabel.text = "G"
-        case 4://H
+        case 5://H
             titleLabel.text = "H"
-        case 5://J
+        case 6://J
             titleLabel.text = "J"
-        case 6://Q
+        case 7://K
+            titleLabel.text = "K"
+        case 8://L
+            titleLabel.text = "L"
+        case 9://P
+            titleLabel.text = "P"
+        case 10://Q
             titleLabel.text = "Q"
-        case 7://S
+        case 11://S
             titleLabel.text = "S"
-        case 8://U
+        case 12://U
             titleLabel.text = "U"
-        case 9://Y
+        case 13://Y
             titleLabel.text = "Y"
-        case 10://Z
+        case 14://Z
             titleLabel.text = "Z"
-        case 11://Z
-            titleLabel.text = "#"
+//        case 15://Z
+//            titleLabel.text = "#"
         default:
             titleLabel.text = "A"
         }
@@ -323,14 +382,19 @@ class ShippingCompanyNameListViewController: UIViewController,UITableViewDelegat
         emptyArray.write(toFile: plistFile!, atomically: true)
         shippingCompanyArray.removeAll()
         
-        let shippingCompanyArrayBook:[NSDictionary] = [["name":"德邦","id":"DBL"],
+        let shippingCompanyArrayBook:[NSDictionary] = [["name":"安能物流","id":"ANWL"],
+                                                       ["name":"德邦","id":"DBL"],
                                                        ["name":"EMS","id":"EMS"],
                                                        ["name":"快捷快递","id":"FAST"],
                                                        ["name":"国通快递","id":"GTO"],
                                                        ["name":"天天快递","id":"HHTT"],
                                                        ["name":"百世快递","id":"HTKY"],
                                                        ["name":"京东物流","id":"JD"],
+                                                       ["name":"跨跃速运","id":"KYSY"],
+                                                       ["name":"联昊通速递","id":"LHTSD"],
+                                                       ["name":"平安达腾飞快递","id":"PADTFKD"],
                                                        ["name":"全峰快递","id":"QFKD"],
+                                                       ["name":"双胞胎快运","id":"SBTKY"],
                                                        ["name":"顺丰速运","id":"SF"],
                                                        ["name":"申通快递","id":"STO"],
                                                        ["name":"中通快递","id":"STO"],

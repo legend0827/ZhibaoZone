@@ -580,7 +580,11 @@ class calculatorKeyboard: UIView {
             if quotePriceWeight == 1{
                 quotePriceResult.text = "¥\(String(format: "%d", Value))"
             }else if quotePriceWeight == 10{
-                quotePriceResult.text = "¥\(String(format: "%d", Value/10*10 + 10))"
+                if String(Int(Value)).last == "0"{
+                    quotePriceResult.text = "¥\(String(format: "%d", Value/10*10))"
+                }else{
+                    quotePriceResult.text = "¥\(String(format: "%d", Value/10*10 + 10))"
+                }
                 smileLabel.isHidden = false
                 operatonLabel.isHidden = false
                 operatonLabel.text = "已取整"
@@ -589,6 +593,12 @@ class calculatorKeyboard: UIView {
                 if String(Value).lengthOfBytes(using: .utf8) < 2 {
                     quotePriceResult.text = "¥\(String(format: "%d", Value))"
                 }else{
+          
+                    if String(Int(Value)).suffix(2) == "00"{
+                        quotePriceResult.text = "¥\(String(format: "%d", Value/100*100))"
+                    }else{
+                        quotePriceResult.text = "¥\(String(format: "%d", Value/100*100 + 100))"
+                    }
                     quotePriceResult.text = "¥\(String(format: "%d", Value/100*100 + 100))"
                     smileLabel.isHidden = false
                     operatonLabel.isHidden = false
@@ -733,7 +743,122 @@ class calculatorKeyboard: UIView {
             }
             
         case 12:
-            actionView.currentValueOnSliderTextField.text = quotePriceResult.text// resultLabel.text
+            if !(currentText.contains("+") || currentText.contains("-") || currentText.contains("*") || currentText.contains("/")){
+                quotePriceResult.text = "¥\(String(format: "%d", Double(currentText)!))"
+                targetResult = Int(Double(currentText)!)
+                actionView.currentValueOnSliderTextField.text = currentText// resultLabel.text
+            }else{
+                var calculationNum:[Double] = [] //存放操作数
+                var numberSequence:[String] = []
+                var startsWithMinus = false
+                //如果算式的最后一位为运算符，则直接去掉
+                if currentText.last == "+" || currentText.last == "-" || currentText.last == "*"  || currentText.last == "/" {
+                    currentText.removeLast()
+                }
+                
+                var tempOrginalString = currentText
+                
+                //如果以负数开头,记录一下,拆分操作数的时候先将第一个字符移除
+                if currentText.first == "-" {
+                    startsWithMinus = true
+                    tempOrginalString.removeFirst()
+                }
+                
+                //将操作数拆分开
+                let subString1 = tempOrginalString.split(separator: "+")
+                for tempString1 in subString1{
+                    let subString2 = tempString1.split(separator: "-")
+                    for tempString2 in subString2{
+                        let subString3 = tempString2.split(separator: "*")
+                        for tempString3 in subString3{
+                            let subString4 = tempString3.split(separator: "/")
+                            for tempString4 in subString4{
+                                print(tempString4)
+                                calculationNum.append(Double(tempString4)!)
+                                numberSequence.append(String(tempString4))
+                            }
+                        }
+                    }
+                }
+                
+                //获取操作符
+                var calcType:[String] = []
+                //检测是否包含乘除法
+                var markByOrDevideContains = false
+                for splitString in numberSequence{
+                    let startIndex = splitString.startIndex
+                    let index = tempOrginalString.index(startIndex, offsetBy: splitString.lengthOfBytes(using: .utf8))
+                    // 已经不包含运算符时，不继续拆分
+                    if !(tempOrginalString.contains("+") || tempOrginalString.contains("-") || tempOrginalString.contains("*") || tempOrginalString.contains("/") ) {
+                        break
+                    }
+                    calcType.append(String(tempOrginalString[tempOrginalString.index(index, offsetBy: 0)]))
+                    //如果有乘除法，将markByOrDevide标记为true
+                    if String(tempOrginalString[tempOrginalString.index(index, offsetBy: 0)]) == "*" || String(tempOrginalString[tempOrginalString.index(index, offsetBy: 0)]) == "/"{
+                        markByOrDevideContains = true
+                    }
+                    //取得从 xxx 到尾部的字符串
+                    tempOrginalString = String(tempOrginalString.suffix(from: tempOrginalString.index(startIndex, offsetBy: splitString.lengthOfBytes(using: .utf8))))
+                    tempOrginalString.removeFirst()
+                    print("tempOrginalString = \(tempOrginalString)")
+                }
+                
+                //如果以负数开头，第一个操作数变成负数
+                if startsWithMinus {
+                    calculationNum[0] = calculationNum[0] * -1 //将第一个数变成负数
+                }
+                //先算乘除，再算加减
+                print("hallo")
+                if markByOrDevideContains {
+                    var byOrDevideIndex = 0
+                    for calculation in calcType{
+                        if calculation == "*" {
+                            calculationNum[byOrDevideIndex] = calculationNum[byOrDevideIndex ] * calculationNum[byOrDevideIndex + 1]
+                            calculationNum.remove(at: byOrDevideIndex + 1)
+                            calcType.remove(at: byOrDevideIndex)
+                            byOrDevideIndex -= 1 //因为移除了数组的值，需要将将index降低一个
+                        }else if calculation == "/"{
+                            if calculationNum[byOrDevideIndex + 1] == 0{
+                                resultLabel.text = "0"
+                                greyLayerPrompt.show(text: "算式错误，除数不能为0")
+                                targetResult = 0
+                                return
+                            }else{
+                                calculationNum[byOrDevideIndex] = calculationNum[byOrDevideIndex] / calculationNum[byOrDevideIndex + 1]
+                            }
+                            calcType.remove(at: byOrDevideIndex)
+                            calculationNum.remove(at: byOrDevideIndex + 1)
+                            byOrDevideIndex -= 1 //因为移除了数组的值，需要将将index降低一个
+                        }
+                        byOrDevideIndex += 1
+                    }
+                }
+                //处理完算式中的乘除后，计算剩下的加减法
+                //没有乘除法，直接顺序运算
+                let rangeIndex = 0
+                //   var tempCalculationNums = calculationNum
+                for calculation in calcType{
+                    let firstNum = calculationNum[rangeIndex]
+                    let secondNum = calculationNum[rangeIndex + 1]
+                    if calculation == "+" {
+                        let tempResult = firstNum + secondNum
+                        calculationNum.removeFirst()
+                        calculationNum[0] = tempResult
+                    }else{
+                        let tempResult = firstNum - secondNum
+                        calculationNum.removeFirst()
+                        calculationNum[0] = tempResult
+                    }
+                }
+                //计算完成
+                resultLabel.text = "\(calculationNum[0])"
+                targetResult = Int(calculationNum[0])
+                opreationValue(with: targetResult)
+                
+                actionView.currentValueOnSliderTextField.text = quotePriceResult.text// resultLabel.text
+            }
+            
+            
             UIView.animate(withDuration: 0.3) {
                 self.transform = CGAffineTransform(translationX: 0, y: 0)
                 self.actionView.transform = CGAffineTransform(translationX: 0, y: 0)

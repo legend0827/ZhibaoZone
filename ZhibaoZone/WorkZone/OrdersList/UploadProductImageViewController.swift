@@ -21,6 +21,7 @@ class UploadProductImageViewController: UIViewController,UIImagePickerController
     var _productType:String = "徽章"
     var _materialAndAccessory:String = "锌合金 别针"
     var _modalAndColor:String = "2D"
+    var _customID:String = "1000000"
     
     var downloadURLHeader = ""
     var downloadURLHeaderForThumbnail = ""
@@ -41,11 +42,13 @@ class UploadProductImageViewController: UIViewController,UIImagePickerController
     //从本地上传到IOS客户端的路径
     var tempimageURLs:[Int:String] = [:]
     var imageURLs:[String] = []
+    //系统配置项目Dict
+    var systemParam:[AnyObject] = []
     //预览路径
     var temppreviewURLs:[Int:URL] = [:]
     var previewURLs:[URL] = []
     //上传图片到COS临时存储到名字
-    var taskImages:[String] = []
+    var taskImages:[NSDictionary] = []
     var tempAttachmentPics:[Int:UIImage] = [:]
     var AttachmentPics:[UIImage] = []
     var tempAttachmentTypes:[Int:String] = [:]
@@ -130,10 +133,18 @@ class UploadProductImageViewController: UIViewController,UIImagePickerController
         downloadURLHeader = resourcesDownloadLinks.value(forKey: "imagesDownloadLinks") as! String
         downloadURLHeaderForThumbnail = resourcesDownloadLinks.value(forKey: "imagesDownloadLinksThumbnail") as! String
         #endif
-        
+        systemParam = getSystemParasFromPlist()
         setupUI()
     }
+    override func viewWillDisappear(_ animated: Bool) {
+        setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .clear))
+        setStatusBarHiden(toHidden: true, ViewController: self)
+    }
 
+    override func viewWillAppear(_ animated: Bool) {
+        setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .red))
+        setStatusBarHiden(toHidden: false, ViewController: self)
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -323,27 +334,21 @@ class UploadProductImageViewController: UIViewController,UIImagePickerController
     }
     
     @objc func loadData(){
-        let orderInfoObjects = orderObject.value(forKey: "orderinfo") as! NSDictionary
+        let orderInfoObjects = orderObject as! NSDictionary
         let orderID = orderInfoObjects.value(forKey: "orderid") as! String
-        let producttype = orderInfoObjects.value(forKey: "goodsclass") as! String
-        
-        let productInfoObject = orderObject.value(forKey: "goodsinfo") as! NSDictionary
-        
-        let material = productInfoObject.value(forKey: "texturename") as! String
-        let accessory = productInfoObject.value(forKey: "accessoriesname") as! String
-        let producingStype = productInfoObject.value(forKey: "technology") as! String
-        let modal = productInfoObject.value(forKey: "shape") as! String
-        let color = productInfoObject.value(forKey: "color") as! String
+        _customID = orderInfoObjects.value(forKey: "customid") as! String
+        let productObjects = systemParam[0] as! NSDictionary
+       // let productInfoObject = orderObject.value(forKey: "goodsinfo") as! NSDictionary
         
         //获取订单图片
-        if orderInfoObjects.value(forKey: "goodsimage") as? String == nil{ // 图片字段为空
+        if orderInfoObjects.value(forKey: "smallGoodsImage") as? String == nil{ // 图片字段为空
             DispatchQueue.main.async {
                 self.goodImage.image = UIImage(named:"defualt-design-pic")
             }
             
             
         }else{
-            let imageURLString:String = "\(downloadURLHeaderForThumbnail)\(orderInfoObjects.value(forKey: "goodsimage") as! String)"
+            let imageURLString:String = "\(downloadURLHeaderForThumbnail)\(orderInfoObjects.value(forKey: "smallGoodsImage") as! String)"
             let url = URL(string: imageURLString)!
             do{
                 let data = try Data.init(contentsOf: url)
@@ -353,7 +358,7 @@ class UploadProductImageViewController: UIViewController,UIImagePickerController
                 }
                 
             }catch{
-                let imageURLString:String = "\(downloadURLHeader)\(orderInfoObjects.value(forKey: "goodsimage") as! String)"
+                let imageURLString:String = "\(downloadURLHeader)\(orderInfoObjects.value(forKey: "smallGoodsImage") as! String)"
                 let url = URL(string: imageURLString)!
                 do{
                     let data = try Data.init(contentsOf: url)
@@ -370,12 +375,89 @@ class UploadProductImageViewController: UIViewController,UIImagePickerController
         }
         DispatchQueue.main.async {
             self._orderID = orderID
-            self._productType = producttype
-            self._materialAndAccessory = material + " " + accessory
-            self._modalAndColor = modal + ";" + producingStype + ";" + color
+            
+            //产品类型
+            let goodsClassObject = productObjects.value(forKey: "goodsClass") as! NSArray
+            let productType = (goodsClassObject[Int(orderInfoObjects.value(forKey: "goodsClass") as! String)! - 1] as! NSDictionary).value(forKey: "goodsClass") as! String
+            
+            //材质
+            let materailObject = productObjects.value(forKey: "material") as! NSArray
+            let materialType = (materailObject[Int(orderInfoObjects.value(forKey: "material") as! String)! - 1] as! NSDictionary).value(forKey: "material") as! String
+            
+            //附件
+            var accessoriesType = ""
+            let accessoriesObject = productObjects.value(forKey: "accessories") as! NSArray
+            if orderInfoObjects.value(forKey: "accessories") as? String == nil{//如果附件为空
+                accessoriesType = ""
+            }else{
+                accessoriesType = (accessoriesObject[Int(orderInfoObjects.value(forKey: "accessories") as! String)! - 1] as! NSDictionary).value(forKey: "accessories") as! String
+                if accessoriesType == "无" {
+                    accessoriesType = ""
+                }
+            }
+
+            
+            //设置工艺值
+            var tempMakeStyleValue = ""
+            //开模方式
+            let modelClassObject = productObjects.value(forKey: "model") as! NSArray
+            let modelString = orderInfoObjects.value(forKey: "model") as! String
+            var modelType = ""
+            let modelArray = modelString.split(separator: ",")
+            for item in modelArray{
+                modelType += ",\((modelClassObject[Int(item)! - 1] as! NSDictionary).value(forKey: "model") as! String)"
+            }
+            if modelType == ",无"{
+                modelType = ""
+            }else{
+                tempMakeStyleValue += modelType
+            }
+            
+            //工艺
+            let technologyClassObject = productObjects.value(forKey: "technology") as! NSArray
+            let technologyString = orderInfoObjects.value(forKey: "technology") as! String
+            var technologyType = ""
+            let technologyArray = technologyString.split(separator: ",")
+            for item in technologyArray{
+                technologyType += ",\((technologyClassObject[Int(item)!  - 1] as! NSDictionary).value(forKey: "technology") as! String)"
+            }
+            if technologyType == ",无"{
+                technologyType = ""
+            }else{
+                if tempMakeStyleValue == ""{
+                    tempMakeStyleValue += technologyType
+                }else{
+                    tempMakeStyleValue += ";\(technologyType)"
+                }
+            }
+            
+            //电镀色
+            let colorClassObject = productObjects.value(forKey: "color") as! NSArray
+            let colorString = orderInfoObjects.value(forKey: "color") as! String
+            var colorType = ""
+            let colorArray = colorString.split(separator: ",")
+            for item in colorArray{
+                colorType += ",\((colorClassObject[Int(item)! - 1] as! NSDictionary).value(forKey: "color") as! String)"
+            }
+            if colorType == ",无"{
+                colorType = ""
+            }else{
+                if tempMakeStyleValue == ""{
+                    tempMakeStyleValue += colorType
+                }else{
+                    tempMakeStyleValue += ";\(colorType)"
+                }
+            }
+            
+            tempMakeStyleValue.remove(at: tempMakeStyleValue.startIndex) //删除掉开头的“，”
+            tempMakeStyleValue = tempMakeStyleValue.replacingOccurrences(of: ";,", with: ";") //将“;,替换为;
+            
+            self._productType = productType
+            self._materialAndAccessory = materialType + " " + accessoriesType
+            self._modalAndColor = tempMakeStyleValue
             
             self.orderIDLabel.text = "订单号: \(orderID)"
-            self.productType.text = producttype
+            self.productType.text = productType
             self.materialAndAccessories.text = self._materialAndAccessory
             self.modalAndColorL.text = self._modalAndColor
         }
@@ -1404,53 +1486,84 @@ class UploadProductImageViewController: UIViewController,UIImagePickerController
         return fileUrls
     }
     
+    
+    
     func uploadToServer(){
         //获取用户信息
         let userInfos = getCurrentUserInfo()
-        let roletype = userInfos.value(forKey: "roletype") as? String
-        let userid = userInfos.value(forKey: "userid") as? String
-        let token = userInfos.value(forKey: "token") as? String
-        
+        let token = userInfos.value(forKey: "token") as! String
         //获取列表
         let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
         let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
         let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
         //定义请求参数
-        var urls = taskImages[0]
-        if taskImages.count == 2{
-            urls += "," + taskImages[1]
-        }else if taskImages.count == 3{
-            urls += "," + taskImages[1]
-            urls += "," + taskImages[2]
-        }
+//        var urls = taskImages[0]
+//        if taskImages.count == 2{
+//            urls += "," + taskImages[1]
+//        }else if taskImages.count == 3{
+//            urls += "," + taskImages[1]
+//            urls += "," + taskImages[2]
+//        }
 
         
         let params:NSMutableDictionary = NSMutableDictionary()
-        params["userid"] = userid
-        params["roleType"] = roletype
-        params["token"] = token
-        params["commandCode"] = 301
-        params["images"] = urls
-        params["orderid"] = _orderID
+        var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
+        params["customid"] = _customID
+        header["token"] = token
+        switch taskImages.count {
+        case 0:
+            return
+        case 1:
+            params["initialReferenceImage1"] = taskImages[0].value(forKey: "originalImage") as! String
+            params["initialReferenceImage2"] =  ""//(taskImages[0] as! NSDictionary).value(forKey: "originalImage") as! String
+            params["initialReferenceImage3"] =  ""//(taskImages[0] as! NSDictionary).value(forKey: "originalImage") as! String
+            params["middleReferenceImage1"] =  taskImages[0].value(forKey: "middleImage") as! String
+            params["middleReferenceImage2"] =  ""//(taskImages[0] as! NSDictionary).value(forKey: "middleImage") as! String
+            params["middleReferenceImage3"] =  ""//(taskImages[0] as! NSDictionary).value(forKey: "middleImage") as! String
+            params["smallReferenceImage1"] =  taskImages[0].value(forKey: "smallImage") as! String
+            params["smallReferenceImage2"] =  ""//(taskImages[0] as! NSDictionary).value(forKey: "smallImage") as! String
+            params["smallReferenceImage3"] =  ""//(taskImages[0] as! NSDictionary).value(forKey: "smallImage") as! String
+        case 2:
+            params["initialReferenceImage1"] = taskImages[0].value(forKey: "originalImage") as! String
+            params["initialReferenceImage2"] =  taskImages[1].value(forKey: "originalImage") as! String
+            params["initialReferenceImage3"] =  ""//(taskImages[0] as! NSDictionary).value(forKey: "originalImage") as! String
+            params["middleReferenceImage1"] =  taskImages[0].value(forKey: "middleImage") as! String
+            params["middleReferenceImage2"] =  taskImages[1].value(forKey: "middleImage") as! String
+            params["middleReferenceImage3"] =  ""//(taskImages[0] as! NSDictionary).value(forKey: "middleImage") as! String
+            params["smallReferenceImage1"] =  taskImages[0].value(forKey: "smallImage") as! String
+            params["smallReferenceImage2"] =  taskImages[1].value(forKey: "smallImage") as! String
+            params["smallReferenceImage3"] =  ""//(taskImages[0] as! NSDictionary).value(forKey: "smallImage") as! String
+        case 3:
+            params["initialReferenceImage1"] = taskImages[0].value(forKey: "originalImage") as! String
+            params["initialReferenceImage2"] =  taskImages[1].value(forKey: "originalImage") as! String
+            params["initialReferenceImage3"] =  taskImages[2].value(forKey: "originalImage") as! String
+            params["middleReferenceImage1"] =  taskImages[0].value(forKey: "middleImage") as! String
+            params["middleReferenceImage2"] =  taskImages[1].value(forKey: "middleImage") as! String
+            params["middleReferenceImage3"] =  taskImages[2].value(forKey: "middleImage") as! String
+            params["smallReferenceImage1"] =  taskImages[0].value(forKey: "smallImage") as! String
+            params["smallReferenceImage2"] =  taskImages[1].value(forKey: "smallImage") as! String
+            params["smallReferenceImage3"] =  taskImages[2].value(forKey: "smallImage") as! String
+        default:
+            print("hello")
+        }
+       // params["images"] = urls
      
         
-        var requestUrl:String = ""
-        if roletype == "3" {
-            #if DEBUG
-            requestUrl = apiAddresses.value(forKey: "uploadProuctImageAPIDebug") as! String
-            #else
-            requestUrl = apiAddresses.value(forKey: "uploadProuctImageAPI") as! String
-            #endif
-        }
-        _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
+        #if DEBUG
+       let requestUrl = apiAddresses.value(forKey: "uploadProuctImageAPIDebug") as! String
+        #else
+       let requestUrl = apiAddresses.value(forKey: "uploadProuctImageAPI") as! String
+        #endif
+        
+        _ = Alamofire.request(requestUrl,method:.post, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{
             case true:
                 if  let value = responseObject.result.value{
                     let json = JSON(value)
                     let statusCode = json["code"].int!
-                    let statusMsg = json["msg"].string!
-                    if statusCode == 0{
+                    let statusMsg = json["message"].string!
+                    if statusCode == 200{
                         greyLayerPrompt.show(text: statusMsg)
                         
                     }else {
@@ -1486,8 +1599,83 @@ class UploadProductImageViewController: UIViewController,UIImagePickerController
     
     @objc func uploadBtnClicked(){
         changePositionOfPictures()
-        taskImages = uploadFiles(images: imageURLs)
+        let userinfos = getCurrentUserInfo()
+        let token = userinfos.value(forKey: "token") as! String
+        //taskImages = uploadFiles(images: imageURLs)
+        uploadImageToServer(with: AttachmentPics, customID: _customID, usage: "product_image", userToken: token)
     }
+    
+    //通过服务器上传图片
+    func uploadImageToServer( with img:[UIImage], customID customid:String,usage type:String, userToken token:String){
+        
+        var fileURLs:[NSDictionary] = []
+        //获取列表
+        let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
+        let plistData:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
+        let apiAddresses:NSDictionary = plistData.value(forKey: "apiAddress") as! NSDictionary
+        
+        var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
+        header["token"] = token
+        
+        
+        #if DEBUG
+        let uploadurl = apiAddresses.value(forKey: "uploadImageAPIDebug") as! String
+        #else
+        let uploadurl = apiAddresses.value(forKey: "uploadImageAPI") as! String
+        #endif
+        
+        var LoopMaxCount = img.count
+        var LoopCurrentCount = 1
+        
+        for image in img{
+            let data=UIImagePNGRepresentation(image)//把图片转成data
+            
+            Alamofire.upload(multipartFormData: { (FormData) in
+                let param = ["customid":customid,"type":type]
+                for (key,value) in param{
+                    FormData.append(value.data(using: String.Encoding.utf8)!, withName: key)
+                }
+                FormData.append(data!, withName: "file", fileName: "fileName.png", mimeType:"image/png")
+            }, to: uploadurl,headers:header) { (encodingResult) in
+                switch encodingResult {
+                case .success(let upload,_,_) :
+                    upload.responseJSON(completionHandler: { (response) in
+                        print("\(response)")  //上传成功通过response返回json值
+                        switch response.result.isSuccess{
+                        case true:
+                            if  let value = response.result.value{
+                                let json = JSON(value)
+                                let statusObject = json["code"].int!
+                                if statusObject == 200 {
+                                    print("图片上传到服务器成功")
+                                    let urlsDic = ["smallImage":json["data","sImageUrl"].string!,"originalImage":json["data","oImageUrl"].string!,"middleImage":json["data","mImageUrl"].string!]
+                                    fileURLs.append(urlsDic as NSDictionary)
+                                    self.taskImages.append(urlsDic as NSDictionary)
+                                    if LoopCurrentCount == LoopMaxCount{
+                                        self.uploadToServer()
+                                      //  return fileURLs
+                                    }else{
+                                        LoopCurrentCount += 1
+                                    }
+                                }else{
+                                    print("发货失败，code:\(statusObject)")
+                                    let errorMsg = json["message"].string!
+                                    greyLayerPrompt.show(text: errorMsg)
+                                }
+                            }
+                        case false:
+                            print("hallo")
+                            greyLayerPrompt.show(text: "服务器异常，上传图片失败")
+                        }
+                    })
+                case .failure(let error):
+                    print(error)
+                    greyLayerPrompt.show(text: "服务器异常，上传图片失败")
+                }
+            }
+        }
+    }
+
     /*
     // MARK: - Navigation
 

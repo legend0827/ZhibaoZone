@@ -119,8 +119,12 @@ class ManagerViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .red))
+        setStatusBarHiden(toHidden: false, ViewController: self)
     }
-
+    override func viewWillDisappear(_ animated: Bool) {
+        setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .clear))
+        setStatusBarHiden(toHidden: false, ViewController: self)
+    }
     /*
     // MARK: - Navigation
 

@@ -38,6 +38,9 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
     //选择的订单的index
     var selectedIndex = 0
     
+    //系统配置项目Dict
+    var systemParam:[AnyObject] = []
+    
     //搜索字符
     var searchText = ""
     
@@ -68,7 +71,8 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        //获取System Parameter信息
+        systemParam = getSystemParasFromPlist()
 //        let promptLabel:UILabel = UILabel.init(frame: CGRect(x: 20, y: 100, width: kWidth-40, height: 22))
 //        promptLabel.text = "未进行搜索"
 //        promptLabel.textColor = UIColor.titleColors(color: .lightGray)
@@ -80,7 +84,7 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
     override func viewWillAppear(_ animated: Bool) {
         self.view.backgroundColor = UIColor.backgroundColors(color: .white)
         setStatusBarBackgroundColor(color: .backgroundColors(color: .red))
-        
+        setStatusBarHiden(toHidden: false, ViewController: self)
         titleBarBackground.backgroundColor = UIColor.backgroundColors(color: .red)
        
         //设置搜索栏
@@ -125,8 +129,8 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
         downloadURLHeader = resourcesDownloadLinks.value(forKey: "imagesDownloadLinksDebug") as! String
         downloadURLHeaderForThumbnail = resourcesDownloadLinks.value(forKey: "imagesDownloadLinksThumbnailDebug") as! String
         #else
-        downloadURLHeader = resourcesDownloadLinks.value(forKey: "imagesDownloadLinks") as! String
-        downloadURLHeaderForThumbnail = resourcesDownloadLinks.value(forKey: "imagesDownloadLinksThumbnail") as! String
+            downloadURLHeader = resourcesDownloadLinks.value(forKey: "imagesDownloadLinks") as! String
+            downloadURLHeaderForThumbnail = resourcesDownloadLinks.value(forKey: "imagesDownloadLinksThumbnail") as! String
         #endif
         
         //获取用户信息
@@ -180,24 +184,34 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CELL_ID, for: indexPath) as! OrderSearchCollectionViewCell
         
-        let dictionaryObjectInOrderArray = orderArray[indexPath.row]
-        let statusObjects = dictionaryObjectInOrderArray.value(forKey: "state") as! NSDictionary
-        let goodsInfoObjects = dictionaryObjectInOrderArray.value(forKey: "goodsinfo") as! NSDictionary
-        let orderInfoObjects = dictionaryObjectInOrderArray.value(forKey: "orderinfo") as! NSDictionary
-        let priceInfoObjects = dictionaryObjectInOrderArray.value(forKey: "price") as! NSDictionary
+        let orderInfoObjects = orderArray[indexPath.row] as! NSDictionary
+        
+        //获取系统参数数据
+        let statusObjects = systemParam[1] as! NSDictionary
+        let productObjects = systemParam[0] as! NSDictionary
+        let commandsObjects = systemParam[2] as! NSArray
+        
+        cell.acceptDesignBtnInCell.isHidden = true
+        cell.acceptProduceBtnInCell.isHidden = true
+        cell.quotePriceBtnInCell.isHidden = true
+        cell.shippingBtnInCell.isHidden = true
+        cell.takePhotoForProductBtnInCell.isHidden = true
+        cell.editOrderBtnInCell.isHidden = true
+        
+        let commandsCode = orderInfoObjects.value(forKey: "command") as! String
         
         //获取订单图片
-        if orderInfoObjects.value(forKey: "goodsimage") as? String == nil{ // 图片字段为空
+        if orderInfoObjects.value(forKey: "smallGoodsImage") as? String == nil{ // 图片字段为空
             cell.orderCellImageView.image = UIImage(named:"defualt-design-pic")
         }else{
-            let imageURLString:String = "\(downloadURLHeaderForThumbnail)\(orderInfoObjects.value(forKey: "goodsimage") as! String)"
+            let imageURLString:String = "\(downloadURLHeaderForThumbnail)\(orderInfoObjects.value(forKey: "smallGoodsImage") as! String)"
             let url = URL(string: imageURLString)!
             do{
                 let data = try Data.init(contentsOf: url)
                 let image = UIImage.gif(data:data)
                 cell.orderCellImageView.image = image//  UIImage(image:image)
             }catch{
-                let imageURLString:String = "\(downloadURLHeader)\(orderInfoObjects.value(forKey: "goodsimage") as! String)"
+                let imageURLString:String = "\(downloadURLHeader)\(orderInfoObjects.value(forKey: "smallGoodsImage") as! String)"
                 let url = URL(string: imageURLString)!
                 do{
                     let data = try Data.init(contentsOf: url)
@@ -211,31 +225,93 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
             
         }
         
-        // cell.orderTimeLabel.text = orderInfoObjects.value(forKey: "createtime") as? String //订单创建时间
-        // cell.orderID.text = orderInfoObjects.value(forKey: "orderid") as? String // 订单号
-        cell.productTypeAndMaterialInCell.text = "\(orderInfoObjects.value(forKey: "goodsclass") as! String) \(goodsInfoObjects.value(forKey: "texturename") as! String)" //订单产品类别 材质
-        cell.productQuantityInCell.text = "x\(goodsInfoObjects.value(forKey: "number") as! Int)"
+        //产品类型
+        let goodsClassObject = productObjects.value(forKey: "goodsClass") as! NSArray
+        let productType = (goodsClassObject[Int(orderInfoObjects.value(forKey: "goodsClass") as! String)! - 1] as! NSDictionary).value(forKey: "goodsClass") as! String
+        
+        //材质
+        let materailObject = productObjects.value(forKey: "material") as! NSArray
+        let materialType = (materailObject[Int(orderInfoObjects.value(forKey: "material") as! String)! - 1] as! NSDictionary).value(forKey: "material") as! String
+        cell.productTypeAndMaterialInCell.text = productType + " " + materialType
+        
+        //产品数量
+        cell.productQuantityInCell.text = "x\(orderInfoObjects.value(forKey: "number") as! Int)"
         //设置产品尺寸
-        let sizeObject = goodsInfoObjects.value(forKey: "size") as! NSDictionary
         var sizeString:String = ""
         //长
-        if sizeObject.value(forKey: "length") as? NSNumber != nil {
-            sizeString += "\(sizeObject.value(forKey: "length")as! NSNumber)"
+        if orderInfoObjects.value(forKey: "length") as? NSNumber != nil {
+            sizeString += "\(orderInfoObjects.value(forKey: "length")as! NSNumber)"
         }
         //宽
-        if sizeObject.value(forKey: "width") as? NSNumber != nil {
-            sizeString += "x\(sizeObject.value(forKey: "width")as! NSNumber)"
+        if orderInfoObjects.value(forKey: "width") as? NSNumber != nil {
+            sizeString += "x\(orderInfoObjects.value(forKey: "width")as! NSNumber)"
         }else{
             sizeString += "x "
         }
         //高
-        if sizeObject.value(forKey: "height") as? NSNumber != nil {
-            sizeString += "x\(sizeObject.value(forKey: "height")as! NSNumber)(mm)"
+        if orderInfoObjects.value(forKey: "height") as? NSNumber != nil {
+            sizeString += "x\(orderInfoObjects.value(forKey: "height")as! NSNumber)(mm)"
         }else{
             sizeString += "x (mm)"
         }
         cell.orderIDValue.text = orderInfoObjects.value(forKey: "orderid") as! String
-        var createtime = orderInfoObjects.value(forKey: "createtime") as! String
+        var createtime = ""
+        switch _roleType {
+        case 1:
+            createtime = orderInfoObjects.value(forKey: "createTime") as! String
+        case 2:
+            createtime = orderInfoObjects.value(forKey: "sendDesignTime") as! String
+            if commandsCode.contains("ACCEPT_DESIGN"){
+                cell.acceptDesignBtnInCell.isHidden = false
+            }else{
+                cell.acceptDesignBtnInCell.isHidden = true
+            }
+            //设置设计费显示
+            if orderInfoObjects.value(forKey: "designPrice") as? Float == nil{
+                cell.priceLabel.text = "-"
+            }else{
+                cell.priceLabel.text = "¥\(orderInfoObjects.value(forKey: "designPrice") as! Float)0"
+            }
+        case 3:
+            //支付状态
+            if commandsCode.contains("QUOTE"){
+                cell.quotePriceBtnInCell.isHidden = false
+            }else{
+                cell.quotePriceBtnInCell.isHidden = true
+            }
+            
+            if (orderInfoObjects.value(forKey: "produceStatus") as! Int) <= 1 {
+                createtime = orderInfoObjects.value(forKey: "createTime") as! String
+                //显示上次报价
+                if (orderInfoObjects.value(forKey: "lastQuote") as! Int) == 0{
+                    //上次未报价
+                    cell.priceLabel.text = "¥0.00"
+                }else{
+                    //有上次报价，显示上次报价
+                    cell.priceLabel.text = "¥\(orderInfoObjects.value(forKey: "lastQuote") as! Int).00"
+                }
+            }else{
+                createtime = orderInfoObjects.value(forKey: "produceTime") as! String
+                //显示生产费
+                cell.priceLabel.text = "¥\(orderInfoObjects.value(forKey: "producePrice") as! NSNumber)"
+                if (orderInfoObjects.value(forKey: "produceStatus") as! Int) == 2{
+                    //显示接受生产按钮
+                    cell.acceptProduceBtnInCell.isHidden = false
+                }else if (orderInfoObjects.value(forKey: "produceStatus") as! Int) == 3{
+                    //显示发货按钮
+                    cell.shippingBtnInCell.isHidden = false
+                }else{
+                    //显示拍摄成品
+                    cell.takePhotoForProductBtnInCell.isHidden = false
+                }
+            }
+        case 4:
+            createtime = orderInfoObjects.value(forKey: "createTime") as! String
+            cell.editOrderBtnInCell.isHidden = true
+        default:
+            createtime = orderInfoObjects.value(forKey: "createTime") as! String
+        }
+        
         
         let offSetIndex = createtime.index(createtime.startIndex, offsetBy: 16)
         createtime = createtime.substring(to: offSetIndex)
@@ -243,15 +319,9 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
         for _ in 0..<2{
             createtime.removeFirst()
         }
+        //显示时间
         cell.orderTimeValue.text = createtime
         cell.productSize.text = sizeString
-        
-        cell.acceptDesignBtnInCell.isHidden = true
-        cell.acceptProduceBtnInCell.isHidden = true
-        cell.quotePriceBtnInCell.isHidden = true
-        cell.shippingBtnInCell.isHidden = true
-        cell.takePhotoForProductBtnInCell.isHidden = true
-        cell.editOrderBtnInCell.isHidden = true
         
         cell.acceptDesignBtnInCell.addTarget(self, action: #selector(acceptDesignBtnClicked), for: .touchUpInside)
         cell.quotePriceBtnInCell.addTarget(self, action: #selector(quotePriceBtnClicked), for: .touchUpInside)
@@ -266,98 +336,6 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
         cell.shippingBtnInCell.tag = indexPath.row
         cell.takePhotoForProductBtnInCell.tag = indexPath.row
         cell.editOrderBtnInCell.tag = indexPath.row
-        switch _roleType {
-        case 1:
-            print("RoleType 为 1")
-        case 2:
-            // print("RoleType 为 2")
-            //设置师角色，并且订单状态为2
-            //            if (statusObjects.value(forKey: "orderstate") as! NSDictionary).value(forKey: "designreceivestate") as? Int == nil{
-            //                print("hello")
-            //            }
-            // let designreceiveStateObjec = (statusObjects.value(forKey: "orderstate") as! NSDictionary).value(forKey: "designreceivestate") as? NSDictionary
-            if (statusObjects.value(forKey: "designreceivestate") as! NSDictionary).value(forKey: "code")  as! Int == 0{
-                cell.acceptDesignBtnInCell.isHidden = false
-            }
-            //            if orderInfoObjects.value(forKey: "orderid") as! String  == "205176634213032"{
-            //                print("hellp")
-            //            }
-            
-            //设置设计费显示
-            if priceInfoObjects.value(forKey: "designprice") as? Float == nil{
-                cell.priceLabel.text = "¥8.0"
-            }else{
-                cell.priceLabel.text = "¥\(priceInfoObjects.value(forKey: "designprice") as! Float)0"
-            }
-        case 3:
-            //  print("RoleType 为 3")
-            //支付状态
-            let paystate = (statusObjects.value(forKey: "payoffstate") as! NSDictionary).value(forKey: "code") as! Int
-            //支付之前，显示报价按钮
-            //            if orderInfoObjects.value(forKey: "orderid") as! String == "205176654690393" {
-            //                print("paystate = \(paystate)")
-            //            }
-            if paystate < 1{
-                cell.quotePriceBtnInCell.isHidden = false
-            }else{
-                cell.quotePriceBtnInCell.isHidden = true
-            }
-            //分配生产之前，价格显示报价价格 //设置自己的报价
-            if ((statusObjects.value(forKey: "orderstate") as! NSDictionary).value(forKey: "orderstate") as! Int) <= 7{
-                // cell.quotePriceBtnInCell.isHidden = false
-                
-                if priceInfoObjects.value(forKey: "returnprice") as? Float == nil{
-                    cell.priceLabel.text = "¥0.00"
-                }else{
-                    cell.priceLabel.text = "¥\(priceInfoObjects.value(forKey: "returnprice") as! Float)0"
-                }
-            }else{
-                //订单支付之后，如果报过价格，价格显示报价价格否则显示finlprice
-                if priceInfoObjects.value(forKey: "returnprice") as? Float == nil || priceInfoObjects.value(forKey: "returnprice") as? Float == 0.0{
-                    if priceInfoObjects.value(forKey: "finalprice") as? NSNumber == nil{
-                        cell.priceLabel.text = "¥0.0"
-                    }else{
-                        cell.priceLabel.text = "¥\(priceInfoObjects.value(forKey: "finalprice") as! NSNumber)"
-                    }
-                    //cell.priceLabel.text = "¥0.00"
-                }else{
-                    cell.priceLabel.text = "¥\(priceInfoObjects.value(forKey: "returnprice") as! Float)0"
-                }
-            }
-            
-            // 接受生产按钮显示控制
-            //订单状态为7表示需要接受生产
-            if (statusObjects.value(forKey: "orderstate") as! NSDictionary).value(forKey: "orderstate") as! Int == 7{
-                cell.acceptProduceBtnInCell.isHidden = false
-            }
-            
-            //订单在生产中，允许上传物流
-            if (statusObjects.value(forKey: "orderstate") as! NSDictionary).value(forKey: "orderstate") as! Int == 8{
-                cell.shippingBtnInCell.isHidden = false
-                cell.takePhotoForProductBtnInCell.isHidden = false
-            }
-            cell.orderIDValue.text = orderInfoObjects.value(forKey: "orderid") as! String
-
-            if priceInfoObjects.value(forKey: "mindprice") as? Float != nil && priceInfoObjects.value(forKey: "mindprice") as? Float != 0.0{
-                if priceInfoObjects.value(forKey: "returnprice") as? Float != nil && priceInfoObjects.value(forKey: "returnprice") as? Float != 0.0{
-                    if priceInfoObjects.value(forKey: "returnprice") as! Float > priceInfoObjects.value(forKey: "mindprice") as! Float{
-                        cell.statusImageView.isHidden = false
-                    }else{
-                        cell.statusImageView.isHidden = true
-                    }
-                }else{
-                    cell.statusImageView.isHidden = true
-                }
-            }else{
-                cell.statusImageView.isHidden = true
-            }
-            
-        case 4:
-            print("RoleType 为 4")
-            cell.editOrderBtnInCell.isHidden = false
-        default:
-            print("RoleType 为 default")
-        }
         
         return cell
     }
@@ -511,13 +489,13 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
         print("点击了报价按钮")
         
         selectedIndex = button.tag
-        let dictionaryObjectInOrderArray = orderArray[selectedIndex]
-        let orderInfoObjects = dictionaryObjectInOrderArray.value(forKey: "orderinfo") as! NSDictionary
+        let orderInfoObjects = orderArray[selectedIndex]
+        //let orderInfoObjects = dictionaryObjectInOrderArray.value(forKey: "orderinfo") as! NSDictionary
         
         
         let orderID = orderInfoObjects.value(forKey: "orderid") as! String
         let customID = orderInfoObjects.value(forKey: "customid") as! String
-        let quotePriceView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight + 216))
+        let quotePriceView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight + 166))
         
         
         let popVC = PopupViewController()
@@ -628,41 +606,59 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
         let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
         let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
         let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
-        var requestURL:String = ""
+        
         #if DEBUG
-        requestURL = apiAddresses.value(forKey: "orderSearchDebug") as! String
+        let requestURL = apiAddresses.value(forKey: "orderSearchDebug") as! String
         #else
-        requestURL = apiAddresses.value(forKey: "orderSearch") as! String
+        let requestURL = apiAddresses.value(forKey: "orderSearch") as! String
         #endif
 
         //定义请求参数
         let params:NSMutableDictionary = NSMutableDictionary()
+        var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
         
-        params["userid"] =  _userid
-        params["roletype"] = _roleType
-        params["orderid"] = searchText
-        params["token"] = _token
+        let endTime = getEndDateTimeStampOfToday()
+        
+        params["startTime"] = 0// "1514736000" //2018-01-01 00:00:00
+        params["endTime"] = 0//endTime
+        params["word"] = searchText
+        params["pageNum"] = pages
+        params["pageSize"] = 6
+        header["token"] = _token
         
         
-        let dataRequest = Alamofire.request(requestURL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
+        let dataRequest = Alamofire.request(requestURL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{
             case true:
                 if let value = responseObject.result.value{
                     let json = JSON(value)
-                    if json.count == 3 {
-                        self.orderCount = json["ordersummary","returnum"].int!//获取订单数
-                        self.totalPageCount = json["ordersummary","totalnum"].int!/self.orderCount
-                        for item in json["ordersummary","orderarray"].array! {
-                            let restoreItem = item.dictionaryObject as! NSDictionary
-                            self.orderArray.append(restoreItem)
+                    let statusCode = json["code"].int!
+                    if  statusCode == 200 {
+                        let totalOrderCount = json["data","pageMessage","rowCount"].int!//获取订单数
+                        self.orderCount = json["data","pageData"].array!.count
+                        if self.orderCount == 0{
+                            self.totalPageCount = 1
+                            if self.view.subviews.contains(self.orderSearchCollectionView) {
+                                self.orderSearchCollectionView.removeFromSuperview()
+                                self.StopLoadingAnimation()
+                            }
+                            self.emytyAreaShowingLabel(withRetry: false)
+                        }else{
+                            self.totalPageCount = totalOrderCount/self.orderCount
+                            for item in json["data","pageData"].array! {
+                                let restoreItem = item.dictionaryObject as! NSDictionary
+                                self.orderArray.append(restoreItem)
+                            }
+                            if !self.view.subviews.contains(self.orderSearchCollectionView) {
+                                self.view.addSubview(self.orderSearchCollectionView)
+                                
+                            }
+                            self.orderSearchCollectionView.reloadData()
+                            self.orderSearchCollectionView.es.stopPullToRefresh()
                         }
-                        if !self.view.subviews.contains(self.orderSearchCollectionView) {
-                            self.view.addSubview(self.orderSearchCollectionView)
-                            self.StopLoadingAnimation()
-                        }
-                        self.orderSearchCollectionView.reloadData()
-                        self.orderSearchCollectionView.es.stopPullToRefresh()
+                        self.StopLoadingAnimation()
+                        
                     }else{
                         if self.page == 1{
                             self.StopLoadingAnimation()
@@ -730,6 +726,8 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
     }
     override func viewWillDisappear(_ animated: Bool) {
         //titleBarView.backgroundColor = UIColor.backgroundColors(color: .red)
+        setStatusBarHiden(toHidden: false, ViewController: self)
+        setStatusBarBackgroundColor(color: .clear)
     }
     
     @objc func searchBarCancelButtonClicked() {

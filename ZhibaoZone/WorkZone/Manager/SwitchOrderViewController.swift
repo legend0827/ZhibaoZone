@@ -343,7 +343,7 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         searchOrderTextFiled.resignFirstResponder()
         print("search button clicked")
         if _pagingType == .producingOrder{
-            searchForSwitchOrders(for: 1)
+            searchForSwitchOrders(for: 3)
         }else{
             searchForSwitchOrders(for: 2)
         }
@@ -372,9 +372,14 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
             cell.selectionStyle = .none
             //设置数据
             let orderObject = searchResultList[indexPath.row]
-            let account = orderObject.value(forKey: "account") as! String
+            
+            if (orderObject.value(forKey: "email") as! String) == nil{
+                let account = orderObject.value(forKey: "mobilePhone") as! String
+            }else{
+                let account = orderObject.value(forKey: "email") as! String
+            }
             let designername = orderObject.value(forKey: "disignername") as! String
-            let custommerid = orderObject.value(forKey: "customerid") as! String
+            let custommerid = orderObject.value(forKey: "wangid") as! String
             let orderid = orderObject.value(forKey: "orderid") as! String
             let servicename = orderObject.value(forKey: "servicername") as! String
             let workshopname = orderObject.value(forKey: "workshopname") as! String
@@ -386,17 +391,17 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
             cell.orderIDLabel.text = "订单号: " + orderid
             cell.wangwangIDLabel.text = "旺旺号: " + custommerid
             //获取订单图片
-            if orderObject.value(forKey: "goodsimage") as? String == nil{ // 图片字段为空
+            if orderObject.value(forKey: "smallGoodsImage") as? String == nil{ // 图片字段为空
                 cell.orderImage.image = UIImage(named:"defualt-design-pic")
             }else{
-                let imageURLString:String = "\(downloadURLHeaderForThumbnail)\(orderObject.value(forKey: "goodsimage") as! String)"
+                let imageURLString:String = "\(downloadURLHeaderForThumbnail)\(orderObject.value(forKey: "smallGoodsImage") as! String)"
                 let url = URL(string: imageURLString)!
                 do{
                     let data = try Data.init(contentsOf: url)
                     let image = UIImage.gif(data:data)
                     cell.orderImage.image = image//  UIImage(image:image)
                 }catch{
-                    let imageURLString:String = "\(downloadURLHeader)\(orderObject.value(forKey: "goodsimage") as! String)"
+                    let imageURLString:String = "\(downloadURLHeader)\(orderObject.value(forKey: "smallGoodsImage") as! String)"
                     let url = URL(string: imageURLString)!
                     do{
                         let data = try Data.init(contentsOf: url)
@@ -418,11 +423,16 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
             //设置数据
             if !isToCheckList {
                 let transferObject = translist[theOrderToSwitch]
-                cell.nikeNameLabel.text = "\((transferObject[indexPath.row] as! NSDictionary).value(forKey: "transname") as! String)(\((transferObject[indexPath.row] as! NSDictionary).value(forKey: "transaccount") as! String))"
+                if ((transferObject[indexPath.row] as! NSDictionary).value(forKey: "email") as! String) == ""{
+                    cell.nikeNameLabel.text = "\((transferObject[indexPath.row] as! NSDictionary).value(forKey: "nickName") as! String)(\((transferObject[indexPath.row] as! NSDictionary).value(forKey: "phone") as! String))"
+                }else{
+                    cell.nikeNameLabel.text = "\((transferObject[indexPath.row] as! NSDictionary).value(forKey: "nickName") as! String)(\((transferObject[indexPath.row] as! NSDictionary).value(forKey: "email") as! String))"
+                }
+//                cell.nikeNameLabel.text = "\((transferObject[indexPath.row] as! NSDictionary).value(forKey: "nickName") as! String)(\((transferObject[indexPath.row] as! NSDictionary).value(forKey: "id") as! Int))"
             }else{
                 let listObject = checkList[indexPath.row]
                 cell.checkListOrdersCount.text = "\(listObject.value(forKey: "num") as! Int)"
-                cell.nikeNameLabel.text = listObject.value(forKey: "name") as! String
+                cell.nikeNameLabel.text = listObject.value(forKey: "nickName") as! String
             }
             if indexPath.row == 0{
                 cell.seperatorLine.isHidden = true
@@ -606,14 +616,23 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         let orderObject = searchResultList[theOrderToSwitch]
         let orderid = orderObject.value(forKey: "orderid") as! String
         // translist = orderObject.value(forKey: "translist") as! [NSDictionary]
-        
-        let account = orderObject.value(forKey: "account") as! String
+        var account = ""
+        if (orderObject.value(forKey: "email") as! String) == nil{
+            account = orderObject.value(forKey: "mobilePhone") as! String
+        }else{
+            account = orderObject.value(forKey: "email") as! String
+        }
         let designername = orderObject.value(forKey: "disignername") as! String
         let workshopname = orderObject.value(forKey: "workshopname") as! String
         
         let lists = translist[theOrderToSwitch] as! NSArray
-        let newAccont = (lists[selectedIndex] as! NSDictionary).value(forKey: "transaccount") as! String
-        let newName = (lists[selectedIndex] as! NSDictionary).value(forKey: "transname") as! String
+        var newAccont = ""
+        if ((lists[selectedIndex] as! NSDictionary).value(forKey: "email") as! String) == nil{
+            newAccont = (lists[selectedIndex] as! NSDictionary).value(forKey: "phone") as! String
+        }else{
+            newAccont = (lists[selectedIndex] as! NSDictionary).value(forKey: "email") as! String
+        }
+        let newName = (lists[selectedIndex] as! NSDictionary).value(forKey: "nickName") as! String
         var oldAccount = ""
         if _pagingType == .producingOrder{
             oldAccount = workshopname
@@ -624,17 +643,17 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         afterAccount.text =  newName + "(\(newAccont))"
         orderIDLabel.text = "订单号: " + orderid
         //获取订单图片
-        if orderObject.value(forKey: "goodsimage") as? String == nil{ // 图片字段为空
+        if orderObject.value(forKey: "smallGoodsImage") as? String == nil{ // 图片字段为空
             orderImage.image = UIImage(named:"defualt-design-pic")
         }else{
-            let imageURLString:String = "\(downloadURLHeaderForThumbnail)\(orderObject.value(forKey: "goodsimage") as! String)"
+            let imageURLString:String = "\(downloadURLHeaderForThumbnail)\(orderObject.value(forKey: "smallGoodsImage") as! String)"
             let url = URL(string: imageURLString)!
             do{
                 let data = try Data.init(contentsOf: url)
                 let image = UIImage.gif(data:data)
                 orderImage.image = image//  UIImage(image:image)
             }catch{
-                let imageURLString:String = "\(downloadURLHeader)\(orderObject.value(forKey: "goodsimage") as! String)"
+                let imageURLString:String = "\(downloadURLHeader)\(orderObject.value(forKey: "smallGoodsImage") as! String)"
                 let url = URL(string: imageURLString)!
                 do{
                     let data = try Data.init(contentsOf: url)
@@ -697,8 +716,6 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
     @objc func getStatisticOfOrders(for role:Int){
         //获取用户信息
         let userInfos = getCurrentUserInfo()
-        let roletype = userInfos.value(forKey: "roletype") as? String
-        let userid = userInfos.value(forKey: "userid") as? String
         let token = userInfos.value(forKey: "token") as? String
         
         //获取列表
@@ -707,36 +724,33 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
         //定义请求参数
         let params:NSMutableDictionary = NSMutableDictionary()
-        params["userId"] = userid
-        params["roleType"] = roletype
-        params["token"] = token
-        params["commandCode"] = 100
+        var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
+        header["token"] = token
         params["status"] = role
         
-        var requestUrl:String = ""
-        if roletype == "4" {
             #if DEBUG
-            requestUrl = apiAddresses.value(forKey: "managerGetOrderListAPIDebug") as! String
+            let requestUrl = apiAddresses.value(forKey: "managerGetOrderListAPIDebug") as! String
             #else
-            requestUrl = apiAddresses.value(forKey: "managerGetOrderListAPI") as! String
+            let requestUrl = apiAddresses.value(forKey: "managerGetOrderListAPI") as! String
             #endif
-        }
-        _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
+        
+        _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{
             case true:
                 if  let value = responseObject.result.value{
                     let json = JSON(value)
-                    let statusCode = json["status","code"].int!
-                    if statusCode == 1{
+                    let statusCode = json["code"].int!
+                    if statusCode == 200{
                         //正常
-                        let numberOfOrder = json["data","totalnum"].int!
-                        if numberOfOrder == 0{
+                        let workshoplist = json["data"].array!
+                        if workshoplist.count == 0{
                             self.orderAmount.text = "0"
                             self.checkListCount = 0
                         }else{
-                            self.orderAmount.text = String(numberOfOrder)
-                            let workshoplist = json["data","list"].array!
+                            
+                            let numberDic = workshoplist[0].dictionaryObject as! NSDictionary
+                            self.orderAmount.text = String(numberDic.value(forKey: "allnum") as! Int)
                             self.checkList.removeAll()
                             for item in workshoplist{
                                 let dicObject = item.dictionaryObject
@@ -744,6 +758,13 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
                             }
                             self.checkListCount = self.checkList.count
                         }
+//                        //let numberOfOrder = json["data","totalnum"].int!
+//                        if numberOfOrder == 0{
+//                            self.orderAmount.text = "0"
+//                            self.checkListCount = 0
+//                        }else{
+//
+//                        }
                     }else{
                         //异常
                     }
@@ -765,9 +786,9 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         let orderObject = searchResultList[theOrderToSwitch]
         let orderid = orderObject.value(forKey: "orderid") as! String
         let lists = translist[theOrderToSwitch] as! NSArray
-        let newAccont = (lists[selectedIndex] as! NSDictionary).value(forKey: "transaccount") as! String
+        let newID = (lists[selectedIndex] as! NSDictionary).value(forKey: "id") as! Int
         
-        var role = 1
+        var role = 3
         if _pagingType == .designingOrder{
             role = 2
         }
@@ -778,31 +799,25 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
         //定义请求参数
         let params:NSMutableDictionary = NSMutableDictionary()
-        params["userId"] = userid
-        params["roleType"] = roletype
-        params["token"] = token
-        params["commandCode"] = 100
-        params["status"] = role
+        var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
+        params["id"] = newID
+        header["token"] = token
         params["orderid"] = orderid
-        params["transaccount"] = newAccont
         
-        var requestUrl:String = ""
-        if roletype == "4" {
             #if DEBUG
-            requestUrl = apiAddresses.value(forKey: "switchOrderAPIDebug") as! String
+            let requestUrl = apiAddresses.value(forKey: "switchOrderAPIDebug") as! String
             #else
-            requestUrl = apiAddresses.value(forKey: "switchOrderAPI") as! String
+            let requestUrl = apiAddresses.value(forKey: "switchOrderAPI") as! String
             #endif
-        }
-        _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
+        _ = Alamofire.request(requestUrl,method:.post, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{
             case true:
                 if  let value = responseObject.result.value{
                     let json = JSON(value)
-                    let statusCode = json["status","code"].int!
-                    let statusMsg = json["status","msg"].string!
-                    if statusCode == 0{
+                    let statusCode = json["code"].int!
+                    let statusMsg = json["message"].string!
+                    if statusCode == 200{
                         greyLayerPrompt.show(text: statusMsg)
                         self.searchForSwitchOrders(for: role)
                         
@@ -828,7 +843,6 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         //获取用户信息
         let userInfos = getCurrentUserInfo()
         let roletype = userInfos.value(forKey: "roletype") as? String
-        let userid = userInfos.value(forKey: "userid") as? String
         let token = userInfos.value(forKey: "token") as? String
         
         //获取列表
@@ -837,11 +851,9 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
         //定义请求参数
         let params:NSMutableDictionary = NSMutableDictionary()
-        params["userId"] = userid
-        params["roleType"] = roletype
-        params["token"] = token
-        params["commandCode"] = 100
-        params["status"] = role
+        var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
+        params["roletype"] = role
+        header["token"] = token
         params["orderid"] = searchOrderTextFiled.text!
         
         var requestUrl:String = ""
@@ -852,16 +864,16 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
             requestUrl = apiAddresses.value(forKey: "switchOrderSearchAPI") as! String
             #endif
         }
-        _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
+        _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{
             case true:
                 if  let value = responseObject.result.value{
                     let json = JSON(value)
-                    let statusCode = json["status","code"].int!
-                    if statusCode == 1{
+                    let statusCode = json["code"].int!
+                    if statusCode == 200{
                         //正常
-                        let orderList = json["data","data"].array!
+                        let orderList = json["data"].array!
                         
                         self.searchResultList.removeAll()
                         self.translist.removeAll()
@@ -869,8 +881,11 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
                             for item in orderList{
                                 let dicObject = item.dictionaryObject
                                 self.searchResultList.append(dicObject! as NSDictionary)
-                                self.translist.append((dicObject! as NSDictionary).value(forKey: "translist") as! NSArray)
+                               //拉取可接受的车间列表
+                                let orderid = (dicObject! as NSDictionary).value(forKey: "orderid") as! String
+                                self.getTransList(for: role, By: orderid, token: token!)
                             }
+                            
                             self.orderCount  = self.searchResultList.count
                             self.noticeOfEmpty.isHidden = true
                             self.orderListTable.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
@@ -898,16 +913,76 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         }
     }
     
+    func getTransList(for role:Int, By orderid:String, token token:String){
+        //获取列表
+        let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
+        let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
+        let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
+        //定义请求参数
+        let params:NSMutableDictionary = NSMutableDictionary()
+        var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
+        params["roletype"] = role
+        header["token"] = token
+        params["orderid"] = orderid
+        
+        #if DEBUG
+        let requestUrl = apiAddresses.value(forKey: "translistGetAPIDehug") as! String
+        #else
+        let requestUrl = apiAddresses.value(forKey: "translistGetAPI") as! String
+        #endif
+        _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
+            (responseObject) in
+            switch responseObject.result.isSuccess{
+            case true:
+                if  let value = responseObject.result.value{
+                    let json = JSON(value)
+                    let statusCode = json["code"].int!
+                    if statusCode == 200{
+                        //正常
+                        let userList = json["data"].arrayObject! as NSArray
+                        self.translist.append(userList)
+//                        if userList.count != 0{
+//                            for item in userList{
+//                                let dicObject = item.dictionaryObject
+//                                self.translist.append((dicObject! as NSDictionary).value(forKey: "translist") as! NSArray)
+//                            }
+//                            self.orderCount  = self.searchResultList.count
+//                            self.noticeOfEmpty.isHidden = true
+//                            self.orderListTable.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+//                        }else{
+//                            self.orderCount  = self.searchResultList.count
+//                            greyLayerPrompt.show(text: "未搜索到相关订单")
+//                            self.noticeOfEmpty.isHidden = false
+//                            self.orderListTable.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+//                        }
+                        
+                    }else {
+                        
+                    }
+                    
+                }
+            case false:
+                print("获取列表失败")
+              //  self.noticeOfEmpty.isHidden = false
+              //  self.orderListTable.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+                //greyLayerPrompt.show(text: "清空失败,请重试")
+            }
+//            self.orderListTable.reloadData()
+//            print("data reload")
+//            self.StopLoadingAnimation()
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         if _pagingType == .producingOrder{
-            getStatisticOfOrders(for: 1)
+            getStatisticOfOrders(for: 3)
         }else{
             getStatisticOfOrders(for: 2)
         }
     }
     @objc func updateStatistic(){
         if _pagingType == .producingOrder{
-            getStatisticOfOrders(for: 1)
+            getStatisticOfOrders(for: 3)
         }else{
             getStatisticOfOrders(for: 2)
         }

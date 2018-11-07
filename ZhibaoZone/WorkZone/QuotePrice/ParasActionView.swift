@@ -50,7 +50,7 @@ class ParasActionView: UIView,UITableViewDelegate,UITableViewDataSource,UIPicker
     var confirmKeyBtn:UIButton = UIButton.init(type: .custom)
     
     // 产品参数字典
-    var ProductParams:[String] = []
+    var ProductParams:[NSDictionary] = []
     var parasCounts:Int = 0
     var selectedItems:[String] = []
     var _itemType:produceType = .mold
@@ -82,7 +82,7 @@ class ParasActionView: UIView,UITableViewDelegate,UITableViewDataSource,UIPicker
         return tempTableView
     }()
     
-    init(frame:CGRect,paraDic:[String],paraCount:Int,seleItems:[String],itemType:produceType) {
+    init(frame:CGRect,paraDic:[NSDictionary],paraCount:Int,seleItems:[String],itemType:produceType) {
         super.init(frame: frame)
         _frame = frame
         _itemType = itemType
@@ -687,11 +687,11 @@ class ParasActionView: UIView,UITableViewDelegate,UITableViewDataSource,UIPicker
         }
         switch _itemType {
         case .mold:
-            cell.titleLabel.text = ProductParams[indexPath.row]
+            cell.titleLabel.text = ProductParams[indexPath.row].value(forKey: "model") as! String
         case .produceStyle:
-            cell.titleLabel.text = ProductParams[indexPath.row]
+            cell.titleLabel.text = ProductParams[indexPath.row].value(forKey: "technology") as! String
         case .color:
-            cell.titleLabel.text = ProductParams[indexPath.row]
+            cell.titleLabel.text = ProductParams[indexPath.row].value(forKey: "color") as! String
 
         default:
             print("hellp")
@@ -707,9 +707,14 @@ class ParasActionView: UIView,UITableViewDelegate,UITableViewDataSource,UIPicker
             case .mold:
                 //判断是不是选中了双面开模
                 var isDoubleSideChecked = false
+                
+                var modelArray:[String] = []
                 for item in ProductParams{
+                    modelArray.append(item.value(forKey: "model") as! String)
+                }
+                for item in modelArray{
                     if item == "双面开模"{
-                        let indexOfObject1 = ProductParams.index(of:item)
+                        let indexOfObject1 = modelArray.index(of:item)
                         isDoubleSideChecked = checkStatus[indexOfObject1!]
                         break
                     }
@@ -717,16 +722,16 @@ class ParasActionView: UIView,UITableViewDelegate,UITableViewDataSource,UIPicker
                 
                 if isDoubleSideChecked{
                     //双面开模选中了
-                    if ProductParams[indexPath.row] == "无" ||  ProductParams[indexPath.row] == "浇铸" ||  ProductParams[indexPath.row] == "模切" ||  ProductParams[indexPath.row] == "双面开模" {
+                    if (ProductParams[indexPath.row].value(forKey: "model") as! String) == "无" ||  (ProductParams[indexPath.row].value(forKey: "model") as! String) == "浇铸" ||  (ProductParams[indexPath.row].value(forKey: "model") as! String) == "模切" ||  (ProductParams[indexPath.row].value(forKey: "model") as! String) == "双面开模" {
                         for i in 0..<checkStatus.count{
                             checkStatus[i] = false
                         }
                         checkStatus[indexPath.row] = true
                     }else{
                         
-                        for item in ProductParams{
+                        for item in modelArray{
                             if item == "无" || item == "浇铸" || item == "模切"{
-                                let indexOfObject1 = ProductParams.index(of:item)
+                                let indexOfObject1 = modelArray.index(of:item)
                                 checkStatus[indexOfObject1!] = false
                             }
                         }
@@ -753,15 +758,19 @@ class ParasActionView: UIView,UITableViewDelegate,UITableViewDataSource,UIPicker
                     checkStatus[indexPath.row] = true
                 }
             case .produceStyle:
-                if ProductParams[indexPath.row] == "无" {
+                var technologyArray:[String] = []
+                for item in ProductParams{
+                    technologyArray.append(item.value(forKey: "technology") as! String)
+                }
+                if (ProductParams[indexPath.row].value(forKey: "technology") as! String) == "无" {
                     for index in 0..<checkStatus.count{
                         checkStatus[index] = false
                     }
                     checkStatus[indexPath.row] = true
                 }else{
-                    for item in ProductParams{
+                    for item in technologyArray{
                         if item == "无" {
-                            let indexOfObject1 = ProductParams.index(of:item)
+                            let indexOfObject1 = technologyArray.index(of:item)
                             checkStatus[indexOfObject1!] = false
                             break
                         }
@@ -769,15 +778,19 @@ class ParasActionView: UIView,UITableViewDelegate,UITableViewDataSource,UIPicker
                 }
                 
             case .color:
-                if ProductParams[indexPath.row] == "无" {
+                var colorArray:[String] = []
+                for item in ProductParams{
+                    colorArray.append(item.value(forKey: "color") as! String)
+                }
+                if colorArray[indexPath.row] == "无" {
                     for index in 0..<checkStatus.count{
                         checkStatus[index] = false
                     }
                     checkStatus[indexPath.row] = true
                 }else{
-                    for item in ProductParams{
+                    for item in colorArray{
                         if item == "无" {
-                            let indexOfObject1 = ProductParams.index(of:item)
+                            let indexOfObject1 = colorArray.index(of:item)
                             checkStatus[indexOfObject1!] = false
                             break
                         }
@@ -787,32 +800,20 @@ class ParasActionView: UIView,UITableViewDelegate,UITableViewDataSource,UIPicker
                 print("hellp")
             }
         }else{
-//            if _itemType == .mold{
-//                if ProductParams[indexPath.row] == "双面开模"{
-//                    //如果双面开模没有选中. 则直接按位取反
-//                    for item in ProductParams{
-//                        if item == "无"{
-//                            let indexOfObject1 = ProductParams.index(of:item)
-//                            checkStatus[indexOfObject1!] = true
-//                        }else{
-//                            let indexOfObject1 = ProductParams.index(of:item)
-//                            checkStatus[indexOfObject1!] = false
-//                        }
-//                    }
-//                }
-//            }
-//
             switch _itemType{
             case .mold:
-                
-                if ProductParams[indexPath.row] == "双面开模"{
+                var modelArray:[String] = []
+                for item in ProductParams{
+                    modelArray.append(item.value(forKey: "model") as! String)
+                }
+                if modelArray[indexPath.row] == "双面开模"{
                     //如果双面开模没有选中. 则直接按位取反
-                    for item in ProductParams{
+                    for item in modelArray{
                         if item == "无"{
-                            let indexOfObject1 = ProductParams.index(of:item)
+                            let indexOfObject1 = modelArray.index(of:item)
                             checkStatus[indexOfObject1!] = true
                         }else{
-                            let indexOfObject1 = ProductParams.index(of:item)
+                            let indexOfObject1 = modelArray.index(of:item)
                             checkStatus[indexOfObject1!] = false
                         }
                     }
@@ -826,9 +827,9 @@ class ParasActionView: UIView,UITableViewDelegate,UITableViewDataSource,UIPicker
                     }
                 }
                 if selectedItemCount == 0{
-                    for item in ProductParams{
+                    for item in modelArray{
                         if item == "无"{
-                            let indexOfObject1 = ProductParams.index(of:item)
+                            let indexOfObject1 = modelArray.index(of:item)
                             checkStatus[indexOfObject1!] = true
                             break
                         }
@@ -838,15 +839,19 @@ class ParasActionView: UIView,UITableViewDelegate,UITableViewDataSource,UIPicker
             case .produceStyle:
                 //选中项目个数
                 var selectedItemCount = 0
+                var technologyArray:[String] = []
+                for item in ProductParams{
+                    technologyArray.append(item.value(forKey: "technology") as! String)
+                }
                 for ls in checkStatus{
                     if ls == true{
                         selectedItemCount += 1
                     }
                 }
                 if selectedItemCount == 0{
-                    for item in ProductParams{
+                    for item in technologyArray{
                         if item == "无"{
-                            let indexOfObject1 = ProductParams.index(of:item)
+                            let indexOfObject1 = technologyArray.index(of:item)
                             checkStatus[indexOfObject1!] = true
                             break
                         }
@@ -854,6 +859,10 @@ class ParasActionView: UIView,UITableViewDelegate,UITableViewDataSource,UIPicker
                 }
             case .color:
                 //选中项目个数
+                var colorArray:[String] = []
+                for item in ProductParams{
+                    colorArray.append(item.value(forKey: "color") as! String)
+                }
                 var selectedItemCount = 0
                 for ls in checkStatus{
                     if ls == true{
@@ -861,9 +870,9 @@ class ParasActionView: UIView,UITableViewDelegate,UITableViewDataSource,UIPicker
                     }
                 }
                 if selectedItemCount == 0{
-                    for item in ProductParams{
+                    for item in colorArray{
                         if item == "无"{
-                            let indexOfObject1 = ProductParams.index(of:item)
+                            let indexOfObject1 = colorArray.index(of:item)
                             checkStatus[indexOfObject1!] = true
                             break
                         }
@@ -897,9 +906,13 @@ class ParasActionView: UIView,UITableViewDelegate,UITableViewDataSource,UIPicker
             case .mold:
                 //判断是不是选中了双面开模
                 var isDoubleSideChecked = false
+                var modelArray:[String] = []
                 for item in ProductParams{
+                    modelArray.append(item.value(forKey: "model") as! String)
+                }
+                for item in modelArray{
                     if item == "双面开模"{
-                        let indexOfObject1 = ProductParams.index(of:item)
+                        let indexOfObject1 = modelArray.index(of:item)
                         isDoubleSideChecked = checkStatus[indexOfObject1!]
                         break
                     }
@@ -907,16 +920,16 @@ class ParasActionView: UIView,UITableViewDelegate,UITableViewDataSource,UIPicker
                 
                 if isDoubleSideChecked{
                     //双面开模选中了
-                    if ProductParams[index] == "无" ||  ProductParams[index] == "浇铸" ||  ProductParams[index] == "模切" ||  ProductParams[index] == "双面开模" {
+                    if modelArray[index] == "无" ||  modelArray[index] == "浇铸" ||  modelArray[index] == "模切" ||  modelArray[index] == "双面开模" {
                         for i in 0..<checkStatus.count{
                             checkStatus[i] = false
                         }
                         checkStatus[index] = true
                     }else{
                         
-                        for item in ProductParams{
+                        for item in modelArray{
                             if item == "无" || item == "浇铸" || item == "模切"{
-                                let indexOfObject1 = ProductParams.index(of:item)
+                                let indexOfObject1 = modelArray.index(of:item)
                                 checkStatus[indexOfObject1!] = false
                             }
                         }
@@ -944,15 +957,19 @@ class ParasActionView: UIView,UITableViewDelegate,UITableViewDataSource,UIPicker
                 }
                 
             case .produceStyle:
-                if ProductParams[index] == "无" {
+                var technologyArray:[String] = []
+                for item in ProductParams{
+                    technologyArray.append(item.value(forKey: "technology") as! String)
+                }
+                if technologyArray[index] == "无" {
                     for i in 0..<checkStatus.count{
                         checkStatus[i] = false
                     }
                     checkStatus[index] = true
                 }else{
-                     for item in ProductParams{
+                     for item in technologyArray{
                         if item == "无" {
-                            let indexOfObject1 = ProductParams.index(of:item)
+                            let indexOfObject1 = technologyArray.index(of:item)
                             checkStatus[indexOfObject1!] = false
                             break
                         }
@@ -960,15 +977,19 @@ class ParasActionView: UIView,UITableViewDelegate,UITableViewDataSource,UIPicker
                 }
                 
             case .color:
-                if ProductParams[index] == "无" {
+                var colorArray:[String] = []
+                for item in ProductParams{
+                    colorArray.append(item.value(forKey: "color") as! String)
+                }
+                if colorArray[index] == "无" {
                     for i in 0..<checkStatus.count{
                         checkStatus[i] = false
                     }
                     checkStatus[index] = true
                 }else{
-                    for item in ProductParams{
+                    for item in colorArray{
                         if item == "无" {
-                            let indexOfObject1 = ProductParams.index(of:item)
+                            let indexOfObject1 = colorArray.index(of:item)
                             checkStatus[indexOfObject1!] = false
                             break
                         }
@@ -983,15 +1004,18 @@ class ParasActionView: UIView,UITableViewDelegate,UITableViewDataSource,UIPicker
             
             switch _itemType{
             case .mold:
-                
-                if ProductParams[index] == "双面开模"{
+                var modelArray:[String] = []
+                for item in ProductParams{
+                    modelArray.append(item.value(forKey: "model") as! String)
+                }
+                if modelArray[index] == "双面开模"{
                     //如果双面开模没有选中. 则直接按位取反
-                    for item in ProductParams{
+                    for item in modelArray{
                         if item == "无"{
-                            let indexOfObject1 = ProductParams.index(of:item)
+                            let indexOfObject1 = modelArray.index(of:item)
                             checkStatus[indexOfObject1!] = true
                         }else{
-                            let indexOfObject1 = ProductParams.index(of:item)
+                            let indexOfObject1 = modelArray.index(of:item)
                             checkStatus[indexOfObject1!] = false
                         }
                     }
@@ -1005,9 +1029,9 @@ class ParasActionView: UIView,UITableViewDelegate,UITableViewDataSource,UIPicker
                     }
                 }
                 if selectedItemCount == 0{
-                    for item in ProductParams{
+                    for item in modelArray{
                         if item == "无"{
-                            let indexOfObject1 = ProductParams.index(of:item)
+                            let indexOfObject1 = modelArray.index(of:item)
                             checkStatus[indexOfObject1!] = true
                             break
                         }
@@ -1016,6 +1040,10 @@ class ParasActionView: UIView,UITableViewDelegate,UITableViewDataSource,UIPicker
                 
             case .produceStyle:
                 //选中项目个数
+                var technologyArray:[String] = []
+                for item in ProductParams{
+                    technologyArray.append(item.value(forKey: "technology") as! String)
+                }
                 var selectedItemCount = 0
                 for ls in checkStatus{
                     if ls == true{
@@ -1023,9 +1051,9 @@ class ParasActionView: UIView,UITableViewDelegate,UITableViewDataSource,UIPicker
                     }
                 }
                 if selectedItemCount == 0{
-                    for item in ProductParams{
+                    for item in technologyArray{
                         if item == "无"{
-                            let indexOfObject1 = ProductParams.index(of:item)
+                            let indexOfObject1 = technologyArray.index(of:item)
                             checkStatus[indexOfObject1!] = true
                             break
                         }
@@ -1033,6 +1061,10 @@ class ParasActionView: UIView,UITableViewDelegate,UITableViewDataSource,UIPicker
                 }
             case .color:
                 //选中项目个数
+                var colorArray:[String] = []
+                for item in ProductParams{
+                    colorArray.append(item.value(forKey: "color") as! String)
+                }
                 var selectedItemCount = 0
                 for ls in checkStatus{
                     if ls == true{
@@ -1040,9 +1072,9 @@ class ParasActionView: UIView,UITableViewDelegate,UITableViewDataSource,UIPicker
                     }
                 }
                 if selectedItemCount == 0{
-                    for item in ProductParams{
+                    for item in colorArray{
                         if item == "无"{
-                            let indexOfObject1 = ProductParams.index(of:item)
+                            let indexOfObject1 = colorArray.index(of:item)
                             checkStatus[indexOfObject1!] = true
                             break
                         }
@@ -1056,7 +1088,7 @@ class ParasActionView: UIView,UITableViewDelegate,UITableViewDataSource,UIPicker
         
         contentTableView.reloadData()
     }
-    func convertSelectedItems(paras:[String],selectedItems:[String])->[Bool]{
+    func convertSelectedItems(paras:[NSDictionary],selectedItems:[String])->[Bool]{
         var tempBoolArray:[Bool] = []
         switch _itemType {
         case .mold:
@@ -1064,7 +1096,7 @@ class ParasActionView: UIView,UITableViewDelegate,UITableViewDataSource,UIPicker
             for i in 0..<paras.count{
                 var hasTheValue = false
                 for item in selectedItems{
-                    if paras[i] == item{
+                    if (paras[i].value(forKey: "model") as! String) == item{
                         tempBoolArray.append(true)
                         hasTheValue = true
                         break
@@ -1079,7 +1111,7 @@ class ParasActionView: UIView,UITableViewDelegate,UITableViewDataSource,UIPicker
             for i in 0..<paras.count{
                 var hasTheValue = false
                 for item in selectedItems{
-                    if paras[i] == item{
+                    if (paras[i].value(forKey: "technology") as! String) == item{
                         tempBoolArray.append(true)
                         hasTheValue = true
                         break
@@ -1093,7 +1125,7 @@ class ParasActionView: UIView,UITableViewDelegate,UITableViewDataSource,UIPicker
             for i in 0..<paras.count{
                 var hasTheValue = false
                 for item in selectedItems{
-                    if paras[i] == item{
+                    if (paras[i].value(forKey: "color") as! String) == item{
                         tempBoolArray.append(true)
                         hasTheValue = true
                         break
@@ -1110,29 +1142,33 @@ class ParasActionView: UIView,UITableViewDelegate,UITableViewDataSource,UIPicker
         return tempBoolArray
     }
     
-    func convertCheckStatusToValue(statusArray:[Bool],Paras:[String]) -> String{
+    func convertCheckStatusToValue(statusArray:[Bool],Paras:[NSDictionary]) -> (String,String){
         var SelectedValue = ""
+        var SelectedIDS = ""
         if sourceVC == .quotePrice{
             switch _itemType {
             case .mold:
-                
+
                 for i in 0..<Paras.count{
                     if statusArray[i]{
-                        SelectedValue += "\(Paras[i]) "
+                        SelectedIDS += "\(Paras[i].value(forKey: "id") as! Int),"
+                        SelectedValue += "\(Paras[i].value(forKey: "model") as! String),"
                     }
                 }
-                
+
             case .produceStyle:
                 for i in 0..<Paras.count{
                     if statusArray[i]{
-                        SelectedValue += "\(Paras[i]) "
+                        SelectedIDS += "\(Paras[i].value(forKey: "id") as! Int),"
+                        SelectedValue += "\(Paras[i].value(forKey: "technology") as! String),"
                     }
                 }
-                
+
             case .color:
                 for i in 0..<Paras.count{
                     if statusArray[i]{
-                        SelectedValue += "\(Paras[i]) "
+                        SelectedIDS += "\(Paras[i].value(forKey: "id") as! Int),"
+                        SelectedValue += "\(Paras[i].value(forKey: "color") as! String)"
                     }
                 }
             default:
@@ -1166,7 +1202,7 @@ class ParasActionView: UIView,UITableViewDelegate,UITableViewDataSource,UIPicker
             }
         }
         
-        return SelectedValue
+        return (SelectedIDS,SelectedValue)
     }
     //点击取消按钮
     @objc func cancelBtnClicked(){
@@ -1175,19 +1211,25 @@ class ParasActionView: UIView,UITableViewDelegate,UITableViewDataSource,UIPicker
     
     @objc func confirmBtnClicked(){
         var returnString = ""
-        
+        var returnID = ""
         if sourceVC == .quotePrice{
             switch _itemType {
             case .mold:
                 
-                returnString = convertCheckStatusToValue(statusArray: checkStatus, Paras: ProductParams)
+                returnString = convertCheckStatusToValue(statusArray: checkStatus, Paras: ProductParams).1
+                returnID = convertCheckStatusToValue(statusArray: checkStatus, Paras: ProductParams).0
+                quotePriceVC.productMoldStyleValueID = returnID
                 quotePriceVC.productMoldStyleValue.text = returnString
             case .produceStyle:
-                returnString = convertCheckStatusToValue(statusArray: checkStatus, Paras: ProductParams)
+                returnString = convertCheckStatusToValue(statusArray: checkStatus, Paras: ProductParams).1
+                returnID = convertCheckStatusToValue(statusArray: checkStatus, Paras: ProductParams).0
+                quotePriceVC.productProduceStyleID = returnID
                 quotePriceVC.productProduceStyleValue.text = returnString
                 
             case .color:
-                returnString = convertCheckStatusToValue(statusArray: checkStatus, Paras: ProductParams)
+                returnString = convertCheckStatusToValue(statusArray: checkStatus, Paras: ProductParams).1
+                returnID = convertCheckStatusToValue(statusArray: checkStatus, Paras: ProductParams).0
+                quotePriceVC.productColorValueID = returnID
                 quotePriceVC.productColorValue.text = returnString
             case .taxRadio:
                 
@@ -1206,15 +1248,15 @@ class ParasActionView: UIView,UITableViewDelegate,UITableViewDataSource,UIPicker
             switch _itemType {
             case .mold:
                 
-                returnString = convertCheckStatusToValue(statusArray: checkStatus, Paras: ProductParams)
+                returnString = convertCheckStatusToValue(statusArray: checkStatus, Paras: ProductParams).1
                 editOrderParasVC.productMoldStyleValue.text = returnString
                 editOrderParasVC.new_modal = returnString
             case .produceStyle:
-                returnString = convertCheckStatusToValue(statusArray: checkStatus, Paras: ProductParams)
+                returnString = convertCheckStatusToValue(statusArray: checkStatus, Paras: ProductParams).1
                 editOrderParasVC.productProduceStyleValue.text = returnString
                 editOrderParasVC.new_produceStyle = returnString
             case .color:
-                returnString = convertCheckStatusToValue(statusArray: checkStatus, Paras: ProductParams)
+                returnString = convertCheckStatusToValue(statusArray: checkStatus, Paras: ProductParams).1
                 editOrderParasVC.productColorValue.text = returnString
                 editOrderParasVC.new_color = returnString
             case .taxRadio:

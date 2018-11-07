@@ -68,6 +68,7 @@ enum backgroundColorsType{
     case white
     case black
     case clear
+    case purple
 }
 
 //数据验证格式
@@ -98,7 +99,9 @@ enum orderListCategoryType{
     case producingOrderCategory
     case waitForDesignCategory
     case waitForModifyCategory
-    case DesigningCategory
+    case customerConfirmedCategory
+    case bargainNotDealedCategory
+    case bargainDealedCategory
     //case allOrderCategory
 }
 
@@ -110,6 +113,7 @@ enum actionType {
     case shippingProduct
     case designRequires
     case modifyRequires
+    case dealBargain
 }
 
 //工艺属性类型：
@@ -165,6 +169,13 @@ enum scanCodeActionType:String{
 enum KVAnimationType:String{
     case Float
     case Int
+}
+
+enum unitType:String{
+    case perSecond
+    case perMinite
+    case perHour
+    case PerDay
 }
 
 class Extentsions: NSObject {
@@ -262,6 +273,8 @@ extension UIColor {
             tempColor = UIColor.colorWithRgba(18, g: 18, b: 18, a: 1.0)
         case .clear:
             tempColor = UIColor.clear
+        case .purple:
+            tempColor = UIColor.colorWithRgba(111, g: 70, b: 138, a: 1.0)
         default:
             tempColor = UIColor.colorWithRgba(245, g: 245, b: 245, a: 1.0)
         }
@@ -514,3 +527,170 @@ func increamingNumberAnimation(from startNum:Float, to endNum:Float, on Label:UI
     Label.text = "\(startNum)"
     
 }
+
+func getSystemParasFromPlist() ->[AnyObject]{
+    //从plist获取CheckListItem
+    var systemParam:[AnyObject] = []
+    let plistOfSystemParas = Bundle.main.path(forResource: "config_systemParas", ofType: "plist")
+    let tempParaItems = NSArray.init(contentsOfFile: plistOfSystemParas!)
+    systemParam.removeAll()
+    
+    for i in tempParaItems!{
+        systemParam.append(i as AnyObject)
+    }
+    
+    return systemParam
+}
+
+func getEndDateTimeStampOfToday() -> TimeInterval{
+    
+    let now = Date()
+    
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd"
+    dateFormatter.locale = .current
+    let dateOfToday = dateFormatter.string(from: now) //date(from: now)
+    
+//    let calendar = NSCalendar.init(identifier: .chinese)
+//    let componets = calendar?.components(in: .current, from: now as Date)
+//    let year = componets?.year as! Int
+//    let month = componets?.month as! Int
+//    let day = componets?.day as! Int
+    
+    let endTimeOfToday = "23:59:59"
+    
+    let endTimeString = dateOfToday + " " + endTimeOfToday
+    let formatter = DateFormatter()
+    formatter.dateFormat =  "yyyy-MM-dd HH:mm:ss"
+    let endDateTime = formatter.date(from: endTimeString)
+    let endTime = endDateTime?.timeIntervalSince1970
+    
+    return endTime!
+}
+
+func getDateTimeStamp(of dateString:String) -> TimeInterval{
+//
+//    let now = NSDate()
+//
+//    let calendar = NSCalendar.init(identifier: .chinese)
+//    let componets = calendar?.components(in: .current, from: now as Date)
+//    let year = componets?.year
+//    let month = componets?.month
+//    let day = componets?.day
+//
+//    let endTimeOfToday = "23:59:59"
+//
+//    let endTimeString = "\(year)-\(month)-\(day) \(endTimeOfToday)"
+    let formatter = DateFormatter()
+    formatter.dateFormat =  "yyyy-MM-dd HH:mm:ss"
+    let endDateTime = formatter.date(from: dateString)
+    let endTime = endDateTime?.timeIntervalSince1970
+    
+    return endTime!
+}
+
+func dateAheadNow(before num:Int, countAs unitType: unitType) -> TimeInterval{
+    let now = Date()
+    
+    let nowTimeStamp = now.timeIntervalSince1970
+    var timeInterval = 0
+    switch unitType {
+    case .perSecond:
+        timeInterval = num
+    case .perMinite:
+        timeInterval = num * 60
+    case .perHour:
+        timeInterval = num * 60 * 60
+    case .PerDay:
+        timeInterval = num * 24 * 60 * 60
+    }
+    
+    let targetTimeStamp = Int(nowTimeStamp) - timeInterval
+    
+    return TimeInterval(targetTimeStamp)
+    //        let formatter = DateFormatter()
+    //        formatter.dateFormat =  "yyyy-MM-dd HH:mm:ss"
+    //        let endDateTime = formatter.date(from: endTimeString)
+    //        let endTime = endDateTime?.timeIntervalSince1970
+}
+
+// MARK : 我们要进行类的扩展
+extension String  {
+    
+    // MARK : 添加千分位的函数实现
+    func addMicrometerLevel() -> String {
+        // 判断传入参数是否有值
+        if self.characters.count != 0 {
+            /**
+             创建两个变量
+             integerPart : 传入参数的整数部分
+             decimalPart : 传入参数的小数部分
+             */
+            var integerPart:String?
+            var decimalPart = String.init()
+            
+            // 先将传入的参数整体赋值给整数部分
+            integerPart =  self
+            // 然后再判断是否含有小数点(分割出整数和小数部分)
+            if self.contains(".") {
+                let segmentationArray = self.components(separatedBy: ".")
+                integerPart = segmentationArray.first
+                decimalPart = segmentationArray.last!
+            }
+            
+            /**
+             创建临时存放余数的可变数组
+             */
+            let remainderMutableArray = NSMutableArray.init(capacity: 0)
+            // 创建一个临时存储商的变量
+            var discussValue:Int32 = 0
+            
+            /**
+             对传入参数的整数部分进行千分拆分
+             */
+            repeat {
+                let tempValue = integerPart! as NSString
+                // 获取商
+                discussValue = tempValue.intValue / 1000
+                // 获取余数
+                let remainderValue = tempValue.intValue % 1000
+                // 将余数一字符串的形式添加到可变数组里面
+                let remainderStr = String.init(format: "%d", remainderValue)
+                remainderMutableArray.insert(remainderStr, at: 0)
+                // 将商重新复制
+                integerPart = String.init(format: "%d", discussValue)
+            } while discussValue>0
+            
+            // 创建一个临时存储余数数组里的对象拼接起来的对象
+            var tempString = String.init()
+            
+            // 根据传入参数的小数部分是否存在，是拼接“.” 还是不拼接""
+            let lastKey = (decimalPart.characters.count == 0 ? "":".")
+            /**
+             获取余数组里的余数
+             */
+            for i in 0..<remainderMutableArray.count {
+                // 判断余数数组是否遍历到最后一位
+                let  param = (i != remainderMutableArray.count-1 ?",":lastKey)
+                tempString = tempString + String.init(format: "%@%@", remainderMutableArray[i] as! String,param)
+            }
+            //  清楚一些数据
+            integerPart = nil
+            remainderMutableArray.removeAllObjects()
+            // 最后返回整数和小数的合并
+            return tempString as String + decimalPart
+        }
+        return self
+    }
+    
+    // MARK : 获取字符串的长度
+    func length() -> Int {
+        /**
+         另一种方法：
+         let tempStr = self as NSString
+         return tempStr.length
+         */
+        return self.characters.count
+    }
+}
+

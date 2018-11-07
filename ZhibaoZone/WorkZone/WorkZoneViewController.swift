@@ -216,7 +216,7 @@ class WorkZoneViewController: UIViewController,UITextViewDelegate,UITextFieldDel
     @objc func messageListBtnClicked(){
        let messageListVC = MessageListViewController()
         messageListVC.messagesList = messagesList
-        messageListVC.workZoneVC = self
+        //messageListVC.workZoneVC = self
         messageListVC.getMessagesCount = getMessagesCount
         
         self.present(messageListVC, animated: true, completion: nil)

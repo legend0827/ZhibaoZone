@@ -23,6 +23,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
     //注册按钮
     let registerOrLoginBtn:UIButton = UIButton.init(type: .system)
 
+    let privatePolicyBtn:UIButton = UIButton.init(type: .system)
     //注册还是登录
     var isToLogin = true
     
@@ -71,7 +72,12 @@ class ViewController: UIViewController,UITextFieldDelegate {
         self.view.addSubview(titleBarView)
         titleBarView.addSubview(titleBarTitle)
 
-        
+        privatePolicyBtn.setTitle("查看隐私政策", for: .normal)
+        privatePolicyBtn.frame = CGRect(x: 20, y: kHight - 80 - heightChangeForiPhoneXFromBottom, width: kWidth - 40, height: 17)
+        privatePolicyBtn.contentVerticalAlignment = .center
+        //privatePolicyBtn.titleLabel?.font =
+        privatePolicyBtn.addTarget(self, action: #selector(privatepolicybtnClicked), for: .touchUpInside)
+        self.view.addSubview(privatePolicyBtn)
         //用户名输入框
         txtUser = UITextField(frame:CGRect(x:25, y:164 + heightChangeForiPhoneXFromTop, width:kWidth - 60, height:44))
         txtUser.delegate = self
@@ -202,7 +208,6 @@ class ViewController: UIViewController,UITextFieldDelegate {
         initSettings()
 
     }
-    
     
     @objc func switchLoginOrRegisterBtnClicked(){
         if isToLogin{
@@ -391,8 +396,13 @@ class ViewController: UIViewController,UITextFieldDelegate {
         let RegexTest:NSPredicate = NSPredicate(format: "SELF MATCHES %@", validateRegex)
         return RegexTest.evaluate(with: string)
     }
-    
+    @objc func privatepolicybtnClicked(){
+        let privacyVC = PrivacyPolicyAgreementViewController()
+        //privacyVC.loginVC = self
+        self.present(privacyVC, animated: true, completion: nil)
+    }
 }
+
 
 
 //获取用户信息

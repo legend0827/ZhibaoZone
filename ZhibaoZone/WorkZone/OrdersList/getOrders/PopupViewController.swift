@@ -9,7 +9,8 @@
 import UIKit
 
 class PopupViewController: UIViewController {
-
+    //从消息进入的活动页面
+    var actionFromMessage = false
     //定义毛玻璃灰层
     lazy var grayLayer:UIView = {
         //y= 64表示要显示上方的切换按钮
@@ -36,6 +37,13 @@ class PopupViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         UIApplication.shared.isStatusBarHidden = false
+        if actionFromMessage{
+            setStatusBarBackgroundColor(color: .backgroundColors(color: .red))
+        }else{
+            setStatusBarBackgroundColor(color: .clear)
+        }
+        setStatusBarHiden(toHidden: false, ViewController: self)
+        
     }
 
     /*

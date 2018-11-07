@@ -26,7 +26,7 @@ class User: NSObject {
         _username = username
         _password = password
         let params:NSMutableDictionary = NSMutableDictionary()
-        params["email"] = self._username.lowercased()
+        params["mobilephone"] = self._username.lowercased()
         params["password"] = self._password
         //获取用户的IP
         params["loginip"] = getLocalIPAddressForCurrentWiFi()
@@ -44,65 +44,59 @@ class User: NSObject {
         let loginURL:String = apiAddresses.value(forKey: "loginInAPIAddress") as! String
         #endif
         //发起请求
-        Alamofire.request(loginURL,method:.post, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
+        Alamofire.request(loginURL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{
             case true:
                 if let value = responseObject.result.value{
                     let json = JSON(value)
                     print(json)
-                    let newcode = json["status","code"].string
-                    let code = Int64(newcode!)!
+                    let newcode = json["code"].int!
+                    let code = Int64(newcode)
                     switch code{
-                    case 0:
-                        print("执行json")
+                    case 200:
+                        print("登录成功")
                         result = true
-                    case 1:
-                        print("1")
-                        result = true
-                    case 2:
-                        print("2")
-                        result = true
-                    case 3:
-                        print("3")
-                        result = true
-                    case 4:
-                        print("4")
-                        result = false
-                        greyLayerPrompt.show(text: "账号不存在")
-                    case 5:
+                    case 100001:
                         print("5")
                         result = false
                         greyLayerPrompt.show(text: "密码错误")
-                    case 6:
-                        print("6")
-                        result = false
+                        if self.isSwitching{
+                            //直接切换账号时，如果密码错误
+                            let verifyVC = VerifyPasswordViewController()
+                            verifyVC._nikeName = self._nikeName
+                            verifyVC._userAccount = self._username
+                            verifyVC.meVC = self.meVC
+                            self.meVC.present(verifyVC, animated: true, completion: nil)
+                        }
                     default:
                         print("default")
+                        greyLayerPrompt.show(text: "登录失败、服务器连接异常")
                         result = false
                     }
                     //登录成功，跳转首页
                     if result == true {
                         //新账号信息
-                        let nickName = json["userinfo","nickname"].string
-                        let newuserId = json["userinfo","userid"].string
+                        //新账号信息
+                        let nickName = json["data","nickName"].string ?? json["data","mickName"].string //如果没有找到nikeName，则使用mikeName
+                        let newuserId = json["data","userId"].string
                         let userName = self._username
-                        var newroleType = json["userinfo","roletype"].string
-                        let token = json["userinfo","token"].string
-                        
+                        var newroleType = json["data","roleType"].int64
+                        let token = json["data","token"].string
+                        self.getSystemParas(token: token!)
                         //如果newroleType返回空，则指定为普通用户；0
-                        if newroleType == "null"{
-                            newroleType = "0"
+                        if newroleType == nil{
+                            newroleType = 0
                         }
-                        let roleType = Int64(newroleType!)!
+                        let roleType = Int64(newroleType!)
                         let userId = Int64(newuserId!)!
                         
                         let dataOperator = CoreDataOperation()
-                        dataOperator.saveAddtionalAccount(userName: userName, nickName: nickName!, userId: Int64(newuserId!)!, roleType: Int64(newroleType!)!, password: self._password)
+                        dataOperator.saveAddtionalAccount(userName: userName, nickName: nickName!, userId: Int64(newuserId!)!, roleType: Int64(newroleType!), password: self._password)
                         dataOperator.saveAddtionalToken(token: token!) // token
                         if newuserId == "10000013" {
                             dataOperator.saveProducerOfManagerToken(token: token!)
-                            dataOperator.saveProducerOfManager(userName: userName, nickName: nickName!, userId: Int64(newuserId!)!, roleType: Int64(newroleType!)!, password: self._password)
+                            dataOperator.saveProducerOfManager(userName: userName, nickName: nickName!, userId: Int64(newuserId!)!, roleType: Int64(newroleType!), password: self._password)
                         }
                         print("verify succeed")
                         hub.hide()
@@ -134,7 +128,7 @@ class User: NSObject {
         _password = password
         
         let params:NSMutableDictionary = NSMutableDictionary()
-        params["email"] = self._username.lowercased()
+        params["mobilephone"] = self._username.lowercased()
         params["password"] = self._password
         //获取用户的IP
         params["loginip"] = getLocalIPAddressForCurrentWiFi()
@@ -152,40 +146,23 @@ class User: NSObject {
             let loginURL:String = apiAddresses.value(forKey: "loginInAPIAddress") as! String
         #endif
         //发起请求
-        Alamofire.request(loginURL,method:.post, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
+        Alamofire.request(loginURL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{
             case true:
                 if let value = responseObject.result.value{
                     let json = JSON(value)
                     print(json)
-                    let newcode = json["status","code"].string
-                    let code = Int64(newcode!)!
+                    let newcode = json["code"].int!
+                    let code = Int64(newcode)
                     switch code{
-                    case 0:
-                        print("执行json")
+                    case 200:
+                        print("登录成功")
                         result = true
-                    case 1:
-                        print("1")
-                        result = true
-                    // greyLayerPrompt.show(text: "用户已在线")
-                    case 2:
-                        print("2")
-                        result = true
-                    // greyLayerPrompt.show(text: "长时间未登录")
-                    case 3:
-                        print("3")
-                        result = true
-                        //greyLayerPrompt.show(text: "异地登录")
-                    case 4:
-                        print("4")
-                        result = false
-                        greyLayerPrompt.show(text: "账号不存在")
-                    case 5:
+                    case 100001:
                         print("5")
                         result = false
                         greyLayerPrompt.show(text: "密码错误")
-                        
                         if self.isSwitching{
                             //直接切换账号时，如果密码错误
                             let verifyVC = VerifyPasswordViewController()
@@ -194,28 +171,25 @@ class User: NSObject {
                             verifyVC.meVC = self.meVC
                             self.meVC.present(verifyVC, animated: true, completion: nil)
                         }
-                        
-                    case 6:
-                        print("6")
-                        result = false
                     default:
                         print("default")
+                        greyLayerPrompt.show(text: "登录失败、服务器连接异常")
                         result = false
                     }
                     //登录成功，跳转首页
                     if result == true {
                         //新账号信息
-                        let nickName = json["userinfo","nickname"].string
-                        let newuserId = json["userinfo","userid"].string
+                        let nickName = json["data","nickName"].string ?? json["data","mickName"].string //如果没有找到nikeName，则使用mikeName
+                        let newuserId = json["data","userId"].string
                         let userName = self._username
-                        var newroleType = json["userinfo","roletype"].string
-                        let token = json["userinfo","token"].string
-                        
+                        var newroleType = json["data","roleType"].int64
+                        let token = json["data","token"].string
+                        self.getSystemParas(token: token!)
                         //如果newroleType返回空，则指定为普通用户；0
-                        if newroleType == "null"{
-                            newroleType = "0"
+                        if newroleType == nil {
+                            newroleType = 0
                         }
-                        let roleType = Int64(newroleType!)!
+                        let roleType = newroleType
                         let userId = Int64(newuserId!)!
             
                         let dataOperator = CoreDataOperation()
@@ -234,7 +208,7 @@ class User: NSObject {
                             let originalPWD = originlUserinfos.value(forKey: "password") as! String
                             let originaltoken = originlUserinfos.value(forKey: "token") as! String
   
-                            if newroleType == "4" {
+                            if newroleType == 4 {
                                 //新登录经理角色、写入车间1账号
 
                                 var addnikename = "车间1"
@@ -273,7 +247,7 @@ class User: NSObject {
                             }
                         }else{
 
-                            if newroleType == "4" {
+                            if newroleType == 4 {
                                 //新登录经理角色、写入车间1账号
                                 let addnikename = "车间1"
                                 let addaccount = "zbgc1@zhibao.com"
@@ -285,11 +259,11 @@ class User: NSObject {
                         }
                         
                         //记录最新登录的账号信息
-                        dataOperator.saveAccountInfo(userName:userName,nickName:nickName!,userId:userId,roleType: roleType,password: password)
+                        dataOperator.saveAccountInfo(userName:userName,nickName:nickName!,userId:userId,roleType: roleType ?? 0,password: password)
                         dataOperator.saveToken(token: token!)
                         //如果登录的是车间1角色，同时保存到id为3到core data 里
                         if newuserId == "10000013" {
-                            dataOperator.saveProducerOfManager(userName: userName, nickName: nickName!, userId: userId, roleType: roleType, password: password)
+                            dataOperator.saveProducerOfManager(userName: userName, nickName: nickName!, userId: userId, roleType: roleType ?? 0, password: password)
                             dataOperator.saveProducerOfManagerToken(token: token!)
                         }
                         
@@ -307,7 +281,7 @@ class User: NSObject {
                         }
                         
                         //跳转页面
-                        let tabBar = TabBarController(royeType: Int(roleType))
+                        let tabBar = TabBarController(royeType: Int(roleType ?? 0))
                         //let appDelegate = AppDelegate()
                         let appDelegate = UIApplication.shared.delegate
                         appDelegate?.window??.rootViewController = tabBar
@@ -331,7 +305,7 @@ class User: NSObject {
         _password = password
         
         let params:NSMutableDictionary = NSMutableDictionary()
-        params["email"] = self._username.lowercased()
+        params["mobilephone"] = self._username.lowercased()
         params["password"] = self._password
         //获取用户的IP
         params["loginip"] = getLocalIPAddressForCurrentWiFi()
@@ -349,59 +323,50 @@ class User: NSObject {
             let loginURL:String = apiAddresses.value(forKey: "loginInAPIAddress") as! String
         #endif
         //发起请求
-        Alamofire.request(loginURL,method:.post, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
+        Alamofire.request(loginURL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{
             case true:
                 if let value = responseObject.result.value{
                     let json = JSON(value)
                     print(json)
-                    let newcode = json["status","code"].string
-                    let code = Int64(newcode!)!
+                    let newcode = json["code"].int!
+                    let code = Int64(newcode)
                     switch code{
-                    case 0:
-                        print("执行json")
+                    case 200:
+                        print("登录成功")
                         result = true
-                    case 1:
-                        print("1")
-                        result = true
-                    // greyLayerPrompt.show(text: "用户已在线")
-                    case 2:
-                        print("2")
-                        result = true
-                    // greyLayerPrompt.show(text: "长时间未登录")
-                    case 3:
-                        print("3")
-                        result = true
-                    //greyLayerPrompt.show(text: "异地登录")
-                    case 4:
-                        print("4")
-                        result = false
-                        greyLayerPrompt.show(text: "账号不存在")
-                    case 5:
+                    case 100001:
                         print("5")
                         result = false
                         greyLayerPrompt.show(text: "密码错误")
-                    case 6:
-                        print("6")
-                        result = false
+                        if self.isSwitching{
+                            //直接切换账号时，如果密码错误
+                            let verifyVC = VerifyPasswordViewController()
+                            verifyVC._nikeName = self._nikeName
+                            verifyVC._userAccount = self._username
+                            verifyVC.meVC = self.meVC
+                            self.meVC.present(verifyVC, animated: true, completion: nil)
+                        }
                     default:
                         print("default")
+                        greyLayerPrompt.show(text: "登录失败、服务器连接异常")
                         result = false
                     }
                     //登录成功，跳转首页
                     if result == true {
-                        let nickName = json["userinfo","nickname"].string
-                        let newuserId = json["userinfo","userid"].string
+                        //新账号信息
+                        let nickName = json["data","nickName"].string ?? json["data","mickName"].string //如果没有找到nikeName，则使用mikeName
+                        let newuserId = json["data","userId"].string
                         let userName = self._username
-                        var newroleType = json["userinfo","roletype"].string
-                        let token = json["userinfo","token"].string
-                        
+                        var newroleType = json["data","roleType"].int64
+                        let token = json["data","token"].string
+                        self.getSystemParas(token: token!)
                         //如果newroleType返回空，则指定为普通用户；0
-                        if newroleType == "null"{
-                            newroleType = "0"
+                        if newroleType == nil {
+                            newroleType = 0
                         }
-                        let roleType = Int64(newroleType!)!
+                        let roleType = Int64(newroleType!)
                         let userId = Int64(newuserId!)!
                         let dataOperator = CoreDataOperation()
                         //查询是不是已经有相似记录了
@@ -447,11 +412,11 @@ class User: NSObject {
         _password = password
         
         let params:NSMutableDictionary = NSMutableDictionary()
-        params["email"] = self._username.lowercased()
+        params["mobilephone"] = self._username.lowercased()
         params["password"] = self._password
         //获取用户的IP
-        params["loginip"] = getLocalIPAddressForCurrentWiFi()
-        
+        //params["loginip"] = getLocalIPAddressForCurrentWiFi()
+        params["roletype"] = "0"
         print("登录信息：\(params)")
         var result = false
         
@@ -472,23 +437,15 @@ class User: NSObject {
                 if let value = responseObject.result.value{
                     let json = JSON(value)
                     print(json)
-                    let newcode = json["status","code"].string
-                    let code = Int64(newcode!)!
-                    switch code{
-                    case 0:
-                        print("执行json")
-                        result = true
-                    case 1:
-                        print("1")
+                    let newcode = json["code"].int!
+                    let code = Int64(newcode)
+                    if code == 200{
+                         result = true
+                        print("注册成功")
+                    }else{
                         result = false
-                        greyLayerPrompt.show(text: "用户已存在,换个账号吧")
-                    case 3:
-                        print("3")
-                        result = false
-                        greyLayerPrompt.show(text: "注册失败,未知原因")
-                    default:
-                        print("default")
-                        result = false
+                        let msg = json["message"].string!
+                        greyLayerPrompt.show(text: msg)
                     }
                     //注册成功，跳转首页
                     if result == true {
@@ -541,6 +498,82 @@ class User: NSObject {
         freeifaddrs(ifaddr)
         return address
     }
+    
+    
+    func getSystemParas(token:String){
+        //获取用户信息
+       // let userInfos = getCurrentUserInfo()
+       // let token = userInfos.value(forKey: "token") as? String
+        //获取列表
+        let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
+        let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
+        let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
+        //定义请求参数
+        var header:HTTPHeaders  = NSMutableDictionary() as! HTTPHeaders
+        header["token"] = token
+        var requestUrl:String = ""
+        #if DEBUG
+        requestUrl = apiAddresses.value(forKey: "getSystemParamsDebug") as! String
+        #else
+        requestUrl = apiAddresses.value(forKey: "getSystemParams") as! String
+        #endif
+        _ = Alamofire.request(requestUrl,method:HTTPMethod.get, parameters: nil,encoding: JSONEncoding.default,headers:header) .responseJSON{
+            (responseObject) in
+            switch responseObject.result.isSuccess{
+            case true:
+                if  let value = responseObject.result.value{
+                    let json = JSON(value)
+                    let statusObject = json["code"].int!
+                    if statusObject == 200{
+                        
+                        //系统参数数据
+                        var systemParama:[AnyObject] = []
+                        //产品参数数据
+                        var productParams:NSDictionary = json["data","flatRelation"].dictionaryObject! as NSDictionary
+                        //写入订单状态表
+                        var orderStatusParams:NSDictionary = json["data","orderStatus"].dictionaryObject! as NSDictionary
+                        //写入Commands到命令参数表
+                        var commandsParams:NSArray = json["data","commands"].arrayObject! as NSArray
+                        
+                        
+                        //                        for item in json["data","flatRelation"].array!{
+                        //                            productParams.append(item.dictionaryObject! as NSDictionary)
+                        //                            //systemCategory.append(item.dictionaryObject! as NSDictionary)
+                        //                        }
+                        //                        for item in json["data","orderStatus"].array!{
+                        //                            orderStatusParams.append(item.dictionaryObject! as NSDictionary)
+                        //
+                        //                            //orderStatusParams.append(item as! NSDictionary)
+                        //                        }
+                        systemParama.append(productParams)
+                        systemParama.append(orderStatusParams)
+                        systemParama.append(commandsParams)
+                        
+                        let pfileOfSystemParas = Bundle.main.path(forResource: "config_systemParas", ofType: "plist")
+                        //清除现有的文件列表
+                        let emptyArray:NSArray = []
+                        emptyArray.write(toFile: pfileOfSystemParas!, atomically: true)
+                        
+                        let array = NSArray(array: systemParama)
+                        //let array = NSArray(array: productArray)
+                        //将数组写入联系人列表
+                        array.write(toFile: pfileOfSystemParas!, atomically: true)
+                        print("file Path:\(pfileOfSystemParas)")
+                        
+                    }else{
+                        
+                        let errorMsg = json["message"].string!
+                        print("获取数据失败，:\(errorMsg)")
+                        // greyLayerPrompt.show(text: errorMsg)
+                    }
+                }
+            case false:
+                print("处理失败")
+                greyLayerPrompt.show(text: "获取数据失败，请重试")
+            }
+        }
+    }
+    
 }
 
 func updatesDeviceToken(withDeviceToken deviceToken:String, user userid:String, toBind isToBind:Bool){
@@ -553,6 +586,10 @@ func updatesDeviceToken(withDeviceToken deviceToken:String, user userid:String, 
     let params:NSMutableDictionary = NSMutableDictionary()
     params["userid"] = userid
     params["devicetoken"] = deviceToken
+    var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
+    
+    let userinfos = getCurrentUserInfo()
+    header["token"] = userinfos.value(forKey: "token") as! String
     
     var requestUrl:String = ""
     if isToBind {
@@ -568,7 +605,7 @@ func updatesDeviceToken(withDeviceToken deviceToken:String, user userid:String, 
         requestUrl = apiAddresses.value(forKey: "unbinddevicetokenAPI") as! String
         #endif
     }
-    _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
+    _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
         (responseObject) in
         switch responseObject.result.isSuccess{
         case true:

@@ -349,8 +349,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         let orderID = (orderObject as! NSDictionary).value(forKey: "orderID") as! String  //button.value(forKey: "orderID") as! String
         
       //  setStatusBarHiden(toHidden: false, ViewController: (self.window?.rootViewController)!)
-        
-        let acceptDesignView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight + 216))
+        var addtionalHeight:CGFloat = 0.0
+        if button.tag == 1{
+            addtionalHeight = 166.0
+        }
+        let acceptDesignView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight + addtionalHeight))
         
         let popVC = PopupViewController()
         popVC.view.backgroundColor = UIColor.clear
