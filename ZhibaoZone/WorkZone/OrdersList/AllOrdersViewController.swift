@@ -188,18 +188,11 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
                 cell.acceptDesignBtnInCell.isHidden = false
                 cell.designRequiresBtnInCell.isHidden = true
                 cell.modifyRequiresBtnInCell.isHidden = true
-            }else if (commandsCode.contains("EDIT_DESIGN")){
+            }else if (commandsCode.contains("EDIT_DESIGN")) || (commandsCode.contains("COMMIT_DESIGN")){
                 cell.acceptDesignBtnInCell.isHidden = true
                 cell.designRequiresBtnInCell.isHidden = true
                 cell.modifyRequiresBtnInCell.isHidden = false
             }
-            
-//            //显示查看设计要求按钮
-//            else if ((statusObjects.value(forKey: "designstate") as! NSDictionary).value(forKey: "code") as! Int) == 0 || ((statusObjects.value(forKey: "designstate") as! NSDictionary).value(forKey: "code") as! Int) == 1 || ((statusObjects.value(forKey: "designstate") as! NSDictionary).value(forKey: "code") as! Int) == 3{
-//                cell.acceptDesignBtnInCell.isHidden = true
-//                cell.designRequiresBtnInCell.isHidden = false
-//                cell.modifyRequiresBtnInCell.isHidden = true
-//            }
             
             //设置设计费显示
             if orderInfoObjects.value(forKey: "designPrice") as? Float == nil{
@@ -235,27 +228,6 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
                 //显示生产费
                 cell.priceLabel.text = "¥\(orderInfoObjects.value(forKey: "producePrice") as! NSNumber)"
             }
-//
-//            if ((statusObjects.value(forKey: "orderstate") as! NSDictionary).value(forKey: "orderstate") as! Int) < 7{
-//
-//                if priceInfoObjects.value(forKey: "returnprice") as? Float == nil{
-//                    cell.priceLabel.text = "¥0.00"
-//                }else{
-//                    cell.priceLabel.text = "¥\(priceInfoObjects.value(forKey: "returnprice") as! Float)0"
-//                }
-//            }else{
-//                //订单支付之后，如果报过价格，价格显示报价价格否则显示finlprice
-//                if priceInfoObjects.value(forKey: "returnprice") as? Float == nil || priceInfoObjects.value(forKey: "returnprice") as? Float == 0.0{
-//                    if priceInfoObjects.value(forKey: "finalprice") as? NSNumber == nil{
-//                        cell.priceLabel.text = "¥0.0"
-//                    }else{
-//                        cell.priceLabel.text = "¥\(priceInfoObjects.value(forKey: "finalprice") as! NSNumber)"
-//                    }
-//                    //cell.priceLabel.text = "¥0.00"
-//                }else{
-//                    cell.priceLabel.text = "¥\(priceInfoObjects.value(forKey: "returnprice") as! Float)0"
-//                }
-//            }
             
             // 接受生产按钮显示控制
             //订单状态为7表示需要接受生产
@@ -543,12 +515,12 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         self.present(popVC, animated: true, completion: nil)
     }
     @objc func modifyRequireBtnClicked(_ button:UIButton){
-        print("点击了查看修改要求按钮")
+        print("点击了查看留言沟通按钮")
         selectedIndex = button.tag
         let orderInfoObjects = orderArray[selectedIndex]
         let customID = orderInfoObjects.value(forKey: "customid") as! String
         let orderID = orderInfoObjects.value(forKey: "orderid") as! String
-        let acceptDesignView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight))
+        let acceptDesignView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight + 166))
         
         
         let popVC = PopupViewController()
@@ -561,7 +533,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         acceptDesignView._customID = customID
         acceptDesignView.allOrderVC = self
         
-        acceptDesignView.createViewWithActionType(ActionType: .modifyRequires)
+        acceptDesignView.createViewWithActionType(ActionType: .modifyRequires) // modifyRequires实际上是留言沟通
         popVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext //
         popVC.view.addSubview(acceptDesignView)
         
@@ -814,6 +786,10 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         case orderListCategoryType.waitForDesignCategory:
             //待接受设计
             params["navId"] = 39
+        case orderListCategoryType.designningCategory:
+            params["navId"] = 41
+        case orderListCategoryType.waitForConfirmDesignCategory:
+            params["navId"] = 76
         case orderListCategoryType.waitForModifyCategory:
            params["navId"] = 43
         case orderListCategoryType.customerConfirmedCategory:

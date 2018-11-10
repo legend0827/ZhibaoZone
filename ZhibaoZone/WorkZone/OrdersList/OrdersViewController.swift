@@ -37,8 +37,12 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
     ///// 设计师
     //待接单
     private let waitForDesignVC = AllOrdersViewController(orderlistTye: orderListCategoryType.waitForDesignCategory)
+    //设计中
+   // private let designningVC = AllOrdersViewController(orderlistTye: orderListCategoryType.designningCategory)
+    //待定稿
+//    private let waitForConfirmDesignVC = AllOrdersViewController(orderlistTye: orderListCategoryType.waitForConfirmDesignCategory)
     //待修改
-    private let waitForModifyVC = AllOrdersViewController(orderlistTye: orderListCategoryType.waitForModifyCategory)
+ //   private let waitForModifyVC = AllOrdersViewController(orderlistTye: orderListCategoryType.waitForModifyCategory)
     //已定稿
     private let DesignConfirmedVC = AllOrdersViewController(orderlistTye: orderListCategoryType.customerConfirmedCategory)
     
@@ -65,7 +69,7 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
     
     //所有子视图控制器
     fileprivate var pagingControllersForDesign: [UIViewController] {
-        return [waitForDesignVC,waitForModifyVC,DesignConfirmedVC]
+        return [waitForDesignVC,DesignConfirmedVC]
     }
     //所有子视图控制器
     fileprivate var pagingControllers: [UIViewController] {
@@ -97,7 +101,7 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
         }
         //菜单项
         var itemsOptions: [MenuItemViewCustomizable] {
-            return [MenuItem6(), MenuItem7(),MenuItem8()]
+            return [MenuItem6(),MenuItem8()]
         }
         //设置选中栏下方条的颜色
         var focusMode:MenuFocusMode {
@@ -208,6 +212,20 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
         //自定义菜单项名称
         var displayMode: MenuItemDisplayMode {
             return .text(title: MenuItemText(text: "已处理议价", color: UIColor.titleColors(color: .black), selectedColor: UIColor.titleColors(color: .red), font: UIFont.systemFont(ofSize: 16), selectedFont: UIFont.systemFont(ofSize: 16)))
+        }
+    }
+    //第13个菜单项
+    fileprivate struct MenuItem13: MenuItemViewCustomizable {
+        //自定义菜单项名称
+        var displayMode: MenuItemDisplayMode {
+            return .text(title: MenuItemText(text: "设计中", color: UIColor.titleColors(color: .black), selectedColor: UIColor.titleColors(color: .red), font: UIFont.systemFont(ofSize: 16), selectedFont: UIFont.systemFont(ofSize: 16)))
+        }
+    }
+    //第14个菜单项
+    fileprivate struct MenuItem14: MenuItemViewCustomizable {
+        //自定义菜单项名称
+        var displayMode: MenuItemDisplayMode {
+            return .text(title: MenuItemText(text: "待定稿", color: UIColor.titleColors(color: .black), selectedColor: UIColor.titleColors(color: .red), font: UIFont.systemFont(ofSize: 16), selectedFont: UIFont.systemFont(ofSize: 16)))
         }
     }
 }

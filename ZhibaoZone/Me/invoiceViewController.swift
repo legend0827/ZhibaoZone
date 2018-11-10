@@ -41,7 +41,7 @@ class invoiceViewController: UIViewController,UIScrollViewDelegate {
         let invoiceHengyueshijue:UIImage = UIImage(named: "invoice-hengyueshijue")!
         let invoiceXiemai:UIImage = UIImage(named: "invoice-xiemai")!
         let invoiceYigemixiu:UIImage = UIImage(named: "invoice-yigemixiu")!
-        self.images = [invoiceAitimi,invoiceXiemai,invoiceDoulian,invoiceHengyueshijue,invoiceYigemixiu]
+        self.images = [invoiceXiemai,invoiceDoulian,invoiceAitimi,invoiceYigemixiu,invoiceHengyueshijue]
         self.index = 0
         
         
@@ -181,15 +181,6 @@ class invoiceViewController: UIViewController,UIScrollViewDelegate {
         let tag = button.tag
         switch tag {
         case 0:
-            UIPasteboard.general.strings = ["发票类型：普票",
-                                            "开票名称：    北京艾提米科技有限公司",
-                                            "纳税人识别号：91110116MA00F1WJ0R",
-                                            "地址： 北京市怀柔区北大街1号院3号楼1层01层-09",
-                                            "电话：13720025512",
-                                            "开户行及账号：中国工商银行股份有限公司北京雁栖支行",
-                                            "账号：0200066309200081614"
-            ]
-        case 1:
             UIPasteboard.general.strings = ["发票类型：专票（优先），普票",
                                             "开票名称：    北京协迈科技有限公司",
                                             "纳税人识别号：911101165657958673",
@@ -198,7 +189,8 @@ class invoiceViewController: UIViewController,UIScrollViewDelegate {
                                             "开户行：中国银行股份有限公司北京怀柔支行",
                                             "账号：341556413683"
             ]
-        case 2:
+        case 1:
+            
             UIPasteboard.general.strings = ["发票类型：普票",
                                             "开票名称：    北京豆联科技有限公司",
                                             "纳税人识别号：91110116330328906Q",
@@ -207,16 +199,18 @@ class invoiceViewController: UIViewController,UIScrollViewDelegate {
                                             "开户行及账号：中国工商银行北京雁栖支行",
                                             "账号：0200066309200064508"
             ]
-        case 3:
+        case 2:
+            
             UIPasteboard.general.strings = ["发票类型：普票",
-                                            "开票名称：    武汉恒烁视觉传媒有限公司",
-                                            "纳税人识别号：91420106303477033N",
-                                            "地址： 武汉市武昌区丰收村1号汇东佳韵小区(二期) 10栋1层商场区A区01号",
-                                            "电话：15337118879",
-                                            "开户行及账号：武汉农村商业银行",
-                                            "账号：200771890310018"
+                                            "开票名称：    北京艾提米科技有限公司",
+                                            "纳税人识别号：91110116MA00F1WJ0R",
+                                            "地址： 北京市怀柔区北大街1号院3号楼1层01层-09",
+                                            "电话：13720025512",
+                                            "开户行及账号：中国工商银行股份有限公司北京雁栖支行",
+                                            "账号：0200066309200081614"
             ]
-        case 4:
+        case 3:
+            
             UIPasteboard.general.strings = ["发票类型：普票",
                                             "开票名称：    武汉意格米修艺术设计有限公司",
                                             "纳税人识别号：91420111055723310C",
@@ -224,6 +218,15 @@ class invoiceViewController: UIViewController,UIScrollViewDelegate {
                                             "电话：15337118879",
                                             "开户行及账号：中国银行股份有限公司武汉楚雄大道支行",
                                             "账号：569060584861"
+            ]
+        case 4:
+            UIPasteboard.general.strings = ["发票类型：普票",
+                                            "开票名称：    武汉恒烁视觉传媒有限公司",
+                                            "纳税人识别号：91420106303477033N",
+                                            "地址： 武汉市武昌区丰收村1号汇东佳韵小区(二期) 10栋1层商场区A区01号",
+                                            "电话：15337118879",
+                                            "开户行及账号：武汉农村商业银行",
+                                            "账号：200771890310018"
             ]
         default:
             UIPasteboard.general.strings = ["发票类型：普票",

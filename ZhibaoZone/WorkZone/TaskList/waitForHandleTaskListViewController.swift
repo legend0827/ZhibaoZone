@@ -178,7 +178,7 @@ class waitForHandleTaskListViewController: UIViewController,UITableViewDelegate,
         }else{
             GoodsID = dictionaryObjectInTaskArray.value(forKey: "goodsid") as! String
         }
-        let taskDetailView = TaskDetailViewController(currentTaskID: taskID, currentCustomid: customeID, currentOrderID: OrderID!, currentGoodsID: GoodsID!, currentTaskType: TaskType!)
+        let taskDetailView = LeaveMsgDetailViewController(currentTaskID: taskID, currentCustomid: customeID, currentOrderID: OrderID!, currentGoodsID: GoodsID!, currentTaskType: TaskType!)
         let nav:UINavigationController = UINavigationController.init(rootViewController: taskDetailView)
         self.present(nav, animated: true, completion: nil)
         

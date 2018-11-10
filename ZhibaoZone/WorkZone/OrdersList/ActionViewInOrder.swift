@@ -10,7 +10,20 @@ import UIKit
 import Alamofire
 
 
-class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollViewDelegate {
+class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 2
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 127
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = LeaveMsgContentTableViewCell.customCell(tableView: leaveMsgListTableView)
+        cell.selectionStyle = .none
+        return cell
+    }
     
     //弹窗ViewVC
     var popupVC = PopupViewController()
@@ -118,6 +131,8 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
     let seperateLine5:UIView = UIView.init(frame: CGRect(x: 20, y: 4, width: kWidth - 40, height: 2))
     let seperateLine6:UIView = UIView.init(frame: CGRect(x: 20, y: 4, width: kWidth - 40, height: 2))
     let seperateLine7:UIView = UIView.init(frame: CGRect(x: 20, y: 4, width: kWidth - 40, height: 2))
+    let seperateLine8:UIView = UIView.init(frame: CGRect(x: 20, y: 4, width: kWidth - 40, height: 2))
+    let seperateLine9:UIView = UIView.init(frame: CGRect(x: 20, y: 4, width: kWidth - 40, height: 2))
     
     
     let quotePriceSubmitBtn:UIButton = UIButton.init(type: .custom)
@@ -141,11 +156,35 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
     //接受设计
     let designMemoLabel:UILabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     let designMemoValue:UILabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-    let modifyMemoLabel:UILabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-    let modifyMemoValue:UILabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+    //let modifyMemoLabel:UILabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+  //  let modifyMemoValue:UILabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     let designFeeLabel:UILabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     let designFeeValue:UILabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     
+    //当前设计稿title
+    lazy var currentDesignParttenTitle:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        tempLabel.text = "当前设计稿:"
+        tempLabel.textColor = UIColor.titleColors(color: .black)
+        tempLabel.font = UIFont.systemFont(ofSize: 16)
+        return tempLabel
+    }()
+    
+    //当前设计稿图片
+    lazy var currentDesignParttenImageView:UIImageView = {
+        let tempView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        tempView.image = UIImage(named: "havenoimgyetimg")
+        return tempView
+    }()
+    
+    //当前沟通版本
+    lazy var messageContactNumTitle:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        tempLabel.text = "留言·设计前沟通中"
+        tempLabel.textColor = UIColor.titleColors(color: .black)
+        tempLabel.font = UIFont.systemFont(ofSize: 16)
+        return tempLabel
+    }()
         //设置设计备注，订单备注输入框
     lazy var orderMemosForDesignOrProducer:UILabel = {
             //label值55，当前值62 差 7
@@ -186,6 +225,13 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             return tempSliderTextField
         }()
     
+        //留言表格
+    lazy var leaveMsgListTableView:UITableView = {
+        let tempTableView = UITableView.init(frame: CGRect(x: 0, y: 51, width: kWidth, height: 200))
+        tempTableView.delegate = self
+        tempTableView.dataSource = self
+        return tempTableView
+    }()
         override init(frame: CGRect) {
         super.init(frame: frame)
         //获取用户信息
@@ -515,28 +561,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 
                 quotePriceSlideBar.frame = CGRect(x: 20, y: seperateLine5.frame.maxY + 51, width: kWidth - 40, height: 20)
                 quotePriceSlideBar.addTarget(self, action: #selector(quotePriceSliderBarValueChanged(_:)), for: .valueChanged)
-               // backgroundView.addSubview(quotePriceSlideBar)
-                
-                quotePriceSlideBarRightLabel.frame = CGRect(x: quotePriceSlideBar.frame.width - 180, y: seperateLine5.frame.maxY + 72, width: 200, height: 22)
-                quotePriceSlideBarRightLabel.text = "¥5000.00"
-                quotePriceSlideBarRightLabel.textAlignment = .right
-                quotePriceSlideBarRightLabel.textColor = UIColor.titleColors(color: .gray)
-                quotePriceSlideBarRightLabel.font = UIFont.systemFont(ofSize: 12)
-                
-                quotePriceSlideBarMidLabel.frame = CGRect(x:  quotePriceSlideBar.frame.width/2 - 80 , y: seperateLine5.frame.maxY + 72, width: 200, height: 22)
-                quotePriceSlideBarMidLabel.text = "¥2500.00"
-                quotePriceSlideBarMidLabel.textAlignment = .center
-                quotePriceSlideBarMidLabel.textColor = UIColor.titleColors(color: .gray)
-                quotePriceSlideBarMidLabel.font = UIFont.systemFont(ofSize: 12)
-                
-                quotePriceSlideBarLeftLabel.frame = CGRect(x: 20, y: seperateLine5.frame.maxY + 72, width: 200, height: 22)
-                quotePriceSlideBarLeftLabel.text = "¥0.00"
-                quotePriceSlideBarLeftLabel.textColor = UIColor.titleColors(color: .gray)
-                quotePriceSlideBarLeftLabel.font = UIFont.systemFont(ofSize: 12)
-                
-               // backgroundView.addSubview(quotePriceSlideBarRightLabel)
-              //  backgroundView.addSubview(quotePriceSlideBarMidLabel)
-              //  backgroundView.addSubview(quotePriceSlideBarLeftLabel)
+
             case .dealBargain:
                 ActionTitle.text = "处理议价"
                 quotePriceAtLastLabel.isHidden = false
@@ -575,8 +600,6 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 backgroundView.addSubview(seperateLine2)
                 
                 seperateLine3.frame = CGRect(x: 0, y: seperateLine2.frame.maxY + 52, width: kWidth, height: 5)
-                seperateLine4.frame = CGRect(x: 20, y: seperateLine3.frame.maxY + 52, width: kWidth - 40, height: 2)
-                seperateLine5.frame = CGRect(x: 20, y: seperateLine4.frame.maxY + 52, width: kWidth - 40, height: 2)
                 
                 quotePriceAtLastLabel.text = "上次报价:"
                 quotePriceAtLastLabel.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 15 , width: 100, height: 22)
@@ -589,19 +612,34 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 quotePriceAtLastTimeValue.font = UIFont.systemFont(ofSize: 16)
                 backgroundView.addSubview(quotePriceAtLastTimeValue)
                 
-                
                 seperateLine3.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
                 backgroundView.addSubview(seperateLine3)
                 
+                overBudgetBackgroundView.frame = CGRect(x: 0, y: seperateLine3.frame.maxY + 1, width: kWidth, height: 54)
+                overBudgetBackgroundView.backgroundColor = UIColor.colorWithRgba(255, g: 246, b: 246, a: 100)
+                let redLine1:UIView = UIView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: 1))
+                redLine1.backgroundColor = UIColor.backgroundColors(color: .red)
+                
+                budgetOveredLabel.frame = CGRect(x: 20, y: 16, width: kWidth - 40, height: 22)
+                budgetOveredLabel.text = "客户预算/要求工期:"
+                budgetOveredLabel.textColor = UIColor.titleColors(color: .red)
+                overBudgetBackgroundView.addSubview(budgetOveredLabel)
+                
+                let redLine2:UIView = UIView.init(frame: CGRect(x: 0, y: 53, width: kWidth, height: 1))
+                redLine2.backgroundColor = UIColor.backgroundColors(color: .red)
+                overBudgetBackgroundView.addSubview(redLine1)
+                overBudgetBackgroundView.addSubview(redLine2)
+                backgroundView.addSubview(overBudgetBackgroundView)
+                
                 quotePriceCurentLabel.text = "设置当前报价:"
-                quotePriceCurentLabel.frame = CGRect(x: 20, y: seperateLine3.frame.maxY + 15 , width: 120, height: 22)
+                quotePriceCurentLabel.frame = CGRect(x: 20, y: overBudgetBackgroundView.frame.maxY + 15 , width: 120, height: 22)
                 quotePriceCurentLabel.font = UIFont.systemFont(ofSize: 16)
                 backgroundView.addSubview(quotePriceCurentLabel)
                 
                 currentValueOnSliderTextField.text = "¥0.00"
                 currentValueOnSliderTextField.textColor = UIColor.titleColors(color: .red)
                 currentValueOnSliderTextField.font = UIFont.systemFont(ofSize: 16)
-                currentValueOnSliderTextField.frame = CGRect(x: 130, y: seperateLine3.frame.maxY + 4 , width: kWidth - 150, height: 44)
+                currentValueOnSliderTextField.frame = CGRect(x: 130, y: overBudgetBackgroundView.frame.maxY + 4 , width: kWidth - 150, height: 44)
                 // currentValueOnSliderTextField.placeholder = "填写金额"
                 let singleTap = UITapGestureRecognizer(target: self, action: #selector(quetePriceClicked))
                 singleTap.numberOfTapsRequired = 1
@@ -611,7 +649,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 
                 backgroundView.addSubview(currentValueOnSliderTextField)
                 
-                
+                seperateLine4.frame = CGRect(x: 20, y: overBudgetBackgroundView.frame.maxY + 52, width: kWidth - 40, height: 2)
                 seperateLine4.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
                 backgroundView.addSubview(seperateLine4)
                 
@@ -654,7 +692,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 deadlineLabel.isHidden = true
                 backgroundView.addSubview(deadlineLabel)
                 
-                
+                seperateLine5.frame = CGRect(x: 20, y: seperateLine4.frame.maxY + 52, width: kWidth - 40, height: 2)
                 setQuotePriceWeightBtn.frame = CGRect(x: 20, y: seperateLine5.frame.maxY + 15, width: 100, height: 22)
                 setQuotePriceWeightBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
                 setQuotePriceWeightBtn.contentHorizontalAlignment = .left
@@ -882,7 +920,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             case .modifyRequires:
                 backgroundView.contentSize = CGSize(width: kWidth, height: 441)
                 
-                ActionTitle.text = "修改要求"
+                ActionTitle.text = "留言沟通"
                 quotePriceAtLastLabel.isHidden = true
                 quotePriceAtLastTimeValue.isHidden = true
                 quotePriceCurentLabel.isHidden = true
@@ -898,52 +936,47 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 bargainPriceSubmitBtn.isHidden = true
                 acceptDesignConfirmBtn.isHidden = true
                 acceptProduceConfirmBtn.isHidden = true
+                //将订购数目的位置显示为设计费
+                orderCountValue.font = UIFont.systemFont(ofSize: 16)
+                orderCountValue.textColor = UIColor.titleColors(color: .red)
+                orderCountValue.text = "¥-"
                 
+                //设计备注上的那一条
                 seperateLine2.frame = CGRect(x: 0, y: productSizeHint.frame.maxY + 5, width: kWidth, height: 5)
                 seperateLine2.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
                 backgroundView.addSubview(seperateLine2)
                 
                 designMemoLabel.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
                 designMemoValue.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
-                modifyMemoLabel.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
-                modifyMemoValue.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
-                designFeeLabel.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
-                designFeeValue.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
                 
                 designMemoLabel.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 15 , width: 100, height: 22)
-                designMemoLabel.text = "设计备注:"
+                designMemoLabel.text = "设计要求:"
                 designMemoLabel.font = UIFont.systemFont(ofSize: 16)
                 backgroundView.addSubview(designMemoLabel)
-                
-                
-                seperateLine7.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 185, width: kWidth - 40, height: 1)
-                seperateLine7.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
-                backgroundView.addSubview(seperateLine7)
-                
-                modifyMemoLabel.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 195 , width: 100, height: 22)
-                modifyMemoLabel.text = "修改意见:"
-                modifyMemoLabel.font = UIFont.systemFont(ofSize: 16)
-                backgroundView.addSubview(modifyMemoLabel)
                 
                 designMemoValue.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 37 , width: kWidth - 40, height: 22)
                 designMemoValue.numberOfLines = 10
                 designMemoValue.font = UIFont.systemFont(ofSize: 14)
                 backgroundView.addSubview(designMemoValue)
                 
-                modifyMemoValue.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 217 , width: kWidth - 40, height: 22)
-                modifyMemoValue.numberOfLines = 10
-                modifyMemoValue.font = UIFont.systemFont(ofSize: 14)
-                backgroundView.addSubview(modifyMemoValue)
+                //设计要求下方的线
+                seperateLine8.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 74, width: kWidth - 40, height: 1)
+                seperateLine8.backgroundColor = UIColor.lineColors(color: .lightGray)
+                backgroundView.addSubview(seperateLine8)
                 
-                designFeeLabel.text = "设计费:"
-                designFeeLabel.frame = CGRect(x: 20, y: self.frame.height - 133 - heightChangeForiPhoneXFromBottom, width: 120, height: 37)
-                designFeeLabel.font = UIFont.systemFont(ofSize: 16)
+                //当前设计稿:
+                currentDesignParttenTitle.frame = CGRect(x: 20, y: seperateLine8.frame.maxY + 16, width: 200, height: 22)
+                backgroundView.addSubview(currentDesignParttenTitle)
                 
-                designFeeValue.frame = CGRect(x: 80, y: self.frame.height - 133 - heightChangeForiPhoneXFromBottom, width: 120, height: 37)
-                designFeeValue.font = UIFont.systemFont(ofSize: 26)
-                designFeeValue.textColor = UIColor.titleColors(color: .red)
-                self.addSubview(designFeeValue)
-                self.addSubview(designFeeLabel)
+                currentDesignParttenImageView.frame = CGRect(x: 20, y: currentDesignParttenTitle.frame.maxY + 13, width: 68, height: 68)
+                backgroundView.addSubview(currentDesignParttenImageView)
+                //Line7. 当前设计稿下方的一条线
+                seperateLine7.frame = CGRect(x: 0, y: seperateLine8.frame.maxY + 131, width: kWidth, height: 15)
+                seperateLine7.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+                backgroundView.addSubview(seperateLine7)
+                
+                leaveMsgListTableView.frame = CGRect(x: 0, y: seperateLine7.frame.maxY + 51, width: kWidth, height: 400)
+                backgroundView.addSubview(leaveMsgListTableView)
             default:
                 ActionTitle.text = "邮寄投递"
                 quotePriceAtLastLabel.isHidden = true
@@ -2030,7 +2063,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         }
 
         switch _actionType {
-        case .quotePrice:
+        case .quotePrice,.dealBargain:
             //优先客户心理价，再估价，再系统估价
 //            if priceInfoObjects.value(forKey: "mindprice") as? Float == nil || priceInfoObjects.value(forKey: "mindprice") as! Float == 0.0{
 //                if priceInfoObjects.value(forKey: "extent1") as? Float == nil || priceInfoObjects.value(forKey: "extent1") as! Float == 0.0{
@@ -2066,6 +2099,13 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             }
             currentValueOnSliderTextField.text = "\(currentValue)"
 //
+            if _actionType == .dealBargain{
+                if orderInfoObjects.value(forKey: "workshopBasePrice") as? Float == nil{
+                    budgetOveredLabel.text = "客户预算/要求工期: -/-天"
+                }else{
+                    budgetOveredLabel.text = "客户预算/要求工期: ¥\(orderInfoObjects.value(forKey: "workshopBasePrice") as! Float)元 /\(orderInfoObjects.value(forKey: "userPeriod") as! Int)天"
+                }
+            }
         case .acceptDesign:
             print("设置接受设计的值")
             if orderInfoObjects.value(forKey: "memo") as? String != nil && orderInfoObjects.value(forKey: "memo") as! String != ""{
@@ -2147,22 +2187,13 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 designMemoValue.text = "无备注信息"
                 designMemoValue.textColor = UIColor.titleColors(color: .lightGray)
             }
-            //修改意见
-//            if (desingersInfos[0] as! NSDictionary).value(forKey: "userfeedback") as? String != nil && (desingersInfos[0] as! NSDictionary).value(forKey: "userfeedback") as! String != ""{
-//                let modifyMemo = (desingersInfos[0] as! NSDictionary).value(forKey: "userfeedback") as! String
-//                modifyMemoValue.text = modifyMemo
-//                let heightOfProduceMemoLabel = calculateLabelHeightWithText(with: modifyMemo, labelWidth: modifyMemoValue.frame.width, textFont: UIFont.systemFont(ofSize: 14))
-//                modifyMemoValue.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 217 , width: kWidth - 40, height: heightOfProduceMemoLabel + 10)
-//            }else{
-                modifyMemoValue.text = "暂不支持在App中查看留言，请前往Web端查看"
-                modifyMemoValue.textColor = UIColor.titleColors(color: .lightGray)
-//            }
-//            
+            //留言沟通
+          
             //如果没有报过价，则显示finalPrice。 如果报过价，取低值
             if orderInfoObjects.value(forKey: "designPrice") as? Float == nil || orderInfoObjects.value(forKey: "designPrice") as? Float == 0.0{
-                designFeeValue.text = "¥8.00"
+                orderCountValue.text = "¥8.00"
             }else{
-                designFeeValue.text = "¥\(orderInfoObjects.value(forKey: "designPrice") as! Float)0"
+                orderCountValue.text = "¥\(orderInfoObjects.value(forKey: "designPrice") as! Float)0"
             }
             
         default:

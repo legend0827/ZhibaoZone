@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TaskContentTableViewCell: UITableViewCell {
+class LeaveMsgContentTableViewCell: UITableViewCell {
     
     let senderInContentNameLabel:UILabel = UILabel.init(frame: CGRect(x: 54, y: 11, width: 200, height: 20))
     let senderInCotentAvatarLocal = CGRect(x: 20, y: 10, width: 24, height: 24)
@@ -80,13 +80,13 @@ class TaskContentTableViewCell: UITableViewCell {
     }
     
     //MARK: - public
-    public class func customCell(tableView: UITableView) -> TaskContentTableViewCell{
-        let reuseIdentifier = "TaskContentTableViewCell"
+    public class func customCell(tableView: UITableView) -> LeaveMsgContentTableViewCell{
+        let reuseIdentifier = "LeaveMsgContentTableViewCell"
         var cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier)
         if cell == nil {
-            cell = TaskContentTableViewCell(style: .default, reuseIdentifier: reuseIdentifier)
+            cell = LeaveMsgContentTableViewCell(style: .default, reuseIdentifier: reuseIdentifier)
         }
-        return cell as! TaskContentTableViewCell
+        return cell as! LeaveMsgContentTableViewCell
     }
     
     public func settingCellData(title : String) {

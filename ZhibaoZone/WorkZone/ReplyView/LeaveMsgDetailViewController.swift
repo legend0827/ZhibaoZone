@@ -1,5 +1,5 @@
 //
-//  TaskDetailViewController.swift
+//  LeaveMsgDetailViewController.swift
 //  ZhibaoZone
 //
 //  Created by Kevin on 25/01/2018.
@@ -15,7 +15,7 @@ import Photos
 import QCloudCOSXML
 import QCloudCore
 
-class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate{
+class LeaveMsgDetailViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate{
    
  
     //MARK:-网络请求管理
@@ -174,7 +174,7 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
     //let navigationBarInTaskDetail:UINavigationBar = UINavigationBar.init(frame: CGRect(x: 0, y: 20+heightChangeForiPhoneXFromTop, width: UIScreen.main.bounds.width, height: 30))
     
     //任务详情回复内容表
-    lazy var taskContentTableView:UITableView = {
+    lazy var LeaveMessageContentTableView:UITableView = {
         let temTableView:UITableView = UITableView.init(frame: CGRect(x: 0, y: 322 + heightChangeForiPhoneXFromTop, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 357))
         temTableView.backgroundColor = UIColor.white
         temTableView.separatorColor = UIColor.colorWithRgba(230, g: 230, b: 230, a: 1.0)
@@ -266,7 +266,7 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
             
         }
         
-        taskContentTableView.es.addPullToRefresh {
+        LeaveMessageContentTableView.es.addPullToRefresh {
             [weak self] in
             self?.refresh()
         }
@@ -609,7 +609,7 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
             
             taskInfoBackgroundView.frame = CGRect(x: 0, y: 124 + heightChangeForiPhoneXFromTop, width: kWidth, height: 193 + height)
             taskReplyBtn.frame = CGRect(x: kWidth - 45, y: taskInfoBackgroundView.frame.height - 31, width: 25, height: 18)
-            taskContentTableView.frame = CGRect(x: 0, y: 322 + heightChangeForiPhoneXFromTop + height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 357 - height)
+            LeaveMessageContentTableView.frame = CGRect(x: 0, y: 322 + heightChangeForiPhoneXFromTop + height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 357 - height)
             
             //附件图片数量
             var imageCount = 0
@@ -672,9 +672,9 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
             })
 
             
-            self.view.addSubview(taskContentTableView)
-            taskContentTableView.delegate = self
-            taskContentTableView.dataSource = self
+            self.view.addSubview(LeaveMessageContentTableView)
+            LeaveMessageContentTableView.delegate = self
+            LeaveMessageContentTableView.dataSource = self
             
         }
         isTaskDetailLoadEnd = true
@@ -912,7 +912,7 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
         
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableView == taskContentTableView{
+        if tableView == LeaveMessageContentTableView{
             countOfContent = taskDetailArray.count - 1
             return countOfContent
         }else{
@@ -922,8 +922,9 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if tableView == taskContentTableView{ // 任务内容表格
-            let cell = TaskContentTableViewCell.customCell(tableView: taskContentTableView)
+        if tableView == LeaveMessageContentTableView{ // 任务内容表格
+            
+            let cell = LeaveMsgContentTableViewCell.customCell(tableView: LeaveMessageContentTableView)
             cell.backgroundColor = UIColor.white//UIColor.init(red: 243/255, green: 243/255, blue: 243/255, alpha: 1.0)
             cell.selectionStyle = .none
             //任务内容
@@ -1085,7 +1086,7 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if tableView == taskContentTableView{
+        if tableView == LeaveMessageContentTableView{
             let detailItem = taskDetailArray[indexPath.row + 1]
             
             var labelContent = ""
@@ -2058,10 +2059,10 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
     //加载数据
     func loadOrderDataFromServer() {
         //去除未完成的数据请求
-        for task in TaskDetailViewController.requestCacheArr{
+        for task in LeaveMsgDetailViewController.requestCacheArr{
             task.cancel()
         }
-        TaskDetailViewController.requestCacheArr.removeAll()
+        LeaveMsgDetailViewController.requestCacheArr.removeAll()
         //先删除重试按钮
         if self.view.viewWithTag(300) != nil{ //200,201tag是重试按钮的view
             self.view.viewWithTag(300)?.removeFromSuperview()
@@ -2191,8 +2192,8 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
                     imageView.removeFromSuperview()
                     noticeWhenLoadingData.removeFromSuperview()
                 }
-                self.taskContentTableView.reloadData()
-                self.taskContentTableView.es.stopPullToRefresh()
+                self.LeaveMessageContentTableView.reloadData()
+                self.LeaveMessageContentTableView.es.stopPullToRefresh()
                 self.isTaskDetailLoadEnd = true
             case false:
                 imageView.removeFromSuperview()
@@ -2230,7 +2231,7 @@ class TaskDetailViewController: UIViewController,UITableViewDelegate,UITableView
                 self.isTaskDetailLoadEnd = true
             }
         }
-        TaskDetailViewController.requestCacheArr.append(dataRequest)
+        LeaveMsgDetailViewController.requestCacheArr.append(dataRequest)
     }
     
     @objc func timeEventsOfCountDown(){

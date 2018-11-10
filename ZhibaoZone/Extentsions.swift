@@ -102,6 +102,8 @@ enum orderListCategoryType{
     case customerConfirmedCategory
     case bargainNotDealedCategory
     case bargainDealedCategory
+    case designningCategory
+    case waitForConfirmDesignCategory
     //case allOrderCategory
 }
 
@@ -114,6 +116,7 @@ enum actionType {
     case designRequires
     case modifyRequires
     case dealBargain
+    case contactInfos
 }
 
 //工艺属性类型：

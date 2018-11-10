@@ -205,7 +205,9 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         createUnlockBanner()
         createSetBanner()
         createVersionBanner()
-        createInvoiceBanner()
+        if _roleType != 3{
+            createInvoiceBanner()
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -216,7 +218,11 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         }
     }
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 9
+        if _roleType == 3 || _roleType == 0{
+            return 8
+        }else{
+            return 9
+        }
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
@@ -266,8 +272,24 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
             SetParametersCell.selectionStyle = UITableViewCellSelectionStyle.none
             
             return SetParametersCell
-        }else if (indexPath.section == 5){
-            
+        }else if (indexPath.section == 5){ // 发票
+            if _roleType == 3 || _roleType == 0{
+                //设置分割线
+                let seperateLine:UIView = UIView.init(frame: CGRect(x: 20, y: 0, width: kWidth - 30, height: 1))
+                seperateLine.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+                
+                versionCell.addSubview(seperateLine)
+                
+                //参数设置
+                versionCell.alpha = 1.0
+                versionCell.selectionStyle = UITableViewCellSelectionStyle.none
+                
+                //设置分割线
+                let seperateLineBottom:UIView = UIView.init(frame: CGRect(x: 20, y: 60, width: kWidth - 30, height: 1))
+                seperateLineBottom.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+                versionCell.addSubview(seperateLineBottom)
+                return versionCell
+            }
             //设置分割线
             let seperateLine:UIView = UIView.init(frame: CGRect(x: 20, y: 0, width: kWidth - 30, height: 1))
             seperateLine.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
@@ -285,6 +307,27 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
             return invoiceCell
         }
         else if (indexPath.section == 6){
+            if _roleType == 3 || _roleType == 0{
+                switchAccountCell.alpha = 1.0
+                switchAccountCell.selectionStyle = .none
+                //            if !addtionalAccountAvailable{
+                //                switchAccountBtn.isHidden = true
+                //            }else{
+                if _roleType == 4{
+                    switchAccountBtn.isHidden = false
+                    switchAccountBtn.setTitle("切换车间", for: .normal)
+                }else{
+                    if _accountID == "10000013" && addtionalAccountAvailable {
+                        switchAccountBtn.setTitle("切换经理", for: .normal)
+                        switchAccountBtn.isHidden = false
+                    }else{
+                        switchAccountBtn.isHidden = true
+                    }
+                }
+                // }
+                switchAccountCell.addSubview(switchAccountBtn)
+                return switchAccountCell
+            }
             //设置分割线
             let seperateLine:UIView = UIView.init(frame: CGRect(x: 20, y: 0, width: kWidth - 30, height: 1))
             seperateLine.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
@@ -302,6 +345,31 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
             return versionCell
             
         }else if indexPath.section == 7{
+            if _roleType == 3 || _roleType == 0{
+                //设置登录按钮
+                LogoutBtn.frame = CGRect(x: 20, y: 0, width: kWidth - 40, height: 44)
+                //
+                //            if UIDevice.current.isX() {
+                //                LogoutBtn.frame = CGRect(x:20, y:UIScreen.main.bounds.height-151, width:UIScreen.main.bounds.width - 40, height: 45)
+                //            }else{
+                //                LogoutBtn.frame = CGRect(x:20, y:UIScreen.main.bounds.height-90, width:UIScreen.main.bounds.width - 40, height: 45)
+                //            }
+                //        LogoutBtn.layer.borderColor = UIColor.lightGray.cgColor
+                LogoutBtn.layer.cornerRadius = 6
+                //        LogoutBtn.layer.borderWidth = 0.5
+                LogoutBtn.layer.backgroundColor = UIColor.iconColors(color: .red).cgColor
+                LogoutBtn.setTitle("退出", for: UIControlState.normal)
+                LogoutBtn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+                LogoutBtn.setTitleColor(UIColor.titleColors(color: .white), for: UIControlState.normal)
+                LogoutBtn.setTitleColor(UIColor.clear, for: UIControlState.highlighted)
+                
+                //  tableView?.addSubview(LogoutBtn)
+                
+                LogoutBtn.addTarget(self, action: #selector(LogoutBtnClick), for: UIControlEvents.touchUpInside)
+                tableView.addSubview(logoutAccountCell)
+                logoutAccountCell.addSubview(LogoutBtn)
+                return logoutAccountCell
+            }
             switchAccountCell.alpha = 1.0
             switchAccountCell.selectionStyle = .none
 //            if !addtionalAccountAvailable{
@@ -508,16 +576,18 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
             roleStringLabel.text = "制宝会员"
         }else if _roleType == 1{
             //0 普通用户 1 客服 2 设计师 3 工厂
-            roleStringLabel.text = "制宝客户服务"
+            roleStringLabel.text = "客服"
         }else if _roleType == 2{
             //0 普通用户 1 客服 2 设计师 3 工厂
-            roleStringLabel.text = "制宝方案设计师"
+            roleStringLabel.text = "方案师"
         }else if _roleType == 3{
             //0 普通用户 1 客服 2 设计师 3 工厂
-            roleStringLabel.text = "合作生产车间"
+            roleStringLabel.text = "制造商"
         }else if _roleType == 4{
             //0 普通用户 1 客服 2 设计师 3 工厂
             roleStringLabel.text = "客服经理"
+        }else if _roleType == 5{
+            roleStringLabel.text = "公司员工"
         }else {
             //0 普通用户 1 客服 2 设计师 3 工厂
             roleStringLabel.text = "制宝会员"
@@ -592,7 +662,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         userAccountLabel.font = UIFont.systemFont(ofSize: 16)
         userAccountLabel.textAlignment = .left
         
-        version.text = "V2.2.1"
+        version.text = "V2.2.2"
         version.font = UIFont.systemFont(ofSize: 14)
         version.textColor = UIColor.titleColors(color: .gray)
         version.textAlignment = .right

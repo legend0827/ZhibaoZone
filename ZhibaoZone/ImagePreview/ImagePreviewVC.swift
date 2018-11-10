@@ -21,7 +21,7 @@ enum PreviewModeType:Int {
 class ImagePreviewVC: UIViewController {
     
     var createNewTaskVCObject =  NewTaskViewController()
-    var taskDetailReplyObject = TaskDetailViewController(currentTaskID: "nothing", currentCustomid: "123456", currentOrderID: "123456", currentGoodsID: "123456", currentTaskType: 0)
+    var taskDetailReplyObject = LeaveMsgDetailViewController(currentTaskID: "nothing", currentCustomid: "123456", currentOrderID: "123456", currentGoodsID: "123456", currentTaskType: 0)
     var uploadProductImageVCObject = UploadProductImageViewController()
     
     var PreviewType:[String] = []//"public.image" // 默认为图片.

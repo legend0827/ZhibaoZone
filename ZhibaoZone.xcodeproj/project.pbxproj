@@ -21,7 +21,7 @@
 		0A129C3D20F44A8B00319A4C /* UploadProductImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A129C3C20F44A8B00319A4C /* UploadProductImageViewController.swift */; };
 		0A13FB162159D637004066F0 /* ChooseTimeInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A13FB152159D637004066F0 /* ChooseTimeInterval.swift */; };
 		0A13FB212159DB9A004066F0 /* ChooseTimeIntervalCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A13FB202159DB9A004066F0 /* ChooseTimeIntervalCellTableViewCell.swift */; };
-		0A20028A206134CD00A81D21 /* TaskContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A200289206134CD00A81D21 /* TaskContentTableViewCell.swift */; };
+		0A20028A206134CD00A81D21 /* LeaveMsgContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A200289206134CD00A81D21 /* LeaveMsgContentTableViewCell.swift */; };
 		0A244E542096F35D00203463 /* ActionViewInOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A244E532096F35D00203463 /* ActionViewInOrder.swift */; };
 		0A244E5B2098614E00203463 /* waitForHandleTaskListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A244E5A2098614E00203463 /* waitForHandleTaskListViewController.swift */; };
 		0A244E5D2098616900203463 /* MineCreationTaskListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A244E5C2098616900203463 /* MineCreationTaskListViewController.swift */; };
@@ -122,7 +122,7 @@
 		0AF06C5220171D40008E2DE9 /* ESPullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF06C4820171D40008E2DE9 /* ESPullToRefresh.swift */; };
 		0AF06C542018638F008E2DE9 /* TaskListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF06C532018638F008E2DE9 /* TaskListTableViewCell.swift */; };
 		0AF06C5620187F4A008E2DE9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AF06C5520187F4A008E2DE9 /* Assets.xcassets */; };
-		0AF06C582018F465008E2DE9 /* TaskDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF06C572018F465008E2DE9 /* TaskDetailViewController.swift */; };
+		0AF06C582018F465008E2DE9 /* LeaveMsgDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF06C572018F465008E2DE9 /* LeaveMsgDetailViewController.swift */; };
 		0AF6AD9020A1E77400B07459 /* PopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF6AD8F20A1E77400B07459 /* PopupViewController.swift */; };
 		0AFE8E4A2179F7A50094F088 /* config_systemCategory.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AFE8E492179F7A40094F088 /* config_systemCategory.plist */; };
 		0AFE8E4C217A1C660094F088 /* config_systemParas.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AFE8E4B217A1C660094F088 /* config_systemParas.plist */; };
@@ -240,7 +240,7 @@
 		0A129C3C20F44A8B00319A4C /* UploadProductImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadProductImageViewController.swift; sourceTree = "<group>"; };
 		0A13FB152159D637004066F0 /* ChooseTimeInterval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseTimeInterval.swift; sourceTree = "<group>"; };
 		0A13FB202159DB9A004066F0 /* ChooseTimeIntervalCellTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseTimeIntervalCellTableViewCell.swift; sourceTree = "<group>"; };
-		0A200289206134CD00A81D21 /* TaskContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskContentTableViewCell.swift; sourceTree = "<group>"; };
+		0A200289206134CD00A81D21 /* LeaveMsgContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaveMsgContentTableViewCell.swift; sourceTree = "<group>"; };
 		0A244E532096F35D00203463 /* ActionViewInOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionViewInOrder.swift; sourceTree = "<group>"; };
 		0A244E5A2098614E00203463 /* waitForHandleTaskListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = waitForHandleTaskListViewController.swift; sourceTree = "<group>"; };
 		0A244E5C2098616900203463 /* MineCreationTaskListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineCreationTaskListViewController.swift; sourceTree = "<group>"; };
@@ -349,7 +349,7 @@
 		0AF06C4820171D40008E2DE9 /* ESPullToRefresh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ESPullToRefresh.swift; sourceTree = "<group>"; };
 		0AF06C532018638F008E2DE9 /* TaskListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListTableViewCell.swift; sourceTree = "<group>"; };
 		0AF06C5520187F4A008E2DE9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ZhibaoZone/Assets.xcassets; sourceTree = SOURCE_ROOT; };
-		0AF06C572018F465008E2DE9 /* TaskDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailViewController.swift; sourceTree = "<group>"; };
+		0AF06C572018F465008E2DE9 /* LeaveMsgDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaveMsgDetailViewController.swift; sourceTree = "<group>"; };
 		0AF6AD8F20A1E77400B07459 /* PopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupViewController.swift; sourceTree = "<group>"; };
 		0AFE8E492179F7A40094F088 /* config_systemCategory.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = config_systemCategory.plist; sourceTree = "<group>"; };
 		0AFE8E4B217A1C660094F088 /* config_systemParas.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = config_systemParas.plist; path = ../../../../../Desktop/config_systemParas.plist; sourceTree = "<group>"; };
@@ -465,6 +465,8 @@
 				0A594E232070793C00A67950 /* ReplyView.swift */,
 				0A594E262070797800A67950 /* ReplyTableViewTableViewController.swift */,
 				0A594E28207079CD00A67950 /* ReplyTableViewCell.swift */,
+				0AF06C572018F465008E2DE9 /* LeaveMsgDetailViewController.swift */,
+				0A200289206134CD00A81D21 /* LeaveMsgContentTableViewCell.swift */,
 			);
 			path = ReplyView;
 			sourceTree = "<group>";
@@ -741,8 +743,6 @@
 				0A244E5C2098616900203463 /* MineCreationTaskListViewController.swift */,
 				0A244E5E2098617700203463 /* FinishedTaskListViewController.swift */,
 				0AF06C532018638F008E2DE9 /* TaskListTableViewCell.swift */,
-				0AF06C572018F465008E2DE9 /* TaskDetailViewController.swift */,
-				0A200289206134CD00A81D21 /* TaskContentTableViewCell.swift */,
 				0A244E602098917C00203463 /* TestPushViewController.swift */,
 			);
 			path = TaskList;
@@ -1115,7 +1115,7 @@
 				0A9970AD20B64A2400E4D37C /* ScanCodeViewController.swift in Sources */,
 				0AF06C4B20171D40008E2DE9 /* ESRefreshComponent.swift in Sources */,
 				0A13FB162159D637004066F0 /* ChooseTimeInterval.swift in Sources */,
-				0AF06C582018F465008E2DE9 /* TaskDetailViewController.swift in Sources */,
+				0AF06C582018F465008E2DE9 /* LeaveMsgDetailViewController.swift in Sources */,
 				0A3CC3B9209572970055B5DD /* Extentsions.swift in Sources */,
 				0AC1AC63204E6F210096A6F6 /* KVProgressBar.swift in Sources */,
 				0A129C3D20F44A8B00319A4C /* UploadProductImageViewController.swift in Sources */,
@@ -1178,7 +1178,7 @@
 				0A3806842031E0B30077E77F /* LockLabel.swift in Sources */,
 				0A13FB212159DB9A004066F0 /* ChooseTimeIntervalCellTableViewCell.swift in Sources */,
 				0A54F30C20567B2000103FD8 /* MessagesTableViewCell.swift in Sources */,
-				0A20028A206134CD00A81D21 /* TaskContentTableViewCell.swift in Sources */,
+				0A20028A206134CD00A81D21 /* LeaveMsgContentTableViewCell.swift in Sources */,
 				0A2B67572130EBA000E9B81A /* UIKVAnimationLabel.swift in Sources */,
 				0A252F442096111B00C1F7F4 /* OrderSearchViewController.swift in Sources */,
 				0AF06C542018638F008E2DE9 /* TaskListTableViewCell.swift in Sources */,

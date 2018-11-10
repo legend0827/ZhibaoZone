@@ -774,6 +774,7 @@ class calculatorKeyboard: UIView {
                             let subString4 = tempString3.split(separator: "/")
                             for tempString4 in subString4{
                                 print(tempString4)
+                                //calculationNum.append(Double(tempString4)!)
                                 calculationNum.append(Double(tempString4)!)
                                 numberSequence.append(String(tempString4))
                             }
