@@ -245,7 +245,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
     }()
     
     //消息数目
-    let messageCountBackLabel:UIView = UIView.init(frame: CGRect(x: 50, y: -5, width: 22, height: 16))
+    let messageCountBackLabel:UIView = UIView.init(frame: CGRect(x: 50, y: 5, width: 22, height: 16))
     let messageCountLabel:UILabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: 22, height: 16))
     
 
@@ -348,7 +348,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         }
         titleBarView.frame = CGRect(x: 0, y: 20 + heightChangeForiPhoneXFromTop, width: kWidth, height: 44)
         scanQRCodeBtn.frame = CGRect(x: 20, y: 11, width: 62, height: 22)
-        messageListBtn.frame = CGRect(x: kWidth - 82, y: 11, width: 62, height: 22)
+        messageListBtn.frame = CGRect(x: kWidth - 82, y: 1, width: 82, height: 42)
         searchBarInOrders.frame = CGRect(x: 52, y: 8, width:kWidth - 104, height: 28)
         //为搜索框添加点击事件
         let gestureRecognizerOfSearach = UITapGestureRecognizer(target: self, action:#selector(searchBarTaped))
@@ -366,7 +366,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         
         //设置消息按钮样式和响应
         messageListBtn.addTarget(self, action: #selector(messageListBtnClicked), for: UIControlEvents.touchUpInside)
-        let msgListImg = UIImageView(frame: CGRect(x: 40, y: 1, width: 24, height: 20))
+        let msgListImg = UIImageView(frame: CGRect(x: 40, y: 11, width: 24, height: 20))
         msgListImg.image =  UIImage(named:"messagelisticon")
         self.view.addSubview(messageListBtn)
         

@@ -12,6 +12,7 @@ class calculatorKeyboard: UIView {
     //弹窗ViewVC
     var popupVC = PopupViewController()
     lazy var actionView = ActionViewInOrder()
+    var _actionType = actionType.quotePrice
     var _roleType = 3
     //背景View
     let backgroundView:UIView = UIView.init()
@@ -864,6 +865,16 @@ class calculatorKeyboard: UIView {
                 self.transform = CGAffineTransform(translationX: 0, y: 0)
                 self.actionView.transform = CGAffineTransform(translationX: 0, y: 0)
             }
+            
+            //如果填写了工期，自动提交
+            if self.actionView.produceTimeCostTextField.text != nil && self.actionView.produceTimeCostTextField.text != ""  {
+                if _actionType == .quotePrice{
+                    self.actionView.confirmQuotePriceBtnClicked()
+                }else{
+                    self.actionView.confirmBargainBtnClicked()
+                }
+            }
+            
             self.removeFromSuperview()
             print("confirmKeyPressed")
         //            }

@@ -470,54 +470,13 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 seperateLine2.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
                 backgroundView.addSubview(seperateLine2)
                 
-                seperateLine3.frame = CGRect(x: 0, y: seperateLine2.frame.maxY + 52, width: kWidth, height: 5)
-                seperateLine4.frame = CGRect(x: 20, y: seperateLine3.frame.maxY + 52, width: kWidth - 40, height: 2)
-                seperateLine5.frame = CGRect(x: 20, y: seperateLine4.frame.maxY + 52, width: kWidth - 40, height: 2)
-                
-                quotePriceAtLastLabel.text = "上次报价:"
-                quotePriceAtLastLabel.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 15 , width: 100, height: 22)
-                quotePriceAtLastLabel.font = UIFont.systemFont(ofSize: 16)
-                backgroundView.addSubview(quotePriceAtLastLabel)
-                
-                quotePriceAtLastTimeValue.text = "¥0.00" //for debug
-                quotePriceAtLastTimeValue.textColor = UIColor.titleColors(color: .red)
-                quotePriceAtLastTimeValue.frame = CGRect(x: 100, y: seperateLine2.frame.maxY + 15 , width: 100, height: 22)
-                quotePriceAtLastTimeValue.font = UIFont.systemFont(ofSize: 16)
-                backgroundView.addSubview(quotePriceAtLastTimeValue)
-                
-                
-                seperateLine3.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
-                backgroundView.addSubview(seperateLine3)
-                
-                quotePriceCurentLabel.text = "设置当前报价:"
-                quotePriceCurentLabel.frame = CGRect(x: 20, y: seperateLine3.frame.maxY + 15 , width: 120, height: 22)
-                quotePriceCurentLabel.font = UIFont.systemFont(ofSize: 16)
-                backgroundView.addSubview(quotePriceCurentLabel)
-                
-                currentValueOnSliderTextField.text = "¥0.00"
-                currentValueOnSliderTextField.textColor = UIColor.titleColors(color: .red)
-                currentValueOnSliderTextField.font = UIFont.systemFont(ofSize: 16)
-                currentValueOnSliderTextField.frame = CGRect(x: 130, y: seperateLine3.frame.maxY + 4 , width: kWidth - 150, height: 44)
-               // currentValueOnSliderTextField.placeholder = "填写金额"
-                let singleTap = UITapGestureRecognizer(target: self, action: #selector(quetePriceClicked))
-                singleTap.numberOfTapsRequired = 1
-                singleTap.numberOfTouchesRequired = 1
-                currentValueOnSliderTextField.addGestureRecognizer(singleTap)
-                currentValueOnSliderTextField.isUserInteractionEnabled = true
-                
-                backgroundView.addSubview(currentValueOnSliderTextField)
-                
-                
-                seperateLine4.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
-                backgroundView.addSubview(seperateLine4)
-                
                 produceTimeCostLabel.text = "填写工期(天):"
-                produceTimeCostLabel.frame = CGRect(x: 20, y: seperateLine4.frame.maxY + 15 , width: 100, height: 22)
+                produceTimeCostLabel.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 15 , width: 100, height: 22)
                 produceTimeCostLabel.font = UIFont.systemFont(ofSize: 16)
                 backgroundView.addSubview(produceTimeCostLabel)
                 
                 produceTimeCostTextField.text = "" // for debug
-                produceTimeCostTextField.frame = CGRect(x: 130, y: seperateLine4.frame.maxY + 4 , width: kWidth - 120, height: 44)
+                produceTimeCostTextField.frame = CGRect(x: 130, y: seperateLine2.frame.maxY + 4 , width: kWidth - 120, height: 44)
                 produceTimeCostTextField.textColor = UIColor.titleColors(color: .black)
                 produceTimeCostTextField.font = UIFont.systemFont(ofSize: 16)
                 produceTimeCostTextField.placeholder = "填写完成生产、发货时间"
@@ -526,7 +485,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 seperateLine5.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
                 backgroundView.addSubview(seperateLine5)
                 
-                isProduceCycleOverView.frame =  CGRect(x:kWidth - 110, y: seperateLine4.frame.maxY - 1 , width: 110, height: 54)
+                isProduceCycleOverView.frame =  CGRect(x:kWidth - 110, y: seperateLine2.frame.maxY - 1 , width: 110, height: 54)
                 isProduceCycleOverView.backgroundColor = UIColor.backgroundColors(color: .lightRed)
                 isProduceCycleOverView.layer.borderColor = UIColor.iconColors(color: .lightRed).cgColor
                 isProduceCycleOverView.layer.borderWidth = 1
@@ -535,32 +494,66 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 
                 isProduceCycleOverLabel.text = "超客户工期"
                 isProduceCycleOverLabel.textColor = UIColor.titleColors(color: .red)
-                isProduceCycleOverLabel.frame = CGRect(x:kWidth - 110, y: seperateLine4.frame.maxY - 1 , width: 110, height: 27)
+                isProduceCycleOverLabel.frame = CGRect(x:kWidth - 110, y: seperateLine2.frame.maxY  , width: 110, height: 27)
                 isProduceCycleOverLabel.font = UIFont.systemFont(ofSize: 14)
                 isProduceCycleOverLabel.textAlignment = .center
                 isProduceCycleOverLabel.isHidden = true
                 backgroundView.addSubview(isProduceCycleOverLabel)
                 
-                
                 deadlineLabel.text = "客户工期: "
                 deadlineLabel.textColor = UIColor.titleColors(color: .red)
-                deadlineLabel.frame = CGRect(x:kWidth - 110, y: seperateLine4.frame.maxY + 26 , width: 110, height: 27)
+                deadlineLabel.frame = CGRect(x:kWidth - 110, y: seperateLine2.frame.maxY + 26 , width: 110, height: 27)
                 deadlineLabel.font = UIFont.systemFont(ofSize: 14)
                 deadlineLabel.textAlignment = .center
                 deadlineLabel.isHidden = true
                 backgroundView.addSubview(deadlineLabel)
                 
+                seperateLine3.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 52, width: kWidth - 40, height: 1)
+                seperateLine3.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+                backgroundView.addSubview(seperateLine3)
                 
-                setQuotePriceWeightBtn.frame = CGRect(x: 20, y: seperateLine5.frame.maxY + 15, width: 100, height: 22)
-                setQuotePriceWeightBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
-                setQuotePriceWeightBtn.contentHorizontalAlignment = .left
-                setQuotePriceWeightBtn.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
-                setQuotePriceWeightBtn.setTitle("设置精准度", for: .normal)
-                setQuotePriceWeightBtn.addTarget(self, action: #selector(setQuotePriceWeight), for: .touchUpInside)
-               // backgroundView.addSubview(setQuotePriceWeightBtn)
+                quotePriceCurentLabel.text = "设置当前报价:"
+                quotePriceCurentLabel.frame = CGRect(x: 20, y: seperateLine3.frame.maxY + 15 , width: 120, height: 22)
+                quotePriceCurentLabel.font = UIFont.systemFont(ofSize: 16)
+                backgroundView.addSubview(quotePriceCurentLabel)
                 
-                quotePriceSlideBar.frame = CGRect(x: 20, y: seperateLine5.frame.maxY + 51, width: kWidth - 40, height: 20)
-                quotePriceSlideBar.addTarget(self, action: #selector(quotePriceSliderBarValueChanged(_:)), for: .valueChanged)
+                currentValueOnSliderTextField.text = "0"
+                currentValueOnSliderTextField.textColor = UIColor.titleColors(color: .red)
+                currentValueOnSliderTextField.font = UIFont.systemFont(ofSize: 16)
+                currentValueOnSliderTextField.frame = CGRect(x: 130, y: seperateLine3.frame.maxY + 4 , width: kWidth - 150, height: 44)
+                //currentValueOnSliderTextField.
+                
+                quotePriceAtLastLabel.text = "上次报价 ¥- / 上次工期 - 天"
+                quotePriceAtLastLabel.frame = CGRect(x: 20, y: seperateLine3.frame.maxY + 48 , width: kWidth - 20, height: 22)
+                quotePriceAtLastLabel.font = UIFont.systemFont(ofSize: 12)
+                backgroundView.addSubview(quotePriceAtLastLabel)
+                
+                
+                let singleTap = UITapGestureRecognizer(target: self, action: #selector(quetePriceClicked))
+                singleTap.numberOfTapsRequired = 1
+                singleTap.numberOfTouchesRequired = 1
+                
+                let singleTap1 = UITapGestureRecognizer(target: self, action: #selector(quetePriceClicked))
+                singleTap1.numberOfTapsRequired = 1
+                singleTap1.numberOfTouchesRequired = 1
+                
+                let singleTap2 = UITapGestureRecognizer(target: self, action: #selector(quetePriceClicked))
+                singleTap2.numberOfTapsRequired = 1
+                singleTap2.numberOfTouchesRequired = 1
+                currentValueOnSliderTextField.addGestureRecognizer(singleTap)
+                currentValueOnSliderTextField.isUserInteractionEnabled = true
+                //将点击上次报价也加入点击识别
+                quotePriceAtLastLabel.addGestureRecognizer(singleTap1)
+                quotePriceAtLastLabel.isUserInteractionEnabled = true
+                //将点击标题也加入点击识别
+                quotePriceCurentLabel.addGestureRecognizer(singleTap2)
+                quotePriceAtLastLabel.isUserInteractionEnabled = true
+                
+                backgroundView.addSubview(currentValueOnSliderTextField)
+                
+                seperateLine4.frame = CGRect(x: 0, y: seperateLine3.frame.maxY + 80, width: kWidth, height: 5)
+                seperateLine4.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+                backgroundView.addSubview(seperateLine4)
 
             case .dealBargain:
                 ActionTitle.text = "处理议价"
@@ -599,23 +592,8 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 seperateLine2.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
                 backgroundView.addSubview(seperateLine2)
                 
-                seperateLine3.frame = CGRect(x: 0, y: seperateLine2.frame.maxY + 52, width: kWidth, height: 5)
-                
-                quotePriceAtLastLabel.text = "上次报价:"
-                quotePriceAtLastLabel.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 15 , width: 100, height: 22)
-                quotePriceAtLastLabel.font = UIFont.systemFont(ofSize: 16)
-                backgroundView.addSubview(quotePriceAtLastLabel)
-                
-                quotePriceAtLastTimeValue.text = "¥0.00" //for debug
-                quotePriceAtLastTimeValue.textColor = UIColor.titleColors(color: .red)
-                quotePriceAtLastTimeValue.frame = CGRect(x: 100, y: seperateLine2.frame.maxY + 15 , width: 100, height: 22)
-                quotePriceAtLastTimeValue.font = UIFont.systemFont(ofSize: 16)
-                backgroundView.addSubview(quotePriceAtLastTimeValue)
-                
-                seperateLine3.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
-                backgroundView.addSubview(seperateLine3)
-                
-                overBudgetBackgroundView.frame = CGRect(x: 0, y: seperateLine3.frame.maxY + 1, width: kWidth, height: 54)
+                ///客户预算和工期
+                overBudgetBackgroundView.frame = CGRect(x: 0, y: seperateLine2.frame.maxY + 1, width: kWidth, height: 54)
                 overBudgetBackgroundView.backgroundColor = UIColor.colorWithRgba(255, g: 246, b: 246, a: 100)
                 let redLine1:UIView = UIView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: 1))
                 redLine1.backgroundColor = UIColor.backgroundColors(color: .red)
@@ -631,44 +609,18 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 overBudgetBackgroundView.addSubview(redLine2)
                 backgroundView.addSubview(overBudgetBackgroundView)
                 
-                quotePriceCurentLabel.text = "设置当前报价:"
-                quotePriceCurentLabel.frame = CGRect(x: 20, y: overBudgetBackgroundView.frame.maxY + 15 , width: 120, height: 22)
-                quotePriceCurentLabel.font = UIFont.systemFont(ofSize: 16)
-                backgroundView.addSubview(quotePriceCurentLabel)
-                
-                currentValueOnSliderTextField.text = "¥0.00"
-                currentValueOnSliderTextField.textColor = UIColor.titleColors(color: .red)
-                currentValueOnSliderTextField.font = UIFont.systemFont(ofSize: 16)
-                currentValueOnSliderTextField.frame = CGRect(x: 130, y: overBudgetBackgroundView.frame.maxY + 4 , width: kWidth - 150, height: 44)
-                // currentValueOnSliderTextField.placeholder = "填写金额"
-                let singleTap = UITapGestureRecognizer(target: self, action: #selector(quetePriceClicked))
-                singleTap.numberOfTapsRequired = 1
-                singleTap.numberOfTouchesRequired = 1
-                currentValueOnSliderTextField.addGestureRecognizer(singleTap)
-                currentValueOnSliderTextField.isUserInteractionEnabled = true
-                
-                backgroundView.addSubview(currentValueOnSliderTextField)
-                
-                seperateLine4.frame = CGRect(x: 20, y: overBudgetBackgroundView.frame.maxY + 52, width: kWidth - 40, height: 2)
-                seperateLine4.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
-                backgroundView.addSubview(seperateLine4)
-                
                 produceTimeCostLabel.text = "填写工期(天):"
-                produceTimeCostLabel.frame = CGRect(x: 20, y: seperateLine4.frame.maxY + 15 , width: 100, height: 22)
+                produceTimeCostLabel.frame = CGRect(x: 20, y: overBudgetBackgroundView.frame.maxY + 15 , width: 100, height: 22)
                 produceTimeCostLabel.font = UIFont.systemFont(ofSize: 16)
                 backgroundView.addSubview(produceTimeCostLabel)
                 
-                produceTimeCostTextField.text = "" // for debug
-                produceTimeCostTextField.frame = CGRect(x: 130, y: seperateLine4.frame.maxY + 4 , width: kWidth - 120, height: 44)
+                produceTimeCostTextField.frame = CGRect(x: 130, y: overBudgetBackgroundView.frame.maxY + 4 , width: kWidth - 120, height: 44)
                 produceTimeCostTextField.textColor = UIColor.titleColors(color: .black)
                 produceTimeCostTextField.font = UIFont.systemFont(ofSize: 16)
                 produceTimeCostTextField.placeholder = "填写完成生产、发货时间"
                 backgroundView.addSubview(produceTimeCostTextField)
                 
-                seperateLine5.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
-                backgroundView.addSubview(seperateLine5)
-                
-                isProduceCycleOverView.frame =  CGRect(x:kWidth - 110, y: seperateLine4.frame.maxY - 1 , width: 110, height: 54)
+                isProduceCycleOverView.frame =  CGRect(x:kWidth - 110, y: overBudgetBackgroundView.frame.maxY , width: 110, height: 54)
                 isProduceCycleOverView.backgroundColor = UIColor.backgroundColors(color: .lightRed)
                 isProduceCycleOverView.layer.borderColor = UIColor.iconColors(color: .lightRed).cgColor
                 isProduceCycleOverView.layer.borderWidth = 1
@@ -677,50 +629,61 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 
                 isProduceCycleOverLabel.text = "超客户工期"
                 isProduceCycleOverLabel.textColor = UIColor.titleColors(color: .red)
-                isProduceCycleOverLabel.frame = CGRect(x:kWidth - 110, y: seperateLine4.frame.maxY - 1 , width: 110, height: 27)
+                isProduceCycleOverLabel.frame = CGRect(x:kWidth - 110, y: overBudgetBackgroundView.frame.maxY - 1 , width: 110, height: 27)
                 isProduceCycleOverLabel.font = UIFont.systemFont(ofSize: 14)
                 isProduceCycleOverLabel.textAlignment = .center
                 isProduceCycleOverLabel.isHidden = true
                 backgroundView.addSubview(isProduceCycleOverLabel)
                 
-                
                 deadlineLabel.text = "客户工期: "
                 deadlineLabel.textColor = UIColor.titleColors(color: .red)
-                deadlineLabel.frame = CGRect(x:kWidth - 110, y: seperateLine4.frame.maxY + 26 , width: 110, height: 27)
+                deadlineLabel.frame = CGRect(x:kWidth - 110, y: overBudgetBackgroundView.frame.maxY + 26 , width: 110, height: 27)
                 deadlineLabel.font = UIFont.systemFont(ofSize: 14)
                 deadlineLabel.textAlignment = .center
                 deadlineLabel.isHidden = true
                 backgroundView.addSubview(deadlineLabel)
                 
-                seperateLine5.frame = CGRect(x: 20, y: seperateLine4.frame.maxY + 52, width: kWidth - 40, height: 2)
-                setQuotePriceWeightBtn.frame = CGRect(x: 20, y: seperateLine5.frame.maxY + 15, width: 100, height: 22)
-                setQuotePriceWeightBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
-                setQuotePriceWeightBtn.contentHorizontalAlignment = .left
-                setQuotePriceWeightBtn.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
-                setQuotePriceWeightBtn.setTitle("设置精准度", for: .normal)
-                setQuotePriceWeightBtn.addTarget(self, action: #selector(setQuotePriceWeight), for: .touchUpInside)
-                // backgroundView.addSubview(setQuotePriceWeightBtn)
+                seperateLine3.frame = CGRect(x: 20, y: overBudgetBackgroundView.frame.maxY + 52, width: kWidth - 40, height: 5)
+                seperateLine3.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+                backgroundView.addSubview(seperateLine3)
+
+                quotePriceCurentLabel.text = "设置当前报价:"
+                quotePriceCurentLabel.frame = CGRect(x: 20, y: seperateLine3.frame.maxY + 15 , width: 120, height: 22)
+                quotePriceCurentLabel.font = UIFont.systemFont(ofSize: 16)
+                backgroundView.addSubview(quotePriceCurentLabel)
                 
-                quotePriceSlideBar.frame = CGRect(x: 20, y: seperateLine5.frame.maxY + 51, width: kWidth - 40, height: 20)
-                quotePriceSlideBar.addTarget(self, action: #selector(quotePriceSliderBarValueChanged(_:)), for: .valueChanged)
-                // backgroundView.addSubview(quotePriceSlideBar)
+                currentValueOnSliderTextField.text = "0"
+                currentValueOnSliderTextField.textColor = UIColor.titleColors(color: .red)
+                currentValueOnSliderTextField.font = UIFont.systemFont(ofSize: 16)
+                currentValueOnSliderTextField.frame = CGRect(x: 130, y: seperateLine3.frame.maxY + 4 , width: kWidth - 150, height: 44)
                 
-                quotePriceSlideBarRightLabel.frame = CGRect(x: quotePriceSlideBar.frame.width - 180, y: seperateLine5.frame.maxY + 72, width: 200, height: 22)
-                quotePriceSlideBarRightLabel.text = "¥5000.00"
-                quotePriceSlideBarRightLabel.textAlignment = .right
-                quotePriceSlideBarRightLabel.textColor = UIColor.titleColors(color: .gray)
-                quotePriceSlideBarRightLabel.font = UIFont.systemFont(ofSize: 12)
+                quotePriceAtLastLabel.text = "上次报价 ¥- / 上次工期 - 天"
+                quotePriceAtLastLabel.frame = CGRect(x: 20, y: seperateLine3.frame.maxY + 48 , width: kWidth - 20, height: 22)
+                quotePriceAtLastLabel.font = UIFont.systemFont(ofSize: 12)
+                backgroundView.addSubview(quotePriceAtLastLabel)
                 
-                quotePriceSlideBarMidLabel.frame = CGRect(x:  quotePriceSlideBar.frame.width/2 - 80 , y: seperateLine5.frame.maxY + 72, width: 200, height: 22)
-                quotePriceSlideBarMidLabel.text = "¥2500.00"
-                quotePriceSlideBarMidLabel.textAlignment = .center
-                quotePriceSlideBarMidLabel.textColor = UIColor.titleColors(color: .gray)
-                quotePriceSlideBarMidLabel.font = UIFont.systemFont(ofSize: 12)
                 
-                quotePriceSlideBarLeftLabel.frame = CGRect(x: 20, y: seperateLine5.frame.maxY + 72, width: 200, height: 22)
-                quotePriceSlideBarLeftLabel.text = "¥0.00"
-                quotePriceSlideBarLeftLabel.textColor = UIColor.titleColors(color: .gray)
-                quotePriceSlideBarLeftLabel.font = UIFont.systemFont(ofSize: 12)
+                let singleTap = UITapGestureRecognizer(target: self, action: #selector(quetePriceClicked))
+                singleTap.numberOfTapsRequired = 1
+                singleTap.numberOfTouchesRequired = 1
+                
+                let singleTap1 = UITapGestureRecognizer(target: self, action: #selector(quetePriceClicked))
+                singleTap1.numberOfTapsRequired = 1
+                singleTap1.numberOfTouchesRequired = 1
+                
+                let singleTap2 = UITapGestureRecognizer(target: self, action: #selector(quetePriceClicked))
+                singleTap2.numberOfTapsRequired = 1
+                singleTap2.numberOfTouchesRequired = 1
+                currentValueOnSliderTextField.addGestureRecognizer(singleTap)
+                currentValueOnSliderTextField.isUserInteractionEnabled = true
+                //将点击上次报价也加入点击识别
+                quotePriceAtLastLabel.addGestureRecognizer(singleTap1)
+                quotePriceAtLastLabel.isUserInteractionEnabled = true
+                //将点击标题也加入点击识别
+                quotePriceCurentLabel.addGestureRecognizer(singleTap2)
+                quotePriceAtLastLabel.isUserInteractionEnabled = true
+                
+                backgroundView.addSubview(currentValueOnSliderTextField)
             
             case .acceptDesign:
                 backgroundView.contentSize = CGSize(width: kWidth, height: 441)
@@ -1093,6 +1056,8 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
     }
     @objc func quetePriceClicked(){
         print("priceLabelClicked")
+        //收起工期键盘
+        produceTimeCostTextField.resignFirstResponder()
         self.addSubview(calculatorView)
         self.bringSubview(toFront: calculatorView)
         calculatorView.frame = CGRect(x: 0, y: kHight, width: kWidth, height: 416 + heightChangeForiPhoneXFromBottom) // kHight - 416 - self.frame.minY - heightChangeForiPhoneXFromBottom
@@ -1254,13 +1219,13 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             //let orderInfoObjects = dictionaryObjectInOrderArray.value(forKey: "orderinfo") as! NSDictionary
 
             let customID = orderInfoObjects.value(forKey: "customid") as? String
-            let orderid = orderInfoObjects.value(forKey: "orderid") as? String
+            //let orderid = orderInfoObjects.value(forKey: "orderid") as? String
             var deadline = 0
 
-            if orderInfoObjects.value(forKey: "deadline") as? Int == nil{
+            if orderInfoObjects.value(forKey: "userPeriod") as? Int == nil{
                 deadline = 0
             }else{
-                deadline = orderInfoObjects.value(forKey: "deadline") as! Int
+                deadline = orderInfoObjects.value(forKey: "userPeriod") as! Int
             }
             
             
@@ -1366,10 +1331,10 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             let orderid = orderInfoObjects.value(forKey: "orderid") as? String
             var deadline = 0
             
-            if orderInfoObjects.value(forKey: "deadline") as? Int == nil{
+            if orderInfoObjects.value(forKey: "userPeriod") as? Int == nil{
                 deadline = 0
             }else{
-                deadline = orderInfoObjects.value(forKey: "deadline") as! Int
+                deadline = orderInfoObjects.value(forKey: "userPeriod") as! Int
             }
             
             
@@ -1905,7 +1870,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         downloadOrderImages()
         //初始化值
         var maxPrice = 5000.0
-        var currentValue:Float = 0.0
+        var currentValue:Double = 0.0
         
         //设置客户心理价(预算）
         
@@ -2064,20 +2029,6 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
 
         switch _actionType {
         case .quotePrice,.dealBargain:
-            //优先客户心理价，再估价，再系统估价
-//            if priceInfoObjects.value(forKey: "mindprice") as? Float == nil || priceInfoObjects.value(forKey: "mindprice") as! Float == 0.0{
-//                if priceInfoObjects.value(forKey: "extent1") as? Float == nil || priceInfoObjects.value(forKey: "extent1") as! Float == 0.0{
-//                    if priceInfoObjects.value(forKey: "returnprice") as? Float == nil || priceInfoObjects.value(forKey: "returnprice") as! Float == 0.0{
-//                        maxPrice = 5000.0
-//                    }else{
-//                        maxPrice = Double(priceInfoObjects.value(forKey: "returnprice") as! Float) * 3
-//                    }
-//                }else{
-//                    maxPrice = Double(priceInfoObjects.value(forKey: "extent1") as! Float) * 3
-//                }
-//            }else{
-//                maxPrice = Double((priceInfoObjects.value(forKey: "mindprice") as! Float)*3)
-//            }
             if orderInfoObjects.value(forKey: "produceMemo") as? String != nil && orderInfoObjects.value(forKey: "produceMemo") as! String != ""{
 
                 let ProduceMemo = orderInfoObjects.value(forKey: "produceMemo") as! String
@@ -2089,23 +2040,75 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 ProduceMemoValue.textColor = UIColor.titleColors(color: .lightGray)
             }
             adjustActionViewHeight()
-            //设置上次报价
-            if orderInfoObjects.value(forKey: "lastQuote") as? Float == nil{
-                quotePriceAtLastTimeValue.text = "¥0.00"
+            //显示超工期
+            var lastPeriod = 0
+            if orderInfoObjects.value(forKey: "userPeriod") as? Int == nil{
+                deadline = 0
             }else{
-                quotePriceAtLastTimeValue.text = "¥\(orderInfoObjects.value(forKey: "lastQuote") as! Float)0"
-                quotePriceOfFactory = orderInfoObjects.value(forKey: "lastQuote") as! Float
-                currentValue = Float(orderInfoObjects.value(forKey: "lastQuote") as! Float)
+                deadline = orderInfoObjects.value(forKey: "userPeriod") as! Int
             }
-            currentValueOnSliderTextField.text = "\(currentValue)"
+            if orderInfoObjects.value(forKey: "lastPeriod") as? Int == nil{
+                lastPeriod = 0
+            }else{
+                lastPeriod = orderInfoObjects.value(forKey: "lastPeriod") as! Int
+            }
+            
+            
+            if (deadline < lastPeriod) && deadline != 0{
+               // greyLayerPrompt.show(text: "订单生产周期超过预期")
+                isProduceCycleOverView.isHidden = false
+                isProduceCycleOverLabel.isHidden = false
+                deadlineLabel.isHidden = false
+                isProduceCycleOver = true
+                deadlineLabel.text = "客户工期: \(deadline)"
+                //return
+            }else{
+                isProduceCycleOverView.isHidden = true
+                isProduceCycleOverLabel.isHidden = true
+                deadlineLabel.isHidden = true
+                isProduceCycleOver = false
+            }
+            //设置上次报价
+            
+            var lastQuotePrice = "0"
+            if orderInfoObjects.value(forKey: "lastQuote") as? Double == nil || orderInfoObjects.value(forKey: "lastQuote") as? Double == 0.0{
+                lastQuotePrice = "¥-"
+            }else{
+                lastQuotePrice = "¥\(orderInfoObjects.value(forKey: "lastQuote") as! Double)0"
+              //  currentValue = orderInfoObjects.value(forKey: "lastQuote") as! Double
+            }
+            if lastPeriod == 0 {
+                let orignalText = NSMutableAttributedString(string: "上次报价 \(lastQuotePrice) / 上次工期 - 天")
+                //上次报价
+                let range = orignalText.string.range(of: lastQuotePrice)
+                let nsRange = orignalText.string.nsRange(from: range!)
+                orignalText.addAttributes([NSAttributedStringKey.foregroundColor:UIColor.titleColors(color: .red)], range: nsRange)
+                quotePriceAtLastLabel.attributedText = orignalText
+                currentValueOnSliderTextField.text = "\(currentValue)"
+            }else{
+                let orignalText = NSMutableAttributedString(string: "上次报价 \(lastQuotePrice) / 上次工期 \(lastPeriod) 天")
+                //上次报价
+                let range = orignalText.string.range(of: lastQuotePrice)
+                let nsRange = orignalText.string.nsRange(from: range!)
+                orignalText.addAttributes([NSAttributedStringKey.foregroundColor:UIColor.titleColors(color: .red)], range: nsRange)
+                //上次工期
+                let rangeOfPeriod = orignalText.string.range(of: String(lastPeriod))
+                let nsRangeOfPeriod = orignalText.string.nsRange(from: rangeOfPeriod!)
+                orignalText.addAttributes([NSAttributedStringKey.foregroundColor:UIColor.titleColors(color: .red)], range: nsRangeOfPeriod)
+                quotePriceAtLastLabel.attributedText = orignalText
+                //currentValueOnSliderTextField.text = "\(currentValue)"
+            }
+            
 //
             if _actionType == .dealBargain{
                 if orderInfoObjects.value(forKey: "workshopBasePrice") as? Float == nil{
                     budgetOveredLabel.text = "客户预算/要求工期: -/-天"
                 }else{
-                    budgetOveredLabel.text = "客户预算/要求工期: ¥\(orderInfoObjects.value(forKey: "workshopBasePrice") as! Float)元 /\(orderInfoObjects.value(forKey: "userPeriod") as! Int)天"
+                    budgetOveredLabel.text = "客户预算/要求工期: ¥\(orderInfoObjects.value(forKey: "workshopBasePrice") as! Float)元 / \(orderInfoObjects.value(forKey: "userPeriod") as! Int)天"
                 }
             }
+            
+            
         case .acceptDesign:
             print("设置接受设计的值")
             if orderInfoObjects.value(forKey: "memo") as? String != nil && orderInfoObjects.value(forKey: "memo") as! String != ""{
@@ -2208,17 +2211,32 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
     func adjustActionViewHeight(){
             dashLine.frame = CGRect(x: 20, y: productSizeHint.frame.maxY + 5, width: kWidth + 40, height: 1)
             seperateLine2.frame = CGRect(x: 0, y: ProduceMemoValue.frame.maxY + 5, width: kWidth, height: 5)
-           if _actionType == .quotePrice{
-                seperateLine3.frame = CGRect(x: 0, y: seperateLine2.frame.maxY + 52, width: kWidth, height: 5)
-                seperateLine4.frame = CGRect(x: 20, y: seperateLine3.frame.maxY + 52, width: kWidth - 40, height: 2)
-                seperateLine5.frame = CGRect(x: 20, y: seperateLine4.frame.maxY + 52, width: kWidth - 40, height: 2)
-                quotePriceAtLastLabel.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 15 , width: 100, height: 22)
+           if _actionType == .quotePrice {
+                seperateLine3.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 52, width: kWidth - 40, height: 1)
+                seperateLine4.frame = CGRect(x: 0, y: seperateLine3.frame.maxY + 80, width: kWidth, height: 5)
+                quotePriceAtLastLabel.frame = CGRect(x: 20, y: seperateLine3.frame.maxY + 48 , width: kWidth - 20, height: 22)
                 quotePriceAtLastTimeValue.frame = CGRect(x: 100, y: seperateLine2.frame.maxY + 15 , width: 100, height: 22)
                 quotePriceCurentLabel.frame = CGRect(x: 20, y: seperateLine3.frame.maxY + 15 , width: 120, height: 22)
                 currentValueOnSliderTextField.frame = CGRect(x: 130, y: seperateLine3.frame.maxY + 4 , width: kWidth - 150, height: 44)
-                produceTimeCostLabel.frame = CGRect(x: 20, y: seperateLine4.frame.maxY + 15 , width: 100, height: 22)
-                produceTimeCostTextField.frame = CGRect(x: 130, y: seperateLine4.frame.maxY + 4 , width: kWidth - 120, height: 44)
-            }
+                produceTimeCostLabel.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 15 , width: 100, height: 22)
+                produceTimeCostTextField.frame = CGRect(x: 130, y: seperateLine2.frame.maxY + 4 , width: kWidth - 120, height: 44)
+                isProduceCycleOverView.frame = CGRect(x:kWidth - 110, y: seperateLine2.frame.maxY , width: 110, height: 54)
+                isProduceCycleOverLabel.frame = CGRect(x:kWidth - 110, y: seperateLine2.frame.maxY  , width: 110, height: 27)
+                deadlineLabel.frame = CGRect(x:kWidth - 110, y: seperateLine2.frame.maxY + 26 , width: 110, height: 27)
+           }else if _actionType == .dealBargain{
+                overBudgetBackgroundView.frame = CGRect(x: 0, y: seperateLine2.frame.maxY + 1, width: kWidth, height: 54)
+                seperateLine3.frame = CGRect(x: 20, y: overBudgetBackgroundView.frame.maxY + 52, width: kWidth - 40, height: 1)
+                seperateLine4.frame = CGRect(x: 0, y: seperateLine3.frame.maxY + 80, width: kWidth, height: 5)
+                quotePriceAtLastLabel.frame = CGRect(x: 20, y: seperateLine3.frame.maxY + 48 , width: kWidth - 20, height: 22)
+                quotePriceAtLastTimeValue.frame = CGRect(x: 100, y: seperateLine2.frame.maxY + 15 , width: 100, height: 22)
+                quotePriceCurentLabel.frame = CGRect(x: 20, y: seperateLine3.frame.maxY + 15 , width: 120, height: 22)
+                currentValueOnSliderTextField.frame = CGRect(x: 130, y: seperateLine3.frame.maxY + 4 , width: kWidth - 150, height: 44)
+                produceTimeCostLabel.frame = CGRect(x: 20, y: overBudgetBackgroundView.frame.maxY + 15 , width: 100, height: 22)
+                produceTimeCostTextField.frame = CGRect(x: 130, y: overBudgetBackgroundView.frame.maxY + 4 , width: kWidth - 120, height: 44)
+                isProduceCycleOverView.frame = CGRect(x:kWidth - 110, y: overBudgetBackgroundView.frame.maxY , width: 110, height: 54)
+                isProduceCycleOverLabel.frame = CGRect(x:kWidth - 110, y: overBudgetBackgroundView.frame.maxY  , width: 110, height: 27)
+                deadlineLabel.frame = CGRect(x:kWidth - 110, y: overBudgetBackgroundView.frame.maxY + 26 , width: 110, height: 27)
+        }
     }
 //    //视图滚动中一直触发
 //    func scrollViewDidScroll(_ scrollView: UIScrollView) {
