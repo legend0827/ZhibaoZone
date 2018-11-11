@@ -20,23 +20,23 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
     //角色
     var roleTypeForController = 1
     //全部订单子视图
-    private let allOrdersVC = AllOrdersViewController(orderlistTye: orderListCategoryType.allOrderCategory)
+    private let allOrdersVC = AllOrdersViewController(orderlistType: orderListCategoryType.allOrderCategory)
     //待报价子视图
-    private let notQuoteYetVC = AllOrdersViewController(orderlistTye: orderListCategoryType.notQuotePriceYetOrderCategory)
+    private let notQuoteYetVC = AllOrdersViewController(orderlistType: orderListCategoryType.notQuotePriceYetOrderCategory)
     //已报价子视图
-    private let quoteAlreadyVC = AllOrdersViewController(orderlistTye: orderListCategoryType.alreadyQuotedOderCategory)
+    private let quoteAlreadyVC = AllOrdersViewController(orderlistType: orderListCategoryType.alreadyQuotedOderCategory)
     //未处理议价
-    private let bargainNotDealedVC = AllOrdersViewController(orderlistTye: orderListCategoryType.bargainNotDealedCategory)
+    private let bargainNotDealedVC = AllOrdersViewController(orderlistType: orderListCategoryType.bargainNotDealedCategory)
     //已处理议价
-    private let bargainDealedVC = AllOrdersViewController(orderlistTye: orderListCategoryType.bargainDealedCategory)
+    private let bargainDealedVC = AllOrdersViewController(orderlistType: orderListCategoryType.bargainDealedCategory)
     //待接受生产子视图
-    private let waitForProduceVC = AllOrdersViewController(orderlistTye: orderListCategoryType.waitForAcceptProduceOrderCategory)
+    private let waitForProduceVC = AllOrdersViewController(orderlistType: orderListCategoryType.waitForAcceptProduceOrderCategory)
     //生产中子视图
-    private let producingVC = AllOrdersViewController(orderlistTye: orderListCategoryType.producingOrderCategory)
+    private let producingVC = AllOrdersViewController(orderlistType: orderListCategoryType.producingOrderCategory)
 
     ///// 设计师
     //待接单
-    private let waitForDesignVC = AllOrdersViewController(orderlistTye: orderListCategoryType.waitForDesignCategory)
+    private let waitForDesignVC = AllOrdersViewController(orderlistType: orderListCategoryType.waitForDesignCategory)
     //设计中
    // private let designningVC = AllOrdersViewController(orderlistTye: orderListCategoryType.designningCategory)
     //待定稿
@@ -44,7 +44,7 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
     //待修改
  //   private let waitForModifyVC = AllOrdersViewController(orderlistTye: orderListCategoryType.waitForModifyCategory)
     //已定稿
-    private let DesignConfirmedVC = AllOrdersViewController(orderlistTye: orderListCategoryType.customerConfirmedCategory)
+    private let DesignConfirmedVC = AllOrdersViewController(orderlistType: orderListCategoryType.customerConfirmedCategory)
     
     var backgroundColor: UIColor = UIColor.backgroundColors(color: .white) // 设置菜单栏底色
 

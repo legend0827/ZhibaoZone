@@ -37,7 +37,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
     var _userId:String?
     var _actionType:actionType = .quotePrice
     
-    lazy var allOrderVC = AllOrdersViewController(orderlistTye: orderListCategoryType.allOrderCategory)
+    lazy var allOrderVC = AllOrdersViewController(orderlistType: orderListCategoryType.allOrderCategory)
     //页面frame
     var _frame:CGRect = CGRect(x: 198, y: 50, width: 150, height: 30)
    
@@ -213,6 +213,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             tempSliderTextField.backgroundColor = UIColor.clear//UIColor.init(red: 244.0 / 255.0, green: 245.0 / 255.0, blue: 245.0 / 255.0, alpha: 1.0)
             tempSliderTextField.layer.cornerRadius = 5
             tempSliderTextField.delegate = self
+            tempSliderTextField.keyboardType = .numberPad
             return tempSliderTextField
         }()
     
@@ -1036,7 +1037,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             shippingCodeValue.frame = CGRect(x: 120, y: seperateLine5.frame.maxY + 20, width: kWidth - 140, height: 25)
             shippingCodeValue.placeholder = "请输入物流单号"
             shippingCodeValue.font = UIFont.systemFont(ofSize: 18)
-            shippingCodeValue.keyboardType = .decimalPad
+            shippingCodeValue.keyboardType =  .numberPad//.decimalPad
             backgroundView.addSubview(shippingCodeValue)
             
             let shippingCodeScanBtn:UIButton = UIButton.init(type: .custom)
@@ -2092,9 +2093,14 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 let nsRange = orignalText.string.nsRange(from: range!)
                 orignalText.addAttributes([NSAttributedStringKey.foregroundColor:UIColor.titleColors(color: .red)], range: nsRange)
                 //上次工期
+                let rangeOfSymbol = orignalText.string.range(of: "上次工期 ")
+                let upperIndex = rangeOfSymbol?.upperBound.samePosition(in: orignalText.string)
+                let length = "\(lastPeriod)".length()
+                let location = orignalText.string.distance(from: orignalText.string.startIndex, to: upperIndex!)
                 let rangeOfPeriod = orignalText.string.range(of: String(lastPeriod))
-                let nsRangeOfPeriod = orignalText.string.nsRange(from: rangeOfPeriod!)
-                orignalText.addAttributes([NSAttributedStringKey.foregroundColor:UIColor.titleColors(color: .red)], range: nsRangeOfPeriod)
+                let nsRangeOfPeriod =  orignalText.string.nsRange(from: rangeOfPeriod!)
+
+                orignalText.addAttributes([NSAttributedStringKey.foregroundColor:UIColor.titleColors(color: .red)], range: NSRange.init(location: location, length: length))
                 quotePriceAtLastLabel.attributedText = orignalText
                 //currentValueOnSliderTextField.text = "\(currentValue)"
             }

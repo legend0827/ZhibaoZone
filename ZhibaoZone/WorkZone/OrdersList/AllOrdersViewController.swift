@@ -13,12 +13,12 @@ import CoreData
 class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate {
     
     //定义订单列表的类型
-    var _orderlistTye:orderListCategoryType = .allOrderCategory
+    var _orderlistType:orderListCategoryType = .allOrderCategory
     
 
-    init(orderlistTye:orderListCategoryType) {
+    init(orderlistType:orderListCategoryType) {
         super.init(nibName: nil, bundle: nil)
-        _orderlistTye = orderlistTye
+        _orderlistType = orderlistType
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -306,7 +306,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         _token = userInfos.value(forKey: "token") as? String
         
         
-        if _orderlistTye == .notQuotePriceYetOrderCategory || _orderlistTye == .waitForDesignCategory{
+        if _orderlistType == .notQuotePriceYetOrderCategory || _orderlistType == .waitForDesignCategory{
             StartLoadingAnimation()
             DispatchQueue.global().async {
 
@@ -323,7 +323,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
 //                            }
 //
 //                        }
-                self.loadOrderDataFromServer(pages: 1, categoryType: self._orderlistTye)
+                self.loadOrderDataFromServer(pages: 1, categoryType: self._orderlistType)
             }
 
 
@@ -331,7 +331,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                 self.StartLoadingAnimation()
                 DispatchQueue.global().async {
-                    self.loadOrderDataFromServer(pages: 1, categoryType: self._orderlistTye)
+                    self.loadOrderDataFromServer(pages: 1, categoryType: self._orderlistType)
                 }
             }
         }
@@ -353,7 +353,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
     private func refresh() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.page = 1
-            self.loadOrderDataFromServer(pages: 1, categoryType: self._orderlistTye)
+            self.loadOrderDataFromServer(pages: 1, categoryType: self._orderlistType)
         }
 //        self.orderList.removeAll()
 //        for i in 1..<70{
@@ -371,7 +371,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.page += 1
             if self.page <= self.totalPageCount{
-                self.loadOrderDataFromServer(pages: self.page, categoryType: self._orderlistTye)
+                self.loadOrderDataFromServer(pages: self.page, categoryType: self._orderlistType)
                 self.AllOrdersCollectionView.reloadData()
                 self.scrollView.es.stopLoadingMore()
             }else{
@@ -926,7 +926,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
     @objc func retryBtnInViewClicked(){
         orderArray.removeAll()
         orderImages.removeAll()
-        loadOrderDataFromServer(pages: 1, categoryType: _orderlistTye)
+        loadOrderDataFromServer(pages: 1, categoryType: _orderlistType)
     }
 
    
@@ -1018,7 +1018,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
     
     func reloadData(){
         self.page = 1
-        loadOrderDataFromServer(pages: 1, categoryType: self._orderlistTye)
+        loadOrderDataFromServer(pages: 1, categoryType: self._orderlistType)
     }
     
 }

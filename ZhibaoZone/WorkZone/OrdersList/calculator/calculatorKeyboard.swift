@@ -251,8 +251,6 @@ class calculatorKeyboard: UIView {
         tempKey.contentVerticalAlignment = .center
         tempKey.contentHorizontalAlignment = .center
         tempKey.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
-        //        oneKeyBtn.layer.borderColor = UIColor.titleColors(color: .gray).cgColor
-        //        oneKeyBtn.layer.borderWidth = 0.5
         tempKey.setTitleColor(UIColor.titleColors(color: .white), for: .highlighted)
         tempKey.tag = 10
         return tempKey
@@ -350,7 +348,7 @@ class calculatorKeyboard: UIView {
         let keyWight:CGFloat = kWidth/4
         let keyHeight:CGFloat = 255/5
         
-        let keyboardBG:UIView = UIView.init(frame: CGRect(x: 0, y: 169, width: kWidth, height: 255))
+        let keyboardBG:UIView = UIView.init(frame: CGRect(x: 0, y: 169, width: kWidth, height: 275))
         keyboardBG.backgroundColor = UIColor.colorWithRgba(250, g: 251, b: 251, a: 1.0)
         
         //报价值和标题
@@ -699,7 +697,7 @@ class calculatorKeyboard: UIView {
             //如果之前是运算符，输入0的时候直接返回就行了
             if currentText.last == "+" || currentText.last == "-" || currentText.last == "*"  || currentText.last == "/" {
                 //currentText.removeLast()
-                resultLabel.text = currentText + "\(pressIndex)" //如果之前是运算符，输入0的时候, 允许输入并直接返回就行了
+                resultLabel.text = currentText + "0." //如果之前是运算符，输入0的时候, 允许输入并直接返回就行了
                 return
             }
             
@@ -725,16 +723,16 @@ class calculatorKeyboard: UIView {
                     }
                 }
             }
-            //如果拆分出来的最后一个字传里有小数点了，就直接返回就可以了
-            if (numberSequence.last?.contains("."))!{
-                return
-            }
-            
+            //如果拆分出来的最后一个字串里有小数点了，就直接返回就可以了
             if currentText != ""{
-                resultLabel.text = currentText + "."
+                if (numberSequence.last?.contains("."))! {
+                    return
+                }
+                 resultLabel.text = currentText + "."
             }else{
                 resultLabel.text = currentText + "0."
             }
+            
             
         case 11: //delete
             //lengthValue.text =
@@ -745,7 +743,7 @@ class calculatorKeyboard: UIView {
             
         case 12:
             if !(currentText.contains("+") || currentText.contains("-") || currentText.contains("*") || currentText.contains("/")){
-                quotePriceResult.text = "¥\(String(format: "%d", Double(currentText)!))"
+                quotePriceResult.text = "¥\(String(format: "%.2f", Double(currentText)!))"
                 targetResult = Int(Double(currentText)!)
                 actionView.currentValueOnSliderTextField.text = currentText// resultLabel.text
             }else{
