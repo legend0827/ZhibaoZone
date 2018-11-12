@@ -304,6 +304,10 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
                             self.messagesList.append(restoreItem)
                         }
                         self.getMessagesCount = self.messagesList.count
+                    }else if json["code"].int == 99999 || json["code"].int == 99998{
+                        //异常
+                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
+                        LogoutMission(viewControler: self)
                     }else {
                         let errorMsg = json["error"].string
                         greyLayerPrompt.show(text: errorMsg!)
@@ -358,13 +362,17 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
             case true:
                 if  let value = responseObject.result.value{
                     let json = JSON(value)
-                    let statusObject = json["code"].int!
-                    if statusObject == 200{
+                    let statusCode = json["code"].int!
+                    if statusCode == 200{
                         print("消息清除成功")
                         greyLayerPrompt.show(text: "清除成功")
                         self.getMessageList()
+                    }else if statusCode == 99999 || statusCode == 99998{
+                        //异常
+                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
+                        LogoutMission(viewControler: self)
                     }else{
-                        print("报价失败，code:\(statusObject)")
+                        print("报价失败，code:\(statusCode)")
                         let errorMsg = json["message"].string!
                         greyLayerPrompt.show(text: errorMsg)
                         //self.closeQuotePriceView()
@@ -620,6 +628,10 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
                     let statusCode = json["code"].int!
                     if statusCode == 200{
                         print("处理成功")
+                    }else if statusCode == 99999 || statusCode == 99998{
+                        //异常
+                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
+                        LogoutMission(viewControler: self)
                     }else{
                         print("处理失败")
                     }

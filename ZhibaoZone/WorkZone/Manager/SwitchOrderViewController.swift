@@ -765,6 +765,10 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
 //                        }else{
 //
 //                        }
+                    }else if statusCode == 99999 || statusCode == 99998{
+                        //异常
+                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
+                        LogoutMission(viewControler: self)
                     }else{
                         //异常
                     }
@@ -821,6 +825,10 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
                         greyLayerPrompt.show(text: statusMsg)
                         self.searchForSwitchOrders(for: role)
                         
+                    }else if statusCode == 99999 || statusCode == 99998{
+                        //异常
+                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
+                        LogoutMission(viewControler: self)
                     }else {
                         greyLayerPrompt.show(text: statusMsg)
                     }
@@ -896,6 +904,10 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
                             self.orderListTable.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
                         }
                         
+                    }else if statusCode == 99999 || statusCode == 99998{
+                        //异常
+                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
+                        LogoutMission(viewControler: self)
                     }else {
                         
                     }
@@ -956,6 +968,10 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
 //                            self.orderListTable.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
 //                        }
                         
+                    }else if statusCode == 99999 || statusCode == 99998{
+                        //异常
+                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
+                        LogoutMission(viewControler: self)
                     }else {
                         
                     }

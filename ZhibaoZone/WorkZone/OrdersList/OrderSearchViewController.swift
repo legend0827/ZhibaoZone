@@ -659,6 +659,10 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
                         }
                         self.StopLoadingAnimation()
                         
+                    }else if statusCode == 99999 || statusCode == 99998{
+                        //异常
+                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
+                        LogoutMission(viewControler: self)
                     }else{
                         if self.page == 1{
                             self.StopLoadingAnimation()

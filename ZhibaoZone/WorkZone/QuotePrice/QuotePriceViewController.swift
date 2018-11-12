@@ -817,8 +817,8 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
             case true:
                 if  let value = responseObject.result.value{
                     let json = JSON(value)
-                    let statusObject = json["code"].int!
-                    if statusObject == 200{
+                    let statusCode = json["code"].int!
+                    if statusCode == 200{
                         print("自动价格获取成功")
                         greyLayerPrompt.show(text: "价格已刷新")
                         let returnPrice = json["data","pred_duty"].float!
@@ -831,6 +831,10 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
                          print("currentPrice = \(currentPrice)")
                         self.currentPriceLabel.text = "¥\(Int(currentPrice)).00"
                         //self.closeActionView()
+                    }else if statusCode == 99999 || statusCode == 99998{
+                        //异常
+                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
+                        LogoutMission(viewControler: self)
                     }else{
                         
                         let errorMsg = json["message"].string!

@@ -1566,6 +1566,10 @@ class UploadProductImageViewController: UIViewController,UIImagePickerController
                     if statusCode == 200{
                         greyLayerPrompt.show(text: statusMsg)
                         
+                    }else if statusCode == 99999 || statusCode == 99998{
+                        //异常
+                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
+                        LogoutMission(viewControler: self)
                     }else {
                         greyLayerPrompt.show(text: statusMsg)
                     }
@@ -1645,8 +1649,8 @@ class UploadProductImageViewController: UIViewController,UIImagePickerController
                         case true:
                             if  let value = response.result.value{
                                 let json = JSON(value)
-                                let statusObject = json["code"].int!
-                                if statusObject == 200 {
+                                let statusCode = json["code"].int!
+                                if statusCode == 200 {
                                     print("图片上传到服务器成功")
                                     let urlsDic = ["smallImage":json["data","sImageUrl"].string!,"originalImage":json["data","oImageUrl"].string!,"middleImage":json["data","mImageUrl"].string!]
                                     fileURLs.append(urlsDic as NSDictionary)
@@ -1657,8 +1661,12 @@ class UploadProductImageViewController: UIViewController,UIImagePickerController
                                     }else{
                                         LoopCurrentCount += 1
                                     }
+                                }else if statusCode == 99999 || statusCode == 99998{
+                                    //异常
+                                    greyLayerPrompt.show(text: "登录已失效,请重新登录")
+                                    LogoutMission(viewControler: self)
                                 }else{
-                                    print("发货失败，code:\(statusObject)")
+                                    print("发货失败，code:\(statusCode)")
                                     let errorMsg = json["message"].string!
                                     greyLayerPrompt.show(text: errorMsg)
                                 }

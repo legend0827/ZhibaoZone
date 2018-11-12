@@ -814,7 +814,8 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
             case true:
                 if let value = responseObject.result.value{
                     let json = JSON(value)
-                    if json["code"].int == 200{ //数据获取成功
+                    let statusCode = json["code"].int
+                    if statusCode == 200{ //数据获取成功
                         if json["data","pageData"].count != 0 {
                             if pages == 1{
                                 self.orderArray.removeAll()
@@ -844,6 +845,10 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
                                 self.scrollView.es.noticeNoMoreData()
                             }
                         }
+                    }else if statusCode == 99999 || statusCode == 99998{
+                        //异常
+                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
+                        LogoutMission(viewControler: self)
                     }else{
                         let msg = json["message"].string
                         greyLayerPrompt.show(text: msg!)

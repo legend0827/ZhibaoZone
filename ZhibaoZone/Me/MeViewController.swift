@@ -205,7 +205,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         createUnlockBanner()
         createSetBanner()
         createVersionBanner()
-        if _roleType != 3{
+        if _roleType != 3 && _roleType == 0{
             createInvoiceBanner()
         }
     }
@@ -456,64 +456,6 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         // Dispose of any resources that can be recreated.
     }
     
-    @objc func LogoutBtnClick(){
-        //跳转页面
-        let LoginVC = ViewController()
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        LoginVC.needsAutoLogin = false
-        
-        //变更devicetoken
-        let deviceToken = UserDefaults.standard.object(forKey: "myDeviceToken")
-        if deviceToken != nil{
-            updatesDeviceToken(withDeviceToken: deviceToken as! String, user: _accountID, toBind: false)
-        }
-        
-        logoutFromServer()
-        
-        appDelegate.window?.rootViewController = LoginVC
-        self.present(LoginVC, animated: true, completion: nil)
-    }
-    
-    func logoutFromServer(){
-        
-        let userinfos = getCurrentUserInfo()
-        let token = userinfos.value(forKey: "token") as! String
-        
-        let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
-        let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
-        let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
-        #if DEBUG
-        let requstURL:String = apiAddresses.value(forKey: "logoutAPIDebug") as! String
-        #else
-        let requstURL:String = apiAddresses.value(forKey: "logoutAPI") as! String
-        #endif
-        //定义请求参数
-        let params:NSMutableDictionary = NSMutableDictionary()
-        var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
-        //从datacore获取用户数据
-        
-        header["token"] = token
-        params["onlineStatus"] = 0 //用户在线状态（0 离线，1在线，2 挂起）. Size: 0
-        
-        _ = Alamofire.request(requstURL,method:.post, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
-            (responseObject) in
-            switch responseObject.result.isSuccess{
-            case true:
-                if  let value = responseObject.result.value{
-                    let json = JSON(value)
-                    let statusCode = json["code"].int!
-                    if statusCode == 200{
-                        print("登出成功")
-                    }else{
-                        print("登出失败")
-                    }
-                }
-            case false:
-                print("处理失败")
-            }
-        }
-        
-    }
     
     func createUnlockBanner(){
         let iconImageview:UIImageView = UIImageView.init(frame: CGRect(x: 22, y: 18, width: 20, height: 24))
@@ -701,6 +643,10 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         
         tableView?.addSubview(invoiceCell)
         
+    }
+    
+    @objc func LogoutBtnClick(){
+        LogoutMission(viewControler: self)
     }
     
     @objc func switchAccountBtnClicked(){

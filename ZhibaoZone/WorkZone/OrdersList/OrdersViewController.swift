@@ -817,8 +817,8 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
             case true:
                 if  let value = responseObject.result.value{
                     let json = JSON(value)
-                    let statusObject = json["code"].int!
-                    if statusObject == 200{
+                    let statusCode = json["code"].int!
+                    if statusCode == 200{
                         self.gudanAmountCount.text = "¥" + "\(json["data","mayBePrice"].int!)".addMicrometerLevel()
                         self.dealAmountCount.text = "¥" + "\(json["data","payPrice"].int!)".addMicrometerLevel()
                         
@@ -845,8 +845,12 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
                        // self.producingOrderCount.text = "\(json["data","waitPayCount"].int!)"
                         self.noticeOfSearch.isHidden = true
                 //
+                    }else if statusCode == 99999 || statusCode == 99998{
+                        //异常
+                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
+                        LogoutMission(viewControler: self)
                     }else{
-                        print("获取数据失败，code:\(statusObject)")
+                        print("获取数据失败，code:\(statusCode)")
                         let errorMsg = json["message"].string!
                         greyLayerPrompt.show(text: errorMsg)
                     }
@@ -926,7 +930,8 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
                     case true:
                         if  let value = responseObject.result.value{
                             let json = JSON(value)
-                            if json["code"].int! == 200{//正常获取消息
+                            let statusCode = json["code"].int!
+                            if statusCode == 200{//正常获取消息
                                 self.getMessagesCount = json["data","didntRead"].int ?? 0
                                 
                                 if self.getMessagesCount == 0 {
@@ -945,6 +950,10 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
                                     }
                                     self.calculateWeatherNeedsAlert()
                                 }
+                            }else if statusCode == 99999 || statusCode == 99998{
+                                //异常
+                                greyLayerPrompt.show(text: "登录已失效,请重新登录")
+                                LogoutMission(viewControler: self)
                             }else{ //获取消息失败
                                 self._tabBarVC.redDot.isHidden = true
                                 self.messageCountBackLabel.isHidden = true

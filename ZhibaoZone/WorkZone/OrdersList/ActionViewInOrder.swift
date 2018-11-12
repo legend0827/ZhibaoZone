@@ -1121,13 +1121,17 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             case true:
                 if  let value = responseObject.result.value{
                     let json = JSON(value)
-                    let statusObject = json["code"].int!
-                    if statusObject == 200{
+                    let statusCode = json["code"].int!
+                    if statusCode == 200{
                         print("发货成功")
                         greyLayerPrompt.show(text: "发货成功成功")
                         self.closeActionView()
+                    }else if statusCode == 99999 || statusCode == 99998{
+                        //异常
+                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
+                        LogoutMission(viewControler: self.popupVC)
                     }else{
-                        print("发货失败，code:\(statusObject)")
+                        print("发货失败，code:\(statusCode)")
                         let errorMsg = json["message"].string!
                         greyLayerPrompt.show(text: errorMsg)
                     }
@@ -1178,13 +1182,17 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             case true:
                 if  let value = responseObject.result.value{
                     let json = JSON(value)
-                    let statusObject = json["code"].int!
-                    if statusObject == 200{
+                    let statusCode = json["code"].int!
+                    if statusCode == 200{
                         print("接受设计成功")
                         greyLayerPrompt.show(text: "接受设计成功")
                         self.closeActionView()
+                    }else if statusCode == 99999 || statusCode == 99998{
+                        //异常
+                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
+                        LogoutMission(viewControler: self.popupVC)
                     }else{
-                        print("接受失败，code:\(statusObject)")
+                        print("接受失败，code:\(statusCode)")
                         let errorMsg = json["message"].string!
                         greyLayerPrompt.show(text: errorMsg)
                     }
@@ -1273,8 +1281,8 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 case true:
                     if  let value = responseObject.result.value{
                         let json = JSON(value)
-                        let statusObject = json["code"].int!
-                        if statusObject == 200{
+                        let statusCode = json["code"].int!
+                        if statusCode == 200{
                             
                             if self.allOrderVC != nil {
                                 self.allOrderVC.reloadData()
@@ -1287,8 +1295,12 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                                 greyLayerPrompt.show(text: "报价成功")
                                 self.closeActionView()
                             }
+                        }else if statusCode == 99999 || statusCode == 99998{
+                            //异常
+                            greyLayerPrompt.show(text: "登录已失效,请重新登录")
+                            LogoutMission(viewControler: self.popupVC)
                         }else{
-                            print("报价失败，code:\(statusObject)")
+                            print("报价失败，code:\(statusCode)")
                             let errorMsg = json["message"].string!
                             greyLayerPrompt.show(text: errorMsg)
                         }
@@ -1382,8 +1394,8 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 case true:
                     if  let value = responseObject.result.value{
                         let json = JSON(value)
-                        let statusObject = json["code"].int!
-                        if statusObject == 200{
+                        let statusCode = json["code"].int!
+                        if statusCode == 200{
                             
                             if self.allOrderVC != nil {
                                 self.allOrderVC.reloadData()
@@ -1396,8 +1408,12 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                                 greyLayerPrompt.show(text: "议价反馈成功")
                                 self.closeActionView()
                             }
+                        }else if statusCode == 99999 || statusCode == 99998{
+                            //异常
+                            greyLayerPrompt.show(text: "登录已失效,请重新登录")
+                            LogoutMission(viewControler: self.popupVC)
                         }else{
-                            print("议价反馈失败，code:\(statusObject)")
+                            print("议价反馈失败，code:\(statusCode)")
                             let errorMsg = json["message"].string!
                             greyLayerPrompt.show(text: errorMsg)
                         }
@@ -1462,13 +1478,17 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             case true:
                 if  let value = responseObject.result.value{
                     let json = JSON(value)
-                    let statusObject = json["code"].int!
-                    if statusObject == 200{
+                    let statusCode = json["code"].int!
+                    if statusCode == 200{
                         print("接受生产成功")
                         greyLayerPrompt.show(text: "接受生产成功")
                         self.closeActionView()
+                    }else if statusCode == 99999 || statusCode == 99998{
+                        //异常
+                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
+                        LogoutMission(viewControler: self.popupVC)
                     }else{
-                        print("接受失败，code:\(statusObject)")
+                        print("接受失败，code:\(statusCode)")
                         let errorMsg = json["message"].string!
                         greyLayerPrompt.show(text: errorMsg)
                     }
@@ -1630,8 +1650,8 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 if  let value = responseObject.result.value{
                     let json = JSON(value)
                     do {
-                        let statusObject = try json["code"].int!
-                        if statusObject == 200{
+                        let statusCode = try json["code"].int!
+                        if statusCode == 200{
                             print("获取订单详情成功")
                             self.orderDetail.removeAll()
                             let ordersummaryItem = json["data"].dictionaryObject! as NSDictionary
@@ -1643,8 +1663,12 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                             DispatchQueue.main.async {
                                 self.updateViewData()
                             }
+                        }else if statusCode == 99999 || statusCode == 99998{
+                            //异常
+                            greyLayerPrompt.show(text: "登录已失效,请重新登录")
+                            LogoutMission(viewControler: self.popupVC)
                         }else{
-                            print("接受失败，code:\(statusObject)")
+                            print("接受失败，code:\(statusCode)")
                             let errorMsg = json["message"].string!
                             greyLayerPrompt.show(text: "获取订单详情失败,\(errorMsg)")
                         }
