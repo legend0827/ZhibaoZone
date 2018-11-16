@@ -761,7 +761,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         
         // - 待接受设计
         let waitForAcceptDesignLabel:UILabel = UILabel.init(frame: CGRect(x: 0, y: seperateLine2.frame.maxY + 15, width: (kWidth - 28)/3, height: 20))
-        waitForAcceptDesignLabel.text = "待接受设计"
+        waitForAcceptDesignLabel.text = "待设计"
         waitForAcceptDesignLabel.textColor = UIColor.titleColors(color: .gray)
         waitForAcceptDesignLabel.textAlignment = .center
         waitForAcceptDesignLabel.font = UIFont.systemFont(ofSize: 14)
@@ -855,7 +855,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         
         // - 未处理议价
         let waitForBargainOrderLabel:UILabel = UILabel.init(frame: CGRect(x: (kWidth - 200)/2, y: seperateLine3.frame.maxY + 15, width: 200, height: 20))
-        waitForBargainOrderLabel.text = "议价未处理"
+        waitForBargainOrderLabel.text = "待议价"
         waitForBargainOrderLabel.textColor = UIColor.titleColors(color: .gray)
         waitForBargainOrderLabel.font = UIFont.systemFont(ofSize: 14)
         waitForBargainOrderLabel.textAlignment = .center
@@ -871,7 +871,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         
         // - 竞价未报价
         let waitForCompetionOrderLabel:UILabel = UILabel.init(frame: CGRect(x: kWidth/3*2 - 4.3, y: seperateLine3.frame.maxY + 15, width: (kWidth - 28)/3, height: 20))
-        waitForCompetionOrderLabel.text = "竞价未报价"
+        waitForCompetionOrderLabel.text = "待竞价"
         waitForCompetionOrderLabel.textColor = UIColor.titleColors(color: .gray)
         waitForCompetionOrderLabel.font = UIFont.systemFont(ofSize: 14)
         waitForCompetionOrderLabel.textAlignment = .center
@@ -887,7 +887,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         
         // - 待接受生产
         let waitForAcceptProduceLabel:UILabel = UILabel.init(frame: CGRect(x: 0, y: waitForQuoteOrderCount.frame.maxY + 15, width: (kWidth - 28)/3, height: 20))
-        waitForAcceptProduceLabel.text = "待接受生产"
+        waitForAcceptProduceLabel.text = "待生产"
         waitForAcceptProduceLabel.textColor = UIColor.titleColors(color: .gray)
         waitForAcceptProduceLabel.font = UIFont.systemFont(ofSize: 14)
         waitForAcceptProduceLabel.textAlignment = .center
