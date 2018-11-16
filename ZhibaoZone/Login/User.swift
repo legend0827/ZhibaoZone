@@ -83,7 +83,8 @@ class User: NSObject {
                         let userName = self._username
                         var newroleType = json["data","roleType"].int64
                         let token = json["data","token"].string
-                        self.getSystemParas(token: token!)
+                       // self.getSystemParas(token: token!)
+                        
                         //如果newroleType返回空，则指定为普通用户；0
                         if newroleType == nil{
                             newroleType = 0
@@ -91,6 +92,8 @@ class User: NSObject {
                         let roleType = Int64(newroleType!)
                         let userId = Int64(newuserId!)!
                         
+                        self.getSystemParas(view: view, token: token!, roleType: Int(roleType), needsJump: false)
+
                         let dataOperator = CoreDataOperation()
                         dataOperator.saveAddtionalAccount(userName: userName, nickName: nickName!, userId: Int64(newuserId!)!, roleType: Int64(newroleType!), password: self._password)
                         dataOperator.saveAddtionalToken(token: token!) // token
@@ -184,7 +187,8 @@ class User: NSObject {
                         let userName = self._username
                         var newroleType = json["data","roleType"].int64
                         let token = json["data","token"].string
-                        self.getSystemParas(token: token!)
+                       
+                        
                         //如果newroleType返回空，则指定为普通用户；0
                         if newroleType == nil {
                             newroleType = 0
@@ -192,6 +196,8 @@ class User: NSObject {
                         let roleType = newroleType
                         let userId = Int64(newuserId!)!
             
+                        self.getSystemParas(view: view, token: token!, roleType: Int(roleType!), needsJump: true)
+
                         let dataOperator = CoreDataOperation()
                         
                         let isAccountAvaiable = dataOperator.checkAccountAvaiable(forAddtional: false)
@@ -280,12 +286,8 @@ class User: NSObject {
                             })
                         }
                         
-                        //跳转页面
-                        let tabBar = TabBarController(royeType: Int(roleType ?? 0))
-                        //let appDelegate = AppDelegate()
-                        let appDelegate = UIApplication.shared.delegate
-                        appDelegate?.window??.rootViewController = tabBar
-                        view.present(tabBar, animated: true, completion: nil)
+                        
+                        
                     }else{
                         hub.hide()
                         print("login failed")
@@ -361,18 +363,20 @@ class User: NSObject {
                         let userName = self._username
                         var newroleType = json["data","roleType"].int64
                         let token = json["data","token"].string
-                        self.getSystemParas(token: token!)
+                        
                         //如果newroleType返回空，则指定为普通用户；0
                         if newroleType == nil {
                             newroleType = 0
                         }
                         let roleType = Int64(newroleType!)
                         let userId = Int64(newuserId!)!
+                        self.getSystemParas(view: view, token: token!, roleType: Int(roleType), needsJump: true)
+
+                        
                         let dataOperator = CoreDataOperation()
                         //查询是不是已经有相似记录了
                         dataOperator.saveAccountInfo(userName:userName,nickName:nickName!,userId:userId,roleType: roleType,password: password)
                         dataOperator.saveToken(token: token!)
-                        
                         
                         //跳转页面
                         let tabBar = TabBarController(royeType: Int(roleType))
@@ -500,7 +504,7 @@ class User: NSObject {
     }
     
     
-    func getSystemParas(token:String){
+    func getSystemParas(view:UIViewController,token:String,roleType:Int,needsJump:Bool){
         //获取用户信息
        // let userInfos = getCurrentUserInfo()
        // let token = userInfos.value(forKey: "token") as? String
@@ -529,22 +533,12 @@ class User: NSObject {
                         //系统参数数据
                         var systemParama:[AnyObject] = []
                         //产品参数数据
-                        var productParams:NSDictionary = json["data","flatRelation"].dictionaryObject! as NSDictionary
+                        let productParams:NSDictionary = json["data","flatRelation"].dictionaryObject! as NSDictionary
                         //写入订单状态表
-                        var orderStatusParams:NSDictionary = json["data","orderStatus"].dictionaryObject! as NSDictionary
+                        let orderStatusParams:NSDictionary = json["data","orderStatus"].dictionaryObject! as NSDictionary
                         //写入Commands到命令参数表
-                        var commandsParams:NSArray = json["data","commands"].arrayObject! as NSArray
+                        let commandsParams:NSArray = json["data","commands"].arrayObject! as NSArray
                         
-                        
-                        //                        for item in json["data","flatRelation"].array!{
-                        //                            productParams.append(item.dictionaryObject! as NSDictionary)
-                        //                            //systemCategory.append(item.dictionaryObject! as NSDictionary)
-                        //                        }
-                        //                        for item in json["data","orderStatus"].array!{
-                        //                            orderStatusParams.append(item.dictionaryObject! as NSDictionary)
-                        //
-                        //                            //orderStatusParams.append(item as! NSDictionary)
-                        //                        }
                         systemParama.append(productParams)
                         systemParama.append(orderStatusParams)
                         systemParama.append(commandsParams)
@@ -559,6 +553,15 @@ class User: NSObject {
                         //将数组写入联系人列表
                         array.write(toFile: pfileOfSystemParas!, atomically: true)
                         print("file Path:\(pfileOfSystemParas)")
+                        print("请求成功")
+                        //getSystemParasFromPlist()
+                        if needsJump{
+                        //跳转页面
+                            let tabBar = TabBarController(royeType: roleType)
+                            let appDelegate = UIApplication.shared.delegate
+                            appDelegate?.window??.rootViewController = tabBar
+                            view.present(tabBar, animated: true, completion: nil)
+                        }
                         
                     }else{
                         

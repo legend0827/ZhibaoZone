@@ -854,8 +854,9 @@ class calculatorKeyboard: UIView {
                 resultLabel.text = "\(calculationNum[0])"
                 targetResult = Int(calculationNum[0])
                 opreationValue(with: targetResult)
-                
-                actionView.currentValueOnSliderTextField.text = quotePriceResult.text// resultLabel.text
+                var quotePriceResult = self.quotePriceResult.text
+                quotePriceResult?.removeFirst()
+                actionView.currentValueOnSliderTextField.text = quotePriceResult// resultLabel.text
             }
             
             

@@ -287,7 +287,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         
         //取消按钮
         cancelBtn.frame = CGRect(x: kWidth - 80, y: 22, width: 60, height: 22)
-        cancelBtn.setTitle("取消", for: .normal)
+        cancelBtn.setTitle("关闭", for: .normal)
         cancelBtn.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
         cancelBtn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         cancelBtn.contentHorizontalAlignment = .right
@@ -2103,28 +2103,28 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
               //  currentValue = orderInfoObjects.value(forKey: "lastQuote") as! Double
             }
             if lastPeriod == 0 {
-                let orignalText = NSMutableAttributedString(string: "上次报价 \(lastQuotePrice) / 上次工期 - 天")
+                let orignalText = NSMutableAttributedString(string: "上次报价/工期: \(lastQuotePrice) / - 天")
                 //上次报价
                 let range = orignalText.string.range(of: lastQuotePrice)
                 let nsRange = orignalText.string.nsRange(from: range!)
                 orignalText.addAttributes([NSAttributedStringKey.foregroundColor:UIColor.titleColors(color: .red)], range: nsRange)
                 quotePriceAtLastLabel.attributedText = orignalText
-                currentValueOnSliderTextField.text = "\(currentValue)"
+                //currentValueOnSliderTextField.text = "\(currentValue)"
             }else{
-                let orignalText = NSMutableAttributedString(string: "上次报价 \(lastQuotePrice) / 上次工期 \(lastPeriod) 天")
+                let orignalText = NSMutableAttributedString(string: "上次报价/工期: \(lastQuotePrice) / \(lastPeriod) 天")
                 //上次报价
-                let range = orignalText.string.range(of: lastQuotePrice)
+                let range = orignalText.string.range(of: "\(lastQuotePrice) / \(lastPeriod)")
                 let nsRange = orignalText.string.nsRange(from: range!)
                 orignalText.addAttributes([NSAttributedStringKey.foregroundColor:UIColor.titleColors(color: .red)], range: nsRange)
                 //上次工期
-                let rangeOfSymbol = orignalText.string.range(of: "上次工期 ")
-                let upperIndex = rangeOfSymbol?.upperBound.samePosition(in: orignalText.string)
-                let length = "\(lastPeriod)".length()
-                let location = orignalText.string.distance(from: orignalText.string.startIndex, to: upperIndex!)
-                let rangeOfPeriod = orignalText.string.range(of: String(lastPeriod))
-                let nsRangeOfPeriod =  orignalText.string.nsRange(from: rangeOfPeriod!)
-
-                orignalText.addAttributes([NSAttributedStringKey.foregroundColor:UIColor.titleColors(color: .red)], range: NSRange.init(location: location, length: length))
+//                let rangeOfSymbol = orignalText.string.range(of: "上次工期 ")
+//                let upperIndex = rangeOfSymbol?.upperBound.samePosition(in: orignalText.string)
+//                let length = "\(lastPeriod)".length()
+//                let location = orignalText.string.distance(from: orignalText.string.startIndex, to: upperIndex!)
+//                let rangeOfPeriod = orignalText.string.range(of: String(lastPeriod))
+//                let nsRangeOfPeriod =  orignalText.string.nsRange(from: rangeOfPeriod!)
+//
+//                orignalText.addAttributes([NSAttributedStringKey.foregroundColor:UIColor.titleColors(color: .red)], range: NSRange.init(location: location, length: length))
                 quotePriceAtLastLabel.attributedText = orignalText
                 //currentValueOnSliderTextField.text = "\(currentValue)"
             }

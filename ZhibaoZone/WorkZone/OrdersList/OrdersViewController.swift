@@ -248,13 +248,68 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
     let messageCountBackLabel:UIView = UIView.init(frame: CGRect(x: 50, y: 5, width: 22, height: 16))
     let messageCountLabel:UILabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: 22, height: 16))
     
-
+    //最近一天
+    lazy var recentOneDayBtn:UIButton = {
+        let tempButton = UIButton.init(type: .custom)
+        tempButton.setTitle("近一日", for: .normal)
+        tempButton.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+        tempButton.layer.cornerRadius = 16
+        tempButton.layer.borderColor = UIColor.clear.cgColor
+        tempButton.layer.borderWidth = 0.5
+        tempButton.tag = 1
+        tempButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        tempButton.addTarget(self, action: #selector(switchTimeInterval), for: .touchUpInside)
+        return tempButton
+    }()
+    
+    //最近七天
+    lazy var recentOneWeekBtn:UIButton = {
+        let tempButton = UIButton.init(type: .custom)
+        tempButton.setTitle("近一周", for: .normal)
+        tempButton.setTitleColor(UIColor.lineColors(color: .red), for: .normal)
+        tempButton.layer.cornerRadius = 16
+        tempButton.layer.borderColor = UIColor.lineColors(color: .red).cgColor
+        tempButton.layer.borderWidth = 0.5
+        tempButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        tempButton.tag = 2
+        tempButton.addTarget(self, action: #selector(switchTimeInterval), for: .touchUpInside)
+        return tempButton
+    }()
+    
+    //最近一月
+    lazy var recentOneMonthBtn:UIButton = {
+        let tempButton = UIButton.init(type: .custom)
+        tempButton.setTitle("近30天", for: .normal)
+        tempButton.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+        tempButton.layer.cornerRadius = 16
+        tempButton.layer.borderColor = UIColor.clear.cgColor
+        tempButton.layer.borderWidth = 0.5
+        tempButton.tag = 3
+        tempButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        tempButton.addTarget(self, action: #selector(switchTimeInterval), for: .touchUpInside)
+        return tempButton
+    }()
+    
+    //自定义日期
+    lazy var customDateBtn:UIButton = {
+        let tempButton = UIButton.init(type: .custom)
+        tempButton.setTitle("自定义日期", for: .normal)
+        tempButton.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+        tempButton.layer.cornerRadius = 16
+        tempButton.layer.borderColor = UIColor.clear.cgColor
+        tempButton.layer.borderWidth = 0.5
+        tempButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        tempButton.tag = 4
+        tempButton.addTarget(self, action: #selector(switchTimeInterval), for: .touchUpInside)
+        return tempButton
+        
+    }()
     
     //用户角色
     var _roleType = 1
     lazy var scrollBackView:UIScrollView = {
         let tempScrollView = UIScrollView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: kHight - heightChangeForiPhoneXFromBottom - 49))
-        tempScrollView.contentSize = CGSize(width: kWidth, height: 770 )
+        tempScrollView.contentSize = CGSize(width: kWidth, height: 730 )
         //backgroundView.frame = CGRect(x: 0, y: 65, width: kWidth, height: self.frame.height )
       //  tempScrollView.backgroundColor = UIColor.backgroundColors(color: .white)
         tempScrollView.delegate = self
@@ -270,6 +325,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
     //统计数字
     var onlineCustomerServiceCount:UIButton = UIButton.init(type: .custom)
     var onlineDesignerCount:UIButton = UIButton.init(type: .custom)
+    var onlineProducerCount:UIButton = UIButton.init(type: .custom)
     var gudanAmountCount:UILabel = UILabel.init() // 估单
     var dealAmountCount:UILabel = UILabel.init() //成交
     var transferAmountCount:UILabel = UILabel.init() //成交转化
@@ -282,11 +338,14 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
     var waitForProduceCount:UILabel = UILabel.init()
     var producingOrderCount:UILabel = UILabel.init()
     var shippingOrderCount:UILabel = UILabel.init()
+    var waitForQuoteOrderCount:UILabel = UILabel.init()
+    var waitForBargainOrderCount:UILabel = UILabel.init()
+    var waitForCompetionOrderCount:UILabel = UILabel.init()
     //时间统计范围
     var timeInterval_from:TimeInterval = 0
     var timeInterval_to:TimeInterval = 0
     //时间切换
-    let chooseTimeIntervalBtn:UIButton = UIButton.init(type: .custom)
+   // let chooseTimeIntervalBtn:UIButton = UIButton.init(type: .custom)
     
     //标题栏背景
     let titleBarView:UIView = UIView.init(frame: CGRect(x: 0, y: 20 + heightChangeForiPhoneXFromTop, width: kWidth, height: 44))
@@ -407,6 +466,81 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         titleBarView.addSubview(messageListBtn)
 
     }
+    //切换日期按钮
+    @objc func switchTimeInterval(_ button:UIButton){
+        let index = button.tag
+        switch index {
+        case 1: // 近一日
+            recentOneDayBtn.layer.borderColor = UIColor.lineColors(color: .red).cgColor
+            recentOneDayBtn.setTitleColor(UIColor.lineColors(color: .red), for: .normal)
+            
+            recentOneWeekBtn.layer.borderColor = UIColor.clear.cgColor
+            recentOneWeekBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+            
+            recentOneMonthBtn.layer.borderColor = UIColor.clear.cgColor
+            recentOneMonthBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+            
+            customDateBtn.layer.borderColor = UIColor.clear.cgColor
+            customDateBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+            
+            //近一日的时间戳
+            timeInterval_from = dateAheadNow(before: 1, countAs: .PerDay)
+            timeInterval_to = getEndDateTimeStampOfToday()
+            pullStatistics()
+        case 2: // 近7日
+            recentOneDayBtn.layer.borderColor = UIColor.clear.cgColor
+            recentOneDayBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+            
+            recentOneWeekBtn.layer.borderColor = UIColor.lineColors(color: .red).cgColor
+            recentOneWeekBtn.setTitleColor(UIColor.lineColors(color: .red), for: .normal)
+            
+            recentOneMonthBtn.layer.borderColor = UIColor.clear.cgColor
+            recentOneMonthBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+            
+            customDateBtn.layer.borderColor = UIColor.clear.cgColor
+            customDateBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+            
+            //"最近1周"
+            timeInterval_from = dateAheadNow(before: 7, countAs: .PerDay)
+            timeInterval_to = getEndDateTimeStampOfToday()
+            pullStatistics()
+        case 3: // 近30天
+            recentOneDayBtn.layer.borderColor = UIColor.clear.cgColor
+            recentOneDayBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+            
+            recentOneWeekBtn.layer.borderColor = UIColor.clear.cgColor
+            recentOneWeekBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+            
+            recentOneMonthBtn.layer.borderColor = UIColor.lineColors(color: .red).cgColor
+            recentOneMonthBtn.setTitleColor(UIColor.lineColors(color: .red), for: .normal)
+            
+            customDateBtn.layer.borderColor = UIColor.clear.cgColor
+            customDateBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+            
+            timeInterval_from = dateAheadNow(before: 30, countAs: .PerDay)
+            timeInterval_to = getEndDateTimeStampOfToday()
+
+            pullStatistics()
+        case 4: // 自定义日期
+            recentOneDayBtn.layer.borderColor = UIColor.clear.cgColor
+            recentOneDayBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+            
+            recentOneWeekBtn.layer.borderColor = UIColor.clear.cgColor
+            recentOneWeekBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+            
+            recentOneMonthBtn.layer.borderColor = UIColor.clear.cgColor
+            recentOneMonthBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+            
+            customDateBtn.layer.borderColor = UIColor.lineColors(color: .red).cgColor
+            customDateBtn.setTitleColor(UIColor.lineColors(color: .red), for: .normal)
+            changeTimeIntervalClicked()
+        default:
+            print("Doesnt exist!")
+        }
+        
+    }
+    
+    
     
     @objc func setupUIForManager(){
         self.view.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
@@ -416,61 +550,91 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         
         noticeOfSearch.image = UIImage(named: "noticeofsearchhintimg")
         //数据统计title
-        let titleOfPage:UIImageView = UIImageView.init(frame: CGRect(x: 20, y: noticeOfSearch.frame.maxY + 30, width: 97, height: 23))
+        let titleOfPage:UIImageView = UIImageView.init(frame: CGRect(x: 10, y: noticeOfSearch.frame.maxY, width: 35*136/29, height: 35))
         titleOfPage.image = UIImage(named: "statisticnamelabelimg")
         
-        let imgBG:UIImageView = UIImageView.init(frame: CGRect(x: kWidth - 210, y: noticeOfSearch.frame.maxY + 5, width: 156, height: 102))
+        let imgBG:UIImageView = UIImageView.init(frame: CGRect(x: kWidth - 210, y: noticeOfSearch.frame.maxY - 32, width: 156, height: 102))
         imgBG.image = UIImage(named: "statisticbgimg")
         
         let dashLine:UIView = UIView.init(frame: CGRect(x: 15, y: titleOfPage.frame.maxY + 5, width: kWidth - 30, height: 1))
         dashLine.backgroundColor = UIColor.backgroundColors(color: .lightestgray)// titleColors(color: .lightGray)
         
-        //切换时间
-        chooseTimeIntervalBtn.setTitle("最近一周", for: .normal)
-        chooseTimeIntervalBtn.frame = CGRect(x: titleOfPage.frame.maxX + 12, y: titleOfPage.frame.minY, width: 80, height: 23)
-        chooseTimeIntervalBtn.contentVerticalAlignment = .center
-        chooseTimeIntervalBtn.contentHorizontalAlignment = .left
-        chooseTimeIntervalBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
-        chooseTimeIntervalBtn.setTitleColor(UIColor.titleColors(color: .white), for: .normal)
-        chooseTimeIntervalBtn.addTarget(self, action: #selector(changeTimeIntervalClicked), for: .touchUpInside)
+//        //切换时间
+//        chooseTimeIntervalBtn.setTitle("最近一周", for: .normal)
+//        chooseTimeIntervalBtn.frame = CGRect(x: titleOfPage.frame.maxX + 12, y: titleOfPage.frame.minY, width: 80, height: 23)
+//        chooseTimeIntervalBtn.contentVerticalAlignment = .center
+//        chooseTimeIntervalBtn.contentHorizontalAlignment = .left
+//        chooseTimeIntervalBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
+//        chooseTimeIntervalBtn.setTitleColor(UIColor.titleColors(color: .white), for: .normal)
+//        chooseTimeIntervalBtn.addTarget(self, action: #selector(changeTimeIntervalClicked), for: .touchUpInside)
+//
+//        downArrowImg.image = UIImage(named: "down-arrow-white")
+//        chooseTimeIntervalBtn.addSubview(downArrowImg)
+//        scrollBackView.addSubview(chooseTimeIntervalBtn)
         
-        downArrowImg.image = UIImage(named: "down-arrow-white")
-        chooseTimeIntervalBtn.addSubview(downArrowImg)
-        scrollBackView.addSubview(chooseTimeIntervalBtn)
-        
-        let transparentBGboard1:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: 200, width: kWidth, height: 195))
+        let transparentBGboard1:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: 148, width: kWidth, height: 495))
         transparentBGboard1.image = UIImage(named: "transparencybgimg")
         scrollBackView.addSubview(transparentBGboard1)
         
-        let orderStatisticBoard1:UIImageView = UIImageView.init(frame: CGRect(x: 2, y: dashLine.frame.maxY + 10, width: kWidth - 4, height: 155)) // 135
+        let changeTimeIntervalBoard:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: dashLine.frame.maxY + 5, width: kWidth, height: 66))
+        changeTimeIntervalBoard.image = UIImage(named: "changetimeintervalbgimg")
+        changeTimeIntervalBoard.isUserInteractionEnabled  = true
+        scrollBackView.addSubview(changeTimeIntervalBoard)
+        
+        let gap:CGFloat = (kWidth - 346)/3
+        
+        recentOneDayBtn.frame = CGRect(x: 15, y: 17, width: 72, height: 32)
+        recentOneWeekBtn.frame = CGRect(x: recentOneDayBtn.frame.maxX + gap, y: 17, width: 72, height: 32)
+        recentOneMonthBtn.frame = CGRect(x: recentOneWeekBtn.frame.maxX + gap, y: 17, width: 72, height: 32)
+        customDateBtn.frame = CGRect(x: recentOneMonthBtn.frame.maxX + gap, y: 17, width: 100, height: 32)
+        
+        
+        changeTimeIntervalBoard.addSubview(recentOneMonthBtn)
+        changeTimeIntervalBoard.addSubview(recentOneWeekBtn)
+        changeTimeIntervalBoard.addSubview(recentOneDayBtn)
+        changeTimeIntervalBoard.addSubview(customDateBtn)
+        
+        let orderStatisticBoard1:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: changeTimeIntervalBoard.frame.maxY + 5, width: kWidth, height: 180)) // 135
         orderStatisticBoard1.image = UIImage(named: "statisticboardbgimg")
         orderStatisticBoard1.isUserInteractionEnabled = true
         
-        let customerServiceTitle:UILabel = UILabel.init(frame: CGRect(x: 21, y: 20, width: 100, height: 25))
+        let orangeDotImg1:UIImageView = UIImageView(frame: CGRect(x: 15, y: 14, width: 5, height: 18))
+        orangeDotImg1.image = UIImage(named: "orangedotimg")
+        orderStatisticBoard1.addSubview(orangeDotImg1)
+        
+        let customerServiceTitle:UILabel = UILabel.init(frame: CGRect(x: 30, y: 10, width: 100, height: 25))
         customerServiceTitle.text = "客服数据"
-        customerServiceTitle.font = UIFont.systemFont(ofSize: 18)
+        customerServiceTitle.font = UIFont.boldSystemFont(ofSize: 16)
         customerServiceTitle.textColor = UIColor.titleColors(color: .black)
         orderStatisticBoard1.addSubview(customerServiceTitle)
         
         //在线客服数量：
+        let onlineIcon1:UIImageView = UIImageView.init(frame: CGRect(x: kWidth - 182, y: customerServiceTitle.frame.minY + 3, width: 16, height: 18))
+        onlineIcon1.image = UIImage(named: "onlineiconimg")
+        //orderStatisticBoard1.addSubview(onlineIcon1)
+        
         onlineCustomerServiceCount.frame = CGRect(x: kWidth - 156, y: customerServiceTitle.frame.minY, width: 138, height: 26)
-        onlineCustomerServiceCount.setTitleColor(UIColor.lineColors(color: .gray), for: .normal)
+        onlineCustomerServiceCount.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
         onlineCustomerServiceCount.setTitle("在线客服：-", for: .normal)
-        onlineCustomerServiceCount.contentHorizontalAlignment = .center
+        onlineCustomerServiceCount.contentHorizontalAlignment = .right
         onlineCustomerServiceCount.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        onlineCustomerServiceCount.layer.cornerRadius = 14
-        onlineCustomerServiceCount.layer.borderColor = UIColor.lineColors(color: .gray).cgColor
-        onlineCustomerServiceCount.layer.borderWidth = 0.5
+
         onlineCustomerServiceCount.tag = 1
         onlineCustomerServiceCount.addTarget(self, action: #selector(onlineCheckBtnClicked(_:)), for: .touchUpInside)
         orderStatisticBoard1.addSubview(onlineCustomerServiceCount)
         
+        let seperateLine1:UIView = UIView.init(frame: CGRect(x: 0, y: 45, width: kWidth, height: 0.5))
+        seperateLine1.backgroundColor = UIColor.lineColors(color: .lightGray)
+        orderStatisticBoard1.addSubview(seperateLine1)
         //估单金额统计
-        let gudanAmountTitle:UIImageView = UIImageView.init(frame: CGRect(x: 21, y: customerServiceTitle.frame.maxY + 18, width: 85, height: 25))
-        gudanAmountTitle.image = UIImage(named: "gudanamountimg")
+        let gudanAmountTitle:UILabel = UILabel.init(frame: CGRect(x: 0, y: seperateLine1.frame.maxY + 15, width: (kWidth - 28)/3, height: 20))
+        gudanAmountTitle.text = "估单金额"
+        gudanAmountTitle.font = UIFont.systemFont(ofSize: 14)
+        gudanAmountTitle.textColor = UIColor.titleColors(color: .gray)
+        gudanAmountTitle.textAlignment = .center
         
-        gudanAmountCount.frame = CGRect(x: 23, y: gudanAmountTitle.frame.maxY + 9, width: kWidth/3, height: 21)
-        gudanAmountCount.textAlignment = .left
+        gudanAmountCount.frame = CGRect(x: 0, y: gudanAmountTitle.frame.maxY + 3, width: (kWidth - 28)/3, height: 21)
+        gudanAmountCount.textAlignment = .center
         gudanAmountCount.textColor = UIColor.titleColors(color: .black)
         gudanAmountCount.text = "¥--"
         gudanAmountCount.font = UIFont(name: "DINPro-Medium", size: 16)
@@ -479,11 +643,14 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         orderStatisticBoard1.addSubview(gudanAmountCount)
         
         //成交金额统计
-        let dealAmonuntTitle:UIImageView = UIImageView.init(frame: CGRect(x: (kWidth - 85)/2, y: customerServiceTitle.frame.maxY + 18, width: 85, height: 25))
-        dealAmonuntTitle.image = UIImage(named: "dealamonuntimg")
+        let dealAmonuntTitle:UILabel = UILabel.init(frame: CGRect(x: (kWidth - 200)/2, y: seperateLine1.frame.maxY + 15, width: 200, height: 20))
+        dealAmonuntTitle.text = "成交金额"
+        dealAmonuntTitle.font = UIFont.systemFont(ofSize: 14)
+        dealAmonuntTitle.textColor = UIColor.titleColors(color: .gray)
+        dealAmonuntTitle.textAlignment = .center
         
-        dealAmountCount.frame = CGRect(x: (kWidth - 85)/2 + 2, y: gudanAmountTitle.frame.maxY + 9, width: kWidth/3, height: 21)
-        dealAmountCount.textAlignment = .left
+        dealAmountCount.frame = CGRect(x: kWidth/3, y: gudanAmountTitle.frame.maxY + 3, width: kWidth/3, height: 21)
+        dealAmountCount.textAlignment = .center
         dealAmountCount.textColor = UIColor.titleColors(color: .black)
         dealAmountCount.text = "¥--"
         dealAmountCount.font = UIFont(name: "DINPro-Medium", size: 16)
@@ -492,11 +659,14 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         orderStatisticBoard1.addSubview(dealAmountCount)
         
         //成交转化
-        let transferAmountLabel:UIImageView = UIImageView.init(frame: CGRect(x: kWidth - 106, y: customerServiceTitle.frame.maxY + 18, width: 85, height: 25))
-        transferAmountLabel.image = UIImage(named: "transferamountimg")
+        let transferAmountLabel:UILabel = UILabel.init(frame: CGRect(x: kWidth/3*2 - 4.3, y: seperateLine1.frame.maxY + 15, width: (kWidth - 28)/3, height: 20))
+        transferAmountLabel.text = "成交转化"
+        transferAmountLabel.font = UIFont.systemFont(ofSize: 14)
+        transferAmountLabel.textColor = UIColor.titleColors(color: .gray)
+        transferAmountLabel.textAlignment = .center
         
-        transferAmountCount.frame = CGRect(x: kWidth - 104, y: gudanAmountTitle.frame.maxY + 9, width: kWidth/3, height: 21)
-        transferAmountCount.textAlignment = .left
+        transferAmountCount.frame = CGRect(x: kWidth/3*2 - 4.3, y: gudanAmountTitle.frame.maxY + 3, width: (kWidth - 28)/3, height: 21)
+        transferAmountCount.textAlignment = .center
         transferAmountCount.textColor = UIColor.titleColors(color: .black)
         transferAmountCount.text = "--.-%"
         transferAmountCount.font = UIFont(name: "DINPro-Medium", size: 16)
@@ -505,187 +675,260 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         orderStatisticBoard1.addSubview(transferAmountCount)
         
         //订单数统计 - 新建订单
-        let newOrderStoryBoard:UIImageView = UIImageView.init(frame: CGRect(x: 2, y: orderStatisticBoard1.frame.maxY , width: 129, height: 75 * 129 / 119))
-        newOrderStoryBoard.image = UIImage(named: "neworderbgimg")
-        
-        
-        let newOrderLabel:UILabel = UILabel.init(frame: CGRect(x: 12, y: newOrderStoryBoard.frame.height - 32, width: 70, height: 20))
+        let newOrderLabel:UILabel = UILabel.init(frame: CGRect(x: 0, y: gudanAmountCount.frame.maxY + 15, width: (kWidth - 28)/3, height: 20))
         newOrderLabel.text = "新建订单"
         newOrderLabel.textColor = UIColor.titleColors(color: .darkGray)
         newOrderLabel.font = UIFont.systemFont(ofSize: 14)
+        newOrderLabel.textAlignment = .center
         
         
-        newOrderAmountCount.frame = CGRect(x: 12, y: 20, width: newOrderStoryBoard.frame.width, height: 28)
-        newOrderAmountCount.textAlignment = .left
+        newOrderAmountCount.frame = CGRect(x: 0, y: newOrderLabel.frame.maxY + 3, width: (kWidth - 28)/3, height: 21)
+        newOrderAmountCount.textAlignment = .center
         newOrderAmountCount.textColor = UIColor.titleColors(color: .black)
         newOrderAmountCount.text = "--"
-        newOrderAmountCount.font = UIFont(name: "DINPro-Medium", size: 22)
+        newOrderAmountCount.font = UIFont(name: "DINPro-Medium", size: 16)
         
-        scrollBackView.addSubview(newOrderStoryBoard)
-        newOrderStoryBoard.addSubview(newOrderLabel)
-        newOrderStoryBoard.addSubview(newOrderAmountCount)
+        orderStatisticBoard1.addSubview(newOrderLabel)
+        orderStatisticBoard1.addSubview(newOrderAmountCount)
         
         //订单数统计 - 成交订单
-        let doneOrderStoryBoard:UIImageView = UIImageView.init(frame: CGRect(x: (kWidth - 129)/2, y: orderStatisticBoard1.frame.maxY , width: 129, height: 75 * 129 / 119))
-        doneOrderStoryBoard.image = UIImage(named: "doneorderbgimg")
-        
-        
-        let doneOrderLabel:UILabel = UILabel.init(frame: CGRect(x: 12, y: doneOrderStoryBoard.frame.height - 32, width: 70, height: 20))
+        let doneOrderLabel:UILabel = UILabel.init(frame: CGRect(x: (kWidth - 200)/2, y: dealAmountCount.frame.maxY + 15, width: 200, height: 20))
         doneOrderLabel.text = "成交订单"
+        doneOrderLabel.textAlignment = .center
         doneOrderLabel.textColor = UIColor.titleColors(color: .darkGray)
         doneOrderLabel.font = UIFont.systemFont(ofSize: 14)
         
         
-        doneOrderAmountCount.frame = CGRect(x: 12, y: 20, width: doneOrderStoryBoard.frame.width, height: 28)
-        doneOrderAmountCount.textAlignment = .left
+        doneOrderAmountCount.frame = CGRect(x: (kWidth - 200)/2, y: doneOrderLabel.frame.maxY + 3, width: 200, height: 21)
+        doneOrderAmountCount.textAlignment = .center
         doneOrderAmountCount.textColor = UIColor.titleColors(color: .black)
         doneOrderAmountCount.text = "--"
-        doneOrderAmountCount.font = UIFont(name: "DINPro-Medium", size: 22)
+        doneOrderAmountCount.font = UIFont(name: "DINPro-Medium", size: 16)
         
-        scrollBackView.addSubview(doneOrderStoryBoard)
-        doneOrderStoryBoard.addSubview(doneOrderLabel)
-        doneOrderStoryBoard.addSubview(doneOrderAmountCount)
+        orderStatisticBoard1.addSubview(doneOrderLabel)
+        orderStatisticBoard1.addSubview(doneOrderAmountCount)
         
         //订单数统计 - 待支付订单
-        let waitForPayOrderStoryBoard:UIImageView = UIImageView.init(frame: CGRect(x: kWidth - 131, y: orderStatisticBoard1.frame.maxY, width: 129, height: 75 * 129 / 119))
-        waitForPayOrderStoryBoard.image = UIImage(named: "waitforpayorderbgimg")
-        
-        
-        let waitForPayOrderLabel:UILabel = UILabel.init(frame: CGRect(x: 12, y: waitForPayOrderStoryBoard.frame.height - 32, width: 100, height: 20))
+        let waitForPayOrderLabel:UILabel = UILabel.init(frame: CGRect(x: kWidth/3*2 - 4.3, y: transferAmountCount.frame.maxY + 15, width: (kWidth - 28)/3, height: 20))
         waitForPayOrderLabel.text = "待支付订单"
         waitForPayOrderLabel.textColor = UIColor.titleColors(color: .darkGray)
         waitForPayOrderLabel.font = UIFont.systemFont(ofSize: 14)
+        waitForPayOrderLabel.textAlignment = .center
         
         
-        waitForPayOrderAmountCount.frame = CGRect(x: 12, y: 20, width: waitForPayOrderStoryBoard.frame.width, height: 28)
-        waitForPayOrderAmountCount.textAlignment = .left
+        waitForPayOrderAmountCount.frame = CGRect(x: kWidth/3*2 - 4.3, y: waitForPayOrderLabel.frame.maxY + 3, width: (kWidth - 28)/3, height: 21)
+        waitForPayOrderAmountCount.textAlignment = .center
         waitForPayOrderAmountCount.textColor = UIColor.titleColors(color: .black)
         waitForPayOrderAmountCount.text = "--"
-        waitForPayOrderAmountCount.font = UIFont(name: "DINPro-Medium", size: 22)
+        waitForPayOrderAmountCount.font = UIFont(name: "DINPro-Medium", size: 16)
         
-        scrollBackView.addSubview(waitForPayOrderStoryBoard)
-        waitForPayOrderStoryBoard.addSubview(waitForPayOrderLabel)
-        waitForPayOrderStoryBoard.addSubview(waitForPayOrderAmountCount)
+        orderStatisticBoard1.addSubview(waitForPayOrderLabel)
+        orderStatisticBoard1.addSubview(waitForPayOrderAmountCount)
         
         //设计数据
-        let transparentBGboard2:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: transparentBGboard1.frame.maxY + 10, width: kWidth, height: kWidth * 180 / 375))
-        transparentBGboard2.image = UIImage(named: "transparencybgimg")
-        scrollBackView.addSubview(transparentBGboard2)
-        
-        let orderStatisticBoard2:UIImageView = UIImageView.init(frame: CGRect(x: 2, y: transparentBGboard1.frame.maxY + 25, width: kWidth - 4, height: (kWidth - 4) * 150 / 355)) // Y+25
-        orderStatisticBoard2.image = UIImage(named: "designdataboardimg")
+        let orderStatisticBoard2:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: orderStatisticBoard1.frame.maxY + 10, width: kWidth, height: 118)) // Y+25
+        orderStatisticBoard2.image = UIImage(named: "statisticboardbgimg")
         orderStatisticBoard2.isUserInteractionEnabled = true
         scrollBackView.addSubview(orderStatisticBoard2)
         
+        let orangeDotImg2:UIImageView = UIImageView(frame: CGRect(x: 15, y: 14, width: 5, height: 18))
+        orangeDotImg2.image = UIImage(named: "orangedotimg")
+        orderStatisticBoard2.addSubview(orangeDotImg2)
+        
+        let designerTitle:UILabel = UILabel.init(frame: CGRect(x: 30, y: 10, width: 100, height: 25))
+        designerTitle.text = "设计数据"
+        designerTitle.font = UIFont.boldSystemFont(ofSize: 16)
+        designerTitle.textColor = UIColor.titleColors(color: .black)
+        orderStatisticBoard2.addSubview(designerTitle)
+        
         //在线设计师数量：
-        onlineDesignerCount.frame = CGRect(x: kWidth - 156, y: 5, width: 138, height: 26)
-        onlineDesignerCount.setTitleColor(UIColor.lineColors(color: .gray), for: .normal)
+        let onlineIcon2:UIImageView = UIImageView.init(frame: CGRect(x: kWidth - 182, y: designerTitle.frame.minY + 3, width: 16, height: 18))
+        onlineIcon2.image = UIImage(named: "onlineiconimg")
+       // orderStatisticBoard2.addSubview(onlineIcon2)
+        
+        onlineDesignerCount.frame = CGRect(x: kWidth - 156, y: designerTitle.frame.minY, width: 138, height: 26)
+        onlineDesignerCount.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
         onlineDesignerCount.setTitle("在线设计师：-", for: .normal)
-        onlineDesignerCount.contentHorizontalAlignment = .center
+        onlineDesignerCount.contentHorizontalAlignment = .right
         onlineDesignerCount.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        onlineDesignerCount.layer.cornerRadius = 14
-        onlineDesignerCount.layer.borderColor = UIColor.lineColors(color: .gray).cgColor
-        onlineDesignerCount.layer.borderWidth = 0.5
         onlineDesignerCount.tag = 2
         onlineDesignerCount.addTarget(self, action: #selector(onlineCheckBtnClicked(_:)), for: .touchUpInside)
         orderStatisticBoard2.addSubview(onlineDesignerCount)
         
+        let seperateLine2:UIView = UIView.init(frame: CGRect(x: 0, y: 45, width: kWidth, height: 0.5))
+        seperateLine2.backgroundColor = UIColor.lineColors(color: .lightGray)
+        orderStatisticBoard2.addSubview(seperateLine2)
+        
         // - 待接受设计
-        let waitForAcceptDesignLabel:UILabel = UILabel.init(frame: CGRect(x: newOrderLabel.frame.minX, y: 60, width: doneOrderStoryBoard.frame.width, height: 20))
+        let waitForAcceptDesignLabel:UILabel = UILabel.init(frame: CGRect(x: 0, y: seperateLine2.frame.maxY + 15, width: (kWidth - 28)/3, height: 20))
         waitForAcceptDesignLabel.text = "待接受设计"
         waitForAcceptDesignLabel.textColor = UIColor.titleColors(color: .gray)
         waitForAcceptDesignLabel.textAlignment = .center
         waitForAcceptDesignLabel.font = UIFont.systemFont(ofSize: 14)
         orderStatisticBoard2.addSubview(waitForAcceptDesignLabel)
         
-        waitForAcceptDesignCount.frame = CGRect(x: newOrderLabel.frame.minX, y: waitForAcceptDesignLabel.frame.maxY + 11, width: waitForPayOrderStoryBoard.frame.width, height: 28)
+        waitForAcceptDesignCount.frame = CGRect(x: 0, y: waitForAcceptDesignLabel.frame.maxY + 3, width: (kWidth - 28)/3, height: 21)
         waitForAcceptDesignCount.textAlignment = .center
         waitForAcceptDesignCount.textColor = UIColor.titleColors(color: .black)
         waitForAcceptDesignCount.text = "--"
-        waitForAcceptDesignCount.font = UIFont(name: "DINPro-Medium", size: 22)
+        waitForAcceptDesignCount.font = UIFont(name: "DINPro-Medium", size: 16)
         orderStatisticBoard2.addSubview(waitForAcceptDesignCount)
         
         // - 设计中
-        let designingLabel:UILabel = UILabel.init(frame: CGRect(x: doneOrderStoryBoard.frame.minX, y: 60, width: doneOrderStoryBoard.frame.width, height: 20))
+        let designingLabel:UILabel = UILabel.init(frame: CGRect(x: (kWidth - 200)/2, y: seperateLine2.frame.maxY + 15, width: 200, height: 20))
         designingLabel.text = "设计中"
         designingLabel.textColor = UIColor.titleColors(color: .gray)
         designingLabel.textAlignment = .center
         designingLabel.font = UIFont.systemFont(ofSize: 14)
         orderStatisticBoard2.addSubview(designingLabel)
         
-        designningCount.frame = CGRect(x: doneOrderStoryBoard.frame.minX, y: designingLabel.frame.maxY + 11, width: waitForPayOrderStoryBoard.frame.width, height: 28)
+        designningCount.frame = CGRect(x: kWidth/3, y: designingLabel.frame.maxY + 3, width: kWidth/3, height: 21)
         designningCount.textAlignment = .center
         designningCount.textColor = UIColor.titleColors(color: .black)
         designningCount.text = "--"
-        designningCount.font = UIFont(name: "DINPro-Medium", size: 22)
+        designningCount.font = UIFont(name: "DINPro-Medium", size: 16)
         orderStatisticBoard2.addSubview(designningCount)
         
         // - 已定稿
-        let customerConfirmedDesignLabel:UILabel = UILabel.init(frame: CGRect(x: waitForPayOrderStoryBoard.frame.minX, y: 60, width: doneOrderStoryBoard.frame.width, height: 20))
+        let customerConfirmedDesignLabel:UILabel = UILabel.init(frame: CGRect(x: kWidth/3*2 - 4.3, y: seperateLine2.frame.maxY + 15, width: (kWidth - 28)/3, height: 20))
         customerConfirmedDesignLabel.text = "已定稿"
         customerConfirmedDesignLabel.textColor = UIColor.titleColors(color: .gray)
         customerConfirmedDesignLabel.font = UIFont.systemFont(ofSize: 14)
         customerConfirmedDesignLabel.textAlignment = .center
         orderStatisticBoard2.addSubview(customerConfirmedDesignLabel)
         
-        customerConfirmedCount.frame = CGRect(x: waitForPayOrderStoryBoard.frame.minX, y: customerConfirmedDesignLabel.frame.maxY + 11, width: waitForPayOrderStoryBoard.frame.width, height: 28)
+        customerConfirmedCount.frame = CGRect(x: kWidth/3*2 - 4.3, y: customerConfirmedDesignLabel.frame.maxY + 3, width: (kWidth - 28)/3, height: 21)
         customerConfirmedCount.textAlignment = .center
         customerConfirmedCount.textColor = UIColor.titleColors(color: .black)
         customerConfirmedCount.text = "--"
-        customerConfirmedCount.font = UIFont(name: "DINPro-Medium", size: 22)
+        customerConfirmedCount.font = UIFont(name: "DINPro-Medium", size: 16)
         orderStatisticBoard2.addSubview(customerConfirmedCount)
         
         //生产数据
-        let transparentBGboard3:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: transparentBGboard2.frame.maxY + 7, width: kWidth, height: kWidth * 180 / 375))
-        transparentBGboard3.image = UIImage(named: "transparencybgimg")
-        scrollBackView.addSubview(transparentBGboard3)
-        
-        let orderStatisticBoard3:UIImageView = UIImageView.init(frame: CGRect(x: 2, y: transparentBGboard2.frame.maxY + 25, width: kWidth - 4, height: (kWidth - 4) * 150 / 355))
-        orderStatisticBoard3.image = UIImage(named: "produceboardimg")
+        let orderStatisticBoard3:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: orderStatisticBoard2.frame.maxY + 10, width: kWidth, height: 180))
+        orderStatisticBoard3.image = UIImage(named: "statisticboardbgimg")
         scrollBackView.addSubview(orderStatisticBoard3)
+        
+        let orangeDotImg3:UIImageView = UIImageView(frame: CGRect(x: 15, y: 14, width: 5, height: 18))
+        orangeDotImg3.image = UIImage(named: "orangedotimg")
+        orderStatisticBoard3.addSubview(orangeDotImg3)
+        
+        let producerTitle:UILabel = UILabel.init(frame: CGRect(x: 30, y: 10, width: 100, height: 25))
+        producerTitle.text = "生产数据"
+        producerTitle.font = UIFont.boldSystemFont(ofSize: 16)
+        producerTitle.textColor = UIColor.titleColors(color: .black)
+        orderStatisticBoard3.addSubview(producerTitle)
+        
+        //在线车间数量：
+        let onlineIcon3:UIImageView = UIImageView.init(frame: CGRect(x: kWidth - 182, y: producerTitle.frame.minY + 3, width: 16, height: 18))
+        onlineIcon3.image = UIImage(named: "onlineiconimg")
+      //  orderStatisticBoard3.addSubview(onlineIcon3)
+        
+        onlineProducerCount.frame = CGRect(x: kWidth - 156, y: producerTitle.frame.minY, width: 138, height: 26)
+        onlineProducerCount.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+        onlineProducerCount.setTitle("在线车间：-", for: .normal)
+        onlineProducerCount.contentHorizontalAlignment = .right
+        onlineProducerCount.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        onlineProducerCount.tag = 3
+        onlineProducerCount.addTarget(self, action: #selector(onlineCheckBtnClicked(_:)), for: .touchUpInside)
+        orderStatisticBoard3.addSubview(onlineProducerCount)
+        
+        let seperateLine3:UIView = UIView.init(frame: CGRect(x: 0, y: 45, width: kWidth, height: 0.5))
+        seperateLine3.backgroundColor = UIColor.lineColors(color: .lightGray)
+        orderStatisticBoard3.addSubview(seperateLine3)
+        
+        
+        // - 待报价
+        let waitForQuoteOrderLabel:UILabel = UILabel.init(frame: CGRect(x: 0, y: seperateLine3.frame.maxY + 15, width: (kWidth - 28)/3, height: 20))
+        waitForQuoteOrderLabel.text = "待报价"
+        waitForQuoteOrderLabel.textColor = UIColor.titleColors(color: .gray)
+        waitForQuoteOrderLabel.font = UIFont.systemFont(ofSize: 14)
+        waitForQuoteOrderLabel.textAlignment = .center
+        orderStatisticBoard3.addSubview(waitForQuoteOrderLabel)
+        
+        waitForQuoteOrderCount.frame = CGRect(x: 0, y: waitForQuoteOrderLabel.frame.maxY + 3, width: (kWidth - 28)/3, height: 21)
+        waitForQuoteOrderCount.textAlignment = .center
+        waitForQuoteOrderCount.textColor = UIColor.titleColors(color: .black)
+        waitForQuoteOrderCount.text = "--"
+        waitForQuoteOrderCount.font = UIFont(name: "DINPro-Medium", size: 16)
+        orderStatisticBoard3.addSubview(waitForQuoteOrderCount)
+        
+        // - 未处理议价
+        let waitForBargainOrderLabel:UILabel = UILabel.init(frame: CGRect(x: (kWidth - 200)/2, y: seperateLine3.frame.maxY + 15, width: 200, height: 20))
+        waitForBargainOrderLabel.text = "议价未处理"
+        waitForBargainOrderLabel.textColor = UIColor.titleColors(color: .gray)
+        waitForBargainOrderLabel.font = UIFont.systemFont(ofSize: 14)
+        waitForBargainOrderLabel.textAlignment = .center
+        orderStatisticBoard3.addSubview(waitForBargainOrderLabel)
+        
+        waitForBargainOrderCount.frame = CGRect(x: kWidth/3, y: waitForBargainOrderLabel.frame.maxY + 3, width: kWidth/3, height: 21)
+        waitForBargainOrderCount.textAlignment = .center
+        waitForBargainOrderCount.textColor = UIColor.titleColors(color: .black)
+        waitForBargainOrderCount.text = "--"
+        waitForBargainOrderCount.font = UIFont(name: "DINPro-Medium", size: 16)
+        orderStatisticBoard3.addSubview(waitForBargainOrderCount)
+        
+        
+        // - 竞价未报价
+        let waitForCompetionOrderLabel:UILabel = UILabel.init(frame: CGRect(x: kWidth/3*2 - 4.3, y: seperateLine3.frame.maxY + 15, width: (kWidth - 28)/3, height: 20))
+        waitForCompetionOrderLabel.text = "竞价未报价"
+        waitForCompetionOrderLabel.textColor = UIColor.titleColors(color: .gray)
+        waitForCompetionOrderLabel.font = UIFont.systemFont(ofSize: 14)
+        waitForCompetionOrderLabel.textAlignment = .center
+        orderStatisticBoard3.addSubview(waitForCompetionOrderLabel)
+        
+        waitForCompetionOrderCount.frame = CGRect(x: kWidth/3*2 - 4.3, y: waitForCompetionOrderLabel.frame.maxY + 3, width: (kWidth - 28)/3, height: 21)
+        waitForCompetionOrderCount.textAlignment = .center
+        waitForCompetionOrderCount.textColor = UIColor.titleColors(color: .black)
+        waitForCompetionOrderCount.text = "--"
+        waitForCompetionOrderCount.font = UIFont(name: "DINPro-Medium", size: 16)
+        orderStatisticBoard3.addSubview(waitForCompetionOrderCount)
+        
+        
         // - 待接受生产
-        let waitForAcceptProduceLabel:UILabel = UILabel.init(frame: CGRect(x: newOrderLabel.frame.minX, y: 60, width: doneOrderStoryBoard.frame.width, height: 20))
+        let waitForAcceptProduceLabel:UILabel = UILabel.init(frame: CGRect(x: 0, y: waitForQuoteOrderCount.frame.maxY + 15, width: (kWidth - 28)/3, height: 20))
         waitForAcceptProduceLabel.text = "待接受生产"
         waitForAcceptProduceLabel.textColor = UIColor.titleColors(color: .gray)
         waitForAcceptProduceLabel.font = UIFont.systemFont(ofSize: 14)
         waitForAcceptProduceLabel.textAlignment = .center
         orderStatisticBoard3.addSubview(waitForAcceptProduceLabel)
         
-        waitForProduceCount.frame = CGRect(x: newOrderLabel.frame.minX, y: waitForAcceptProduceLabel.frame.maxY + 11, width: waitForPayOrderStoryBoard.frame.width, height: 28)
+        waitForProduceCount.frame = CGRect(x: 0, y: waitForAcceptProduceLabel.frame.maxY + 3, width: (kWidth - 28)/3, height: 21)
         waitForProduceCount.textAlignment = .center
         waitForProduceCount.textColor = UIColor.titleColors(color: .black)
         waitForProduceCount.text = "--"
-        waitForProduceCount.font = UIFont(name: "DINPro-Medium", size: 22)
+        waitForProduceCount.font = UIFont(name: "DINPro-Medium", size: 16)
         orderStatisticBoard3.addSubview(waitForProduceCount)
         
         // - 生产中
-        let producingLabel:UILabel = UILabel.init(frame: CGRect(x: doneOrderStoryBoard.frame.minX, y: 60, width: doneOrderStoryBoard.frame.width, height: 20))
+        let producingLabel:UILabel = UILabel.init(frame: CGRect(x: (kWidth - 200)/2, y: waitForQuoteOrderCount.frame.maxY + 15, width: 200, height: 20))
         producingLabel.text = "生产中"
         producingLabel.textColor = UIColor.titleColors(color: .gray)
         producingLabel.font = UIFont.systemFont(ofSize: 14)
         producingLabel.textAlignment = .center
         orderStatisticBoard3.addSubview(producingLabel)
         
-        producingOrderCount.frame = CGRect(x: doneOrderStoryBoard.frame.minX, y: producingLabel.frame.maxY + 11, width: waitForPayOrderStoryBoard.frame.width, height: 28)
+        producingOrderCount.frame = CGRect(x: kWidth/3, y: producingLabel.frame.maxY + 3, width: kWidth/3, height: 21)
         producingOrderCount.textAlignment = .center
         producingOrderCount.textColor = UIColor.titleColors(color: .black)
         producingOrderCount.text = "--"
-        producingOrderCount.font = UIFont(name: "DINPro-Medium", size: 22)
+        producingOrderCount.font = UIFont(name: "DINPro-Medium", size: 16)
         orderStatisticBoard3.addSubview(producingOrderCount)
         
+        
         // - 邮寄中
-        let shippingLabel:UILabel = UILabel.init(frame: CGRect(x: waitForPayOrderStoryBoard.frame.minX, y: 60, width: doneOrderStoryBoard.frame.width, height: 20))
+        let shippingLabel:UILabel = UILabel.init(frame: CGRect(x: kWidth/3*2 - 4.3, y: waitForQuoteOrderCount.frame.maxY + 15, width: (kWidth - 28)/3, height: 20))
         shippingLabel.text = "邮寄中"
         shippingLabel.textColor = UIColor.titleColors(color: .gray)
         shippingLabel.font = UIFont.systemFont(ofSize: 14)
         shippingLabel.textAlignment = .center
         orderStatisticBoard3.addSubview(shippingLabel)
         
-        shippingOrderCount.frame = CGRect(x: waitForPayOrderStoryBoard.frame.minX, y: shippingLabel.frame.maxY + 11, width: waitForPayOrderStoryBoard.frame.width, height: 28)
+        shippingOrderCount.frame = CGRect(x: kWidth/3*2 - 4.3, y: shippingLabel.frame.maxY + 3, width: (kWidth - 28)/3, height: 21)
         shippingOrderCount.textAlignment = .center
         shippingOrderCount.textColor = UIColor.titleColors(color: .black)
         shippingOrderCount.text = "--"
-        shippingOrderCount.font = UIFont(name: "DINPro-Medium", size: 22)
+        shippingOrderCount.font = UIFont(name: "DINPro-Medium", size: 16)
         orderStatisticBoard3.addSubview(shippingOrderCount)
         
         //待支付的订单统计
@@ -695,17 +938,33 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         backgroundImageView.addSubview(imgBG)
         scrollBackView.addSubview(orderStatisticBoard1)
         
+        scrollBackView.es.addPullToRefresh {
+            [weak self] in
+            self?.refresh()
+        }
+        
         pullStatistics()
 
     }
-    
+    private func refresh() {
+        DispatchQueue.main.asyncAfter(deadline: .now()) {
+          //  self.scrollBackView.es.removeRefreshHeader()
+            self.pullStatistics()
+            
+        }
+    }
     
     @objc func onlineCheckBtnClicked(_ button:UIButton){
         let index = button.tag
-        if index == 1{
+        switch index {
+        case 1:
             print("在线客服列表点击了")
-        }else{
+        case 2:
             print("在线设计师列表点击了")
+        case 3:
+            print("在线车间列表点击了")
+        default:
+            print("在线客服列表点击了")
         }
     }
     @objc func changeTimeIntervalClicked(){
@@ -713,20 +972,20 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         
         let timerInterval = ChooseTimeInterval(frame: CGRect(x: 0, y: kHight - heightChangeForiPhoneXFromBottom - 625, width: kWidth, height: 625))
         
-        switch chooseTimeIntervalBtn.title(for: .normal) {
-        case "最近一天":
-            timerInterval.checkStatus = [true,false,false,false,false]
-        case "最近三天":
-            timerInterval.checkStatus = [false,true,false,false,false]
-        case "最近一周":
-            timerInterval.checkStatus = [false,false,true,false,false]
-        case "本月":
-            timerInterval.checkStatus = [false,false,false,true,false]
-        case "自定义日期":
+//        switch chooseTimeIntervalBtn.title(for: .normal) {
+//        case "最近一天":
+//            timerInterval.checkStatus = [true,false,false,false,false]
+//        case "最近三天":
+//            timerInterval.checkStatus = [false,true,false,false,false]
+//        case "最近一周":
+//            timerInterval.checkStatus = [false,false,true,false,false]
+//        case "本月":
+//            timerInterval.checkStatus = [false,false,false,true,false]
+      //  case "自定义日期":
             timerInterval.checkStatus = [false,false,false,false,true]
-        default:
-            timerInterval.checkStatus = [false,false,true,false,false]
-        }
+//        default:
+//            timerInterval.checkStatus = [false,false,true,false,false]
+//        }
         
         let popVC = PopupViewController()
         popVC.view.backgroundColor = UIColor.clear
@@ -804,6 +1063,8 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         params["startTime"] = formatter.string(from: startDate)
         params["endTime"] = formatter.string(from: endDate)
         header["token"] = token
+        print("startTime \(formatter.string(from: startDate))")
+        print("endTime \(formatter.string(from: endDate))")
         
         
             #if DEBUG
@@ -819,8 +1080,10 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
                     let json = JSON(value)
                     let statusCode = json["code"].int!
                     if statusCode == 200{
-                        self.gudanAmountCount.text = "¥" + "\(json["data","mayBePrice"].int!)".addMicrometerLevel()
-                        self.dealAmountCount.text = "¥" + "\(json["data","payPrice"].int!)".addMicrometerLevel()
+                        let format = NumberFormatter()
+                        format.numberStyle = .decimal
+                        self.gudanAmountCount.text = "¥" + format.string(from: NSNumber(value: json["data","mayBePrice"].int!))!
+                        self.dealAmountCount.text = "¥" + format.string(from: NSNumber(value: json["data","payPrice"].int!))!
                         
                         if json["data","createCount"].int! == 0 {
                             self.transferAmountCount.text = "--.-%"
@@ -833,15 +1096,24 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
                             self.transferAmountCount.text = String(format: "%.1f", ratio) + "%"
                             
                         }
-                        self.newOrderAmountCount.text = "\(json["data","createCount"].int!)".addMicrometerLevel()
-                        self.doneOrderAmountCount.text = "\(json["data","payCount"].int!)".addMicrometerLevel()
-                        self.waitForAcceptDesignCount.text = "\(json["data","designCount"].int!)".addMicrometerLevel()
-                        self.designningCount.text = "\(json["data","desigingCount"].int!)".addMicrometerLevel()
-                        self.customerConfirmedCount.text = "\(json["data","finalTextCount"].int!)".addMicrometerLevel()
-                        self.waitForPayOrderAmountCount.text = "\(json["data","waitPayCount"].int!)".addMicrometerLevel()
-                        self.waitForProduceCount.text = "\(json["data","waitProductCount"].int!)".addMicrometerLevel()
-                        self.producingOrderCount.text = "\(json["data","periodNear"].int!)".addMicrometerLevel()
-                        self.shippingOrderCount.text = "\(json["data","sendGoodsCount"].int!)".addMicrometerLevel()
+                        self.newOrderAmountCount.text = format.string(from: NSNumber(value: json["data","createCount"].int!))!
+                        self.doneOrderAmountCount.text = format.string(from: NSNumber(value: json["data","payCount"].int!))!
+                        self.waitForAcceptDesignCount.text = format.string(from: NSNumber(value: json["data","designCount"].int!))!
+                        self.designningCount.text = format.string(from: NSNumber(value: json["data","desigingCount"].int!))!
+                        self.customerConfirmedCount.text = format.string(from: NSNumber(value: json["data","finalTextCount"].int!))!
+                        self.waitForPayOrderAmountCount.text = format.string(from: NSNumber(value: json["data","waitPayCount"].int!))!
+                        self.waitForProduceCount.text = format.string(from: NSNumber(value: json["data","waitProductCount"].int!))!
+                        self.producingOrderCount.text = format.string(from: NSNumber(value: json["data","periodNear"].int!))!
+                        self.shippingOrderCount.text = format.string(from: NSNumber(value: json["data","sendGoodsCount"].int!))!
+                        if json["data","notQuoteYetCount"].int != nil{
+                            self.waitForQuoteOrderCount.text = format.string(from: NSNumber(value: json["data","notQuoteYetCount"].int!))!
+                        }
+                        if json["data","notDealBargainYerCount"].int != nil{
+                            self.waitForBargainOrderCount.text = format.string(from: NSNumber(value: json["data","notDealBargainYerCount"].int!))!
+                        }
+                        if json["data","notBidPriceYetCount"].int != nil{
+                            self.waitForCompetionOrderCount.text = format.string(from: NSNumber(value: json["data","notBidPriceYetCount"].int!))!
+                        }
                        // self.producingOrderCount.text = "\(json["data","waitPayCount"].int!)"
                         self.noticeOfSearch.isHidden = true
                 //
@@ -859,6 +1131,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
                 print("处理失败")
                 greyLayerPrompt.show(text: "获取数据失败，请重试")
             }
+            self.scrollBackView.es.stopPullToRefresh()
         }
     }
     
@@ -866,7 +1139,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
 
     }
     override func viewWillAppear(_ animated: Bool) {
-        self.view.backgroundColor = UIColor.white
+        self.view.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
         setStatusBarBackgroundColor(color: UIColor.clear)
         setStatusBarHiden(toHidden: true, ViewController: self)
         titleBarView.backgroundColor = UIColor.clear

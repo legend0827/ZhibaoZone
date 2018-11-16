@@ -469,9 +469,7 @@ class ChooseTimeInterval: UIView,UITableViewDelegate,UITableViewDataSource,UIPic
     }
     
     @objc func confirmActionView(){
-        
-      //  getStartTimeStamp()
-      //  getEndTimeStamp()
+
         print("startTimeStamp: \(startTimeStamp)")
         print("endTimeStamp: \(endTimeStamp)")
         managerVC.timeInterval_from = startTimeStamp
@@ -479,21 +477,44 @@ class ChooseTimeInterval: UIView,UITableViewDelegate,UITableViewDataSource,UIPic
         for i in 0..<checkStatus.count{
             if checkStatus[i]{
                 switch i{
-                case 0:
-                    managerVC.chooseTimeIntervalBtn.setTitle("最近一天", for: .normal)
-                    managerVC.downArrowImg.frame = CGRect(x: 55, y: 9, width: 9, height: 5)
+                case 0: //近一日
+                    
+                    managerVC.recentOneDayBtn.layer.borderColor = UIColor.lineColors(color: .red).cgColor
+                    managerVC.recentOneDayBtn.setTitleColor(UIColor.lineColors(color: .red), for: .normal)
+                    
+                    managerVC.recentOneWeekBtn.layer.borderColor = UIColor.clear.cgColor
+                    managerVC.recentOneWeekBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+                    
+                    managerVC.recentOneMonthBtn.layer.borderColor = UIColor.clear.cgColor
+                    managerVC.recentOneMonthBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+                    
+                    managerVC.customDateBtn.layer.borderColor = UIColor.clear.cgColor
+                    managerVC.customDateBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+                    
                 case 1:
-                    managerVC.chooseTimeIntervalBtn.setTitle("最近三天", for: .normal)
-                    managerVC.downArrowImg.frame = CGRect(x: 55, y: 9, width: 9, height: 5)
-                case 2:
-                    managerVC.chooseTimeIntervalBtn.setTitle("最近一周", for: .normal)
-                    managerVC.downArrowImg.frame = CGRect(x: 55, y: 9, width: 9, height: 5)
+                   // managerVC.chooseTimeIntervalBtn.setTitle("最近三天", for: .normal)
+                  //  managerVC.downArrowImg.frame = CGRect(x: 55, y: 9, width: 9, height: 5)
+                    print("normal, 近3日")
+                case 2://近7日
+                    managerVC.recentOneDayBtn.layer.borderColor = UIColor.clear.cgColor
+                    managerVC.recentOneDayBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+                    
+                    managerVC.recentOneWeekBtn.layer.borderColor = UIColor.lineColors(color: .red).cgColor
+                    managerVC.recentOneWeekBtn.setTitleColor(UIColor.lineColors(color: .red), for: .normal)
+                    
+                    managerVC.recentOneMonthBtn.layer.borderColor = UIColor.clear.cgColor
+                    managerVC.recentOneMonthBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+                    
+                    managerVC.customDateBtn.layer.borderColor = UIColor.clear.cgColor
+                    managerVC.customDateBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
                 case 3:
-                    managerVC.chooseTimeIntervalBtn.setTitle("本月", for: .normal)
-                    managerVC.downArrowImg.frame = CGRect(x: 35, y: 9, width: 9, height: 5)
+                    print("normal, 本月")
+//                    managerVC.chooseTimeIntervalBtn.setTitle("本月", for: .normal)
+//                    managerVC.downArrowImg.frame = CGRect(x: 35, y: 9, width: 9, height: 5)
                 case 4:
-                    managerVC.chooseTimeIntervalBtn.setTitle("自定义时间", for: .normal)
-                    managerVC.downArrowImg.frame = CGRect(x: 75, y: 9, width: 9, height: 5)
+                   // managerVC.chooseTimeIntervalBtn.setTitle("自定义时间", for: .normal)
+                   // managerVC.downArrowImg.frame = CGRect(x: 75, y: 9, width: 9, height: 5)
+                    print("normal, 自定义时间")
                 default:
                     print("error")
                 }
@@ -507,6 +528,56 @@ class ChooseTimeInterval: UIView,UITableViewDelegate,UITableViewDataSource,UIPic
         checkStatus = [false,false,false,false,false]
         checkStatus[index] = true
         contentTableView.reloadData()
+        switch index {
+        case 0:
+            //"最近1天"
+            startTimeStamp = dateAheadNow(before: 1, countAs: .PerDay)
+            endTimeStamp = getEndDateTimeStampOfToday()
+        case 1:
+            //"最近3天"
+            startTimeStamp = dateAheadNow(before: 3, countAs: .PerDay)
+            endTimeStamp = getEndDateTimeStampOfToday()
+        case 2:
+            //"最近1周"
+            startTimeStamp = dateAheadNow(before: 7, countAs: .PerDay)
+            endTimeStamp = getEndDateTimeStampOfToday()
+        case 3:
+            // "本月"
+            let now = Date()
+            
+            let dayFormatter = DateFormatter()
+            let hourFormatter = DateFormatter()
+            let minitesFormatter = DateFormatter()
+            let secondFormatter = DateFormatter()
+            
+            dayFormatter.dateFormat = "dd"
+            hourFormatter.dateFormat = "HH"
+            minitesFormatter.dateFormat = "mm"
+            secondFormatter.dateFormat = "ss"
+            
+            dayFormatter.locale = .current
+            hourFormatter.locale = .current
+            minitesFormatter.locale = .current
+            secondFormatter.locale = .current
+            
+            let dayOfNow = dayFormatter.string(from: now) //date(from: now)
+            let hourOfNow = hourFormatter.string(from: now) //date(from: now)
+            let minitesOfNow = minitesFormatter.string(from: now) //date(from: now)
+            let secondOfNow = secondFormatter.string(from: now) //date(from: now)
+            
+            let dayInterval = Int(dayOfNow)! * 24 * 60 * 60
+            let hourInterval = Int(hourOfNow)! * 60 * 60
+            let minitesInterval = Int(minitesOfNow)! * 60
+            let secondInterval = Int(secondOfNow)!
+            
+            startTimeStamp = dateAheadNow(before: dayInterval + hourInterval + minitesInterval + secondInterval, countAs: .perSecond)
+            endTimeStamp = getEndDateTimeStampOfToday()
+        case 4:
+            //"自定义日期"
+            print("nothing")
+        default:
+            print("not exists")
+        }
     }
     
     @objc func getStartTimeStamp(){

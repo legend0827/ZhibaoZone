@@ -42,6 +42,39 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
     var downloadURLHeader = ""
     var downloadURLHeaderForThumbnail = ""
     
+    //转接的生产费用
+    lazy var newProducePriceTextField:UITextField = {
+       let tempTextField = UITextField.init(frame: CGRect(x: 158, y: 10, width: kWidth - 158, height: 32))
+        tempTextField.keyboardType = .decimalPad
+        tempTextField.placeholder = "请输入给新车间的生产费"
+        tempTextField.delegate = self
+        tempTextField.font = UIFont.systemFont(ofSize: 16)
+        return tempTextField
+    }()
+    lazy var newProducePriceLabel:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: 20, y: 15, width: 200, height: 22))
+        tempLabel.text = "生产费用(元）:"
+        tempLabel.textColor = UIColor.titleColors(color: .black)
+        tempLabel.font = UIFont.systemFont(ofSize: 16)
+        return tempLabel
+    }()
+    //转接的生产工期
+    lazy var newProducePeriodTextField:UITextField = {
+        let tempTextField = UITextField.init(frame: CGRect(x: 158, y: 15, width: kWidth - 158, height: 32))
+        tempTextField.keyboardType = .numberPad
+        tempTextField.delegate = self
+        tempTextField.placeholder = "请输入给新车间的生产工期"
+        tempTextField.font = UIFont.systemFont(ofSize: 16)
+        return tempTextField
+    }()
+    lazy var newProducePeriodLabel:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: 20, y: 15, width: 200, height: 22))
+        tempLabel.text = "生产工期(天）:"
+        tempLabel.textColor = UIColor.titleColors(color: .black)
+        tempLabel.font = UIFont.systemFont(ofSize: 16)
+        return tempLabel
+    }()
+    
     //提示文字
     lazy var noticeOfEmpty:UILabel = {
         let tempLabel = UILabel.init(frame: CGRect(x: 20, y: 40, width: kWidth - 40, height: 25))
@@ -60,6 +93,7 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         tempLabel.font = UIFont.systemFont(ofSize: 14)
         return tempLabel
     }()
+    
     
     //核对标题
     lazy var doubleConfirmTitle:UILabel = {
@@ -104,7 +138,7 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
     }()
     //更新后
     lazy var afterSwitch:UILabel = {
-        let tempLabel = UILabel.init(frame: CGRect(x: 20, y: 230, width: 48, height: 22))
+        let tempLabel = UILabel.init(frame: CGRect(x: 20, y: 264, width: 48, height: 22))
         tempLabel.text = "新车间"
         tempLabel.textColor = UIColor.titleColors(color: .red)
         tempLabel.textAlignment = .center
@@ -123,17 +157,35 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         tempLabel.font = UIFont.systemFont(ofSize: 16)
         return tempLabel
     }()
+    //前费用/工期
+    lazy var beforePriceAndPeriod:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: 80, y: 190, width: kWidth - 140, height: 22))
+        tempLabel.text = "产品费/工期: ¥-/-天"
+        tempLabel.textColor = UIColor.titleColors(color: .black)
+        tempLabel.textAlignment = .left
+        tempLabel.font = UIFont.systemFont(ofSize: 16)
+        return tempLabel
+    }()
     //转接图标
     lazy var downArrow:UIImageView = {
-        let tempView = UIImageView.init(frame: CGRect(x: (kWidth - 70)/2, y: 192, width: 30, height: 24.7))
+        let tempView = UIImageView.init(frame: CGRect(x: (kWidth - 70)/2, y: 224, width: 30, height: 24.7))
         tempView.image = UIImage(named: "downarrowimg")
         return tempView
     }()
     
     //后账号：
     lazy var afterAccount:UILabel = {
-        let tempLabel = UILabel.init(frame: CGRect(x: 80, y: 230, width: kWidth - 140, height: 22))
+        let tempLabel = UILabel.init(frame: CGRect(x: 80, y: 264, width: kWidth - 140, height: 22))
         tempLabel.text = "车间2(00019929291)"
+        tempLabel.textColor = UIColor.titleColors(color: .black)
+        tempLabel.textAlignment = .left
+        tempLabel.font = UIFont.systemFont(ofSize: 16)
+        return tempLabel
+    }()
+    //前费用/工期
+    lazy var afterPriceAndPeriod:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: 80, y: 296, width: kWidth - 140, height: 22))
+        tempLabel.text = "生产费/工期: ¥-/-天"
         tempLabel.textColor = UIColor.titleColors(color: .black)
         tempLabel.textAlignment = .left
         tempLabel.font = UIFont.systemFont(ofSize: 16)
@@ -142,7 +194,7 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
     
     //核对准确
     lazy var confirmSwitchBtn:UIButton = {
-        let tempBtn = UIButton.init(frame: CGRect(x: 20, y: 275, width: kWidth - 80, height: 40))
+        let tempBtn = UIButton.init(frame: CGRect(x: 20, y: 338, width: kWidth - 80, height: 40))
         tempBtn.setTitle("我已核对，确认转接", for: .normal)
         tempBtn.layer.cornerRadius = 6
         tempBtn.layer.masksToBounds = true
@@ -383,6 +435,7 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
             let orderid = orderObject.value(forKey: "orderid") as! String
             let servicename = orderObject.value(forKey: "servicername") as! String
             let workshopname = orderObject.value(forKey: "workshopname") as! String
+            let producePrice = orderObject.value(forKey: "producePrice") as! Double
            // translist = orderObject.value(forKey: "translist") as! [NSDictionary]
             
             cell.customernikeNameLabel.text = "客服: " + servicename
@@ -390,6 +443,19 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
             cell.dnikeNameLabel.text = "方案师: " + designername
             cell.orderIDLabel.text = "订单号: " + orderid
             cell.wangwangIDLabel.text = "旺旺号: " + custommerid
+            
+            //生产订单转接，增加产品费
+            if _pagingType == .producingOrder{
+                cell.producePriceLabel.frame = CGRect(x: cell.orderImage.frame.maxX + 20, y: cell.orderIDLabel.frame.maxY + 1, width: 200, height: 20)
+                cell.customernikeNameLabel.frame = CGRect(x: cell.orderImage.frame.maxX + 20, y: cell.producePriceLabel.frame.maxY + 1, width: 200, height: 20)
+                cell.wangwangIDLabel.frame = CGRect(x: cell.orderImage.frame.maxX + 20, y: cell.customernikeNameLabel.frame.maxY + 1, width: 200, height: 20)
+                let orignalText = NSMutableAttributedString(string: "产品费: ¥" + String(producePrice))
+                //产品费
+                let range = orignalText.string.range(of: "¥" + String(producePrice))
+                let nsRange = orignalText.string.nsRange(from: range!)
+                orignalText.addAttributes([NSAttributedStringKey.foregroundColor:UIColor.titleColors(color: .red)], range: nsRange)
+                cell.producePriceLabel.attributedText = orignalText
+            }
             //获取订单图片
             if orderObject.value(forKey: "smallGoodsImage") as? String == nil{ // 图片字段为空
                 cell.orderImage.image = UIImage(named:"defualt-design-pic")
@@ -423,12 +489,23 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
             //设置数据
             if !isToCheckList {
                 let transferObject = translist[theOrderToSwitch]
-                if ((transferObject[indexPath.row] as! NSDictionary).value(forKey: "email") as! String) == ""{
-                    cell.nikeNameLabel.text = "\((transferObject[indexPath.row] as! NSDictionary).value(forKey: "nickName") as! String)(\((transferObject[indexPath.row] as! NSDictionary).value(forKey: "phone") as! String))"
+                if _pagingType == .producingOrder{
+                    //增加生产费和生产周期选项
+                    if (transferObject[indexPath.row] as! NSDictionary).value(forKey: "price") as! Double == 0.0{
+                        cell.nikeNameLabel.text = "\((transferObject[indexPath.row] as! NSDictionary).value(forKey: "nickName") as! String)(¥- / - 天))"
+                    }else{
+                        cell.nikeNameLabel.text = "\((transferObject[indexPath.row] as! NSDictionary).value(forKey: "nickName") as! String)( ¥\((transferObject[indexPath.row] as! NSDictionary).value(forKey: "price") as! Double) / \((transferObject[indexPath.row] as! NSDictionary).value(forKey: "days") as! Int) 天))"
+                    }
                 }else{
-                    cell.nikeNameLabel.text = "\((transferObject[indexPath.row] as! NSDictionary).value(forKey: "nickName") as! String)(\((transferObject[indexPath.row] as! NSDictionary).value(forKey: "email") as! String))"
+                    if ((transferObject[indexPath.row] as! NSDictionary).value(forKey: "email") as! String) == ""{
+                        cell.nikeNameLabel.text = "\((transferObject[indexPath.row] as! NSDictionary).value(forKey: "nickName") as! String)(\((transferObject[indexPath.row] as! NSDictionary).value(forKey: "phone") as! String))"
+                    }else{
+                        cell.nikeNameLabel.text = "\((transferObject[indexPath.row] as! NSDictionary).value(forKey: "nickName") as! String)(\((transferObject[indexPath.row] as! NSDictionary).value(forKey: "email") as! String))"
+                    }
+                    cell.nikeNameLabel.text = "\((transferObject[indexPath.row] as! NSDictionary).value(forKey: "nickName") as! String)(\((transferObject[indexPath.row] as! NSDictionary).value(forKey: "id") as! Int))"
                 }
-//                cell.nikeNameLabel.text = "\((transferObject[indexPath.row] as! NSDictionary).value(forKey: "nickName") as! String)(\((transferObject[indexPath.row] as! NSDictionary).value(forKey: "id") as! Int))"
+                
+
             }else{
                 let listObject = checkList[indexPath.row]
                 cell.checkListOrdersCount.text = "\(listObject.value(forKey: "num") as! Int)"
@@ -494,6 +571,7 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 0.01
     }
+    
     @objc func switchOrderClicked(_ button:UIButton){
         let index = button.tag
         
@@ -519,9 +597,40 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         selectionTitle.textAlignment = .center
         selectionTitle.textColor = UIColor.backgroundColors(color: .black)
         selectionTitle.font = UIFont.boldSystemFont(ofSize: 18)
-        selectionTitle.text = "请选转接的车间"
-        
+        selectionTitle.text = "请选转接的方案师"
         userAccountTable.frame = CGRect(x: 0, y: 65, width: kWidth, height: selectionBgView.frame.height - 85 - heightChangeForiPhoneXFromBottom)
+       
+        if _pagingType == .producingOrder{
+            selectionTitle.text = "请选转接的车间"
+            let NewPriceBG:UIView = UIView.init(frame: CGRect(x: 0, y: 65, width: kWidth, height: 106))
+            NewPriceBG.backgroundColor = UIColor.backgroundColors(color: .white)
+            selectionBgView.addSubview(NewPriceBG)
+            
+            let seperateLine1:UIView  = UIView.init(frame: CGRect(x: 15, y: 53, width: kWidth - 30, height: 0.5))
+            seperateLine1.backgroundColor = UIColor.lineColors(color: .lightGray)
+            NewPriceBG.addSubview(seperateLine1)
+            
+            newProducePeriodTextField.frame = CGRect(x: 158, y: seperateLine1.frame.maxY + 10, width: kWidth - 158, height: 32)
+            newProducePeriodLabel.frame = CGRect(x: 20, y: seperateLine1.frame.maxY + 15, width: 200, height: 22)
+            
+//            let seperateLine2:UIView  = UIView.init(frame: CGRect(x: 15, y: seperateLine1.frame.maxY + 53, width: kWidth - 30, height: 0.5))
+//            seperateLine2.backgroundColor = UIColor.lineColors(color: .lightGray)
+//            NewPriceBG.addSubview(seperateLine2)
+            
+            NewPriceBG.addSubview(newProducePriceLabel)
+            NewPriceBG.addSubview(newProducePeriodLabel)
+            NewPriceBG.addSubview(newProducePriceTextField)
+            NewPriceBG.addSubview(newProducePeriodTextField)
+            
+            let hint:UILabel = UILabel.init(frame: CGRect(x: 20, y: NewPriceBG.frame.maxY + 20, width: 200, height: 22))
+            hint.text = "接受订单车间:"
+            hint.textColor = UIColor.titleColors(color: .gray)
+            hint.font = UIFont.systemFont(ofSize: 16)
+            selectionBgView.addSubview(hint)
+            
+            userAccountTable.frame = CGRect(x: 0, y: 217, width: kWidth, height: selectionBgView.frame.height - 237 - heightChangeForiPhoneXFromBottom)
+        }
+        
         
         selectionBgView.addSubview(userAccountTable)
         selectionBgView.addSubview(confirmSelection)
@@ -611,13 +720,23 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
     }
     
     @objc func confirmClicked(){
+        
+        if newProducePriceTextField.text == "" || newProducePriceTextField.text == "0" {
+            greyLayerPrompt.show(text: "转接金额不能为空或为0")
+            return
+        }
+        if newProducePeriodTextField.text == "" || newProducePeriodTextField.text == "0" {
+            greyLayerPrompt.show(text: "转接工期不能为空或为0")
+            return
+        }
+        
         cancelBtnClicked()
         //设置数据
         let orderObject = searchResultList[theOrderToSwitch]
         let orderid = orderObject.value(forKey: "orderid") as! String
         // translist = orderObject.value(forKey: "translist") as! [NSDictionary]
         var account = ""
-        if (orderObject.value(forKey: "email") as! String) == nil{
+        if (orderObject.value(forKey: "email") as? String) == nil{
             account = orderObject.value(forKey: "mobilePhone") as! String
         }else{
             account = orderObject.value(forKey: "email") as! String
@@ -625,7 +744,8 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         let designername = orderObject.value(forKey: "disignername") as! String
         let workshopname = orderObject.value(forKey: "workshopname") as! String
         
-        let lists = translist[theOrderToSwitch] as! NSArray
+        
+        let lists = translist[theOrderToSwitch]
         var newAccont = ""
         if ((lists[selectedIndex] as! NSDictionary).value(forKey: "email") as! String) == nil{
             newAccont = (lists[selectedIndex] as! NSDictionary).value(forKey: "phone") as! String
@@ -639,7 +759,11 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         }else{
             oldAccount = designername
         }
-        beforeAccount.text = oldAccount
+        if oldAccount == ""{
+            beforeAccount.text = "-"
+        }else{
+            beforeAccount.text = oldAccount + "(\(account))"
+        }
         afterAccount.text =  newName + "(\(newAccont))"
         orderIDLabel.text = "订单号: " + orderid
         //获取订单图片
@@ -677,6 +801,21 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         switchDoubleCheckBgView.addSubview(afterAccount)
         switchDoubleCheckBgView.addSubview(confirmSwitchBtn)
         if _pagingType == .producingOrder {
+            switchDoubleCheckBgView.frame =  CGRect(x: 20, y: 0, width: kWidth - 40, height: (kWidth - 40)*325/325 + 80) //208 + heightChangeForiPhoneXFromTop
+            switchDoubleCheckBgView.addSubview(beforePriceAndPeriod)
+            switchDoubleCheckBgView.addSubview(afterPriceAndPeriod)
+            var oldProducePrice = ""
+            if orderObject.value(forKey: "producePrice") as? Double == 0.0{
+                oldProducePrice = "-"
+            }else{
+                oldProducePrice = String(orderObject.value(forKey: "producePrice") as! Double)
+            }
+            let newProducePrice = newProducePriceTextField.text!
+            let newProducePeriod = newProducePeriodTextField.text!
+           
+            beforePriceAndPeriod.text = "产品费/工期: ¥\(oldProducePrice) / - 天"
+            afterPriceAndPeriod.text = "生产费/工期: ¥\(newProducePrice) / \(newProducePeriod) 天"
+            
             beforeSwitch.text = "前车间"
             afterSwitch.text = "新车间"
         }else{
@@ -807,6 +946,8 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         params["id"] = newID
         header["token"] = token
         params["orderid"] = orderid
+        params["producePrice"] = newProducePriceTextField.text!
+        params["duration"] = newProducePeriodTextField.text!
         
             #if DEBUG
             let requestUrl = apiAddresses.value(forKey: "switchOrderAPIDebug") as! String

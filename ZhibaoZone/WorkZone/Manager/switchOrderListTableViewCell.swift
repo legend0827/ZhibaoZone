@@ -34,20 +34,25 @@ class switchOrderListTableViewCell: UITableViewCell {
         orderImage.frame = CGRect(x: 30, y: 30, width: 80, height: 80)
         
         orderIDLabel.frame = CGRect(x: orderImage.frame.maxX + 20, y: orderImage.frame.minY, width: 200, height: 20)
-        orderIDLabel.text = "订单号: 220010202020202"
+        orderIDLabel.text = "订单号: --"
         orderIDLabel.font = UIFont.systemFont(ofSize: 14)
         orderIDLabel.textColor = UIColor.titleColors(color: .black)
         orderIDLabel.textAlignment = .left
         
         wangwangIDLabel.frame = CGRect(x: orderImage.frame.maxX + 20, y: orderIDLabel.frame.maxY + 7, width: 200, height: 20)
-        wangwangIDLabel.text = "旺旺号: 开心200102"
+        wangwangIDLabel.text = "旺旺号: --"
         wangwangIDLabel.font = UIFont.systemFont(ofSize: 14)
         wangwangIDLabel.textColor = UIColor.titleColors(color: .black)
         wangwangIDLabel.textAlignment = .left
         
+        producePriceLabel.frame = CGRect(x: orderImage.frame.maxX + 20, y: orderIDLabel.frame.maxY + 7, width: 200, height: 20)
+        producePriceLabel.text = "产品费: --"
+        producePriceLabel.font = UIFont.systemFont(ofSize: 14)
+        producePriceLabel.textColor = UIColor.titleColors(color: .black)
+        producePriceLabel.textAlignment = .left
         
         customernikeNameLabel.frame = CGRect(x: orderImage.frame.maxX + 20, y: wangwangIDLabel.frame.maxY + 7, width: 200, height: 20)
-        customernikeNameLabel.text = "客服: 开心200102"
+        customernikeNameLabel.text = "客服: --"
         customernikeNameLabel.textColor = UIColor.titleColors(color: .black)
         customernikeNameLabel.font = UIFont.systemFont(ofSize: 14)
         customernikeNameLabel.textAlignment = .left
@@ -56,13 +61,13 @@ class switchOrderListTableViewCell: UITableViewCell {
         dashLine.image = UIImage(named: "dashlineimg")
         
         dnikeNameLabel.frame = CGRect(x: 30, y: dashLine.frame.maxY + 10, width: 200, height: 20)
-        dnikeNameLabel.text = "方案师: 开心200102"
+        dnikeNameLabel.text = "方案师: --"
         dnikeNameLabel.textColor = UIColor.titleColors(color: .black)
         dnikeNameLabel.font = UIFont.systemFont(ofSize: 14)
         dnikeNameLabel.textAlignment = .left
         
         fnikeNameLabel.frame = CGRect(x: 30 , y: dnikeNameLabel.frame.maxY + 7, width: 200, height: 20)
-        fnikeNameLabel.text = "车间: 开心200102"
+        fnikeNameLabel.text = "车间: --"
         fnikeNameLabel.textColor = UIColor.titleColors(color: .black)
         fnikeNameLabel.font = UIFont.systemFont(ofSize: 14)
         fnikeNameLabel.textAlignment = .left
@@ -82,6 +87,7 @@ class switchOrderListTableViewCell: UITableViewCell {
         backgroundView.addSubview(wangwangIDLabel)
         backgroundView.addSubview(orderIDLabel)
         backgroundView.addSubview(orderImage)
+        backgroundView.addSubview(producePriceLabel)
         
         contentView.addSubview(backgroundView)
 
@@ -128,6 +134,12 @@ class switchOrderListTableViewCell: UITableViewCell {
         return tempCompanyIDLabel
     }()
     
+    lazy var producePriceLabel:UILabel = {
+        let tempCompanyIDLabel = UILabel()
+        tempCompanyIDLabel.textColor = UIColor.gray
+        
+        return tempCompanyIDLabel
+    }()
     //MARKL - lazy 车间
     lazy var fnikeNameLabel:UILabel = {
         let tempCompanyIDLabel = UILabel()

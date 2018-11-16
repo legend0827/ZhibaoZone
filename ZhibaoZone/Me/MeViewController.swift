@@ -205,7 +205,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         createUnlockBanner()
         createSetBanner()
         createVersionBanner()
-        if _roleType != 3 && _roleType == 0{
+        if _roleType != 3 && _roleType != 0{
             createInvoiceBanner()
         }
     }
@@ -303,7 +303,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
             //设置分割线
             let seperateLineBottom:UIView = UIView.init(frame: CGRect(x: 20, y: 60, width: kWidth - 30, height: 1))
             seperateLineBottom.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
-            invoiceCell.addSubview(seperateLineBottom)
+           // invoiceCell.addSubview(seperateLineBottom)
             return invoiceCell
         }
         else if (indexPath.section == 6){
