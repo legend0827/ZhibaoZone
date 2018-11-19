@@ -143,7 +143,7 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         
         modifyRequiresBtnInCell.layer.cornerRadius = 6
         modifyRequiresBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .red).cgColor
-        modifyRequiresBtnInCell.setTitle("留言沟通", for: UIControlState.normal)
+        modifyRequiresBtnInCell.setTitle("设计要求", for: UIControlState.normal)
         modifyRequiresBtnInCell.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         modifyRequiresBtnInCell.setTitleColor(UIColor.titleColors(color: .white), for: UIControlState.normal)
         

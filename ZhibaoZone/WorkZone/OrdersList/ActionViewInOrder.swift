@@ -58,6 +58,10 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
     
     //订单详情：
     var orderDetail:[AnyObject] = []
+    //订单设计稿：
+    var orderDesignPartten:[NSDictionary] = []
+    //订单留言：
+    var orderMessages:[NSDictionary] = []
     //系统配置项目Dict
     var systemParam:[AnyObject] = []
     //附件图片下载地址
@@ -174,6 +178,10 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
     lazy var currentDesignParttenImageView:UIImageView = {
         let tempView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         tempView.image = UIImage(named: "havenoimgyetimg")
+        tempView.layer.borderColor = UIColor.lightGray.cgColor
+        tempView.layer.borderWidth = 0.5
+        tempView.layer.masksToBounds = true
+        tempView.layer.cornerRadius = 6
         return tempView
     }()
     
@@ -884,7 +892,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             case .modifyRequires:
                 backgroundView.contentSize = CGSize(width: kWidth, height: 441)
                 
-                ActionTitle.text = "留言沟通"
+                ActionTitle.text = "设计要求"
                 quotePriceAtLastLabel.isHidden = true
                 quotePriceAtLastTimeValue.isHidden = true
                 quotePriceCurentLabel.isHidden = true
@@ -939,8 +947,14 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 seperateLine7.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
                 backgroundView.addSubview(seperateLine7)
                 
-                leaveMsgListTableView.frame = CGRect(x: 0, y: seperateLine7.frame.maxY + 51, width: kWidth, height: 400)
-                backgroundView.addSubview(leaveMsgListTableView)
+                let notice:UILabel = UILabel.init(frame: CGRect(x: 0, y: seperateLine7.frame.maxY + 51, width: kWidth, height: 22))
+                notice.text = "App暂不支持查看留言,请前往Web页面操作"
+                notice.textAlignment = .center
+                notice.textColor = UIColor.titleColors(color: .gray)
+                notice.font = UIFont.systemFont(ofSize: 14)
+                backgroundView.addSubview(notice)
+               // leaveMsgListTableView.frame = CGRect(x: 0, y: seperateLine7.frame.maxY + 51, width: kWidth, height: 400)
+              //  backgroundView.addSubview(leaveMsgListTableView)
             default:
                 ActionTitle.text = "邮寄投递"
                 quotePriceAtLastLabel.isHidden = true
@@ -2210,6 +2224,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
          //   let desingersInfos = (designInfos[0] as! NSDictionary).value(forKey: "designerpattern") as! NSArray
             
             print("设置接受设计的值")
+            //设计要求
             if orderInfoObjects.value(forKey: "memo") as? String != nil && orderInfoObjects.value(forKey: "memo") as! String != ""{
 
                 let designMemo =  orderInfoObjects.value(forKey: "memo") as! String
@@ -2220,7 +2235,12 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 designMemoValue.text = "无备注信息"
                 designMemoValue.textColor = UIColor.titleColors(color: .lightGray)
             }
-            //留言沟通
+            
+            //当前设计稿：
+            getDesignPattern()
+            
+            //设计留言消息：
+          //  getDesignMessage()
           
             //如果没有报过价，则显示finalPrice。 如果报过价，取低值
             if orderInfoObjects.value(forKey: "designPrice") as? Float == nil || orderInfoObjects.value(forKey: "designPrice") as? Float == 0.0{
@@ -2238,6 +2258,179 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         acceptProduceConfirmBtn.backgroundColor = UIColor.iconColors(color: .red)
     }
     
+    func getDesignMessage(){
+        //获取列表
+        let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
+        let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
+        let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
+        #if DEBUG
+        let newTaskUpdateURL:String = apiAddresses.value(forKey: "designMessageAPIDebug") as! String
+        #else
+        let newTaskUpdateURL:String = apiAddresses.value(forKey: "designMessageAPI") as! String
+        #endif
+        //定义请求参数
+        let params:NSMutableDictionary = NSMutableDictionary()
+        var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
+        //  params["userId"] =  _userId// userID
+        // params["orderId"] =  OrderID
+        params["customid"] =  _customID
+        //  params["roleType"] = _roleType// roletype
+        header["token"] = _token// token
+        
+        _ = Alamofire.request(newTaskUpdateURL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
+            (responseObject) in
+            switch responseObject.result.isSuccess{
+            case true:
+                if  let value = responseObject.result.value{
+                    let json = JSON(value)
+                    do {
+                        let statusCode = try json["code"].int!
+                        if statusCode == 200{
+                            print("获取订单详情成功")
+                            self.orderDetail.removeAll()
+                            let ordersummaryItem = json["data"].dictionaryObject! as NSDictionary
+                            let designinfoItem = json["data","designInfo"].arrayObject! as NSArray
+                            self.orderDetail.append(ordersummaryItem)
+                            self.orderDetail.append(designinfoItem)
+                            print("get order detail successed")
+                            //获取成功数据了，刷新UI
+                            DispatchQueue.main.async {
+                                self.updateViewData()
+                            }
+                        }else if statusCode == 99999 || statusCode == 99998{
+                            //异常
+                            greyLayerPrompt.show(text: "登录已失效,请重新登录")
+                            LogoutMission(viewControler: self.popupVC)
+                        }else{
+                            print("接受失败，code:\(statusCode)")
+                            let errorMsg = json["message"].string!
+                            greyLayerPrompt.show(text: "获取订单详情失败,\(errorMsg)")
+                        }
+                    } catch {
+                        // Replace this implementation with code to handle the error appropriately.
+                        // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                        greyLayerPrompt.show(text: "程序错误. Code:1")
+                    }
+                    
+                    
+                }
+            case false:
+                greyLayerPrompt.show(text: "服务器异常，获取订单信息失败")
+                print("get order detail failed")
+            }
+        }
+    }
+    func updateDesignPartten(){
+        print("updating design pattern")
+        let currentDesignPatternObject = orderDesignPartten[0]
+        let designParrtenVerison = currentDesignPatternObject.value(forKey: "version")
+        currentDesignParttenTitle.text = "当前设计稿: 第\(designParrtenVerison!)版"
+        DispatchQueue.global().async {
+            if currentDesignPatternObject.value(forKey: "smallDesignImage1") as? String != nil && currentDesignPatternObject.value(forKey: "smallDesignImage1") as? String != "" {
+                let imageURLString = "\(self.downloadURLHeaderForThumbnail)\(currentDesignPatternObject.value(forKey: "smallDesignImage1") as! String)"
+                let url = URL(string: imageURLString)!
+                do{
+                    let data = try Data.init(contentsOf: url)
+                    let oImage = UIImage.gif(data:data)
+                    let image = UIImage(data: compressionImage(with: oImage!) as Data)
+                    DispatchQueue.main.async {
+                        self.currentDesignParttenImageView.image = image
+                    }
+                    
+                }catch{
+                    print(error)
+                    //缩略图下载失败，下载原图
+                    let imageURLString = "\(self.downloadURLHeader)\(currentDesignPatternObject.value(forKey: "initialDesignImage1") as! String)"
+                    let url = URL(string: imageURLString)!
+                    do{
+                        let data = try Data.init(contentsOf: url)
+                        let oImage = UIImage.gif(data:data)
+                        let image = UIImage(data: compressionImage(with: oImage!) as Data)
+                        DispatchQueue.main.async {
+                            self.currentDesignParttenImageView.image = image
+                        }
+                    }catch{
+                        print(error)
+                        DispatchQueue.main.async {
+                            self.currentDesignParttenImageView.image = UIImage(named:"defualt-design-pic")//  UIImage(image:image)
+                        }
+                        //原图也下载失败
+                    }
+                    print("无缩略图")
+                }
+            }
+        }
+    }
+    func getDesignPattern(){
+        //获取列表
+        let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
+        let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
+        let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
+        #if DEBUG
+        let newTaskUpdateURL:String = apiAddresses.value(forKey: "designPatternAPIDebug") as! String
+        #else
+        let newTaskUpdateURL:String = apiAddresses.value(forKey: "designPatternAPI") as! String
+        #endif
+        //定义请求参数
+        let params:NSMutableDictionary = NSMutableDictionary()
+        var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
+        //  params["userId"] =  _userId// userID
+        // params["orderId"] =  OrderID
+        params["customid"] =  _customID
+        //  params["roleType"] = _roleType// roletype
+        header["token"] = _token// token
+        
+        _ = Alamofire.request(newTaskUpdateURL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
+            (responseObject) in
+            switch responseObject.result.isSuccess{
+            case true:
+                if  let value = responseObject.result.value{
+                    let json = JSON(value)
+                    do {
+                        let statusCode = try json["code"].int!
+                        if statusCode == 200{
+                            print("获取设计稿详情成功")
+                            self.orderDesignPartten.removeAll()
+                            if json["data"].array?.count == 0{
+                                print("无设计稿")
+                            }else{
+                                for item in json["data"].array!{
+                                    let dicObject = item.dictionaryObject as! NSDictionary
+                                    self.orderDesignPartten.append(dicObject)
+                                }
+    //                            let ordersummaryItem = json["data"].dictionaryObject! as NSDictionary
+    //                            let designinfoItem = json["data","designInfo"].arrayObject! as NSArray
+    //                            self.orderDetail.append(ordersummaryItem)
+    //                            self.orderDetail.append(designinfoItem)
+                                print("get order partten successed")
+                                //获取成功数据了，刷新UI
+                                DispatchQueue.main.async {
+                                    self.updateDesignPartten()
+                                }
+                            }
+                        }else if statusCode == 99999 || statusCode == 99998{
+                            //异常
+                            greyLayerPrompt.show(text: "登录已失效,请重新登录")
+                            LogoutMission(viewControler: self.popupVC)
+                        }else{
+                            print("接受失败，code:\(statusCode)")
+                            let errorMsg = json["message"].string!
+                            greyLayerPrompt.show(text: "获取设计稿失败,\(errorMsg)")
+                        }
+                    } catch {
+                        // Replace this implementation with code to handle the error appropriately.
+                        // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                        greyLayerPrompt.show(text: "程序错误. Code:1")
+                    }
+                    
+                    
+                }
+            case false:
+                greyLayerPrompt.show(text: "服务器异常，获取订单信息失败")
+                print("get order detail failed")
+            }
+        }
+    }
     func adjustActionViewHeight(){
             dashLine.frame = CGRect(x: 20, y: productSizeHint.frame.maxY + 5, width: kWidth + 40, height: 1)
             seperateLine2.frame = CGRect(x: 0, y: ProduceMemoValue.frame.maxY + 5, width: kWidth, height: 5)

@@ -19,7 +19,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>2.2.3</string>
 	<key>CFBundleVersion</key>
-	<string>27</string>
+	<string>29</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
@@ -30,11 +30,11 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>拍摄照片需要使用相机</string>
+	<string>允许我们使用您的相机能够帮助你完成扫描二维码，拍摄成品图功能.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>拍摄视频需要访问你的麦克风</string>
+	<string>允许我们使用您的麦克风能够帮助你在拍摄成品视频时同时录制声音.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>选取照片需要访问你的相册</string>
+	<string>允许我们使用您的相册能够帮助你完成上传已经拍摄完成的成品图功能.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>DINPro-Medium.otf</string>

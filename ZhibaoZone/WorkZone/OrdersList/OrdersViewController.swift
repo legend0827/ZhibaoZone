@@ -37,13 +37,13 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
     ///// 设计师
     //待接单
     private let waitForDesignVC = AllOrdersViewController(orderlistType: orderListCategoryType.waitForDesignCategory)
-    //设计中
-   // private let designningVC = AllOrdersViewController(orderlistTye: orderListCategoryType.designningCategory)
+   // 设计中
+    private let designningVC = AllOrdersViewController(orderlistType: orderListCategoryType.designningCategory)
     //待定稿
-//    private let waitForConfirmDesignVC = AllOrdersViewController(orderlistTye: orderListCategoryType.waitForConfirmDesignCategory)
+    private let waitForConfirmDesignVC = AllOrdersViewController(orderlistType: orderListCategoryType.waitForConfirmDesignCategory)
     //待修改
- //   private let waitForModifyVC = AllOrdersViewController(orderlistTye: orderListCategoryType.waitForModifyCategory)
-    //已定稿
+    private let waitForModifyVC = AllOrdersViewController(orderlistType: orderListCategoryType.waitForModifyCategory)
+   // 已定稿
     private let DesignConfirmedVC = AllOrdersViewController(orderlistType: orderListCategoryType.customerConfirmedCategory)
     
     var backgroundColor: UIColor = UIColor.backgroundColors(color: .white) // 设置菜单栏底色
@@ -69,7 +69,7 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
     
     //所有子视图控制器
     fileprivate var pagingControllersForDesign: [UIViewController] {
-        return [waitForDesignVC,DesignConfirmedVC]
+        return [waitForDesignVC,designningVC,waitForModifyVC,waitForConfirmDesignVC,DesignConfirmedVC]
     }
     //所有子视图控制器
     fileprivate var pagingControllers: [UIViewController] {
@@ -101,7 +101,7 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
         }
         //菜单项
         var itemsOptions: [MenuItemViewCustomizable] {
-            return [MenuItem6(),MenuItem8()]
+            return [MenuItem6(),MenuItem13(),MenuItem7(),MenuItem14(),MenuItem8()]
         }
         //设置选中栏下方条的颜色
         var focusMode:MenuFocusMode {

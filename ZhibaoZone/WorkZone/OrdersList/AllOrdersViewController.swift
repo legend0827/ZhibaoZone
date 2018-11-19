@@ -515,7 +515,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         self.present(popVC, animated: true, completion: nil)
     }
     @objc func modifyRequireBtnClicked(_ button:UIButton){
-        print("点击了查看留言沟通按钮")
+        print("点击了查看设计要求按钮")
         selectedIndex = button.tag
         let orderInfoObjects = orderArray[selectedIndex]
         let customID = orderInfoObjects.value(forKey: "customid") as! String

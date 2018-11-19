@@ -95,6 +95,14 @@
 		<string>http://129.28.68.119:81/dynamo/order/orderQuoteInfo_Insert</string>
 		<key>quotePrice</key>
 		<string>http://119.27.170.195:81/dynamo/order/orderQuoteInfo_Insert</string>
+		<key>designMessageAPIDebug</key>
+		<string>http://129.28.68.119:81/dynamo/order/orderDesignMessage_Query</string>
+		<key>designMessageAPI</key>
+		<string>http://119.27.170.195:81/dynamo/order/orderDesignMessage_Query</string>
+		<key>designPatternAPIDebug</key>
+		<string>http://129.28.68.119:81/dynamo/order/orderDesignPattern_Query</string>
+		<key>designPatternAPI</key>
+		<string>http://119.27.170.195:81/dynamo/order/orderDesignPattern_Query</string>
 		<key>bargainDealAPIDebug</key>
 		<string>http://129.28.68.119:81/dynamo/order/orderBargin_Doit</string>
 		<key>bargainDealAPI</key>
