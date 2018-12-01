@@ -906,8 +906,9 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
 //                        }
                     }else if statusCode == 99999 || statusCode == 99998{
                         //异常
-                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
-                        LogoutMission(viewControler: self)
+                      //  greyLayerPrompt.show(text: "登录已失效,请重新登录")
+                        autoLogin(viewControler: self)
+                        //LogoutMission(viewControler: self)
                     }else{
                         //异常
                     }
@@ -968,8 +969,9 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
                         
                     }else if statusCode == 99999 || statusCode == 99998{
                         //异常
-                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
-                        LogoutMission(viewControler: self)
+//                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
+//                        LogoutMission(viewControler: self)
+                        autoLogin(viewControler: self)
                     }else {
                         greyLayerPrompt.show(text: statusMsg)
                     }
@@ -1047,8 +1049,9 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
                         
                     }else if statusCode == 99999 || statusCode == 99998{
                         //异常
-                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
-                        LogoutMission(viewControler: self)
+//                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
+//                        LogoutMission(viewControler: self)
+                        autoLogin(viewControler: self)
                     }else {
                         
                     }
@@ -1111,8 +1114,9 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
                         
                     }else if statusCode == 99999 || statusCode == 99998{
                         //异常
-                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
-                        LogoutMission(viewControler: self)
+                        autoLogin(viewControler: self)
+//                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
+//                        LogoutMission(viewControler: self)
                     }else {
                         
                     }

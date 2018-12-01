@@ -1568,8 +1568,9 @@ class UploadProductImageViewController: UIViewController,UIImagePickerController
                         
                     }else if statusCode == 99999 || statusCode == 99998{
                         //异常
-                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
-                        LogoutMission(viewControler: self)
+                        autoLogin(viewControler: self)
+//                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
+//                        LogoutMission(viewControler: self)
                     }else {
                         greyLayerPrompt.show(text: statusMsg)
                     }
@@ -1663,8 +1664,9 @@ class UploadProductImageViewController: UIViewController,UIImagePickerController
                                     }
                                 }else if statusCode == 99999 || statusCode == 99998{
                                     //异常
-                                    greyLayerPrompt.show(text: "登录已失效,请重新登录")
-                                    LogoutMission(viewControler: self)
+                                    autoLogin(viewControler: self)
+//                                    greyLayerPrompt.show(text: "登录已失效,请重新登录")
+//                                    LogoutMission(viewControler: self)
                                 }else{
                                     print("发货失败，code:\(statusCode)")
                                     let errorMsg = json["message"].string!

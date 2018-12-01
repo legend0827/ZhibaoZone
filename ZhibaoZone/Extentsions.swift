@@ -713,20 +713,40 @@ func LogoutMission(viewControler:UIViewController){
     let LoginVC = ViewController()
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     LoginVC.needsAutoLogin = false
-    
+
     let userinfos = getCurrentUserInfo()
     let userID = userinfos.value(forKey: "userid") as! String
+
+//    let userinfo = getCurrentUserInfo()
+//    let username = userinfo.value(forKey: "username") as! String
+//    let password = userinfo.value(forKey: "password") as! String
+//
+//
+//    let loginUser = User()
+//    let hub = viewControler.pleaseWait()
+//    loginUser.Login(username: username, password: password,view:viewControler,hub:hub)
     
     //变更devicetoken
     let deviceToken = UserDefaults.standard.object(forKey: "myDeviceToken")
     if deviceToken != nil{
         updatesDeviceToken(withDeviceToken: deviceToken as! String, user: userID, toBind: false)
     }
-    
+
     logoutFromServer()
-    
+
     appDelegate.window?.rootViewController = LoginVC
     viewControler.present(LoginVC, animated: true, completion: nil)
+}
+
+func autoLogin(viewControler:UIViewController){
+        let userinfo = getCurrentUserInfo()
+        let username = userinfo.value(forKey: "username") as! String
+        let password = userinfo.value(forKey: "password") as! String
+    
+    
+        let loginUser = User()
+        let hub = viewControler.pleaseWait()
+        loginUser.Login(username: username, password: password,view:viewControler,hub:hub)
 }
 
 func logoutFromServer(){

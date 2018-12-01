@@ -847,8 +847,9 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
                         }
                     }else if statusCode == 99999 || statusCode == 99998{
                         //异常
-                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
-                        LogoutMission(viewControler: self)
+                        autoLogin(viewControler: self)
+//                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
+//                        LogoutMission(viewControler: self)
                     }else{
                         let msg = json["message"].string
                         greyLayerPrompt.show(text: msg!)

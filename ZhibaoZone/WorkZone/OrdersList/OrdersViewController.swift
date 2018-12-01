@@ -1119,8 +1119,9 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
                 //
                     }else if statusCode == 99999 || statusCode == 99998{
                         //异常
-                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
-                        LogoutMission(viewControler: self)
+                        autoLogin(viewControler: self)
+//                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
+//                        LogoutMission(viewControler: self)
                     }else{
                         print("获取数据失败，code:\(statusCode)")
                         let errorMsg = json["message"].string!
@@ -1225,8 +1226,9 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
                                 }
                             }else if statusCode == 99999 || statusCode == 99998{
                                 //异常
-                                greyLayerPrompt.show(text: "登录已失效,请重新登录")
-                                LogoutMission(viewControler: self)
+                                autoLogin(viewControler: self)
+//                                greyLayerPrompt.show(text: "登录已失效,请重新登录")
+//                                LogoutMission(viewControler: self)
                             }else{ //获取消息失败
                                 self._tabBarVC.redDot.isHidden = true
                                 self.messageCountBackLabel.isHidden = true

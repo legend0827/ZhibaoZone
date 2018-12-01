@@ -306,8 +306,9 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
                         self.getMessagesCount = self.messagesList.count
                     }else if json["code"].int == 99999 || json["code"].int == 99998{
                         //异常
-                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
-                        LogoutMission(viewControler: self)
+                        autoLogin(viewControler: self)
+//                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
+//                        LogoutMission(viewControler: self)
                     }else {
                         let errorMsg = json["error"].string
                         greyLayerPrompt.show(text: errorMsg!)
@@ -369,8 +370,9 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
                         self.getMessageList()
                     }else if statusCode == 99999 || statusCode == 99998{
                         //异常
-                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
-                        LogoutMission(viewControler: self)
+                        autoLogin(viewControler: self)
+//                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
+//                        LogoutMission(viewControler: self)
                     }else{
                         print("报价失败，code:\(statusCode)")
                         let errorMsg = json["message"].string!
@@ -630,8 +632,9 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
                         print("处理成功")
                     }else if statusCode == 99999 || statusCode == 99998{
                         //异常
-                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
-                        LogoutMission(viewControler: self)
+                        autoLogin(viewControler: self)
+//                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
+//                        LogoutMission(viewControler: self)
                     }else{
                         print("处理失败")
                     }

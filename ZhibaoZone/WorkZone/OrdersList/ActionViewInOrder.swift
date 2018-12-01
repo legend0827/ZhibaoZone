@@ -1142,8 +1142,9 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                         self.closeActionView()
                     }else if statusCode == 99999 || statusCode == 99998{
                         //异常
-                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
-                        LogoutMission(viewControler: self.popupVC)
+                        autoLogin(viewControler: self.popupVC)
+//                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
+//                        LogoutMission(viewControler: self.popupVC)
                     }else{
                         print("发货失败，code:\(statusCode)")
                         let errorMsg = json["message"].string!
@@ -1203,8 +1204,9 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                         self.closeActionView()
                     }else if statusCode == 99999 || statusCode == 99998{
                         //异常
-                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
-                        LogoutMission(viewControler: self.popupVC)
+                        autoLogin(viewControler: self.popupVC)
+//                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
+//                        LogoutMission(viewControler: self.popupVC)
                     }else{
                         print("接受失败，code:\(statusCode)")
                         let errorMsg = json["message"].string!
@@ -1311,8 +1313,9 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                             }
                         }else if statusCode == 99999 || statusCode == 99998{
                             //异常
-                            greyLayerPrompt.show(text: "登录已失效,请重新登录")
-                            LogoutMission(viewControler: self.popupVC)
+                            autoLogin(viewControler: self.popupVC)
+//                            greyLayerPrompt.show(text: "登录已失效,请重新登录")
+//                            LogoutMission(viewControler: self.popupVC)
                         }else{
                             print("报价失败，code:\(statusCode)")
                             let errorMsg = json["message"].string!
@@ -1424,8 +1427,9 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                             }
                         }else if statusCode == 99999 || statusCode == 99998{
                             //异常
-                            greyLayerPrompt.show(text: "登录已失效,请重新登录")
-                            LogoutMission(viewControler: self.popupVC)
+                            autoLogin(viewControler: self.popupVC)
+//                            greyLayerPrompt.show(text: "登录已失效,请重新登录")
+//                            LogoutMission(viewControler: self.popupVC)
                         }else{
                             print("议价反馈失败，code:\(statusCode)")
                             let errorMsg = json["message"].string!
@@ -1499,8 +1503,9 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                         self.closeActionView()
                     }else if statusCode == 99999 || statusCode == 99998{
                         //异常
-                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
-                        LogoutMission(viewControler: self.popupVC)
+                        autoLogin(viewControler: self.popupVC)
+//                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
+//                        LogoutMission(viewControler: self.popupVC)
                     }else{
                         print("接受失败，code:\(statusCode)")
                         let errorMsg = json["message"].string!
@@ -1679,8 +1684,9 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                             }
                         }else if statusCode == 99999 || statusCode == 99998{
                             //异常
-                            greyLayerPrompt.show(text: "登录已失效,请重新登录")
-                            LogoutMission(viewControler: self.popupVC)
+                            autoLogin(viewControler: self.popupVC)
+                            //greyLayerPrompt.show(text: "登录已失效,请重新登录")
+                            //LogoutMission(viewControler: self.popupVC)
                         }else{
                             print("接受失败，code:\(statusCode)")
                             let errorMsg = json["message"].string!
@@ -2299,8 +2305,9 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                             }
                         }else if statusCode == 99999 || statusCode == 99998{
                             //异常
-                            greyLayerPrompt.show(text: "登录已失效,请重新登录")
-                            LogoutMission(viewControler: self.popupVC)
+                            autoLogin(viewControler: self.popupVC)
+//                            greyLayerPrompt.show(text: "登录已失效,请重新登录")
+//                            LogoutMission(viewControler: self.popupVC)
                         }else{
                             print("接受失败，code:\(statusCode)")
                             let errorMsg = json["message"].string!
@@ -2410,8 +2417,9 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                             }
                         }else if statusCode == 99999 || statusCode == 99998{
                             //异常
-                            greyLayerPrompt.show(text: "登录已失效,请重新登录")
-                            LogoutMission(viewControler: self.popupVC)
+                            autoLogin(viewControler: self.popupVC)
+//                            greyLayerPrompt.show(text: "登录已失效,请重新登录")
+//                            LogoutMission(viewControler: self.popupVC)
                         }else{
                             print("接受失败，code:\(statusCode)")
                             let errorMsg = json["message"].string!

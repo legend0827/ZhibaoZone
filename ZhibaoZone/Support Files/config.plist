@@ -163,6 +163,8 @@
 		<string>http://129.28.68.119:81/dynamo/user/userAccountStatus_Update</string>
 		<key>logoutAPI</key>
 		<string>http://119.27.170.195:81/dynamo/user/userAccountStatus_Update</string>
+		<key>dailyUpdateAPI</key>
+		<string>https://api.hibai.cn/api/index/index</string>
 		<key>translistGetAPIDehug</key>
 		<string>http://129.28.68.119:81/dynamo/order/orderSummaryInfoByOrderid</string>
 		<key>translistGetAPI</key>

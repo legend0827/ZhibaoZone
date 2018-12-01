@@ -32,6 +32,7 @@ class TabBarController: UITabBarController {
         let normalUserVC = normalUserViewController()
         let quotepriceVC = QuotePriceViewController()
         let managerVC = ManagerViewController()
+        let emplyerVC = EmplpyerDailyUpdateViewController()
         orderVC._tabBarVC = self
         managerVC._tabBarVC = self
         meVC._tabBarVC = self
@@ -67,12 +68,16 @@ class TabBarController: UITabBarController {
         quotepriceVC.tabBarItem.image = UIImage(named: "quotepriceicon")
         managerVC.tabBarItem.image = UIImage(named: "managericon")
         managerVC.tabBarItem.selectedImage = UIImage(named: "managericon-selected")
+        emplyerVC.tabBarItem.image = UIImage(named:"homeicon")
+        emplyerVC.tabBarItem.selectedImage = UIImage(named: "homeicon-selected")
         orderVC.tabBarItem.title = "订单"
         taskVC.tabBarItem.title = "任务"
         meVC.tabBarItem.title = "我的"
         quotepriceVC.tabBarItem.title = "估价"
         normalUserVC.tabBarItem.title = "首页"
         managerVC.tabBarItem.title = "事物处理"
+        emplyerVC.tabBarItem.title = "首页"
+        
         if _roleType == 0{
             self.viewControllers = [normalUserVC,meVC]
         }else if _roleType == 2 || _roleType == 3 {
@@ -81,6 +86,8 @@ class TabBarController: UITabBarController {
             self.viewControllers = [quotepriceVC,meVC]
         }else if _roleType == 4{
             self.viewControllers = [orderVC,managerVC,meVC]
+        }else if _roleType == 5{
+            self.viewControllers = [emplyerVC,meVC]
         }
         self.tabBar.tintColor = UIColor.iconColors(color: .red)
     }
