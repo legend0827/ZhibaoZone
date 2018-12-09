@@ -146,7 +146,6 @@ class EmplpyerDailyUpdateViewController: UIViewController {
         do{
             let data = try Data.init(contentsOf: url)
             let oImage = UIImage.gif(data:data)
-            let image = UIImage(data: compressionImage(with: oImage!) as Data)
             dailyImageView.image = oImage
             backgoundImageView.image = oImage
         }catch{

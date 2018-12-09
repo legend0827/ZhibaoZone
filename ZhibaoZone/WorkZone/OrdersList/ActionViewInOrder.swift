@@ -470,7 +470,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 produceMemoLabel.font = UIFont.systemFont(ofSize: 16)
                 backgroundView.addSubview(produceMemoLabel)
                 
-                ProduceMemoValue.frame = CGRect(x: 20, y: produceMemoLabel.frame.maxY + 15, width: kWidth + 40, height: 22)
+                ProduceMemoValue.frame = CGRect(x: 20, y: produceMemoLabel.frame.maxY + 15, width: kWidth - 40, height: 22)
                 ProduceMemoValue.numberOfLines = 10
                 ProduceMemoValue.font = UIFont.systemFont(ofSize: 14)
                 backgroundView.addSubview(ProduceMemoValue)
@@ -592,7 +592,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 produceMemoLabel.font = UIFont.systemFont(ofSize: 16)
                 backgroundView.addSubview(produceMemoLabel)
                 
-                ProduceMemoValue.frame = CGRect(x: 20, y: produceMemoLabel.frame.maxY + 15, width: kWidth + 40, height: 22)
+                ProduceMemoValue.frame = CGRect(x: 20, y: produceMemoLabel.frame.maxY + 15, width: kWidth - 40, height: 22)
                 ProduceMemoValue.numberOfLines = 10
                 ProduceMemoValue.font = UIFont.systemFont(ofSize: 14)
                 backgroundView.addSubview(ProduceMemoValue)
