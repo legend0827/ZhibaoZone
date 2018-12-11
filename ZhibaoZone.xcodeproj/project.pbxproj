@@ -44,6 +44,7 @@
 		0A3AA20E1FF61C5F00EBC482 /* WorkZoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3AA20D1FF61C5F00EBC482 /* WorkZoneViewController.swift */; };
 		0A3AA2171FF61C6E00EBC482 /* MeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3AA2161FF61C6E00EBC482 /* MeViewController.swift */; };
 		0A3CC3B9209572970055B5DD /* Extentsions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3CC3B8209572970055B5DD /* Extentsions.swift */; };
+		0A450ECD21BF601B0070186E /* config_systemParas.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A450ECC21BF601B0070186E /* config_systemParas.plist */; };
 		0A494FAD21B04FC2004F12BB /* EmplpyerDailyUpdateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A494FAC21B04FC2004F12BB /* EmplpyerDailyUpdateViewController.swift */; };
 		0A4EF77A2191A801006E4DA7 /* invoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4EF7792191A801006E4DA7 /* invoiceViewController.swift */; };
 		0A4EF77C2191AD22006E4DA7 /* InvoiceCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4EF77B2191AD22006E4DA7 /* InvoiceCollectionViewCell.swift */; };
@@ -126,7 +127,6 @@
 		0AF06C582018F465008E2DE9 /* LeaveMsgDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF06C572018F465008E2DE9 /* LeaveMsgDetailViewController.swift */; };
 		0AF6AD9020A1E77400B07459 /* PopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF6AD8F20A1E77400B07459 /* PopupViewController.swift */; };
 		0AFE8E4A2179F7A50094F088 /* config_systemCategory.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AFE8E492179F7A40094F088 /* config_systemCategory.plist */; };
-		0AFE8E4C217A1C660094F088 /* config_systemParas.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AFE8E4B217A1C660094F088 /* config_systemParas.plist */; };
 		A5F33257F62CABE01E797A04 /* Pods_ZhibaoZone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD5C003530853A92BEB827AF /* Pods_ZhibaoZone.framework */; };
 /* End PBXBuildFile section */
 
@@ -263,6 +263,7 @@
 		0A3AA20D1FF61C5F00EBC482 /* WorkZoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkZoneViewController.swift; sourceTree = "<group>"; };
 		0A3AA2161FF61C6E00EBC482 /* MeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeViewController.swift; sourceTree = "<group>"; };
 		0A3CC3B8209572970055B5DD /* Extentsions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Extentsions.swift; path = ZhibaoZone/Extentsions.swift; sourceTree = SOURCE_ROOT; };
+		0A450ECC21BF601B0070186E /* config_systemParas.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = config_systemParas.plist; sourceTree = "<group>"; };
 		0A494FAC21B04FC2004F12BB /* EmplpyerDailyUpdateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmplpyerDailyUpdateViewController.swift; sourceTree = "<group>"; };
 		0A4EF7792191A801006E4DA7 /* invoiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = invoiceViewController.swift; sourceTree = "<group>"; };
 		0A4EF77B2191AD22006E4DA7 /* InvoiceCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -354,7 +355,6 @@
 		0AF06C572018F465008E2DE9 /* LeaveMsgDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaveMsgDetailViewController.swift; sourceTree = "<group>"; };
 		0AF6AD8F20A1E77400B07459 /* PopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupViewController.swift; sourceTree = "<group>"; };
 		0AFE8E492179F7A40094F088 /* config_systemCategory.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = config_systemCategory.plist; sourceTree = "<group>"; };
-		0AFE8E4B217A1C660094F088 /* config_systemParas.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = config_systemParas.plist; path = ../../../../../Desktop/config_systemParas.plist; sourceTree = "<group>"; };
 		63FC8A1224D0469FB7082588 /* Pods-ZhibaoZone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZhibaoZone.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ZhibaoZone/Pods-ZhibaoZone.debug.xcconfig"; sourceTree = "<group>"; };
 		BD5C003530853A92BEB827AF /* Pods_ZhibaoZone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZhibaoZone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7E78EC11FEADCD608EB3444 /* Pods-ZhibaoZone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZhibaoZone.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZhibaoZone/Pods-ZhibaoZone.release.xcconfig"; sourceTree = "<group>"; };
@@ -765,7 +765,7 @@
 				0AE645272152054D00918DCE /* DINPro-Medium.otf */,
 				0AB76695200CA8AB00851E16 /* config.plist */,
 				0AB7C3F020DA01B600D0D26B /* checkListItemsArray.plist */,
-				0AFE8E4B217A1C660094F088 /* config_systemParas.plist */,
+				0A450ECC21BF601B0070186E /* config_systemParas.plist */,
 				0AFE8E492179F7A40094F088 /* config_systemCategory.plist */,
 				0A25DF96201D7E63009CBDEA /* contactList.plist */,
 				0A09185220AABFF20054749B /* shippingCompanyNameList.plist */,
@@ -1016,7 +1016,7 @@
 				0AF06C4E20171D40008E2DE9 /* icon_pull_to_refresh_arrow@2x.png in Resources */,
 				0AB766A7200DC46900851E16 /* HGImage.storyboard in Resources */,
 				0AFE8E4A2179F7A50094F088 /* config_systemCategory.plist in Resources */,
-				0AFE8E4C217A1C660094F088 /* config_systemParas.plist in Resources */,
+				0A450ECD21BF601B0070186E /* config_systemParas.plist in Resources */,
 				0AF06C4C20171D40008E2DE9 /* Localizable.strings in Resources */,
 				0A09185320AABFF20054749B /* shippingCompanyNameList.plist in Resources */,
 				0A25DF97201D7E63009CBDEA /* contactList.plist in Resources */,
