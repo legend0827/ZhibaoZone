@@ -243,6 +243,8 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
     lazy var _tabBarVC: TabBarController = {
         return TabBarController(royeType: 1)
     }()
+    //
+    var onlineList:[NSDictionary] = []
     
     //消息数目
     let messageCountBackLabel:UIView = UIView.init(frame: CGRect(x: 50, y: 5, width: 22, height: 16))
@@ -944,6 +946,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         }
         
         pullStatistics()
+        getOnlineStatus()
 
     }
     private func refresh() {
@@ -961,6 +964,12 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
             print("在线客服列表点击了")
         case 2:
             print("在线设计师列表点击了")
+            guard self.onlineList != nil else{
+                greyLayerPrompt.show(text: "列表获取中，请稍后再试")
+                return
+            }
+            let desigerOnlineVC = designerOnlineStatusViewController(with: onlineList)
+            self.present(desigerOnlineVC, animated: true, completion: nil)
         case 3:
             print("在线车间列表点击了")
         default:
@@ -999,6 +1008,65 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         
         self.present(popVC, animated: true, completion: nil)
 
+    }
+    @objc func getOnlineStatus(){
+        //确定点击接受生产按钮
+        //获取用户信息
+        let userInfos = getCurrentUserInfo()
+        let token = userInfos.value(forKey: "token") as? String
+        
+        
+        //获取列表
+        let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
+        let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
+        let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
+        //定义请求参数
+        let params:NSMutableDictionary = NSMutableDictionary()
+        var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
+        header["token"] = token
+        
+        #if DEBUG
+        let requestUrl = apiAddresses.value(forKey: "onlineStatusAPIDebug") as! String
+        #else
+        let requestUrl = apiAddresses.value(forKey: "onlineStatusAPI") as! String
+        #endif
+        _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
+            (responseObject) in
+            switch responseObject.result.isSuccess{
+            case true:
+                if  let value = responseObject.result.value{
+                    let json = JSON(value)
+                    let statusCode = json["code"].int!
+                    self.onlineList.removeAll()
+                    if statusCode == 200{
+                        for item in json["data","appData"].array!{
+                            let dicItem = item.dictionaryObject as! NSDictionary
+                            self.onlineList.append(dicItem)
+                        }
+                        let onlineCount = json["data","webData","onlines"].int!
+                        
+                        self.onlineDesignerCount.setTitle("在线设计师：\(onlineCount)", for: .normal)
+                  //     self.onlineList
+                        //
+                    }else if statusCode == 99999 || statusCode == 99998{
+                        //异常
+                        autoLogin(viewControler: self)
+                        //                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
+                        //                        LogoutMission(viewControler: self)
+                    }else{
+                        print("获取数据失败，code:\(statusCode)")
+                        let errorMsg = json["message"].string!
+                        self.onlineDesignerCount.setTitle("在线设计师：-", for: .normal)
+                        greyLayerPrompt.show(text: errorMsg)
+                    }
+                }
+            case false:
+                print("处理失败")
+                self.onlineDesignerCount.setTitle("在线设计师：-", for: .normal)
+                greyLayerPrompt.show(text: "获取数据失败，请重试")
+            }
+            self.scrollBackView.es.stopPullToRefresh()
+        }
     }
     @objc func searchBarTaped(){
         if _roleType == 1{

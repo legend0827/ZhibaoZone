@@ -106,9 +106,9 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         
         let orderInfoObjects = orderArray[indexPath.row]
        // let dictionaryObjectInOrderArray = orderArray[indexPath.row]
-        let statusObjects = systemParam[1] as! NSDictionary
+      //  let statusObjects = systemParam[1] as! NSDictionary
         let productObjects = systemParam[0] as! NSDictionary
-        let commandsObjects = systemParam[2] as! NSArray
+       // let commandsObjects = systemParam[2] as! NSArray
         
         let commandsCode = orderInfoObjects.value(forKey: "command") as! String
 
@@ -153,12 +153,14 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         cell.acceptDesignBtnInCell.isHidden = true
         cell.acceptProduceBtnInCell.isHidden = true
         cell.quotePriceBtnInCell.isHidden = true
+        cell.biddingBtnInCell.isHidden = true
         cell.shippingBtnInCell.isHidden = true
         cell.takePhotoForProductBtnInCell.isHidden = true
         cell.designRequiresBtnInCell.isHidden = true
         cell.modifyRequiresBtnInCell.isHidden = true
         cell.dealBargainBtnInCell.isHidden = true
         
+        cell.biddingBtnInCell.addTarget(self, action: #selector(quotePriceBtnClicked), for: .touchUpInside)
         cell.acceptDesignBtnInCell.addTarget(self, action: #selector(acceptDesignBtnClicked), for: .touchUpInside)
         cell.quotePriceBtnInCell.addTarget(self, action: #selector(quotePriceBtnClicked), for: .touchUpInside)
         cell.acceptProduceBtnInCell.addTarget(self, action: #selector(acceptProduceBtnClicked), for: .touchUpInside)
@@ -168,7 +170,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         cell.modifyRequiresBtnInCell.addTarget(self, action: #selector(modifyRequireBtnClicked), for: .touchUpInside)
         cell.dealBargainBtnInCell.addTarget(self, action: #selector(dealBargainBtnClicked), for: .touchUpInside)
         
-        
+        cell.biddingBtnInCell.tag = indexPath.row
         cell.acceptDesignBtnInCell.tag = indexPath.row
         cell.quotePriceBtnInCell.tag = indexPath.row
         cell.acceptProduceBtnInCell.tag = indexPath.row
@@ -214,6 +216,13 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
             }else{
                 cell.dealBargainBtnInCell.isHidden = true
             }
+            
+            if (commandsCode.contains("BIDDING_FEEDBACK")){
+                cell.biddingBtnInCell.isHidden = false
+            }else{
+                cell.biddingBtnInCell.isHidden = true
+            }
+            
             
             if (orderInfoObjects.value(forKey: "produceStatus") as! Int) <= 1{
                 //显示上次报价
@@ -539,6 +548,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         
         self.present(popVC, animated: true, completion: nil)
     }
+    
     @objc func quotePriceBtnClicked(_ button:UIButton){
         print("点击了报价按钮")
         
@@ -547,7 +557,15 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         let customID = orderInfoObjects.value(forKey: "customid") as! String
         let orderID = orderInfoObjects.value(forKey: "orderid") as! String
         let quotePriceView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight + 166 ))
+        let commandsCode = orderInfoObjects.value(forKey: "command") as! String
         
+        var _isBidding = false
+        
+        if (commandsCode.contains("BIDDING_FEEDBACK")){
+            _isBidding = true
+        }else{
+            _isBidding = false
+        }
         
         let popVC = PopupViewController()
         popVC.view.backgroundColor = UIColor.clear
@@ -557,6 +575,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         quotePriceView.popupVC = popVC
         quotePriceView._orderID = orderID
         quotePriceView._customID = customID
+        quotePriceView._isBidding = _isBidding
         quotePriceView.allOrderVC = self
         
         quotePriceView.createViewWithActionType(ActionType: .quotePrice)

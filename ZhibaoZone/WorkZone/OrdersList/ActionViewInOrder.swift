@@ -36,6 +36,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
     var _token:String?
     var _userId:String?
     var _actionType:actionType = .quotePrice
+    var _isBidding = false
     
     lazy var allOrderVC = AllOrdersViewController(orderlistType: orderListCategoryType.allOrderCategory)
     //页面frame
@@ -1285,11 +1286,10 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             params["rounds"] = String(rounds)
 
             #if DEBUG
-                let requestUrl = apiAddresses.value(forKey: "quotePriceDebug") as! String
+            let requestUrl = _isBidding ? (apiAddresses.value(forKey: "biddingAPIDebug") as! String):(apiAddresses.value(forKey: "quotePriceDebug") as! String) //如果是议价，则调用议价接口
             #else
-                let requestUrl = apiAddresses.value(forKey: "quotePrice") as! String
+            let requestUrl = _isBidding ? (apiAddresses.value(forKey: "biddingAPI") as! String):(apiAddresses.value(forKey: "quotePrice") as! String)
             #endif
-            
      
             _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
                 (responseObject) in

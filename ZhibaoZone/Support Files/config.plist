@@ -95,6 +95,10 @@
 		<string>http://129.28.68.119:81/dynamo/order/orderQuoteInfo_Insert</string>
 		<key>quotePrice</key>
 		<string>http://119.27.170.195:81/dynamo/order/orderQuoteInfo_Insert</string>
+		<key>biddingAPIDebug</key>
+		<string>http://129.28.68.119:81/dispatch/compete_Production</string>
+		<key>biddingAPI</key>
+		<string>http://119.27.170.195:81/dispatch/compete_Production</string>
 		<key>designMessageAPIDebug</key>
 		<string>http://129.28.68.119:81/dynamo/order/orderDesignMessage_Query</string>
 		<key>designMessageAPI</key>
@@ -131,6 +135,10 @@
 		<string>http://129.28.68.119:81/dynamo/order/appManagerCount.do</string>
 		<key>statistic</key>
 		<string>http://119.27.170.195:81/dynamo/order/appManagerCount.do</string>
+		<key>onlineStatusAPIDebug</key>
+		<string>http://129.28.68.119:81/dynamo/user/userAccountInfoOnline_Query</string>
+		<key>onlineStatusAPI</key>
+		<string>http://119.27.170.195:81/dynamo/user/userAccountInfoOnline_Query</string>
 		<key>managerGetOrderListAPIDebug</key>
 		<string>http://129.28.68.119:81/dynamo/order/orderProductInfoWaitProduct</string>
 		<key>managerGetOrderListAPI</key>

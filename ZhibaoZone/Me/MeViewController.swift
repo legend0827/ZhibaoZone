@@ -429,8 +429,10 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
             setParamtersVC.MeVC = self
             self.present(setParamtersVC, animated: true, completion: nil)
         }else if indexPath.section == 5{
-            let invoiceVC = invoiceViewController()
-            self.present(invoiceVC, animated: true, completion: nil)
+            if _roleType == 1 || _roleType == 2 || _roleType == 4 || _roleType == 5{
+                let invoiceVC = invoiceViewController()
+                self.present(invoiceVC, animated: true, completion: nil)
+            }
         }
     }
     

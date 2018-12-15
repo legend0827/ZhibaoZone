@@ -273,6 +273,7 @@ extension UIColor {
         case .lightestgray:
             tempColor = UIColor.colorWithRgba(245, g: 245, b: 245, a: 1.0)
         case .white:
+          //  tempColor = UIColor.colorWithRgba(254 , g: 120, b: 83, a: 1.0)
             tempColor = UIColor.colorWithRgba(255, g: 255, b: 255, a: 1.0)
         case .black:
             tempColor = UIColor.colorWithRgba(18, g: 18, b: 18, a: 1.0)
@@ -706,6 +707,42 @@ extension String {
         return NSRange(location: utf16.distance(from: utf16.startIndex, to: from!),length: utf16.distance(from: from!, to: to!))
     }
     
+}
+
+func transferTimeToString(with updateTime:TimeInterval) -> String{
+    var days = 0
+    var hrs = 0
+    var mins = 0
+    var tranferedString = "0分钟"
+    // print("deadLine to Int\(Int(timeInterval))")
+    
+    let now = Date()
+    
+    
+    let nowInterval = Int(now.timeIntervalSince1970)
+    let timeInterval = Double(nowInterval) - updateTime/1000
+    if timeInterval < 60{
+        mins = 0
+        tranferedString = "\(mins)分钟"
+    }else{
+        //> 60秒时
+        mins = (Int(timeInterval)/60)%60
+        if Int(timeInterval)/60 < 60{
+            tranferedString = "\(mins)分钟"
+        }else {
+            // > 60分钟时
+            hrs = Int(timeInterval)/60/60%24
+            if Int(timeInterval)/60 < 60*24{
+                //< 60*24分钟
+                tranferedString = "\(hrs)小时 \(mins)分钟"
+            }else{
+                //60*24分钟
+                days = Int(timeInterval)/60/60/24
+                tranferedString = "\(days)天 \(hrs)小时 \(mins)分钟"
+            }
+        }
+    }
+    return tranferedString
 }
 
 func LogoutMission(viewControler:UIViewController){

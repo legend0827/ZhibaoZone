@@ -18,6 +18,7 @@ class OrdersCollectionViewCell: UICollectionViewCell {
     let quotePriceBtnInCell:UIButton = UIButton.init(type: .custom)
     let acceptProduceBtnInCell:UIButton = UIButton.init(type: .custom)
     let acceptDesignBtnInCell:UIButton = UIButton.init(type: .custom)
+    let biddingBtnInCell:UIButton = UIButton.init(type: .custom)
     let shippingBtnInCell:UIButton = UIButton.init(type: .custom)
     let takePhotoForProductBtnInCell:UIButton = UIButton.init(type: .custom)
     let dealBargainBtnInCell:UIButton = UIButton.init(type: .custom)
@@ -42,6 +43,7 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         quotePriceBtnInCell.frame = CGRect(x: (frame.width - 85) / 2 , y: frame.width + 55, width: 85, height: 30)
         dealBargainBtnInCell.frame = CGRect(x: (frame.width - 85) / 2 , y: frame.width + 55, width: 85, height: 30)
         acceptProduceBtnInCell.frame = CGRect(x: (frame.width - 85) / 2, y: frame.width + 55, width: 85, height: 30)
+        biddingBtnInCell.frame = CGRect(x: (frame.width - 85) / 2, y: frame.width + 55, width: 85, height: 30)
         acceptDesignBtnInCell.frame = CGRect(x: (frame.width - 85) / 2, y: frame.width + 55, width: 85, height: 30)
         takePhotoForProductBtnInCell.frame = CGRect(x: 5, y: frame.width + 15, width: (kWidth - 60)/2, height: 30)
         shippingBtnInCell.frame = CGRect(x: (frame.width - 85) / 2, y: frame.width + 55, width: 85, height: 30)
@@ -107,6 +109,12 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         dealBargainBtnInCell.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         dealBargainBtnInCell.setTitleColor(UIColor.titleColors(color: .white), for: UIControlState.normal)
         
+        biddingBtnInCell.layer.cornerRadius = 6
+        biddingBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .red).cgColor
+        biddingBtnInCell.setTitle("报价", for: UIControlState.normal)
+        biddingBtnInCell.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        biddingBtnInCell.setTitleColor(UIColor.titleColors(color: .white), for: UIControlState.normal)
+        
         acceptProduceBtnInCell.layer.cornerRadius = 6
         acceptProduceBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .red).cgColor
         acceptProduceBtnInCell.setTitle("接受生产", for: UIControlState.normal)
@@ -171,6 +179,7 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         orderCellView.addSubview(modifyRequiresBtnInCell)
         orderCellView.addSubview(takePhotoForProductBtnInCell)
         orderCellView.addSubview(dealBargainBtnInCell)
+        orderCellView.addSubview(biddingBtnInCell)
     }
     
     required init?(coder aDecoder: NSCoder) {

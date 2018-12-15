@@ -45,6 +45,8 @@
 		0A3AA2171FF61C6E00EBC482 /* MeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3AA2161FF61C6E00EBC482 /* MeViewController.swift */; };
 		0A3CC3B9209572970055B5DD /* Extentsions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3CC3B8209572970055B5DD /* Extentsions.swift */; };
 		0A450ECD21BF601B0070186E /* config_systemParas.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A450ECC21BF601B0070186E /* config_systemParas.plist */; };
+		0A450ECF21C26CC80070186E /* designerOnlineStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A450ECE21C26CC80070186E /* designerOnlineStatusViewController.swift */; };
+		0A450ED121C275BB0070186E /* onLineListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A450ED021C275BB0070186E /* onLineListTableViewCell.swift */; };
 		0A494FAD21B04FC2004F12BB /* EmplpyerDailyUpdateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A494FAC21B04FC2004F12BB /* EmplpyerDailyUpdateViewController.swift */; };
 		0A4EF77A2191A801006E4DA7 /* invoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4EF7792191A801006E4DA7 /* invoiceViewController.swift */; };
 		0A4EF77C2191AD22006E4DA7 /* InvoiceCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4EF77B2191AD22006E4DA7 /* InvoiceCollectionViewCell.swift */; };
@@ -264,6 +266,8 @@
 		0A3AA2161FF61C6E00EBC482 /* MeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeViewController.swift; sourceTree = "<group>"; };
 		0A3CC3B8209572970055B5DD /* Extentsions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Extentsions.swift; path = ZhibaoZone/Extentsions.swift; sourceTree = SOURCE_ROOT; };
 		0A450ECC21BF601B0070186E /* config_systemParas.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = config_systemParas.plist; sourceTree = "<group>"; };
+		0A450ECE21C26CC80070186E /* designerOnlineStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = designerOnlineStatusViewController.swift; sourceTree = "<group>"; };
+		0A450ED021C275BB0070186E /* onLineListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = onLineListTableViewCell.swift; sourceTree = "<group>"; };
 		0A494FAC21B04FC2004F12BB /* EmplpyerDailyUpdateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmplpyerDailyUpdateViewController.swift; sourceTree = "<group>"; };
 		0A4EF7792191A801006E4DA7 /* invoiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = invoiceViewController.swift; sourceTree = "<group>"; };
 		0A4EF77B2191AD22006E4DA7 /* InvoiceCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -651,6 +655,8 @@
 				0AC4B49B20FDA4D600312092 /* switchOrderListTableViewCell.swift */,
 				0AC4B49420F709CB00312092 /* EditOrderParameters.swift */,
 				0AC4B49620F711C700312092 /* StatisticCollectionViewCell.swift */,
+				0A450ECE21C26CC80070186E /* designerOnlineStatusViewController.swift */,
+				0A450ED021C275BB0070186E /* onLineListTableViewCell.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -1134,6 +1140,7 @@
 				0A99705D20ADB8C500E4D37C /* OrderSearchCollectionViewCell.swift in Sources */,
 				0A4EF77C2191AD22006E4DA7 /* InvoiceCollectionViewCell.swift in Sources */,
 				0AF06C4920171D40008E2DE9 /* ESPullToRefresh+Manager.swift in Sources */,
+				0A450ECF21C26CC80070186E /* designerOnlineStatusViewController.swift in Sources */,
 				0AC4B49E20FDE31500312092 /* accountListTableViewCell.swift in Sources */,
 				0AAAFA5C20BE5B67005C7F25 /* QuotePriceTableViewCell.swift in Sources */,
 				0A09185120AAB2320054749B /* OrdersCollectionViewCell.swift in Sources */,
@@ -1159,6 +1166,7 @@
 				0AD282B01FF60E7A0044E41C /* TabBarController.swift in Sources */,
 				0A244E5B2098614E00203463 /* waitForHandleTaskListViewController.swift in Sources */,
 				0AEC502C214CB1850000D06C /* calculatorKeyboard.swift in Sources */,
+				0A450ED121C275BB0070186E /* onLineListTableViewCell.swift in Sources */,
 				0A4EF77A2191A801006E4DA7 /* invoiceViewController.swift in Sources */,
 				0A38067B2031DB680077E77F /* CircleInfoView.swift in Sources */,
 				0A9716832009F910007922FB /* NewTaskViewCell.swift in Sources */,
