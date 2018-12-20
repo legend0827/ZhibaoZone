@@ -350,7 +350,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         
       //  setStatusBarHiden(toHidden: false, ViewController: (self.window?.rootViewController)!)
         var addtionalHeight:CGFloat = 0.0
-        if button.tag == 1{
+        if button.tag == 1 || button.tag == 6 || button.tag == 7{
             addtionalHeight = 166.0
         }
         let acceptDesignView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight + addtionalHeight))
@@ -375,6 +375,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
             self.window?.rootViewController?.present(popVC, animated: true, completion: nil)
         case 1:
             //新询价
+            acceptDesignView._isBidding = false
             acceptDesignView.createViewWithActionType(ActionType: .quotePrice)
             self.window?.rootViewController?.present(popVC, animated: true, completion: nil)
         case 2:
@@ -395,6 +396,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
             //设计修改
             acceptDesignView.createViewWithActionType(ActionType: .modifyRequires)
             
+            self.window?.rootViewController?.present(popVC, animated: true, completion: nil)
+        case 6:
+            //议价
+            acceptDesignView.createViewWithActionType(ActionType: .dealBargain)
+            self.window?.rootViewController?.present(popVC, animated: true, completion: nil)
+        case 7:
+            //竞价
+            acceptDesignView._isBidding = true
+            acceptDesignView.createViewWithActionType(ActionType: .quotePrice)
             self.window?.rootViewController?.present(popVC, animated: true, completion: nil)
         default:
             print("hallo")
