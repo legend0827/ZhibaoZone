@@ -10,28 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ZhibaoZone/WorkZone/OrdersList/AllOrdersViewController.swift"
-            timestampString = "566574315.750145"
+            timestampString = "567069717.179723"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "139"
             endingLineNumber = "139"
             landmarkName = "collectionView(_:cellForItemAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ZhibaoZone/WorkZone/OrdersList/calculator/calculatorKeyboard.swift"
-            timestampString = "564063980.557204"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "883"
-            endingLineNumber = "883"
-            landmarkName = "keyboardKeyPressed(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

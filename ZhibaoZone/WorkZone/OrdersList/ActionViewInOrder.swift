@@ -1080,6 +1080,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         calculatorView._roleType = _roleType
         calculatorView.popupVC = popupVC
         calculatorView.actionView = self
+        calculatorView._actionType = _actionType
         UIView.animate(withDuration: 0.3) {
             self.calculatorView.transform = CGAffineTransform(translationX: 0, y: -420 + 166 - heightChangeForiPhoneXFromBottom - self.frame.minY)
             self.transform = CGAffineTransform(translationX: 0, y: -166)
@@ -1396,6 +1397,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             params["customid"] = customID
             params["price"] = String(currentValueOfQuotePrice!)//String(format: "%.2f", currentValueOfQuotePrice)
             params["period"] = produceTimeCostTextField.text
+            params["rounds"] = rounds
             
             
             #if DEBUG

@@ -26,9 +26,9 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
     //已报价子视图
     private let quoteAlreadyVC = AllOrdersViewController(orderlistType: orderListCategoryType.alreadyQuotedOderCategory)
     //未处理议价
-    private let bargainNotDealedVC = AllOrdersViewController(orderlistType: orderListCategoryType.bargainNotDealedCategory)
+   // private let bargainNotDealedVC = AllOrdersViewController(orderlistType: orderListCategoryType.bargainNotDealedCategory)
     //已处理议价
-    private let bargainDealedVC = AllOrdersViewController(orderlistType: orderListCategoryType.bargainDealedCategory)
+ //   private let bargainDealedVC = AllOrdersViewController(orderlistType: orderListCategoryType.bargainDealedCategory)
     //待接受生产子视图
     private let waitForProduceVC = AllOrdersViewController(orderlistType: orderListCategoryType.waitForAcceptProduceOrderCategory)
     //生产中子视图
@@ -73,18 +73,18 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
     }
     //所有子视图控制器
     fileprivate var pagingControllers: [UIViewController] {
-        return [notQuoteYetVC,quoteAlreadyVC,bargainNotDealedVC,bargainDealedVC,waitForProduceVC,producingVC]
+        return [notQuoteYetVC,quoteAlreadyVC,waitForProduceVC,producingVC]
     }
     //菜单配置项
     fileprivate struct MenuOptions: MenuViewCustomizable {
         //菜单显示模式
         var displayMode: MenuDisplayMode {
             //return .segmentedControl
-            return .standard(widthMode: MenuItemWidthMode.flexible, centerItem: false, scrollingMode: MenuScrollingMode.scrollEnabled)
+            return .segmentedControl//.standard(widthMode: MenuItemWidthMode.flexible, centerItem: false, scrollingMode: MenuScrollingMode.scrollEnabled)
         }
         //菜单项
         var itemsOptions: [MenuItemViewCustomizable] {
-            return [MenuItem2(),MenuItem3(),MenuItem11(),MenuItem12(),MenuItem4(),MenuItem5()]
+            return [MenuItem2(),MenuItem3(),MenuItem4(),MenuItem5()]
         }
         //设置选中栏下方条的颜色
         var focusMode:MenuFocusMode {

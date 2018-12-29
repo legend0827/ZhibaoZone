@@ -791,9 +791,9 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
                 params["navId"] = 3
             }
         case orderListCategoryType.notQuotePriceYetOrderCategory:
-            params["navId"] = 53
+            params["navId"] = 8888//53
         case orderListCategoryType.alreadyQuotedOderCategory:
-            params["navId"] = 55
+            params["navId"] = 9999//55
         case orderListCategoryType.waitForAcceptProduceOrderCategory:
            params["navId"] = 60
         case orderListCategoryType.bargainNotDealedCategory:
