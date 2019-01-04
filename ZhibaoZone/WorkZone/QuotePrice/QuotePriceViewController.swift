@@ -215,7 +215,7 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
     private func setupUI(){
         
         //背景颜色
-        self.view.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+        self.view.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
         //检车设备
         if UIDevice.current.isX(){
             heightChangeForiPhoneXFromTop = 24.0
@@ -396,21 +396,21 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
 //        productLengthValue.frame = CGRect(x: 15, y: 32, width: (kWidth-120)/3, height: 32)
 //        productLengthValue.text = "30.0"
 //        productLengthValue.textAlignment = .center
-//        productLengthValue.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+//        productLengthValue.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
 //        productLengthValue.layer.cornerRadius = 4
 //        productLengthValue.delegate = self
 //
 //        productWidthValue.frame = CGRect(x: productLengthValue.frame.maxX + 45, y: 32, width: (kWidth-120)/3, height: 32)
 //        productWidthValue.text = "30.0"
 //        productWidthValue.textAlignment = .center
-//        productWidthValue.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+//        productWidthValue.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
 //        productWidthValue.layer.cornerRadius = 4
 //        productWidthValue.delegate = self
 //
 //        productHeightValue.frame = CGRect(x: productWidthValue.frame.maxX + 45, y: 32, width: (kWidth-120)/3, height: 32)
 //        productHeightValue.text = "2.0"
 //        productHeightValue.textAlignment = .center
-//        productHeightValue.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+//        productHeightValue.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
 //        productHeightValue.layer.cornerRadius = 4
 //        productHeightValue.delegate = self
         

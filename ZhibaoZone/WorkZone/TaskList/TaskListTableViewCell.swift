@@ -91,7 +91,7 @@ class TaskListTableViewCell: UITableViewCell {
         taskSenderUserNameInList.font = UIFont.systemFont(ofSize: 14)
         taskSenderUserNameInList.textColor = UIColor.titleColors(color: .darkGray)
         
-        contentView.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+        contentView.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
         
         taskDeadlineLabel.text = "处理期限:"
         taskDeadlineLabel.font = UIFont.systemFont(ofSize: 14)

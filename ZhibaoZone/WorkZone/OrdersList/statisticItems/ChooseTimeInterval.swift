@@ -421,7 +421,7 @@ class ChooseTimeInterval: UIView,UITableViewDelegate,UITableViewDataSource,UIPic
         self.defaultConfig()
         self.scrollToDate(date: NSDate())
         self.layer.cornerRadius = 20
-        self.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+        self.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
         //初始化值
         ActionTitle.frame  = CGRect(x: 30, y: 20, width: kWidth - 60, height: 25)
         ActionTitle.font = UIFont.boldSystemFont(ofSize: 18)

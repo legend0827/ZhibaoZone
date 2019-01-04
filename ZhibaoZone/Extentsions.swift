@@ -60,13 +60,14 @@ enum lineColorsType{
     case lightGray
     case gray
     case darkGray
+    case lightestGray
 }
 
 //背景颜色枚举
 enum backgroundColorsType{
     case red
     case lightRed
-    case lightestgray
+    case lightestGray
     case white
     case black
     case clear
@@ -256,6 +257,8 @@ extension UIColor {
             tempColor = UIColor.colorWithRgba(102, g: 102, b: 102, a: 1.0)
         case .gray:
             tempColor = UIColor.colorWithRgba(155, g: 155, b: 155, a: 1.0)
+        case .lightestGray:
+            tempColor = UIColor.colorWithRgba(245, g: 245, b: 245, a: 1.0)
         default:
             tempColor = UIColor.colorWithRgba(102, g: 102, b: 102, a: 1.0)
         }
@@ -270,7 +273,7 @@ extension UIColor {
             tempColor = UIColor.colorWithRgba(232, g: 75, b: 76, a: 1.0)
         case .lightRed:
             tempColor = UIColor.colorWithRgba(255, g: 246, b: 246, a: 1.0)
-        case .lightestgray:
+        case .lightestGray:
             tempColor = UIColor.colorWithRgba(245, g: 245, b: 245, a: 1.0)
         case .white:
           //  tempColor = UIColor.colorWithRgba(254 , g: 120, b: 83, a: 1.0)

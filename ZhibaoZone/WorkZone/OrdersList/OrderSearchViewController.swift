@@ -64,7 +64,7 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
         tempCollectionView.delegate = self
         tempCollectionView.dataSource = self
         tempCollectionView.isScrollEnabled = true // 允许拖动
-        tempCollectionView.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+        tempCollectionView.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
         tempCollectionView.register(OrderSearchCollectionViewCell.self, forCellWithReuseIdentifier: CELL_ID)
         return tempCollectionView
     }()

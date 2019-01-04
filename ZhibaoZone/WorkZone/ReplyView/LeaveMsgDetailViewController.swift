@@ -240,7 +240,7 @@ class LeaveMsgDetailViewController: UIViewController,UITableViewDelegate,UITable
         // 导航栏添加到view上
         self.view.addSubview(navBar)
         //灰层
-        self.view.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+        self.view.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
 
         loadTaskDetailBasicInfo(taskType: currentTaskType!)
         //        if isRepling {
@@ -373,7 +373,7 @@ class LeaveMsgDetailViewController: UIViewController,UITableViewDelegate,UITable
         
         
         let sepereateLine:UIView = UIView.init(frame: CGRect(x: 20, y: 62, width: kWidth - 40, height: 1))
-        sepereateLine.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+        sepereateLine.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
         
         let taskContentLabel:UILabel = UILabel.init(frame: CGRect(x: 20, y: 73, width: 88, height: 20))
         taskContentLabel.text = "任务详情:"

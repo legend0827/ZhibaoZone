@@ -88,7 +88,7 @@ class ParasActionView: UIView,UITableViewDelegate,UITableViewDataSource,UIPicker
         _itemType = itemType
         
         self.layer.cornerRadius = 20
-        self.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+        self.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
         //View标题
         titleOfView.frame = CGRect(x: 0, y: 20, width: kWidth, height: 25)
         titleOfView.textColor = UIColor.titleColors(color: .black)

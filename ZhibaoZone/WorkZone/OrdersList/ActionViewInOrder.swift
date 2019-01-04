@@ -286,7 +286,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         //设置点击类型值
         _actionType = ActionType
         
-        self.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+        self.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
         //初始化值
         ActionTitle.frame  = CGRect(x: 30, y: 20, width: kWidth - 60, height: 25)
         ActionTitle.font = UIFont.boldSystemFont(ofSize: 18)
@@ -345,7 +345,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             backgroundView.addSubview(orderTimeLabel)
             
             let seperateLine1:UIView = UIView.init(frame: CGRect(x: 20, y: 44, width: kWidth - 40, height: 2))
-            seperateLine1.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+            seperateLine1.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
             backgroundView.addSubview(seperateLine1)
             //参考图
             orderDefaultPic.frame = CGRect(x: 20, y: 62, width: 118, height: 118) // y=62
@@ -477,7 +477,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 backgroundView.addSubview(ProduceMemoValue)
                 
                 seperateLine2.frame = CGRect(x: 0, y: ProduceMemoValue.frame.maxY + 5, width: kWidth, height: 5)
-                seperateLine2.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+                seperateLine2.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
                 backgroundView.addSubview(seperateLine2)
                 
                 produceTimeCostLabel.text = "填写工期(天):"
@@ -492,7 +492,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 produceTimeCostTextField.placeholder = "填写完成生产、发货时间"
                 backgroundView.addSubview(produceTimeCostTextField)
                 
-                seperateLine5.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+                seperateLine5.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
                 backgroundView.addSubview(seperateLine5)
                 
                 isProduceCycleOverView.frame =  CGRect(x:kWidth - 110, y: seperateLine2.frame.maxY - 1 , width: 110, height: 54)
@@ -519,7 +519,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 backgroundView.addSubview(deadlineLabel)
                 
                 seperateLine3.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 52, width: kWidth - 40, height: 1)
-                seperateLine3.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+                seperateLine3.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
                 backgroundView.addSubview(seperateLine3)
                 
                 quotePriceCurentLabel.text = "设置当前报价:"
@@ -562,7 +562,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 backgroundView.addSubview(currentValueOnSliderTextField)
                 
                 seperateLine4.frame = CGRect(x: 0, y: seperateLine3.frame.maxY + 80, width: kWidth, height: 5)
-                seperateLine4.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+                seperateLine4.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
                 backgroundView.addSubview(seperateLine4)
 
             case .dealBargain:
@@ -599,7 +599,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 backgroundView.addSubview(ProduceMemoValue)
                 
                 seperateLine2.frame = CGRect(x: 0, y: ProduceMemoValue.frame.maxY + 5, width: kWidth, height: 5)
-                seperateLine2.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+                seperateLine2.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
                 backgroundView.addSubview(seperateLine2)
                 
                 ///客户预算和工期
@@ -654,7 +654,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 backgroundView.addSubview(deadlineLabel)
                 
                 seperateLine3.frame = CGRect(x: 20, y: overBudgetBackgroundView.frame.maxY + 52, width: kWidth - 40, height: 5)
-                seperateLine3.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+                seperateLine3.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
                 backgroundView.addSubview(seperateLine3)
 
                 quotePriceCurentLabel.text = "设置当前报价:"
@@ -716,7 +716,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 acceptProduceConfirmBtn.isHidden = true
                 
                 seperateLine2.frame = CGRect(x: 0, y: productSizeHint.frame.maxY + 5, width: kWidth, height: 5)
-                seperateLine2.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+                seperateLine2.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
                 backgroundView.addSubview(seperateLine2)
                 
                 designMemoLabel.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
@@ -767,7 +767,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 acceptProduceConfirmBtn.isHidden = false
                 
                 seperateLine2.frame = CGRect(x: 0, y: productSizeHint.frame.maxY + 5, width: kWidth, height: 5)
-                seperateLine2.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+                seperateLine2.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
                 backgroundView.addSubview(seperateLine2)
                 
                 
@@ -789,7 +789,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 
                 let seperator:UIView = UIView.init()
                 seperator.frame = CGRect(x: 0, y: 0, width: kWidth, height: 2)
-                seperator.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+                seperator.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
                 produceTimeCostBackgroundView.addSubview(seperator)
                 
                 produceTimeCostLabel.text = "填写工期(天):"
@@ -861,7 +861,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 acceptProduceConfirmBtn.isHidden = true
                 
                 seperateLine2.frame = CGRect(x: 0, y: productSizeHint.frame.maxY + 5, width: kWidth, height: 5)
-                seperateLine2.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+                seperateLine2.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
                 backgroundView.addSubview(seperateLine2)
                 
                 designMemoLabel.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
@@ -916,7 +916,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 
                 //设计备注上的那一条
                 seperateLine2.frame = CGRect(x: 0, y: productSizeHint.frame.maxY + 5, width: kWidth, height: 5)
-                seperateLine2.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+                seperateLine2.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
                 backgroundView.addSubview(seperateLine2)
                 
                 designMemoLabel.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
@@ -945,7 +945,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 backgroundView.addSubview(currentDesignParttenImageView)
                 //Line7. 当前设计稿下方的一条线
                 seperateLine7.frame = CGRect(x: 0, y: seperateLine8.frame.maxY + 131, width: kWidth, height: 15)
-                seperateLine7.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+                seperateLine7.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
                 backgroundView.addSubview(seperateLine7)
                 
                 let notice:UILabel = UILabel.init(frame: CGRect(x: 0, y: seperateLine7.frame.maxY + 51, width: kWidth, height: 22))
@@ -1014,7 +1014,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             orderIDValue.text = _orderID
             
             seperateLine4.frame = CGRect(x: 20, y: 158, width: kWidth - 40, height: 2)
-            seperateLine4.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+            seperateLine4.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
             backgroundView.addSubview(seperateLine4)
             
             let shippingCompanyNameLabel:UILabel = UILabel.init(frame: CGRect(x: 20, y: seperateLine4.frame.maxY + 20, width: 100, height: 25))
@@ -1040,7 +1040,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             backgroundView.addSubview(rightArrow)
             
             seperateLine5.frame = CGRect(x: 20, y: seperateLine4.frame.maxY + 65, width: kWidth - 40, height: 2)
-            seperateLine5.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+            seperateLine5.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
             backgroundView.addSubview(seperateLine5)
             
             let shippingCodeLabel:UILabel = UILabel.init(frame: CGRect(x: 20, y: seperateLine5.frame.maxY + 20, width: 100, height: 25))
@@ -1065,7 +1065,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             backgroundView.addSubview(shippingCodeScanBtn)
             
             seperateLine6.frame = CGRect(x: 20, y: seperateLine5.frame.maxY + 65, width: kWidth - 40, height: 2)
-            seperateLine6.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+            seperateLine6.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
             backgroundView.addSubview(seperateLine6)
             
         }

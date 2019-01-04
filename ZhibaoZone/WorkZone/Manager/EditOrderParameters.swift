@@ -380,7 +380,7 @@ class EditOrderParameters: UIViewController,UITableViewDelegate,UITableViewDataS
     private func setupUI(){
         
         //背景颜色
-        self.view.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+        self.view.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
         //iPhoneX适配
         if UIDevice.current.isX(){
             heightChangeForiPhoneXFromTop = 24.0

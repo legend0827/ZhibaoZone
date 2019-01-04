@@ -216,7 +216,7 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
     //选择账号的弹窗
     lazy var selectionBgView:UIView = {
         let tempView = UIView.init(frame: CGRect(x: 0, y: kHight, width: kWidth, height: kHight - 168 - heightChangeForiPhoneXFromTop)) //208 + heightChangeForiPhoneXFromTop
-        tempView.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+        tempView.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
         tempView.layer.cornerRadius = 20
         return tempView
     }()
@@ -253,7 +253,7 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         tempTableView.delegate = self
         tempTableView.dataSource = self
         tempTableView.separatorStyle = .none
-        tempTableView.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+        tempTableView.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
         tempTableView.estimatedSectionHeaderHeight = 0
         tempTableView.estimatedSectionFooterHeight = 0
 //        tempTableView.tableHeaderView = UITableViewHeaderFooterView.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: CGFloat.leastNormalMagnitude))
@@ -286,7 +286,7 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         backgoundView.isUserInteractionEnabled = true
         self.view.addSubview(backgoundView)
         
-        self.view.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+        self.view.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
         let temview:UIView = UIView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: 12))
         temview.backgroundColor = UIColor.backgroundColors(color: .white)
         self.view.addSubview(temview)
@@ -1039,12 +1039,12 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
                             
                             self.orderCount  = self.searchResultList.count
                             self.noticeOfEmpty.isHidden = true
-                            self.orderListTable.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+                            self.orderListTable.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
                         }else{
                             self.orderCount  = self.searchResultList.count
                             greyLayerPrompt.show(text: "未搜索到相关订单")
                             self.noticeOfEmpty.isHidden = false
-                            self.orderListTable.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+                            self.orderListTable.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
                         }
                         
                     }else if statusCode == 99999 || statusCode == 99998{
@@ -1060,7 +1060,7 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
             case false:
                 print("获取列表失败")
                 self.noticeOfEmpty.isHidden = false
-                self.orderListTable.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+                self.orderListTable.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
                 //greyLayerPrompt.show(text: "清空失败,请重试")
             }
             self.orderListTable.reloadData()
@@ -1104,12 +1104,12 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
 //                            }
 //                            self.orderCount  = self.searchResultList.count
 //                            self.noticeOfEmpty.isHidden = true
-//                            self.orderListTable.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+//                            self.orderListTable.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
 //                        }else{
 //                            self.orderCount  = self.searchResultList.count
 //                            greyLayerPrompt.show(text: "未搜索到相关订单")
 //                            self.noticeOfEmpty.isHidden = false
-//                            self.orderListTable.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+//                            self.orderListTable.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
 //                        }
                         
                     }else if statusCode == 99999 || statusCode == 99998{
@@ -1125,7 +1125,7 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
             case false:
                 print("获取列表失败")
               //  self.noticeOfEmpty.isHidden = false
-              //  self.orderListTable.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+              //  self.orderListTable.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
                 //greyLayerPrompt.show(text: "清空失败,请重试")
             }
 //            self.orderListTable.reloadData()

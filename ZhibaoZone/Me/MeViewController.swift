@@ -14,16 +14,40 @@ import Alamofire
 
 class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
-    var tableView:UITableView?
-    var nameBannerCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: -33, width: UIScreen.main.bounds.width, height: 88))
-    var accountIDCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44))
-    var RoleTypeCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44))
-    var SetQuickAccessPermitCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44))
-    var SetParametersCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44))
-    var versionCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44))
-    var invoiceCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44))
-    var switchAccountCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44))
-    var logoutAccountCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44))
+    //用户信息支持表
+    lazy var userInfoTableView:UITableView = {
+        let initTableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - heightChangeForiPhoneXFromBottom - 50), style: UITableViewStyle.grouped)
+        
+        initTableView.dataSource = self
+        initTableView.delegate = self
+        initTableView.estimatedRowHeight = 0;
+        initTableView.estimatedSectionHeaderHeight = 0;
+        initTableView.estimatedSectionFooterHeight = 0;
+        
+        initTableView.backgroundColor = UIColor.clear// #colorLiteral(red: 0.9421117902, green: 0.9367800951, blue: 0.9586003423, alpha: 1)
+        initTableView.showsVerticalScrollIndicator = false
+        initTableView.bounces = true
+        initTableView.separatorStyle = .singleLine
+        initTableView.tableHeaderView = UITableViewHeaderFooterView.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: CGFloat.leastNormalMagnitude))
+        initTableView.tableFooterView = UITableViewHeaderFooterView.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: CGFloat.leastNormalMagnitude))
+        initTableView.contentInset = .zero
+        initTableView.rowHeight = UITableViewAutomaticDimension
+        
+       // initTableView.contentInsetAdjustmentBehavior = .never
+
+        return initTableView
+    }()
+    
+    //用户信息Cell
+    var nameBannerCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 128))
+    var accountIDCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 58))
+    var RoleTypeCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 58))
+    var SetQuickAccessPermitCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 58))
+    var SetParametersCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 58))
+    var versionCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 58))
+    var invoiceCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 58))
+    var switchAccountCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 58))
+    var logoutAccountCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 58))
     let LogoutBtn:UIButton = UIButton.init(type: UIButtonType.system)
     lazy var _tabBarVC = TabBarController(royeType: 4)
     //弹窗灰层
@@ -37,7 +61,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
     //选择账号的弹窗
     lazy var switchAccountBgView:UIView = {
         let tempView = UIView.init(frame: CGRect(x: 0, y: kHight, width: kWidth, height:380 + heightChangeForiPhoneXFromBottom)) //208 + heightChangeForiPhoneXFromTop
-        tempView.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+        tempView.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
         tempView.layer.cornerRadius = 20
         return tempView
     }()
@@ -106,13 +130,18 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
     lazy var switchAccountTitle:UILabel = UILabel.init()
     
     lazy var switchAccountBtn:UIButton = {
-        let tempBtn = UIButton.init(frame: CGRect(x: kWidth - 121, y: 0, width: 106, height: 44)) // 44
+        let tempBtn = UIButton.init(frame: CGRect(x: kWidth - 126, y: 0, width: 106, height: 44)) // 44
         tempBtn.setTitle("切换车间", for: .normal)
         tempBtn.addTarget(self, action: #selector(switchAccountBtnClicked), for: .touchUpInside)
         tempBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         tempBtn.contentHorizontalAlignment = .right
         tempBtn.contentVerticalAlignment = .center
-        tempBtn.setTitleColor(UIColor.titleColors(color: .red), for: .normal)
+        tempBtn.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
+        
+        let switchicon:UIImageView = UIImageView.init(frame: CGRect(x: 30, y: 16, width: 16, height: 12))
+        switchicon.image = UIImage(named: "switchiconimg")
+        tempBtn.addSubview(switchicon)
+        
         return tempBtn
     }()
     //当前登录用户的信息
@@ -131,16 +160,14 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
     
     override func viewWillAppear(_ animated: Bool) {
         //设置状态栏背景色
-        setStatusBarBackgroundColor(color: .clear)
-        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent // 改成白色字体
+        setStatusBarBackgroundColor(color: .white)
+        setStatusBarHiden(toHidden: false, ViewController: self)
+       // setStatusBarBackgroundColor(color: .white)
+       // UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent // 改成白色字体
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let MeBackgroundImageView:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: 100 + heightChangeForiPhoneXFromTop))
-        MeBackgroundImageView.image = UIImage(named: "meBackgroundImg")
-        self.view.addSubview(MeBackgroundImageView)
         
         //获取当前用户信息
         let userInfos = getCurrentUserInfo()
@@ -156,6 +183,25 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         _password = password
         _token = token
         
+        self.view.addSubview(userInfoTableView)
+        
+        nameBannerCell.backgroundColor = UIColor.clear
+        accountIDCell.backgroundColor = UIColor.clear
+        SetQuickAccessPermitCell.backgroundColor = UIColor.clear
+        RoleTypeCell.backgroundColor = UIColor.clear
+        
+        createNameBanner()
+        createAccountBanner()
+        createRoleBanner()
+        createUnlockBanner()
+        createSetBanner()
+        createVersionBanner()
+        if _roleType != 3 && _roleType != 0{
+            createInvoiceBanner()
+        }
+    }
+    
+    func setupAddtionalAccountInfos(){
         //附属账号信息
         let dataOperator = CoreDataOperation()
         addtionalAccountAvailable = dataOperator.checkAccountAvaiable(forAddtional: true) // 检查附属账号是否可用
@@ -169,52 +215,13 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         }else{
             //TODO: 附属账号不可用
         }
-        
-        
-        self.tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - heightChangeForiPhoneXFromBottom - 50), style: UITableViewStyle.grouped)
-        
-        tableView?.dataSource = self
-        tableView?.delegate = self
-        self.view.addSubview(tableView!)
-        
-        tableView?.estimatedRowHeight = 0;
-        tableView?.estimatedSectionHeaderHeight = 0;
-        tableView?.estimatedSectionFooterHeight = 0;
-        
-        nameBannerCell.backgroundColor = UIColor.clear
-        accountIDCell.backgroundColor = UIColor.clear
-        SetQuickAccessPermitCell.backgroundColor = UIColor.clear
-        RoleTypeCell.backgroundColor = UIColor.clear
-        
-        self.view.backgroundColor = UIColor.backgroundColors(color: .white)
-        tableView?.backgroundColor = UIColor.clear// #colorLiteral(red: 0.9421117902, green: 0.9367800951, blue: 0.9586003423, alpha: 1)
-        tableView?.showsVerticalScrollIndicator = false
-        tableView?.bounces = true
-        tableView?.separatorStyle = .singleLine
-        
-        
-
-        //登出按钮左侧图标
-//        let imgLogout = UIImageView(frame: CGRect(x: 5, y: (44-30)/2, width: 30, height: 30))
-//        imgLogout.image = UIImage(named:"logouticon-white")
-//        LogoutBtn.addSubview(imgLogout)
-        //emytyAreaShowingLabel()
-        createNameBanner()
-        createAccountBanner()
-        createRoleBanner()
-        createUnlockBanner()
-        createSetBanner()
-        createVersionBanner()
-        if _roleType != 3 && _roleType != 0{
-            createInvoiceBanner()
-        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if(indexPath.section == 0){
             return 88
         }else {
-            return 44
+            return 58
         }
     }
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -230,23 +237,17 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         tableView.separatorStyle = UITableViewCellSeparatorStyle.none
         if(indexPath.section == 0){
-            
             nameBannerCell.alpha = 1.0
             nameBannerCell.selectionStyle = UITableViewCellSelectionStyle.none
             return nameBannerCell
         }else if(indexPath.section == 1){
-            //设置分割线
-            let seperateLine:UIView = UIView.init(frame: CGRect(x: 20, y: 0, width: kWidth - 30, height: 1))
-            seperateLine.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
-            accountIDCell.addSubview(seperateLine)
-            
             accountIDCell.alpha = 1.0
             accountIDCell.selectionStyle = UITableViewCellSelectionStyle.none
             return accountIDCell
         }else if (indexPath.section == 2){
             //设置分割线
             let seperateLine:UIView = UIView.init(frame: CGRect(x: 20, y: 0, width: kWidth - 30, height: 1))
-            seperateLine.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+            seperateLine.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
             RoleTypeCell.addSubview(seperateLine)
             
             RoleTypeCell.alpha = 1.0
@@ -255,7 +256,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         }else if (indexPath.section == 3){
             //设置分割线
             let seperateLine:UIView = UIView.init(frame: CGRect(x: 20, y: 0, width: kWidth - 30, height: 1))
-            seperateLine.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+            seperateLine.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
             SetQuickAccessPermitCell.addSubview(seperateLine)
             
             SetQuickAccessPermitCell.alpha = 1.0
@@ -264,7 +265,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         }else if (indexPath.section == 4){
             //设置分割线
             let seperateLine:UIView = UIView.init(frame: CGRect(x: 20, y: 0, width: kWidth - 30, height: 1))
-            seperateLine.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+            seperateLine.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
             SetParametersCell.addSubview(seperateLine)
             
             //参数设置
@@ -276,7 +277,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
             if _roleType == 3 || _roleType == 0{
                 //设置分割线
                 let seperateLine:UIView = UIView.init(frame: CGRect(x: 20, y: 0, width: kWidth - 30, height: 1))
-                seperateLine.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+                seperateLine.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
                 
                 versionCell.addSubview(seperateLine)
                 
@@ -286,13 +287,13 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
                 
                 //设置分割线
                 let seperateLineBottom:UIView = UIView.init(frame: CGRect(x: 20, y: 60, width: kWidth - 30, height: 1))
-                seperateLineBottom.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+                seperateLineBottom.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
                 versionCell.addSubview(seperateLineBottom)
                 return versionCell
             }
             //设置分割线
             let seperateLine:UIView = UIView.init(frame: CGRect(x: 20, y: 0, width: kWidth - 30, height: 1))
-            seperateLine.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+            seperateLine.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
             
             invoiceCell.addSubview(seperateLine)
             
@@ -302,7 +303,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
             
             //设置分割线
             let seperateLineBottom:UIView = UIView.init(frame: CGRect(x: 20, y: 60, width: kWidth - 30, height: 1))
-            seperateLineBottom.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+            seperateLineBottom.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
            // invoiceCell.addSubview(seperateLineBottom)
             return invoiceCell
         }
@@ -330,7 +331,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
             }
             //设置分割线
             let seperateLine:UIView = UIView.init(frame: CGRect(x: 20, y: 0, width: kWidth - 30, height: 1))
-            seperateLine.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+            seperateLine.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
             
             versionCell.addSubview(seperateLine)
             
@@ -340,14 +341,14 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
             
             //设置分割线
             let seperateLineBottom:UIView = UIView.init(frame: CGRect(x: 20, y: 60, width: kWidth - 30, height: 1))
-            seperateLineBottom.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+            seperateLineBottom.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
             versionCell.addSubview(seperateLineBottom)
             return versionCell
             
         }else if indexPath.section == 7{
             if _roleType == 3 || _roleType == 0{
                 //设置登录按钮
-                LogoutBtn.frame = CGRect(x: 20, y: 0, width: kWidth - 40, height: 44)
+                LogoutBtn.frame = CGRect(x: 20, y: 0, width: kWidth - 40, height: 50)
                 //
                 //            if UIDevice.current.isX() {
                 //                LogoutBtn.frame = CGRect(x:20, y:UIScreen.main.bounds.height-151, width:UIScreen.main.bounds.width - 40, height: 45)
@@ -355,15 +356,15 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
                 //                LogoutBtn.frame = CGRect(x:20, y:UIScreen.main.bounds.height-90, width:UIScreen.main.bounds.width - 40, height: 45)
                 //            }
                 //        LogoutBtn.layer.borderColor = UIColor.lightGray.cgColor
-                LogoutBtn.layer.cornerRadius = 6
+                LogoutBtn.layer.cornerRadius = 4
                 //        LogoutBtn.layer.borderWidth = 0.5
-                LogoutBtn.layer.backgroundColor = UIColor.iconColors(color: .red).cgColor
+                LogoutBtn.layer.backgroundColor = UIColor.backgroundColors(color: .lightestGray).cgColor
                 LogoutBtn.setTitle("退出", for: UIControlState.normal)
-                LogoutBtn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-                LogoutBtn.setTitleColor(UIColor.titleColors(color: .white), for: UIControlState.normal)
+                LogoutBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+                LogoutBtn.setTitleColor(UIColor.titleColors(color: .black), for: UIControlState.normal)
                 LogoutBtn.setTitleColor(UIColor.clear, for: UIControlState.highlighted)
                 
-                //  tableView?.addSubview(LogoutBtn)
+                //  initTableView.addSubview(LogoutBtn)
                 
                 LogoutBtn.addTarget(self, action: #selector(LogoutBtnClick), for: UIControlEvents.touchUpInside)
                 tableView.addSubview(logoutAccountCell)
@@ -391,7 +392,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
             return switchAccountCell
         }else if indexPath.section == 8{
             //设置登录按钮
-            LogoutBtn.frame = CGRect(x: 20, y: 0, width: kWidth - 40, height: 44)
+            LogoutBtn.frame = CGRect(x: 20, y: 0, width: kWidth - 40, height: 50)
 //
 //            if UIDevice.current.isX() {
 //                LogoutBtn.frame = CGRect(x:20, y:UIScreen.main.bounds.height-151, width:UIScreen.main.bounds.width - 40, height: 45)
@@ -399,15 +400,15 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
 //                LogoutBtn.frame = CGRect(x:20, y:UIScreen.main.bounds.height-90, width:UIScreen.main.bounds.width - 40, height: 45)
 //            }
             //        LogoutBtn.layer.borderColor = UIColor.lightGray.cgColor
-            LogoutBtn.layer.cornerRadius = 6
+            LogoutBtn.layer.cornerRadius = 4
             //        LogoutBtn.layer.borderWidth = 0.5
-            LogoutBtn.layer.backgroundColor = UIColor.iconColors(color: .red).cgColor
+            LogoutBtn.layer.backgroundColor = UIColor.backgroundColors(color: .lightestGray).cgColor
             LogoutBtn.setTitle("退出", for: UIControlState.normal)
-            LogoutBtn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-            LogoutBtn.setTitleColor(UIColor.titleColors(color: .white), for: UIControlState.normal)
+            LogoutBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+            LogoutBtn.setTitleColor(UIColor.titleColors(color: .black), for: UIControlState.normal)
             LogoutBtn.setTitleColor(UIColor.clear, for: UIControlState.highlighted)
             
-            //  tableView?.addSubview(LogoutBtn)
+            //  initTableView.addSubview(LogoutBtn)
             
             LogoutBtn.addTarget(self, action: #selector(LogoutBtnClick), for: UIControlEvents.touchUpInside)
             tableView.addSubview(logoutAccountCell)
@@ -441,12 +442,10 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 0{
-            return 40
-        }else if section == 1{
+        if section == 1{
             return 40
         }else{
-            return 15
+            return 0.01
         }
     }
     
@@ -460,59 +459,59 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
     
     
     func createUnlockBanner(){
-        let iconImageview:UIImageView = UIImageView.init(frame: CGRect(x: 22, y: 18, width: 20, height: 24))
-        let unlockHitTitleLabel:UILabel = UILabel.init(frame: CGRect(x: 64, y: 8, width: 200, height: 44))
+        let iconImageview:UIImageView = UIImageView.init(frame: CGRect(x: 22, y: 19, width: 17, height: 20))
+        let unlockHitTitleLabel:UILabel = UILabel.init(frame: CGRect(x: 60, y: 19, width: 200, height: 21))
         
         //设置icon
         iconImageview.image = UIImage(named: "usersecuritysettingicon")
         
         unlockHitTitleLabel.text = "安全设置"
-        unlockHitTitleLabel.font = UIFont.systemFont(ofSize: 16)
+        unlockHitTitleLabel.font = UIFont.systemFont(ofSize: 15)
         unlockHitTitleLabel.textAlignment = .left
         
-        let imageViewOfArrow:UIImageView = UIImageView.init(frame: CGRect(x: UIScreen.main.bounds.width - 38, y: 15, width: 30, height: 30))
+        let imageViewOfArrow:UIImageView = UIImageView.init(frame: CGRect(x: UIScreen.main.bounds.width - 25, y: 25, width: 5, height: 9))
 
         imageViewOfArrow.image = UIImage(named:"right-arrow")
-        imageViewOfArrow.bounds = CGRect(x:UIScreen.main.bounds.width - 30,y:8,width:18,height:18)
+        imageViewOfArrow.bounds = CGRect(x:UIScreen.main.bounds.width - 30,y:8,width:5,height:9)
         
         SetQuickAccessPermitCell.addSubview(iconImageview)
         SetQuickAccessPermitCell.addSubview(imageViewOfArrow)
         SetQuickAccessPermitCell.addSubview(unlockHitTitleLabel)
-        tableView?.addSubview(SetQuickAccessPermitCell)
+        userInfoTableView.addSubview(SetQuickAccessPermitCell)
     }
     
     
     func createSetBanner(){
-        let iconImageview:UIImageView = UIImageView.init(frame: CGRect(x: 20, y: 18, width: 24, height: 24))
-        let parameterHitTitleLabel:UILabel = UILabel.init(frame: CGRect(x: 64, y: 8, width: 200, height: 44))
+        let iconImageview:UIImageView = UIImageView.init(frame: CGRect(x: 20, y: 19, width: 20, height: 20))
+        let parameterHitTitleLabel:UILabel = UILabel.init(frame: CGRect(x: 60, y: 19, width: 200, height: 21))
         //设置icon
         iconImageview.image = UIImage(named: "userparasettingicon")
         
         parameterHitTitleLabel.text = "参数设置"
-        parameterHitTitleLabel.font = UIFont.systemFont(ofSize: 16)
+        parameterHitTitleLabel.font = UIFont.systemFont(ofSize: 15)
         parameterHitTitleLabel.textAlignment = .left
         
-        let imageViewOfArrow:UIImageView = UIImageView.init(frame: CGRect(x: UIScreen.main.bounds.width - 38, y: 15, width: 30, height: 30))
+        let imageViewOfArrow:UIImageView = UIImageView.init(frame: CGRect(x: UIScreen.main.bounds.width - 25, y: 25, width: 5, height: 9))
         
         imageViewOfArrow.image = UIImage(named:"right-arrow")
-        imageViewOfArrow.bounds = CGRect(x:UIScreen.main.bounds.width - 30,y: 8,width:18,height:18)
+        imageViewOfArrow.bounds = CGRect(x:UIScreen.main.bounds.width - 30,y: 8,width:5,height:9)
         
         SetParametersCell.addSubview(iconImageview)
         SetParametersCell.addSubview(imageViewOfArrow)
         SetParametersCell.addSubview(parameterHitTitleLabel)
-        tableView?.addSubview(SetParametersCell)
+        userInfoTableView.addSubview(SetParametersCell)
     }
     func createRoleBanner() {
         
-        let iconImageview:UIImageView = UIImageView.init(frame: CGRect(x: 20, y: 21, width: 24, height: 18))
-        let roleNameLabel:UILabel = UILabel.init(frame: CGRect(x: 64, y: 8, width: 200, height: 44))
-        let roleStringLabel:UILabel = UILabel.init(frame: CGRect(x: 93+44, y: 8, width: 200, height: 44))
+        let iconImageview:UIImageView = UIImageView.init(frame: CGRect(x: 20, y: 22, width: 20, height: 15))
+        let roleNameLabel:UILabel = UILabel.init(frame: CGRect(x: 60, y: 19, width: 200, height: 21))
+        let roleStringLabel:UILabel = UILabel.init(frame: CGRect(x: kWidth - 247, y: 20, width: 200, height: 18))
         
         //设置icon
         iconImageview.image = UIImage(named: "userroleicon")
 
-        roleNameLabel.text = "用户身份:"
-        roleNameLabel.font = UIFont.systemFont(ofSize: 16)
+        roleNameLabel.text = "用户身份"
+        roleNameLabel.font = UIFont.systemFont(ofSize: 15)
         roleNameLabel.textAlignment = .left
     
         if _roleType == 0{
@@ -537,77 +536,79 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
             roleStringLabel.text = "制宝会员"
         }
         
-        roleStringLabel.font = UIFont.systemFont(ofSize: 16)
+        roleStringLabel.font = UIFont.systemFont(ofSize: 13)
         roleStringLabel.textColor = UIColor.titleColors(color: .darkGray)
-        roleStringLabel.textAlignment = .left
+        roleStringLabel.textAlignment = .right
         
         RoleTypeCell.addSubview(iconImageview)
         RoleTypeCell.addSubview(roleNameLabel)
         RoleTypeCell.addSubview(roleStringLabel)
 
-        tableView?.addSubview(RoleTypeCell)
+        userInfoTableView.addSubview(RoleTypeCell)
     }
     func createAccountBanner(){
-        let iconImageview:UIImageView = UIImageView.init(frame: CGRect(x: 20, y: 18, width: 24, height: 24))
-        let userAccountLabel:UILabel = UILabel.init(frame: CGRect(x: 64, y: 8, width: 200, height: 44))
-        let userAccountID:UILabel =  UILabel.init(frame: CGRect(x: 93+24, y: 8, width: 200, height: 44))
+        let iconImageview:UIImageView = UIImageView.init(frame: CGRect(x: 20, y: 18, width: 20, height: 20))
+        let userAccountLabel:UILabel = UILabel.init(frame: CGRect(x: 60, y: 19, width: 200, height: 21))
+        let userAccountID:UILabel =  UILabel.init(frame: CGRect(x: kWidth - 247, y: 20, width: 200, height: 18))
         
         //设置icon
         iconImageview.image = UIImage(named: "useridicon")
         //设置账号标签
-        userAccountLabel.text = "用户ID:"
-        userAccountLabel.font = UIFont.systemFont(ofSize: 16)
+        userAccountLabel.text = "用户ID"
+        userAccountLabel.font = UIFont.systemFont(ofSize: 15)
         userAccountLabel.textAlignment = .left
         
         //设置账号
         userAccountID.text = _accountID
-        userAccountID.font = UIFont.systemFont(ofSize: 16)
+        userAccountID.font = UIFont.systemFont(ofSize: 13)
         userAccountID.textColor = UIColor.titleColors(color: .darkGray)
-        userAccountID.textAlignment = .left
+        userAccountID.textAlignment = .right
         
         accountIDCell.addSubview(iconImageview)
         accountIDCell.addSubview(userAccountLabel)
         accountIDCell.addSubview(userAccountID)
         
-        tableView?.addSubview(accountIDCell)
+        userInfoTableView.addSubview(accountIDCell)
 
     }
-    func createNameBanner (){
+    
+    //设置用户名面板
+    func createNameBanner(){
         
         //设置名片的用户名
-        let userNameLabel:UILabel = UILabel.init(frame: CGRect(x: (kWidth-300)/2, y: 68 , width: 300 , height: 40))
-        
+        let userNameLabel:UILabel = UILabel.init(frame: CGRect(x: 88, y: 49 , width: 300 , height: 30))
+        userNameLabel.textAlignment = .natural
+        userNameLabel.font = UIFont.boldSystemFont(ofSize: 22)
         userNameLabel.text = _accountNickName
         
         //设置用户名片的头像
-        let locale = CGRect(x:(kWidth - 65)/2 , y: 0, width:65.0, height:65.0)
-        let avatar = createIcon(imageSize: 65.0, locale: locale, iconShape: AvatarShape.AvatarShapeTypeRound)
+        let locale = CGRect(x:20 , y: 40, width:48.0, height:48.0)
+        let avatar = createIcon(imageSize: 48.0, locale: locale, iconShape: AvatarShape.AvatarShapeTypeRound)
         nameBannerCell.addSubview(avatar)
 
-        //设置昵称
-        userNameLabel.textAlignment = .center
-        userNameLabel.font = UIFont.boldSystemFont(ofSize: 18)
-        
+        let seperateLine:UIView = UIView.init(frame: CGRect(x: 0, y: 123, width: kWidth, height: 5))
+        seperateLine.backgroundColor = UIColor.lineColors(color: .lightestGray)
+        nameBannerCell.addSubview(seperateLine)
         //设置名版
         nameBannerCell.addSubview(userNameLabel)
-        tableView?.addSubview(nameBannerCell)
+        userInfoTableView.addSubview(nameBannerCell)
     }
-    
+    //设置版本号
     func createVersionBanner(){
         
-        let iconImageview:UIImageView = UIImageView.init(frame: CGRect(x: 20, y: 18, width: 24, height: 24))
-        let userAccountLabel:UILabel = UILabel.init(frame: CGRect(x: 64, y: 8, width: 200, height: 44))
-        let version:UILabel =  UILabel.init(frame: CGRect(x: 20, y: 8, width: kWidth - 40, height: 44))
+        let iconImageview:UIImageView = UIImageView.init(frame: CGRect(x: 20, y: 20, width: 20, height: 18))
+        let userAccountLabel:UILabel = UILabel.init(frame: CGRect(x: 60, y: 20, width: 200, height: 21))
+        let version:UILabel =  UILabel.init(frame: CGRect(x: kWidth - 247 , y: 20, width: 200, height: 18))
         
-        //设置icon
+        //设置icon©
         iconImageview.image = UIImage(named: "versionicon")
         //设置账号标签
         userAccountLabel.text = "关于制宝"
-        userAccountLabel.font = UIFont.systemFont(ofSize: 16)
+        userAccountLabel.font = UIFont.systemFont(ofSize: 15)
         userAccountLabel.textAlignment = .left
         
         version.text = "V2.2.9"
-        version.font = UIFont.systemFont(ofSize: 14)
+        version.font = UIFont.systemFont(ofSize: 13)
         version.textColor = UIColor.titleColors(color: .gray)
         version.textAlignment = .right
         
@@ -617,33 +618,33 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         versionCell.addSubview(userAccountLabel)
         versionCell.addSubview(version)
         
-        tableView?.addSubview(versionCell)
+        userInfoTableView.addSubview(versionCell)
         
     }
 
     func createInvoiceBanner(){
         
-        let iconImageview:UIImageView = UIImageView.init(frame: CGRect(x: 20, y: 18, width: 24, height: 24))
-        let userAccountLabel:UILabel = UILabel.init(frame: CGRect(x: 64, y: 8, width: 200, height: 44))
+        let iconImageview:UIImageView = UIImageView.init(frame: CGRect(x: 20, y: 19, width: 20, height: 20))
+        let invoiceNameLabel:UILabel = UILabel.init(frame: CGRect(x: 60, y: 18, width: 200, height: 21))
         //let version:UILabel =  UILabel.init(frame: CGRect(x: 20, y: 8, width: kWidth - 40, height: 44))
         
         //设置icon
         iconImageview.image = UIImage(named: "invoiceiconimg")
         //设置账号标签
-        userAccountLabel.text = "开票信息"
-        userAccountLabel.font = UIFont.systemFont(ofSize: 16)
-        userAccountLabel.textAlignment = .left
-        let imageViewOfArrow:UIImageView = UIImageView.init(frame: CGRect(x: UIScreen.main.bounds.width - 38, y: 15, width: 30, height: 30))
+        invoiceNameLabel.text = "开票信息"
+        invoiceNameLabel.font = UIFont.systemFont(ofSize: 15)
+        invoiceNameLabel.textAlignment = .left
+        let imageViewOfArrow:UIImageView = UIImageView.init(frame: CGRect(x: UIScreen.main.bounds.width - 25, y: 25, width: 5, height: 9))
         
         imageViewOfArrow.image = UIImage(named:"right-arrow")
-        imageViewOfArrow.bounds = CGRect(x:UIScreen.main.bounds.width - 30,y: 8,width:18,height:18)
+        imageViewOfArrow.bounds = CGRect(x:UIScreen.main.bounds.width - 30,y: 8,width:5,height:9)
         //设置账号
         invoiceCell.addSubview(imageViewOfArrow)
         invoiceCell.addSubview(iconImageview)
-        invoiceCell.addSubview(userAccountLabel)
+        invoiceCell.addSubview(invoiceNameLabel)
       //  versionCell.addSubview(version)
         
-        tableView?.addSubview(invoiceCell)
+        userInfoTableView.addSubview(invoiceCell)
         
     }
     

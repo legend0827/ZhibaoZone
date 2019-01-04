@@ -24,7 +24,7 @@ class switchOrderListTableViewCell: UITableViewCell {
     }
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+        self.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
         let backgroundView:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: kWidth , height: 200))
         backgroundView.image = UIImage(named: "orderlistbgimg")
         backgroundView.layer.masksToBounds = true

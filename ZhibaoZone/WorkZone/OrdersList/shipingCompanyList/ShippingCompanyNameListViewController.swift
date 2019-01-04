@@ -292,8 +292,8 @@ class ShippingCompanyNameListViewController: UIViewController,UITableViewDelegat
         //自定义导航栏 navigationBar
         let navBar = UINavigationBar(frame: CGRect(x:0, y:20 + heightChangeForiPhoneXFromTop, width:kWidth, height:44))
         // 导航栏背景颜色
-        navBar.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
-        navBar.barTintColor = UIColor.backgroundColors(color: .lightestgray)
+        navBar.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
+        navBar.barTintColor = UIColor.backgroundColors(color: .lightestGray)
         navBar.isTranslucent = false //关闭模糊效果
         //这里是导航栏透明
         //navBar.shadowImage = UIImage()
@@ -351,7 +351,7 @@ class ShippingCompanyNameListViewController: UIViewController,UITableViewDelegat
         self.navigationController?.dismiss(animated: true, completion: nil)
     }
     override func viewWillAppear(_ animated: Bool) {
-        setStatusBarBackgroundColor(color: .backgroundColors(color: .lightestgray))
+        setStatusBarBackgroundColor(color: .backgroundColors(color: .lightestGray))
         
         //从plist获取快递公司列表
         let plistFile = Bundle.main.path(forResource: "shippingCompanyNameList", ofType: "plist")

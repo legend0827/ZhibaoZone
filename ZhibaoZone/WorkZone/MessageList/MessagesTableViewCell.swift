@@ -84,7 +84,7 @@ class MessagesTableViewCell: UITableViewCell {
         msgContentInList.numberOfLines = 2
         msgContentInList.textAlignment = .left
         
-        contentView.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+        contentView.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
         
         contentView.addSubview(orderCellView)
         orderCellView.addSubview(seperateLineView)

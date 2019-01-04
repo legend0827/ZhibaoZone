@@ -545,7 +545,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
     
     
     @objc func setupUIForManager(){
-        self.view.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+        self.view.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
         self.view.addSubview(scrollBackView)
         
         //编辑订单请先搜索后进行操作
@@ -559,7 +559,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         imgBG.image = UIImage(named: "statisticbgimg")
         
         let dashLine:UIView = UIView.init(frame: CGRect(x: 15, y: titleOfPage.frame.maxY + 5, width: kWidth - 30, height: 1))
-        dashLine.backgroundColor = UIColor.backgroundColors(color: .lightestgray)// titleColors(color: .lightGray)
+        dashLine.backgroundColor = UIColor.backgroundColors(color: .lightestGray)// titleColors(color: .lightGray)
         
 //        //切换时间
 //        chooseTimeIntervalBtn.setTitle("最近一周", for: .normal)
@@ -1208,7 +1208,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
 
     }
     override func viewWillAppear(_ animated: Bool) {
-        self.view.backgroundColor = UIColor.backgroundColors(color: .lightestgray)
+        self.view.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
         setStatusBarBackgroundColor(color: UIColor.clear)
         setStatusBarHiden(toHidden: true, ViewController: self)
         titleBarView.backgroundColor = UIColor.clear

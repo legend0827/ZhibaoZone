@@ -40,7 +40,7 @@ class SecuritySettingViewController: UIViewController,UITableViewDelegate,UITabl
         setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .white))
     }
     override func viewWillDisappear(_ animated: Bool) {
-        setStatusBarBackgroundColor(color: .clear)
+        setStatusBarBackgroundColor(color: .white)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
