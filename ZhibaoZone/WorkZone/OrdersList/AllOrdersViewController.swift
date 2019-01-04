@@ -795,22 +795,22 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         case orderListCategoryType.alreadyQuotedOderCategory:
             params["navId"] = 9999//55
         case orderListCategoryType.waitForAcceptProduceOrderCategory:
-           params["navId"] = 60
+           params["navId"] = 59 // 60
         case orderListCategoryType.bargainNotDealedCategory:
             params["navId"] = 57
         case orderListCategoryType.bargainDealedCategory:
             params["navId"] = 58
         case orderListCategoryType.producingOrderCategory:
-           params["navId"] = 62
+           params["navId"] = 61//62
         case orderListCategoryType.waitForDesignCategory:
             //待接受设计
             params["navId"] = 39
         case orderListCategoryType.designningCategory:
-            params["navId"] = 41
+            params["navId"] = 40//41
         case orderListCategoryType.waitForConfirmDesignCategory:
             params["navId"] = 76
         case orderListCategoryType.waitForModifyCategory:
-           params["navId"] = 43
+           params["navId"] = 42//43
         case orderListCategoryType.customerConfirmedCategory:
             params["navId"] = 77
         default:

@@ -2153,10 +2153,10 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             
 //
             if _actionType == .dealBargain{
-                if orderInfoObjects.value(forKey: "workshopBasePrice") as? Float == nil{
+                if orderInfoObjects.value(forKey: "workshopBasePrice") as? Double == nil{
                     budgetOveredLabel.text = "客户预算/要求工期: -/-天"
                 }else{
-                    budgetOveredLabel.text = "客户预算/要求工期: ¥\(orderInfoObjects.value(forKey: "workshopBasePrice") as! Float)元 / \(orderInfoObjects.value(forKey: "userPeriod") as! Int)天"
+                    budgetOveredLabel.text = "客户预算/要求工期: ¥\(orderInfoObjects.value(forKey: "workshopBasePrice") as! Double)元 / \(orderInfoObjects.value(forKey: "userPeriod") as! Int)天"
                 }
             }
             
