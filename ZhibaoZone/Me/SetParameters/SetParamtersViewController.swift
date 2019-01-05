@@ -423,7 +423,7 @@ class SetParamtersViewController: UIViewController,UITableViewDelegate,UITableVi
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .red))
+        setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .white))
     }
     
    

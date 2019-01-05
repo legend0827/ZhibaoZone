@@ -128,7 +128,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         cell.productTypeAndMaterialInCell.text = productType + " " + materialType
         
         //产品数量
-        cell.productQuantityInCell.text = "x\(orderInfoObjects.value(forKey: "number") as! Int)"
+        cell.productQuantityInCell.text = "\(orderInfoObjects.value(forKey: "number") as! Int)"
         //设置产品尺寸
         var sizeString:String = ""
         //长
@@ -228,7 +228,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
                 //显示上次报价
                 if (orderInfoObjects.value(forKey: "lastQuote") as! Double) == 0.0{
                     //上次未报价
-                    cell.priceLabel.text = "¥0.00"
+                    cell.priceLabel.text = "未报价"
                 }else{
                     //有上次报价，显示上次报价
                     cell.priceLabel.text = "¥\(orderInfoObjects.value(forKey: "lastQuote") as! Double)"
@@ -261,7 +261,29 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
                 cell.productSize.isHidden = false
                 cell.productTypeAndMaterialInCell.isHidden = false
                 cell.productQuantityInCell.isHidden = false
-                cell.productTypeAndMaterialInCell.frame = CGRect(x: 5, y: cell.frame.width - 5, width: 100, height: 20)
+                cell.productTypeAndMaterialInCell.frame = CGRect(x: 5, y: cell.frame.width - 5, width: 300, height: 20)
+            }
+            //显示超工期
+            var lastPeriod = 0
+            var deadline = 0
+            if orderInfoObjects.value(forKey: "userPeriod") as? Int == nil{
+                deadline = 0
+            }else{
+                deadline = orderInfoObjects.value(forKey: "userPeriod") as! Int
+            }
+            if orderInfoObjects.value(forKey: "lastPeriod") as? Int == nil{
+                lastPeriod = 0
+            }else{
+                lastPeriod = orderInfoObjects.value(forKey: "lastPeriod") as! Int
+            }
+            
+            
+            if (deadline < lastPeriod) && deadline != 0{
+                //超过工期
+                cell.statusImageView.isHidden = false
+                //return
+            }else{
+                cell.statusImageView.isHidden = true
             }
 //
 //            if priceInfoObjects.value(forKey: "mindprice") as? Float != nil && priceInfoObjects.value(forKey: "mindprice") as? Float != 0.0{

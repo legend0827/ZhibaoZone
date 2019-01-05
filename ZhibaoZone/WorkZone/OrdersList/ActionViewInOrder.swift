@@ -289,7 +289,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         self.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
         //初始化值
         ActionTitle.frame  = CGRect(x: 30, y: 20, width: kWidth - 60, height: 25)
-        ActionTitle.font = UIFont.boldSystemFont(ofSize: 18)
+        ActionTitle.font = UIFont.systemFont(ofSize: 17)
         ActionTitle.textColor = UIColor.titleColors(color: .black)
         ActionTitle.textAlignment = .center
         self.addSubview(ActionTitle)
@@ -298,7 +298,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         cancelBtn.frame = CGRect(x: kWidth - 80, y: 22, width: 60, height: 22)
         cancelBtn.setTitle("关闭", for: .normal)
         cancelBtn.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
-        cancelBtn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        cancelBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         cancelBtn.contentHorizontalAlignment = .right
         cancelBtn.addTarget(self, action: #selector(closeActionView), for: .touchUpInside)
         self.addSubview(cancelBtn)
@@ -334,7 +334,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         if ActionType != .shippingProduct { //如果不是点击的邮寄投递，那么执行
             getOrderDetailFromServer()
             
-            self.layer.cornerRadius = 20
+          //  self.layer.cornerRadius = 20
             
             //订单时间
             orderTimeLabel.frame = CGRect(x: kWidth - 220, y: 12, width: 200, height: 20)
@@ -344,8 +344,8 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             orderTimeLabel.text = "2017-10-16 09:00:00" // for debug
             backgroundView.addSubview(orderTimeLabel)
             
-            let seperateLine1:UIView = UIView.init(frame: CGRect(x: 20, y: 44, width: kWidth - 40, height: 2))
-            seperateLine1.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
+            let seperateLine1:UIView = UIView.init(frame: CGRect(x: 20, y: 44, width: kWidth - 40, height: 0.5))
+            seperateLine1.backgroundColor = UIColor.lineColors(color: .lightestGray)
             backgroundView.addSubview(seperateLine1)
             //参考图
             orderDefaultPic.frame = CGRect(x: 20, y: 62, width: 118, height: 118) // y=62
@@ -491,9 +491,6 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 produceTimeCostTextField.font = UIFont.systemFont(ofSize: 16)
                 produceTimeCostTextField.placeholder = "填写完成生产、发货时间"
                 backgroundView.addSubview(produceTimeCostTextField)
-                
-                seperateLine5.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
-                backgroundView.addSubview(seperateLine5)
                 
                 isProduceCycleOverView.frame =  CGRect(x:kWidth - 110, y: seperateLine2.frame.maxY - 1 , width: 110, height: 54)
                 isProduceCycleOverView.backgroundColor = UIColor.backgroundColors(color: .lightRed)

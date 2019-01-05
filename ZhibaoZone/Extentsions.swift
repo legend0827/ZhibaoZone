@@ -41,6 +41,7 @@ enum titleColorsType{
     case gray
     case darkGray
     case blue
+    case lightOrange
 }
 
 //图标颜色枚举
@@ -51,6 +52,7 @@ enum iconColorsType{
     case white
     case orange
     case darkGray
+    case lightOrange
 }
 
 //线条颜色枚举
@@ -61,6 +63,7 @@ enum lineColorsType{
     case gray
     case darkGray
     case lightestGray
+    case lightOrange
 }
 
 //背景颜色枚举
@@ -72,6 +75,7 @@ enum backgroundColorsType{
     case black
     case clear
     case purple
+    case lightOrange
 }
 
 //数据验证格式
@@ -215,6 +219,8 @@ extension UIColor {
             tempColor = UIColor.colorWithRgba(102, g: 102, b: 102, a: 1.0)
         case .blue:
             tempColor = UIColor.colorWithRgba(16, g: 142, b: 233, a: 1.0)
+        case .lightOrange:
+            tempColor = UIColor.colorWithRgba(255, g: 120, b: 83, a: 1.0)
         default:
             tempColor = UIColor.colorWithRgba(68, g: 68, b: 68, a: 1.0)
         }
@@ -237,6 +243,8 @@ extension UIColor {
             tempColor = UIColor.colorWithRgba(102, g: 102, b: 102, a: 1.0)
         case .orange:
             tempColor = UIColor.colorWithRgba(255, g: 144, b: 23, a: 1.0)
+        case .lightOrange:
+            tempColor = UIColor.colorWithRgba(255, g: 120, b: 83, a: 1.0)
         default:
             tempColor = UIColor.colorWithRgba(68, g: 68, b: 68, a: 1.0)
         }
@@ -258,7 +266,9 @@ extension UIColor {
         case .gray:
             tempColor = UIColor.colorWithRgba(155, g: 155, b: 155, a: 1.0)
         case .lightestGray:
-            tempColor = UIColor.colorWithRgba(245, g: 245, b: 245, a: 1.0)
+            tempColor = UIColor.colorWithRgba(232, g: 232, b: 232, a: 1.0)
+        case .lightOrange:
+            tempColor = UIColor.colorWithRgba(255, g: 120, b: 83, a: 1.0)
         default:
             tempColor = UIColor.colorWithRgba(102, g: 102, b: 102, a: 1.0)
         }
@@ -284,6 +294,8 @@ extension UIColor {
             tempColor = UIColor.clear
         case .purple:
             tempColor = UIColor.colorWithRgba(111, g: 70, b: 138, a: 1.0)
+        case .lightOrange:
+            tempColor = UIColor.colorWithRgba(255, g: 120, b: 83, a: 1.0)
         default:
             tempColor = UIColor.colorWithRgba(245, g: 245, b: 245, a: 1.0)
         }

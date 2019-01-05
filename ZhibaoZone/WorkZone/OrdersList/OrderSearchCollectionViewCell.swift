@@ -40,7 +40,7 @@ class OrderSearchCollectionViewCell: UICollectionViewCell {
         seperateLineView.frame = CGRect(x: 10, y: 42, width: orderCellView.frame.width - 20 , height: 1)
         orderCellImageView.frame = CGRect(x: 10, y: seperateLineView.frame.maxY + 11, width: 118, height: 118)
         priceLabel.frame = CGRect(x: 140, y: 151, width: frame.width - 10, height: 22)
-        productTypeAndMaterialInCell.frame = CGRect(x: 140, y: 55, width: 100, height: 20)
+        productTypeAndMaterialInCell.frame = CGRect(x: 140, y: 55, width: 300, height: 20)
         productSize.frame =  CGRect(x: 140, y: 79, width: (kWidth - 60)/2, height: 20)
         productQuantityInCell.frame = CGRect(x: 140, y: 101, width: 100, height: 20)
         
