@@ -90,7 +90,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
         txtUser.returnKeyType = UIReturnKeyType.next
         
         let seperateLineUnderUserName: UIView = UIView.init(frame: CGRect(x: 25, y: 208 + heightChangeForiPhoneXFromTop , width: kWidth - 50, height: 1))
-        seperateLineUnderUserName.backgroundColor = UIColor.lineColors(color: .lightGray)
+        seperateLineUnderUserName.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         self.view.addSubview(seperateLineUnderUserName)
 
         
@@ -113,7 +113,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
         txtPwd.returnKeyType = UIReturnKeyType.done
         
         let seperateLineUnderPassword: UIView = UIView.init(frame: CGRect(x: 25, y: 269 + heightChangeForiPhoneXFromTop , width: kWidth - 50, height: 1))
-        seperateLineUnderPassword.backgroundColor = UIColor.lineColors(color: .lightGray)
+        seperateLineUnderPassword.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         self.view.addSubview(seperateLineUnderPassword)
 
         //重复密码输入框
@@ -130,7 +130,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
         repeatTxtPwd.isHidden = true
         
         seperateLineUnderRepeatPassword.frame = CGRect(x: 25, y: 333 + heightChangeForiPhoneXFromTop, width: kWidth - 50, height: 1)
-        seperateLineUnderRepeatPassword.backgroundColor = UIColor.lineColors(color: .lightGray)
+        seperateLineUnderRepeatPassword.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         seperateLineUnderRepeatPassword.isHidden = true
         self.view.addSubview(seperateLineUnderRepeatPassword)
 

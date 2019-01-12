@@ -339,20 +339,20 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             //订单时间
             orderTimeLabel.frame = CGRect(x: kWidth - 220, y: 12, width: 200, height: 20)
             orderTimeLabel.font = UIFont.systemFont(ofSize: 14)
-            orderTimeLabel.textColor = UIColor.titleColors(color: .black)
+            orderTimeLabel.textColor = UIColor.titleColors(color: .gray)
             orderTimeLabel.textAlignment = .right
             orderTimeLabel.text = "2017-10-16 09:00:00" // for debug
             backgroundView.addSubview(orderTimeLabel)
             
             let seperateLine1:UIView = UIView.init(frame: CGRect(x: 20, y: 44, width: kWidth - 40, height: 0.5))
-            seperateLine1.backgroundColor = UIColor.lineColors(color: .lightestGray)
+            seperateLine1.backgroundColor = UIColor.lineColors(color: .grayLevel5)
             backgroundView.addSubview(seperateLine1)
             //参考图
             orderDefaultPic.frame = CGRect(x: 20, y: 62, width: 118, height: 118) // y=62
             orderDefaultPic.image = UIImage(named: "defualt-design-pic")
             orderDefaultPic.contentMode = .scaleAspectFit
             orderDefaultPic.layer.cornerRadius = 6
-            orderDefaultPic.layer.borderColor = UIColor.lineColors(color: .lightGray).cgColor//UIColor.lineColors(color: .lightGray).cgColor
+            orderDefaultPic.layer.borderColor = UIColor.lineColors(color: .grayLevel3).cgColor//UIColor.lineColors(color: .grayLevel3).cgColor
             orderDefaultPic.layer.borderWidth = 0.5
             orderDefaultPic.layer.masksToBounds = true
             backgroundView.addSubview(orderDefaultPic)
@@ -480,7 +480,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 seperateLine2.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
                 backgroundView.addSubview(seperateLine2)
                 
-                produceTimeCostLabel.text = "填写工期(天):"
+                produceTimeCostLabel.text = "工期(天)"
                 produceTimeCostLabel.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 15 , width: 100, height: 22)
                 produceTimeCostLabel.font = UIFont.systemFont(ofSize: 16)
                 backgroundView.addSubview(produceTimeCostLabel)
@@ -519,7 +519,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 seperateLine3.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
                 backgroundView.addSubview(seperateLine3)
                 
-                quotePriceCurentLabel.text = "设置当前报价:"
+                quotePriceCurentLabel.text = "报价"
                 quotePriceCurentLabel.frame = CGRect(x: 20, y: seperateLine3.frame.maxY + 15 , width: 120, height: 22)
                 quotePriceCurentLabel.font = UIFont.systemFont(ofSize: 16)
                 backgroundView.addSubview(quotePriceCurentLabel)
@@ -931,7 +931,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 
                 //设计要求下方的线
                 seperateLine8.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 74, width: kWidth - 40, height: 1)
-                seperateLine8.backgroundColor = UIColor.lineColors(color: .lightGray)
+                seperateLine8.backgroundColor = UIColor.lineColors(color: .grayLevel3)
                 backgroundView.addSubview(seperateLine8)
                 
                 //当前设计稿:
@@ -987,7 +987,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             orderDefaultPic.image = googsImge //UIImage(named: "defualt-design-pic")
             orderDefaultPic.contentMode = .scaleAspectFit
             orderDefaultPic.layer.cornerRadius = 6
-            orderDefaultPic.layer.borderColor = UIColor.lineColors(color: .lightGray).cgColor//UIColor.lineColors(color: .lightGray).cgColor
+            orderDefaultPic.layer.borderColor = UIColor.lineColors(color: .grayLevel3).cgColor//UIColor.lineColors(color: .grayLevel3).cgColor
             orderDefaultPic.layer.borderWidth = 0.5
             orderDefaultPic.layer.masksToBounds = true
             backgroundView.addSubview(orderDefaultPic)
@@ -2049,18 +2049,36 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         //产品尺寸
         var produceSizeValue = ""
         if orderInfoObjects.value(forKey: "length") as? NSNumber != nil {
-            produceSizeValue = "\(orderInfoObjects.value(forKey: "length")as! NSNumber)"
+            let lengthString =  "\(orderInfoObjects.value(forKey: "length") as! NSNumber)"
+            if lengthString.contains("."){
+                produceSizeValue = produceSizeValue + "\(orderInfoObjects.value(forKey: "length")as! Double)"
+            }else{
+                produceSizeValue = produceSizeValue + "\(orderInfoObjects.value(forKey: "length")as! NSNumber)"
+            }
         }else{
             produceSizeValue = ""
         }
 
         if orderInfoObjects.value(forKey: "width") as? NSNumber != nil {
-            produceSizeValue = produceSizeValue + "x\(orderInfoObjects.value(forKey: "width")as! NSNumber)"
+            let widthString =  "\(orderInfoObjects.value(forKey: "width") as! NSNumber)"
+            if widthString.contains("."){
+                produceSizeValue = produceSizeValue + "x\(orderInfoObjects.value(forKey: "width")as! Double)"
+            }else{
+                produceSizeValue = produceSizeValue + "x\(orderInfoObjects.value(forKey: "width")as! NSNumber)"
+            }
+            //produceSizeValue = produceSizeValue + "x\(orderInfoObjects.value(forKey: "width")as! NSNumber)"
+            
         }else{
             produceSizeValue = produceSizeValue + "x "
         }
         if orderInfoObjects.value(forKey: "height") as? NSNumber != nil {
-            produceSizeValue = produceSizeValue + "x\(orderInfoObjects.value(forKey: "height")as! NSNumber)(mm)"
+            
+            let heightString =  "\(orderInfoObjects.value(forKey: "height") as! NSNumber)"
+            if heightString.contains("."){
+                produceSizeValue = produceSizeValue + "x\(orderInfoObjects.value(forKey: "height")as! Double)(mm)"
+            }else{
+                produceSizeValue = produceSizeValue + "x\(orderInfoObjects.value(forKey: "height")as! NSNumber)(mm)"
+            }
         }else{
             produceSizeValue = produceSizeValue + "x (mm)"
         }

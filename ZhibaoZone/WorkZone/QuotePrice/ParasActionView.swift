@@ -131,13 +131,13 @@ class ParasActionView: UIView,UITableViewDelegate,UITableViewDataSource,UIPicker
             lengthLabel.text = "长(mm):"
             lengthLabel.font = UIFont.systemFont(ofSize: 16)
             let seperateLine1:UIView = UIView.init(frame: CGRect(x: 20, y: lengthLabel.frame.maxY + 20, width: kWidth - 40, height: 0.5))
-            seperateLine1.backgroundColor = UIColor.lineColors(color: .lightGray)
+            seperateLine1.backgroundColor = UIColor.lineColors(color: .grayLevel3)
             
             let widthLabel:UILabel = UILabel.init(frame: CGRect(x: 20, y: seperateLine1.frame.maxY + 20, width: 100, height: 22))
             widthLabel.text = "宽(mm):"
             widthLabel.font = UIFont.systemFont(ofSize: 16)
             let seperateLine2:UIView = UIView.init(frame: CGRect(x: 20, y: widthLabel.frame.maxY + 20, width: kWidth - 40, height: 0.5))
-            seperateLine2.backgroundColor = UIColor.lineColors(color: .lightGray)
+            seperateLine2.backgroundColor = UIColor.lineColors(color: .grayLevel3)
             
             let heightLabel:UILabel = UILabel.init(frame: CGRect(x: 20, y: seperateLine2.frame.maxY + 20, width: 100, height: 22))
             heightLabel.text = "高/厚(mm):"
@@ -233,35 +233,35 @@ class ParasActionView: UIView,UITableViewDelegate,UITableViewDataSource,UIPicker
         keyboardBG.addSubview(confirmKeyBtn)
         
         let horizentalLine1:UIView = UIView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: 0.5))
-        horizentalLine1.backgroundColor = UIColor.lineColors(color: .lightGray)
+        horizentalLine1.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         keyboardBG.addSubview(horizentalLine1)
         
         let horizentalLine2:UIView = UIView.init(frame: CGRect(x: 0, y: keyHeight - 1, width: keyWight*3, height: 0.5))
-        horizentalLine2.backgroundColor = UIColor.lineColors(color: .lightGray)
+        horizentalLine2.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         keyboardBG.addSubview(horizentalLine2)
         
         let horizentalLine3:UIView = UIView.init(frame: CGRect(x: 0, y: keyHeight*2 - 1, width: kWidth, height: 0.5))
-        horizentalLine3.backgroundColor = UIColor.lineColors(color: .lightGray)
+        horizentalLine3.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         keyboardBG.addSubview(horizentalLine3)
         
         let horizentalLine4:UIView = UIView.init(frame: CGRect(x: 0, y: keyHeight*3 - 1, width: keyWight*3, height: 0.5))
-        horizentalLine4.backgroundColor = UIColor.lineColors(color: .lightGray)
+        horizentalLine4.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         keyboardBG.addSubview(horizentalLine4)
         
         let horizentalLine5:UIView = UIView.init(frame: CGRect(x: 0, y: keyHeight*4 - 1, width: kWidth, height: 0.5))
-        horizentalLine5.backgroundColor = UIColor.lineColors(color: .lightGray)
+        horizentalLine5.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         keyboardBG.addSubview(horizentalLine5)
         
         let verticalLine1:UIView = UIView.init(frame: CGRect(x: keyWight, y: 0, width: 0.5, height: 204.0))
-        verticalLine1.backgroundColor = UIColor.lineColors(color: .lightGray)
+        verticalLine1.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         keyboardBG.addSubview(verticalLine1)
         
         let verticalLine2:UIView = UIView.init(frame: CGRect(x: keyWight*2, y: 0, width: 0.5, height: 204.0))
-        verticalLine2.backgroundColor = UIColor.lineColors(color: .lightGray)
+        verticalLine2.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         keyboardBG.addSubview(verticalLine2)
         
         let verticalLine3:UIView = UIView.init(frame: CGRect(x: keyWight*3, y: 0, width: 0.5, height: 204.0))
-        verticalLine3.backgroundColor = UIColor.lineColors(color: .lightGray)
+        verticalLine3.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         keyboardBG.addSubview(verticalLine3)
         
         oneKeyBtn.setImage(UIImage(named: "onekeyimg") , for: .normal)

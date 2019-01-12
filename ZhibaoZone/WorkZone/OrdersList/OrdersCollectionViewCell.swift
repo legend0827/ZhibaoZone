@@ -61,20 +61,20 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         orderCellView.layer.shadowOffset = CGSize.zero//CGSize(width: 0, height: 0)
         orderCellView.layer.shadowOpacity = 1.0
         
-        orderCellView.layer.shadowColor = UIColor.lineColors(color: .lightGray).cgColor//UIColor.black.cgColor
+        orderCellView.layer.shadowColor = UIColor.lineColors(color: .grayLevel3).cgColor//UIColor.black.cgColor
         
         
         orderCellImageView.image = UIImage(named: "defualt-design-pic-loading")
         orderCellImageView.contentMode = .scaleAspectFit//.scaleAspectFill
         orderCellImageView.layer.cornerRadius = 2
         orderCellImageView.layer.masksToBounds = true
-        orderCellImageView.layer.borderColor = UIColor.lineColors(color: .lightGray).cgColor
+        orderCellImageView.layer.borderColor = UIColor.lineColors(color: .grayLevel3).cgColor
         orderCellImageView.layer.borderWidth = 0.5
         
         priceLabelBackgroundView.image = UIImage(named: "maskonimage")
         priceLabelBackgroundView.layer.cornerRadius = 2
         priceLabelBackgroundView.layer.masksToBounds = true
-        //priceLabelBackgroundView.layer.borderColor = UIColor.lineColors(color: .lightGray).cgColor
+        //priceLabelBackgroundView.layer.borderColor = UIColor.lineColors(color: .grayLevel3).cgColor
        // priceLabelBackgroundView.layer.borderWidth = 0.5
         //priceLabelBackgroundView.alpha = 0.6
         

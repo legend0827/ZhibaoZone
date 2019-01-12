@@ -45,7 +45,7 @@ class MessagesTableViewCell: UITableViewCell {
         orderCellView.layer.cornerRadius = 6
         orderCellView.layer.shadowOffset = CGSize.zero//CGSize(width: 0, height: 0)
         orderCellView.layer.shadowOpacity = 1.0
-        orderCellView.layer.shadowColor = UIColor.lineColors(color: .lightGray).cgColor//UIColor.black.cgColor
+        orderCellView.layer.shadowColor = UIColor.lineColors(color: .grayLevel3).cgColor//UIColor.black.cgColor
         
         msgTitleLabel.text = "标题:"
         msgTitleLabel.font = UIFont.systemFont(ofSize: 14)
@@ -65,7 +65,7 @@ class MessagesTableViewCell: UITableViewCell {
         
         
         seperateLineView.frame = CGRect(x: 10, y: 42, width: orderCellView.frame.width - 20 , height: 1)
-        seperateLineView.backgroundColor = UIColor.lineColors(color: .lightGray)
+        seperateLineView.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         
         msgCreateTimeInList.frame = CGRect(x: orderCellView.frame.maxX - 230, y: 11, width: 200, height: 20)
         msgCreateTimeInList.font = UIFont.systemFont(ofSize: 14)

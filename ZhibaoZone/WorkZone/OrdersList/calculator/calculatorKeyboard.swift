@@ -48,7 +48,7 @@ class calculatorKeyboard: UIView {
         tempButton.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
         tempButton.contentHorizontalAlignment = .center
         tempButton.layer.cornerRadius = 2
-        tempButton.layer.borderColor = UIColor.lineColors(color: .lightGray).cgColor
+        tempButton.layer.borderColor = UIColor.lineColors(color: .grayLevel3).cgColor
         tempButton.layer.borderWidth = 1
         tempButton.tag = 102
         tempButton.addTarget(self, action: #selector(switchResultOperation(_:)), for: .touchUpInside)
@@ -366,7 +366,7 @@ class calculatorKeyboard: UIView {
         resultView.addSubview(resultLabel)
         
         let seperateLine:UIView = UIView.init(frame: CGRect(x: 15, y: 122, width: kWidth - 15, height: 0.5))
-        seperateLine.backgroundColor = UIColor.lineColors(color: .lightGray)
+        seperateLine.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         
         setQuotePriceWeightBtn.frame = CGRect(x: kWidth - 115, y: seperateLine.frame.maxY + 4, width: 100, height: 20)
         setQuotePriceWeightBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
@@ -443,39 +443,39 @@ class calculatorKeyboard: UIView {
         
         
         let horizentalLine1:UIView = UIView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: 0.5))
-        horizentalLine1.backgroundColor = UIColor.lineColors(color: .lightGray)
+        horizentalLine1.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         keyboardBG.addSubview(horizentalLine1)
         
         let horizentalLine2:UIView = UIView.init(frame: CGRect(x: 0, y: keyHeight - 1, width: kWidth, height: 0.5))
-        horizentalLine2.backgroundColor = UIColor.lineColors(color: .lightGray)
+        horizentalLine2.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         keyboardBG.addSubview(horizentalLine2)
         
         let horizentalLine3:UIView = UIView.init(frame: CGRect(x: 0, y: keyHeight*2 - 1, width: kWidth, height: 0.5))
-        horizentalLine3.backgroundColor = UIColor.lineColors(color: .lightGray)
+        horizentalLine3.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         keyboardBG.addSubview(horizentalLine3)
         
         let horizentalLine4:UIView = UIView.init(frame: CGRect(x: 0, y: keyHeight*3 - 1, width: kWidth, height: 0.5))
-        horizentalLine4.backgroundColor = UIColor.lineColors(color: .lightGray)
+        horizentalLine4.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         keyboardBG.addSubview(horizentalLine4)
         
         let horizentalLine5:UIView = UIView.init(frame: CGRect(x: 0, y: keyHeight*4 - 1, width: keyWight*3, height: 0.5))
-        horizentalLine5.backgroundColor = UIColor.lineColors(color: .lightGray)
+        horizentalLine5.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         keyboardBG.addSubview(horizentalLine5)
         
         let horizentalLine6:UIView = UIView.init(frame: CGRect(x: 0, y: keyHeight*5 - 1, width: kWidth, height: 0.5))
-        horizentalLine6.backgroundColor = UIColor.lineColors(color: .lightGray)
+        horizentalLine6.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         keyboardBG.addSubview(horizentalLine6)
         
         let verticalLine1:UIView = UIView.init(frame: CGRect(x: keyWight, y: 0, width: 0.5, height: 255))
-        verticalLine1.backgroundColor = UIColor.lineColors(color: .lightGray)
+        verticalLine1.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         keyboardBG.addSubview(verticalLine1)
         
         let verticalLine2:UIView = UIView.init(frame: CGRect(x: keyWight*2, y: 0, width: 0.5, height: 255))
-        verticalLine2.backgroundColor = UIColor.lineColors(color: .lightGray)
+        verticalLine2.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         keyboardBG.addSubview(verticalLine2)
         
         let verticalLine3:UIView = UIView.init(frame: CGRect(x: keyWight*3, y: 0, width: 0.5, height: 255))
-        verticalLine3.backgroundColor = UIColor.lineColors(color: .lightGray)
+        verticalLine3.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         keyboardBG.addSubview(verticalLine3)
         
         self.addSubview(backgroundView)
@@ -505,7 +505,7 @@ class calculatorKeyboard: UIView {
             isCutResultTail = false
             
             cutTailBtn.layer.cornerRadius = 2
-            cutTailBtn.layer.borderColor = UIColor.lineColors(color: .lightGray).cgColor
+            cutTailBtn.layer.borderColor = UIColor.lineColors(color: .grayLevel3).cgColor
             cutTailBtn.layer.borderWidth = 1
             cutTailBtn.backgroundColor = UIColor.clear
             cutTailBtn.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
@@ -521,7 +521,7 @@ class calculatorKeyboard: UIView {
             //抹零
             isCutResultTail = true
             upToNextIntBtn.layer.cornerRadius = 2
-            upToNextIntBtn.layer.borderColor = UIColor.lineColors(color: .lightGray).cgColor
+            upToNextIntBtn.layer.borderColor = UIColor.lineColors(color: .grayLevel3).cgColor
             upToNextIntBtn.layer.borderWidth = 1
             upToNextIntBtn.backgroundColor = UIColor.clear
             upToNextIntBtn.setTitleColor(UIColor.titleColors(color: .black), for: .normal)

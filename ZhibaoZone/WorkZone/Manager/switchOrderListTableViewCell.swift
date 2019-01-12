@@ -161,7 +161,7 @@ class switchOrderListTableViewCell: UITableViewCell {
         tempCompanyIDLabel.image = UIImage(named: "defualt-design-pic")
         tempCompanyIDLabel.layer.cornerRadius = 6
         tempCompanyIDLabel.layer.masksToBounds = true
-        tempCompanyIDLabel.layer.borderColor = UIColor.lineColors(color: .gray).cgColor
+        tempCompanyIDLabel.layer.borderColor = UIColor.lineColors(color: .grayLevel2).cgColor
         tempCompanyIDLabel.layer.borderWidth = 0.5
         
         return tempCompanyIDLabel

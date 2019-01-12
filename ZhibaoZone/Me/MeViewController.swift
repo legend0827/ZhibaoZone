@@ -105,7 +105,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
 //        tempView.layer.borderColor = UIColor.titleColors(color: .lightGray).cgColor
 //        tempView.layer.borderWidth = 0.5
         tempView.tag = 1
-//        tempView.layer.shadowColor = UIColor.lineColors(color: .lightGray).cgColor
+//        tempView.layer.shadowColor = UIColor.lineColors(color: .grayLevel3).cgColor
 //        tempView.layer.shadowOffset = CGSize(width: 1, height: 3)
         return tempView
     }()
@@ -120,7 +120,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
 //        tempView.layer.borderColor = UIColor.titleColors(color: .lightGray).cgColor
 //        tempView.layer.borderWidth = 0.5
         tempView.tag = 2
-//        tempView.layer.shadowColor = UIColor.lineColors(color: .lightGray).cgColor
+//        tempView.layer.shadowColor = UIColor.lineColors(color: .grayLevel3).cgColor
 //        tempView.layer.shadowOffset = CGSize(width: 1, height: 3)
         return tempView
     }()
@@ -168,6 +168,8 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //
+        self.view.backgroundColor = UIColor.backgroundColors(color: .white)
         
         //获取当前用户信息
         let userInfos = getCurrentUserInfo()
@@ -587,7 +589,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         nameBannerCell.addSubview(avatar)
 
         let seperateLine:UIView = UIView.init(frame: CGRect(x: 0, y: 123, width: kWidth, height: 5))
-        seperateLine.backgroundColor = UIColor.lineColors(color: .lightestGray)
+        seperateLine.backgroundColor = UIColor.lineColors(color: .grayLevel5)
         nameBannerCell.addSubview(seperateLine)
         //设置名版
         nameBannerCell.addSubview(userNameLabel)

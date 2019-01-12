@@ -133,17 +133,39 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         var sizeString:String = ""
         //长
         if orderInfoObjects.value(forKey: "length") as? NSNumber != nil {
-            sizeString += "\(orderInfoObjects.value(forKey: "length")as! NSNumber)"
+            
+            let lengthString =  "\(orderInfoObjects.value(forKey: "length") as! NSNumber)"
+            if lengthString.contains("."){
+                sizeString += "\(orderInfoObjects.value(forKey: "length")as! Double)"
+            }else{
+                sizeString += "\(orderInfoObjects.value(forKey: "length")as! NSNumber)"
+            }
+            
+           // sizeString += "\(orderInfoObjects.value(forKey: "length")as! NSNumber)"
         }
         //宽
         if orderInfoObjects.value(forKey: "width") as? NSNumber != nil {
-            sizeString += "x\(orderInfoObjects.value(forKey: "width")as! NSNumber)"
+            let widthString =  "\(orderInfoObjects.value(forKey: "width") as! NSNumber)"
+            if widthString.contains("."){
+                sizeString += "x\(orderInfoObjects.value(forKey: "width")as! Double)"
+            }else{
+                sizeString += "x\(orderInfoObjects.value(forKey: "width")as! NSNumber)"
+            }
+            
+           // sizeString += "x\(orderInfoObjects.value(forKey: "width")as! NSNumber)"
         }else{
             sizeString += "x "
         }
         //高
         if orderInfoObjects.value(forKey: "height") as? NSNumber != nil {
-            sizeString += "x\(orderInfoObjects.value(forKey: "height")as! NSNumber)(mm)"
+            let heightString =  "\(orderInfoObjects.value(forKey: "height") as! NSNumber)"
+            if heightString.contains("."){
+                sizeString += "x\(orderInfoObjects.value(forKey: "height")as! Double)(mm)"
+            }else{
+                sizeString += "x\(orderInfoObjects.value(forKey: "height")as! NSNumber)(mm)"
+            }
+            
+           // sizeString += "x\(orderInfoObjects.value(forKey: "height")as! NSNumber)(mm)"
         }else{
             sizeString += "x (mm)"
         }
@@ -824,6 +846,8 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
             params["navId"] = 58
         case orderListCategoryType.producingOrderCategory:
            params["navId"] = 61//62
+        case orderListCategoryType.allFactoryNotQuoteCategory:
+            params["navId"] = 89 //都未报价
         case orderListCategoryType.waitForDesignCategory:
             //待接受设计
             params["navId"] = 39

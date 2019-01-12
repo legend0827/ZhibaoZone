@@ -66,7 +66,7 @@ class ShippingCompanyNameListViewController: UIViewController,UITableViewDelegat
         cell.selectionStyle = .none
 
         let tempLineBottom:UIView = UIView.init(frame: CGRect(x: 20, y: 51, width: kWidth - 65, height: 1))
-        tempLineBottom.backgroundColor = UIColor.lineColors(color: .lightGray)
+        tempLineBottom.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         cell.addSubview(tempLineBottom)
         switch indexPath.section {
         case 0: // A

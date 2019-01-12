@@ -483,13 +483,13 @@ class ChooseTimeInterval: UIView,UITableViewDelegate,UITableViewDataSource,UIPic
                     managerVC.recentOneDayBtn.setTitleColor(UIColor.lineColors(color: .red), for: .normal)
                     
                     managerVC.recentOneWeekBtn.layer.borderColor = UIColor.clear.cgColor
-                    managerVC.recentOneWeekBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+                    managerVC.recentOneWeekBtn.setTitleColor(UIColor.lineColors(color: .grayLevel1), for: .normal)
                     
                     managerVC.recentOneMonthBtn.layer.borderColor = UIColor.clear.cgColor
-                    managerVC.recentOneMonthBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+                    managerVC.recentOneMonthBtn.setTitleColor(UIColor.lineColors(color: .grayLevel1), for: .normal)
                     
                     managerVC.customDateBtn.layer.borderColor = UIColor.clear.cgColor
-                    managerVC.customDateBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+                    managerVC.customDateBtn.setTitleColor(UIColor.lineColors(color: .grayLevel1), for: .normal)
                     
                 case 1:
                    // managerVC.chooseTimeIntervalBtn.setTitle("最近三天", for: .normal)
@@ -497,16 +497,16 @@ class ChooseTimeInterval: UIView,UITableViewDelegate,UITableViewDataSource,UIPic
                     print("normal, 近3日")
                 case 2://近7日
                     managerVC.recentOneDayBtn.layer.borderColor = UIColor.clear.cgColor
-                    managerVC.recentOneDayBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+                    managerVC.recentOneDayBtn.setTitleColor(UIColor.lineColors(color: .grayLevel1), for: .normal)
                     
                     managerVC.recentOneWeekBtn.layer.borderColor = UIColor.lineColors(color: .red).cgColor
                     managerVC.recentOneWeekBtn.setTitleColor(UIColor.lineColors(color: .red), for: .normal)
                     
                     managerVC.recentOneMonthBtn.layer.borderColor = UIColor.clear.cgColor
-                    managerVC.recentOneMonthBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+                    managerVC.recentOneMonthBtn.setTitleColor(UIColor.lineColors(color: .grayLevel1), for: .normal)
                     
                     managerVC.customDateBtn.layer.borderColor = UIColor.clear.cgColor
-                    managerVC.customDateBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+                    managerVC.customDateBtn.setTitleColor(UIColor.lineColors(color: .grayLevel1), for: .normal)
                 case 3:
                     print("normal, 本月")
 //                    managerVC.chooseTimeIntervalBtn.setTitle("本月", for: .normal)

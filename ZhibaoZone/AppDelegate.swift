@@ -439,7 +439,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         imageView.image = UIImage(named: "defualt-design-pic-loading")
         imageView.layer.cornerRadius = 6
         imageView.layer.masksToBounds = true
-        imageView.layer.borderColor = UIColor.lineColors(color: .lightGray).cgColor
+        imageView.layer.borderColor = UIColor.lineColors(color: .grayLevel3).cgColor
         imageView.layer.borderWidth = 0.5
         
         let orderIDLabel:UILabel = UILabel.init(frame: CGRect(x: imageView.frame.maxX + 15, y: imageView.frame.minY, width: UIAlertView.frame.width, height: 22))

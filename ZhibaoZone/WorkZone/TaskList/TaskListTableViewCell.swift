@@ -45,7 +45,7 @@ class TaskListTableViewCell: UITableViewCell {
         taskCellView.layer.cornerRadius = 6
         taskCellView.layer.shadowOffset = CGSize.zero//CGSize(width: 0, height: 0)
         taskCellView.layer.shadowOpacity = 1.0
-        taskCellView.layer.shadowColor = UIColor.lineColors(color: .lightGray).cgColor//UIColor.black.cgColor
+        taskCellView.layer.shadowColor = UIColor.lineColors(color: .grayLevel3).cgColor//UIColor.black.cgColor
         
         taskDeadlineLabel.text = "标题:"
         taskDeadlineLabel.font = UIFont.systemFont(ofSize: 14)
@@ -64,7 +64,7 @@ class TaskListTableViewCell: UITableViewCell {
         
         
         seperateLineView.frame = CGRect(x: 10, y: 42, width: taskCellView.frame.width - 20 , height: 1)
-        seperateLineView.backgroundColor = UIColor.lineColors(color: .lightGray)
+        seperateLineView.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         
         taskCreateTimeInList.frame = CGRect(x: taskCellView.frame.maxX - 230, y: 11, width: 200, height: 20)
         taskCreateTimeInList.font = UIFont.systemFont(ofSize: 14)

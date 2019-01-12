@@ -109,7 +109,7 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
     lazy var orderImage:UIImageView = {
         let tempView = UIImageView.init(frame: CGRect(x: 20, y: 60, width: 80, height: 80))
         tempView.layer.cornerRadius = 6
-        tempView.layer.borderColor = UIColor.lineColors(color: .lightGray).cgColor
+        tempView.layer.borderColor = UIColor.lineColors(color: .grayLevel3).cgColor
         tempView.layer.borderWidth = 0.5
         tempView.layer.masksToBounds = true
         tempView.image = UIImage(named: "defualt-design-pic")
@@ -133,7 +133,7 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         tempLabel.font = UIFont.systemFont(ofSize: 14)
         tempLabel.layer.cornerRadius = 2
         tempLabel.layer.borderWidth = 0.5
-        tempLabel.layer.borderColor = UIColor.lineColors(color: .darkGray).cgColor
+        tempLabel.layer.borderColor = UIColor.lineColors(color: .grayLevel1).cgColor
         return tempLabel
     }()
     //更新后
@@ -607,14 +607,14 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
             selectionBgView.addSubview(NewPriceBG)
             
             let seperateLine1:UIView  = UIView.init(frame: CGRect(x: 15, y: 53, width: kWidth - 30, height: 0.5))
-            seperateLine1.backgroundColor = UIColor.lineColors(color: .lightGray)
+            seperateLine1.backgroundColor = UIColor.lineColors(color: .grayLevel3)
             NewPriceBG.addSubview(seperateLine1)
             
             newProducePeriodTextField.frame = CGRect(x: 158, y: seperateLine1.frame.maxY + 10, width: kWidth - 158, height: 32)
             newProducePeriodLabel.frame = CGRect(x: 20, y: seperateLine1.frame.maxY + 15, width: 200, height: 22)
             
 //            let seperateLine2:UIView  = UIView.init(frame: CGRect(x: 15, y: seperateLine1.frame.maxY + 53, width: kWidth - 30, height: 0.5))
-//            seperateLine2.backgroundColor = UIColor.lineColors(color: .lightGray)
+//            seperateLine2.backgroundColor = UIColor.lineColors(color: .grayLevel3)
 //            NewPriceBG.addSubview(seperateLine2)
             
             NewPriceBG.addSubview(newProducePriceLabel)

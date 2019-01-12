@@ -50,7 +50,7 @@ class accountListTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         checkBoxBtn.frame = CGRect(x: kWidth - 42, y: 15, width: 22, height: 22)
         
-        seperatorLine.backgroundColor = UIColor.lineColors(color: .lightGray)
+        seperatorLine.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         
         self.contentView.addSubview(seperatorLine)
         self.contentView.addSubview(nikeNameLabel)

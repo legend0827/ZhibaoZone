@@ -59,14 +59,14 @@ class OrderSearchCollectionViewCell: UICollectionViewCell {
         orderCellView.layer.shadowOffset = CGSize.zero//CGSize(width: 0, height: 0)
         orderCellView.layer.shadowOpacity = 1.0
         
-        orderCellView.layer.shadowColor = UIColor.lineColors(color: .lightGray).cgColor//UIColor.black.cgColor
+        orderCellView.layer.shadowColor = UIColor.lineColors(color: .grayLevel3).cgColor//UIColor.black.cgColor
         
         
         orderCellImageView.image = UIImage(named: "defualt-design-pic")
         orderCellImageView.contentMode = .scaleAspectFit
         orderCellImageView.layer.cornerRadius = 6
         orderCellImageView.layer.masksToBounds = true
-        orderCellImageView.layer.borderColor = UIColor.lineColors(color: .lightGray).cgColor
+        orderCellImageView.layer.borderColor = UIColor.lineColors(color: .grayLevel3).cgColor
         orderCellImageView.layer.borderWidth = 0.5
         
         
@@ -86,7 +86,7 @@ class OrderSearchCollectionViewCell: UICollectionViewCell {
         orderIDLabel.textColor = UIColor.titleColors(color: .black)
         orderIDLabel.font = UIFont.systemFont(ofSize: 14)
         
-        seperateLineView.backgroundColor = UIColor.lineColors(color: .lightGray)
+        seperateLineView.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         
         productTypeAndMaterialInCell.text = "徽章 锌合金"
         productTypeAndMaterialInCell.textColor = UIColor.titleColors(color: .black)

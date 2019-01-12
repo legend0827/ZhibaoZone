@@ -59,10 +59,11 @@ enum iconColorsType{
 enum lineColorsType{
     case red
     case white
-    case lightGray
-    case gray
-    case darkGray
-    case lightestGray
+    case grayLevel1
+    case grayLevel2
+    case grayLevel3
+    case grayLevel4
+    case grayLevel5
     case lightOrange
 }
 
@@ -111,6 +112,7 @@ enum orderListCategoryType{
     case bargainDealedCategory
     case designningCategory
     case waitForConfirmDesignCategory
+    case allFactoryNotQuoteCategory
     //case allOrderCategory
 }
 
@@ -257,20 +259,22 @@ extension UIColor {
         switch color {
         case .red:
             tempColor = UIColor.colorWithRgba(236, g: 113, b: 113, a: 1.0)
-        case .lightGray:
-            tempColor = UIColor.colorWithRgba(221, g: 221, b: 221, a: 1.0)
         case .white:
             tempColor = UIColor.colorWithRgba(255, g: 255, b: 255, a: 1.0)
-        case .darkGray:
-            tempColor = UIColor.colorWithRgba(102, g: 102, b: 102, a: 1.0)
-        case .gray:
-            tempColor = UIColor.colorWithRgba(155, g: 155, b: 155, a: 1.0)
-        case .lightestGray:
+        case .grayLevel1:
+            tempColor = UIColor.colorWithRgba(204, g: 204, b: 204, a: 1.0)
+        case .grayLevel2:
             tempColor = UIColor.colorWithRgba(232, g: 232, b: 232, a: 1.0)
+        case .grayLevel3:
+            tempColor = UIColor.colorWithRgba(242, g: 242, b: 242, a: 1.0)
+        case .grayLevel4:
+            tempColor = UIColor.colorWithRgba(248, g: 248, b: 248, a: 1.0)
+        case .grayLevel5:
+            tempColor = UIColor.colorWithRgba(250, g: 251, b: 251, a: 1.0)
         case .lightOrange:
             tempColor = UIColor.colorWithRgba(255, g: 120, b: 83, a: 1.0)
         default:
-            tempColor = UIColor.colorWithRgba(102, g: 102, b: 102, a: 1.0)
+            tempColor = UIColor.colorWithRgba(204, g: 204, b: 204, a: 1.0)
         }
         return tempColor
     }

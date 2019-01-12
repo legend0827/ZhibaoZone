@@ -570,15 +570,15 @@ class EditOrderParameters: UIViewController,UITableViewDelegate,UITableViewDataS
         productDeadLineValue.keyboardType = .numberPad
         
         //分割线
-        seperateLine1.backgroundColor = UIColor.lineColors(color: .lightGray)
-        seperateLine2.backgroundColor = UIColor.lineColors(color: .lightGray)
+        seperateLine1.backgroundColor = UIColor.lineColors(color: .grayLevel3)
+        seperateLine2.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         seperateLine3.image = UIImage(named: "dashlineimg")
-        seperateLine4.backgroundColor = UIColor.lineColors(color: .lightGray)
-        seperateLine5.backgroundColor = UIColor.lineColors(color: .lightGray)
-        seperateLine6.backgroundColor = UIColor.lineColors(color: .lightGray)
-        seperateLine7.backgroundColor = UIColor.lineColors(color: .lightGray)
-        seperateLine8.backgroundColor = UIColor.lineColors(color: .lightGray)
-        seperateLine9.backgroundColor = UIColor.lineColors(color: .lightGray)
+        seperateLine4.backgroundColor = UIColor.lineColors(color: .grayLevel3)
+        seperateLine5.backgroundColor = UIColor.lineColors(color: .grayLevel3)
+        seperateLine6.backgroundColor = UIColor.lineColors(color: .grayLevel3)
+        seperateLine7.backgroundColor = UIColor.lineColors(color: .grayLevel3)
+        seperateLine8.backgroundColor = UIColor.lineColors(color: .grayLevel3)
+        seperateLine9.backgroundColor = UIColor.lineColors(color: .grayLevel3)
     
         DispatchQueue.global().async {
             self.loadData()

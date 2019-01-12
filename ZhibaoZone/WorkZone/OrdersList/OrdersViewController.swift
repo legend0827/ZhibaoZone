@@ -19,6 +19,8 @@ import AVFoundation
 private struct PagingMenuOptions:PagingMenuControllerCustomizable{
     //角色
     var roleTypeForController = 1
+    //用户
+    var isUserAsSuperFactory = false
     //全部订单子视图
     private let allOrdersVC = AllOrdersViewController(orderlistType: orderListCategoryType.allOrderCategory)
     //待报价子视图
@@ -45,6 +47,8 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
     private let waitForModifyVC = AllOrdersViewController(orderlistType: orderListCategoryType.waitForModifyCategory)
    // 已定稿
     private let DesignConfirmedVC = AllOrdersViewController(orderlistType: orderListCategoryType.customerConfirmedCategory)
+    //都未报价
+    private let nobodyQuotedVC = AllOrdersViewController(orderlistType: orderListCategoryType.allFactoryNotQuoteCategory)
     
     var backgroundColor: UIColor = UIColor.backgroundColors(color: .white) // 设置菜单栏底色
 
@@ -58,7 +62,11 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
         case 2:
             return .all(menuOptions: MenuOptionsForDesign(), pagingControllers: pagingControllersForDesign)
         case 3:
-            return .all(menuOptions: MenuOptions(), pagingControllers: pagingControllers)
+            if isUserAsSuperFactory{
+                return .all(menuOptions: MenuOptionsForSuperFactory(), pagingControllers: pagingControllersForSuperFactory)
+            }else{
+                return .all(menuOptions: MenuOptions(), pagingControllers: pagingControllers)
+            }
         case 4:
             return .all(menuOptions: MenuOptions(), pagingControllers: pagingControllers)
         default:
@@ -67,15 +75,21 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
         return .all(menuOptions: MenuOptions(), pagingControllers: pagingControllers)
     }
     
-    //所有子视图控制器
+    //所有子视图控制器 - 设计师
     fileprivate var pagingControllersForDesign: [UIViewController] {
         return [waitForDesignVC,designningVC,waitForModifyVC,waitForConfirmDesignVC,DesignConfirmedVC]
     }
-    //所有子视图控制器
+    //所有子视图控制器 - 车间1
+    fileprivate var pagingControllersForSuperFactory: [UIViewController] {
+        return [nobodyQuotedVC,notQuoteYetVC,quoteAlreadyVC,waitForProduceVC,producingVC]
+    }
+    
+    //所有子视图控制器 - 其他角色
     fileprivate var pagingControllers: [UIViewController] {
         return [notQuoteYetVC,quoteAlreadyVC,waitForProduceVC,producingVC]
     }
-    //菜单配置项
+    
+    //菜单配置项 - 其他角色
     fileprivate struct MenuOptions: MenuViewCustomizable {
         //菜单显示模式
         var displayMode: MenuDisplayMode {
@@ -84,7 +98,7 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
         }
         //菜单项
         var itemsOptions: [MenuItemViewCustomizable] {
-            return [MenuItem2(),MenuItem3(),MenuItem4(),MenuItem5()]
+                return [MenuItem2(),MenuItem3(),MenuItem4(),MenuItem5()]
         }
         //设置选中栏下方条的颜色
         var focusMode:MenuFocusMode {
@@ -92,6 +106,7 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
         }
         
     }
+    
     
     //菜单配置项 - 设计
     fileprivate struct MenuOptionsForDesign: MenuViewCustomizable {
@@ -105,10 +120,30 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
         }
         //设置选中栏下方条的颜色
         var focusMode:MenuFocusMode {
-            return .underline(height: 4, color: UIColor.titleColors(color: .lightOrange), horizontalPadding: 38, verticalPadding: 5) // 水平间距 0 ，垂直间距 0
+            return .underline(height: 4, color: UIColor.titleColors(color: .lightOrange), horizontalPadding: 28, verticalPadding: 5) // 水平间距 0 ，垂直间距 0
         }
         
     }
+    
+    //菜单配置项 - 车间1
+    fileprivate struct MenuOptionsForSuperFactory: MenuViewCustomizable {
+        //菜单显示模式
+        var displayMode: MenuDisplayMode {
+            //return .segmentedControl
+            //return .segmentedControl//.standard(widthMode: MenuItemWidthMode.flexible, centerItem: false, scrollingMode: MenuScrollingMode.scrollEnabled)
+            return .standard(widthMode: MenuItemWidthMode.flexible, centerItem: false, scrollingMode: MenuScrollingMode.scrollEnabledAndBouces)
+        }
+        //菜单项
+        var itemsOptions: [MenuItemViewCustomizable] {
+            return [MenuItem15(),MenuItem2(),MenuItem3(),MenuItem4(),MenuItem5()]
+        }
+        //设置选中栏下方条的颜色
+        var focusMode:MenuFocusMode {
+            return .underline(height: 4, color: UIColor.titleColors(color: .lightOrange), horizontalPadding: 28, verticalPadding: 5) // 水平间距 0 ，垂直间距 0
+        }
+        
+    }
+    
     //菜单配置项 - 经理
     fileprivate struct MenuOptionsForManager: MenuViewCustomizable {
         //菜单显示模式
@@ -228,6 +263,13 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
             return .text(title: MenuItemText(text: "待定稿", color: UIColor.titleColors(color: .darkGray), selectedColor: UIColor.titleColors(color: .black), font: UIFont.systemFont(ofSize: 16), selectedFont: UIFont.boldSystemFont(ofSize: 17)))
         }
     }
+    //第15个菜单项
+    fileprivate struct MenuItem15: MenuItemViewCustomizable {
+        //自定义菜单项名称
+        var displayMode: MenuItemDisplayMode {
+            return .text(title: MenuItemText(text: "都未报价", color: UIColor.titleColors(color: .darkGray), selectedColor: UIColor.titleColors(color: .black), font: UIFont.systemFont(ofSize: 16), selectedFont: UIFont.boldSystemFont(ofSize: 17)))
+        }
+    }
 }
 
 class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDelegate{
@@ -254,7 +296,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
     lazy var recentOneDayBtn:UIButton = {
         let tempButton = UIButton.init(type: .custom)
         tempButton.setTitle("近一日", for: .normal)
-        tempButton.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+        tempButton.setTitleColor(UIColor.lineColors(color: .grayLevel1), for: .normal)
         tempButton.layer.cornerRadius = 16
         tempButton.layer.borderColor = UIColor.clear.cgColor
         tempButton.layer.borderWidth = 0.5
@@ -282,7 +324,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
     lazy var recentOneMonthBtn:UIButton = {
         let tempButton = UIButton.init(type: .custom)
         tempButton.setTitle("近30天", for: .normal)
-        tempButton.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+        tempButton.setTitleColor(UIColor.lineColors(color: .grayLevel1), for: .normal)
         tempButton.layer.cornerRadius = 16
         tempButton.layer.borderColor = UIColor.clear.cgColor
         tempButton.layer.borderWidth = 0.5
@@ -296,7 +338,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
     lazy var customDateBtn:UIButton = {
         let tempButton = UIButton.init(type: .custom)
         tempButton.setTitle("自定义日期", for: .normal)
-        tempButton.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+        tempButton.setTitleColor(UIColor.lineColors(color: .grayLevel1), for: .normal)
         tempButton.layer.cornerRadius = 16
         tempButton.layer.borderColor = UIColor.clear.cgColor
         tempButton.layer.borderWidth = 0.5
@@ -309,6 +351,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
     
     //用户角色
     var _roleType = 1
+    var _userId = "1000000"
     lazy var scrollBackView:UIScrollView = {
         let tempScrollView = UIScrollView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: kHight - heightChangeForiPhoneXFromBottom - 49))
         tempScrollView.contentSize = CGSize(width: kWidth, height: 730 )
@@ -372,6 +415,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         setStatusBarBackgroundColor(color: UIColor.clear)
         let userinfos = getCurrentUserInfo()
         _roleType = Int(userinfos.value(forKey: "roletype") as! String)!
+        _userId = userinfos.value(forKey: "userid") as! String
         
         backgroundImageView.image = UIImage(named: "titlebackgroundimg")
         self.view.addSubview(backgroundImageView)
@@ -387,6 +431,13 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
             //分页菜单配置
             var options = PagingMenuOptions()
             options.roleTypeForController = _roleType
+            //车间1账号要求显示都未报价分类
+            if _userId == "10000013"{
+                options.isUserAsSuperFactory = true
+            }else{
+                options.isUserAsSuperFactory = false
+            }
+            
             //分页菜单控制器初始化
             let pagingMenuController = PagingMenuController(options: options)
             
@@ -477,13 +528,13 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
             recentOneDayBtn.setTitleColor(UIColor.lineColors(color: .red), for: .normal)
             
             recentOneWeekBtn.layer.borderColor = UIColor.clear.cgColor
-            recentOneWeekBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+            recentOneWeekBtn.setTitleColor(UIColor.lineColors(color: .grayLevel1), for: .normal)
             
             recentOneMonthBtn.layer.borderColor = UIColor.clear.cgColor
-            recentOneMonthBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+            recentOneMonthBtn.setTitleColor(UIColor.lineColors(color: .grayLevel1), for: .normal)
             
             customDateBtn.layer.borderColor = UIColor.clear.cgColor
-            customDateBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+            customDateBtn.setTitleColor(UIColor.lineColors(color: .grayLevel1), for: .normal)
             
             //近一日的时间戳
             timeInterval_from = dateAheadNow(before: 1, countAs: .PerDay)
@@ -491,16 +542,16 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
             pullStatistics()
         case 2: // 近7日
             recentOneDayBtn.layer.borderColor = UIColor.clear.cgColor
-            recentOneDayBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+            recentOneDayBtn.setTitleColor(UIColor.lineColors(color: .grayLevel1), for: .normal)
             
             recentOneWeekBtn.layer.borderColor = UIColor.lineColors(color: .red).cgColor
             recentOneWeekBtn.setTitleColor(UIColor.lineColors(color: .red), for: .normal)
             
             recentOneMonthBtn.layer.borderColor = UIColor.clear.cgColor
-            recentOneMonthBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+            recentOneMonthBtn.setTitleColor(UIColor.lineColors(color: .grayLevel1), for: .normal)
             
             customDateBtn.layer.borderColor = UIColor.clear.cgColor
-            customDateBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+            customDateBtn.setTitleColor(UIColor.lineColors(color: .grayLevel1), for: .normal)
             
             //"最近1周"
             timeInterval_from = dateAheadNow(before: 7, countAs: .PerDay)
@@ -508,16 +559,16 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
             pullStatistics()
         case 3: // 近30天
             recentOneDayBtn.layer.borderColor = UIColor.clear.cgColor
-            recentOneDayBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+            recentOneDayBtn.setTitleColor(UIColor.lineColors(color: .grayLevel1), for: .normal)
             
             recentOneWeekBtn.layer.borderColor = UIColor.clear.cgColor
-            recentOneWeekBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+            recentOneWeekBtn.setTitleColor(UIColor.lineColors(color: .grayLevel1), for: .normal)
             
             recentOneMonthBtn.layer.borderColor = UIColor.lineColors(color: .red).cgColor
             recentOneMonthBtn.setTitleColor(UIColor.lineColors(color: .red), for: .normal)
             
             customDateBtn.layer.borderColor = UIColor.clear.cgColor
-            customDateBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+            customDateBtn.setTitleColor(UIColor.lineColors(color: .grayLevel1), for: .normal)
             
             timeInterval_from = dateAheadNow(before: 30, countAs: .PerDay)
             timeInterval_to = getEndDateTimeStampOfToday()
@@ -525,13 +576,13 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
             pullStatistics()
         case 4: // 自定义日期
             recentOneDayBtn.layer.borderColor = UIColor.clear.cgColor
-            recentOneDayBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+            recentOneDayBtn.setTitleColor(UIColor.lineColors(color: .grayLevel1), for: .normal)
             
             recentOneWeekBtn.layer.borderColor = UIColor.clear.cgColor
-            recentOneWeekBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+            recentOneWeekBtn.setTitleColor(UIColor.lineColors(color: .grayLevel1), for: .normal)
             
             recentOneMonthBtn.layer.borderColor = UIColor.clear.cgColor
-            recentOneMonthBtn.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+            recentOneMonthBtn.setTitleColor(UIColor.lineColors(color: .grayLevel1), for: .normal)
             
             customDateBtn.layer.borderColor = UIColor.lineColors(color: .red).cgColor
             customDateBtn.setTitleColor(UIColor.lineColors(color: .red), for: .normal)
@@ -616,7 +667,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         //orderStatisticBoard1.addSubview(onlineIcon1)
         
         onlineCustomerServiceCount.frame = CGRect(x: kWidth - 156, y: customerServiceTitle.frame.minY, width: 138, height: 26)
-        onlineCustomerServiceCount.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+        onlineCustomerServiceCount.setTitleColor(UIColor.lineColors(color: .grayLevel1), for: .normal)
         onlineCustomerServiceCount.setTitle("在线客服：-", for: .normal)
         onlineCustomerServiceCount.contentHorizontalAlignment = .right
         onlineCustomerServiceCount.titleLabel?.font = UIFont.systemFont(ofSize: 14)
@@ -626,7 +677,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         orderStatisticBoard1.addSubview(onlineCustomerServiceCount)
         
         let seperateLine1:UIView = UIView.init(frame: CGRect(x: 0, y: 45, width: kWidth, height: 0.5))
-        seperateLine1.backgroundColor = UIColor.lineColors(color: .lightGray)
+        seperateLine1.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         orderStatisticBoard1.addSubview(seperateLine1)
         //估单金额统计
         let gudanAmountTitle:UILabel = UILabel.init(frame: CGRect(x: 0, y: seperateLine1.frame.maxY + 15, width: (kWidth - 28)/3, height: 20))
@@ -749,7 +800,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
        // orderStatisticBoard2.addSubview(onlineIcon2)
         
         onlineDesignerCount.frame = CGRect(x: kWidth - 156, y: designerTitle.frame.minY, width: 138, height: 26)
-        onlineDesignerCount.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+        onlineDesignerCount.setTitleColor(UIColor.lineColors(color: .grayLevel1), for: .normal)
         onlineDesignerCount.setTitle("在线设计师：-", for: .normal)
         onlineDesignerCount.contentHorizontalAlignment = .right
         onlineDesignerCount.titleLabel?.font = UIFont.systemFont(ofSize: 14)
@@ -758,7 +809,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         orderStatisticBoard2.addSubview(onlineDesignerCount)
         
         let seperateLine2:UIView = UIView.init(frame: CGRect(x: 0, y: 45, width: kWidth, height: 0.5))
-        seperateLine2.backgroundColor = UIColor.lineColors(color: .lightGray)
+        seperateLine2.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         orderStatisticBoard2.addSubview(seperateLine2)
         
         // - 待接受设计
@@ -806,7 +857,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         customerConfirmedCount.font = UIFont(name: "DINPro-Medium", size: 16)
         orderStatisticBoard2.addSubview(customerConfirmedCount)
         
-        //生产数据
+        //车间数据
         let orderStatisticBoard3:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: orderStatisticBoard2.frame.maxY + 10, width: kWidth, height: 180))
         orderStatisticBoard3.image = UIImage(named: "statisticboardbgimg")
         scrollBackView.addSubview(orderStatisticBoard3)
@@ -816,7 +867,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         orderStatisticBoard3.addSubview(orangeDotImg3)
         
         let producerTitle:UILabel = UILabel.init(frame: CGRect(x: 30, y: 10, width: 100, height: 25))
-        producerTitle.text = "生产数据"
+        producerTitle.text = "车间数据"
         producerTitle.font = UIFont.boldSystemFont(ofSize: 16)
         producerTitle.textColor = UIColor.titleColors(color: .black)
         orderStatisticBoard3.addSubview(producerTitle)
@@ -827,7 +878,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
       //  orderStatisticBoard3.addSubview(onlineIcon3)
         
         onlineProducerCount.frame = CGRect(x: kWidth - 156, y: producerTitle.frame.minY, width: 138, height: 26)
-        onlineProducerCount.setTitleColor(UIColor.lineColors(color: .darkGray), for: .normal)
+        onlineProducerCount.setTitleColor(UIColor.lineColors(color: .grayLevel1), for: .normal)
         onlineProducerCount.setTitle("在线车间：-", for: .normal)
         onlineProducerCount.contentHorizontalAlignment = .right
         onlineProducerCount.titleLabel?.font = UIFont.systemFont(ofSize: 14)
@@ -836,7 +887,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         orderStatisticBoard3.addSubview(onlineProducerCount)
         
         let seperateLine3:UIView = UIView.init(frame: CGRect(x: 0, y: 45, width: kWidth, height: 0.5))
-        seperateLine3.backgroundColor = UIColor.lineColors(color: .lightGray)
+        seperateLine3.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         orderStatisticBoard3.addSubview(seperateLine3)
         
         
