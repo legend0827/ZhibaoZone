@@ -128,6 +128,13 @@ enum actionType {
     case contactInfos
 }
 
+//标题颜色枚举
+enum filterType{
+    case timeInterval
+    case shop
+    case goodsClass
+}
+
 //工艺属性类型：
 enum produceType:String {
     case mold
@@ -189,6 +196,18 @@ enum unitType:String{
     case perHour
     case PerDay
 }
+
+enum seperateType:String{
+    case byDay
+    case byMonth
+    case byYear
+}
+
+enum selectionModelType:String{
+    case single
+    case multiple
+}
+
 
 class Extentsions: NSObject {
 
@@ -470,6 +489,7 @@ func showBlurEffect() -> UIVisualEffectView {
     return blurView
 }
 
+
 //创建头像方法
 func createIcon(imageSize:CGFloat,locale:CGRect,iconShape:AvatarShape) -> UIView {
     let photo = UIImageView()
@@ -567,7 +587,7 @@ func getSystemParasFromPlist() ->[AnyObject]{
     return systemParam
 }
 
-func getEndDateTimeStampOfToday() -> TimeInterval{
+func getEndDateTimeOfToday() -> (TimeInterval:TimeInterval,String:String){
     
     let now = Date()
     
@@ -590,7 +610,33 @@ func getEndDateTimeStampOfToday() -> TimeInterval{
     let endDateTime = formatter.date(from: endTimeString)
     let endTime = endDateTime?.timeIntervalSince1970
     
-    return endTime!
+    return (endTime!,endTimeString)
+}
+
+func getStartDateTimeOfToday() -> (TimeInterval:TimeInterval,String:String){
+    
+    let now = Date()
+    
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd"
+    dateFormatter.locale = .current
+    let dateOfToday = dateFormatter.string(from: now) //date(from: now)
+    
+    //    let calendar = NSCalendar.init(identifier: .chinese)
+    //    let componets = calendar?.components(in: .current, from: now as Date)
+    //    let year = componets?.year as! Int
+    //    let month = componets?.month as! Int
+    //    let day = componets?.day as! Int
+    
+    let endTimeOfToday = "00:00:00"
+    
+    let endTimeString = dateOfToday + " " + endTimeOfToday
+    let formatter = DateFormatter()
+    formatter.dateFormat =  "yyyy-MM-dd HH:mm:ss"
+    let endDateTime = formatter.date(from: endTimeString)
+    let endTime = endDateTime?.timeIntervalSince1970
+    
+    return (endTime!,endTimeString)// endTime!
 }
 
 func getDateTimeStamp(of dateString:String) -> TimeInterval{
@@ -613,8 +659,150 @@ func getDateTimeStamp(of dateString:String) -> TimeInterval{
     
     return endTime!
 }
+// MARK: 前一天的时间
+// nowDay 是传入的需要计算的日期
+ func getLastDay(_ nowDay: String) -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    
+    // 先把传入的时间转为 date
+    let date = dateFormatter.date(from: nowDay)
+    let lastTime: TimeInterval = -(24*60*60) // 往前减去一天的秒数，昨天
+    //        let nextTime: TimeInterval = 24*60*60 // 这是后一天的时间，明天
+    
+    let lastDate = date?.addingTimeInterval(lastTime)
+    let lastDay = dateFormatter.string(from: lastDate!)
+    return lastDay
+}
 
-func dateAheadNow(before num:Int, countAs unitType: unitType) -> TimeInterval{
+// MARK: 获取某一天所在的周一和周日
+func getWeekTime(_ dateStr: String) -> (Monday:String,Sunday:String) {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    let nowDate = dateFormatter.date(from: dateStr)
+    let calendar = Calendar.current
+    let comp = calendar.dateComponents([.year, .month, .day, .weekday], from: nowDate!)
+    
+    // 获取今天是周几
+    let weekDay = comp.weekday
+    // 获取几天是几号
+    let day = comp.day
+    
+    // 计算当前日期和本周的星期一和星期天相差天数
+    var firstDiff: Int
+    var lastDiff: Int
+    // weekDay = 1;
+    if (weekDay == 1) {
+        firstDiff = -6;
+        lastDiff = 0;
+    } else {
+        firstDiff = calendar.firstWeekday - weekDay! + 1
+        lastDiff = 8 - weekDay!
+    }
+    
+    // 在当前日期(去掉时分秒)基础上加上差的天数
+    var firstDayComp = calendar.dateComponents([.year, .month, .day], from: nowDate!)
+    firstDayComp.day = day! + firstDiff
+    let firstDayOfWeek = calendar.date(from: firstDayComp)
+    var lastDayComp = calendar.dateComponents([.year, .month, .day], from: nowDate!)
+    lastDayComp.day = day! + lastDiff
+    let lastDayOfWeek = calendar.date(from: lastDayComp)
+    
+    let firstDay = dateFormatter.string(from: firstDayOfWeek!)
+    let lastDay = dateFormatter.string(from: lastDayOfWeek!)
+    let weekArr = (firstDay, lastDay)
+    
+    return weekArr
+}
+// MARK: 当月开始日期
+// nowDay 为传入需要计算的日期
+func startOfCurrentMonth(_ nowDay: String) -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    let nowDayDate = dateFormatter.date(from: nowDay)
+    
+    let calendar = Calendar.current
+    let components = calendar.dateComponents([.year, .month], from: nowDayDate!)
+    let startOfMonth = calendar.date(from: components)
+    
+
+    
+    let day = dateFormatter.string(from: startOfMonth!)
+    return day
+}
+// MARK: 当月结束日期
+func endOfCurrentMonth(_ nowDay: String, returnEndTime:Bool = false) -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    let nowDayDate = dateFormatter.date(from: nowDay)
+    
+    let calendar = Calendar.current
+    var components = DateComponents()
+    components.month = 1
+    if returnEndTime {
+        components.second = -1
+    } else {
+        components.day = -1
+    }
+    //startOfCurrentMonth
+    let currentMonth = calendar.dateComponents([.year, .month], from: nowDayDate!)
+    let startOfMonth = calendar.date(from: currentMonth)
+    let endOfMonth = calendar.date(byAdding: components, to: startOfMonth!)
+    
+    let day = dateFormatter.string(from: endOfMonth!)
+    return day
+}
+
+
+func dateAheadToday(before num:Int, getStart isStart:Bool,UnitType unitType:seperateType) -> (TimeInterval:TimeInterval,String:String){
+    let now = Date()
+    
+    let nowTimeStamp = now.timeIntervalSince1970
+    
+    let dateFormatterForDay = DateFormatter()
+    dateFormatterForDay.dateFormat = "yyyy-MM-dd"
+    dateFormatterForDay.locale = .current
+    let dateOfToday = dateFormatterForDay.string(from: now) //date(from: now)
+    
+    //    let calendar = NSCalendar.init(identifier: .chinese)
+    //    let componets = calendar?.components(in: .current, from: now as Date)
+    //    let year = componets?.year as! Int
+    //    let month = componets?.month as! Int
+    //    let day = componets?.day as! Int
+    
+    let startTimeOfToday = "00:00:00"
+    let endTimeOfToday = "23:59:59"
+    
+    let startTimeString = dateOfToday + " " + startTimeOfToday
+    let endTimeString = dateOfToday + " " + endTimeOfToday
+    let formatter = DateFormatter()
+    formatter.dateFormat =  "yyyy-MM-dd HH:mm:ss"
+    let endDateTime = formatter.date(from: endTimeString)
+    let startDateTime = formatter.date(from: startTimeString)
+    let endTime = endDateTime?.timeIntervalSince1970
+    let startTime = startDateTime?.timeIntervalSince1970
+    
+    var timeInterval = num * 24 * 60 * 60
+    var targetTimeStamp:Int = 0
+    var targetString:String = ""
+    if isStart{
+        targetTimeStamp = Int(startTime!) - timeInterval
+        targetString = formatter.string(from: Date(timeIntervalSince1970: TimeInterval(targetTimeStamp))) // startTimeString
+    }else{
+        targetTimeStamp = Int(endTime!) - timeInterval
+        targetString = formatter.string(from: Date(timeIntervalSince1970: TimeInterval(targetTimeStamp)))
+    }
+    
+    let dateFormatter1 = DateFormatter()
+    dateFormatter1.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    dateFormatter1.locale = .current
+    let date = Date(timeIntervalSince1970: TimeInterval(targetTimeStamp))
+    let dateString = dateFormatter1.string(from: date)
+    
+    return (TimeInterval(targetTimeStamp),targetString)
+}
+
+func dateAheadNow(before num:Int, countAs unitType: unitType) -> (TimeInterval:TimeInterval,String:String){
     let now = Date()
     
     let nowTimeStamp = now.timeIntervalSince1970
@@ -632,7 +820,14 @@ func dateAheadNow(before num:Int, countAs unitType: unitType) -> TimeInterval{
     
     let targetTimeStamp = Int(nowTimeStamp) - timeInterval
     
-    return TimeInterval(targetTimeStamp)
+    
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    dateFormatter.locale = .current
+    let date = Date(timeIntervalSince1970: TimeInterval(targetTimeStamp))
+    let dateString = dateFormatter.string(from: date)
+    
+    return (TimeInterval(targetTimeStamp),dateString)
     //        let formatter = DateFormatter()
     //        formatter.dateFormat =  "yyyy-MM-dd HH:mm:ss"
     //        let endDateTime = formatter.date(from: endTimeString)

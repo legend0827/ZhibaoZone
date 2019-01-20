@@ -177,16 +177,16 @@ class ChooseTimeInterval: UIView,UITableViewDelegate,UITableViewDataSource,UIPic
         switch indexPath.row {
         case 0:
             //"最近1天"
-            startTimeStamp = dateAheadNow(before: 1, countAs: .PerDay)
-            endTimeStamp = getEndDateTimeStampOfToday()
+            startTimeStamp = dateAheadNow(before: 1, countAs: .PerDay).TimeInterval
+            endTimeStamp = getEndDateTimeOfToday().TimeInterval
         case 1:
             //"最近3天"
-            startTimeStamp = dateAheadNow(before: 3, countAs: .PerDay)
-            endTimeStamp = getEndDateTimeStampOfToday()
+            startTimeStamp = dateAheadNow(before: 3, countAs: .PerDay).TimeInterval
+            endTimeStamp = getEndDateTimeOfToday().TimeInterval
         case 2:
             //"最近1周"
-            startTimeStamp = dateAheadNow(before: 7, countAs: .PerDay)
-            endTimeStamp = getEndDateTimeStampOfToday()
+            startTimeStamp = dateAheadNow(before: 7, countAs: .PerDay).TimeInterval
+            endTimeStamp = getEndDateTimeOfToday().TimeInterval
         case 3:
             // "本月"
             let now = Date()
@@ -216,8 +216,8 @@ class ChooseTimeInterval: UIView,UITableViewDelegate,UITableViewDataSource,UIPic
             let minitesInterval = Int(minitesOfNow)! * 60
             let secondInterval = Int(secondOfNow)!
             
-            startTimeStamp = dateAheadNow(before: dayInterval + hourInterval + minitesInterval + secondInterval, countAs: .perSecond)
-            endTimeStamp = getEndDateTimeStampOfToday()
+            startTimeStamp = dateAheadNow(before: dayInterval + hourInterval + minitesInterval + secondInterval, countAs: .perSecond).TimeInterval
+            endTimeStamp = getEndDateTimeOfToday().TimeInterval
         case 4:
             //"自定义日期"
             print("nothing")
@@ -453,8 +453,8 @@ class ChooseTimeInterval: UIView,UITableViewDelegate,UITableViewDataSource,UIPic
         backgroundView.backgroundColor = UIColor.backgroundColors(color: .white)
         self.addSubview(backgroundView)
         
-        startTimeStamp = dateAheadNow(before: 7, countAs: .PerDay)
-        endTimeStamp = getEndDateTimeStampOfToday()
+        startTimeStamp = dateAheadNow(before: 7, countAs: .PerDay).TimeInterval
+        endTimeStamp = getEndDateTimeOfToday().TimeInterval
         
         backgroundView.addSubview(contentTableView)
         
@@ -531,16 +531,16 @@ class ChooseTimeInterval: UIView,UITableViewDelegate,UITableViewDataSource,UIPic
         switch index {
         case 0:
             //"最近1天"
-            startTimeStamp = dateAheadNow(before: 1, countAs: .PerDay)
-            endTimeStamp = getEndDateTimeStampOfToday()
+            startTimeStamp = dateAheadNow(before: 1, countAs: .PerDay).TimeInterval
+            endTimeStamp = getEndDateTimeOfToday().TimeInterval
         case 1:
             //"最近3天"
-            startTimeStamp = dateAheadNow(before: 3, countAs: .PerDay)
-            endTimeStamp = getEndDateTimeStampOfToday()
+            startTimeStamp = dateAheadNow(before: 3, countAs: .PerDay).TimeInterval
+            endTimeStamp = getEndDateTimeOfToday().TimeInterval
         case 2:
             //"最近1周"
-            startTimeStamp = dateAheadNow(before: 7, countAs: .PerDay)
-            endTimeStamp = getEndDateTimeStampOfToday()
+            startTimeStamp = dateAheadNow(before: 7, countAs: .PerDay).TimeInterval
+            endTimeStamp = getEndDateTimeOfToday().TimeInterval
         case 3:
             // "本月"
             let now = Date()
@@ -570,8 +570,8 @@ class ChooseTimeInterval: UIView,UITableViewDelegate,UITableViewDataSource,UIPic
             let minitesInterval = Int(minitesOfNow)! * 60
             let secondInterval = Int(secondOfNow)!
             
-            startTimeStamp = dateAheadNow(before: dayInterval + hourInterval + minitesInterval + secondInterval, countAs: .perSecond)
-            endTimeStamp = getEndDateTimeStampOfToday()
+            startTimeStamp = dateAheadNow(before: dayInterval + hourInterval + minitesInterval + secondInterval, countAs: .perSecond).TimeInterval
+            endTimeStamp = getEndDateTimeOfToday().TimeInterval
         case 4:
             //"自定义日期"
             print("nothing")

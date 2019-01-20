@@ -132,13 +132,13 @@
 		<key>autoPrice</key>
 		<string>http://119.27.170.195:81/dynamo/order/auto_price</string>
 		<key>statisticDebug</key>
-		<string>http://129.28.68.119:81/dynamo/order/appManagerCount.do</string>
+		<string>http://129.28.68.119:81/count/app/mobileCount</string>
 		<key>statistic</key>
-		<string>http://119.27.170.195:81/dynamo/order/appManagerCount.do</string>
+		<string>http://119.27.170.195:81/count/app/mobileCount</string>
 		<key>onlineStatusAPIDebug</key>
-		<string>http://129.28.68.119:81/dynamo/user/userAccountInfoOnline_Query</string>
+		<string>http://129.28.68.119:81/count/app/getUser</string>
 		<key>onlineStatusAPI</key>
-		<string>http://119.27.170.195:81/dynamo/user/userAccountInfoOnline_Query</string>
+		<string>http://119.27.170.195:81/count/app/getUser</string>
 		<key>managerGetOrderListAPIDebug</key>
 		<string>http://129.28.68.119:81/dynamo/order/orderProductInfoWaitProduct</string>
 		<key>managerGetOrderListAPI</key>
@@ -177,6 +177,18 @@
 		<string>http://129.28.68.119:81/dynamo/order/orderSummaryInfoByOrderid</string>
 		<key>translistGetAPI</key>
 		<string>http://119.27.170.195:81/dynamo/order/orderSummaryInfoByOrderid</string>
+		<key>statisticForCustomerAPIDebug</key>
+		<string>http://129.28.68.119:81/count/managerView/customerServicesCount</string>
+		<key>statisticForCustomerAPI</key>
+		<string>http://119.27.170.195:81/count/managerView/customerServicesCount</string>
+		<key>statisticForDesignerAPIDebug</key>
+		<string>http://129.28.68.119:81/count/managerView/designCount</string>
+		<key>statisticForDesignerAPI</key>
+		<string>http://119.27.170.195:81/count/managerView/designCount</string>
+		<key>statisticForFactoryAPIDebug</key>
+		<string>http://129.28.68.119:81/count/managerView/shopCount</string>
+		<key>statisticForFactoryAPI</key>
+		<string>http://119.27.170.195:81/count/managerView/shopCount</string>
 	</dict>
 </dict>
 </plist>

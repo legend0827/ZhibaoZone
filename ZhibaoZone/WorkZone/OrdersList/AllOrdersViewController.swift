@@ -79,7 +79,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         layout.scrollDirection = UICollectionViewScrollDirection.vertical  //滚动方向
         
         let tempCollectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: kWidth, height: kHight - 180 - heightChangeForiPhoneXFromBottom ),collectionViewLayout:layout) // 
-        tempCollectionView.backgroundColor = UIColor.backgroundColors(color: .white)
+        tempCollectionView.backgroundColor = UIColor.lineColors(color: .grayLevel5)// UIColor.backgroundColors(color: .white)
         tempCollectionView.delegate = self
         tempCollectionView.dataSource = self
         tempCollectionView.isScrollEnabled = true
@@ -274,6 +274,8 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
                 cell.takePhotoForProductBtnInCell.isHidden = false
                 cell.productTypeAndMaterialInCell.isHidden = true
                 cell.orderIDValue.isHidden = false
+                cell.productSizeLabel.isHidden = true
+                cell.productQuantityInCellLabel.isHidden = true
                 cell.orderIDValue.text = orderInfoObjects.value(forKey: "orderid") as! String
                 cell.productSize.isHidden = true
                 cell.productQuantityInCell.isHidden = true
@@ -282,8 +284,8 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
                 cell.orderIDValue.isHidden = true
                 cell.productSize.isHidden = false
                 cell.productTypeAndMaterialInCell.isHidden = false
-                cell.productQuantityInCell.isHidden = false
-                cell.productTypeAndMaterialInCell.frame = CGRect(x: 5, y: cell.frame.width - 5, width: 300, height: 20)
+                cell.productQuantityInCell.isHidden = false                
+                cell.productTypeAndMaterialInCell.frame = CGRect(x: 5, y: cell.frame.width - 2, width: 300, height: 20)
             }
             //显示超工期
             var lastPeriod = 0
@@ -804,7 +806,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         
         let now = NSDate()
         let startTime = (Int(now.timeIntervalSince1970) - 2592000)*1000 //30天前   51840000
-        let endTime = getEndDateTimeStampOfToday() * 1000
+        let endTime = getEndDateTimeOfToday().TimeInterval * 1000
         params["sortCategory"] =  "synthesize"
         params["sortType"] = "desc"
         params["startTime"] = startTime//startTime// 全部订单

@@ -617,7 +617,7 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
         let params:NSMutableDictionary = NSMutableDictionary()
         var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
         
-        let endTime = getEndDateTimeStampOfToday()
+        let endTime = getEndDateTimeOfToday()
         
         params["startTime"] = 0// "1514736000" //2018-01-01 00:00:00
         params["endTime"] = 0//endTime

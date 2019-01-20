@@ -45,6 +45,7 @@ class designerOnlineStatusViewController: UIViewController,UITableViewDelegate,U
     let navigationBarInMessageList:UINavigationBar = UINavigationBar.init(frame: CGRect(x: 0, y: 20, width: UIScreen.main.bounds.width, height: 30))
     //
     lazy var _onlineStatusList:[NSDictionary] = []
+    lazy var _listRole = 2
     
     //在线人员列表
     lazy var onlineListTableView:UITableView = {
@@ -58,14 +59,15 @@ class designerOnlineStatusViewController: UIViewController,UITableViewDelegate,U
         tempTableView.rowHeight = UITableViewAutomaticDimension
         tempTableView.estimatedRowHeight = 100
         tempTableView.separatorStyle = .singleLine//.none
-        //tempTableView.separatorColor = UIColor
+        tempTableView.separatorColor = UIColor.lineColors(color: .grayLevel3)
         return tempTableView
     }()
     
 
-    init(with onlineList:[NSDictionary]){
+    init(with onlineList:[NSDictionary], roleType:Int){
         super.init(nibName: nil, bundle: nil)
         self._onlineStatusList = onlineList
+        self._listRole = roleType
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -90,7 +92,17 @@ class designerOnlineStatusViewController: UIViewController,UITableViewDelegate,U
         
         // 自定义导航栏的title，用UILabel实现
         let titleLabel = UILabel(frame: CGRect(x:0,y:0,width:50,height:60))
-        titleLabel.text = "设计师在线状态"
+        switch _listRole {
+        case 1:
+            titleLabel.text = "客服在线状态"
+        case 2:
+            titleLabel.text = "设计师在线状态"
+        case 3:
+            titleLabel.text = "车间在线状态"
+        default:
+            titleLabel.text = "设计师在线状态"
+        }
+        
         titleLabel.textColor = UIColor.titleColors(color: .white)
         // 这里使用系统自定义的字体
         titleLabel.font = UIFont.systemFont(ofSize: 18)
@@ -168,7 +180,7 @@ class designerOnlineStatusViewController: UIViewController,UITableViewDelegate,U
         #else
         let requestUrl = apiAddresses.value(forKey: "onlineStatusAPI") as! String
         #endif
-        _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
+        _ = Alamofire.request(requestUrl,method:.post, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{
             case true:
@@ -177,10 +189,29 @@ class designerOnlineStatusViewController: UIViewController,UITableViewDelegate,U
                     let statusCode = json["code"].int!
                     self._onlineStatusList.removeAll()
                     if statusCode == 200{
-                        for item in json["data","appData"].array!{
-                            let dicItem = item.dictionaryObject! as NSDictionary
-                            self._onlineStatusList.append(dicItem)
+                        switch self._listRole{
+                        case 1:
+                            for item in json["data","serviceUser"].array!{
+                                let dicItem = item.dictionaryObject! as NSDictionary
+                                self._onlineStatusList.append(dicItem)
+                            }
+                        case 2:
+                            for item in json["data","designUser"].array!{
+                                let dicItem = item.dictionaryObject! as NSDictionary
+                                self._onlineStatusList.append(dicItem)
+                            }
+                        case 3:
+                            for item in json["data","shopUser"].array!{
+                                let dicItem = item.dictionaryObject! as NSDictionary
+                                self._onlineStatusList.append(dicItem)
+                            }
+                        default:
+                            for item in json["data","designUser"].array!{
+                                let dicItem = item.dictionaryObject! as NSDictionary
+                                self._onlineStatusList.append(dicItem)
+                            }
                         }
+                        
                         self.onlineListTableView.reloadData()
                         //     self.onlineList
                         //

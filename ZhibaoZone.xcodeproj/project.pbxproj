@@ -34,6 +34,7 @@
 		0A2C801A20ABF3E900873162 /* PagingMenuController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A252F0F2095D44800C1F7F4 /* PagingMenuController.framework */; };
 		0A2C801C20ABF44E00873162 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A2C801B20ABF44E00873162 /* Images.xcassets */; };
 		0A2C801D20ABF51800873162 /* PagingMenuController.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0A252F0F2095D44800C1F7F4 /* PagingMenuController.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0A2D86D021F19719004ED341 /* FilterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2D86CF21F19719004ED341 /* FilterTableViewCell.swift */; };
 		0A38067B2031DB680077E77F /* CircleInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A38067A2031DB680077E77F /* CircleInfoView.swift */; };
 		0A3806842031E0B30077E77F /* LockLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3806832031E0B30077E77F /* LockLabel.swift */; };
 		0A3806862031E3290077E77F /* GestureVerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3806852031E3290077E77F /* GestureVerifyViewController.swift */; };
@@ -41,6 +42,10 @@
 		0A38068A2035C9680077E77F /* Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3806892035C9680077E77F /* Circle.swift */; };
 		0A38068C2035D6560077E77F /* GestureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A38068B2035D6560077E77F /* GestureViewController.swift */; };
 		0A390920218B451F0048B9F5 /* PrivacyPolicyAgreementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A39091F218B451F0048B9F5 /* PrivacyPolicyAgreementViewController.swift */; };
+		0A3A868C21F08A5200068BEE /* StatisticViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A868B21F08A5200068BEE /* StatisticViewController.swift */; };
+		0A3A868E21F0DD6700068BEE /* statisticTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A868D21F0DD6700068BEE /* statisticTableViewCell.swift */; };
+		0A3A869221F180F900068BEE /* PopUpsPortialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A869121F180F900068BEE /* PopUpsPortialViewController.swift */; };
+		0A3A869421F181E400068BEE /* FilterForHorizentalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A869321F181E400068BEE /* FilterForHorizentalView.swift */; };
 		0A3AA20E1FF61C5F00EBC482 /* WorkZoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3AA20D1FF61C5F00EBC482 /* WorkZoneViewController.swift */; };
 		0A3AA2171FF61C6E00EBC482 /* MeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3AA2161FF61C6E00EBC482 /* MeViewController.swift */; };
 		0A3CC3B9209572970055B5DD /* Extentsions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3CC3B8209572970055B5DD /* Extentsions.swift */; };
@@ -255,6 +260,7 @@
 		0A25DF96201D7E63009CBDEA /* contactList.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = contactList.plist; sourceTree = "<group>"; };
 		0A2B67562130EBA000E9B81A /* UIKVAnimationLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKVAnimationLabel.swift; sourceTree = "<group>"; };
 		0A2C801B20ABF44E00873162 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		0A2D86CF21F19719004ED341 /* FilterTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTableViewCell.swift; sourceTree = "<group>"; };
 		0A38067A2031DB680077E77F /* CircleInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleInfoView.swift; sourceTree = "<group>"; };
 		0A3806832031E0B30077E77F /* LockLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockLabel.swift; sourceTree = "<group>"; };
 		0A3806852031E3290077E77F /* GestureVerifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureVerifyViewController.swift; sourceTree = "<group>"; };
@@ -262,6 +268,10 @@
 		0A3806892035C9680077E77F /* Circle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Circle.swift; sourceTree = "<group>"; };
 		0A38068B2035D6560077E77F /* GestureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GestureViewController.swift; path = ZhibaoZone/Me/SetSecuritySetting/GestureViewController.swift; sourceTree = SOURCE_ROOT; };
 		0A39091F218B451F0048B9F5 /* PrivacyPolicyAgreementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyAgreementViewController.swift; sourceTree = "<group>"; };
+		0A3A868B21F08A5200068BEE /* StatisticViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticViewController.swift; sourceTree = "<group>"; };
+		0A3A868D21F0DD6700068BEE /* statisticTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = statisticTableViewCell.swift; sourceTree = "<group>"; };
+		0A3A869121F180F900068BEE /* PopUpsPortialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpsPortialViewController.swift; sourceTree = "<group>"; };
+		0A3A869321F181E400068BEE /* FilterForHorizentalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterForHorizentalView.swift; sourceTree = "<group>"; };
 		0A3AA20D1FF61C5F00EBC482 /* WorkZoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkZoneViewController.swift; sourceTree = "<group>"; };
 		0A3AA2161FF61C6E00EBC482 /* MeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeViewController.swift; sourceTree = "<group>"; };
 		0A3CC3B8209572970055B5DD /* Extentsions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Extentsions.swift; path = ZhibaoZone/Extentsions.swift; sourceTree = SOURCE_ROOT; };
@@ -445,6 +455,18 @@
 				0A252F0F2095D44800C1F7F4 /* PagingMenuController.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		0A3A868A21F08A0900068BEE /* Statistic */ = {
+			isa = PBXGroup;
+			children = (
+				0A3A868B21F08A5200068BEE /* StatisticViewController.swift */,
+				0A3A869121F180F900068BEE /* PopUpsPortialViewController.swift */,
+				0A3A869321F181E400068BEE /* FilterForHorizentalView.swift */,
+				0A2D86CF21F19719004ED341 /* FilterTableViewCell.swift */,
+				0A3A868D21F0DD6700068BEE /* statisticTableViewCell.swift */,
+			);
+			path = Statistic;
 			sourceTree = "<group>";
 		};
 		0A494FA321B04F6F004F12BB /* EmployeePage */ = {
@@ -649,6 +671,7 @@
 		0AC4B48920F701ED00312092 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				0A3A868A21F08A0900068BEE /* Statistic */,
 				0AC4B49220F7023200312092 /* ManagerViewController.swift */,
 				0AC4B49920FD878700312092 /* SwitchOrderViewController.swift */,
 				0AC4B49D20FDE31500312092 /* accountListTableViewCell.swift */,
@@ -1118,6 +1141,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A3A869421F181E400068BEE /* FilterForHorizentalView.swift in Sources */,
 				0A0235B61FFD23C600CBD846 /* TastsViewController.swift in Sources */,
 				0AC4B49720F711C700312092 /* StatisticCollectionViewCell.swift in Sources */,
 				0AB766A8200DC46900851E16 /* HGImageCollectionViewController.swift in Sources */,
@@ -1126,6 +1150,7 @@
 				0A594E20206CBDA900A67950 /* MarkSlider.swift in Sources */,
 				0A594E242070793C00A67950 /* ReplyView.swift in Sources */,
 				0A09185620AAC06C0054749B /* ShippingCompanyNameListViewController.swift in Sources */,
+				0A3A868C21F08A5200068BEE /* StatisticViewController.swift in Sources */,
 				0AE149C62001E3BD005A2E55 /* NewTaskViewController.swift in Sources */,
 				0A6B3F101FFB38BE0014AF24 /* AccountInfo.xcdatamodeld in Sources */,
 				0A3AA2171FF61C6E00EBC482 /* MeViewController.swift in Sources */,
@@ -1133,6 +1158,7 @@
 				0AF06C4B20171D40008E2DE9 /* ESRefreshComponent.swift in Sources */,
 				0A13FB162159D637004066F0 /* ChooseTimeInterval.swift in Sources */,
 				0AF06C582018F465008E2DE9 /* LeaveMsgDetailViewController.swift in Sources */,
+				0A3A869221F180F900068BEE /* PopUpsPortialViewController.swift in Sources */,
 				0A3CC3B9209572970055B5DD /* Extentsions.swift in Sources */,
 				0AC1AC63204E6F210096A6F6 /* KVProgressBar.swift in Sources */,
 				0A129C3D20F44A8B00319A4C /* UploadProductImageViewController.swift in Sources */,
@@ -1179,6 +1205,7 @@
 				0A594E272070797800A67950 /* ReplyTableViewTableViewController.swift in Sources */,
 				0A38068C2035D6560077E77F /* GestureViewController.swift in Sources */,
 				0AF06C4D20171D40008E2DE9 /* ESRefreshHeaderAnimator.swift in Sources */,
+				0A2D86D021F19719004ED341 /* FilterTableViewCell.swift in Sources */,
 				0AC4B49A20FD878700312092 /* SwitchOrderViewController.swift in Sources */,
 				0A036A512027FE7F00A2F036 /* UnlockGestureView.swift in Sources */,
 				0AF06C5020171D40008E2DE9 /* ESRefreshProtocol.swift in Sources */,
@@ -1207,6 +1234,7 @@
 				0AD282A01FF4B3A50044E41C /* SwiftyJSON.swift in Sources */,
 				0A594E1E206C843700A67950 /* SetParamtersViewController.swift in Sources */,
 				0A5B5C1C1FF2248700A92C20 /* User.swift in Sources */,
+				0A3A868E21F0DD6700068BEE /* statisticTableViewCell.swift in Sources */,
 				0A99706B20AED7C500E4D37C /* CollectionReusableViewHeader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

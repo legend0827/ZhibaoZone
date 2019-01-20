@@ -185,6 +185,9 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         _password = password
         _token = token
         
+        //检查附属账号信息
+        setupAddtionalAccountInfos()
+        
         self.view.addSubview(userInfoTableView)
         
         nameBannerCell.backgroundColor = UIColor.clear
@@ -609,7 +612,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         userAccountLabel.font = UIFont.systemFont(ofSize: 15)
         userAccountLabel.textAlignment = .left
         
-        version.text = "V2.2.9"
+        version.text = "V2.2.10"
         version.font = UIFont.systemFont(ofSize: 13)
         version.textColor = UIColor.titleColors(color: .gray)
         version.textAlignment = .right

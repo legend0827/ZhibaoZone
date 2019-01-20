@@ -38,22 +38,22 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         orderCellImageView.frame = CGRect(x: 5, y: 5, width: frame.width - 10, height: frame.width - 10)
         priceLabelBackgroundView.frame = CGRect(x: 5, y: frame.width - 35, width: frame.width - 10, height: 30)
         priceLabel.frame = CGRect(x: 13, y: frame.width - 30, width: frame.width - 26, height: 20)
-        productTypeAndMaterialInCell.frame = CGRect(x: 5, y: frame.width - 5, width: 300, height: 20)
-        productSize.frame =  CGRect(x: 35, y: frame.width + 15, width: (kWidth - 60)/2, height: 17)
-        productQuantityInCell.frame = CGRect(x: 35, y: frame.width + 30, width: 100, height: 17)
-        productSizeLabel.frame =  CGRect(x: 5, y: frame.width + 15, width: 80, height: 17)
-        productQuantityInCellLabel.frame = CGRect(x: 5, y: frame.width + 30, width: 80, height: 17)
+        productTypeAndMaterialInCell.frame = CGRect(x: 5, y: frame.width - 2, width: 300, height: 20)
+        productSize.frame =  CGRect(x: 35, y: frame.width + 18, width: (kWidth - 60)/2, height: 17)
+        productQuantityInCell.frame = CGRect(x: 35, y: frame.width + 33, width: 100, height: 17)
+        productSizeLabel.frame =  CGRect(x: 5, y: frame.width + 18, width: 80, height: 17)
+        productQuantityInCellLabel.frame = CGRect(x: 5, y: frame.width + 33, width: 80, height: 17)
         
-        quotePriceBtnInCell.frame = CGRect(x: 5 , y: frame.width + 50, width: frame.width - 10, height: 35)
-        dealBargainBtnInCell.frame = CGRect(x: 5 , y: frame.width + 50, width: frame.width - 10, height: 35)
-        acceptProduceBtnInCell.frame = CGRect(x: 5 , y: frame.width + 50, width: frame.width - 10, height: 35)
-        biddingBtnInCell.frame = CGRect(x: 5 , y: frame.width + 50, width: frame.width - 10, height: 35)
-        acceptDesignBtnInCell.frame = CGRect(x: 5 , y: frame.width + 50, width: frame.width - 10, height: 35)
+        quotePriceBtnInCell.frame = CGRect(x: 33 , y: frame.width + 53, width: frame.width - 66, height: 32)
+        dealBargainBtnInCell.frame = CGRect(x: 33 , y: frame.width + 53, width: frame.width - 66, height: 32)
+        acceptProduceBtnInCell.frame = CGRect(x: 33 , y: frame.width + 53, width: frame.width - 66, height: 32)
+        biddingBtnInCell.frame = CGRect(x: 33 , y: frame.width + 53, width: frame.width - 66, height: 32)
+        acceptDesignBtnInCell.frame = CGRect(x: 33 , y: frame.width + 53, width: frame.width - 66, height: 32)
         takePhotoForProductBtnInCell.frame = CGRect(x: 5, y: frame.width + 15, width: (kWidth - 60)/2, height: 30)
-        shippingBtnInCell.frame = CGRect(x: 5 , y: frame.width + 50, width: frame.width - 10, height: 35)
-        designRequiresBtnInCell.frame = CGRect(x: 5 , y: frame.width + 50, width: frame.width - 10, height: 35)
-        modifyRequiresBtnInCell.frame = CGRect(x: 5 , y: frame.width + 50, width: frame.width - 10, height: 35)
-        statusImageView.frame = CGRect(x: frame.width - 55 , y: frame.width - 5, width: 50, height: 21)
+        shippingBtnInCell.frame = CGRect(x: 33 , y: frame.width + 53, width: frame.width - 66, height: 32)
+        designRequiresBtnInCell.frame = CGRect(x: 33 , y: frame.width + 53, width: frame.width - 66, height: 32)
+        modifyRequiresBtnInCell.frame = CGRect(x: 33 , y: frame.width + 53, width: frame.width - 66, height: 32)
+        statusImageView.frame = CGRect(x: frame.width - 55 , y: frame.width - 2, width: 50, height: 21)
         orderIDValue.frame = CGRect(x: 5, y: frame.width - 5, width: 200, height: 20)
         
         orderCellView.layer.backgroundColor = UIColor.backgroundColors(color: .white).cgColor
@@ -108,43 +108,43 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         productQuantityInCellLabel.textColor = UIColor.titleColors(color: .darkGray)
         productQuantityInCellLabel.font = UIFont.systemFont(ofSize: 12)
         
-        quotePriceBtnInCell.layer.cornerRadius = 2
-        quotePriceBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .white).cgColor
+        quotePriceBtnInCell.layer.cornerRadius = 4
+        quotePriceBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .lightOrange).cgColor
         quotePriceBtnInCell.setTitle("报价", for: UIControlState.normal)
         quotePriceBtnInCell.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        quotePriceBtnInCell.setTitleColor(UIColor.titleColors(color: .lightOrange), for: UIControlState.normal)
+        quotePriceBtnInCell.setTitleColor(UIColor.titleColors(color: .white), for: UIControlState.normal)
         quotePriceBtnInCell.layer.borderColor = UIColor.lineColors(color: .lightOrange).cgColor
         quotePriceBtnInCell.layer.borderWidth = 1.0
         
-        dealBargainBtnInCell.layer.cornerRadius = 2
-        dealBargainBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .white).cgColor
+        dealBargainBtnInCell.layer.cornerRadius = 4
+        dealBargainBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .lightOrange).cgColor
         dealBargainBtnInCell.setTitle("处理议价", for: UIControlState.normal)
         dealBargainBtnInCell.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        dealBargainBtnInCell.setTitleColor(UIColor.titleColors(color: .lightOrange), for: UIControlState.normal)
+        dealBargainBtnInCell.setTitleColor(UIColor.titleColors(color: .white), for: UIControlState.normal)
         dealBargainBtnInCell.layer.borderColor = UIColor.lineColors(color: .lightOrange).cgColor
         dealBargainBtnInCell.layer.borderWidth = 1.0
         
-        biddingBtnInCell.layer.cornerRadius = 2
-        biddingBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .white).cgColor
+        biddingBtnInCell.layer.cornerRadius = 4
+        biddingBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .lightOrange).cgColor
         biddingBtnInCell.setTitle("报价", for: UIControlState.normal)
         biddingBtnInCell.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        biddingBtnInCell.setTitleColor(UIColor.titleColors(color: .lightOrange), for: UIControlState.normal)
+        biddingBtnInCell.setTitleColor(UIColor.titleColors(color: .white), for: UIControlState.normal)
         biddingBtnInCell.layer.borderColor = UIColor.lineColors(color: .lightOrange).cgColor
         biddingBtnInCell.layer.borderWidth = 1.0
         
-        acceptProduceBtnInCell.layer.cornerRadius = 2
-        acceptProduceBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .white).cgColor
+        acceptProduceBtnInCell.layer.cornerRadius = 4
+        acceptProduceBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .lightOrange).cgColor
         acceptProduceBtnInCell.setTitle("接受生产", for: UIControlState.normal)
         acceptProduceBtnInCell.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        acceptProduceBtnInCell.setTitleColor(UIColor.titleColors(color: .lightOrange), for: UIControlState.normal)
+        acceptProduceBtnInCell.setTitleColor(UIColor.titleColors(color: .white), for: UIControlState.normal)
         acceptProduceBtnInCell.layer.borderColor = UIColor.lineColors(color: .lightOrange).cgColor
         acceptProduceBtnInCell.layer.borderWidth = 1.0
         
-        acceptDesignBtnInCell.layer.cornerRadius = 2
-        acceptDesignBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .white).cgColor
+        acceptDesignBtnInCell.layer.cornerRadius = 4
+        acceptDesignBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .lightOrange).cgColor
         acceptDesignBtnInCell.setTitle("接受设计", for: UIControlState.normal)
         acceptDesignBtnInCell.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        acceptDesignBtnInCell.setTitleColor(UIColor.titleColors(color: .lightOrange), for: UIControlState.normal)
+        acceptDesignBtnInCell.setTitleColor(UIColor.titleColors(color: .white), for: UIControlState.normal)
         acceptDesignBtnInCell.layer.borderColor = UIColor.lineColors(color: .lightOrange).cgColor
         acceptDesignBtnInCell.layer.borderWidth = 1.0
         
@@ -158,27 +158,27 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         takePhotoForProductBtnInCell.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         takePhotoForProductBtnInCell.setTitleColor(UIColor.titleColors(color: .black), for: UIControlState.normal)
         
-        shippingBtnInCell.layer.cornerRadius = 2
-        shippingBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .white).cgColor
+        shippingBtnInCell.layer.cornerRadius = 4
+        shippingBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .lightOrange).cgColor
         shippingBtnInCell.setTitle("上传物流", for: UIControlState.normal)
         shippingBtnInCell.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        shippingBtnInCell.setTitleColor(UIColor.titleColors(color: .lightOrange), for: UIControlState.normal)
+        shippingBtnInCell.setTitleColor(UIColor.titleColors(color: .white), for: UIControlState.normal)
         shippingBtnInCell.layer.borderColor = UIColor.lineColors(color: .lightOrange).cgColor
         shippingBtnInCell.layer.borderWidth = 1.0
         
-        designRequiresBtnInCell.layer.cornerRadius = 2
-        designRequiresBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .white).cgColor
+        designRequiresBtnInCell.layer.cornerRadius = 4
+        designRequiresBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .lightOrange).cgColor
         designRequiresBtnInCell.setTitle("设计要求", for: UIControlState.normal)
         designRequiresBtnInCell.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        designRequiresBtnInCell.setTitleColor(UIColor.titleColors(color: .lightOrange), for: UIControlState.normal)
+        designRequiresBtnInCell.setTitleColor(UIColor.titleColors(color: .white), for: UIControlState.normal)
         designRequiresBtnInCell.layer.borderColor = UIColor.lineColors(color: .lightOrange).cgColor
         designRequiresBtnInCell.layer.borderWidth = 1.0
         
-        modifyRequiresBtnInCell.layer.cornerRadius = 2
-        modifyRequiresBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .white).cgColor
+        modifyRequiresBtnInCell.layer.cornerRadius = 4
+        modifyRequiresBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .lightOrange).cgColor
         modifyRequiresBtnInCell.setTitle("设计要求", for: UIControlState.normal)
         modifyRequiresBtnInCell.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        modifyRequiresBtnInCell.setTitleColor(UIColor.titleColors(color: .lightOrange), for: UIControlState.normal)
+        modifyRequiresBtnInCell.setTitleColor(UIColor.titleColors(color: .white), for: UIControlState.normal)
         modifyRequiresBtnInCell.layer.borderColor = UIColor.lineColors(color: .lightOrange).cgColor
         modifyRequiresBtnInCell.layer.borderWidth = 1.0
         

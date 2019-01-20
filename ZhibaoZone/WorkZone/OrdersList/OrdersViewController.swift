@@ -286,7 +286,26 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         return TabBarController(royeType: 1)
     }()
     //
-    var onlineList:[NSDictionary] = []
+    var onlineListOfDesigner:[NSDictionary] = []
+    var onlineListOfServicer:[NSDictionary] = []
+    var onlineListOfFactory:[NSDictionary] = []
+    
+    //统计分析按钮
+    lazy var statisticDetailBtn:UIButton = {
+        let tempButton = UIButton.init(type: .custom)
+        tempButton.setTitle("统计分析", for: .normal)
+      //  tempButton.setTitleColor(UIColor.lineColors(color: .grayLevel1), for: .normal)
+        let arrow:UIImageView = UIImageView.init(frame: CGRect(x: 75, y: 5, width: 5, height: 9))
+        arrow.image = UIImage(named: "right-arrow-white")
+        tempButton.addSubview(arrow)
+        tempButton.layer.cornerRadius = 16
+        tempButton.layer.borderColor = UIColor.clear.cgColor
+        tempButton.layer.borderWidth = 0.5
+        tempButton.tag = 1
+        tempButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        tempButton.addTarget(self, action: #selector(jumpToStatisticDetail), for: .touchUpInside)
+        return tempButton
+    }()
     
     //消息数目
     let messageCountBackLabel:UIView = UIView.init(frame: CGRect(x: 50, y: 5, width: 22, height: 16))
@@ -409,8 +428,8 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
     override func viewDidLoad() {
         super.viewDidLoad()
        // getSystemParas()
-        timeInterval_from = dateAheadNow(before: 7, countAs: .PerDay)
-        timeInterval_to = getEndDateTimeStampOfToday()//1000
+        timeInterval_from = dateAheadNow(before: 7, countAs: .PerDay).TimeInterval
+        timeInterval_to = getEndDateTimeOfToday().TimeInterval//1000
         //设置状态栏颜色
         setStatusBarBackgroundColor(color: UIColor.clear)
         let userinfos = getCurrentUserInfo()
@@ -459,9 +478,9 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
             //print("分页显示出来了")
         }
         titleBarView.frame = CGRect(x: 0, y: 20 + heightChangeForiPhoneXFromTop, width: kWidth, height: 44)
-        scanQRCodeBtn.frame = CGRect(x: 20, y: 11, width: 62, height: 22)
-        messageListBtn.frame = CGRect(x: kWidth - 82, y: 1, width: 82, height: 42)
-        searchBarInOrders.frame = CGRect(x: 52, y: 8, width:kWidth - 104, height: 28)
+        scanQRCodeBtn.frame = CGRect(x: 12, y: 11, width: 62, height: 22)
+        messageListBtn.frame = CGRect(x: kWidth - 74, y: 1, width: 82, height: 42)
+        searchBarInOrders.frame = CGRect(x: 46, y: 8, width:kWidth - 92, height: 32)
         //为搜索框添加点击事件
         let gestureRecognizerOfSearach = UITapGestureRecognizer(target: self, action:#selector(searchBarTaped))
         searchBarInOrders.addGestureRecognizer(gestureRecognizerOfSearach)
@@ -502,13 +521,13 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         //设置搜索栏
         searchBarInOrders.backgroundColor = UIColor.backgroundColors(color: .white)
         //searchBarInOrders.layer.backgroundColor = UIColor.colorWithRgba(236, g: 133, b: 133, a: 1.0).cgColor
-        searchBarInOrders.layer.cornerRadius = 6
-        let searchBarHintText:UILabel = UILabel.init(frame: CGRect(x: searchBarInOrders.frame.width/2 - 50, y: 0, width: 100, height: 28))
+        searchBarInOrders.layer.cornerRadius = 4
+        let searchBarHintText:UILabel = UILabel.init(frame: CGRect(x: searchBarInOrders.frame.width/2 - 43, y: 0, width: 100, height: 32))
         searchBarHintText.text = "搜索订单号"
         searchBarHintText.textAlignment = .center
-        searchBarHintText.textColor = UIColor.titleColors(color: .darkGray)
-        searchBarHintText.font = UIFont.systemFont(ofSize: 14)
-        let searchIconImg = UIImageView(frame: CGRect(x: searchBarInOrders.frame.width/2 - 55, y: 7, width: 14, height: 14))
+        searchBarHintText.textColor = UIColor.titleColors(color: .gray)
+        searchBarHintText.font = UIFont.systemFont(ofSize: 15)
+        let searchIconImg = UIImageView(frame: CGRect(x: searchBarInOrders.frame.width/2 - 55, y: 9, width: 14, height: 14))
         searchIconImg.image =  UIImage(named:"searchicon")
         searchBarInOrders.addSubview(searchIconImg)
         searchBarInOrders.addSubview(searchBarHintText)
@@ -537,8 +556,8 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
             customDateBtn.setTitleColor(UIColor.lineColors(color: .grayLevel1), for: .normal)
             
             //近一日的时间戳
-            timeInterval_from = dateAheadNow(before: 1, countAs: .PerDay)
-            timeInterval_to = getEndDateTimeStampOfToday()
+            timeInterval_from = dateAheadNow(before: 1, countAs: .PerDay).TimeInterval
+            timeInterval_to = getEndDateTimeOfToday().TimeInterval
             pullStatistics()
         case 2: // 近7日
             recentOneDayBtn.layer.borderColor = UIColor.clear.cgColor
@@ -554,8 +573,8 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
             customDateBtn.setTitleColor(UIColor.lineColors(color: .grayLevel1), for: .normal)
             
             //"最近1周"
-            timeInterval_from = dateAheadNow(before: 7, countAs: .PerDay)
-            timeInterval_to = getEndDateTimeStampOfToday()
+            timeInterval_from = dateAheadNow(before: 7, countAs: .PerDay).TimeInterval
+            timeInterval_to = getEndDateTimeOfToday().TimeInterval
             pullStatistics()
         case 3: // 近30天
             recentOneDayBtn.layer.borderColor = UIColor.clear.cgColor
@@ -570,8 +589,8 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
             customDateBtn.layer.borderColor = UIColor.clear.cgColor
             customDateBtn.setTitleColor(UIColor.lineColors(color: .grayLevel1), for: .normal)
             
-            timeInterval_from = dateAheadNow(before: 30, countAs: .PerDay)
-            timeInterval_to = getEndDateTimeStampOfToday()
+            timeInterval_from = dateAheadNow(before: 30, countAs: .PerDay).TimeInterval
+            timeInterval_to = getEndDateTimeOfToday().TimeInterval
 
             pullStatistics()
         case 4: // 自定义日期
@@ -611,6 +630,9 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         
         let dashLine:UIView = UIView.init(frame: CGRect(x: 15, y: titleOfPage.frame.maxY + 5, width: kWidth - 30, height: 1))
         dashLine.backgroundColor = UIColor.backgroundColors(color: .lightestGray)// titleColors(color: .lightGray)
+        
+        statisticDetailBtn.frame = CGRect(x: kWidth - 90, y: noticeOfSearch.frame.maxY + 15, width: 80, height: 18)
+        self.view.addSubview(statisticDetailBtn)
         
 //        //切换时间
 //        chooseTimeIntervalBtn.setTitle("最近一周", for: .normal)
@@ -667,7 +689,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         //orderStatisticBoard1.addSubview(onlineIcon1)
         
         onlineCustomerServiceCount.frame = CGRect(x: kWidth - 156, y: customerServiceTitle.frame.minY, width: 138, height: 26)
-        onlineCustomerServiceCount.setTitleColor(UIColor.lineColors(color: .grayLevel1), for: .normal)
+        onlineCustomerServiceCount.setTitleColor(UIColor.titleColors(color: .darkGray), for: .normal)
         onlineCustomerServiceCount.setTitle("在线客服：-", for: .normal)
         onlineCustomerServiceCount.contentHorizontalAlignment = .right
         onlineCustomerServiceCount.titleLabel?.font = UIFont.systemFont(ofSize: 14)
@@ -763,7 +785,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         
         //订单数统计 - 待支付订单
         let waitForPayOrderLabel:UILabel = UILabel.init(frame: CGRect(x: kWidth/3*2 - 4.3, y: transferAmountCount.frame.maxY + 15, width: (kWidth - 28)/3, height: 20))
-        waitForPayOrderLabel.text = "待支付订单"
+        waitForPayOrderLabel.text = "议价中订单"
         waitForPayOrderLabel.textColor = UIColor.titleColors(color: .darkGray)
         waitForPayOrderLabel.font = UIFont.systemFont(ofSize: 14)
         waitForPayOrderLabel.textAlignment = .center
@@ -800,7 +822,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
        // orderStatisticBoard2.addSubview(onlineIcon2)
         
         onlineDesignerCount.frame = CGRect(x: kWidth - 156, y: designerTitle.frame.minY, width: 138, height: 26)
-        onlineDesignerCount.setTitleColor(UIColor.lineColors(color: .grayLevel1), for: .normal)
+        onlineDesignerCount.setTitleColor(UIColor.titleColors(color: .darkGray), for: .normal)
         onlineDesignerCount.setTitle("在线设计师：-", for: .normal)
         onlineDesignerCount.contentHorizontalAlignment = .right
         onlineDesignerCount.titleLabel?.font = UIFont.systemFont(ofSize: 14)
@@ -860,6 +882,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         //车间数据
         let orderStatisticBoard3:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: orderStatisticBoard2.frame.maxY + 10, width: kWidth, height: 180))
         orderStatisticBoard3.image = UIImage(named: "statisticboardbgimg")
+        orderStatisticBoard3.isUserInteractionEnabled = true
         scrollBackView.addSubview(orderStatisticBoard3)
         
         let orangeDotImg3:UIImageView = UIImageView(frame: CGRect(x: 15, y: 14, width: 5, height: 18))
@@ -878,7 +901,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
       //  orderStatisticBoard3.addSubview(onlineIcon3)
         
         onlineProducerCount.frame = CGRect(x: kWidth - 156, y: producerTitle.frame.minY, width: 138, height: 26)
-        onlineProducerCount.setTitleColor(UIColor.lineColors(color: .grayLevel1), for: .normal)
+        onlineProducerCount.setTitleColor(UIColor.titleColors(color: .darkGray), for: .normal)
         onlineProducerCount.setTitle("在线车间：-", for: .normal)
         onlineProducerCount.contentHorizontalAlignment = .right
         onlineProducerCount.titleLabel?.font = UIFont.systemFont(ofSize: 14)
@@ -971,7 +994,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         
         // - 邮寄中
         let shippingLabel:UILabel = UILabel.init(frame: CGRect(x: kWidth/3*2 - 4.3, y: waitForQuoteOrderCount.frame.maxY + 15, width: (kWidth - 28)/3, height: 20))
-        shippingLabel.text = "邮寄中"
+        shippingLabel.text = "待发货"
         shippingLabel.textColor = UIColor.titleColors(color: .gray)
         shippingLabel.font = UIFont.systemFont(ofSize: 14)
         shippingLabel.textAlignment = .center
@@ -1013,16 +1036,28 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         switch index {
         case 1:
             print("在线客服列表点击了")
-        case 2:
-            print("在线设计师列表点击了")
-            guard self.onlineList != nil else{
+            guard self.onlineListOfServicer != nil else{
                 greyLayerPrompt.show(text: "列表获取中，请稍后再试")
                 return
             }
-            let desigerOnlineVC = designerOnlineStatusViewController(with: onlineList)
+            let desigerOnlineVC = designerOnlineStatusViewController(with: self.onlineListOfServicer, roleType: 1)
+            self.present(desigerOnlineVC, animated: true, completion: nil)
+        case 2:
+            print("在线设计师列表点击了")
+            guard self.onlineListOfDesigner != nil else{
+                greyLayerPrompt.show(text: "列表获取中，请稍后再试")
+                return
+            }
+            let desigerOnlineVC = designerOnlineStatusViewController(with: self.onlineListOfDesigner, roleType: 2)
             self.present(desigerOnlineVC, animated: true, completion: nil)
         case 3:
             print("在线车间列表点击了")
+            guard self.onlineListOfFactory != nil else{
+                greyLayerPrompt.show(text: "列表获取中，请稍后再试")
+                return
+            }
+            let desigerOnlineVC = designerOnlineStatusViewController(with: self.onlineListOfFactory, roleType: 3)
+            self.present(desigerOnlineVC, animated: true, completion: nil)
         default:
             print("在线客服列表点击了")
         }
@@ -1081,22 +1116,42 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         #else
         let requestUrl = apiAddresses.value(forKey: "onlineStatusAPI") as! String
         #endif
-        _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
+        _ = Alamofire.request(requestUrl,method:.post, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{
             case true:
                 if  let value = responseObject.result.value{
                     let json = JSON(value)
                     let statusCode = json["code"].int!
-                    self.onlineList.removeAll()
+                    self.onlineListOfDesigner.removeAll()
+                    self.onlineListOfServicer.removeAll()
+                    self.onlineListOfFactory.removeAll()
                     if statusCode == 200{
-                        for item in json["data","appData"].array!{
+                        //设计师在线列表
+                        for item in json["data","designUser"].array!{
                             let dicItem = item.dictionaryObject as! NSDictionary
-                            self.onlineList.append(dicItem)
+                            self.onlineListOfDesigner.append(dicItem)
                         }
-                        let onlineCount = json["data","webData","onlines"].int!
+                        //客服在线列表
+                        for item in json["data","serviceUser"].array!{
+                            let dicItem = item.dictionaryObject as! NSDictionary
+                            self.onlineListOfServicer.append(dicItem)
+                        }
                         
-                        self.onlineDesignerCount.setTitle("在线设计师：\(onlineCount)", for: .normal)
+                        //车间在线列表
+                        for item in json["data","shopUser"].array!{
+                            let dicItem = item.dictionaryObject as! NSDictionary
+                            self.onlineListOfFactory.append(dicItem)
+                        }
+                        
+                        let onlineCountOfDesigner = json["data","users","design","onlines"].int!
+                        let onlineCountOfServicer = json["data","users","service","onlines"].int!
+                        let onlineCountOfFactory = json["data","users","shop","onlines"].int!
+                        
+                        self.onlineDesignerCount.setTitle("在线设计师：\(onlineCountOfDesigner)", for: .normal)
+                        self.onlineCustomerServiceCount.setTitle("在线客服：\(onlineCountOfServicer)", for: .normal)
+                        self.onlineProducerCount.setTitle("在线车间：\(onlineCountOfFactory)", for: .normal)
+        
                   //     self.onlineList
                         //
                     }else if statusCode == 99999 || statusCode == 99998{
@@ -1138,6 +1193,11 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         self.present(nav, animated: true, completion: nil)
     }
     
+    @objc func jumpToStatisticDetail(){
+        let statisticVC = StatisticViewController()
+        self.present(statisticVC, animated: true, completion: nil)
+    }
+    
     @objc func messageListBtnClicked(){
         let msgVC = MessageListViewController()
         msgVC.OrderMainObject = self
@@ -1167,7 +1227,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         
         //let now = NSDate()
         let startTime = timeInterval_from// (Int(now.timeIntervalSince1970) - 2592000)*1000 //30天前   51840000
-        let endTime = timeInterval_to//getEndDateTimeStampOfToday() * 1000
+        let endTime = timeInterval_to//getEndDateTimeOfToday() * 1000
         
         let startDate = Date(timeIntervalSince1970: startTime)
         let endDate = Date(timeIntervalSince1970: endTime)
@@ -1191,7 +1251,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
             #else
             let requestUrl = apiAddresses.value(forKey: "statistic") as! String
             #endif
-        _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
+        _ = Alamofire.request(requestUrl,method:.post, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{
             case true:
@@ -1220,7 +1280,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
                         self.waitForAcceptDesignCount.text = format.string(from: NSNumber(value: json["data","designCount"].int!))!
                         self.designningCount.text = format.string(from: NSNumber(value: json["data","desigingCount"].int!))!
                         self.customerConfirmedCount.text = format.string(from: NSNumber(value: json["data","finalTextCount"].int!))!
-                        self.waitForPayOrderAmountCount.text = format.string(from: NSNumber(value: json["data","waitPayCount"].int!))!
+                        self.waitForPayOrderAmountCount.text = format.string(from: NSNumber(value: json["data","bargainCount"].int!))!
                         self.waitForProduceCount.text = format.string(from: NSNumber(value: json["data","waitProductCount"].int!))!
                         self.producingOrderCount.text = format.string(from: NSNumber(value: json["data","periodNear"].int!))!
                         self.shippingOrderCount.text = format.string(from: NSNumber(value: json["data","sendGoodsCount"].int!))!
