@@ -612,7 +612,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         userAccountLabel.font = UIFont.systemFont(ofSize: 15)
         userAccountLabel.textAlignment = .left
         
-        version.text = "V2.2.10"
+        version.text = "V2.2.12"
         version.font = UIFont.systemFont(ofSize: 13)
         version.textColor = UIColor.titleColors(color: .gray)
         version.textAlignment = .right
@@ -701,8 +701,8 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         }else{
             currentAccountLabel.frame = CGRect(x: kWidth*3/4 - 39, y: 249, width: 78, height: 20)
             managerName.text = _addtionalNikeName
-            print("_addtionalNikeName\(_addtionalNikeName)")
-            print("managerName\(managerName.text)")
+//            print("_addtionalNikeName\(_addtionalNikeName)")
+//            print("managerName\(managerName.text)")
         }
         
         let tapOnProducer = UITapGestureRecognizer(target: self, action: #selector(singleTapOnAvatar(_:)))

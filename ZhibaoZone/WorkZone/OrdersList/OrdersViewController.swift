@@ -446,6 +446,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
             //每30秒获取一次消息列表
             getMessageList()//先获取一次
             timerForMessageList = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(getMessageList), userInfo: nil, repeats: true)
+            timerForMessageList = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(getOnlineStatus), userInfo: nil, repeats: true)
             
             //分页菜单配置
             var options = PagingMenuOptions()

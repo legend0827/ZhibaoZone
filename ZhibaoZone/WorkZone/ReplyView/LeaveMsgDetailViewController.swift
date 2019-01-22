@@ -416,14 +416,14 @@ class LeaveMsgDetailViewController: UIViewController,UITableViewDelegate,UITable
             if taskInfoObject.value(forKey: "tasksendername") as? String == nil{
                 taskSenderNameValue.text = "未找到任务发起者"
             }else{
-                taskSenderNameValue.text = taskInfoDic.value(forKey: "tasksendername") as! String
+                taskSenderNameValue.text = (taskInfoDic.value(forKey: "tasksendername") as! String)
             }
             
             //任务订单号
             if taskInfoDic.value(forKey: "orderid") as? String == nil{
                 taskOrderIDValue.text = "无相关订单"
             }else{
-                taskOrderIDValue.text = taskInfoDic.value(forKey: "orderid") as! String
+                taskOrderIDValue.text = (taskInfoDic.value(forKey: "orderid") as! String)
             }
 
             //任务创建时间
@@ -431,7 +431,7 @@ class LeaveMsgDetailViewController: UIViewController,UITableViewDelegate,UITable
                 taskCreateTimeValue.text = "2018-01-01 00:00:00"
             }else{
                 if taskInfoDic.value(forKey: "tasksendtime") as! String != "null"{
-                    taskCreateTimeValue.text = taskInfoDic.value(forKey: "tasksendtime") as! String
+                    taskCreateTimeValue.text = (taskInfoDic.value(forKey: "tasksendtime") as! String)
                 }else{
                     taskCreateTimeValue.text = "2018-01-01 00:00:00"
                 }

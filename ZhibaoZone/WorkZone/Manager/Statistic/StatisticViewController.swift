@@ -1128,6 +1128,8 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
         //设置横屏
         let value = UIInterfaceOrientation.landscapeRight.rawValue
         UIDevice.current.setValue(value, forKey: "orientation")
+        
+        print("View Will Appear")
     }
     
     private func loadMore() {

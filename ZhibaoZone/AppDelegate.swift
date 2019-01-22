@@ -292,6 +292,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         print("应用程序DidEnterBackground")
         let orientation =  UIDevice.current.orientation.rawValue //0 竖直 //3 左倒
+       // print("saved \(orientation) status")
         UserDefaults.standard.set(orientation, forKey: "orignalOrientation")
         UserDefaults.standard.synchronize()
         
@@ -301,12 +302,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
 //        //设置横屏
         
-        let value = UserDefaults.standard.value(forKey: "orignalOrientation")
-        UIDevice.current.setValue(value, forKey: "orientation")
+//        let value = UserDefaults.standard.value(forKey: "orignalOrientation")
+//        UIDevice.current.setValue(value, forKey: "orientation")
+//        print("restored status \(value)")
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        let value = UserDefaults.standard.value(forKey: "orignalOrientation")
+        UIDevice.current.setValue(value, forKey: "orientation")
+      //  print("restored status \(value)")
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -363,8 +368,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
     @objc func goToCheckClicked(_ button:UIButton){
         print("messageType: \(button.tag) cicked")
         
-        let customID = (orderObject as! NSDictionary).value(forKey: "customID") as! String/// value( : "customID") as! String
-        let orderID = (orderObject as! NSDictionary).value(forKey: "orderID") as! String  //button.value(forKey: "orderID") as! String
+        let customID = (orderObject as NSDictionary).value(forKey: "customID") as! String/// value( : "customID") as! String
+        let orderID = (orderObject as NSDictionary).value(forKey: "orderID") as! String  //button.value(forKey: "orderID") as! String
         
       //  setStatusBarHiden(toHidden: false, ViewController: (self.window?.rootViewController)!)
         var addtionalHeight:CGFloat = 0.0

@@ -46,6 +46,7 @@ class designerOnlineStatusViewController: UIViewController,UITableViewDelegate,U
     //
     lazy var _onlineStatusList:[NSDictionary] = []
     lazy var _listRole = 2
+    var isDataLoading = false
     
     //在线人员列表
     lazy var onlineListTableView:UITableView = {
@@ -140,7 +141,7 @@ class designerOnlineStatusViewController: UIViewController,UITableViewDelegate,U
     private func refresh() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             //self.page = 1
-            self._onlineStatusList.removeAll()
+          //  self._onlineStatusList.removeAll()
             self.getOnlineStatus()
             //self.loadOrderDataFromServer(pages:self.page)
         }
@@ -162,6 +163,10 @@ class designerOnlineStatusViewController: UIViewController,UITableViewDelegate,U
     @objc func getOnlineStatus(){
         //确定点击接受生产按钮
         //获取用户信息
+        if isDataLoading{
+            return
+        }
+        isDataLoading = true
         let userInfos = getCurrentUserInfo()
         let token = userInfos.value(forKey: "token") as? String
         
@@ -233,6 +238,7 @@ class designerOnlineStatusViewController: UIViewController,UITableViewDelegate,U
                 self.onlineListTableView.reloadData()
             }
             self.onlineListTableView.es.stopPullToRefresh()
+            self.isDataLoading = false
         }
     }
     /*

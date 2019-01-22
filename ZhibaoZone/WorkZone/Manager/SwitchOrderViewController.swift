@@ -425,11 +425,11 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
             //设置数据
             let orderObject = searchResultList[indexPath.row]
             
-            if (orderObject.value(forKey: "email") as! String) == nil{
-                let account = orderObject.value(forKey: "mobilePhone") as! String
-            }else{
-                let account = orderObject.value(forKey: "email") as! String
-            }
+//            if (orderObject.value(forKey: "email") as! String) == nil{
+//                let account = orderObject.value(forKey: "mobilePhone") as! String
+//            }else{
+//                let account = orderObject.value(forKey: "email") as! String
+//            }
             let designername = orderObject.value(forKey: "disignername") as! String
             let custommerid = orderObject.value(forKey: "wangid") as! String
             let orderid = orderObject.value(forKey: "orderid") as! String
@@ -650,15 +650,7 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
     
     @objc func CheckOrdersClicked(_ button:UIButton){
         
-        let index = button.tag
         isToCheckList = true
-        //theOrderToSwitch = index // 设置待转出订单
-        
-//        confirmSelection.frame = CGRect(x: kWidth - 220, y: 20, width: 200, height: 22)
-//        confirmSelection.setTitle("确定", for: .normal)
-//        confirmSelection.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
-//        confirmSelection.contentHorizontalAlignment = .right
-//        confirmSelection.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         
         cancelSelection.frame = CGRect(x: kWidth - 220, y: 20, width: 200, height: 22)
         cancelSelection.setTitle("确定", for: .normal)
