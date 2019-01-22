@@ -50,9 +50,9 @@ class PopUpsPortialViewController: UIViewController {
         //设置横屏
       //  let value = UIInterfaceOrientation.landscapeRight.rawValue
       //  UIDevice.current.setValue(value, forKey: "orientation")
-        UIApplication.shared.isStatusBarHidden = false
+        UIApplication.shared.isStatusBarHidden = true
         setStatusBarBackgroundColor(color: .clear)
-        setStatusBarHiden(toHidden: false, ViewController: self)
+        setStatusBarHiden(toHidden: true, ViewController: self)
         
     }
 

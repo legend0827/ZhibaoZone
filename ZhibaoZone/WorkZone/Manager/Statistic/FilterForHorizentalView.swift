@@ -29,13 +29,13 @@ class FilterForHorizentalView: UIView,UITableViewDelegate,UITableViewDataSource 
         
         switch _filterType {
         case .timeInterval:
-            cell.selectItemLabel.text = filterListItem[indexPath.row].value(forKey: "timeInterval") as! String
+            cell.selectItemLabel.text = (filterListItem[indexPath.row].value(forKey: "timeInterval") as! String)
         case .shop:
-            cell.selectItemLabel.text = filterListItem[indexPath.row].value(forKey: "shop") as! String
+            cell.selectItemLabel.text = (filterListItem[indexPath.row].value(forKey: "shop") as! String)
         case .goodsClass:
-            cell.selectItemLabel.text = filterListItem[indexPath.row].value(forKey: "goodsClass") as! String
+            cell.selectItemLabel.text = (filterListItem[indexPath.row].value(forKey: "goodsClass") as! String)
         default:
-            cell.selectItemLabel.text = filterListItem[indexPath.row].value(forKey: "TimeInterval") as! String
+            cell.selectItemLabel.text = (filterListItem[indexPath.row].value(forKey: "TimeInterval") as! String)
         }
         
         
@@ -87,7 +87,7 @@ class FilterForHorizentalView: UIView,UITableViewDelegate,UITableViewDataSource 
     
     lazy var selectAllBtn:UIButton = {
         let button = UIButton.init(type: .custom)
-        button.frame = CGRect(x: 15, y: 50, width: kHight + 50, height: 40)
+        button.frame = CGRect(x: 0 + heightChangeForiPhoneXFromTop, y: 50, width: kHight + heightChangeForiPhoneXFromBottom, height: 40)
         button.setTitle("全部品类", for: .normal)
         button.contentVerticalAlignment = .center
         button.contentHorizontalAlignment = .center
@@ -113,7 +113,7 @@ class FilterForHorizentalView: UIView,UITableViewDelegate,UITableViewDataSource 
     var selectionStyle:selectionModelType = .single
     
     lazy var titleOfPageLabel:UILabel = {
-        let tempLabel = UILabel.init(frame: CGRect(x: 40 , y: 15, width: kHight, height: 21))
+        let tempLabel = UILabel.init(frame: CGRect(x: 0 + heightChangeForiPhoneXFromTop, y: 15, width: kHight + heightChangeForiPhoneXFromBottom, height: 21))
         tempLabel.text = "时间段"
         tempLabel.textAlignment = .center
         tempLabel.textColor = UIColor.titleColors(color: .gray)

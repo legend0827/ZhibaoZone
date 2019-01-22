@@ -875,7 +875,7 @@ class UploadProductImageViewController: UIViewController,UIImagePickerController
     //获取原图
     func PHAssetToUIImage(asset: PHAsset, index currentIndex:Int){
         //当前的图片索引
-        var currentImageIndex = currentIndex
+        let currentImageIndex = currentIndex
         var tempHDImage = UIImage()
         
         // 新建一个默认类型的图像管理器imageManager
@@ -1001,7 +1001,7 @@ class UploadProductImageViewController: UIViewController,UIImagePickerController
             DispatchQueue.global(qos: .background).async(execute: {
                 videoRequstManager.requestAVAsset(forVideo: asset, options: options, resultHandler: {(AVAsset,nil,infos) -> Void in
                     let urlAssets = AVAsset as? AVURLAsset
-                    var data = NSData.init(contentsOf: (urlAssets?.url)!)
+                    let data = NSData.init(contentsOf: (urlAssets?.url)!)
                     
                     
                     imageManager.requestImage(for: asset, targetSize: PHImageManagerMaximumSize , contentMode: .aspectFill, options: imageRequestOption, resultHandler: {(result,info) in

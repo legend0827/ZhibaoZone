@@ -70,53 +70,53 @@ class ShippingCompanyNameListViewController: UIViewController,UITableViewDelegat
         cell.addSubview(tempLineBottom)
         switch indexPath.section {
         case 0: // A
-            cell.titleLabel.text = shippingCompanyArray[0].value(forKey: "name") as! String
+            cell.titleLabel.text = (shippingCompanyArray[0].value(forKey: "name") as! String)
         case 1: //D
-            cell.titleLabel.text = shippingCompanyArray[1].value(forKey: "name") as! String
+            cell.titleLabel.text = (shippingCompanyArray[1].value(forKey: "name") as! String)
         case 2: //E
-            cell.titleLabel.text = shippingCompanyArray[2].value(forKey: "name") as! String
+            cell.titleLabel.text = (shippingCompanyArray[2].value(forKey: "name") as! String)
         case 3: //F
-            cell.titleLabel.text = shippingCompanyArray[3].value(forKey: "name") as! String
+            cell.titleLabel.text = (shippingCompanyArray[3].value(forKey: "name") as! String)
         case 4://G
-            cell.titleLabel.text = shippingCompanyArray[4].value(forKey: "name") as! String
+            cell.titleLabel.text = (shippingCompanyArray[4].value(forKey: "name") as! String)
         case 5://H
             if indexPath.row == 0{
-                cell.titleLabel.text = shippingCompanyArray[5].value(forKey: "name") as! String
+                cell.titleLabel.text = (shippingCompanyArray[5].value(forKey: "name") as! String)
             }else{
-                cell.titleLabel.text = shippingCompanyArray[6].value(forKey: "name") as! String
+                cell.titleLabel.text = (shippingCompanyArray[6].value(forKey: "name") as! String)
             }
         case 6://J
-            cell.titleLabel.text = shippingCompanyArray[7].value(forKey: "name") as! String
+            cell.titleLabel.text = (shippingCompanyArray[7].value(forKey: "name") as! String)
         case 7://K
-            cell.titleLabel.text = shippingCompanyArray[8].value(forKey: "name") as! String
+            cell.titleLabel.text = (shippingCompanyArray[8].value(forKey: "name") as! String)
         case 8://L
-            cell.titleLabel.text = shippingCompanyArray[9].value(forKey: "name") as! String
+            cell.titleLabel.text = (shippingCompanyArray[9].value(forKey: "name") as! String)
         case 9://P
-            cell.titleLabel.text = shippingCompanyArray[10].value(forKey: "name") as! String
+            cell.titleLabel.text = (shippingCompanyArray[10].value(forKey: "name") as! String)
         case 10://Q
-            cell.titleLabel.text = shippingCompanyArray[11].value(forKey: "name") as! String
+            cell.titleLabel.text = (shippingCompanyArray[11].value(forKey: "name") as! String)
         case 11://S
             if indexPath.row == 0{
-                cell.titleLabel.text = shippingCompanyArray[12].value(forKey: "name") as! String
+                cell.titleLabel.text = (shippingCompanyArray[12].value(forKey: "name") as! String)
             }else if indexPath.row == 1{
-                cell.titleLabel.text = shippingCompanyArray[13].value(forKey: "name") as! String
+                cell.titleLabel.text = (shippingCompanyArray[13].value(forKey: "name") as! String)
             }else if indexPath.row == 2{
-                cell.titleLabel.text = shippingCompanyArray[14].value(forKey: "name") as! String
+                cell.titleLabel.text = (shippingCompanyArray[14].value(forKey: "name") as! String)
             }else{
-                cell.titleLabel.text = shippingCompanyArray[15].value(forKey: "name") as! String
+                cell.titleLabel.text = (shippingCompanyArray[15].value(forKey: "name") as! String)
             }
         case 12://U
-            cell.titleLabel.text = shippingCompanyArray[16].value(forKey: "name") as! String
+            cell.titleLabel.text = (shippingCompanyArray[16].value(forKey: "name") as! String)
         case 13://Y
             if indexPath.row == 0{
-                cell.titleLabel.text = shippingCompanyArray[17].value(forKey: "name") as! String
+                cell.titleLabel.text = (shippingCompanyArray[17].value(forKey: "name") as! String)
             }else if indexPath.row == 1{
-                cell.titleLabel.text = shippingCompanyArray[18].value(forKey: "name") as! String
+                cell.titleLabel.text = (shippingCompanyArray[18].value(forKey: "name") as! String)
             }else{
-                cell.titleLabel.text = shippingCompanyArray[19].value(forKey: "name") as! String
+                cell.titleLabel.text = (shippingCompanyArray[19].value(forKey: "name") as! String)
             }
         case 14://Z
-            cell.titleLabel.text = shippingCompanyArray[20].value(forKey: "name") as! String
+            cell.titleLabel.text = (shippingCompanyArray[20].value(forKey: "name") as! String)
 //        case 15://#
 //            cell.titleLabel.text = "其他"
         default:
@@ -138,7 +138,7 @@ class ShippingCompanyNameListViewController: UIViewController,UITableViewDelegat
         var tpIndex:Int = 0
         for charactor in indexSource{
             //判断索引值和组名相等，返回组坐标
-            if charactor as! String == title{
+            if charactor == title{
                 return tpIndex
             }
             tpIndex += 1
@@ -150,73 +150,73 @@ class ShippingCompanyNameListViewController: UIViewController,UITableViewDelegat
         
         switch indexPath {
         case [0,0]:
-            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[0].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValue.text = (shippingCompanyArray[0].value(forKey: "name") as! String)
             actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[0].value(forKey: "id") as! String
         case [1,0]:
-            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[1].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValue.text = (shippingCompanyArray[1].value(forKey: "name") as! String)
             actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[1].value(forKey: "id") as! String
         case [2,0]:
-            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[2].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValue.text = (shippingCompanyArray[2].value(forKey: "name") as! String)
             actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[2].value(forKey: "id") as! String
         case [3,0]:
-            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[3].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValue.text = (shippingCompanyArray[3].value(forKey: "name") as! String)
             actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[3].value(forKey: "id") as! String
         case [4,0]:
-            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[4].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValue.text = (shippingCompanyArray[4].value(forKey: "name") as! String)
             actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[4].value(forKey: "id") as! String
         case [5,0]:
-            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[5].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValue.text = (shippingCompanyArray[5].value(forKey: "name") as! String)
             actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[5].value(forKey: "id") as! String
         case [5,1]:
-            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[6].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValue.text = (shippingCompanyArray[6].value(forKey: "name") as! String)
             actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[6].value(forKey: "id") as! String
         case [6,0]:
-            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[7].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValue.text = (shippingCompanyArray[7].value(forKey: "name") as! String)
             actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[7].value(forKey: "id") as! String
         case [7,0]:
-            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[8].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValue.text = (shippingCompanyArray[8].value(forKey: "name") as! String)
             actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[8].value(forKey: "id") as! String
         case [8,0]:
-            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[9].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValue.text = (shippingCompanyArray[9].value(forKey: "name") as! String)
             actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[9].value(forKey: "id") as! String
         case [9,0]:
-            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[10].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValue.text = (shippingCompanyArray[10].value(forKey: "name") as! String)
             actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[10].value(forKey: "id") as! String
         case [10,0]:
-            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[11].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValue.text = (shippingCompanyArray[11].value(forKey: "name") as! String)
             actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[11].value(forKey: "id") as! String
         case [11,0]:
-            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[12].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValue.text = (shippingCompanyArray[12].value(forKey: "name") as! String)
             actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[12].value(forKey: "id") as! String
         case [11,1]:
-            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[13].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValue.text = (shippingCompanyArray[13].value(forKey: "name") as! String)
             actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[13].value(forKey: "id") as! String
         case [11,2]:
-            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[14].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValue.text = (shippingCompanyArray[14].value(forKey: "name") as! String)
             actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[14].value(forKey: "id") as! String
         case [11,3]:
-            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[15].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValue.text = (shippingCompanyArray[15].value(forKey: "name") as! String)
             actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[15].value(forKey: "id") as! String
         case [12,0]:
-            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[16].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValue.text = (shippingCompanyArray[16].value(forKey: "name") as! String)
             actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[16].value(forKey: "id") as! String
         case [13,0]:
-            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[17].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValue.text = (shippingCompanyArray[17].value(forKey: "name") as! String)
             actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[17].value(forKey: "id") as! String
         case [13,1]:
-            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[18].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValue.text = (shippingCompanyArray[18].value(forKey: "name") as! String)
             actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[18].value(forKey: "id") as! String
         case [13,2]:
-            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[19].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValue.text = (shippingCompanyArray[19].value(forKey: "name") as! String)
             actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[19].value(forKey: "id") as! String
         case [14,0]:
-            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[20].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValue.text = (shippingCompanyArray[20].value(forKey: "name") as! String)
             actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[20].value(forKey: "id") as! String
 //        case [15,0]:
 //            actionViewObject.shippingCompanyNameValue.text = "其他"
 //            actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[0].value(forKey: "id") as! String
         default:
-            actionViewObject.shippingCompanyNameValue.text = shippingCompanyArray[0].value(forKey: "name") as! String
+            actionViewObject.shippingCompanyNameValue.text = (shippingCompanyArray[0].value(forKey: "name") as! String)
             actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[0].value(forKey: "id") as! String
         }
         self.navigationController?.dismiss(animated: true, completion: nil)
@@ -363,7 +363,7 @@ class ShippingCompanyNameListViewController: UIViewController,UITableViewDelegat
             loadCompanyToPlist()
         }else{
             isEmptyCompanyBook = false
-            print(tempContacts)
+            //print(tempContacts)
             companyCount = (tempContacts?.count)!
             for index in 0..<companyCount {
                 shippingCompanyArray.append(tempContacts![index] as! NSDictionary)
@@ -377,7 +377,7 @@ class ShippingCompanyNameListViewController: UIViewController,UITableViewDelegat
     func loadCompanyToPlist(){
         let plistFile = Bundle.main.path(forResource: "shippingCompanyNameList", ofType: "plist")
         //临时存储联系人列表
-        var tempContactArray:[NSDictionary] = []
+      //  var tempContactArray:[NSDictionary] = []
         let emptyArray:NSArray = []
         emptyArray.write(toFile: plistFile!, atomically: true)
         shippingCompanyArray.removeAll()
@@ -408,7 +408,7 @@ class ShippingCompanyNameListViewController: UIViewController,UITableViewDelegat
         let array = NSArray(array: shippingCompanyArrayBook)
         //将数组写入联系人列表
         array.write(toFile: plistFile!, atomically: true)
-        print("filePath:\(plistFile)")
+       // print("filePath:\(plistFile)")
 //
         if self.isEmptyCompanyBook{
             self.companyCount = shippingCompanyArrayBook.count
