@@ -310,7 +310,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         let value = UserDefaults.standard.value(forKey: "orignalOrientation")
-        UIDevice.current.setValue(value, forKey: "orientation")
+        if value == nil{
+            UIDevice.current.setValue(0, forKey: "orientation")
+        }else{
+            UIDevice.current.setValue(value, forKey: "orientation")
+        }
+        
       //  print("restored status \(value)")
     }
 
