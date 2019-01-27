@@ -208,6 +208,20 @@ enum selectionModelType:String{
     case multiple
 }
 
+enum statisticCategoryListType:String{
+    case newCreateOrder// 新建订单
+    case dealOrder//成交订单
+    case bargainingOrder//议价中订单
+    case waitForDesignOrder//待设计
+    case designingOrder//设计中
+    case designComfirmed//已定稿
+    case waitForQuotePrice//待报价
+    case waitForBargain//待议价
+    case waitForBid//待竞价
+    case waitForProduce//待生产
+    case producingOrder//生产中
+    case waitForDelivery//待发货
+}
 
 class Extentsions: NSObject {
 

@@ -132,6 +132,8 @@
 		0AF06C542018638F008E2DE9 /* TaskListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF06C532018638F008E2DE9 /* TaskListTableViewCell.swift */; };
 		0AF06C5620187F4A008E2DE9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AF06C5520187F4A008E2DE9 /* Assets.xcassets */; };
 		0AF06C582018F465008E2DE9 /* LeaveMsgDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF06C572018F465008E2DE9 /* LeaveMsgDetailViewController.swift */; };
+		0AF57AB921F9559E001059DA /* StatisticOrderListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF57AB821F9559E001059DA /* StatisticOrderListViewController.swift */; };
+		0AF57ABB21F955B4001059DA /* statisticOrderListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF57ABA21F955B4001059DA /* statisticOrderListTableViewCell.swift */; };
 		0AF6AD9020A1E77400B07459 /* PopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF6AD8F20A1E77400B07459 /* PopupViewController.swift */; };
 		0AFE8E4A2179F7A50094F088 /* config_systemCategory.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AFE8E492179F7A40094F088 /* config_systemCategory.plist */; };
 		A5F33257F62CABE01E797A04 /* Pods_ZhibaoZone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD5C003530853A92BEB827AF /* Pods_ZhibaoZone.framework */; };
@@ -367,6 +369,8 @@
 		0AF06C532018638F008E2DE9 /* TaskListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListTableViewCell.swift; sourceTree = "<group>"; };
 		0AF06C5520187F4A008E2DE9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ZhibaoZone/Assets.xcassets; sourceTree = SOURCE_ROOT; };
 		0AF06C572018F465008E2DE9 /* LeaveMsgDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaveMsgDetailViewController.swift; sourceTree = "<group>"; };
+		0AF57AB821F9559E001059DA /* StatisticOrderListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticOrderListViewController.swift; sourceTree = "<group>"; };
+		0AF57ABA21F955B4001059DA /* statisticOrderListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = statisticOrderListTableViewCell.swift; sourceTree = "<group>"; };
 		0AF6AD8F20A1E77400B07459 /* PopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupViewController.swift; sourceTree = "<group>"; };
 		0AFE8E492179F7A40094F088 /* config_systemCategory.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = config_systemCategory.plist; sourceTree = "<group>"; };
 		63FC8A1224D0469FB7082588 /* Pods-ZhibaoZone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZhibaoZone.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ZhibaoZone/Pods-ZhibaoZone.debug.xcconfig"; sourceTree = "<group>"; };
@@ -461,6 +465,8 @@
 			isa = PBXGroup;
 			children = (
 				0A3A868B21F08A5200068BEE /* StatisticViewController.swift */,
+				0AF57AB821F9559E001059DA /* StatisticOrderListViewController.swift */,
+				0AF57ABA21F955B4001059DA /* statisticOrderListTableViewCell.swift */,
 				0A3A869121F180F900068BEE /* PopUpsPortialViewController.swift */,
 				0A3A869321F181E400068BEE /* FilterForHorizentalView.swift */,
 				0A2D86CF21F19719004ED341 /* FilterTableViewCell.swift */,
@@ -1157,6 +1163,7 @@
 				0A9970AD20B64A2400E4D37C /* ScanCodeViewController.swift in Sources */,
 				0AF06C4B20171D40008E2DE9 /* ESRefreshComponent.swift in Sources */,
 				0A13FB162159D637004066F0 /* ChooseTimeInterval.swift in Sources */,
+				0AF57AB921F9559E001059DA /* StatisticOrderListViewController.swift in Sources */,
 				0AF06C582018F465008E2DE9 /* LeaveMsgDetailViewController.swift in Sources */,
 				0A3A869221F180F900068BEE /* PopUpsPortialViewController.swift in Sources */,
 				0A3CC3B9209572970055B5DD /* Extentsions.swift in Sources */,
@@ -1178,6 +1185,7 @@
 				0AB766AC200DC46900851E16 /* HGImagePickerController.swift in Sources */,
 				0AC4B49520F709CB00312092 /* EditOrderParameters.swift in Sources */,
 				0A244E612098917C00203463 /* TestPushViewController.swift in Sources */,
+				0AF57ABB21F955B4001059DA /* statisticOrderListTableViewCell.swift in Sources */,
 				0A54F30A20567AE800103FD8 /* MessageListViewController.swift in Sources */,
 				0A6AD65A1FF1EFB4009A511A /* ViewController.swift in Sources */,
 				0AC4B49C20FDA4D600312092 /* switchOrderListTableViewCell.swift in Sources */,

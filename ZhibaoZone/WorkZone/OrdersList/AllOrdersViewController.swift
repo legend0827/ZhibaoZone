@@ -996,11 +996,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         //AllOrdersViewController.requestCacheArr.append(dataRequest)
     }
     
-    @objc func retryBtnInViewClicked(){
-        orderArray.removeAll()
-        orderImages.removeAll()
-        loadOrderDataFromServer(pages: 1, categoryType: _orderlistType)
-    }
+    
 
    
     override func viewWillAppear(_ animated: Bool) {
@@ -1037,6 +1033,12 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         if _roleType == 0{
             emytyAreaShowingLabel()
         }
+    }
+    
+    @objc func retryBtnInViewClicked(){
+        orderArray.removeAll()
+        orderImages.removeAll()
+        loadOrderDataFromServer(pages: 1, categoryType: _orderlistType)
     }
     
     func emytyAreaShowingLabel(withRetry:Bool) {

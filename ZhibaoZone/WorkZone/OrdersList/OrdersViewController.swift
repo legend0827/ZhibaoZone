@@ -393,18 +393,18 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
     var gudanAmountCount:UILabel = UILabel.init() // 估单
     var dealAmountCount:UILabel = UILabel.init() //成交
     var transferAmountCount:UILabel = UILabel.init() //成交转化
-    var newOrderAmountCount:UILabel = UILabel.init() // 新建订单数量
-    var doneOrderAmountCount:UILabel = UILabel.init() // 成交订单
-    var waitForPayOrderAmountCount:UILabel = UILabel.init()//待支付订单
-    var waitForAcceptDesignCount:UILabel = UILabel.init()
-    var designningCount:UILabel = UILabel.init()
-    var customerConfirmedCount:UILabel = UILabel.init()
-    var waitForProduceCount:UILabel = UILabel.init()
-    var producingOrderCount:UILabel = UILabel.init()
-    var shippingOrderCount:UILabel = UILabel.init()
-    var waitForQuoteOrderCount:UILabel = UILabel.init()
-    var waitForBargainOrderCount:UILabel = UILabel.init()
-    var waitForCompetionOrderCount:UILabel = UILabel.init()
+    var newOrderAmountCount:UIButton = UIButton.init(type: .custom)// 新建订单数量
+    var doneOrderAmountCount:UIButton = UIButton.init(type: .custom) // 成交订单
+    var waitForPayOrderAmountCount:UIButton = UIButton.init(type: .custom)//待支付订单
+    var waitForAcceptDesignCount:UIButton = UIButton.init(type: .custom)
+    var designningCount:UIButton = UIButton.init(type: .custom)
+    var customerConfirmedCount:UIButton = UIButton.init(type: .custom)
+    var waitForProduceCount:UIButton = UIButton.init(type: .custom)
+    var producingOrderCount:UIButton = UIButton.init(type: .custom)
+    var shippingOrderCount:UIButton = UIButton.init(type: .custom)
+    var waitForQuoteOrderCount:UIButton = UIButton.init(type: .custom)
+    var waitForBargainOrderCount:UIButton = UIButton.init(type: .custom)
+    var waitForCompetionOrderCount:UIButton = UIButton.init(type: .custom)
     //时间统计范围
     var timeInterval_from:TimeInterval = 0
     var timeInterval_to:TimeInterval = 0
@@ -467,10 +467,10 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
 
             if UIDevice.current.isX(){
                 heightChangeForiPhoneXFromTop = 24.0
-                pagingMenuController.view.frame.origin.y += 56
+                pagingMenuController.view.frame.origin.y += 66 //56
             }else{
                 heightChangeForiPhoneXFromTop = 0.0
-                pagingMenuController.view.frame.origin.y += 32//5
+                pagingMenuController.view.frame.origin.y += 42//32
             }
             //建立父子关系
             addChildViewController(pagingMenuController)
@@ -627,7 +627,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         titleOfPage.image = UIImage(named: "statisticnamelabelimg")
         
         let imgBG:UIImageView = UIImageView.init(frame: CGRect(x: kWidth - 210, y: noticeOfSearch.frame.maxY - 32, width: 156, height: 102))
-        imgBG.image = UIImage(named: "statisticbgimg")
+       // imgBG.image = UIImage(named: "statisticbgimg")
         
         let dashLine:UIView = UIView.init(frame: CGRect(x: 15, y: titleOfPage.frame.maxY + 5, width: kWidth - 30, height: 1))
         dashLine.backgroundColor = UIColor.backgroundColors(color: .lightestGray)// titleColors(color: .lightGray)
@@ -751,52 +751,70 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         orderStatisticBoard1.addSubview(transferAmountCount)
         
         //订单数统计 - 新建订单
-        let newOrderLabel:UILabel = UILabel.init(frame: CGRect(x: 0, y: gudanAmountCount.frame.maxY + 15, width: (kWidth - 28)/3, height: 20))
-        newOrderLabel.text = "新建订单"
-        newOrderLabel.textColor = UIColor.titleColors(color: .darkGray)
-        newOrderLabel.font = UIFont.systemFont(ofSize: 14)
-        newOrderLabel.textAlignment = .center
+        let newOrderLabel:UIButton = UIButton.init(frame: CGRect(x: 0, y: gudanAmountCount.frame.maxY + 15, width: (kWidth - 28)/3, height: 20))
+        newOrderLabel.setTitle("新建订单", for: .normal)
+        newOrderLabel.setTitleColor(UIColor.titleColors(color: .darkGray), for: .normal)
+        newOrderLabel.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        newOrderLabel.contentHorizontalAlignment = .center
+        newOrderLabel.contentVerticalAlignment = .center
+        newOrderLabel.tag = 1
+        newOrderLabel.addTarget(self, action: #selector(orderListClicked(_:)), for: .touchUpInside)
         
         
         newOrderAmountCount.frame = CGRect(x: 0, y: newOrderLabel.frame.maxY + 3, width: (kWidth - 28)/3, height: 21)
-        newOrderAmountCount.textAlignment = .center
-        newOrderAmountCount.textColor = UIColor.titleColors(color: .black)
-        newOrderAmountCount.text = "--"
-        newOrderAmountCount.font = UIFont(name: "DINPro-Medium", size: 16)
+        newOrderAmountCount.setTitle("--", for: .normal)
+        newOrderAmountCount.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
+        newOrderAmountCount.titleLabel?.font = UIFont(name: "DINPro-Medium", size: 16)
+        newOrderAmountCount.contentHorizontalAlignment = .center
+        newOrderAmountCount.contentVerticalAlignment = .center
+        newOrderAmountCount.tag = 1
+        newOrderAmountCount.addTarget(self, action: #selector(orderListClicked(_:)), for: .touchUpInside)
         
         orderStatisticBoard1.addSubview(newOrderLabel)
         orderStatisticBoard1.addSubview(newOrderAmountCount)
         
         //订单数统计 - 成交订单
-        let doneOrderLabel:UILabel = UILabel.init(frame: CGRect(x: (kWidth - 200)/2, y: dealAmountCount.frame.maxY + 15, width: 200, height: 20))
-        doneOrderLabel.text = "成交订单"
-        doneOrderLabel.textAlignment = .center
-        doneOrderLabel.textColor = UIColor.titleColors(color: .darkGray)
-        doneOrderLabel.font = UIFont.systemFont(ofSize: 14)
+        let doneOrderLabel:UIButton = UIButton.init(frame: CGRect(x: (kWidth - 200)/2, y: dealAmountCount.frame.maxY + 15, width: 200, height: 20))
+        doneOrderLabel.setTitle("成交订单", for: .normal)
+        doneOrderLabel.setTitleColor(UIColor.titleColors(color: .darkGray), for: .normal)
+        doneOrderLabel.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        doneOrderLabel.contentHorizontalAlignment = .center
+        doneOrderLabel.contentVerticalAlignment = .center
+        doneOrderLabel.tag = 2
+        doneOrderLabel.addTarget(self, action: #selector(orderListClicked(_:)), for: .touchUpInside)
+        
         
         
         doneOrderAmountCount.frame = CGRect(x: (kWidth - 200)/2, y: doneOrderLabel.frame.maxY + 3, width: 200, height: 21)
-        doneOrderAmountCount.textAlignment = .center
-        doneOrderAmountCount.textColor = UIColor.titleColors(color: .black)
-        doneOrderAmountCount.text = "--"
-        doneOrderAmountCount.font = UIFont(name: "DINPro-Medium", size: 16)
+        doneOrderAmountCount.setTitle("--", for: .normal)
+        doneOrderAmountCount.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
+        doneOrderAmountCount.titleLabel?.font = UIFont(name: "DINPro-Medium", size: 16)
+        doneOrderAmountCount.contentHorizontalAlignment = .center
+        doneOrderAmountCount.contentVerticalAlignment = .center
+        doneOrderAmountCount.tag = 2
+        doneOrderAmountCount.addTarget(self, action: #selector(orderListClicked(_:)), for: .touchUpInside)
         
         orderStatisticBoard1.addSubview(doneOrderLabel)
         orderStatisticBoard1.addSubview(doneOrderAmountCount)
         
         //订单数统计 - 待支付订单
-        let waitForPayOrderLabel:UILabel = UILabel.init(frame: CGRect(x: kWidth/3*2 - 4.3, y: transferAmountCount.frame.maxY + 15, width: (kWidth - 28)/3, height: 20))
-        waitForPayOrderLabel.text = "议价中订单"
-        waitForPayOrderLabel.textColor = UIColor.titleColors(color: .darkGray)
-        waitForPayOrderLabel.font = UIFont.systemFont(ofSize: 14)
-        waitForPayOrderLabel.textAlignment = .center
-        
+        let waitForPayOrderLabel:UIButton = UIButton.init(frame: CGRect(x: kWidth/3*2 - 4.3, y: transferAmountCount.frame.maxY + 15, width: (kWidth - 28)/3, height: 20))
+        waitForPayOrderLabel.setTitle("议价中订单", for: .normal)
+        waitForPayOrderLabel.setTitleColor(UIColor.titleColors(color: .darkGray), for: .normal)
+        waitForPayOrderLabel.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        waitForPayOrderLabel.contentHorizontalAlignment = .center
+        waitForPayOrderLabel.contentVerticalAlignment = .center
+        waitForPayOrderLabel.tag = 3
+        waitForPayOrderLabel.addTarget(self, action: #selector(orderListClicked(_:)), for: .touchUpInside)
         
         waitForPayOrderAmountCount.frame = CGRect(x: kWidth/3*2 - 4.3, y: waitForPayOrderLabel.frame.maxY + 3, width: (kWidth - 28)/3, height: 21)
-        waitForPayOrderAmountCount.textAlignment = .center
-        waitForPayOrderAmountCount.textColor = UIColor.titleColors(color: .black)
-        waitForPayOrderAmountCount.text = "--"
-        waitForPayOrderAmountCount.font = UIFont(name: "DINPro-Medium", size: 16)
+        waitForPayOrderAmountCount.setTitle("--", for: .normal)
+        waitForPayOrderAmountCount.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
+        waitForPayOrderAmountCount.titleLabel?.font = UIFont(name: "DINPro-Medium", size: 16)
+        waitForPayOrderAmountCount.contentHorizontalAlignment = .center
+        waitForPayOrderAmountCount.contentVerticalAlignment = .center
+        waitForPayOrderAmountCount.tag = 3
+        waitForPayOrderAmountCount.addTarget(self, action: #selector(orderListClicked(_:)), for: .touchUpInside)
         
         orderStatisticBoard1.addSubview(waitForPayOrderLabel)
         orderStatisticBoard1.addSubview(waitForPayOrderAmountCount)
@@ -836,48 +854,66 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         orderStatisticBoard2.addSubview(seperateLine2)
         
         // - 待接受设计
-        let waitForAcceptDesignLabel:UILabel = UILabel.init(frame: CGRect(x: 0, y: seperateLine2.frame.maxY + 15, width: (kWidth - 28)/3, height: 20))
-        waitForAcceptDesignLabel.text = "待设计"
-        waitForAcceptDesignLabel.textColor = UIColor.titleColors(color: .gray)
-        waitForAcceptDesignLabel.textAlignment = .center
-        waitForAcceptDesignLabel.font = UIFont.systemFont(ofSize: 14)
+        let waitForAcceptDesignLabel:UIButton = UIButton.init(frame: CGRect(x: 0, y: seperateLine2.frame.maxY + 15, width: (kWidth - 28)/3, height: 20))
+        waitForAcceptDesignLabel.setTitle("待设计", for: .normal)
+        waitForAcceptDesignLabel.setTitleColor(UIColor.titleColors(color: .darkGray), for: .normal)
+        waitForAcceptDesignLabel.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        waitForAcceptDesignLabel.contentHorizontalAlignment = .center
+        waitForAcceptDesignLabel.contentVerticalAlignment = .center
+        waitForAcceptDesignLabel.tag = 4
+        waitForAcceptDesignLabel.addTarget(self, action: #selector(orderListClicked(_:)), for: .touchUpInside)
         orderStatisticBoard2.addSubview(waitForAcceptDesignLabel)
         
         waitForAcceptDesignCount.frame = CGRect(x: 0, y: waitForAcceptDesignLabel.frame.maxY + 3, width: (kWidth - 28)/3, height: 21)
-        waitForAcceptDesignCount.textAlignment = .center
-        waitForAcceptDesignCount.textColor = UIColor.titleColors(color: .black)
-        waitForAcceptDesignCount.text = "--"
-        waitForAcceptDesignCount.font = UIFont(name: "DINPro-Medium", size: 16)
+        waitForAcceptDesignCount.setTitle("--", for: .normal)
+        waitForAcceptDesignCount.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
+        waitForAcceptDesignCount.titleLabel?.font = UIFont(name: "DINPro-Medium", size: 16)
+        waitForAcceptDesignCount.contentHorizontalAlignment = .center
+        waitForAcceptDesignCount.contentVerticalAlignment = .center
+        waitForAcceptDesignCount.tag = 4
+        waitForAcceptDesignCount.addTarget(self, action: #selector(orderListClicked(_:)), for: .touchUpInside)
         orderStatisticBoard2.addSubview(waitForAcceptDesignCount)
         
         // - 设计中
-        let designingLabel:UILabel = UILabel.init(frame: CGRect(x: (kWidth - 200)/2, y: seperateLine2.frame.maxY + 15, width: 200, height: 20))
-        designingLabel.text = "设计中"
-        designingLabel.textColor = UIColor.titleColors(color: .gray)
-        designingLabel.textAlignment = .center
-        designingLabel.font = UIFont.systemFont(ofSize: 14)
+        let designingLabel:UIButton = UIButton.init(frame: CGRect(x: (kWidth - 200)/2, y: seperateLine2.frame.maxY + 15, width: 200, height: 20))
+        designingLabel.setTitle("设计中", for: .normal)
+        designingLabel.setTitleColor(UIColor.titleColors(color: .darkGray), for: .normal)
+        designingLabel.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        designingLabel.contentHorizontalAlignment = .center
+        designingLabel.contentVerticalAlignment = .center
+        designingLabel.tag = 5
+        designingLabel.addTarget(self, action: #selector(orderListClicked(_:)), for: .touchUpInside)
         orderStatisticBoard2.addSubview(designingLabel)
         
         designningCount.frame = CGRect(x: kWidth/3, y: designingLabel.frame.maxY + 3, width: kWidth/3, height: 21)
-        designningCount.textAlignment = .center
-        designningCount.textColor = UIColor.titleColors(color: .black)
-        designningCount.text = "--"
-        designningCount.font = UIFont(name: "DINPro-Medium", size: 16)
+        designningCount.setTitle("--", for: .normal)
+        designningCount.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
+        designningCount.titleLabel?.font = UIFont(name: "DINPro-Medium", size: 16)
+        designningCount.contentHorizontalAlignment = .center
+        designningCount.contentVerticalAlignment = .center
+        designningCount.tag = 5
+        designningCount.addTarget(self, action: #selector(orderListClicked(_:)), for: .touchUpInside)
         orderStatisticBoard2.addSubview(designningCount)
         
         // - 已定稿
-        let customerConfirmedDesignLabel:UILabel = UILabel.init(frame: CGRect(x: kWidth/3*2 - 4.3, y: seperateLine2.frame.maxY + 15, width: (kWidth - 28)/3, height: 20))
-        customerConfirmedDesignLabel.text = "已定稿"
-        customerConfirmedDesignLabel.textColor = UIColor.titleColors(color: .gray)
-        customerConfirmedDesignLabel.font = UIFont.systemFont(ofSize: 14)
-        customerConfirmedDesignLabel.textAlignment = .center
+        let customerConfirmedDesignLabel:UIButton = UIButton.init(frame: CGRect(x: kWidth/3*2 - 4.3, y: seperateLine2.frame.maxY + 15, width: (kWidth - 28)/3, height: 20))
+        customerConfirmedDesignLabel.setTitle("已定稿", for: .normal)
+        customerConfirmedDesignLabel.setTitleColor(UIColor.titleColors(color: .darkGray), for: .normal)
+        customerConfirmedDesignLabel.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        customerConfirmedDesignLabel.contentHorizontalAlignment = .center
+        customerConfirmedDesignLabel.contentVerticalAlignment = .center
+        customerConfirmedDesignLabel.tag = 6
+        customerConfirmedDesignLabel.addTarget(self, action: #selector(orderListClicked(_:)), for: .touchUpInside)
         orderStatisticBoard2.addSubview(customerConfirmedDesignLabel)
         
         customerConfirmedCount.frame = CGRect(x: kWidth/3*2 - 4.3, y: customerConfirmedDesignLabel.frame.maxY + 3, width: (kWidth - 28)/3, height: 21)
-        customerConfirmedCount.textAlignment = .center
-        customerConfirmedCount.textColor = UIColor.titleColors(color: .black)
-        customerConfirmedCount.text = "--"
-        customerConfirmedCount.font = UIFont(name: "DINPro-Medium", size: 16)
+        customerConfirmedCount.setTitle("--", for: .normal)
+        customerConfirmedCount.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
+        customerConfirmedCount.titleLabel?.font = UIFont(name: "DINPro-Medium", size: 16)
+        customerConfirmedCount.contentHorizontalAlignment = .center
+        customerConfirmedCount.contentVerticalAlignment = .center
+        customerConfirmedCount.tag = 6
+        customerConfirmedCount.addTarget(self, action: #selector(orderListClicked(_:)), for: .touchUpInside)
         orderStatisticBoard2.addSubview(customerConfirmedCount)
         
         //车间数据
@@ -916,96 +952,133 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         
         
         // - 待报价
-        let waitForQuoteOrderLabel:UILabel = UILabel.init(frame: CGRect(x: 0, y: seperateLine3.frame.maxY + 15, width: (kWidth - 28)/3, height: 20))
-        waitForQuoteOrderLabel.text = "待报价"
-        waitForQuoteOrderLabel.textColor = UIColor.titleColors(color: .gray)
-        waitForQuoteOrderLabel.font = UIFont.systemFont(ofSize: 14)
-        waitForQuoteOrderLabel.textAlignment = .center
+        let waitForQuoteOrderLabel:UIButton = UIButton.init(frame: CGRect(x: 0, y: seperateLine3.frame.maxY + 15, width: (kWidth - 28)/3, height: 20))
+        waitForQuoteOrderLabel.setTitle("待报价", for: .normal)
+        waitForQuoteOrderLabel.setTitleColor(UIColor.titleColors(color: .darkGray), for: .normal)
+        waitForQuoteOrderLabel.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        waitForQuoteOrderLabel.contentHorizontalAlignment = .center
+        waitForQuoteOrderLabel.contentVerticalAlignment = .center
+        waitForQuoteOrderLabel.tag = 7
+        waitForQuoteOrderLabel.addTarget(self, action: #selector(orderListClicked(_:)), for: .touchUpInside)
         orderStatisticBoard3.addSubview(waitForQuoteOrderLabel)
         
         waitForQuoteOrderCount.frame = CGRect(x: 0, y: waitForQuoteOrderLabel.frame.maxY + 3, width: (kWidth - 28)/3, height: 21)
-        waitForQuoteOrderCount.textAlignment = .center
-        waitForQuoteOrderCount.textColor = UIColor.titleColors(color: .black)
-        waitForQuoteOrderCount.text = "--"
-        waitForQuoteOrderCount.font = UIFont(name: "DINPro-Medium", size: 16)
+        waitForQuoteOrderCount.setTitle("--", for: .normal)
+        waitForQuoteOrderCount.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
+        waitForQuoteOrderCount.titleLabel?.font = UIFont(name: "DINPro-Medium", size: 16)
+        waitForQuoteOrderCount.contentHorizontalAlignment = .center
+        waitForQuoteOrderCount.contentVerticalAlignment = .center
+        waitForQuoteOrderCount.tag = 7
+        waitForQuoteOrderCount.addTarget(self, action: #selector(orderListClicked(_:)), for: .touchUpInside)
         orderStatisticBoard3.addSubview(waitForQuoteOrderCount)
         
         // - 未处理议价
-        let waitForBargainOrderLabel:UILabel = UILabel.init(frame: CGRect(x: (kWidth - 200)/2, y: seperateLine3.frame.maxY + 15, width: 200, height: 20))
-        waitForBargainOrderLabel.text = "待议价"
-        waitForBargainOrderLabel.textColor = UIColor.titleColors(color: .gray)
-        waitForBargainOrderLabel.font = UIFont.systemFont(ofSize: 14)
-        waitForBargainOrderLabel.textAlignment = .center
+        let waitForBargainOrderLabel:UIButton = UIButton.init(frame: CGRect(x: (kWidth - 200)/2, y: seperateLine3.frame.maxY + 15, width: 200, height: 20))
+        waitForBargainOrderLabel.setTitle("待议价", for: .normal)
+        waitForBargainOrderLabel.setTitleColor(UIColor.titleColors(color: .darkGray), for: .normal)
+        waitForBargainOrderLabel.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        waitForBargainOrderLabel.contentHorizontalAlignment = .center
+        waitForBargainOrderLabel.contentVerticalAlignment = .center
+        waitForBargainOrderLabel.tag = 8
+        waitForBargainOrderLabel.addTarget(self, action: #selector(orderListClicked(_:)), for: .touchUpInside)
         orderStatisticBoard3.addSubview(waitForBargainOrderLabel)
         
         waitForBargainOrderCount.frame = CGRect(x: kWidth/3, y: waitForBargainOrderLabel.frame.maxY + 3, width: kWidth/3, height: 21)
-        waitForBargainOrderCount.textAlignment = .center
-        waitForBargainOrderCount.textColor = UIColor.titleColors(color: .black)
-        waitForBargainOrderCount.text = "--"
-        waitForBargainOrderCount.font = UIFont(name: "DINPro-Medium", size: 16)
+        waitForBargainOrderCount.setTitle("--", for: .normal)
+        waitForBargainOrderCount.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
+        waitForBargainOrderCount.titleLabel?.font = UIFont(name: "DINPro-Medium", size: 16)
+        waitForBargainOrderCount.contentHorizontalAlignment = .center
+        waitForBargainOrderCount.contentVerticalAlignment = .center
+        waitForBargainOrderCount.tag = 8
+        waitForBargainOrderCount.addTarget(self, action: #selector(orderListClicked(_:)), for: .touchUpInside)
         orderStatisticBoard3.addSubview(waitForBargainOrderCount)
         
         
         // - 竞价未报价
-        let waitForCompetionOrderLabel:UILabel = UILabel.init(frame: CGRect(x: kWidth/3*2 - 4.3, y: seperateLine3.frame.maxY + 15, width: (kWidth - 28)/3, height: 20))
-        waitForCompetionOrderLabel.text = "待竞价"
-        waitForCompetionOrderLabel.textColor = UIColor.titleColors(color: .gray)
-        waitForCompetionOrderLabel.font = UIFont.systemFont(ofSize: 14)
-        waitForCompetionOrderLabel.textAlignment = .center
+        let waitForCompetionOrderLabel:UIButton = UIButton.init(frame: CGRect(x: kWidth/3*2 - 4.3, y: seperateLine3.frame.maxY + 15, width: (kWidth - 28)/3, height: 20))
+        waitForCompetionOrderLabel.setTitle("待竞价", for: .normal)
+        waitForCompetionOrderLabel.setTitleColor(UIColor.titleColors(color: .darkGray), for: .normal)
+        waitForCompetionOrderLabel.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        waitForCompetionOrderLabel.contentHorizontalAlignment = .center
+        waitForCompetionOrderLabel.contentVerticalAlignment = .center
+        waitForCompetionOrderLabel.tag = 9
+        waitForCompetionOrderLabel.addTarget(self, action: #selector(orderListClicked(_:)), for: .touchUpInside)
         orderStatisticBoard3.addSubview(waitForCompetionOrderLabel)
         
         waitForCompetionOrderCount.frame = CGRect(x: kWidth/3*2 - 4.3, y: waitForCompetionOrderLabel.frame.maxY + 3, width: (kWidth - 28)/3, height: 21)
-        waitForCompetionOrderCount.textAlignment = .center
-        waitForCompetionOrderCount.textColor = UIColor.titleColors(color: .black)
-        waitForCompetionOrderCount.text = "--"
-        waitForCompetionOrderCount.font = UIFont(name: "DINPro-Medium", size: 16)
+        waitForCompetionOrderCount.setTitle("--", for: .normal)
+        waitForCompetionOrderCount.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
+        waitForCompetionOrderCount.titleLabel?.font = UIFont(name: "DINPro-Medium", size: 16)
+        waitForCompetionOrderCount.contentHorizontalAlignment = .center
+        waitForCompetionOrderCount.contentVerticalAlignment = .center
+        waitForCompetionOrderCount.tag = 9
+        waitForCompetionOrderCount.addTarget(self, action: #selector(orderListClicked(_:)), for: .touchUpInside)
         orderStatisticBoard3.addSubview(waitForCompetionOrderCount)
         
         
         // - 待接受生产
-        let waitForAcceptProduceLabel:UILabel = UILabel.init(frame: CGRect(x: 0, y: waitForQuoteOrderCount.frame.maxY + 15, width: (kWidth - 28)/3, height: 20))
-        waitForAcceptProduceLabel.text = "待生产"
-        waitForAcceptProduceLabel.textColor = UIColor.titleColors(color: .gray)
-        waitForAcceptProduceLabel.font = UIFont.systemFont(ofSize: 14)
-        waitForAcceptProduceLabel.textAlignment = .center
+        let waitForAcceptProduceLabel:UIButton = UIButton.init(frame: CGRect(x: 0, y: waitForQuoteOrderCount.frame.maxY + 15, width: (kWidth - 28)/3, height: 20))
+        waitForAcceptProduceLabel.setTitle("待生产", for: .normal)
+        waitForAcceptProduceLabel.setTitleColor(UIColor.titleColors(color: .darkGray), for: .normal)
+        waitForAcceptProduceLabel.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        waitForAcceptProduceLabel.contentHorizontalAlignment = .center
+        waitForAcceptProduceLabel.contentVerticalAlignment = .center
+        waitForAcceptProduceLabel.tag = 10
+        waitForAcceptProduceLabel.addTarget(self, action: #selector(orderListClicked(_:)), for: .touchUpInside)
         orderStatisticBoard3.addSubview(waitForAcceptProduceLabel)
         
         waitForProduceCount.frame = CGRect(x: 0, y: waitForAcceptProduceLabel.frame.maxY + 3, width: (kWidth - 28)/3, height: 21)
-        waitForProduceCount.textAlignment = .center
-        waitForProduceCount.textColor = UIColor.titleColors(color: .black)
-        waitForProduceCount.text = "--"
-        waitForProduceCount.font = UIFont(name: "DINPro-Medium", size: 16)
+        waitForProduceCount.setTitle("--", for: .normal)
+        waitForProduceCount.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
+        waitForProduceCount.titleLabel?.font = UIFont(name: "DINPro-Medium", size: 16)
+        waitForProduceCount.contentHorizontalAlignment = .center
+        waitForProduceCount.contentVerticalAlignment = .center
+        waitForProduceCount.tag = 10
+        waitForProduceCount.addTarget(self, action: #selector(orderListClicked(_:)), for: .touchUpInside)
         orderStatisticBoard3.addSubview(waitForProduceCount)
         
         // - 生产中
-        let producingLabel:UILabel = UILabel.init(frame: CGRect(x: (kWidth - 200)/2, y: waitForQuoteOrderCount.frame.maxY + 15, width: 200, height: 20))
-        producingLabel.text = "生产中"
-        producingLabel.textColor = UIColor.titleColors(color: .gray)
-        producingLabel.font = UIFont.systemFont(ofSize: 14)
-        producingLabel.textAlignment = .center
+        let producingLabel:UIButton = UIButton.init(frame: CGRect(x: (kWidth - 200)/2, y: waitForQuoteOrderCount.frame.maxY + 15, width: 200, height: 20))
+        producingLabel.setTitle("生产中", for: .normal)
+        producingLabel.setTitleColor(UIColor.titleColors(color: .darkGray), for: .normal)
+        producingLabel.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        producingLabel.contentHorizontalAlignment = .center
+        producingLabel.contentVerticalAlignment = .center
+        producingLabel.tag = 11
+        producingLabel.addTarget(self, action: #selector(orderListClicked(_:)), for: .touchUpInside)
         orderStatisticBoard3.addSubview(producingLabel)
         
         producingOrderCount.frame = CGRect(x: kWidth/3, y: producingLabel.frame.maxY + 3, width: kWidth/3, height: 21)
-        producingOrderCount.textAlignment = .center
-        producingOrderCount.textColor = UIColor.titleColors(color: .black)
-        producingOrderCount.text = "--"
-        producingOrderCount.font = UIFont(name: "DINPro-Medium", size: 16)
+        producingOrderCount.setTitle("--", for: .normal)
+        producingOrderCount.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
+        producingOrderCount.titleLabel?.font = UIFont(name: "DINPro-Medium", size: 16)
+        producingOrderCount.contentHorizontalAlignment = .center
+        producingOrderCount.contentVerticalAlignment = .center
+        producingOrderCount.tag = 11
+        producingOrderCount.addTarget(self, action: #selector(orderListClicked(_:)), for: .touchUpInside)
         orderStatisticBoard3.addSubview(producingOrderCount)
         
         
         // - 邮寄中
-        let shippingLabel:UILabel = UILabel.init(frame: CGRect(x: kWidth/3*2 - 4.3, y: waitForQuoteOrderCount.frame.maxY + 15, width: (kWidth - 28)/3, height: 20))
-        shippingLabel.text = "待发货"
-        shippingLabel.textColor = UIColor.titleColors(color: .gray)
-        shippingLabel.font = UIFont.systemFont(ofSize: 14)
-        shippingLabel.textAlignment = .center
+        let shippingLabel:UIButton = UIButton.init(frame: CGRect(x: kWidth/3*2 - 4.3, y: waitForQuoteOrderCount.frame.maxY + 15, width: (kWidth - 28)/3, height: 20))
+        shippingLabel.setTitle("待发货", for: .normal)
+        shippingLabel.setTitleColor(UIColor.titleColors(color: .darkGray), for: .normal)
+        shippingLabel.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        shippingLabel.contentHorizontalAlignment = .center
+        shippingLabel.contentVerticalAlignment = .center
+        shippingLabel.tag = 12
+        shippingLabel.addTarget(self, action: #selector(orderListClicked(_:)), for: .touchUpInside)
         orderStatisticBoard3.addSubview(shippingLabel)
         
+        
         shippingOrderCount.frame = CGRect(x: kWidth/3*2 - 4.3, y: shippingLabel.frame.maxY + 3, width: (kWidth - 28)/3, height: 21)
-        shippingOrderCount.textAlignment = .center
-        shippingOrderCount.textColor = UIColor.titleColors(color: .black)
-        shippingOrderCount.text = "--"
-        shippingOrderCount.font = UIFont(name: "DINPro-Medium", size: 16)
+        shippingOrderCount.setTitle("--", for: .normal)
+        shippingOrderCount.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
+        shippingOrderCount.titleLabel?.font = UIFont(name: "DINPro-Medium", size: 16)
+        shippingOrderCount.contentHorizontalAlignment = .center
+        shippingOrderCount.contentVerticalAlignment = .center
+        shippingOrderCount.tag = 12
+        shippingOrderCount.addTarget(self, action: #selector(orderListClicked(_:)), for: .touchUpInside)
         orderStatisticBoard3.addSubview(shippingOrderCount)
         
         //待支付的订单统计
@@ -1029,6 +1102,52 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
           //  self.scrollBackView.es.removeRefreshHeader()
             self.pullStatistics()
             
+        }
+    }
+    
+    @objc func orderListClicked(_ button:UIButton){
+       let index = button.tag
+        print(index)
+        switch index {
+        case 1:
+            let statisticOrderListVC = StatisticOrderListViewController(with: .newCreateOrder, startTime: timeInterval_from, endTime: timeInterval_to)
+            self.present(statisticOrderListVC, animated: true, completion: nil)
+        case 2:
+            let statisticOrderListVC = StatisticOrderListViewController(with: .dealOrder, startTime: timeInterval_from, endTime: timeInterval_to)
+            self.present(statisticOrderListVC, animated: true, completion: nil)
+        case 3:
+            let statisticOrderListVC = StatisticOrderListViewController(with: .bargainingOrder, startTime: timeInterval_from, endTime: timeInterval_to)
+            self.present(statisticOrderListVC, animated: true, completion: nil)
+        case 4:
+            let statisticOrderListVC = StatisticOrderListViewController(with: .waitForDesignOrder, startTime: timeInterval_from, endTime: timeInterval_to)
+            self.present(statisticOrderListVC, animated: true, completion: nil)
+        case 5:
+            let statisticOrderListVC = StatisticOrderListViewController(with: .designingOrder, startTime: timeInterval_from, endTime: timeInterval_to)
+            self.present(statisticOrderListVC, animated: true, completion: nil)
+        case 6:
+            let statisticOrderListVC = StatisticOrderListViewController(with: .designComfirmed, startTime: timeInterval_from, endTime: timeInterval_to)
+            self.present(statisticOrderListVC, animated: true, completion: nil)
+        case 7:
+            let statisticOrderListVC = StatisticOrderListViewController(with: .waitForQuotePrice, startTime: timeInterval_from, endTime: timeInterval_to)
+            self.present(statisticOrderListVC, animated: true, completion: nil)
+        case 8:
+            let statisticOrderListVC = StatisticOrderListViewController(with: .waitForBargain, startTime: timeInterval_from, endTime: timeInterval_to)
+            self.present(statisticOrderListVC, animated: true, completion: nil)
+        case 9:
+            let statisticOrderListVC = StatisticOrderListViewController(with: .waitForBid, startTime: timeInterval_from, endTime: timeInterval_to)
+            self.present(statisticOrderListVC, animated: true, completion: nil)
+        case 10:
+            let statisticOrderListVC = StatisticOrderListViewController(with: .waitForProduce, startTime: timeInterval_from, endTime: timeInterval_to)
+            self.present(statisticOrderListVC, animated: true, completion: nil)
+        case 11:
+            let statisticOrderListVC = StatisticOrderListViewController(with: .producingOrder, startTime: timeInterval_from, endTime: timeInterval_to)
+            self.present(statisticOrderListVC, animated: true, completion: nil)
+        case 12:
+            let statisticOrderListVC = StatisticOrderListViewController(with: .waitForDelivery, startTime: timeInterval_from, endTime: timeInterval_to)
+            self.present(statisticOrderListVC, animated: true, completion: nil)
+        default:
+            let statisticOrderListVC = StatisticOrderListViewController(with: .newCreateOrder, startTime: timeInterval_from, endTime: timeInterval_to)
+            self.present(statisticOrderListVC, animated: true, completion: nil)
         }
     }
     
@@ -1276,23 +1395,23 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
                             self.transferAmountCount.text = String(format: "%.1f", ratio) + "%"
                             
                         }
-                        self.newOrderAmountCount.text = format.string(from: NSNumber(value: json["data","createCount"].int!))!
-                        self.doneOrderAmountCount.text = format.string(from: NSNumber(value: json["data","payCount"].int!))!
-                        self.waitForAcceptDesignCount.text = format.string(from: NSNumber(value: json["data","designCount"].int!))!
-                        self.designningCount.text = format.string(from: NSNumber(value: json["data","desigingCount"].int!))!
-                        self.customerConfirmedCount.text = format.string(from: NSNumber(value: json["data","finalTextCount"].int!))!
-                        self.waitForPayOrderAmountCount.text = format.string(from: NSNumber(value: json["data","bargainCount"].int!))!
-                        self.waitForProduceCount.text = format.string(from: NSNumber(value: json["data","waitProductCount"].int!))!
-                        self.producingOrderCount.text = format.string(from: NSNumber(value: json["data","periodNear"].int!))!
-                        self.shippingOrderCount.text = format.string(from: NSNumber(value: json["data","sendGoodsCount"].int!))!
+                        self.newOrderAmountCount.setTitle(format.string(from: NSNumber(value: json["data","createCount"].int!))!, for: .normal)
+                        self.doneOrderAmountCount.setTitle(format.string(from: NSNumber(value: json["data","payCount"].int!))!, for: .normal)
+                        self.waitForAcceptDesignCount.setTitle(format.string(from: NSNumber(value: json["data","designCount"].int!))!, for: .normal)
+                        self.designningCount.setTitle(format.string(from: NSNumber(value: json["data","desigingCount"].int!))!, for: .normal)
+                        self.customerConfirmedCount.setTitle(format.string(from: NSNumber(value: json["data","finalTextCount"].int!))!, for: .normal)
+                        self.waitForPayOrderAmountCount.setTitle(format.string(from: NSNumber(value: json["data","bargainCount"].int!))!, for: .normal)
+                        self.waitForProduceCount.setTitle(format.string(from: NSNumber(value: json["data","waitProductCount"].int!))!, for: .normal)
+                        self.producingOrderCount.setTitle(format.string(from: NSNumber(value: json["data","periodNear"].int!))!, for: .normal)
+                        self.shippingOrderCount.setTitle(format.string(from: NSNumber(value: json["data","sendGoodsCount"].int!))!, for: .normal)
                         if json["data","notQuoteYetCount"].int != nil{
-                            self.waitForQuoteOrderCount.text = format.string(from: NSNumber(value: json["data","notQuoteYetCount"].int!))!
+                            self.waitForQuoteOrderCount.setTitle(format.string(from: NSNumber(value: json["data","notQuoteYetCount"].int!))!, for: .normal)
                         }
                         if json["data","notDealBargainYerCount"].int != nil{
-                            self.waitForBargainOrderCount.text = format.string(from: NSNumber(value: json["data","notDealBargainYerCount"].int!))!
+                            self.waitForBargainOrderCount.setTitle(format.string(from: NSNumber(value: json["data","notDealBargainYerCount"].int!))!, for: .normal)
                         }
                         if json["data","notBidPriceYetCount"].int != nil{
-                            self.waitForCompetionOrderCount.text = format.string(from: NSNumber(value: json["data","notBidPriceYetCount"].int!))!
+                            self.waitForCompetionOrderCount.setTitle(format.string(from: NSNumber(value: json["data","notBidPriceYetCount"].int!))!, for: .normal)
                         }
                        // self.producingOrderCount.text = "\(json["data","waitPayCount"].int!)"
                         self.noticeOfSearch.isHidden = true

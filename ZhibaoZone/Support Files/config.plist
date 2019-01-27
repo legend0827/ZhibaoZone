@@ -185,6 +185,10 @@
 		<string>http://129.28.68.119:81/count/managerView/designCount</string>
 		<key>statisticForDesignerAPI</key>
 		<string>http://119.27.170.195:81/count/managerView/designCount</string>
+		<key>statisticOrderListAPIDebug</key>
+		<string>http://129.28.68.119:81/count/detail/getListByType</string>
+		<key>statisticOrderListAPI</key>
+		<string>http://119.27.170.195:81/count/detail/getListByType</string>
 		<key>statisticForFactoryAPIDebug</key>
 		<string>http://129.28.68.119:81/count/managerView/shopCount</string>
 		<key>statisticForFactoryAPI</key>
