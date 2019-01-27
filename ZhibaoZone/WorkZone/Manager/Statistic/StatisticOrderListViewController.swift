@@ -129,12 +129,34 @@ class StatisticOrderListViewController: UIViewController,UITableViewDelegate,UIT
             cell.factoryLabel.text = "车间 \(orderInfoObjects.value(forKey: "workshop_name") as! String)"
         }
         if orderInfoObjects.value(forKey: "manager_name") as? String == "" || orderInfoObjects.value(forKey: "manager_name") as? String == nil{
-            cell.managerAcountLabel.text = "跟单经理 暂无"
+            cell.managerAcountLabel.text = "跟单 暂无"
         }else{
-            cell.managerAcountLabel.text = "跟单经理 \(orderInfoObjects.value(forKey: "manager_name") as! String)"
+            cell.managerAcountLabel.text = "跟单 \(orderInfoObjects.value(forKey: "manager_name") as! String)"
         }
         
-//        var priceString = "¥-"
+        var priceString = "订单金额: ¥-"
+        if orderInfoObjects.value(forKey: "order_price") as? String == "" || orderInfoObjects.value(forKey: "order_price") as? String == nil{
+            priceString = "订单金额: ¥-"
+        }else{
+            priceString = "订单金额: ¥\(orderInfoObjects.value(forKey: "order_price")!)"
+            //priceString = "订单金额: ¥999,000.00"
+        }
+
+        let orignalText = NSMutableAttributedString(string: priceString)
+        //上次报价
+        let range = orignalText.string.range(of: "订单金额: ")
+        let nsRange = orignalText.string.nsRange(from: range!)
+    orignalText.addAttributes([NSAttributedStringKey.foregroundColor:UIColor.titleColors(color: .red),NSAttributedStringKey.font:UIFont.systemFont(ofSize: 9)], range: nsRange)
+        cell.priceLabel.attributedText = orignalText
+        
+//        if orderInfoObjects.value(forKey: "order_price") as? String == "" || orderInfoObjects.value(forKey: "order_price") as? String == nil{
+//            cell.priceLabel.text  = "¥-"
+//        }else{
+//            cell.priceLabel.text = "¥\(orderInfoObjects.value(forKey: "order_price")!)"
+//        }
+//
+        cell.createTimeLabel.text = "\(orderInfoObjects.value(forKey: "create_time")!)"
+        
 //
 //        let orignalText = NSMutableAttributedString(string: "上次报价/工期: \(lastQuotePrice) / - 天")
 //        //上次报价
@@ -142,15 +164,7 @@ class StatisticOrderListViewController: UIViewController,UITableViewDelegate,UIT
 //        let nsRange = orignalText.string.nsRange(from: range!)
 //        orignalText.addAttributes([NSAttributedStringKey.foregroundColor:UIColor.titleColors(color: .red)], range: nsRange)
 //        quotePriceAtLastLabel.attributedText = orignalText
-        
-        if orderInfoObjects.value(forKey: "order_price") as? String == "" || orderInfoObjects.value(forKey: "order_price") as? String == nil{
-            cell.priceLabel.text  = "¥-"
-        }else{
-            cell.priceLabel.text = "¥\(orderInfoObjects.value(forKey: "order_price")!)"
-        }
-        
-        cell.createTimeLabel.text = "\(orderInfoObjects.value(forKey: "create_time")!)"
-        
+//
         
         if orderInfoObjects.value(forKey: "small_goods_image") as? String != nil && orderInfoObjects.value(forKey: "small_goods_image") as? String != "" {
             let imageURLString = "\(self.downloadURLHeaderForThumbnail)\(orderInfoObjects.value(forKey: "small_goods_image") as! String)"

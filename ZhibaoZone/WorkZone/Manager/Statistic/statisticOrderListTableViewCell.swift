@@ -169,8 +169,9 @@ class statisticOrderListTableViewCell: UITableViewCell {
     }()
     
     lazy var priceLabel:UILabel = {
-        let tempLabel = UILabel.init(frame: CGRect(x: kWidth - 150, y: 130, width: 135, height: 20)) //CGRect(x: kWidth - 150, y: 248, width: 135, height: 23))
+        let tempLabel = UILabel.init(frame: CGRect(x: 130, y: 130, width: kWidth - 145, height: 20)) //CGRect(x: kWidth - 150, y: 248, width: 135, height: 23))
         tempLabel.textAlignment = .right
+        tempLabel.contentMode = .topRight
         tempLabel.text = "¥20,000.00"
         tempLabel.textColor = UIColor.titleColors(color: .red)
         tempLabel.font = UIFont.systemFont(ofSize: 15)
