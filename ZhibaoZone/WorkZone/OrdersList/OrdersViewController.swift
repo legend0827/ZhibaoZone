@@ -440,13 +440,15 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         self.view.addSubview(backgroundImageView)
         self.view.sendSubview(toBack: backgroundImageView)
         
+        //每30秒获取一次消息列表
+        getMessageList()//先获取一次
+        timerForMessageList = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(getMessageList), userInfo: nil, repeats: true)
+        timerForMessageList = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(getOnlineStatus), userInfo: nil, repeats: true)
+        
+        
         if _roleType == 4{
             setupUIForManager()
         }else{
-            //每30秒获取一次消息列表
-            getMessageList()//先获取一次
-            timerForMessageList = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(getMessageList), userInfo: nil, repeats: true)
-            timerForMessageList = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(getOnlineStatus), userInfo: nil, repeats: true)
             
             //分页菜单配置
             var options = PagingMenuOptions()
@@ -1101,7 +1103,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         DispatchQueue.main.asyncAfter(deadline: .now()) {
           //  self.scrollBackView.es.removeRefreshHeader()
             self.pullStatistics()
-            
+            self.getOnlineStatus()
         }
     }
     
@@ -1249,18 +1251,18 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
                     if statusCode == 200{
                         //设计师在线列表
                         for item in json["data","designUser"].array!{
-                            let dicItem = item.dictionaryObject as! NSDictionary
+                            let dicItem = item.dictionaryObject! as NSDictionary
                             self.onlineListOfDesigner.append(dicItem)
                         }
                         //客服在线列表
                         for item in json["data","serviceUser"].array!{
-                            let dicItem = item.dictionaryObject as! NSDictionary
+                            let dicItem = item.dictionaryObject! as NSDictionary
                             self.onlineListOfServicer.append(dicItem)
                         }
                         
                         //车间在线列表
                         for item in json["data","shopUser"].array!{
-                            let dicItem = item.dictionaryObject as! NSDictionary
+                            let dicItem = item.dictionaryObject! as NSDictionary
                             self.onlineListOfFactory.append(dicItem)
                         }
                         

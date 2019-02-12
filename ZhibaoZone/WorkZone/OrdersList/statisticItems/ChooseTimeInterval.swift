@@ -453,7 +453,7 @@ class ChooseTimeInterval: UIView,UITableViewDelegate,UITableViewDataSource,UIPic
         backgroundView.backgroundColor = UIColor.backgroundColors(color: .white)
         self.addSubview(backgroundView)
         
-        startTimeStamp = dateAheadNow(before: 7, countAs: .PerDay).TimeInterval
+        startTimeStamp = getStartDateTimeOfToday().TimeInterval// dateAheadNow(before: 7, countAs: .PerDay).TimeInterval
         endTimeStamp = getEndDateTimeOfToday().TimeInterval
         
         backgroundView.addSubview(contentTableView)

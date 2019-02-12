@@ -117,37 +117,48 @@ class StatisticOrderListViewController: UIViewController,UITableViewDelegate,UIT
         //数量
         cell.amountLabel.text = "x\(orderInfoObjects.value(forKey: "number") as! Int)"
         //客服
-        cell.customerServiceLabel.text = "客服 \(orderInfoObjects.value(forKey: "servicer_name") as! String)"
+        cell.customerServiceLabel.text = "客服:\(orderInfoObjects.value(forKey: "servicer_name") as! String)"
         if orderInfoObjects.value(forKey: "designer_name") as? String == "" || orderInfoObjects.value(forKey: "designer_name") as? String == nil{
-            cell.designerLabel.text = "设计 暂无"
+            cell.designerLabel.text = "设计:暂无"
         }else{
-            cell.designerLabel.text = "设计 \(orderInfoObjects.value(forKey: "designer_name") as! String)"
+            cell.designerLabel.text = "设计:\(orderInfoObjects.value(forKey: "designer_name") as! String)"
         }
         if orderInfoObjects.value(forKey: "workshop_name") as? String == "" || orderInfoObjects.value(forKey: "workshop_name") as? String == nil{
-            cell.factoryLabel.text = "车间 暂无"
+            cell.factoryLabel.text = "车间:暂无"
         }else{
-            cell.factoryLabel.text = "车间 \(orderInfoObjects.value(forKey: "workshop_name") as! String)"
+            cell.factoryLabel.text = "车间:\(orderInfoObjects.value(forKey: "workshop_name") as! String)"
         }
         if orderInfoObjects.value(forKey: "manager_name") as? String == "" || orderInfoObjects.value(forKey: "manager_name") as? String == nil{
-            cell.managerAcountLabel.text = "跟单 暂无"
+            cell.managerAcountLabel.text = ""
         }else{
-            cell.managerAcountLabel.text = "跟单 \(orderInfoObjects.value(forKey: "manager_name") as! String)"
+            cell.managerAcountLabel.text = "跟单:\(orderInfoObjects.value(forKey: "manager_name") as! String)"
         }
         
-        var priceString = "订单金额: ¥-"
+        var priceString = "¥-"
         if orderInfoObjects.value(forKey: "order_price") as? String == "" || orderInfoObjects.value(forKey: "order_price") as? String == nil{
-            priceString = "订单金额: ¥-"
+            priceString = "¥-"
         }else{
-            priceString = "订单金额: ¥\(orderInfoObjects.value(forKey: "order_price")!)"
+            priceString = "¥\(orderInfoObjects.value(forKey: "order_price")!)"
             //priceString = "订单金额: ¥999,000.00"
         }
 
         let orignalText = NSMutableAttributedString(string: priceString)
-        //上次报价
-        let range = orignalText.string.range(of: "订单金额: ")
-        let nsRange = orignalText.string.nsRange(from: range!)
-    orignalText.addAttributes([NSAttributedStringKey.foregroundColor:UIColor.titleColors(color: .red),NSAttributedStringKey.font:UIFont.systemFont(ofSize: 9)], range: nsRange)
         cell.priceLabel.attributedText = orignalText
+        
+//        var priceString = "订单金额: ¥-"
+//        if orderInfoObjects.value(forKey: "order_price") as? String == "" || orderInfoObjects.value(forKey: "order_price") as? String == nil{
+//            priceString = "订单金额: ¥-"
+//        }else{
+//            priceString = "订单金额: ¥\(orderInfoObjects.value(forKey: "order_price")!)"
+//            //priceString = "订单金额: ¥999,000.00"
+//        }
+//
+//        let orignalText = NSMutableAttributedString(string: priceString)
+//        //上次报价
+//        let range = orignalText.string.range(of: "订单金额: ")
+//        let nsRange = orignalText.string.nsRange(from: range!)
+//    orignalText.addAttributes([NSAttributedStringKey.foregroundColor:UIColor.titleColors(color: .red),NSAttributedStringKey.font:UIFont.systemFont(ofSize: 9)], range: nsRange)
+//        cell.priceLabel.attributedText = orignalText
         
 //        if orderInfoObjects.value(forKey: "order_price") as? String == "" || orderInfoObjects.value(forKey: "order_price") as? String == nil{
 //            cell.priceLabel.text  = "¥-"
@@ -165,33 +176,14 @@ class StatisticOrderListViewController: UIViewController,UITableViewDelegate,UIT
 //        orignalText.addAttributes([NSAttributedStringKey.foregroundColor:UIColor.titleColors(color: .red)], range: nsRange)
 //        quotePriceAtLastLabel.attributedText = orignalText
 //
-        
-        if orderInfoObjects.value(forKey: "small_goods_image") as? String != nil && orderInfoObjects.value(forKey: "small_goods_image") as? String != "" {
-            let imageURLString = "\(self.downloadURLHeaderForThumbnail)\(orderInfoObjects.value(forKey: "small_goods_image") as! String)"
-            let url = URL(string: imageURLString)!
-            do{
-                let data = try Data.init(contentsOf: url)
-                let oImage = UIImage.gif(data:data)
-                let image = UIImage(data: compressionImage(with: oImage!) as Data)
-                DispatchQueue.main.async {
-                    cell.produceImage.image = image
-                }
-                
-            }catch{
-                print(error)
-                    DispatchQueue.main.async {
-                        cell.produceImage.image = UIImage(named:"defualt-design-pic")//  UIImage(image:image)
-                    }
-                    //原图也下载失败
-                }
-                print("无缩略图")
+        //设置订单图片
+        //设置图片
+        if orderImages.keys.contains(indexPath.row) {
+            cell.produceImage.image = (orderImages as NSDictionary).object(forKey: indexPath.row) as! UIImage// value(forKey: "\(indexPath.row)") as! UIImage//orderImages[indexPath.row]
         }else{
-            DispatchQueue.main.async {
-                cell.produceImage.image = UIImage(named:"defualt-design-pic")//  UIImage(image:image)
-            }
+            cell.produceImage.image = UIImage(named: "defualt-design-pic-loading")
         }
-        
-        
+
         
         return cell
     }
@@ -202,6 +194,12 @@ class StatisticOrderListViewController: UIViewController,UITableViewDelegate,UIT
     let navigationBarInMessageList:UINavigationBar = UINavigationBar.init(frame: CGRect(x: 0, y: 20, width: UIScreen.main.bounds.width, height: 30))
     //
     lazy var orderListDic:[NSDictionary] = []
+    //订单图
+    var orderImages:[Int:UIImage] = [:]
+    //图片下载队列
+    let queue = OperationQueue()
+    var testQueue = 0
+    
     var isDataLoading = false
     var _categoryListType:statisticCategoryListType = .newCreateOrder
     var _currentPage = 1 //当前页
@@ -365,9 +363,10 @@ class StatisticOrderListViewController: UIViewController,UITableViewDelegate,UIT
 
     private func refresh() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            //self.page = 1
+            self._currentPage = 1
             //  self._onlineStatusList.removeAll()
             self.loadListData(with: self._categoryListType , page: self._currentPage)
+            self.statisticOrderListTableView.es.stopPullToRefresh()
             //self.loadOrderDataFromServer(pages:self.page)
         }
     }
@@ -382,6 +381,89 @@ class StatisticOrderListViewController: UIViewController,UITableViewDelegate,UIT
                 self.statisticOrderListTableView.es.noticeNoMoreData()
             }
         }
+    }
+    
+    
+    //下载订单图片
+    func downloadOrderImages(){
+        testQueue += 1
+        let downloadImageOpt = BlockOperation{
+            let temp = self.testQueue
+            let rangeMax = (self.orderListDic.count <= self._currentPage * 10) ? self.orderListDic.count : (self._currentPage * 10)
+            for index in (self._currentPage - 1)*10 ..< rangeMax{
+                // print("index of range is \(index) and rangMax = \(rangeMax), temp = \(temp)")
+                if self.orderListDic.count < index{
+                    return
+                }
+                let orderInfoObjects = self.orderListDic[index] as NSDictionary
+               // let orderInfoObjects = self.orderArray[index]
+                //  let orderInfoObjects = dictionaryObjectInOrderArray.value(forKey: "orderinfo") as! NSDictionary
+                let orderid = orderInfoObjects.value(forKey: "orderid") as! String
+                if orderid == "201793925646222"{
+                    print("hellp")
+                }
+                if orderInfoObjects.value(forKey: "small_goods_image") as? String == nil || orderInfoObjects.value(forKey: "small_goods_image") as? String == ""{ // 图片字段为空
+                    self.orderImages.updateValue(UIImage(named:"defualt-design-pic")!, forKey: index)
+                    //self.orderImages.append(UIImage(named:"defualt-design-pic")!)
+                }else{
+                    let imageURLString:String = "\(self.downloadURLHeaderForThumbnail)\(orderInfoObjects.value(forKey: "small_goods_image") as! String)"
+                    let url = URL(string: imageURLString)!
+                    do{
+                        let data = try Data.init(contentsOf: url)
+                        let oImage = UIImage.gif(data:data)
+                        let image = UIImage(data: compressionImage(with: oImage!) as Data)
+                        self.orderImages.updateValue(image!, forKey: index)
+                    }catch{
+                        let imageURLString:String = "\(self.downloadURLHeader)\(orderInfoObjects.value(forKey: "small_goods_image") as! String)"
+                        let url = URL(string: imageURLString)!
+                        do{
+                            let data = try Data.init(contentsOf: url)
+                            let oImage = UIImage.gif(data:data)
+                            let image = UIImage(data: compressionImage(with: oImage!) as Data)
+                            self.orderImages.updateValue(image!, forKey: index)
+                        }catch{
+                            print(error)
+                            self.orderImages.updateValue(UIImage(named:"defualt-design-pic")!, forKey: index)
+                        }
+                        print("无缩略图")
+                    }
+                }
+                
+                
+//                if orderInfoObjects.value(forKey: "small_goods_image") as? String != nil && orderInfoObjects.value(forKey: "small_goods_image") as? String != "" {
+//                    let imageURLString = "\(self.downloadURLHeaderForThumbnail)\(orderInfoObjects.value(forKey: "small_goods_image") as! String)"
+//                    let url = URL(string: imageURLString)!
+//                    do{
+//                        let data = try Data.init(contentsOf: url)
+//                        let oImage = UIImage.gif(data:data)
+//                        let image = UIImage(data: compressionImage(with: oImage!) as Data)
+//                        DispatchQueue.main.async {
+//                            cell.produceImage.image = image
+//                        }
+//
+//                    }catch{
+//                        print(error)
+//                        DispatchQueue.main.async {
+//                            cell.produceImage.image = UIImage(named:"defualt-design-pic")//  UIImage(image:image)
+//                        }
+//                        //原图也下载失败
+//                    }
+//                    print("无缩略图")
+//                }else{
+//                    DispatchQueue.main.async {
+//                        cell.produceImage.image = UIImage(named:"defualt-design-pic")//  UIImage(image:image)
+//                    }
+//                }
+//
+                //图片下载完了,重新加载表格
+                OperationQueue.main.addOperation({
+                    self.statisticOrderListTableView.reloadData()
+                })
+                
+            }
+        }
+        queue.cancelAllOperations()
+        queue.addOperation(downloadImageOpt)
     }
     
     func loadListData(with categoryType:statisticCategoryListType, page:Int){
@@ -408,7 +490,7 @@ class StatisticOrderListViewController: UIViewController,UITableViewDelegate,UIT
         
         params["startTime"] = formatter.string(from: startDate)
         params["endTime"] = formatter.string(from: endDate)
-        params["page"] = 1
+        params["page"] = page
         params["pageSize"] = 10
         params["endTime"] = formatter.string(from: endDate)
         header["token"] = token
@@ -458,15 +540,22 @@ class StatisticOrderListViewController: UIViewController,UITableViewDelegate,UIT
                     let statusCode = json["code"].int!
                     if statusCode == 200{
                         self._totalPageCount = json["totalCount"].int!/10
-                        self.orderListDic.removeAll()
+                        if page == 1{
+                            self.orderListDic.removeAll()
+                            self.orderImages.removeAll()
+                        }
                         for item in json["data"].array!{
-                            let dicItem = item.dictionaryObject as! NSDictionary
+                            let dicItem = item.dictionaryObject! as NSDictionary
                             self.orderListDic.append(dicItem)
+                            let orderid = dicItem.value(forKey: "orderid") as! String
+                            print(orderid)
                         }
                         if self.orderListDic.count == 0{
                             self.emytyAreaShowingLabel(withRetry: true)
                         }else{
                             self.view.addSubview(self.statisticOrderListTableView)
+                            self.downloadOrderImages()
+                            self.statisticOrderListTableView.reloadData()
                         }
                     }else if statusCode == 99999 || statusCode == 99998{
                         //异常

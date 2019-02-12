@@ -37,6 +37,7 @@ class statisticOrderListTableViewCell: UITableViewCell {
         tempImageView.image = UIImage(named: "defualt-design-pic")
         tempImageView.layer.masksToBounds = true
         tempImageView.layer.cornerRadius = 4
+        tempImageView.contentMode = .scaleAspectFit//.scaleAspectFill
         tempImageView.layer.backgroundColor = UIColor.lineColors(color: .grayLevel5).cgColor
         return tempImageView
     }()
@@ -120,7 +121,7 @@ class statisticOrderListTableViewCell: UITableViewCell {
     lazy var managerAcountLabel:UILabel = {
         let tempLabel = UILabel.init(frame: CGRect(x: 130, y: 130, width: kWidth - 30, height: 21)) // CGRect(x: kWidth -  150, y: 212, width: 135, height: 21))
         tempLabel.textAlignment = .left
-        tempLabel.text = "跟单经理 王经理"
+        tempLabel.text = "王经理"
         tempLabel.textColor = UIColor.titleColors(color: .gray)
         tempLabel.font = UIFont.systemFont(ofSize: 13)
         return tempLabel
@@ -129,7 +130,7 @@ class statisticOrderListTableViewCell: UITableViewCell {
     lazy var customerServiceLabel:UILabel = {
         let tempLabel = UILabel.init(frame: CGRect(x: 15, y: 164, width: kWidth - 30, height: 21))
         tempLabel.textAlignment = .left
-        tempLabel.text = "客服 S01-英菲尼迪"
+        tempLabel.text = "客服:S01-英菲尼迪"
         tempLabel.textColor = UIColor.titleColors(color: .gray)
         tempLabel.font = UIFont.systemFont(ofSize: 13)
         return tempLabel
@@ -138,7 +139,7 @@ class statisticOrderListTableViewCell: UITableViewCell {
     lazy var designerLabel:UILabel = {
         let tempLabel = UILabel.init(frame: CGRect(x: 15, y: 164, width: kWidth - 30, height: 21)) // CGRect(x: kWidth -  150, y: 192, width: 135, height: 21))
         tempLabel.textAlignment = .center
-        tempLabel.text = "设计 D11-欧阳倩倩"
+        tempLabel.text = "设计:D11-欧阳倩倩"
         tempLabel.textColor = UIColor.titleColors(color: .gray)
         tempLabel.font = UIFont.systemFont(ofSize: 13)
         return tempLabel
@@ -147,7 +148,7 @@ class statisticOrderListTableViewCell: UITableViewCell {
     lazy var factoryLabel:UILabel = {
         let tempLabel = UILabel.init(frame: CGRect(x: 15, y: 164, width: kWidth - 30, height: 21)) //CGRect(x: 15, y: 212, width: kWidth - 30, height: 21))
         tempLabel.textAlignment = .right
-        tempLabel.text = "车间 3D打印车间账号"
+        tempLabel.text = "车间:3D打印车间账号"
         tempLabel.textColor = UIColor.titleColors(color: .gray)
         tempLabel.font = UIFont.systemFont(ofSize: 13)
         return tempLabel
