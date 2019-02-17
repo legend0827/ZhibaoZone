@@ -17,6 +17,8 @@ class User: NSObject {
     var verifyVC = VerifyPasswordViewController()
     var isSwitching = false // 判断是不是直接切换账号
     var _nikeName = "车间1"
+    var isAutoLoginFaled = false //自动登录失败了
+    var isToAutoLogin = false
     override init() {
         _username = "anonymous"
         _password = "anouymous"
@@ -162,8 +164,8 @@ class User: NSObject {
                     case 200:
                         print("登录成功")
                         result = true
+                        self.isAutoLoginFaled = false
                     case 100001:
-                        print("5")
                         result = false
                         greyLayerPrompt.show(text: "密码错误")
                         if self.isSwitching{
@@ -174,10 +176,21 @@ class User: NSObject {
                             verifyVC.meVC = self.meVC
                             self.meVC.present(verifyVC, animated: true, completion: nil)
                         }
+                        if self.isToAutoLogin{
+                            self.isAutoLoginFaled = true
+                        }else{
+                            self.isAutoLoginFaled = false
+                        }
+                        
                     default:
                         print("default")
                         greyLayerPrompt.show(text: "登录失败、服务器连接异常")
                         result = false
+                        if self.isToAutoLogin{
+                            self.isAutoLoginFaled = true
+                        }else{
+                            self.isAutoLoginFaled = false
+                        }
                     }
                     //登录成功，跳转首页
                     if result == true {
@@ -291,6 +304,15 @@ class User: NSObject {
                     }else{
                         hub.hide()
                         print("login failed")
+                        if self.isAutoLoginFaled{
+                            let loginVC = ViewController()
+                            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                            loginVC.needsAutoLogin = false
+                            appDelegate.window?.rootViewController = loginVC
+                            view.dismiss(animated: true, completion: nil)
+                            //view.present(loginVC, animated: true, completion: nil)
+                            
+                        }
                     }
                 }
             case false:

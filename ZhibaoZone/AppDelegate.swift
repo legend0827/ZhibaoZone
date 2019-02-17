@@ -285,6 +285,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
         print("应用程序ResignActive")
+        let orientation =  UIDevice.current.orientation.rawValue //0 竖直 //3 左倒
+        // print("saved \(orientation) status")
+        UserDefaults.standard.set(orientation, forKey: "orignalOrientation")
+        UserDefaults.standard.synchronize()
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
@@ -305,6 +309,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
 //        let value = UserDefaults.standard.value(forKey: "orignalOrientation")
 //        UIDevice.current.setValue(value, forKey: "orientation")
 //        print("restored status \(value)")
+        print("应用程序WillEnterForeground")
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -315,7 +320,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         }else{
             UIDevice.current.setValue(value, forKey: "orientation")
         }
-        
+        print("应用程序DidBecomeActive")
       //  print("restored status \(value)")
     }
 

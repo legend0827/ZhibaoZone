@@ -612,7 +612,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         userAccountLabel.font = UIFont.systemFont(ofSize: 15)
         userAccountLabel.textAlignment = .left
         
-        version.text = "V2.2.13"
+        version.text = "V2.2.14"
         version.font = UIFont.systemFont(ofSize: 13)
         version.textColor = UIColor.titleColors(color: .gray)
         version.textAlignment = .right
@@ -758,7 +758,6 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
     }
     @objc func singleTapOnAvatar(_ gesture:UITapGestureRecognizer){
         let index = gesture.view?.tag as! Int
-        print("pressed on \(index)")
         if index == 2 && !addtionalAccountAvailable{
             let verifyVC = VerifyPasswordViewController()
             verifyVC.meVC = self

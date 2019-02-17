@@ -137,7 +137,7 @@ class statisticOrderListTableViewCell: UITableViewCell {
     }()
     
     lazy var designerLabel:UILabel = {
-        let tempLabel = UILabel.init(frame: CGRect(x: 15, y: 164, width: kWidth - 30, height: 21)) // CGRect(x: kWidth -  150, y: 192, width: 135, height: 21))
+        let tempLabel = UILabel.init(frame: CGRect(x: 25, y: 164, width: kWidth - 30, height: 21)) // CGRect(x: kWidth -  150, y: 192, width: 135, height: 21))
         tempLabel.textAlignment = .center
         tempLabel.text = "设计:D11-欧阳倩倩"
         tempLabel.textColor = UIColor.titleColors(color: .gray)

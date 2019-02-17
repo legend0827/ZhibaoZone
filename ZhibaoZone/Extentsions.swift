@@ -978,7 +978,6 @@ func LogoutMission(viewControler:UIViewController){
     let LoginVC = ViewController()
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     LoginVC.needsAutoLogin = false
-
     let userinfos = getCurrentUserInfo()
     let userID = userinfos.value(forKey: "userid") as! String
 
@@ -1000,7 +999,8 @@ func LogoutMission(viewControler:UIViewController){
     logoutFromServer()
 
     appDelegate.window?.rootViewController = LoginVC
-    viewControler.present(LoginVC, animated: true, completion: nil)
+    viewControler.dismiss(animated: true, completion: nil)
+   // viewControler.present(LoginVC, animated: true, completion: nil)
 }
 
 func autoLogin(viewControler:UIViewController){
@@ -1011,6 +1011,7 @@ func autoLogin(viewControler:UIViewController){
     
         let loginUser = User()
         let hub = viewControler.pleaseWait()
+        loginUser.isToAutoLogin = true
         loginUser.Login(username: username, password: password,view:viewControler,hub:hub)
 }
 

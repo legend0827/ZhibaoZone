@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ZhibaoZone/Me/MeViewController.swift"
-            timestampString = "570285098.892007"
+            filePath = "ZhibaoZone/WorkZone/OrdersList/statisticItems/ChooseTimeInterval.swift"
+            timestampString = "571656791.038604"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "747"
-            endingLineNumber = "747"
-            landmarkName = "updateAddtionalAcountInfos()"
+            startingLineNumber = "219"
+            endingLineNumber = "219"
+            landmarkName = "tableView(_:didSelectRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ZhibaoZone/WorkZone/OrdersList/statisticItems/ChooseTimeInterval.swift"
-            timestampString = "571648768.3876081"
+            filePath = "ZhibaoZone/WorkZone/OrdersList/OrdersViewController.swift"
+            timestampString = "571931797.715397"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "219"
-            endingLineNumber = "219"
-            landmarkName = "tableView(_:didSelectRowAt:)"
+            startingLineNumber = "1530"
+            endingLineNumber = "1530"
+            landmarkName = "getMessageList()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ZhibaoZone/Login/User.swift"
+            timestampString = "571936591.317029"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "184"
+            endingLineNumber = "184"
+            landmarkName = "Login(username:password:view:hub:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

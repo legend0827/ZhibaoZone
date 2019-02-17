@@ -35,6 +35,7 @@ class StatisticOrderListViewController: UIViewController,UITableViewDelegate,UIT
                 cell.inquryStatusLabel.text = (item as! NSDictionary).value(forKey: "servicerTag") as! String
             }
         }
+        
         if orderInfoObjects.value(forKey: "produce_status") as! Int == 0 {
             cell.produceStatusLabel.text = "未付款"
         }else{
@@ -121,7 +122,12 @@ class StatisticOrderListViewController: UIViewController,UITableViewDelegate,UIT
         if orderInfoObjects.value(forKey: "designer_name") as? String == "" || orderInfoObjects.value(forKey: "designer_name") as? String == nil{
             cell.designerLabel.text = "设计:暂无"
         }else{
-            cell.designerLabel.text = "设计:\(orderInfoObjects.value(forKey: "designer_name") as! String)"
+            let orignalText = NSMutableAttributedString(string: "设计(¥\(orderInfoObjects.value(forKey: "design_price") as! Double)0):\(orderInfoObjects.value(forKey: "designer_name") as! String)")
+                //上次报价
+            let range = orignalText.string.range(of: "¥\(orderInfoObjects.value(forKey: "design_price") as! Double)0")
+            let nsRange = orignalText.string.nsRange(from: range!)
+            orignalText.addAttributes([NSAttributedStringKey.foregroundColor:UIColor.titleColors(color: .red)], range: nsRange)
+            cell.designerLabel.attributedText = orignalText
         }
         if orderInfoObjects.value(forKey: "workshop_name") as? String == "" || orderInfoObjects.value(forKey: "workshop_name") as? String == nil{
             cell.factoryLabel.text = "车间:暂无"
@@ -184,7 +190,12 @@ class StatisticOrderListViewController: UIViewController,UITableViewDelegate,UIT
             cell.produceImage.image = UIImage(named: "defualt-design-pic-loading")
         }
 
-        
+        //添加长按复制
+        cell.backGroundView.isUserInteractionEnabled = true
+        cell.backGroundView.tag = indexPath.row
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPressGestureHander(_:)))
+      
+        cell.backGroundView.addGestureRecognizer(longPressGesture)
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -354,6 +365,17 @@ class StatisticOrderListViewController: UIViewController,UITableViewDelegate,UIT
     override func viewWillDisappear(_ animated: Bool) {
         setStatusBarBackgroundColor(color: .clear)
         setStatusBarHiden(toHidden: false, ViewController: self)
+    }
+    
+    @objc func longPressGestureHander(_ gestureRecognizer:UILongPressGestureRecognizer){
+        if gestureRecognizer.state == .began{
+            let index = gestureRecognizer.view!.tag
+            let orderInfosObject = self.orderListDic[index] as NSDictionary
+            UIPasteboard.general.string = orderInfosObject.value(forKey: "orderid") as! String
+            greyLayerPrompt.show(text: "订单号复制成功")
+        }else{
+            print("pressEnded")
+        }
     }
     
     //点击返回
@@ -547,8 +569,6 @@ class StatisticOrderListViewController: UIViewController,UITableViewDelegate,UIT
                         for item in json["data"].array!{
                             let dicItem = item.dictionaryObject! as NSDictionary
                             self.orderListDic.append(dicItem)
-                            let orderid = dicItem.value(forKey: "orderid") as! String
-                            print(orderid)
                         }
                         if self.orderListDic.count == 0{
                             self.emytyAreaShowingLabel(withRetry: true)
