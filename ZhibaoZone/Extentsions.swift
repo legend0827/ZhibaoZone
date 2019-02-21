@@ -546,6 +546,18 @@ func createIcon(imageSize:CGFloat,locale:CGRect,iconShape:AvatarShape) -> UIView
     return photo
 }
 
+//通过id查找值
+func findValue(key:String,keyValue:String,In DicArray:NSArray,By keyName:String)->String{
+    
+    for item in DicArray{
+        if (item as! NSDictionary).value(forKey: key) as? Int != nil && (item as! NSDictionary).value(forKey: key) as? Int == Int(keyValue){
+            return (item as! NSDictionary).value(forKey: keyName) as! String
+        }
+    }
+    return ""
+}
+
+
 func calculateLabelHeightWithText(with text:String , labelWidth: CGFloat ,textFont:UIFont) -> CGFloat{ // 计算Label高度
     var size = CGRect()
     let size2 = CGSize(width: labelWidth, height: 0)//设置label的最大宽度

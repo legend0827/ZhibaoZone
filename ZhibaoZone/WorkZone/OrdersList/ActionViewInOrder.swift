@@ -37,6 +37,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
     var _userId:String?
     var _actionType:actionType = .quotePrice
     var _isBidding = false
+    var initQuotePriceInfos:[NSDictionary] = []
     
     lazy var allOrderVC = AllOrdersViewController(orderlistType: orderListCategoryType.allOrderCategory)
     //页面frame
@@ -1672,6 +1673,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                         if statusCode == 200{
                             print("获取订单详情成功")
                             self.orderDetail.removeAll()
+                            self.initQuotePriceInfos.removeAll()
                             let ordersummaryItem = json["data"].dictionaryObject! as NSDictionary
                             let designinfoItem = json["data","designInfo"].arrayObject! as NSArray
                             self.orderDetail.append(ordersummaryItem)
@@ -1939,7 +1941,16 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             orderTimeLabel.text = orderInfoObjects.value(forKey: "sendDesignTime") as? String
         case 3:
             if _actionType == .quotePrice{
-                orderTimeLabel.text = orderInfoObjects.value(forKey: "createTime") as? String
+                if self.initQuotePriceInfos.count == 0{
+                    if commandsCode.contains("BIDDING_FEEDBACK"){
+                        self.getQuoteInfo(quoteType: 3)
+                    }else{
+                        self.getQuoteInfo(quoteType: 1)
+                    }
+                    
+                }else{
+                    orderTimeLabel.text = initQuotePriceInfos[0].value(forKey: "time") as? String
+                }
             }else{
                 orderTimeLabel.text = orderInfoObjects.value(forKey: "workshopSendTime") as? String
             }
@@ -1953,12 +1964,14 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         //点击预览层
         //产品类型
         let goodsClassObject = productObjects.value(forKey: "goodsClass") as! NSArray
-        let productType = (goodsClassObject[Int(orderInfoObjects.value(forKey: "goodsClass") as! String)! - 1] as! NSDictionary).value(forKey: "goodsClass") as! String
+        let productType = findValue(key: "id", keyValue: orderInfoObjects.value(forKey: "goodsClass") as! String, In: goodsClassObject, By: "goodsClass")
+           // (goodsClassObject[Int(orderInfoObjects.value(forKey: "goodsClass") as! String)! - 1] as! NSDictionary).value(forKey: "goodsClass") as! String
         productTypeNameValue.text = productType//orderInfoObjects.value(forKey: "goodsclass") as? String
 
         //材质
         let materailObject = productObjects.value(forKey: "material") as! NSArray
-        let materialType = (materailObject[Int(orderInfoObjects.value(forKey: "material") as! String)! - 1] as! NSDictionary).value(forKey: "material") as! String
+        let materialType = findValue(key: "id", keyValue: orderInfoObjects.value(forKey: "material") as! String, In: materailObject, By: "material")
+           // (materailObject[Int(orderInfoObjects.value(forKey: "material") as! String)! - 1] as! NSDictionary).value(forKey: "material") as! String
         
         //附件
         var accessoriesType = ""
@@ -1966,7 +1979,8 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         if orderInfoObjects.value(forKey: "accessories") as? String == nil{//如果附件为空
             accessoriesType = ""
         }else{
-            accessoriesType = (accessoriesObject[Int(orderInfoObjects.value(forKey: "accessories") as! String)! - 1] as! NSDictionary).value(forKey: "accessories") as! String
+            accessoriesType = findValue(key: "id", keyValue: orderInfoObjects.value(forKey: "accessories") as! String, In: accessoriesObject, By: "accessories")
+                //(accessoriesObject[Int(orderInfoObjects.value(forKey: "accessories") as! String)! - 1] as! NSDictionary).value(forKey: "accessories") as! String
             if accessoriesType == "无" {
                 accessoriesType = ""
             }
@@ -1990,7 +2004,8 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         var modelType = ""
         let modelArray = modelString.split(separator: ",")
         for item in modelArray{
-            modelType += ",\((modelClassObject[Int(item)! - 1] as! NSDictionary).value(forKey: "model") as! String)"
+            //modelType += ",\((modelClassObject[Int(item)! - 1] as! NSDictionary).value(forKey: "model") as! String)"
+            modelType += ",\(findValue(key: "id", keyValue: String(item), In: modelClassObject, By: "model"))"
         }
         if modelType == ",无"{
             modelType = ""
@@ -2004,7 +2019,8 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         var technologyType = ""
         let technologyArray = technologyString.split(separator: ",")
         for item in technologyArray{
-            technologyType += ",\((technologyClassObject[Int(item)!  - 1] as! NSDictionary).value(forKey: "technology") as! String)"
+            technologyType += ",\(findValue(key: "id", keyValue: String(item), In: technologyClassObject, By: "technology"))"
+            //",\((technologyClassObject[Int(item)!  - 1] as! NSDictionary).value(forKey: "technology") as! String)"
         }
         if technologyType == ",无"{
             technologyType = ""
@@ -2022,7 +2038,8 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         var colorType = ""
         let colorArray = colorString.split(separator: ",")
         for item in colorArray{
-            colorType += ",\((colorClassObject[Int(item)! - 1] as! NSDictionary).value(forKey: "color") as! String)"
+            colorType += ",\(findValue(key: "id", keyValue: String(item), In: colorClassObject, By: "color"))"
+            //",\((colorClassObject[Int(item)! - 1] as! NSDictionary).value(forKey: "color") as! String)"
         }
         if colorType == ",无"{
             colorType = ""
@@ -2279,6 +2296,67 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         bargainPriceSubmitBtn.backgroundColor = UIColor.iconColors(color: .red)
         acceptDesignConfirmBtn.backgroundColor = UIColor.iconColors(color: .red)
         acceptProduceConfirmBtn.backgroundColor = UIColor.iconColors(color: .red)
+    }
+    
+    func getQuoteInfo(quoteType:Int){
+        //获取列表
+        let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
+        let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
+        let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
+        #if DEBUG
+        let newTaskUpdateURL:String = apiAddresses.value(forKey: "initQuotePriceDebug") as! String
+        #else
+        let newTaskUpdateURL:String = apiAddresses.value(forKey: "initQuotePrice") as! String
+        #endif
+        //定义请求参数
+        let params:NSMutableDictionary = NSMutableDictionary()
+        var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
+        //  params["userId"] =  _userId// userID
+        // params["orderId"] =  OrderID
+        params["customid"] =  _customID
+        params["state"] = quoteType// roletype
+        header["token"] = _token// token
+        
+        _ = Alamofire.request(newTaskUpdateURL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
+            (responseObject) in
+            switch responseObject.result.isSuccess{
+            case true:
+                if  let value = responseObject.result.value{
+                    let json = JSON(value)
+                    do {
+                        let statusCode = try json["code"].int!
+                        if statusCode == 200{
+                            print("获取报价信息")
+                            self.initQuotePriceInfos.removeAll()
+                            let orderQuotePriceInfoItem = json["data"].dictionaryObject! as NSDictionary
+                            self.initQuotePriceInfos.append(orderQuotePriceInfoItem)
+                            //获取成功数据了，刷新UI
+                            DispatchQueue.main.async {
+                                self.updateViewData()
+                            }
+                        }else if statusCode == 99999 || statusCode == 99998{
+                            //异常
+                            autoLogin(viewControler: self.popupVC)
+                            //                            greyLayerPrompt.show(text: "登录已失效,请重新登录")
+                            //                            LogoutMission(viewControler: self.popupVC)
+                        }else{
+                            print("接受失败，code:\(statusCode)")
+                            let errorMsg = json["message"].string!
+                            greyLayerPrompt.show(text: "获取订单详情失败,\(errorMsg)")
+                        }
+                    } catch {
+                        // Replace this implementation with code to handle the error appropriately.
+                        // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                        greyLayerPrompt.show(text: "程序错误. Code:1")
+                    }
+                    
+                    
+                }
+            case false:
+                greyLayerPrompt.show(text: "服务器异常，获取订单信息失败")
+                print("get order detail failed")
+            }
+        }
     }
     
     func getDesignMessage(){

@@ -95,6 +95,10 @@
 		<string>http://129.28.68.119:81/dynamo/order/orderQuoteInfo_Insert</string>
 		<key>quotePrice</key>
 		<string>http://119.27.170.195:81/dynamo/order/orderQuoteInfo_Insert</string>
+		<key>initQuotePriceDebug</key>
+		<string>http://129.28.68.119:81/dynamo/order/initOrderInfo</string>
+		<key>initQuotePrice</key>
+		<string>http://119.27.170.195:81/dynamo/order/initOrderInfo</string>
 		<key>biddingAPIDebug</key>
 		<string>http://129.28.68.119:81/dispatch/compete_Production</string>
 		<key>biddingAPI</key>
