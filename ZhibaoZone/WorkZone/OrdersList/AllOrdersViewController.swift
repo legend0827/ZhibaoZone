@@ -63,8 +63,9 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
     
     let CELL_ID = "cell_id";
     lazy var scrollView:UIScrollView = {
-        let tempScrollView = UIScrollView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: kHight))
-        tempScrollView.contentSize = CGSize(width: kWidth, height: kHight - 40)
+        let tempScrollView = UIScrollView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: kHight - 140 - heightChangeForiPhoneXFromBottom))
+        tempScrollView.contentSize = CGSize(width: kWidth, height: kHight - 140 - heightChangeForiPhoneXFromBottom) //40
+        tempScrollView.backgroundColor = UIColor.lineColors(color: .grayLevel5)
         tempScrollView.delegate = self
         return tempScrollView
     }()
@@ -78,8 +79,8 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         layout.sectionInset = UIEdgeInsets.init(top: 5, left: 20, bottom: 5, right: 20)            //section四周的缩进
         layout.scrollDirection = UICollectionViewScrollDirection.vertical  //滚动方向
         
-        let tempCollectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: kWidth, height: kHight - 180 - heightChangeForiPhoneXFromBottom ),collectionViewLayout:layout) // 
-        tempCollectionView.backgroundColor = UIColor.lineColors(color: .grayLevel5)// UIColor.backgroundColors(color: .white)
+        let tempCollectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: kWidth, height: kHight - 180 - heightChangeForiPhoneXFromBottom ),collectionViewLayout:layout) // -180
+        tempCollectionView.backgroundColor =  UIColor.lineColors(color: .grayLevel5)// UIColor.backgroundColors(color: .white)
         tempCollectionView.delegate = self
         tempCollectionView.dataSource = self
         tempCollectionView.isScrollEnabled = true
@@ -393,12 +394,12 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
        // self.view.addSubview(AllOrdersCollectionView)
         self.view.addSubview(scrollView)
         //添加下拉刷新
-        scrollView.es.addPullToRefresh {
+        AllOrdersCollectionView.es.addPullToRefresh {
             [weak self] in
             self?.refresh()
         }
         //添加上拉加载
-        scrollView.es.addInfiniteScrolling {
+        AllOrdersCollectionView.es.addInfiniteScrolling {
             [weak self] in
             self?.loadMore()
         }
@@ -428,9 +429,8 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
             if self.page <= self.totalPageCount{
                 self.loadOrderDataFromServer(pages: self.page, categoryType: self._orderlistType)
                 self.AllOrdersCollectionView.reloadData()
-                self.scrollView.es.stopLoadingMore()
             }else{
-                self.scrollView.es.noticeNoMoreData()
+                self.AllOrdersCollectionView.es.noticeNoMoreData()
                 
             }
         }
@@ -899,7 +899,8 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
                             }
                             self.downloadOrderImages()
                             self.AllOrdersCollectionView.reloadData()
-                            self.scrollView.es.stopPullToRefresh()
+                            self.AllOrdersCollectionView.es.stopPullToRefresh()
+                            self.AllOrdersCollectionView.es.stopLoadingMore()
                         }else{
                             if self.page == 1{
                                 self.orderArray.removeAll()
@@ -907,9 +908,10 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
                                 self.AllOrdersCollectionView.reloadData()
                                 self.StopLoadingAnimation()
                                 self.emytyAreaShowingLabel(withRetry: true)
-                                self.scrollView.es.stopPullToRefresh()
+                                self.AllOrdersCollectionView.es.stopPullToRefresh()
+                                self.AllOrdersCollectionView.es.stopLoadingMore()
                             }else{
-                                self.scrollView.es.noticeNoMoreData()
+                                self.AllOrdersCollectionView.es.noticeNoMoreData()
                             }
                         }
                     }else if statusCode == 99999 || statusCode == 99998{
@@ -925,7 +927,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
                 }
             case false:
                 print("执行出错了")
-                self.scrollView.es.stopPullToRefresh()
+                self.AllOrdersCollectionView.es.stopPullToRefresh()
                 if self.scrollView.subviews.contains(self.AllOrdersCollectionView) {
                     self.AllOrdersCollectionView.removeFromSuperview()
                 }else{

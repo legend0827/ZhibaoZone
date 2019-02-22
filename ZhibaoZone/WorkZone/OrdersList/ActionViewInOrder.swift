@@ -1715,6 +1715,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             let dictionaryObjectInOrderArray = self.orderDetail
             let orderaddinfos = dictionaryObjectInOrderArray[0]
             
+            var noReferenceImageAvailable = false
             //附件图片数目
             var attachImageCount:Int = 0
             //下载缩略图
@@ -1814,7 +1815,40 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                     }
                     print("无缩略图")
                 }
+            }else if orderaddinfos.value(forKey: "smallGoodsImage") as? String != nil && orderaddinfos.value(forKey: "smallGoodsImage") as? String != ""{
+                noReferenceImageAvailable = true
+                let imageURLString = "\(self.downloadURLHeaderForThumbnail)\(orderaddinfos.value(forKey: "smallGoodsImage") as! String)"
+                let url = URL(string: imageURLString)!
+                do{
+                    let data = try Data.init(contentsOf: url)
+                    let oImage = UIImage.gif(data:data)
+                    let image = UIImage(data: compressionImage(with: oImage!) as Data)
+                    DispatchQueue.main.async {
+                        self.orderDefaultPic.image = image
+                    }
+                }catch{
+                    print(error)
+                    //缩略图下载失败，下载原图
+                    let imageURLString = "\(self.downloadURLHeader)\(orderaddinfos.value(forKey: "initialGoodsImage") as! String)"
+                    let url = URL(string: imageURLString)!
+                    do{
+                        let data = try Data.init(contentsOf: url)
+                        let oImage = UIImage.gif(data:data)
+                        let image = UIImage(data: compressionImage(with: oImage!) as Data)
+                        DispatchQueue.main.async {
+                            self.orderDefaultPic.image = image
+                        }
+                    }catch{
+                        print(error)
+                        DispatchQueue.main.async {
+                            self.orderDefaultPic.image = UIImage(named:"defualt-design-pic")
+                        }
+                        //原图也下载失败
+                    }
+                    print("无缩略图")
+                }
             }else{
+                noReferenceImageAvailable = true
                 //所有图片都没有，显示默认图
                 DispatchQueue.main.async {
                     self.orderDefaultPic.image = UIImage(named:"defualt-design-pic")
@@ -1859,6 +1893,37 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             }
             if orderaddinfos.value(forKey: "initialReferenceImage3") as? String != nil && orderaddinfos.value(forKey: "initialReferenceImage3") as? String != ""{
                 let imageURLString = "\(self.downloadURLHeader)\(orderaddinfos.value(forKey: "initialReferenceImage3") as! String)"
+                let url = URL(string: imageURLString)!
+                do{
+                    let data = try Data.init(contentsOf: url)
+                    let oImage = UIImage.gif(data:data)
+                    let image = UIImage(data: compressionImage(with: oImage!) as Data)
+                    self.memoPictures.append(image!)
+                    self.previewTypes.append("public.image")
+                    attachImageCount += 1
+                }catch{
+                    print(error)
+                }
+            }
+            
+            //产品主图
+            if noReferenceImageAvailable && (orderaddinfos.value(forKey: "initialGoodsImage") as? String != nil && orderaddinfos.value(forKey: "initialGoodsImage") as? String != ""){
+                let imageURLString = "\(self.downloadURLHeader)\(orderaddinfos.value(forKey: "initialGoodsImage") as! String)"
+                let url = URL(string: imageURLString)!
+                do{
+                    let data = try Data.init(contentsOf: url)
+                    let oImage = UIImage.gif(data:data)
+                    let image = UIImage(data: compressionImage(with: oImage!) as Data)
+                    self.memoPictures.append(image!)
+                    self.previewTypes.append("public.image")
+                    attachImageCount += 1
+                }catch{
+                    print(error)
+                }
+            }
+            //生产参考图
+            if self._roleType == 3 && (orderaddinfos.value(forKey: "initialProducerefImage") as? String != nil && orderaddinfos.value(forKey: "initialProducerefImage") as? String != "") {
+                let imageURLString = "\(self.downloadURLHeader)\(orderaddinfos.value(forKey: "initialProducerefImage") as! String)"
                 let url = URL(string: imageURLString)!
                 do{
                     let data = try Data.init(contentsOf: url)

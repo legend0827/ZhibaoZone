@@ -30,6 +30,7 @@ open class ESRefreshFooterAnimator: UIView, ESRefreshProtocol, ESRefreshAnimator
     open var loadingMoreDescription: String = NSLocalizedString("Loading more", comment: "")
     open var noMoreDataDescription: String  = NSLocalizedString("No more data", comment: "")
     open var loadingDescription: String     = NSLocalizedString("Loading...", comment: "")
+   
 
     open var view: UIView { return self }
     open var duration: TimeInterval = 0.3
