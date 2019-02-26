@@ -740,6 +740,15 @@ func getWeekTime(_ dateStr: String) -> (Monday:String,Sunday:String) {
     
     return weekArr
 }
+func dateStringToTimeInterval(_ dateString:String) -> TimeInterval{
+    //var timeInterval:TimeInterval?
+    let datefmatter = DateFormatter()
+    datefmatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    let date = datefmatter.date(from: dateString)
+    let dateStamp:TimeInterval = date!.timeIntervalSince1970
+    let dateStr:Int = Int(dateStamp)
+    return dateStamp
+}
 // MARK: 当月开始日期
 // nowDay 为传入需要计算的日期
 func startOfCurrentMonth(_ nowDay: String) -> String {

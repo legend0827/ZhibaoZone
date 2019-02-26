@@ -38,6 +38,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
     var _actionType:actionType = .quotePrice
     var _isBidding = false
     var initQuotePriceInfos:[NSDictionary] = []
+    var _problemList:[NSDictionary] = []
     
     lazy var allOrderVC = AllOrdersViewController(orderlistType: orderListCategoryType.allOrderCategory)
     //页面frame
@@ -104,12 +105,55 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
     //附件材质
     let materialAccessoriesValue:UILabel = UILabel.init(frame: CGRect(x: 50, y: 225, width: 280, height: 30))
     
+    //续订标志
+    lazy var renewOrderImageView:UIImageView = {
+        let tempImageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: 0, height: 15))
+        tempImageView.image = UIImage(named: "renewordericonimg")
+        return tempImageView
+    }()
+    //竞价标志
+    lazy var barginOrderImageView:UIImageView = {
+        let tempImageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: 0, height: 15))
+        tempImageView.image = UIImage(named: "barginordericonimg")
+        return tempImageView
+    }()
+    //问题已提交
+    lazy var issueSubmittedImageView:UIImageView = {
+        let tempImageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: 0, height: 15))
+        tempImageView.image = UIImage(named: "issuesubmittediconimg")
+        return tempImageView
+    }()
+    
+    lazy var submitIssueBtn:UIButton = {
+        let button = UIButton.init(frame: CGRect(x: kWidth - 115, y: 166, width: 100, height: 20))
+        let buttonImage = UIImageView.init(frame: CGRect(x: 47, y: 4, width: 53, height: 11))
+        buttonImage.image =  UIImage(named: "submitissuebtnimg")
+        button.addSubview(buttonImage)
+        button.addTarget(self, action: #selector(submitIssueBtnClicked), for: .touchUpInside)
+        return button
+    }()
     
     //订购数目
+    lazy var orderCOuntLabel:UILabel = {
+       let tempLabel = UILabel.init(frame: CGRect(x: 160, y: 75, width: 100, height: 30))
+        tempLabel.text = "数量(个/件)"
+        tempLabel.textAlignment = .left
+        tempLabel.font = UIFont.systemFont(ofSize: 14)
+        tempLabel.textColor = UIColor.titleColors(color: .gray)
+        return tempLabel
+    }()
     let orderCountValue:UILabel = UILabel.init(frame: CGRect(x: 160, y: 75, width: 100, height: 30))
     //产品尺寸
     //长
     // x: 190
+    lazy var productSizeLabel:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: 160, y: 75, width: 100, height: 30))
+        tempLabel.text = "尺寸(mm)"
+        tempLabel.textAlignment = .left
+        tempLabel.font = UIFont.systemFont(ofSize: 14)
+        tempLabel.textColor = UIColor.titleColors(color: .gray)
+        return tempLabel
+    }()
     let productSizeValue:UILabel = UILabel.init(frame: CGRect(x: 130, y: 125, width: 100, height: 30))
     let productSizeHint:UILabel = UILabel.init(frame: CGRect(x: 130, y: 125, width: 100, height: 30))
 
@@ -130,7 +174,8 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
     let quotePriceSlideBarMidLabel:UILabel = UILabel.init(frame: CGRect(x: 15, y: 415, width: 320, height: 30))
     let quotePriceSlideBarLeftLabel:UILabel = UILabel.init(frame: CGRect(x: 15, y: 415, width: 250, height: 30))
     
-    let dashLine:UIImageView = UIImageView.init()
+    let dashLine:UIView = UIView.init(frame: CGRect(x: 0, y: 1, width: kWidth, height: 5))
+    let dashLine2:UIView = UIView.init(frame: CGRect(x: 0, y: 1, width: kWidth, height: 5))
     let seperateLine2:UIView = UIView.init(frame: CGRect(x: 0, y: 1, width: kWidth, height: 5))
     let seperateLine3:UIView = UIView.init(frame: CGRect(x: 0, y: 2, width: kWidth, height: 5))
     let seperateLine4:UIView = UIView.init(frame: CGRect(x: 20, y: 3, width: kWidth - 40, height: 2))
@@ -251,7 +296,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         _userId = userInfos.value(forKey: "userid") as? String
         _token = userInfos.value(forKey: "token") as? String
         _frame = frame
-        
+    
         //获取System Parameter信息
         systemParam = getSystemParasFromPlist()
         //下载图片链接地址
@@ -278,6 +323,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
     func getOrderDetailFromServer(){
         DispatchQueue.global(qos: .background).async {
             self.getOrderDetails(OrderID: self._orderID, CustomID: self._customID)
+            self.getProblemCategory()
         }
     }
     
@@ -335,8 +381,6 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         if ActionType != .shippingProduct { //如果不是点击的邮寄投递，那么执行
             getOrderDetailFromServer()
             
-          //  self.layer.cornerRadius = 20
-            
             //订单时间
             orderTimeLabel.frame = CGRect(x: kWidth - 220, y: 12, width: 200, height: 20)
             orderTimeLabel.font = UIFont.systemFont(ofSize: 14)
@@ -352,9 +396,10 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             orderDefaultPic.frame = CGRect(x: 20, y: 62, width: 118, height: 118) // y=62
             orderDefaultPic.image = UIImage(named: "defualt-design-pic")
             orderDefaultPic.contentMode = .scaleAspectFit
-            orderDefaultPic.layer.cornerRadius = 6
-            orderDefaultPic.layer.borderColor = UIColor.lineColors(color: .grayLevel3).cgColor//UIColor.lineColors(color: .grayLevel3).cgColor
-            orderDefaultPic.layer.borderWidth = 0.5
+//            orderDefaultPic.layer.cornerRadius = 6
+//            orderDefaultPic.layer.borderColor = UIColor.lineColors(color: .grayLevel3).cgColor//UIColor.lineColors(color: .grayLevel3).cgColor
+//            orderDefaultPic.layer.borderWidth = 0.5
+            orderDefaultPic.layer.backgroundColor = UIColor.backgroundColors(color: .lightestGray).cgColor
             orderDefaultPic.layer.masksToBounds = true
             backgroundView.addSubview(orderDefaultPic)
             //点击预览层
@@ -363,15 +408,22 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             orderDefaultPicLayer.layer.cornerRadius = 6
             orderDefaultPicLayer.layer.masksToBounds = true
             
+            backgroundView.addSubview(renewOrderImageView)
+            backgroundView.addSubview(issueSubmittedImageView)
+            backgroundView.addSubview(barginOrderImageView)
+            backgroundView.addSubview(submitIssueBtn)
+            
+            
             //产品类型
-            productTypeNameValue.frame = CGRect(x: 143, y: 63, width: 250, height: 22)
+            productTypeNameValue.frame = CGRect(x: kWidth - 265, y: 63, width: 250, height: 22)
             productTypeNameValue.font = UIFont.boldSystemFont(ofSize: 16)
             productTypeNameValue.textColor = UIColor.titleColors(color: .black)
+            productTypeNameValue.textAlignment = .right
             productTypeNameValue.text = "徽章" // for debug
             backgroundView.addSubview(productTypeNameValue)
             
             //订购数目
-            orderCountValue.frame = CGRect(x: kWidth - 120, y: 63, width: 100, height: 20)
+            orderCountValue.frame = CGRect(x: kWidth - 115, y: 207, width: 100, height: 20)
             orderCountValue.font = UIFont.systemFont(ofSize: 14)
             orderCountValue.textColor = UIColor.titleColors(color: .darkGray)
             orderCountValue.textAlignment = .right
@@ -380,34 +432,54 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             
             
             //工艺
-            makeStyleValue.frame = CGRect(x: 143, y: 106, width: kWidth - 163, height: 60)
+            makeStyleValue.frame = CGRect(x: kWidth - 295, y: 106, width: 280, height: 60)
             makeStyleValue.numberOfLines = 3
             makeStyleValue.font = UIFont.systemFont(ofSize: 14)
             makeStyleValue.textColor = UIColor.titleColors(color: .darkGray)
+            makeStyleValue.textAlignment = .right
             makeStyleValue.text = "" // for debug
             backgroundView.addSubview(makeStyleValue)
             
             //材质 + 附件
-            materialAccessoriesValue.frame = CGRect(x: 143, y: 86, width: 280, height: 20)
+            materialAccessoriesValue.frame = CGRect(x: kWidth - 295, y: 86, width: 280, height: 20)
             materialAccessoriesValue.font = UIFont.systemFont(ofSize: 14)
             materialAccessoriesValue.textColor = UIColor.titleColors(color: .darkGray)
             materialAccessoriesValue.text = "" // for debug
+            materialAccessoriesValue.textAlignment = .right
             backgroundView.addSubview(materialAccessoriesValue)
             //产品尺寸
             //长
-            productSizeValue.frame = CGRect(x: 143, y: 146, width: 200, height: 20)
+            productSizeValue.frame = CGRect(x: kWidth - 215, y: 227, width: 200, height: 20)
             productSizeValue.font = UIFont.systemFont(ofSize: 14)
+            productSizeValue.textAlignment = .right
             productSizeValue.textColor = UIColor.titleColors(color: .darkGray)
-            productSizeValue.text = "0×0×0(mm)" // for debug
+            productSizeValue.text = "0×0×0" // for debug
             backgroundView.addSubview(productSizeValue)
             
             productSizeHint.frame = CGRect(x: 143, y: 166, width: 200, height: 20)
             productSizeHint.font = UIFont.systemFont(ofSize: 10)
             productSizeHint.textColor = UIColor.titleColors(color: .gray)
             productSizeHint.text = "注：圆形产品直径参考长度(或宽度)值"
-            backgroundView.addSubview(productSizeHint)
+           // backgroundView.addSubview(productSizeHint)
             
-            quotePriceSubmitBtn.frame = CGRect(x: kWidth - 120, y: self.frame.height - 308 - heightChangeForiPhoneXFromBottom, width: 120, height: 56)
+            dashLine.frame = CGRect(x: 0, y: productSizeHint.frame.maxY + 5, width: kWidth, height: 5)
+            dashLine.backgroundColor = UIColor.lineColors(color: .grayLevel5)
+            backgroundView.addSubview(dashLine)
+            
+            orderCOuntLabel.frame = CGRect(x: 15, y: dashLine.frame.maxY + 10, width: 80, height: 20)
+            productSizeLabel.frame = CGRect(x: 15, y: dashLine.frame.maxY + 30, width: 80, height: 20)
+            backgroundView.addSubview(orderCOuntLabel)
+            backgroundView.addSubview(productSizeLabel)
+            
+            dashLine2.frame = CGRect(x: 0, y: dashLine.frame.maxY + 60, width: kWidth, height: 5)
+            dashLine2.backgroundColor = UIColor.lineColors(color: .grayLevel5)
+            backgroundView.addSubview(dashLine2)
+            
+             let orangeBgView1 = UIView.init(frame: CGRect(x: 0, y: self.frame.height - 308 - heightChangeForiPhoneXFromBottom, width: kWidth, height: 56 + heightChangeForiPhoneXFromBottom))
+            orangeBgView1.backgroundColor = UIColor.titleColors(color: .lightOrange)
+            self.addSubview(orangeBgView1)
+            
+            quotePriceSubmitBtn.frame = CGRect(x: 0, y: self.frame.height - 308 - heightChangeForiPhoneXFromBottom, width: kWidth, height: 56)//CGRect(x: kWidth - 120, y: self.frame.height - 308 - heightChangeForiPhoneXFromBottom, width: 120, height: 56)
             // quotePriceSubmitBtn.backgroundColor = UIColor.iconColors(color: .red)
             quotePriceSubmitBtn.backgroundColor = UIColor.gray
             quotePriceSubmitBtn.setTitle("提交报价", for: .normal)
@@ -415,7 +487,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             quotePriceSubmitBtn.backgroundColor = UIColor.gray
             quotePriceSubmitBtn.addTarget(self, action: #selector(confirmQuotePriceBtnClicked), for: .touchUpInside)
             
-            bargainPriceSubmitBtn.frame = CGRect(x: kWidth - 120, y: self.frame.height - 308 - heightChangeForiPhoneXFromBottom, width: 120, height: 56)
+            bargainPriceSubmitBtn.frame = CGRect(x: 0, y: self.frame.height - 308 - heightChangeForiPhoneXFromBottom, width: kWidth, height: 56)//CGRect(x: kWidth - 120, y: self.frame.height - 308 - heightChangeForiPhoneXFromBottom, width: 120, height: 56)
             // quotePriceSubmitBtn.backgroundColor = UIColor.iconColors(color: .red)
             bargainPriceSubmitBtn.backgroundColor = UIColor.gray
             bargainPriceSubmitBtn.setTitle("提交反馈", for: .normal)
@@ -461,13 +533,8 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 bargainPriceSubmitBtn.isHidden = true
                 acceptDesignConfirmBtn.isHidden = true
                 acceptProduceConfirmBtn.isHidden = true
-            
-                
-                dashLine.frame = CGRect(x: 20, y: productSizeHint.frame.maxY + 5, width: kWidth - 40, height: 1)
-                dashLine.image = UIImage(named: "dashlineimg")
-                backgroundView.addSubview(dashLine)
 
-                produceMemoLabel.frame = CGRect(x: 20, y: dashLine.frame.maxY + 15, width: 100, height: 22)
+                produceMemoLabel.frame = CGRect(x: 20, y: dashLine.frame.maxY + 77, width: 100, height: 22)
                 produceMemoLabel.text = "生产要求:"
                 produceMemoLabel.font = UIFont.systemFont(ofSize: 16)
                 backgroundView.addSubview(produceMemoLabel)
@@ -582,11 +649,11 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 acceptProduceConfirmBtn.isHidden = true
                 
                 
-                dashLine.frame = CGRect(x: 20, y: productSizeHint.frame.maxY + 5, width: kWidth - 40, height: 1)
-                dashLine.image = UIImage(named: "dashlineimg")
-                backgroundView.addSubview(dashLine)
+//                dashLine.frame = CGRect(x: 20, y: productSizeHint.frame.maxY + 5, width: kWidth - 40, height: 1)
+//                dashLine.image = UIImage(named: "dashlineimg")
+//                backgroundView.addSubview(dashLine)
                 
-                produceMemoLabel.frame = CGRect(x: 20, y: dashLine.frame.maxY + 15, width: 100, height: 22)
+                produceMemoLabel.frame = CGRect(x: 20, y: dashLine.frame.maxY + 77, width: 100, height: 22)
                 produceMemoLabel.text = "生产要求:"
                 produceMemoLabel.font = UIFont.systemFont(ofSize: 16)
                 backgroundView.addSubview(produceMemoLabel)
@@ -713,6 +780,9 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 acceptDesignConfirmBtn.isHidden = false
                 acceptProduceConfirmBtn.isHidden = true
                 
+                orangeBgView1.frame = CGRect(x: kWidth - 120, y: self.frame.height - 142 - heightChangeForiPhoneXFromBottom, width: 120, height: 56 + heightChangeForiPhoneXFromBottom)
+                orangeBgView1.isHidden = true
+                
                 seperateLine2.frame = CGRect(x: 0, y: productSizeHint.frame.maxY + 5, width: kWidth, height: 5)
                 seperateLine2.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
                 backgroundView.addSubview(seperateLine2)
@@ -763,6 +833,9 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 bargainPriceSubmitBtn.isHidden = true
                 acceptDesignConfirmBtn.isHidden = true
                 acceptProduceConfirmBtn.isHidden = false
+                
+                orangeBgView1.frame = CGRect(x: kWidth - 120, y: self.frame.height - 142 - heightChangeForiPhoneXFromBottom, width: 120, height: 56 + heightChangeForiPhoneXFromBottom)
+                orangeBgView1.isHidden = true
                 
                 seperateLine2.frame = CGRect(x: 0, y: productSizeHint.frame.maxY + 5, width: kWidth, height: 5)
                 seperateLine2.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
@@ -1068,6 +1141,20 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             
         }
     }
+    
+    @objc func submitIssueBtnClicked(){
+        print("submit isssue button clicked")
+        guard self._problemList.count != 0 else {
+            greyLayerPrompt.show(text: "问题类型暂不可用")
+            return
+        }
+        
+        let submitIssueView = SubmitIssueActionView.init(frame: CGRect(x: 30, y: (kHight - ((kWidth - 60) * 354 / 315))/2 , width: kWidth - 60, height: (kWidth - 60) * 354 / 315))
+        //let _issueList = ["产品尺寸问题","产品工艺问题","产品配图问题","产品描述问题","其他问题"]
+        submitIssueView.initWithIssueList(issueList: _problemList)
+        popupVC.view.addSubview(submitIssueView)
+    }
+    
     @objc func quetePriceClicked(){
         print("priceLabelClicked")
         //收起工期键盘
@@ -1229,10 +1316,10 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         acceptProduceConfirmBtn.backgroundColor = UIColor.gray
         if produceTimeCostTextField.text == ""{
             greyLayerPrompt.show(text: "生产工期不能为空,请重试")
-            self.quotePriceSubmitBtn.backgroundColor = UIColor.iconColors(color: .red)
-            self.acceptDesignConfirmBtn.backgroundColor = UIColor.iconColors(color: .red)
-            self.acceptProduceConfirmBtn.backgroundColor = UIColor.iconColors(color: .red)
-            self.bargainPriceSubmitBtn.backgroundColor = UIColor.iconColors(color: .red)
+            self.quotePriceSubmitBtn.backgroundColor = UIColor.iconColors(color: .lightOrange)
+            self.acceptDesignConfirmBtn.backgroundColor = UIColor.iconColors(color: .lightOrange)
+            self.acceptProduceConfirmBtn.backgroundColor = UIColor.iconColors(color: .lightOrange)
+            self.bargainPriceSubmitBtn.backgroundColor = UIColor.iconColors(color: .lightOrange)
         }else{
             //获取用户信息
             let userInfos = getCurrentUserInfo()
@@ -1325,10 +1412,10 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                     print("处理失败")
                     greyLayerPrompt.show(text: "报价失败,请重试")
                 }
-                self.quotePriceSubmitBtn.backgroundColor = UIColor.iconColors(color: .red)
-                self.bargainPriceSubmitBtn.backgroundColor = UIColor.iconColors(color: .red)
-                self.acceptDesignConfirmBtn.backgroundColor = UIColor.iconColors(color: .red)
-                self.acceptProduceConfirmBtn.backgroundColor = UIColor.iconColors(color: .red)
+                self.quotePriceSubmitBtn.backgroundColor = UIColor.iconColors(color: .lightOrange)
+                self.bargainPriceSubmitBtn.backgroundColor = UIColor.iconColors(color: .lightOrange)
+                self.acceptDesignConfirmBtn.backgroundColor = UIColor.iconColors(color: .lightOrange)
+                self.acceptProduceConfirmBtn.backgroundColor = UIColor.iconColors(color: .lightOrange)
             }
 
         }
@@ -1342,10 +1429,10 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         acceptProduceConfirmBtn.backgroundColor = UIColor.gray
         if produceTimeCostTextField.text == ""{
             greyLayerPrompt.show(text: "生产工期不能为空,请重试")
-            self.quotePriceSubmitBtn.backgroundColor = UIColor.iconColors(color: .red)
-            self.acceptDesignConfirmBtn.backgroundColor = UIColor.iconColors(color: .red)
-            self.acceptProduceConfirmBtn.backgroundColor = UIColor.iconColors(color: .red)
-            self.bargainPriceSubmitBtn.backgroundColor = UIColor.iconColors(color: .red)
+            self.quotePriceSubmitBtn.backgroundColor = UIColor.iconColors(color: .lightOrange)
+            self.acceptDesignConfirmBtn.backgroundColor = UIColor.iconColors(color: .lightOrange)
+            self.acceptProduceConfirmBtn.backgroundColor = UIColor.iconColors(color: .lightOrange)
+            self.bargainPriceSubmitBtn.backgroundColor = UIColor.iconColors(color: .lightOrange)
         }else{
             //获取用户信息
             let userInfos = getCurrentUserInfo()
@@ -1440,10 +1527,10 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                     print("处理失败")
                     greyLayerPrompt.show(text: "处理失败,请重试")
                 }
-                self.quotePriceSubmitBtn.backgroundColor = UIColor.iconColors(color: .red)
-                self.bargainPriceSubmitBtn.backgroundColor = UIColor.iconColors(color: .red)
-                self.acceptDesignConfirmBtn.backgroundColor = UIColor.iconColors(color: .red)
-                self.acceptProduceConfirmBtn.backgroundColor = UIColor.iconColors(color: .red)
+                self.quotePriceSubmitBtn.backgroundColor = UIColor.iconColors(color: .lightOrange)
+                self.bargainPriceSubmitBtn.backgroundColor = UIColor.iconColors(color: .lightOrange)
+                self.acceptDesignConfirmBtn.backgroundColor = UIColor.iconColors(color: .lightOrange)
+                self.acceptProduceConfirmBtn.backgroundColor = UIColor.iconColors(color: .lightOrange)
             }
             
         }
@@ -1975,6 +2062,47 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             }
         }
     }
+    func updateOrderStatueIcon(iconList:[UIImageView]){
+        var firstX:CGFloat = 0.0
+        var secondX:CGFloat = 0.0
+        var thirdX:CGFloat = 0.0
+        var firstGapX:CGFloat = 0.0
+        var secondGapX:CGFloat = 0.0
+        
+        switch iconList.count {
+        case 0,1:
+            firstGapX = 0.0
+            secondGapX = 0.0
+        case 2:
+            firstGapX = 0.0
+            secondGapX = 2.0
+        case 3:
+            firstGapX = 2.0
+            secondGapX = 2.0
+        default:
+            firstGapX = 0.0
+            secondGapX = 0.0
+        }
+        print("1:\(firstGapX),2:\(secondGapX)")
+        for imageView in iconList{
+            if imageView.image == UIImage(named: "issuesubmittediconimg") {
+                thirdX = 54.0
+                print("issue icon in list")
+            }
+            if imageView.image == UIImage(named: "renewordericonimg") {
+                firstX = 26.0
+                print("renew icon in list")
+            }
+            if imageView.image == UIImage(named: "barginordericonimg") {
+                secondX = 26.0
+                print("bargin order in list")
+            }
+        }
+        
+        renewOrderImageView.frame = CGRect(x: (kWidth - 15 - firstX - secondX - thirdX - firstGapX - secondGapX), y: 149, width: firstX, height: 15)
+        barginOrderImageView.frame =  CGRect(x: kWidth - 15 - secondX - thirdX - firstGapX, y: 149, width: secondX, height: 15)
+        issueSubmittedImageView.frame =  CGRect(x: kWidth - 15 - thirdX, y: 149, width: thirdX, height: 15)
+    }
     
     func updateViewData(){
         //下载图片
@@ -2023,7 +2151,12 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             orderTimeLabel.text = orderInfoObjects.value(forKey: "createTime") as? String
         }
 
-        
+        var statusListView:[UIImageView] = []
+        statusListView.append(renewOrderImageView)
+        statusListView.append(barginOrderImageView)
+        statusListView.append(issueSubmittedImageView)
+        //设置状态显示
+        updateOrderStatueIcon(iconList: statusListView)
         //参考图
        // orderDefaultPic.image = UIImage(named: "defualt-design-pic")
         //点击预览层
@@ -2126,7 +2259,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         //tempMakeStyleValue.remove(at: tempMakeStyleValue.endIndex)
         makeStyleValue.text = tempMakeStyleValue
         let heightOfLabel = calculateLabelHeightWithText(with: tempMakeStyleValue, labelWidth: makeStyleValue.frame.width, textFont: makeStyleValue.font)
-        makeStyleValue.frame = CGRect(x: 143, y: 106, width: kWidth - 163, height: heightOfLabel + 10)
+        makeStyleValue.frame = CGRect(x: kWidth - 295, y: 106, width: 280, height: heightOfLabel + 10)
         
         //产品尺寸
         var produceSizeValue = ""
@@ -2157,12 +2290,12 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             
             let heightString =  "\(orderInfoObjects.value(forKey: "height") as! NSNumber)"
             if heightString.contains("."){
-                produceSizeValue = produceSizeValue + "x\(orderInfoObjects.value(forKey: "height")as! Double)(mm)"
+                produceSizeValue = produceSizeValue + "x\(orderInfoObjects.value(forKey: "height")as! Double)"
             }else{
-                produceSizeValue = produceSizeValue + "x\(orderInfoObjects.value(forKey: "height")as! NSNumber)(mm)"
+                produceSizeValue = produceSizeValue + "x\(orderInfoObjects.value(forKey: "height")as! NSNumber)"
             }
         }else{
-            produceSizeValue = produceSizeValue + "x (mm)"
+            produceSizeValue = produceSizeValue + "x "
         }
         productSizeValue.text = produceSizeValue
         
@@ -2357,10 +2490,10 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         default:
             print("设置报价的值")
         }
-        quotePriceSubmitBtn.backgroundColor = UIColor.iconColors(color: .red)
-        bargainPriceSubmitBtn.backgroundColor = UIColor.iconColors(color: .red)
-        acceptDesignConfirmBtn.backgroundColor = UIColor.iconColors(color: .red)
-        acceptProduceConfirmBtn.backgroundColor = UIColor.iconColors(color: .red)
+        quotePriceSubmitBtn.backgroundColor = UIColor.iconColors(color: .lightOrange)
+        bargainPriceSubmitBtn.backgroundColor = UIColor.iconColors(color: .lightOrange)
+        acceptDesignConfirmBtn.backgroundColor = UIColor.iconColors(color: .lightOrange)
+        acceptProduceConfirmBtn.backgroundColor = UIColor.iconColors(color: .lightOrange)
     }
     
     func getQuoteInfo(quoteType:Int){
@@ -2528,6 +2661,74 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             }
         }
     }
+    
+    func getProblemCategory(){
+        //获取列表
+        let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
+        let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
+        let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
+        #if DEBUG
+        let newTaskUpdateURL:String = apiAddresses.value(forKey: "problemQueryAPIDebug") as! String
+        #else
+        let newTaskUpdateURL:String = apiAddresses.value(forKey: "problemQueryAPI") as! String
+        #endif
+        //定义请求参数
+        let params:NSMutableDictionary = NSMutableDictionary()
+        var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
+        //  params["userId"] =  _userId// userID
+        // params["orderId"] =  OrderID
+        params["customid"] =  _customID
+        //  params["roleType"] = _roleType// roletype
+        header["token"] = _token// token
+        
+        _ = Alamofire.request(newTaskUpdateURL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
+            (responseObject) in
+            switch responseObject.result.isSuccess{
+            case true:
+                if  let value = responseObject.result.value{
+                    let json = JSON(value)
+                    do {
+                        let statusCode = try json["code"].int!
+                        if statusCode == 200{
+                            print("获取设计稿详情成功")
+                            self._problemList.removeAll()
+                            if json["data"].array?.count == 0{
+                                print("无问题列表")
+                            }else{
+                                for item in json["data","items"].array!{
+                                    let dicObject = item.dictionaryObject as! NSDictionary
+                                    self._problemList.append(dicObject)
+                                }
+                                //                            let ordersummaryItem = json["data"].dictionaryObject! as NSDictionary
+                                //                            let designinfoItem = json["data","designInfo"].arrayObject! as NSArray
+                                //                            self.orderDetail.append(ordersummaryItem)
+                                //                            self.orderDetail.append(designinfoItem)
+                                print("获取问题列表成功")
+                            }
+                        }else if statusCode == 99999 || statusCode == 99998{
+                            //异常
+                            autoLogin(viewControler: self.popupVC)
+                            //                            greyLayerPrompt.show(text: "登录已失效,请重新登录")
+                            //                            LogoutMission(viewControler: self.popupVC)
+                        }else{
+                            print("接受失败，code:\(statusCode)")
+                            let errorMsg = json["message"].string!
+                            greyLayerPrompt.show(text: "获取设计稿失败,\(errorMsg)")
+                        }
+                    } catch {
+                        // Replace this implementation with code to handle the error appropriately.
+                        // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                        greyLayerPrompt.show(text: "程序错误. Code:1")
+                    }
+                    
+                    
+                }
+            case false:
+                greyLayerPrompt.show(text: "服务器异常，获取订单信息失败")
+                print("get order detail failed")
+            }
+        }
+    }
     func getDesignPattern(){
         //获取列表
         let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
@@ -2600,7 +2801,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         }
     }
     func adjustActionViewHeight(){
-            dashLine.frame = CGRect(x: 20, y: productSizeHint.frame.maxY + 5, width: kWidth + 40, height: 1)
+            dashLine.frame = CGRect(x: 0, y: productSizeHint.frame.maxY + 5, width: kWidth , height: 5)
             seperateLine2.frame = CGRect(x: 0, y: ProduceMemoValue.frame.maxY + 5, width: kWidth, height: 5)
            if _actionType == .quotePrice {
                 seperateLine3.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 52, width: kWidth - 40, height: 1)

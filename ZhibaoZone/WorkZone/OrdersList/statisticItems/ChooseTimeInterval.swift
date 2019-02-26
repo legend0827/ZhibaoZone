@@ -543,35 +543,38 @@ class ChooseTimeInterval: UIView,UITableViewDelegate,UITableViewDataSource,UIPic
             endTimeStamp = getEndDateTimeOfToday().TimeInterval
         case 3:
             // "本月"
-            let now = Date()
+//            let now = Date()
+//            
+//            let dayFormatter = DateFormatter()
+//            let hourFormatter = DateFormatter()
+//            let minitesFormatter = DateFormatter()
+//            let secondFormatter = DateFormatter()
+//            
+//            dayFormatter.dateFormat = "dd"
+//            hourFormatter.dateFormat = "HH"
+//            minitesFormatter.dateFormat = "mm"
+//            secondFormatter.dateFormat = "ss"
+//            
+//            dayFormatter.locale = .current
+//            hourFormatter.locale = .current
+//            minitesFormatter.locale = .current
+//            secondFormatter.locale = .current
+//            
+//            let dayOfNow = dayFormatter.string(from: now) //date(from: now)
+//            let hourOfNow = hourFormatter.string(from: now) //date(from: now)
+//            let minitesOfNow = minitesFormatter.string(from: now) //date(from: now)
+//            let secondOfNow = secondFormatter.string(from: now) //date(from: now)
+//            
+//            let dayInterval = Int(dayOfNow)! * 24 * 60 * 60
+//            let hourInterval = Int(hourOfNow)! * 60 * 60
+//            let minitesInterval = Int(minitesOfNow)! * 60
+//            let secondInterval = Int(secondOfNow)!
+//            
+            let startTimeString = startOfCurrentMonth(getStartDateTimeOfToday().String)
+            let endTimeString = endOfCurrentMonth(getStartDateTimeOfToday().String, returnEndTime: true)
             
-            let dayFormatter = DateFormatter()
-            let hourFormatter = DateFormatter()
-            let minitesFormatter = DateFormatter()
-            let secondFormatter = DateFormatter()
-            
-            dayFormatter.dateFormat = "dd"
-            hourFormatter.dateFormat = "HH"
-            minitesFormatter.dateFormat = "mm"
-            secondFormatter.dateFormat = "ss"
-            
-            dayFormatter.locale = .current
-            hourFormatter.locale = .current
-            minitesFormatter.locale = .current
-            secondFormatter.locale = .current
-            
-            let dayOfNow = dayFormatter.string(from: now) //date(from: now)
-            let hourOfNow = hourFormatter.string(from: now) //date(from: now)
-            let minitesOfNow = minitesFormatter.string(from: now) //date(from: now)
-            let secondOfNow = secondFormatter.string(from: now) //date(from: now)
-            
-            let dayInterval = Int(dayOfNow)! * 24 * 60 * 60
-            let hourInterval = Int(hourOfNow)! * 60 * 60
-            let minitesInterval = Int(minitesOfNow)! * 60
-            let secondInterval = Int(secondOfNow)!
-            
-            startTimeStamp = dateAheadNow(before: dayInterval + hourInterval + minitesInterval + secondInterval, countAs: .perSecond).TimeInterval
-            endTimeStamp = getEndDateTimeOfToday().TimeInterval
+            startTimeStamp =  dateStringToTimeInterval(startTimeString) //dateAheadNow(before: dayInterval + hourInterval + minitesInterval + secondInterval, countAs: .perSecond).TimeInterval
+            endTimeStamp =  dateStringToTimeInterval(endTimeString)//getEndDateTimeOfToday().TimeInterval
         case 4:
             //"自定义日期"
             print("nothing")

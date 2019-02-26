@@ -66,8 +66,9 @@ class OrderSearchCollectionViewCell: UICollectionViewCell {
         orderCellImageView.contentMode = .scaleAspectFit
         orderCellImageView.layer.cornerRadius = 6
         orderCellImageView.layer.masksToBounds = true
-        orderCellImageView.layer.borderColor = UIColor.lineColors(color: .grayLevel3).cgColor
-        orderCellImageView.layer.borderWidth = 0.5
+        orderCellImageView.layer.backgroundColor = UIColor.backgroundColors(color: .lightestGray).cgColor
+//        orderCellImageView.layer.borderColor = UIColor.lineColors(color: .grayLevel3).cgColor
+//        orderCellImageView.layer.borderWidth = 0.5
         
         
         priceLabel.text = "¥3000.00"

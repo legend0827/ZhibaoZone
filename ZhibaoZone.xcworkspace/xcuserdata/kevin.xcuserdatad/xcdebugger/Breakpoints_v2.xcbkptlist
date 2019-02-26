@@ -10,28 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ZhibaoZone/WorkZone/OrdersList/statisticItems/ChooseTimeInterval.swift"
-            timestampString = "571656791.038604"
+            timestampString = "572865744.311868"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "219"
             endingLineNumber = "219"
             landmarkName = "tableView(_:didSelectRowAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ZhibaoZone/WorkZone/OrdersList/OrdersViewController.swift"
-            timestampString = "572522357.581718"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1530"
-            endingLineNumber = "1530"
-            landmarkName = "getMessageList()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -48,6 +32,22 @@
             startingLineNumber = "184"
             endingLineNumber = "184"
             landmarkName = "Login(username:password:view:hub:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ZhibaoZone/WorkZone/OrdersList/statisticItems/ChooseTimeInterval.swift"
+            timestampString = "572865744.31229"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "573"
+            endingLineNumber = "573"
+            landmarkName = "checkedBoxChanged(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

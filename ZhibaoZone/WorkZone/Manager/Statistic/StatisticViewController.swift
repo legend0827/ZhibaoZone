@@ -2327,21 +2327,27 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
             startTimeString = dateAheadToday(before: 1, getStart: true, UnitType: .byDay).String
             endTimeString = dateAheadToday(before: 1, getStart: false, UnitType: .byDay).String
         case 3:
-            startTimeString = getWeekTime(getStartDateTimeOfToday().String).Monday + " 00:00:00"
-            endTimeString = getWeekTime(getStartDateTimeOfToday().String).Sunday + " 23:59:59"
+            //本周
+            startTimeString = getWeekTime(getStartDateTimeOfToday().String).Monday
+            let tempTimeString = getWeekTime(getEndDateTimeOfToday().String).Sunday
+            endTimeString = tempTimeString.prefix(10) + " 23:59:59"
         case 4:
-            startTimeString = getWeekTime(dateAheadToday(before: 7, getStart: true, UnitType: .byDay).String).Monday + " 00:00:00"
-            endTimeString = getWeekTime(dateAheadToday(before: 7, getStart: true, UnitType: .byDay).String).Sunday + " 23:59:59"
+            //上周
+            startTimeString = getWeekTime(dateAheadToday(before: 7, getStart: true, UnitType: .byDay).String).Monday
+            let tempString = getWeekTime(dateAheadToday(before: 7, getStart: true, UnitType: .byDay).String).Sunday
+            endTimeString = tempString.prefix(10) + " 23:59:59"
         case 5:
-            startTimeString = startOfCurrentMonth(getStartDateTimeOfToday().String)  + " 00:00:00"
+            //本月
+            startTimeString = startOfCurrentMonth(getStartDateTimeOfToday().String)
             endTimeString = endOfCurrentMonth(getStartDateTimeOfToday().String, returnEndTime: true)
         case 6:
+            //上月
             let firstDayOfThisMonth = startOfCurrentMonth(getStartDateTimeOfToday().String)
             let lastDayOfLastMonth = getLastDay(firstDayOfThisMonth)
-            startTimeString = startOfCurrentMonth(lastDayOfLastMonth)  + " 00:00:00"
+            startTimeString = startOfCurrentMonth(lastDayOfLastMonth)
             endTimeString = endOfCurrentMonth(lastDayOfLastMonth, returnEndTime: true)
         default:
-            startTimeString = startOfCurrentMonth(getStartDateTimeOfToday().String)  + " 00:00:00"
+            startTimeString = startOfCurrentMonth(getStartDateTimeOfToday().String)
             endTimeString = endOfCurrentMonth(getStartDateTimeOfToday().String, returnEndTime: true)
         }
         return (startTimeString,endTimeString)

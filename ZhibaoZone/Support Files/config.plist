@@ -99,6 +99,14 @@
 		<string>http://129.28.68.119:81/dynamo/order/initOrderInfo</string>
 		<key>initQuotePrice</key>
 		<string>http://119.27.170.195:81/dynamo/order/initOrderInfo</string>
+		<key>problemQueryAPIDebug</key>
+		<string>http://129.28.68.119:81/dynamo/order/problemCategory_Query</string>
+		<key>problemQueryAPI</key>
+		<string>http://119.27.170.195:81/dynamo/order/problemCategory_Query</string>
+		<key>submitProblemAPIDebug</key>
+		<string>http://129.28.68.119:81/dynamo/order/problem_Insert</string>
+		<key>submitProblemAPI</key>
+		<string>http://119.27.170.195:81/dynamo/order/problem_Insert</string>
 		<key>biddingAPIDebug</key>
 		<string>http://129.28.68.119:81/dispatch/compete_Production</string>
 		<key>biddingAPI</key>

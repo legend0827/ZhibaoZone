@@ -68,8 +68,9 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         orderCellImageView.contentMode = .scaleAspectFit//.scaleAspectFill
         orderCellImageView.layer.cornerRadius = 2
         orderCellImageView.layer.masksToBounds = true
-        orderCellImageView.layer.borderColor = UIColor.lineColors(color: .grayLevel3).cgColor
-        orderCellImageView.layer.borderWidth = 0.5
+        orderCellImageView.layer.backgroundColor = UIColor.backgroundColors(color: .lightestGray).cgColor
+//        orderCellImageView.layer.borderColor = UIColor.lineColors(color: .grayLevel3).cgColor
+//        orderCellImageView.layer.borderWidth = 0.5
         
         priceLabelBackgroundView.image = UIImage(named: "maskonimage")
         priceLabelBackgroundView.layer.cornerRadius = 2

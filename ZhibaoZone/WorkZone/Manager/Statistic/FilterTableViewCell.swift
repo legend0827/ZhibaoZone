@@ -11,7 +11,7 @@ import UIKit
 class FilterTableViewCell: UITableViewCell {
     
     lazy var selectItemLabel:UILabel = {
-        let tempLabel = UILabel.init(frame: CGRect(x: 15, y: 5, width: kHight - 30, height: 21))
+        let tempLabel = UILabel.init(frame: CGRect(x: 15, y: 10, width: kHight - 30, height: 21))
         tempLabel.textAlignment = .center
         tempLabel.text = "今天"
         tempLabel.textColor = UIColor.titleColors(color: .gray)
