@@ -116,6 +116,9 @@
 		0AD282B01FF60E7A0044E41C /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD282AF1FF60E7A0044E41C /* TabBarController.swift */; };
 		0AD6667B2223FBE90027C927 /* SubmitIssueActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD6667A2223FBE80027C927 /* SubmitIssueActionView.swift */; };
 		0AD666852223FC130027C927 /* IssueListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD666842223FC130027C927 /* IssueListTableViewCell.swift */; };
+		0AD666932227D59C0027C927 /* quotePriceHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD666922227D59C0027C927 /* quotePriceHistoryView.swift */; };
+		0AD666952227D5B20027C927 /* quotePriceHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD666942227D5B20027C927 /* quotePriceHistoryTableViewCell.swift */; };
+		0AD666972227EDD30027C927 /* priceListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD666962227EDD30027C927 /* priceListCollectionViewCell.swift */; };
 		0ADCB7FB200EEAD500DCD7C8 /* ImagePreviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADCB7FA200EEAD500DCD7C8 /* ImagePreviewVC.swift */; };
 		0ADCB7FD200EEB2500DCD7C8 /* ImagePreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADCB7FC200EEB2500DCD7C8 /* ImagePreviewCell.swift */; };
 		0AE149C62001E3BD005A2E55 /* NewTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE149C52001E3BD005A2E55 /* NewTaskViewController.swift */; };
@@ -352,6 +355,9 @@
 		0AD282AF1FF60E7A0044E41C /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		0AD6667A2223FBE80027C927 /* SubmitIssueActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitIssueActionView.swift; sourceTree = "<group>"; };
 		0AD666842223FC130027C927 /* IssueListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueListTableViewCell.swift; sourceTree = "<group>"; };
+		0AD666922227D59C0027C927 /* quotePriceHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = quotePriceHistoryView.swift; sourceTree = "<group>"; };
+		0AD666942227D5B20027C927 /* quotePriceHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = quotePriceHistoryTableViewCell.swift; sourceTree = "<group>"; };
+		0AD666962227EDD30027C927 /* priceListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = priceListCollectionViewCell.swift; sourceTree = "<group>"; };
 		0ADCB7FA200EEAD500DCD7C8 /* ImagePreviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewVC.swift; sourceTree = "<group>"; };
 		0ADCB7FC200EEB2500DCD7C8 /* ImagePreviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewCell.swift; sourceTree = "<group>"; };
 		0ADD51CD2022ED5F008FE934 /* ZhibaoZone.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ZhibaoZone.entitlements; sourceTree = "<group>"; };
@@ -424,6 +430,7 @@
 		0A036A59202867FB00A2F036 /* SecuritySetting */ = {
 			isa = PBXGroup;
 			children = (
+				0A053D5C210084EB00E6A006 /* VerifyPasswordViewController.swift */,
 				0A036A502027FE7F00A2F036 /* UnlockGestureView.swift */,
 				0A036A5A2028682D00A2F036 /* SecuritySettingViewController.swift */,
 				0A38068B2035D6560077E77F /* GestureViewController.swift */,
@@ -725,6 +732,16 @@
 			path = SubmitIssue;
 			sourceTree = "<group>";
 		};
+		0AD666912227D56B0027C927 /* quotePriceHistory */ = {
+			isa = PBXGroup;
+			children = (
+				0AD666922227D59C0027C927 /* quotePriceHistoryView.swift */,
+				0AD666962227EDD30027C927 /* priceListCollectionViewCell.swift */,
+				0AD666942227D5B20027C927 /* quotePriceHistoryTableViewCell.swift */,
+			);
+			path = quotePriceHistory;
+			sourceTree = "<group>";
+		};
 		0ADCB7F0200EE59F00DCD7C8 /* ImagePreview */ = {
 			isa = PBXGroup;
 			children = (
@@ -766,7 +783,6 @@
 				0A4EF7792191A801006E4DA7 /* invoiceViewController.swift */,
 				0A4EF77B2191AD22006E4DA7 /* InvoiceCollectionViewCell.swift */,
 				0A3AA2161FF61C6E00EBC482 /* MeViewController.swift */,
-				0A053D5C210084EB00E6A006 /* VerifyPasswordViewController.swift */,
 				0A68BBB420294D1300359A78 /* SetSecuritySetting */,
 				0A036A59202867FB00A2F036 /* SecuritySetting */,
 				0A594E15206C841600A67950 /* SetParameters */,
@@ -786,6 +802,7 @@
 				0A252F312095DD6E00C1F7F4 /* AllOrdersViewController.swift */,
 				0A129C3C20F44A8B00319A4C /* UploadProductImageViewController.swift */,
 				0A244E532096F35D00203463 /* ActionViewInOrder.swift */,
+				0AD666912227D56B0027C927 /* quotePriceHistory */,
 				0AD666862223FC1A0027C927 /* SubmitIssue */,
 				0AEC5037214CB1AF0000D06C /* calculator */,
 				0A252F432096111B00C1F7F4 /* OrderSearchViewController.swift */,
@@ -1165,6 +1182,7 @@
 				0A0235B61FFD23C600CBD846 /* TastsViewController.swift in Sources */,
 				0AC4B49720F711C700312092 /* StatisticCollectionViewCell.swift in Sources */,
 				0AB766A8200DC46900851E16 /* HGImageCollectionViewController.swift in Sources */,
+				0AD666972227EDD30027C927 /* priceListCollectionViewCell.swift in Sources */,
 				0A610D8F201C296B00DE46B7 /* chooseContactTableViewCell.swift in Sources */,
 				0A036A5B2028682D00A2F036 /* SecuritySettingViewController.swift in Sources */,
 				0A594E20206CBDA900A67950 /* MarkSlider.swift in Sources */,
@@ -1209,6 +1227,7 @@
 				0A38068A2035C9680077E77F /* Circle.swift in Sources */,
 				0AF06C4A20171D40008E2DE9 /* ESRefreshAnimator.swift in Sources */,
 				0A6AD6581FF1EFB4009A511A /* AppDelegate.swift in Sources */,
+				0AD666932227D59C0027C927 /* quotePriceHistoryView.swift in Sources */,
 				0A3806862031E3290077E77F /* GestureVerifyViewController.swift in Sources */,
 				0A244E5D2098616900203463 /* MineCreationTaskListViewController.swift in Sources */,
 				0AD282B01FF60E7A0044E41C /* TabBarController.swift in Sources */,
@@ -1224,6 +1243,7 @@
 				0A3806882035C1CD0077E77F /* CircleView.swift in Sources */,
 				0A390920218B451F0048B9F5 /* PrivacyPolicyAgreementViewController.swift in Sources */,
 				0A594E29207079CD00A67950 /* ReplyTableViewCell.swift in Sources */,
+				0AD666952227D5B20027C927 /* quotePriceHistoryTableViewCell.swift in Sources */,
 				0A594E272070797800A67950 /* ReplyTableViewTableViewController.swift in Sources */,
 				0A38068C2035D6560077E77F /* GestureViewController.swift in Sources */,
 				0AF06C4D20171D40008E2DE9 /* ESRefreshHeaderAnimator.swift in Sources */,

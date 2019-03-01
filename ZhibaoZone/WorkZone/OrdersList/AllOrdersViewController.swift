@@ -56,6 +56,9 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
    
     let heightHeader:CGFloat = 40.0
     
+    //状态标志栏
+    var statusListView:[Int:[UIImageView]] = [:]
+    
     //选择的订单的index
     var selectedIndex = 0
     //加载中的动画集合
@@ -203,6 +206,28 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         cell.modifyRequiresBtnInCell.tag = indexPath.row
         cell.dealBargainBtnInCell.tag = indexPath.row
         
+        if self.statusListView.keys.contains(indexPath.row){
+            for subview in cell.orderCellView.subviews{
+                if subview.isKind(of: UIImageView.self){
+                    if (subview as! UIImageView).image == UIImage(named: "renewordericonimg") || (subview as! UIImageView).image == UIImage(named: "barginordericonimg") || (subview as! UIImageView).image == UIImage(named: "overperoidicon") || (subview as! UIImageView).image == UIImage(named: "issuesubmittediconimg"){
+                        subview.removeFromSuperview()
+                    }
+                }
+            }
+            for item in (self.statusListView as NSDictionary).object(forKey: indexPath.row) as! [UIImageView]{
+                cell.orderCellView.addSubview(item)
+                cell.orderCellView.bringSubview(toFront: item)
+                //cell.bringSubview(toFront: item)
+               // print("item as \(item) added to \(indexPath.row)")
+            }
+            
+//            for item in self.statusListView{
+//                print("1")
+//            }
+            updateOrderStatueIcon(iconList: (self.statusListView as NSDictionary).object(forKey: indexPath.row) as! [UIImageView])
+        }
+        
+        
         switch _roleType {
         case 1:
             print("RoleType 为 1")
@@ -288,28 +313,10 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
                 cell.productQuantityInCell.isHidden = false                
                 cell.productTypeAndMaterialInCell.frame = CGRect(x: 5, y: cell.frame.width - 2, width: 300, height: 20)
             }
-            //显示超工期
-            var lastPeriod = 0
-            var deadline = 0
-            if orderInfoObjects.value(forKey: "userPeriod") as? Int == nil{
-                deadline = 0
-            }else{
-                deadline = orderInfoObjects.value(forKey: "userPeriod") as! Int
-            }
-            if orderInfoObjects.value(forKey: "lastPeriod") as? Int == nil{
-                lastPeriod = 0
-            }else{
-                lastPeriod = orderInfoObjects.value(forKey: "lastPeriod") as! Int
-            }
             
             
-            if (deadline < lastPeriod) && deadline != 0{
-                //超过工期
-                cell.statusImageView.isHidden = false
-                //return
-            }else{
-                cell.statusImageView.isHidden = true
-            }
+            
+           
 //
 //            if priceInfoObjects.value(forKey: "mindprice") as? Float != nil && priceInfoObjects.value(forKey: "mindprice") as? Float != 0.0{
 //                if priceInfoObjects.value(forKey: "returnprice") as? Float != nil && priceInfoObjects.value(forKey: "returnprice") as? Float != 0.0{
@@ -436,9 +443,161 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         }
     }
     
+    func updateOrderStatueIcon(iconList:[UIImageView]){
+        var firstX:CGFloat = 0.0
+        var secondX:CGFloat = 0.0
+        var thirdX:CGFloat = 0.0
+        var fourthX:CGFloat = 0.0
+        var firstGapX:CGFloat = 0.0
+        var secondGapX:CGFloat = 0.0
+        var thirdGapX:CGFloat = 0.0
+        
+        switch iconList.count {
+        case 0,1,2:
+            firstGapX = 0.0
+            secondGapX = 0.0
+            thirdGapX = 0.0
+        case 3:
+            firstGapX = 2.0
+            secondGapX = 0.0
+            thirdGapX = 0.0
+        case 4:
+            firstGapX = 2.0
+            secondGapX = 2.0
+            thirdGapX = 0.0
+        case 5:
+            firstGapX = 2.0
+            secondGapX = 2.0
+            thirdGapX = 2.0
+        default:
+            firstGapX = 0.0
+            secondGapX = 0.0
+        }
+        for imageView in iconList{
+            
+            if imageView.image == UIImage(named: "renewordericonimg") {
+                firstX = 26.0
+                print("renew icon in list")
+            }
+            if imageView.image == UIImage(named: "barginordericonimg") {
+                secondX = 26.0
+                print("bargin order in list")
+            }
+            if imageView.image == UIImage(named: "overperoidicon") {
+                thirdX = 34.0
+                print("issue icon in list")
+            }
+            if imageView.image == UIImage(named: "issuesubmittediconimg"){
+                fourthX = 54.0
+                print("over Proid in list")
+            }
+        }
+        
+        for imageView in iconList{
+            
+            if imageView.image == UIImage(named: "renewordericonimg") {
+                imageView.frame = CGRect(x: 10, y: 147, width: firstX, height: 15)
+            }
+            if imageView.image == UIImage(named: "barginordericonimg") {
+                imageView.frame =  CGRect(x: 10 + firstX + firstGapX, y: 147, width: secondX, height: 15)
+            }
+            if imageView.image == UIImage(named: "overperoidicon"){
+                imageView.frame =  CGRect(x: 10 + firstX + firstGapX + secondX + secondGapX, y: 147, width: thirdX, height: 15)
+            }
+            if imageView.image == UIImage(named: "issuesubmittediconimg") {
+                imageView.frame =  CGRect(x: 10 + firstX + firstGapX + secondX + secondGapX + thirdX + thirdGapX, y: 147, width: fourthX, height: 15)//+ firstX + secondX + thirdX + firstGapX + secondGapX
+                if iconList.count == 3{
+                    print("11")
+                }
+            }
+        }
+        
+        
+        
+    }
 //    func exdispatchQueue(){
 //        let serialQ = DispatchQueue(label: "getimage", qos: .background, attributes: .concurrent, autoreleaseFrequency: .inherit, target:)
 //    }
+    func loadStatusImageViews(){
+        DispatchQueue.global().async {
+            let rangeMax = (self.orderArray.count <= self.page * 6) ? self.orderArray.count : (self.page * 6)
+            for index in (self.page - 1)*6 ..< rangeMax{
+                let orderInfoObjects = self.orderArray[index]
+                
+                //超工期
+                let overPeriodStatusImageView:UIImageView = {
+                    let tempImageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: 0, height: 15))
+                    tempImageView.image = UIImage(named: "overperoidicon")
+                    return tempImageView
+                }()
+                //续订标志
+                let renewOrderImageView:UIImageView = {
+                    let tempImageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: 0, height: 15))
+                    tempImageView.image = UIImage(named: "renewordericonimg")
+                    return tempImageView
+                }()
+                //竞价标志
+                let barginOrderImageView:UIImageView = {
+                    let tempImageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: 0, height: 15))
+                    tempImageView.image = UIImage(named: "barginordericonimg")
+                    return tempImageView
+                }()
+                //问题已提交
+                let issueSubmittedImageView:UIImageView = {
+                    let tempImageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: 0, height: 15))
+                    tempImageView.image = UIImage(named: "issuesubmittediconimg")
+                    return tempImageView
+                }()
+                
+                //问题已提交
+                let emptyImageView:UIImageView = {
+                    let tempImageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: 0, height: 15))
+                    tempImageView.image = UIImage.init()
+                    return tempImageView
+                }()
+                
+                //插入空的状态View占位
+                var tempStatusImageList:[UIImageView] = []
+                tempStatusImageList.append(emptyImageView)
+                
+                if orderInfoObjects.value(forKey: "quoteStep") as! Int == 2{
+                    tempStatusImageList.append(barginOrderImageView)
+                }
+                // tempStatusImageList.append(cell.renewOrderImageView)
+              //  tempStatusImageList.append(barginOrderImageView)
+                //tempStatusImageList.append(cell.issueSubmittedImageView)
+                
+                if orderInfoObjects.value(forKey: "problemFeedback") as! Int == 1{
+                    tempStatusImageList.append(issueSubmittedImageView)
+                }
+                
+                if orderInfoObjects.value(forKey: "isContinueOrder") as! Int == 1 || orderInfoObjects.value(forKey: "isContinueOrder") as! Int == 3 {
+                    tempStatusImageList.append(renewOrderImageView)
+                }
+                
+                //显示超工期
+                var lastPeriod = 0
+                var deadline = 0
+                if orderInfoObjects.value(forKey: "userPeriod") as? Int == nil{
+                    deadline = 0
+                }else{
+                    deadline = orderInfoObjects.value(forKey: "userPeriod") as! Int
+                }
+                if orderInfoObjects.value(forKey: "lastPeriod") as? Int == nil{
+                    lastPeriod = 0
+                }else{
+                    lastPeriod = orderInfoObjects.value(forKey: "lastPeriod") as! Int
+                }
+                
+                if (deadline < lastPeriod) && deadline != 0{
+                    //超过工期
+                    tempStatusImageList.append(overPeriodStatusImageView)
+                    //return
+                }
+                self.statusListView.updateValue(tempStatusImageList, forKey: index)
+            }
+        }
+    }
     
     //下载订单图片
     func downloadOrderImages(){
@@ -482,6 +641,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
                 }
                 //图片下载完了,重新加载表格
                 OperationQueue.main.addOperation({
+                    self.loadStatusImageViews()
                     self.AllOrdersCollectionView.reloadData()
                 })
                 
@@ -887,6 +1047,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
                             if pages == 1{
                                 self.orderArray.removeAll()
                                 self.orderImages.removeAll()
+                                self.statusListView.removeAll()
                             }
                             self.totalPageCount = json["data","pageMessage","rowCount"].int!
                             for item in json["data","pageData"].array! {
@@ -905,6 +1066,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
                             if self.page == 1{
                                 self.orderArray.removeAll()
                                 self.orderImages.removeAll()
+                                self.statusListView.removeAll()
                                 self.AllOrdersCollectionView.reloadData()
                                 self.StopLoadingAnimation()
                                 self.emytyAreaShowingLabel(withRetry: true)

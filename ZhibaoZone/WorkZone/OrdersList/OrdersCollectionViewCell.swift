@@ -28,16 +28,44 @@ class OrdersCollectionViewCell: UICollectionViewCell {
     let modifyRequiresBtnInCell:UIButton = UIButton.init(type: .custom)
     let priceLabelBackgroundView:UIImageView = UIImageView.init()
     let priceLabel:UILabel = UILabel.init()
-    let statusImageView:UIImageView = UIImageView.init()
+    
     let orderIDValue:UILabel = UILabel.init()
+    
+//    //状态ImageView
+//    let overPeriodStatusImageView:UIImageView = UIImageView.init()
+//    //续订标志
+//    lazy var renewOrderImageView:UIImageView = {
+//        let tempImageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: 0, height: 15))
+//        tempImageView.image = UIImage(named: "renewordericonimg")
+//        return tempImageView
+//    }()
+//    //竞价标志
+//    lazy var barginOrderImageView:UIImageView = {
+//        let tempImageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: 0, height: 15))
+//        tempImageView.image = UIImage(named: "barginordericonimg")
+//        return tempImageView
+//    }()
+//    //问题已提交
+//    lazy var issueSubmittedImageView:UIImageView = {
+//        let tempImageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: 0, height: 15))
+//        tempImageView.image = UIImage(named: "issuesubmittediconimg")
+//        return tempImageView
+//    }()
+//    
+//    //问题已提交
+//    lazy var emptyImageView:UIImageView = {
+//        let tempImageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: 0, height: 15))
+//        tempImageView.image = UIImage.init()
+//        return tempImageView
+//    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         orderCellView.frame =  CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
         orderCellImageView.frame = CGRect(x: 5, y: 5, width: frame.width - 10, height: frame.width - 10)
-        priceLabelBackgroundView.frame = CGRect(x: 5, y: frame.width - 35, width: frame.width - 10, height: 30)
-        priceLabel.frame = CGRect(x: 13, y: frame.width - 30, width: frame.width - 26, height: 20)
+        priceLabelBackgroundView.frame = CGRect(x: 5, y: frame.width - 40, width: frame.width - 10, height: 35)
+        priceLabel.frame = CGRect(x: 13, y: frame.width - 35, width: frame.width - 26, height: 20)
         productTypeAndMaterialInCell.frame = CGRect(x: 5, y: frame.width - 2, width: 300, height: 20)
         productSize.frame =  CGRect(x: 35, y: frame.width + 18, width: (kWidth - 60)/2, height: 17)
         productQuantityInCell.frame = CGRect(x: 35, y: frame.width + 33, width: 100, height: 17)
@@ -53,7 +81,6 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         shippingBtnInCell.frame = CGRect(x: 33 , y: frame.width + 53, width: frame.width - 66, height: 32)
         designRequiresBtnInCell.frame = CGRect(x: 33 , y: frame.width + 53, width: frame.width - 66, height: 32)
         modifyRequiresBtnInCell.frame = CGRect(x: 33 , y: frame.width + 53, width: frame.width - 66, height: 32)
-        statusImageView.frame = CGRect(x: frame.width - 55 , y: frame.width - 2, width: 50, height: 21)
         orderIDValue.frame = CGRect(x: 5, y: frame.width - 5, width: 200, height: 20)
         
         orderCellView.layer.backgroundColor = UIColor.backgroundColors(color: .white).cgColor
@@ -183,8 +210,6 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         modifyRequiresBtnInCell.layer.borderColor = UIColor.lineColors(color: .lightOrange).cgColor
         modifyRequiresBtnInCell.layer.borderWidth = 1.0
         
-        statusImageView.isHidden = true
-        statusImageView.image = UIImage(named: "overperoidicon")
 
         //self.backgroundColor = UIColor.orange
         self.addSubview(orderCellView)
@@ -200,13 +225,13 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         orderCellView.addSubview(acceptProduceBtnInCell)
         orderCellView.addSubview(acceptDesignBtnInCell)
         orderCellView.addSubview(shippingBtnInCell)
-        orderCellView.addSubview(statusImageView)
         orderCellView.addSubview(orderIDValue)
         orderCellView.addSubview(designRequiresBtnInCell)
         orderCellView.addSubview(modifyRequiresBtnInCell)
         orderCellView.addSubview(takePhotoForProductBtnInCell)
         orderCellView.addSubview(dealBargainBtnInCell)
         orderCellView.addSubview(biddingBtnInCell)
+       
     }
     
     required init?(coder aDecoder: NSCoder) {

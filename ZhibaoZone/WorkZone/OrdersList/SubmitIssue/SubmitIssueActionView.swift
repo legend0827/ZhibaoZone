@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class SubmitIssueActionView: UIView,UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -42,7 +43,7 @@ class SubmitIssueActionView: UIView,UITableViewDelegate,UITableViewDataSource {
         }
         checkStatus[indexPath.row] = true
         if checkStatus[indexPath.row]{
-            selectedItems.append(_issueList[indexPath.row].value(forKey: "name") as! String)
+            selectedItems.append(_issueList[indexPath.row].value(forKey: "id") as! Int)
         }
         tableView.reloadData()
         print("Row \(indexPath.row) selected")
@@ -109,11 +110,14 @@ class SubmitIssueActionView: UIView,UITableViewDelegate,UITableViewDataSource {
     var _frame:CGRect?
     var _token:String?
     var _userId:String?
+    var _customId:String?
     var _roleType:Int?
     var _issueList:[NSDictionary] = []
+    var _popupVC:PopupViewController?
+    lazy var actionView:ActionViewInOrder = ActionViewInOrder.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     
     //var parasCounts:Int = 0
-    var selectedItems:[String] = []
+    var selectedItems:[Int] = []
     var checkStatus:[Bool] = []
     //var systemParams:
     override init(frame: CGRect) {
@@ -157,7 +161,8 @@ class SubmitIssueActionView: UIView,UITableViewDelegate,UITableViewDataSource {
     }
 
     @objc func confirmBtnClicked(){
-        print("confirm Button Clicked")
+        submitProblem()
+        self.removeFromSuperview()
     }
     
     @objc func cancelBtnClicked(){
@@ -176,9 +181,72 @@ class SubmitIssueActionView: UIView,UITableViewDelegate,UITableViewDataSource {
         }
         checkStatus[index] = true
         if checkStatus[index]{
-            selectedItems.append(_issueList[index].value(forKey: "name") as! String)
+            selectedItems.append(_issueList[index].value(forKey: "id") as! Int)
         }
         contentTableView.reloadData()
+    }
+    
+    func submitProblem(){
+        guard selectedItems.count != 0 else {
+            greyLayerPrompt.show(text: "请选择问题后再提交")
+            return
+        }
+        //获取列表
+        let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
+        let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
+        let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
+        #if DEBUG
+        let newTaskUpdateURL:String = apiAddresses.value(forKey: "submitProblemAPIDebug") as! String
+        #else
+        let newTaskUpdateURL:String = apiAddresses.value(forKey: "submitProblemAPI") as! String
+        #endif
+        //定义请求参数
+        let params:NSMutableDictionary = NSMutableDictionary()
+        var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
+        //  params["userId"] =  _userId// userID
+        // params["orderId"] =  OrderID
+        params["customid"] =  self._customId
+        params["id"] = selectedItems[0]
+        //  params["roleType"] = _roleType// roletype
+        header["token"] = _token// token
+        
+        _ = Alamofire.request(newTaskUpdateURL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
+            (responseObject) in
+            switch responseObject.result.isSuccess{
+            case true:
+                if  let value = responseObject.result.value{
+                    let json = JSON(value)
+                    do {
+                        let statusCode = try json["code"].int!
+                        if statusCode == 200{
+                           greyLayerPrompt.show(text: "问题提交成功")
+                            if !self.actionView.isProblemSubmitted {
+                                self.actionView.statusListView.append(self.actionView.issueSubmittedImageView)
+                                self.actionView.updateOrderStatueIcon(iconList: self.actionView.statusListView)
+                            }
+                        }else if statusCode == 99999 || statusCode == 99998{
+                            //异常
+                            autoLogin(viewControler: self._popupVC!)
+                            //                            greyLayerPrompt.show(text: "登录已失效,请重新登录")
+                            //                            LogoutMission(viewControler: self.popupVC)
+                        }else{
+                            print("获取失败，code:\(statusCode)")
+                            let errorMsg = json["message"].string!
+                            greyLayerPrompt.show(text: "获取失败,\(errorMsg)")
+                        }
+                    } catch {
+                        // Replace this implementation with code to handle the error appropriately.
+                        // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                        greyLayerPrompt.show(text: "程序错误. Code:1")
+                    }
+                    
+                    
+                }
+            case false:
+                greyLayerPrompt.show(text: "服务器异常，获取订单信息失败")
+                print("get order detail failed")
+            }
+        }
     }
     /*
     // Only override draw() if you perform custom drawing.

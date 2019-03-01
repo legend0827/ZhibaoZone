@@ -39,6 +39,9 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
     var _isBidding = false
     var initQuotePriceInfos:[NSDictionary] = []
     var _problemList:[NSDictionary] = []
+    //状态标志栏
+    var statusListView:[UIImageView] = []
+    var isProblemSubmitted:Bool = false
     
     lazy var allOrderVC = AllOrdersViewController(orderlistType: orderListCategoryType.allOrderCategory)
     //页面frame
@@ -122,6 +125,15 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         let tempImageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: 0, height: 15))
         tempImageView.image = UIImage(named: "issuesubmittediconimg")
         return tempImageView
+    }()
+    
+    lazy var quotePriceHistoryBtn:UIButton = {
+        let button = UIButton.init(frame: CGRect(x: 20, y: 295, width: 60, height: 30))
+        button.setTitle("报价历史", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 10)
+        button.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
+        button.addTarget(self, action: #selector(quotePriceHistoryClicked), for: .touchUpInside)
+        return button
     }()
     
     lazy var submitIssueBtn:UIButton = {
@@ -296,7 +308,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         _userId = userInfos.value(forKey: "userid") as? String
         _token = userInfos.value(forKey: "token") as? String
         _frame = frame
-    
+        
         //获取System Parameter信息
         systemParam = getSystemParasFromPlist()
         //下载图片链接地址
@@ -519,6 +531,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             case .quotePrice:
                 ActionTitle.text = "订单报价"
                 quotePriceAtLastLabel.isHidden = false
+                quotePriceHistoryBtn.isHidden = false
                 quotePriceAtLastTimeValue.isHidden = false
                 quotePriceCurentLabel.isHidden = false
                 currentValueOnSliderTextField.isHidden = false
@@ -603,6 +616,9 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 quotePriceAtLastLabel.font = UIFont.systemFont(ofSize: 12)
                 backgroundView.addSubview(quotePriceAtLastLabel)
                 
+                //报价历史
+                quotePriceHistoryBtn.frame = CGRect(x: kWidth - 75, y: seperateLine3.frame.maxY + 48 , width: 60, height: 30)
+                backgroundView.addSubview(quotePriceHistoryBtn)
                 
                 let singleTap = UITapGestureRecognizer(target: self, action: #selector(quetePriceClicked))
                 singleTap.numberOfTapsRequired = 1
@@ -633,6 +649,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             case .dealBargain:
                 ActionTitle.text = "处理议价"
                 quotePriceAtLastLabel.isHidden = false
+                quotePriceHistoryBtn.isHidden = false
                 quotePriceAtLastTimeValue.isHidden = false
                 quotePriceCurentLabel.isHidden = false
                 currentValueOnSliderTextField.isHidden = false
@@ -737,6 +754,9 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 quotePriceAtLastLabel.font = UIFont.systemFont(ofSize: 12)
                 backgroundView.addSubview(quotePriceAtLastLabel)
                 
+                //报价历史
+                quotePriceHistoryBtn.frame = CGRect(x: kWidth - 75, y: seperateLine3.frame.maxY + 48 , width: 60, height: 30)
+                backgroundView.addSubview(quotePriceHistoryBtn)
                 
                 let singleTap = UITapGestureRecognizer(target: self, action: #selector(quetePriceClicked))
                 singleTap.numberOfTapsRequired = 1
@@ -765,6 +785,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 
                 ActionTitle.text = "接受设计"
                 quotePriceAtLastLabel.isHidden = true
+                quotePriceHistoryBtn.isHidden = true
                 quotePriceAtLastTimeValue.isHidden = true
                 quotePriceCurentLabel.isHidden = true
                 currentValueOnSliderTextField.isHidden = true
@@ -819,6 +840,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 
                 ActionTitle.text = "接受生产"
                 quotePriceAtLastLabel.isHidden = true
+                quotePriceHistoryBtn.isHidden = true
                 quotePriceAtLastTimeValue.isHidden = true
                 quotePriceCurentLabel.isHidden = true
                 currentValueOnSliderTextField.isHidden = true
@@ -916,6 +938,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 
                 ActionTitle.text = "设计要求"
                 quotePriceAtLastLabel.isHidden = true
+                quotePriceHistoryBtn.isHidden = true
                 quotePriceAtLastTimeValue.isHidden = true
                 quotePriceCurentLabel.isHidden = true
                 currentValueOnSliderTextField.isHidden = true
@@ -966,6 +989,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 
                 ActionTitle.text = "设计要求"
                 quotePriceAtLastLabel.isHidden = true
+                quotePriceHistoryBtn.isHidden = true
                 quotePriceAtLastTimeValue.isHidden = true
                 quotePriceCurentLabel.isHidden = true
                 currentValueOnSliderTextField.isHidden = true
@@ -1030,6 +1054,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             default:
                 ActionTitle.text = "邮寄投递"
                 quotePriceAtLastLabel.isHidden = true
+                quotePriceHistoryBtn.isHidden = true
                 quotePriceAtLastTimeValue.isHidden = true
                 quotePriceCurentLabel.isHidden = true
                 currentValueOnSliderTextField.isHidden = true
@@ -1151,7 +1176,12 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         
         let submitIssueView = SubmitIssueActionView.init(frame: CGRect(x: 30, y: (kHight - ((kWidth - 60) * 354 / 315))/2 , width: kWidth - 60, height: (kWidth - 60) * 354 / 315))
         //let _issueList = ["产品尺寸问题","产品工艺问题","产品配图问题","产品描述问题","其他问题"]
+        submitIssueView._roleType = _roleType
+        submitIssueView._customId = _customID
+        submitIssueView._popupVC = popupVC
+        submitIssueView._token = _token
         submitIssueView.initWithIssueList(issueList: _problemList)
+        submitIssueView.actionView = self
         popupVC.view.addSubview(submitIssueView)
     }
     
@@ -1183,7 +1213,19 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+    @objc func quotePriceHistoryClicked(){
+        let quoPriceHistoryView = quotePriceHistoryView.init(frame: CGRect(x: 0, y:kHight, width: kWidth, height: self.frame.height))
+        quoPriceHistoryView.quotePriceContentTableView.frame = CGRect(x: 0, y: 70, width: kWidth, height: kHight - heightChangeForiPhoneXFromBottom - 70)
+        quoPriceHistoryView._frame = CGRect(x: 0, y: self.frame.minY, width: kWidth, height: self.frame.height)
+        quoPriceHistoryView._customId = self._customID
+        quoPriceHistoryView._token = self._token
+        quoPriceHistoryView._popupVC = self.popupVC
+        quoPriceHistoryView.getQuoteHistories()
+        popupVC.view.addSubview(quoPriceHistoryView)
+        UIView.animate(withDuration: 0.3) {
+            quoPriceHistoryView.transform = CGAffineTransform(translationX: 0, y: -(kHight - self.frame.minY))
+        }
+    }
     @objc func confirmShippingBtnClicked(){
         
         print("确认邮寄投递按钮点击了")
@@ -1367,7 +1409,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
             header["token"] = token
             params["customid"] = customID
-            params["quotePrice"] = String(currentValueOfQuotePrice!)//String(format: "%.2f", currentValueOfQuotePrice)
+            params["totalPrice"] = String(currentValueOfQuotePrice!)//String(format: "%.2f", currentValueOfQuotePrice)
             params["quotePeriod"] = produceTimeCostTextField.text
             params["rounds"] = String(rounds)
 
@@ -2151,10 +2193,21 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             orderTimeLabel.text = orderInfoObjects.value(forKey: "createTime") as? String
         }
 
-        var statusListView:[UIImageView] = []
-        statusListView.append(renewOrderImageView)
-        statusListView.append(barginOrderImageView)
-        statusListView.append(issueSubmittedImageView)
+        self.statusListView.removeAll()
+        if orderInfoObjects.value(forKey: "problemFeedback") as! Int == 1{
+            statusListView.append(issueSubmittedImageView)
+            self.isProblemSubmitted = true
+        }else{
+            self.isProblemSubmitted = false
+        }
+        if orderInfoObjects.value(forKey: "isContinueOrder") as! Int == 1 || orderInfoObjects.value(forKey: "isContinueOrder") as! Int == 3 {
+            statusListView.append(renewOrderImageView)
+        }
+        if orderInfoObjects.value(forKey: "quoteStep") as! Int == 2{
+            statusListView.append(barginOrderImageView)
+        }
+       
+        
         //设置状态显示
         updateOrderStatueIcon(iconList: statusListView)
         //参考图
@@ -2807,6 +2860,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 seperateLine3.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 52, width: kWidth - 40, height: 1)
                 seperateLine4.frame = CGRect(x: 0, y: seperateLine3.frame.maxY + 80, width: kWidth, height: 5)
                 quotePriceAtLastLabel.frame = CGRect(x: 20, y: seperateLine3.frame.maxY + 48 , width: kWidth - 20, height: 22)
+                quotePriceHistoryBtn.frame = CGRect(x: kWidth - 75, y: seperateLine3.frame.maxY + 48 , width: 60, height: 30)
                 quotePriceAtLastTimeValue.frame = CGRect(x: 100, y: seperateLine2.frame.maxY + 15 , width: 100, height: 22)
                 quotePriceCurentLabel.frame = CGRect(x: 20, y: seperateLine3.frame.maxY + 15 , width: 120, height: 22)
                 currentValueOnSliderTextField.frame = CGRect(x: 130, y: seperateLine3.frame.maxY + 4 , width: kWidth - 150, height: 44)
@@ -2820,6 +2874,7 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 seperateLine3.frame = CGRect(x: 20, y: overBudgetBackgroundView.frame.maxY + 52, width: kWidth - 40, height: 1)
                 seperateLine4.frame = CGRect(x: 0, y: seperateLine3.frame.maxY + 80, width: kWidth, height: 5)
                 quotePriceAtLastLabel.frame = CGRect(x: 20, y: seperateLine3.frame.maxY + 48 , width: kWidth - 20, height: 22)
+                quotePriceHistoryBtn.frame = CGRect(x: kWidth - 75, y: seperateLine3.frame.maxY + 48 , width: 60, height: 30)
                 quotePriceAtLastTimeValue.frame = CGRect(x: 100, y: seperateLine2.frame.maxY + 15 , width: 100, height: 22)
                 quotePriceCurentLabel.frame = CGRect(x: 20, y: seperateLine3.frame.maxY + 15 , width: 120, height: 22)
                 currentValueOnSliderTextField.frame = CGRect(x: 130, y: seperateLine3.frame.maxY + 4 , width: kWidth - 150, height: 44)

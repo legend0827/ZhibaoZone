@@ -18,193 +18,201 @@
 		<key>loginInAPIAddressDebug</key>
 		<string>http://129.28.68.119:81/dynamo/user/userAccountInfo_Query</string>
 		<key>loginInAPIAddress</key>
-		<string>http://119.27.170.195:81/dynamo/user/userAccountInfo_Query</string>
+		<string>http://140.143.249.2:81/dynamo/user/userAccountInfo_Query</string>
 		<key>registerAPIAddressDebug</key>
 		<string>http://129.28.68.119:81/dynamo/user/userAccountInfo_Insert</string>
 		<key>registerAPIAddress</key>
-		<string>http://119.27.170.195:81/dynamo/user/userAccountInfo_Insert</string>
+		<string>http://140.143.249.2:81/dynamo/user/userAccountInfo_Insert</string>
 		<key>orderListSupplementaryDebug</key>
 		<string>http://129.28.68.119:81/dynamo/order/orderSupplementary_Query</string>
 		<key>orderListSupplementary</key>
-		<string>http://119.27.170.195:81/dynamo/order/orderSupplementary_Query</string>
+		<string>http://140.143.249.2:81/dynamo/order/orderSupplementary_Query</string>
 		<key>shippingConfirmDebug</key>
 		<string>http://129.28.68.119:81/dynamo/order/logistics_Upload</string>
 		<key>shippingConfirm</key>
-		<string>http://119.27.170.195:81/dynamo/order/logistics_Upload</string>
+		<string>http://140.143.249.2:81/dynamo/order/logistics_Upload</string>
 		<key>orderSearchDebug</key>
 		<string>http://129.28.68.119:81/dynamo/order/orderSupplementary_Search</string>
 		<key>orderSearch</key>
-		<string>http://119.27.170.195:81/dynamo/order/orderSupplementary_Search</string>
+		<string>http://140.143.249.2:81/dynamo/order/orderSupplementary_Search</string>
 		<key>taskListDealingAPIDebug</key>
 		<string>http://129.28.68.119:81/zb-manager-web/page/unDoneTaskList.do</string>
 		<key>taskListDealingAPI</key>
-		<string>http://119.27.170.195:81/zb-manager-web/page/unDoneTaskList.do</string>
+		<string>http://140.143.249.2:81/zb-manager-web/page/unDoneTaskList.do</string>
 		<key>taskListHistoryAPIDebug</key>
 		<string>http://129.28.68.119:81/zb-manager-web/page/doneTaskList.do</string>
 		<key>taskListHistoryAPI</key>
-		<string>http://119.27.170.195:81/zb-manager-web/page/doneTaskList.do</string>
+		<string>http://140.143.249.2:81/zb-manager-web/page/doneTaskList.do</string>
 		<key>taskDetailAPIDebug</key>
 		<string>http://129.28.68.119:81/zb-manager-web/order/lookTaskItem.do</string>
 		<key>taskDetailAPI</key>
-		<string>http://119.27.170.195:81/zb-manager-web/order/lookTaskItem.do</string>
+		<string>http://140.143.249.2:81/zb-manager-web/order/lookTaskItem.do</string>
 		<key>taskReplyAPIDebug</key>
 		<string>http://129.28.68.119:81/zb-manager-web/task/writebackmsg.do</string>
 		<key>taskReplyAPI</key>
-		<string>http://119.27.170.195:81/zb-manager-web/task/writebackmsg.do</string>
+		<string>http://140.143.249.2:81/zb-manager-web/task/writebackmsg.do</string>
 		<key>taskFinishedAPIDebug</key>
 		<string>http://129.28.68.119:81/zb-manager-web/task/finishworkinfo.do</string>
 		<key>taskFinishedAPI</key>
-		<string>http://119.27.170.195:81/zb-manager-web/task/finishworkinfo.do</string>
+		<string>http://140.143.249.2:81/zb-manager-web/task/finishworkinfo.do</string>
 		<key>createTaskAPIDebug</key>
 		<string>http://129.28.68.119:81/zb-manager-web/task/createTasklist.do</string>
 		<key>createTaskAPI</key>
-		<string>http://119.27.170.195:81/zb-manager-web/task/createTasklist.do</string>
+		<string>http://140.143.249.2:81/zb-manager-web/task/createTasklist.do</string>
 		<key>orderListOfNeedHandleDebug</key>
 		<string>http://129.28.68.119:81/zb-order-web/order/waitHandle.do</string>
 		<key>orderListOfNeedHandle</key>
-		<string>http://119.27.170.195:81/zb-order-web/order/waitHandle.do</string>
+		<string>http://140.143.249.2:81/zb-order-web/order/waitHandle.do</string>
 		<key>contactListAPIDebug</key>
 		<string>http://129.28.68.119:81/zb-sso-web/user/userList.do</string>
 		<key>contactListAPI</key>
-		<string>http://119.27.170.195:81/zb-sso-web/user/userList.do</string>
+		<string>http://140.143.249.2:81/zb-sso-web/user/userList.do</string>
 		<key>getMessagesListDebug</key>
 		<string>http://129.28.68.119:81/dynamo/message/messageSummary_Query</string>
 		<key>getMessagesList</key>
-		<string>http://119.27.170.195:81/dynamo/message/messageSummary_Query</string>
+		<string>http://140.143.249.2:81/dynamo/message/messageSummary_Query</string>
 		<key>getMessageCountDebug</key>
 		<string>http://129.28.68.119:81/dynamo/message/messageCount</string>
 		<key>getMessageCount</key>
-		<string>http://119.27.170.195:81/dynamo/message/messageCount</string>
+		<string>http://140.143.249.2:81/dynamo/message/messageCount</string>
 		<key>getMessagesDealDebug</key>
 		<string>http://129.28.68.119:81/dynamo/message/markedUpRead</string>
 		<key>getMessagesDeal</key>
-		<string>http://119.27.170.195:81/dynamo/message/markedUpRead</string>
+		<string>http://140.143.249.2:81/dynamo/message/markedUpRead</string>
 		<key>getSystemParamsDebug</key>
 		<string>http://129.28.68.119:81/dynamo/sysInitialize/getSysParam</string>
 		<key>getSystemParams</key>
-		<string>http://119.27.170.195:81/dynamo/sysInitialize/getSysParam</string>
+		<string>http://140.143.249.2:81/dynamo/sysInitialize/getSysParam</string>
 		<key>orderDetailsDebug</key>
 		<string>http://129.28.68.119:81/dynamo/order/orderSummaryInfo_Query</string>
 		<key>orderDetails</key>
-		<string>http://119.27.170.195:81/dynamo/order/orderSummaryInfo_Query</string>
+		<string>http://140.143.249.2:81/dynamo/order/orderSummaryInfo_Query</string>
 		<key>updateOrderInfoAPIDebug</key>
 		<string>http://129.28.68.119:81/dynamo/order/updateOrderQuoteItem</string>
 		<key>updateOrderInfoAPI</key>
-		<string>http://119.27.170.195:81/dynamo/order/updateOrderQuoteItem</string>
+		<string>http://140.143.249.2:81/dynamo/order/updateOrderQuoteItem</string>
 		<key>quotePriceDebug</key>
 		<string>http://129.28.68.119:81/dynamo/order/orderQuoteInfo_Insert</string>
 		<key>quotePrice</key>
-		<string>http://119.27.170.195:81/dynamo/order/orderQuoteInfo_Insert</string>
+		<string>http://140.143.249.2:81/dynamo/order/orderQuoteInfo_Insert</string>
 		<key>initQuotePriceDebug</key>
 		<string>http://129.28.68.119:81/dynamo/order/initOrderInfo</string>
 		<key>initQuotePrice</key>
-		<string>http://119.27.170.195:81/dynamo/order/initOrderInfo</string>
+		<string>http://140.143.249.2:81/dynamo/order/initOrderInfo</string>
 		<key>problemQueryAPIDebug</key>
 		<string>http://129.28.68.119:81/dynamo/order/problemCategory_Query</string>
 		<key>problemQueryAPI</key>
-		<string>http://119.27.170.195:81/dynamo/order/problemCategory_Query</string>
+		<string>http://140.143.249.2:81/dynamo/order/problemCategory_Query</string>
 		<key>submitProblemAPIDebug</key>
 		<string>http://129.28.68.119:81/dynamo/order/problem_Insert</string>
 		<key>submitProblemAPI</key>
-		<string>http://119.27.170.195:81/dynamo/order/problem_Insert</string>
+		<string>http://140.143.249.2:81/dynamo/order/problem_Insert</string>
 		<key>biddingAPIDebug</key>
 		<string>http://129.28.68.119:81/dispatch/compete_Production</string>
 		<key>biddingAPI</key>
-		<string>http://119.27.170.195:81/dispatch/compete_Production</string>
+		<string>http://140.143.249.2:81/dispatch/compete_Production</string>
 		<key>designMessageAPIDebug</key>
 		<string>http://129.28.68.119:81/dynamo/order/orderDesignMessage_Query</string>
 		<key>designMessageAPI</key>
-		<string>http://119.27.170.195:81/dynamo/order/orderDesignMessage_Query</string>
+		<string>http://140.143.249.2:81/dynamo/order/orderDesignMessage_Query</string>
 		<key>designPatternAPIDebug</key>
 		<string>http://129.28.68.119:81/dynamo/order/orderDesignPattern_Query</string>
 		<key>designPatternAPI</key>
-		<string>http://119.27.170.195:81/dynamo/order/orderDesignPattern_Query</string>
+		<string>http://140.143.249.2:81/dynamo/order/orderDesignPattern_Query</string>
 		<key>bargainDealAPIDebug</key>
 		<string>http://129.28.68.119:81/dynamo/order/orderBargin_Doit</string>
 		<key>bargainDealAPI</key>
-		<string>http://119.27.170.195:81/dynamo/order/orderBargin_Doit</string>
+		<string>http://140.143.249.2:81/dynamo/order/orderBargin_Doit</string>
 		<key>acceptDesignDebug</key>
 		<string>http://129.28.68.119:81/dynamo/order/orderDesignInfo_Update</string>
 		<key>acceptDesign</key>
-		<string>http://119.27.170.195:81/dynamo/order/orderDesignInfo_Update</string>
+		<string>http://140.143.249.2:81/dynamo/order/orderDesignInfo_Update</string>
 		<key>acceptProduceDebug</key>
 		<string>http://129.28.68.119:81/dynamo/order/orderProductInfoAccept_Update</string>
 		<key>acceptProduce</key>
-		<string>http://119.27.170.195:81/dynamo/order/orderProductInfoAccept_Update</string>
+		<string>http://140.143.249.2:81/dynamo/order/orderProductInfoAccept_Update</string>
 		<key>clearNotificationMsgDebug</key>
 		<string>http://129.28.68.119:81/dynamo/message/batchMarkedUpRead</string>
 		<key>clearNotificationMsg</key>
-		<string>http://119.27.170.195:81/dynamo/message/batchMarkedUpRead</string>
+		<string>http://140.143.249.2:81/dynamo/message/batchMarkedUpRead</string>
 		<key>checklistItemsDebug</key>
 		<string>http://129.28.68.119:81/zb-order-web/order/material.do</string>
 		<key>checklistItems</key>
-		<string>http://119.27.170.195:81/zb-order-web/order/material.do</string>
+		<string>http://140.143.249.2:81/zb-order-web/order/material.do</string>
 		<key>autoPriceDebug</key>
 		<string>http://129.28.68.119:81/dynamo/order/auto_price</string>
 		<key>autoPrice</key>
-		<string>http://119.27.170.195:81/dynamo/order/auto_price</string>
+		<string>http://140.143.249.2:81/dynamo/order/auto_price</string>
 		<key>statisticDebug</key>
 		<string>http://129.28.68.119:81/count/app/mobileCount</string>
 		<key>statistic</key>
-		<string>http://119.27.170.195:81/count/app/mobileCount</string>
+		<string>http://140.143.249.2:81/count/app/mobileCount</string>
 		<key>onlineStatusAPIDebug</key>
 		<string>http://129.28.68.119:81/count/app/getUser</string>
 		<key>onlineStatusAPI</key>
-		<string>http://119.27.170.195:81/count/app/getUser</string>
+		<string>http://140.143.249.2:81/count/app/getUser</string>
 		<key>managerGetOrderListAPIDebug</key>
 		<string>http://129.28.68.119:81/dynamo/order/orderProductInfoWaitProduct</string>
 		<key>managerGetOrderListAPI</key>
-		<string>http://119.27.170.195:81/dynamo/order/orderProductInfoWaitProduct</string>
+		<string>http://140.143.249.2:81/dynamo/order/orderProductInfoWaitProduct</string>
 		<key>switchOrderSearchAPIDebug</key>
 		<string>http://129.28.68.119:81/dynamo/order/orderDesignInfoSearch_Query</string>
 		<key>switchOrderSearchAPI</key>
-		<string>http://119.27.170.195:81/dynamo/order/orderDesignInfoSearch_Query</string>
+		<string>http://140.143.249.2:81/dynamo/order/orderDesignInfoSearch_Query</string>
 		<key>switchOrderAPIDebug</key>
 		<string>http://129.28.68.119:81/dynamo/order/orderDesignInfoDesignTransfer_Update</string>
 		<key>switchOrderAPI</key>
-		<string>http://119.27.170.195:81/dynamo/order/orderDesignInfoDesignTransfer_Update</string>
+		<string>http://140.143.249.2:81/dynamo/order/orderDesignInfoDesignTransfer_Update</string>
 		<key>uploadProuctImageAPIDebug</key>
 		<string>http://129.28.68.119:81/dynamo/order/orderProductInfoUpdateImages</string>
 		<key>uploadProuctImageAPI</key>
-		<string>http://119.27.170.195:81/dynamo/order/orderProductInfoUpdateImages</string>
+		<string>http://140.143.249.2:81/dynamo/order/orderProductInfoUpdateImages</string>
 		<key>uploadImageAPIDebug</key>
 		<string>http://129.28.68.119:81/dynamo/order/uploadImage</string>
 		<key>uploadImageAPI</key>
-		<string>http://119.27.170.195:81/dynamo/order/uploadImage</string>
+		<string>http://140.143.249.2:81/dynamo/order/uploadImage</string>
 		<key>binddevicetokenAPIDebug</key>
 		<string>http://129.28.68.119:81/dynamo/order/bunding.do</string>
 		<key>binddevicetokenAPI</key>
-		<string>http://119.27.170.195:81/dynamo/order/bunding.do</string>
+		<string>http://140.143.249.2:81/dynamo/order/bunding.do</string>
 		<key>unbinddevicetokenAPIDebug</key>
 		<string>http://129.28.68.119:81/dynamo/order/unbunding.do</string>
 		<key>unbinddevicetokenAPI</key>
-		<string>http://119.27.170.195:81/dynamo/order/unbunding.do</string>
+		<string>http://140.143.249.2:81/dynamo/order/unbunding.do</string>
 		<key>logoutAPIDebug</key>
 		<string>http://129.28.68.119:81/dynamo/user/userAccountStatus_Update</string>
 		<key>logoutAPI</key>
-		<string>http://119.27.170.195:81/dynamo/user/userAccountStatus_Update</string>
+		<string>http://140.143.249.2:81/dynamo/user/userAccountStatus_Update</string>
 		<key>dailyUpdateAPI</key>
 		<string>https://api.hibai.cn/api/index/index</string>
 		<key>translistGetAPIDehug</key>
 		<string>http://129.28.68.119:81/dynamo/order/orderSummaryInfoByOrderid</string>
 		<key>translistGetAPI</key>
-		<string>http://119.27.170.195:81/dynamo/order/orderSummaryInfoByOrderid</string>
+		<string>http://140.143.249.2:81/dynamo/order/orderSummaryInfoByOrderid</string>
 		<key>statisticForCustomerAPIDebug</key>
 		<string>http://129.28.68.119:81/count/managerView/customerServicesCount</string>
 		<key>statisticForCustomerAPI</key>
-		<string>http://119.27.170.195:81/count/managerView/customerServicesCount</string>
+		<string>http://140.143.249.2:81/count/managerView/customerServicesCount</string>
 		<key>statisticForDesignerAPIDebug</key>
 		<string>http://129.28.68.119:81/count/managerView/designCount</string>
 		<key>statisticForDesignerAPI</key>
-		<string>http://119.27.170.195:81/count/managerView/designCount</string>
+		<string>http://140.143.249.2:81/count/managerView/designCount</string>
 		<key>statisticOrderListAPIDebug</key>
 		<string>http://129.28.68.119:81/count/detail/getListByType</string>
 		<key>statisticOrderListAPI</key>
-		<string>http://119.27.170.195:81/count/detail/getListByType</string>
+		<string>http://140.143.249.2:81/count/detail/getListByType</string>
 		<key>statisticForFactoryAPIDebug</key>
 		<string>http://129.28.68.119:81/count/managerView/shopCount</string>
 		<key>statisticForFactoryAPI</key>
-		<string>http://119.27.170.195:81/count/managerView/shopCount</string>
+		<string>http://140.143.249.2:81/count/managerView/shopCount</string>
+		<key>appUpdateCheckAPIDebug</key>
+		<string>http://129.28.68.119:81/count/app/appUpdateCheck</string>
+		<key>appUpdateCheckAPI</key>
+		<string>http://140.143.249.2:81/count/app/appUpdateCheck</string>
+		<key>quotePriceHistoriesAPIDebug</key>
+		<string>http://129.28.68.119:81/dynamo/order/priceHistories</string>
+		<key>quotePriceHistoriesAPI</key>
+		<string>http://140.143.249.2:81/dynamo/order/priceHistories</string>
 	</dict>
 </dict>
 </plist>

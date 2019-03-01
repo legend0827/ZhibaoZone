@@ -36,9 +36,82 @@ class ViewController: UIViewController,UITextFieldDelegate {
     //当前使用的用户名
     var presentUsername = ""
    
+    //添加的fadeStatusBarView
+    var faceStatusBarView:[UIView] = []
     
     //登录框状态
     var showType:LoginShowType = LoginShowType.NONE
+    
+    //更新提示窗口
+    lazy var updateNoticeBGView:UIView = {
+        let tempView = UIView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: kHight))
+        tempView.backgroundColor = UIColor.clear
+        
+        //灰色窗口
+        let bgimg = UIImageView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: kHight))
+        bgimg.image = UIImage(named: "blurBgViewgreyimg")
+        tempView.addSubview(bgimg)
+        
+        return tempView
+    }()
+    
+    lazy var updateNoticeWindows:UIImageView = {
+        let tempView = UIImageView.init(frame: CGRect(x: 30, y: 157, width: kWidth - 60, height: 360/315 * (kWidth - 60)))
+        tempView.image = UIImage(named: "updatebgimg-zh")
+        
+        //立即更新按钮
+        let updateImidiatelyBtn:UIButton = UIButton.init(frame: CGRect(x: 20, y: 305, width: (kWidth - 115)/2, height: 40))
+        updateImidiatelyBtn.layer.cornerRadius = 2
+        updateImidiatelyBtn.layer.backgroundColor = UIColor.lineColors(color: .lightOrange).cgColor
+        updateImidiatelyBtn.setTitle("去更新", for: .normal)
+        updateImidiatelyBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        updateImidiatelyBtn.setTitleColor(UIColor.lineColors(color: .white), for: .normal)
+        updateImidiatelyBtn.addTarget(self, action: #selector(updateAppClicked), for: .touchUpInside)
+        
+        tempView.addSubview(updateImidiatelyBtn)
+        //取消更新按钮
+        let cancelUpdateBtn:UIButton = UIButton.init(frame: CGRect(x: 35 + (kWidth - 115)/2, y: 305, width: (kWidth - 115)/2, height: 40))
+        cancelUpdateBtn.layer.cornerRadius = 2
+        cancelUpdateBtn.layer.backgroundColor = UIColor.lineColors(color: .white).cgColor
+        cancelUpdateBtn.layer.borderColor = UIColor.lineColors(color: .grayLevel2).cgColor
+        cancelUpdateBtn.layer.borderWidth = 0.5
+        cancelUpdateBtn.setTitle("取消", for: .normal)
+        cancelUpdateBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        cancelUpdateBtn.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
+        cancelUpdateBtn.addTarget(self, action: #selector(cancelUpdateClicked), for: .touchUpInside)
+        
+        tempView.addSubview(cancelUpdateBtn)
+        tempView.isUserInteractionEnabled = true
+        return tempView
+    }()
+    
+    
+    lazy var fadeStatusBarBackgroundView:UIView = {
+        let tempView = UIView.init(frame: UIApplication.shared.statusBarView?.frame ?? .zero)
+        tempView.backgroundColor = UIColor.black
+        tempView.alpha = 0.5
+        return tempView
+    }()
+    
+    lazy var updateLogTitle:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: 25, y: 99, width: 200, height: 33))
+        tempLabel.text = "版本更新内容"
+        tempLabel.textColor = UIColor.titleColors(color: .black)
+        tempLabel.textAlignment = .left
+        tempLabel.font = UIFont.systemFont(ofSize: 17)
+        return tempLabel
+    }()
+    
+    lazy var updateLogContent:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: 25, y: 130, width: 200, height: 156))
+        tempLabel.text = "版本更新内容"
+        tempLabel.textColor = UIColor.titleColors(color: .gray)
+        tempLabel.textAlignment = .left
+        tempLabel.numberOfLines = 9
+        tempLabel.font = UIFont.systemFont(ofSize: 14)
+        tempLabel.contentMode = .topLeft
+        return tempLabel
+    }()
     
     //重复密码下的分界线
     let seperateLineUnderRepeatPassword: UIView = UIView.init(frame: CGRect(x: 25, y: 338 + heightChangeForiPhoneXFromTop, width: kWidth - 50, height: 1))
@@ -329,6 +402,9 @@ class ViewController: UIViewController,UITextFieldDelegate {
         setStatusBarHiden(toHidden: false, ViewController: self)
         setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .red))
         //返回值，前一个是已设置安全登录（true 是，false 否），后一个当前是关着还是开着的(true 开， false 关）
+        
+        appUpdateCheck()
+        
         let result = checkSecuritySetting().1
         
         if result && checkSecuritySetting().0{  // 如果设置了手势登录（true)，并且是开着的(true)
@@ -349,20 +425,18 @@ class ViewController: UIViewController,UITextFieldDelegate {
             self.present(gestureVC, animated: false, completion: nil)
         }
         
-        //检查是否已经登录过账号
-        let dataOperator = CoreDataOperation()
-        let isAccountAvailable = dataOperator.checkAccountAvaiable(forAddtional: false) // 检查附属账号是否可用
         
-        if isAccountAvailable && needsAutoLogin {
-            needsAutoLogin = true //下次自动登录
-            let userinfo = getCurrentUserInfo()
-            let username = userinfo.value(forKey: "username") as! String
-            let password = userinfo.value(forKey: "password") as! String
-            
-            let hub = pleaseWait()
-            let loginUser = User()
-            loginUser.Login(username: username, password: password,view:self,hub:hub)
+    }
+    
+    @objc func cancelUpdateClicked(){
+        updateNoticeBGView.removeFromSuperview()
+        if faceStatusBarView.count != 0{
+            faceStatusBarView[0].removeFromSuperview()
+            faceStatusBarView.removeAll()
         }
+    }
+    @objc func updateAppClicked(){
+        UIApplication.shared.open(URL(string: "https://itunes.apple.com/cn/app/custommallzone/id1359714034?l=en&mt=8")!, completionHandler: nil)
     }
     @objc func useGestureBtnClicked(){
         //返回值，前一个是未设置安全登录（true 是，false 否），后一个当前是关着还是开着的(true 开， false 关）
@@ -401,6 +475,127 @@ class ViewController: UIViewController,UITextFieldDelegate {
         //privacyVC.loginVC = self
         self.present(privacyVC, animated: true, completion: nil)
     }
+    
+    func checkAddtionalAccountOrAutoLogin(){
+        //检查是否已经登录过账号
+        let dataOperator = CoreDataOperation()
+        let isAccountAvailable = dataOperator.checkAccountAvaiable(forAddtional: false) // 检查附属账号是否可用
+        
+        if isAccountAvailable && needsAutoLogin {
+            needsAutoLogin = true //下次自动登录
+            let userinfo = getCurrentUserInfo()
+            let username = userinfo.value(forKey: "username") as! String
+            let password = userinfo.value(forKey: "password") as! String
+            
+            let hub = pleaseWait()
+            let loginUser = User()
+            loginUser.Login(username: username, password: password,view:self,hub:hub)
+        }
+    }
+    
+    func appUpdateCheck(){
+        
+        //获取列表
+        let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
+        let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
+        let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
+        #if DEBUG
+        let newTaskUpdateURL:String = apiAddresses.value(forKey: "appUpdateCheckAPIDebug") as! String
+        #else
+        let newTaskUpdateURL:String = apiAddresses.value(forKey: "appUpdateCheckAPI") as! String
+        #endif
+        
+        var buildId = "0"
+        let infoDictionary = Bundle.main.infoDictionary
+        if let infoDictionnary = infoDictionary{
+            buildId = (infoDictionary as! NSDictionary).value(forKey: "CFBundleVersion") as! String
+        }
+        
+        //    let systemPlistFile = Bundle.main.path(forResource: "info", ofType: "plist")
+        //    let dataOfSystemParams
+        //    let dataOfSystemParams:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: systemPlistFile!)!
+        //    let buildId:String = dataOfSystemParams.value(forKey: "Bundle version") as! String
+        //
+        
+        //定义请求参数
+        let params:NSMutableDictionary = NSMutableDictionary()
+        //var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
+        //  params["userId"] =  _userId// userID
+        // params["orderId"] =  OrderID
+        params["build"] =  buildId
+        params["platform"] = "iOS"
+        
+        
+        let defs = UserDefaults.standard
+        let languages:[String] = defs.object(forKey: "AppleLanguages") as! [String]//获取系统支持的所有语言集合
+        let preferredLanguage = languages.first//集合第一个元素为当前语言
+        if (preferredLanguage?.contains("en"))! {
+            params["language"] = "en_US"
+        }else{
+            params["language"] = "zh_CN"
+        }
+        
+        //params["roleType"] = _roleType// roletype
+        //header["token"] = _token// token
+        
+        _ = Alamofire.request(newTaskUpdateURL,method:.post, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
+            (responseObject) in
+            switch responseObject.result.isSuccess{
+            case true:
+                if  let value = responseObject.result.value{
+                    let json = JSON(value)
+                    do {
+                        let statusCode = try json["code"].int!
+                        if statusCode == 200{
+                            //already up to date
+                            self.checkAddtionalAccountOrAutoLogin()
+                        }else if statusCode == 201{
+                            //needsUpdate
+                            let alertLevel = json["data","alertLevel"].int!
+                            if alertLevel <= 3{
+                                self.view.addSubview(self.updateNoticeBGView)
+                                UIApplication.shared.statusBarView?.addSubview(self.fadeStatusBarBackgroundView)
+                                self.faceStatusBarView.removeAll()
+                                self.faceStatusBarView.append(self.fadeStatusBarBackgroundView)
+                                self.updateNoticeBGView.addSubview(self.updateNoticeWindows)
+                                
+                                let updateLogTitle = json["data","logTitle"].string
+                                let updateLogContent = json["data","commonUpdateLog"].string
+                                let language = json["data","language"].string!
+                                if language == "en_US"{
+                                    self.updateNoticeWindows.image = UIImage(named: "updatebgimg-en")
+                                }else{
+                                    self.updateNoticeWindows.image = UIImage(named: "updatebgimg-zh")
+                                }
+                                self.updateLogTitle.text = updateLogTitle
+                                self.updateLogContent.text = updateLogContent
+                                self.updateNoticeWindows.addSubview(self.updateLogTitle)
+                                self.updateNoticeWindows.addSubview(self.updateLogContent)
+                                
+                            }else{
+                                self.checkAddtionalAccountOrAutoLogin()
+                            }
+                        }else{
+                            print("获取失败，code:\(statusCode)")
+                            let errorMsg = json["message"].string!
+                           // greyLayerPrompt.show(text: "获取失败,\(errorMsg)")
+                        }
+                    } catch {
+                        // Replace this implementation with code to handle the error appropriately.
+                        // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                      //  greyLayerPrompt.show(text: "程序错误. Code:1")
+                        print("检查更新失败")
+                    }
+                    
+                    
+                }
+            case false:
+                greyLayerPrompt.show(text: "服务器异常，获取订单信息失败")
+                print("get order detail failed")
+            }
+        }
+    }
+
 }
 
 
@@ -436,5 +631,12 @@ func getUserAccountInfo()->(String,String){
     }
     return ("_NONE","_NONE")
 }
+
+extension UIApplication{
+    var statusBarView:UIView? {
+        return value(forKey: "statusBar") as? UIView
+    }
+}
+
 
 
