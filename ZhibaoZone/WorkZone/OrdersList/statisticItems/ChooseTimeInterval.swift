@@ -355,28 +355,32 @@ class ChooseTimeInterval: UIView,UITableViewDelegate,UITableViewDataSource,UIPic
     
     
     
-    fileprivate func scrollToDate (date:NSDate) {
+    fileprivate func scrollToDate (startDate:NSDate,endDate:NSDate) {
         let calendar = Calendar.current
-        let dateComponents = calendar.dateComponents([.day,.month,.year,.hour], from: date as Date)
-        let _ = self.daysCount(year: dateComponents.year!, month: dateComponents.month!,forStarts: true)
+        let dateComponentsOfStart = calendar.dateComponents([.day,.month,.year,.hour], from: startDate as Date)
+        let dateComponentsOfEnd = calendar.dateComponents([.day,.month,.year,.hour], from: endDate as Date)
+        let _ = self.daysCount(year: dateComponentsOfStart.year!, month: dateComponentsOfStart.month!,forStarts: true)
+        let _ = self.daysCount(year: dateComponentsOfEnd.year!, month: dateComponentsOfEnd.month!,forStarts: true)
         
-        yearIndex = dateComponents.year!-MINYEAR
-        monthIndex = dateComponents.month!-1
-        dayIndex = dateComponents.day!-1
+        yearIndex = dateComponentsOfStart.year!-MINYEAR
+        monthIndex = dateComponentsOfStart.month!-1
+        dayIndex = dateComponentsOfStart.day!-1
         
-        endYearIndex = dateComponents.year!-MINYEAR
-        endMonthIndex = dateComponents.month!-1
-        endDayIndex = dateComponents.day!-1
+        endYearIndex = dateComponentsOfEnd.year!-MINYEAR
+        endMonthIndex = dateComponentsOfEnd.month!-1
+        endDayIndex = dateComponentsOfEnd.day!-1
         
-        self.startTimePickerView.reloadAllComponents()
+        
         self.startTimePickerView.selectRow(yearIndex!, inComponent: 0, animated: true)
         self.startTimePickerView.selectRow(monthIndex!, inComponent: 1, animated: true)
         self.startTimePickerView.selectRow(dayIndex!, inComponent: 2, animated: true)
+        self.startTimePickerView.reloadAllComponents()
         
-        self.endTimePickerView.reloadAllComponents()
+        
         self.endTimePickerView.selectRow(endYearIndex!, inComponent: 0, animated: true)
         self.endTimePickerView.selectRow(endMonthIndex!, inComponent: 1, animated: true)
         self.endTimePickerView.selectRow(endDayIndex!, inComponent: 2, animated: true)
+        self.endTimePickerView.reloadAllComponents()
         getStartTimeStamp()
         getEndTimeStamp()
     }
@@ -418,8 +422,9 @@ class ChooseTimeInterval: UIView,UITableViewDelegate,UITableViewDataSource,UIPic
     override init(frame: CGRect) {
         super.init(frame: frame)
         _frame = frame
+        
         self.defaultConfig()
-        self.scrollToDate(date: NSDate())
+        self.scrollToDate(startDate: NSDate(), endDate: NSDate())
         self.layer.cornerRadius = 20
         self.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
         //初始化值
@@ -459,7 +464,12 @@ class ChooseTimeInterval: UIView,UITableViewDelegate,UITableViewDataSource,UIPic
         backgroundView.addSubview(contentTableView)
         
     }
-    
+    func initSelectedDate(startDateTime startInterval:TimeInterval,endDateTime endInterval:TimeInterval){
+        startTimeStamp = startInterval
+        endTimeStamp = endInterval
+        
+        scrollToDate(startDate: NSDate(timeIntervalSince1970: startTimeStamp), endDate: NSDate(timeIntervalSince1970: endTimeStamp))
+    }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

@@ -16,7 +16,7 @@ class quotePriceHistoryView: UIView,UITableViewDelegate,UITableViewDataSource{
         return quoteHistoryListArray.count
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 141
+        return 144
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

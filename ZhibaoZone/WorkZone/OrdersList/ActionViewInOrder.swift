@@ -128,9 +128,9 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
     }()
     
     lazy var quotePriceHistoryBtn:UIButton = {
-        let button = UIButton.init(frame: CGRect(x: 20, y: 295, width: 60, height: 30))
+        let button = UIButton.init(frame: CGRect(x: 20, y: 289, width: 60, height: 30))
         button.setTitle("报价历史", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 10)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
         button.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
         button.addTarget(self, action: #selector(quotePriceHistoryClicked), for: .touchUpInside)
         return button

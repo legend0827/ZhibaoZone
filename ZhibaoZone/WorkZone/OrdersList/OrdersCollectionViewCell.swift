@@ -65,12 +65,12 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         orderCellView.frame =  CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
         orderCellImageView.frame = CGRect(x: 5, y: 5, width: frame.width - 10, height: frame.width - 10)
         priceLabelBackgroundView.frame = CGRect(x: 5, y: frame.width - 40, width: frame.width - 10, height: 35)
-        priceLabel.frame = CGRect(x: 13, y: frame.width - 35, width: frame.width - 26, height: 20)
-        productTypeAndMaterialInCell.frame = CGRect(x: 5, y: frame.width - 2, width: 300, height: 20)
-        productSize.frame =  CGRect(x: 35, y: frame.width + 18, width: (kWidth - 60)/2, height: 17)
-        productQuantityInCell.frame = CGRect(x: 35, y: frame.width + 33, width: 100, height: 17)
-        productSizeLabel.frame =  CGRect(x: 5, y: frame.width + 18, width: 80, height: 17)
-        productQuantityInCellLabel.frame = CGRect(x: 5, y: frame.width + 33, width: 80, height: 17)
+        priceLabel.frame = CGRect(x: 11, y: frame.width - 37, width: frame.width - 26, height: 20)
+        productTypeAndMaterialInCell.frame = CGRect(x: 10, y: frame.width, width: 300, height: 20)
+        productSize.frame =  CGRect(x: 40, y: frame.width + 18, width: (kWidth - 60)/2, height: 17)
+        productQuantityInCell.frame = CGRect(x: 40, y: frame.width + 33, width: 100, height: 17)
+        productSizeLabel.frame =  CGRect(x: 10, y: frame.width + 18, width: 80, height: 17)
+        productQuantityInCellLabel.frame = CGRect(x: 10, y: frame.width + 33, width: 80, height: 17)
         
         quotePriceBtnInCell.frame = CGRect(x: 33 , y: frame.width + 53, width: frame.width - 66, height: 32)
         dealBargainBtnInCell.frame = CGRect(x: 33 , y: frame.width + 53, width: frame.width - 66, height: 32)
@@ -81,7 +81,7 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         shippingBtnInCell.frame = CGRect(x: 33 , y: frame.width + 53, width: frame.width - 66, height: 32)
         designRequiresBtnInCell.frame = CGRect(x: 33 , y: frame.width + 53, width: frame.width - 66, height: 32)
         modifyRequiresBtnInCell.frame = CGRect(x: 33 , y: frame.width + 53, width: frame.width - 66, height: 32)
-        orderIDValue.frame = CGRect(x: 5, y: frame.width - 5, width: 200, height: 20)
+        orderIDValue.frame = CGRect(x: 10, y: frame.width - 5, width: 200, height: 20)
         
         orderCellView.layer.backgroundColor = UIColor.backgroundColors(color: .white).cgColor
         orderCellView.layer.cornerRadius = 2

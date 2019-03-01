@@ -9,22 +9,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ZhibaoZone/WorkZone/OrdersList/statisticItems/ChooseTimeInterval.swift"
-            timestampString = "573095130.733317"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "219"
-            endingLineNumber = "219"
-            landmarkName = "tableView(_:didSelectRowAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "ZhibaoZone/Login/User.swift"
             timestampString = "571936591.317029"
             startingColumnNumber = "9223372036854775807"
@@ -41,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ZhibaoZone/WorkZone/OrdersList/statisticItems/ChooseTimeInterval.swift"
-            timestampString = "573095130.733696"
+            filePath = "ZhibaoZone/WorkZone/OrdersList/ActionViewInOrder.swift"
+            timestampString = "573129750.415115"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "573"
-            endingLineNumber = "573"
-            landmarkName = "checkedBoxChanged(_:)"
+            startingLineNumber = "1425"
+            endingLineNumber = "1425"
+            landmarkName = "confirmQuotePriceBtnClicked()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

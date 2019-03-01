@@ -311,7 +311,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
                 cell.productSize.isHidden = false
                 cell.productTypeAndMaterialInCell.isHidden = false
                 cell.productQuantityInCell.isHidden = false                
-                cell.productTypeAndMaterialInCell.frame = CGRect(x: 5, y: cell.frame.width - 2, width: 300, height: 20)
+                cell.productTypeAndMaterialInCell.frame = CGRect(x: 10, y: cell.frame.width, width: 300, height: 20)
             }
             
             

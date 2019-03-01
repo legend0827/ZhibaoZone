@@ -1211,6 +1211,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         popVC.modalPresentationCapturesStatusBarAppearance = true
         timerInterval.popupVC = popVC
         timerInterval.managerVC = self
+        timerInterval.initSelectedDate(startDateTime: timeInterval_from, endDateTime: timeInterval_to)
         popVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext //
         popVC.view.addSubview(timerInterval)
         
