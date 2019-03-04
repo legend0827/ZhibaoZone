@@ -10,7 +10,7 @@ import UIKit
 
 class priceListCollectionViewCell: UICollectionViewCell {
     lazy var priceCountSequenceValue:UILabel = {
-        let tempLabel = UILabel.init(frame: CGRect(x: 5, y: 21, width: 30, height: 15))
+        let tempLabel = UILabel.init(frame: CGRect(x: 5, y: 30, width: 30, height: 15))
         tempLabel.text = "1"
         tempLabel.textColor = UIColor.titleColors(color: .black)
         tempLabel.textAlignment = .left
@@ -18,7 +18,7 @@ class priceListCollectionViewCell: UICollectionViewCell {
         return tempLabel
     }()
     lazy var priceValue:UILabel = {
-        let tempLabel = UILabel.init(frame: CGRect(x: 5, y: 61, width: 130, height: 15))
+        let tempLabel = UILabel.init(frame: CGRect(x: 5, y: 80, width: 130, height: 15))
         tempLabel.text = "尚未报价"
         tempLabel.textColor = UIColor.titleColors(color: .black)
         tempLabel.textAlignment = .left
@@ -26,7 +26,7 @@ class priceListCollectionViewCell: UICollectionViewCell {
         return tempLabel
     }()
     lazy var priceTime:UILabel = {
-        let tempLabel = UILabel.init(frame: CGRect(x: 5, y: 103, width: 130, height: 15))
+        let tempLabel = UILabel.init(frame: CGRect(x: 5, y: 130, width: 130, height: 15))
         tempLabel.text = "-"
         tempLabel.textColor = UIColor.titleColors(color: .black)
         tempLabel.textAlignment = .left
@@ -34,7 +34,7 @@ class priceListCollectionViewCell: UICollectionViewCell {
         return tempLabel
     }()
     lazy var currentPriceIcon:UIImageView = {
-        let tempLabel = UIImageView.init(frame: CGRect(x: 17, y: 21, width: 26, height: 15))
+        let tempLabel = UIImageView.init(frame: CGRect(x: 17, y: 30, width: 26, height: 15))
         tempLabel.image = UIImage(named: "newesticonimg")
         return tempLabel
     }()

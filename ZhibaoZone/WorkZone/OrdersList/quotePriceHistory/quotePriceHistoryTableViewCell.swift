@@ -65,15 +65,15 @@ class quotePriceHistoryTableViewCell: UITableViewCell,UICollectionViewDataSource
 //    }()
     
     lazy var productInfoBGView:UIView = {
-        let tempView = UIView.init(frame: CGRect(x: 0, y: 0, width: 156, height: 144))
+        let tempView = UIView.init(frame: CGRect(x: 0, y: 0, width: 156, height: 181))
         
         //灰层
-        let blurView:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: 156, height: 143))
+        let blurView:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: 156, height: 175))
         blurView.image = UIImage(named: "quotepricehistorybgimg1")
         tempView.addSubview(blurView)
         
         //面板
-        let whiteBoard:UIView = UIView.init(frame: CGRect(x: 0, y: 0, width: 150, height: 139))
+        let whiteBoard:UIView = UIView.init(frame: CGRect(x: 0, y: 0, width: 150, height: 176))
         whiteBoard.backgroundColor = UIColor.backgroundColors(color: .white)
         
         tempView.addSubview(whiteBoard)
@@ -82,15 +82,15 @@ class quotePriceHistoryTableViewCell: UITableViewCell,UICollectionViewDataSource
     }()
     
     lazy var priceInfoBGView:UIView = {
-        let tempView = UIView.init(frame: CGRect(x: 156, y: 0, width: 35, height: 135))
+        let tempView = UIView.init(frame: CGRect(x: 156, y: 0, width: 35, height: 181))
         
         //灰层
-        let blurView:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: 3, width: 35, height: 129))
+        let blurView:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: 3, width: 35, height: 175))
         blurView.image = UIImage(named: "quotepricehistorybgimg2")
         tempView.addSubview(blurView)
         
         //面板
-        let whiteBoard:UIView = UIView.init(frame: CGRect(x: 0, y: 0, width: 30, height: 135))
+        let whiteBoard:UIView = UIView.init(frame: CGRect(x: 0, y: 0, width: 30, height: 176))
         whiteBoard.backgroundColor = UIColor.backgroundColors(color: .white)
         
         tempView.addSubview(whiteBoard)
@@ -106,16 +106,26 @@ class quotePriceHistoryTableViewCell: UITableViewCell,UICollectionViewDataSource
         return tempLabel
     }()
     
+    lazy var quoteTimeBgView:UIView = {
+        let greyView = UIView.init(frame: CGRect(x: 0, y: 8, width: 40, height: 17))
+        greyView.backgroundColor = UIColor.lineColors(color: .grayLevel3)
+        return greyView
+    }()
+    
     lazy var inqueryTimeValue:UILabel = {
-        let tempLabel = UILabel.init(frame: CGRect(x: 10, y: 18, width: 200, height: 14))
+        let tempLabel = UILabel.init(frame: CGRect(x: 0, y: 8, width: 140, height: 17))
+        
         tempLabel.text = "2018-12-12 11:00:00"
+        tempLabel.textAlignment = .center
+        tempLabel.layer.backgroundColor = UIColor.lineColors(color: .grayLevel3).cgColor
+        tempLabel.layer.cornerRadius = 8
         tempLabel.textColor = UIColor.titleColors(color: .gray)
-        tempLabel.font = UIFont.systemFont(ofSize: 10)
+        tempLabel.font = UIFont.systemFont(ofSize: 12)
         return tempLabel
     }()
     
     lazy var productTypeValue:UILabel = {
-        let tempLabel = UILabel.init(frame: CGRect(x: 10, y: 35, width: 200, height: 17))
+        let tempLabel = UILabel.init(frame: CGRect(x: 10, y: 30, width: 200, height: 17))
         tempLabel.text = "徽章"
         tempLabel.textColor = UIColor.titleColors(color: .black)
         tempLabel.font = UIFont.boldSystemFont(ofSize: 12)
@@ -123,24 +133,24 @@ class quotePriceHistoryTableViewCell: UITableViewCell,UICollectionViewDataSource
     }()
     
     lazy var materialAndAccessoryValue:UILabel = {
-        let tempLabel = UILabel.init(frame: CGRect(x: 10, y: 49, width: 200, height: 17))
+        let tempLabel = UILabel.init(frame: CGRect(x: 10, y: 47, width: 200, height: 17))
         tempLabel.text = "锌合金 别针"
-        tempLabel.textColor = UIColor.titleColors(color: .gray)
+        tempLabel.textColor = UIColor.titleColors(color: .darkGray)
         tempLabel.font = UIFont.systemFont(ofSize: 12)
         return tempLabel
     }()
     
     lazy var produceStyleValue:UILabel = {
-        let tempLabel = UILabel.init(frame: CGRect(x: 10, y: 62, width: 131, height: 34))
-        tempLabel.text = "双面开模"
-        tempLabel.textColor = UIColor.titleColors(color: .gray)
+        let tempLabel = UILabel.init(frame: CGRect(x: 10, y: 64, width: 131, height: 34))
+        tempLabel.text = "双面开模 双面开模 双面开模 双面开模 双面开模 双面开模 双面开模 双面开模"
+        tempLabel.textColor = UIColor.titleColors(color: .darkGray)
         tempLabel.font = UIFont.systemFont(ofSize: 12)
         tempLabel.numberOfLines = 2
         return tempLabel
     }()
     
     lazy var producePeriodValue:UILabel = {
-        let tempLabel = UILabel.init(frame: CGRect(x: 10, y: 90, width: 200, height: 17))
+        let tempLabel = UILabel.init(frame: CGRect(x: 10, y: 100, width: 200, height: 17))
         tempLabel.text = "工期 99天"
         tempLabel.textColor = UIColor.titleColors(color: .gray)
         tempLabel.font = UIFont.systemFont(ofSize: 12)
@@ -148,7 +158,7 @@ class quotePriceHistoryTableViewCell: UITableViewCell,UICollectionViewDataSource
     }()
     
     lazy var orderNumberValue:UILabel = {
-        let tempLabel = UILabel.init(frame: CGRect(x: 66, y: 90, width: 200, height: 17))
+        let tempLabel = UILabel.init(frame: CGRect(x: 10, y: 117, width: 200, height: 17))
         tempLabel.text = "数量 300000"
         tempLabel.textColor = UIColor.titleColors(color: .gray)
         tempLabel.font = UIFont.systemFont(ofSize: 12)
@@ -156,7 +166,7 @@ class quotePriceHistoryTableViewCell: UITableViewCell,UICollectionViewDataSource
     }()
     
     lazy var produceSizeLabel:UILabel = {
-        let tempLabel = UILabel.init(frame: CGRect(x: 10, y: 104, width: 200, height: 17))
+        let tempLabel = UILabel.init(frame: CGRect(x: 10, y: 134, width: 200, height: 17))
         tempLabel.text = "尺寸(mm）"
         tempLabel.textColor = UIColor.titleColors(color: .gray)
         tempLabel.font = UIFont.systemFont(ofSize: 12)
@@ -164,7 +174,7 @@ class quotePriceHistoryTableViewCell: UITableViewCell,UICollectionViewDataSource
     }()
     
     lazy var produceSizeValue:UILabel = {
-        let tempLabel = UILabel.init(frame: CGRect(x: 10, y: 117, width: 200, height: 17))
+        let tempLabel = UILabel.init(frame: CGRect(x: 10, y: 151, width: 200, height: 17))
         tempLabel.text = "300.5 x 300 x 300"
         tempLabel.textColor = UIColor.titleColors(color: .gray)
         tempLabel.font = UIFont.systemFont(ofSize: 12)
@@ -172,7 +182,7 @@ class quotePriceHistoryTableViewCell: UITableViewCell,UICollectionViewDataSource
     }()
     
     lazy var priceCountLabel:UILabel = {
-        let tempLabel = UILabel.init(frame: CGRect(x: 159, y: 20, width: 30, height: 17))
+        let tempLabel = UILabel.init(frame: CGRect(x: 159, y: 30, width: 30, height: 17))
         tempLabel.text = "次序"
         tempLabel.textColor = UIColor.titleColors(color: .gray)
         tempLabel.font = UIFont.systemFont(ofSize: 12)
@@ -180,7 +190,7 @@ class quotePriceHistoryTableViewCell: UITableViewCell,UICollectionViewDataSource
     }()
     
     lazy var priceValueLabel:UILabel = {
-        let tempLabel = UILabel.init(frame: CGRect(x: 159, y: 60, width: 30, height: 17))
+        let tempLabel = UILabel.init(frame: CGRect(x: 159, y: 80, width: 30, height: 17))
         tempLabel.text = "报价"
         tempLabel.textColor = UIColor.titleColors(color: .gray)
         tempLabel.font = UIFont.systemFont(ofSize: 12)
@@ -188,7 +198,7 @@ class quotePriceHistoryTableViewCell: UITableViewCell,UICollectionViewDataSource
     }()
     
     lazy var priceTimeLabel:UILabel = {
-        let tempLabel = UILabel.init(frame: CGRect(x: 159, y: 101, width: 30, height: 17))
+        let tempLabel = UILabel.init(frame: CGRect(x: 159, y: 129, width: 30, height: 17))
         tempLabel.text = "时间"
         tempLabel.textColor = UIColor.titleColors(color: .gray)
         tempLabel.font = UIFont.systemFont(ofSize: 12)
@@ -199,13 +209,13 @@ class quotePriceHistoryTableViewCell: UITableViewCell,UICollectionViewDataSource
     //报价记录表格
     lazy var priceListTableView:UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width:115,height: 144)  //设置item尺寸
+        layout.itemSize = CGSize(width:115,height: 181)  //设置item尺寸
         layout.minimumLineSpacing = 0  //上下间隔
         layout.minimumInteritemSpacing = 0 //左右间隔
         layout.sectionInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0)            //section四周的缩进
         layout.scrollDirection = UICollectionViewScrollDirection.horizontal  //滚动方向
         
-        let tempCollectionView = UICollectionView(frame: CGRect(x: 189, y: 0, width: kWidth - 192, height: 144 ),collectionViewLayout:layout) // -180
+        let tempCollectionView = UICollectionView(frame: CGRect(x: 189, y: 0, width: kWidth - 192, height: 181 ),collectionViewLayout:layout) // -180
         tempCollectionView.backgroundColor =  UIColor.lineColors(color: .grayLevel5)// UIColor.backgroundColors(color: .white)
         tempCollectionView.delegate = self
         tempCollectionView.dataSource = self
@@ -253,9 +263,9 @@ class quotePriceHistoryTableViewCell: UITableViewCell,UICollectionViewDataSource
     public override func layoutSubviews() {
   
         self.backgroundColor = UIColor.backgroundColors(color: .white)
-        seperatorLine.frame = CGRect(x: 0, y: 138, width: kWidth, height: 5)
+        seperatorLine.frame = CGRect(x: 0, y: 176, width: kWidth, height: 5)
         seperatorLine.backgroundColor = UIColor.lineColors(color: .grayLevel3)
-        productInfoBGView.addSubview(inqueryTimeLabel)
+        productInfoBGView.addSubview(quoteTimeBgView)
         productInfoBGView.addSubview(inqueryTimeValue)
         productInfoBGView.addSubview(productTypeValue)
         productInfoBGView.addSubview(materialAndAccessoryValue)
