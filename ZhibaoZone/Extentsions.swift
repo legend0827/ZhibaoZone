@@ -1045,10 +1045,14 @@ func logoutFromServer(){
     let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
     let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
     #if DEBUG
-    let requstURL:String = apiAddresses.value(forKey: "logoutAPIDebug") as! String
+    var requstURL:String = apiAddresses.value(forKey: "logoutAPIDebug") as! String
     #else
-    let requstURL:String = apiAddresses.value(forKey: "logoutAPI") as! String
+    var requstURL:String = apiAddresses.value(forKey: "logoutAPI") as! String
     #endif
+    let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+    if !newServer {
+        requstURL = requstURL.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+    }
     //定义请求参数
     let params:NSMutableDictionary = NSMutableDictionary()
     var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders

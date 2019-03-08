@@ -196,9 +196,9 @@ class SubmitIssueActionView: UIView,UITableViewDelegate,UITableViewDataSource {
         let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
         let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
         #if DEBUG
-        let newTaskUpdateURL:String = apiAddresses.value(forKey: "submitProblemAPIDebug") as! String
+        var newTaskUpdateURL:String = apiAddresses.value(forKey: "submitProblemAPIDebug") as! String
         #else
-        let newTaskUpdateURL:String = apiAddresses.value(forKey: "submitProblemAPI") as! String
+        var newTaskUpdateURL:String = apiAddresses.value(forKey: "submitProblemAPI") as! String
         #endif
         //定义请求参数
         let params:NSMutableDictionary = NSMutableDictionary()
@@ -209,6 +209,11 @@ class SubmitIssueActionView: UIView,UITableViewDelegate,UITableViewDataSource {
         params["id"] = selectedItems[0]
         //  params["roleType"] = _roleType// roletype
         header["token"] = _token// token
+        
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+           newTaskUpdateURL = newTaskUpdateURL.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+        }
         
         _ = Alamofire.request(newTaskUpdateURL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
             (responseObject) in

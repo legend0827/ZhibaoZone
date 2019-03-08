@@ -1550,11 +1550,14 @@ class UploadProductImageViewController: UIViewController,UIImagePickerController
      
         
         #if DEBUG
-       let requestUrl = apiAddresses.value(forKey: "uploadProuctImageAPIDebug") as! String
+       var requestUrl = apiAddresses.value(forKey: "uploadProuctImageAPIDebug") as! String
         #else
-       let requestUrl = apiAddresses.value(forKey: "uploadProuctImageAPI") as! String
+       var requestUrl = apiAddresses.value(forKey: "uploadProuctImageAPI") as! String
         #endif
-        
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+            requestUrl = requestUrl.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+        }
         _ = Alamofire.request(requestUrl,method:.post, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{
@@ -1624,9 +1627,9 @@ class UploadProductImageViewController: UIViewController,UIImagePickerController
         
         
         #if DEBUG
-        let uploadurl = apiAddresses.value(forKey: "uploadImageAPIDebug") as! String
+        var uploadurl = apiAddresses.value(forKey: "uploadImageAPIDebug") as! String
         #else
-        let uploadurl = apiAddresses.value(forKey: "uploadImageAPI") as! String
+        var uploadurl = apiAddresses.value(forKey: "uploadImageAPI") as! String
         #endif
         
         var LoopMaxCount = img.count

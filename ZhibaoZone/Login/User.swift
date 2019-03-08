@@ -41,10 +41,14 @@ class User: NSObject {
         
         let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
         #if DEBUG
-        let loginURL:String = apiAddresses.value(forKey: "loginInAPIAddressDebug") as! String
+        var loginURL:String = apiAddresses.value(forKey: "loginInAPIAddressDebug") as! String
         #else
-        let loginURL:String = apiAddresses.value(forKey: "loginInAPIAddress") as! String
+        var loginURL:String = apiAddresses.value(forKey: "loginInAPIAddress") as! String
         #endif
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+            loginURL = loginURL.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+        }
         //发起请求
         Alamofire.request(loginURL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
             (responseObject) in
@@ -146,10 +150,14 @@ class User: NSObject {
       
         let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
         #if DEBUG
-            let loginURL:String = apiAddresses.value(forKey: "loginInAPIAddressDebug") as! String
+            var loginURL:String = apiAddresses.value(forKey: "loginInAPIAddressDebug") as! String
         #else
-            let loginURL:String = apiAddresses.value(forKey: "loginInAPIAddress") as! String
+            var loginURL:String = apiAddresses.value(forKey: "loginInAPIAddress") as! String
         #endif
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+           loginURL = loginURL.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+        }
         //发起请求
         Alamofire.request(loginURL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
             (responseObject) in
@@ -342,10 +350,14 @@ class User: NSObject {
         
         let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
         #if DEBUG
-            let loginURL:String = apiAddresses.value(forKey: "loginInAPIAddressDebug") as! String
+            var loginURL:String = apiAddresses.value(forKey: "loginInAPIAddressDebug") as! String
         #else
-            let loginURL:String = apiAddresses.value(forKey: "loginInAPIAddress") as! String
+            var loginURL:String = apiAddresses.value(forKey: "loginInAPIAddress") as! String
         #endif
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+            loginURL = loginURL.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+        }
         //发起请求
         Alamofire.request(loginURL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
             (responseObject) in
@@ -451,10 +463,14 @@ class User: NSObject {
         
         let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
         #if DEBUG
-            let requestURL:String = apiAddresses.value(forKey: "registerAPIAddressDebug") as! String
+            var requestURL:String = apiAddresses.value(forKey: "registerAPIAddressDebug") as! String
         #else
-            let requestURL:String = apiAddresses.value(forKey: "registerAPIAddress") as! String
+            var requestURL:String = apiAddresses.value(forKey: "registerAPIAddress") as! String
         #endif
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+           requestURL = requestURL.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+        }
         //发起请求
         Alamofire.request(requestURL,method:.post, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
             (responseObject) in
@@ -543,6 +559,10 @@ class User: NSObject {
         #else
         requestUrl = apiAddresses.value(forKey: "getSystemParams") as! String
         #endif
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+           requestUrl = requestUrl.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+        }
         _ = Alamofire.request(requestUrl,method:HTTPMethod.get, parameters: nil,encoding: JSONEncoding.default,headers:header) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{
@@ -629,6 +649,10 @@ func updatesDeviceToken(withDeviceToken deviceToken:String, user userid:String, 
         #else
         requestUrl = apiAddresses.value(forKey: "unbinddevicetokenAPI") as! String
         #endif
+    }
+    let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+    if !newServer {
+       requestUrl = requestUrl.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
     }
     _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
         (responseObject) in

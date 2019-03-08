@@ -342,10 +342,14 @@ class chooseContactViewController: UIViewController,UITableViewDelegate,UITableV
         let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
         
         #if DEBUG
-            let getContactListOfURL:String = apiAddresses.value(forKey: "contactListAPIDebug") as! String
+            var getContactListOfURL:String = apiAddresses.value(forKey: "contactListAPIDebug") as! String
         #else
-            let getContactListOfURL:String = apiAddresses.value(forKey: "contactListAPI") as! String
+            var getContactListOfURL:String = apiAddresses.value(forKey: "contactListAPI") as! String
         #endif
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+            getContactListOfURL = getContactListOfURL.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+        }
         //定义请求参数
         let params:NSMutableDictionary = NSMutableDictionary()
         

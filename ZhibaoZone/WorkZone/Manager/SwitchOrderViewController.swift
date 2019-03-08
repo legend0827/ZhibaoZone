@@ -860,11 +860,14 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         params["status"] = role
         
             #if DEBUG
-            let requestUrl = apiAddresses.value(forKey: "managerGetOrderListAPIDebug") as! String
+            var requestUrl = apiAddresses.value(forKey: "managerGetOrderListAPIDebug") as! String
             #else
-            let requestUrl = apiAddresses.value(forKey: "managerGetOrderListAPI") as! String
+            var requestUrl = apiAddresses.value(forKey: "managerGetOrderListAPI") as! String
             #endif
-        
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+            requestUrl = requestUrl.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+        }
         _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{
@@ -943,10 +946,14 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         params["duration"] = newProducePeriodTextField.text!
         
             #if DEBUG
-            let requestUrl = apiAddresses.value(forKey: "switchOrderAPIDebug") as! String
+            var requestUrl = apiAddresses.value(forKey: "switchOrderAPIDebug") as! String
             #else
-            let requestUrl = apiAddresses.value(forKey: "switchOrderAPI") as! String
+            var requestUrl = apiAddresses.value(forKey: "switchOrderAPI") as! String
             #endif
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+            requestUrl = requestUrl.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+        }
         _ = Alamofire.request(requestUrl,method:.post, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{
@@ -1006,6 +1013,10 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
             #else
             requestUrl = apiAddresses.value(forKey: "switchOrderSearchAPI") as! String
             #endif
+        }
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+            requestUrl = requestUrl.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
         }
         _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
             (responseObject) in
@@ -1074,10 +1085,14 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         params["orderid"] = orderid
         
         #if DEBUG
-        let requestUrl = apiAddresses.value(forKey: "translistGetAPIDehug") as! String
+        var requestUrl = apiAddresses.value(forKey: "translistGetAPIDehug") as! String
         #else
-        let requestUrl = apiAddresses.value(forKey: "translistGetAPI") as! String
+        var requestUrl = apiAddresses.value(forKey: "translistGetAPI") as! String
         #endif
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+           requestUrl = requestUrl.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+        }
         _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{

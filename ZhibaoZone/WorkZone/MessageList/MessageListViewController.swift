@@ -247,10 +247,14 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
         let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
         let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
         #if DEBUG
-            let requestURL:String = apiAddresses.value(forKey: "getMessagesListDebug") as! String
+            var requestURL:String = apiAddresses.value(forKey: "getMessagesListDebug") as! String
         #else
-            let requestURL:String = apiAddresses.value(forKey: "getMessagesList") as! String
+            var requestURL:String = apiAddresses.value(forKey: "getMessagesList") as! String
         #endif
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+            requestURL = requestURL.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+        }
         //定义请求参数
         let params:NSMutableDictionary = NSMutableDictionary()
         var hearder:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
@@ -355,6 +359,10 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
         #else
             requestUrl = apiAddresses.value(forKey: "clearNotificationMsg") as! String
         #endif
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+            requestUrl = requestUrl.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+        }
        // _ = Alamofire.request(requestURL, method: HTTPMethod.get, parameters: nil, encoding: JSONEncoding.default, headers: header) .responseJSON{
 
         _ = Alamofire.request(requestUrl, method:HTTPMethod.post, parameters:nil ,encoding: JSONEncoding.default,headers:header) .responseJSON{
@@ -607,10 +615,14 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
         let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
         let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
         #if DEBUG
-            let requstURL:String = apiAddresses.value(forKey: "getMessagesDealDebug") as! String
+            var requstURL:String = apiAddresses.value(forKey: "getMessagesDealDebug") as! String
         #else
-            let requstURL:String = apiAddresses.value(forKey: "getMessagesDeal") as! String
+            var requstURL:String = apiAddresses.value(forKey: "getMessagesDeal") as! String
         #endif
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+            requstURL = requstURL.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+        }
         //定义请求参数
         let params:NSMutableDictionary = NSMutableDictionary()
         var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders

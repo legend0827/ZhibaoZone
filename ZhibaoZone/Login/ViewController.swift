@@ -10,8 +10,22 @@ import UIKit
 import Alamofire
 import CoreData
 
-class ViewController: UIViewController,UITextFieldDelegate {
+class ViewController: UIViewController,UITextFieldDelegate{
     
+    lazy var serverTag:UISwitch = {
+        let tempSwitch:UISwitch = UISwitch.init(frame: CGRect(x: (kWidth - 40)/2, y: kHight - 220, width: 40, height: 22))
+        tempSwitch.isOn = false
+        tempSwitch.addTarget(self, action: #selector(switchForSecurityValueChanged), for: .valueChanged)
+        return tempSwitch
+    }()
+    lazy var  serverTitle:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: (kWidth - 40)/2 - 100, y: kHight - 217, width: 100, height: 22))
+        tempLabel.text = "使用新服务器"
+        tempLabel.font = UIFont.systemFont(ofSize: 14)
+        return tempLabel
+    }()
+    
+    var isUseNewServer:Bool = false
     //用户密码输入框
     var txtUser:UITextField!
     var txtPwd:UITextField!
@@ -142,6 +156,9 @@ class ViewController: UIViewController,UITextFieldDelegate {
         }else{
             titleBarTitle.text = "注册"
         }
+        
+        self.view.addSubview(serverTag)
+        self.view.addSubview(serverTitle)
         self.view.addSubview(titleBarView)
         titleBarView.addSubview(titleBarTitle)
 
@@ -390,6 +407,19 @@ class ViewController: UIViewController,UITextFieldDelegate {
         }
         SubmitBtn.isEnabled = true
     }
+    @objc func switchForSecurityValueChanged(){
+        if isUseNewServer{
+            isUseNewServer = false
+            serverTag.isOn = false
+            UserDefaults.standard.set(false, forKey: "newServer")
+            UserDefaults.standard.synchronize()
+        }else{
+            isUseNewServer = true
+            serverTag.isOn = true
+            UserDefaults.standard.set(true, forKey: "newServer")
+            UserDefaults.standard.synchronize()
+        }
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -399,11 +429,13 @@ class ViewController: UIViewController,UITextFieldDelegate {
         setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .red))
     }
     override func viewDidAppear(_ animated: Bool) {
+        UserDefaults.standard.set(false, forKey: "newServer")
+        UserDefaults.standard.synchronize()
         setStatusBarHiden(toHidden: false, ViewController: self)
         setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .red))
         //返回值，前一个是已设置安全登录（true 是，false 否），后一个当前是关着还是开着的(true 开， false 关）
         
-        appUpdateCheck()
+        //appUpdateCheck()
         
         let result = checkSecuritySetting().1
         
@@ -500,11 +532,14 @@ class ViewController: UIViewController,UITextFieldDelegate {
         let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
         let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
         #if DEBUG
-        let newTaskUpdateURL:String = apiAddresses.value(forKey: "appUpdateCheckAPIDebug") as! String
+        var newTaskUpdateURL:String = apiAddresses.value(forKey: "appUpdateCheckAPIDebug") as! String
         #else
-        let newTaskUpdateURL:String = apiAddresses.value(forKey: "appUpdateCheckAPI") as! String
+        var newTaskUpdateURL:String = apiAddresses.value(forKey: "appUpdateCheckAPI") as! String
         #endif
-        
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+           newTaskUpdateURL = newTaskUpdateURL.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+        }
         var buildId = "0"
         let infoDictionary = Bundle.main.infoDictionary
         if let infoDictionnary = infoDictionary{

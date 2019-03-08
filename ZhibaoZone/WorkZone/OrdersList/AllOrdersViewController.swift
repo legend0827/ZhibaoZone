@@ -560,8 +560,12 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
                 var tempStatusImageList:[UIImageView] = []
                 tempStatusImageList.append(emptyImageView)
                 
-                if orderInfoObjects.value(forKey: "quoteStep") as! Int == 2{
-                    tempStatusImageList.append(barginOrderImageView)
+                let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+                if newServer{
+                    if orderInfoObjects.value(forKey: "quoteStep") as! Int == 2{
+                        tempStatusImageList.append(barginOrderImageView)
+                    }
+                    
                 }
                 // tempStatusImageList.append(cell.renewOrderImageView)
               //  tempStatusImageList.append(barginOrderImageView)
@@ -955,9 +959,9 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         
 
         #if DEBUG
-            let requestURL:String = apiAddresses.value(forKey: "orderListSupplementaryDebug") as! String
+            var requestURL:String = apiAddresses.value(forKey: "orderListSupplementaryDebug") as! String
         #else
-            let requestURL:String = apiAddresses.value(forKey: "orderListSupplementary") as! String
+            var requestURL:String = apiAddresses.value(forKey: "orderListSupplementary") as! String
         #endif
 
         //定义请求参数
@@ -1031,7 +1035,10 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         let token = userInfo.value(forKey: "token") as! String
         header["token"] = token
         //}
-        
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+            requestURL = requestURL.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+        }
         let dataRequest = Alamofire.request(requestURL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
             (responseObject) in
             if orderListCategoryType.producingOrderCategory == categoryType  {

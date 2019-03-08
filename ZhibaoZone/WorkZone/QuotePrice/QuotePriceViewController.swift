@@ -807,10 +807,14 @@ class QuotePriceViewController: UIViewController,UITableViewDelegate,UITableView
         
         
             #if DEBUG
-           let requestUrl = apiAddresses.value(forKey: "autoPriceDebug") as! String
+           var requestUrl = apiAddresses.value(forKey: "autoPriceDebug") as! String
             #else
-           let requestUrl = apiAddresses.value(forKey: "autoPrice") as! String
+           var requestUrl = apiAddresses.value(forKey: "autoPrice") as! String
             #endif
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+            requestUrl = requestUrl.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+        }
         _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{

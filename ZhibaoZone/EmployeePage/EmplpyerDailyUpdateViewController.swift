@@ -249,7 +249,6 @@ class EmplpyerDailyUpdateViewController: UIViewController {
         //  params["roleType"] = _roleType// roletype
         params["OpenId"] = "123456789"// token
       //  params["Body"] = ""
-        
         _ = Alamofire.request(newTaskUpdateURL,method:.post, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{

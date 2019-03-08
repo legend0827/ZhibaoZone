@@ -1235,10 +1235,14 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         header["token"] = token
         
         #if DEBUG
-        let requestUrl = apiAddresses.value(forKey: "onlineStatusAPIDebug") as! String
+        var requestUrl = apiAddresses.value(forKey: "onlineStatusAPIDebug") as! String
         #else
-        let requestUrl = apiAddresses.value(forKey: "onlineStatusAPI") as! String
+        var requestUrl = apiAddresses.value(forKey: "onlineStatusAPI") as! String
         #endif
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+            requestUrl = requestUrl.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+        }
         _ = Alamofire.request(requestUrl,method:.post, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{
@@ -1370,10 +1374,14 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         
         
             #if DEBUG
-            let requestUrl = apiAddresses.value(forKey: "statisticDebug") as! String
+            var requestUrl = apiAddresses.value(forKey: "statisticDebug") as! String
             #else
-            let requestUrl = apiAddresses.value(forKey: "statistic") as! String
+            var requestUrl = apiAddresses.value(forKey: "statistic") as! String
             #endif
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+            requestUrl = requestUrl.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+        }
         _ = Alamofire.request(requestUrl,method:.post, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{
@@ -1468,9 +1476,9 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
                 let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
                 let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
                 #if DEBUG
-                let requestURL:String = apiAddresses.value(forKey: "getMessageCountDebug") as! String
+                var requestURL:String = apiAddresses.value(forKey: "getMessageCountDebug") as! String
                 #else
-                let requestURL:String = apiAddresses.value(forKey: "getMessageCount") as! String
+                var requestURL:String = apiAddresses.value(forKey: "getMessageCount") as! String
                 #endif
                 //从datacore获取用户数据
                 //获取管理的数据上下文，对象
@@ -1499,6 +1507,10 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
                     }
                 } catch  {
                     fatalError("获取失败")
+                }
+                let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+                if !newServer {
+                   requestURL =  requestURL.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
                 }
                 _ = Alamofire.request(requestURL, method: HTTPMethod.get, parameters: nil, encoding: JSONEncoding.default, headers: header) .responseJSON{
                     (responseObject) in

@@ -347,7 +347,10 @@ class waitForHandleTaskListViewController: UIViewController,UITableViewDelegate,
         for item in params{
             print(item)
         }
-        
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+            listOfURL = listOfURL.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+        }
         let dataRequest = Alamofire.request(listOfURL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
             (responseObject) in
             print("there's \(waitForHandleTaskListViewController.requestCacheArr.count) task is running")

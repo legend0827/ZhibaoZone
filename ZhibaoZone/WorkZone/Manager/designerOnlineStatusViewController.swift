@@ -181,10 +181,14 @@ class designerOnlineStatusViewController: UIViewController,UITableViewDelegate,U
         header["token"] = token
         
         #if DEBUG
-        let requestUrl = apiAddresses.value(forKey: "onlineStatusAPIDebug") as! String
+        var requestUrl = apiAddresses.value(forKey: "onlineStatusAPIDebug") as! String
         #else
-        let requestUrl = apiAddresses.value(forKey: "onlineStatusAPI") as! String
+        var requestUrl = apiAddresses.value(forKey: "onlineStatusAPI") as! String
         #endif
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+            requestUrl = requestUrl.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+        }
         _ = Alamofire.request(requestUrl,method:.post, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{

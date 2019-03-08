@@ -1656,10 +1656,14 @@ class LeaveMsgDetailViewController: UIViewController,UITableViewDelegate,UITable
         let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
         let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
         #if DEBUG
-            let requestURL:String = apiAddresses.value(forKey: "taskReplyAPIDebug") as! String
+            var requestURL:String = apiAddresses.value(forKey: "taskReplyAPIDebug") as! String
         #else
-            let requestURL:String = apiAddresses.value(forKey: "taskReplyAPI") as! String
+            var requestURL:String = apiAddresses.value(forKey: "taskReplyAPI") as! String
         #endif
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+            requestURL = requestURL.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+        }
         //定义请求参数
         let params:NSMutableDictionary = NSMutableDictionary()
         
@@ -1962,10 +1966,14 @@ class LeaveMsgDetailViewController: UIViewController,UITableViewDelegate,UITable
         
         
         #if DEBUG
-           let requestUrl = apiAddresses.value(forKey: "taskFinishedAPIDebug") as! String
+           var requestUrl = apiAddresses.value(forKey: "taskFinishedAPIDebug") as! String
         #else
-           let requestUrl = apiAddresses.value(forKey: "taskFinishedAPI") as! String
+           var requestUrl = apiAddresses.value(forKey: "taskFinishedAPI") as! String
         #endif
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+           requestUrl = requestUrl.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+        }
         _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{
@@ -2108,6 +2116,10 @@ class LeaveMsgDetailViewController: UIViewController,UITableViewDelegate,UITable
         #else
             var detailOfURL:String = apiAddresses.value(forKey: "taskDetailAPI") as! String
         #endif
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+            detailOfURL = detailOfURL.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+        }
         //定义请求参数
         let params:NSMutableDictionary = NSMutableDictionary()
         

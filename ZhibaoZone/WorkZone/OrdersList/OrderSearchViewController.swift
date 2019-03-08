@@ -608,9 +608,9 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
         let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
         
         #if DEBUG
-        let requestURL = apiAddresses.value(forKey: "orderSearchDebug") as! String
+        var requestURL = apiAddresses.value(forKey: "orderSearchDebug") as! String
         #else
-        let requestURL = apiAddresses.value(forKey: "orderSearch") as! String
+        var requestURL = apiAddresses.value(forKey: "orderSearch") as! String
         #endif
 
         //定义请求参数
@@ -626,6 +626,10 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
         params["pageSize"] = 6
         header["token"] = _token
         
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+            requestURL = requestURL.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+        }
         
         let dataRequest = Alamofire.request(requestURL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
             (responseObject) in

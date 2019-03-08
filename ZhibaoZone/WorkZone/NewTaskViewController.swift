@@ -229,9 +229,9 @@ class NewTaskViewController:UIViewController,UITableViewDelegate,UITableViewData
         let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
         #if DEBUG
         //            let newTaskUpdateURL:String = "http://192.168.1.102:8068/task/createTasklist.do"
-        let newTaskUpdateURL:String = apiAddresses.value(forKey: "createTaskAPIDebug") as! String
+        var newTaskUpdateURL:String = apiAddresses.value(forKey: "createTaskAPIDebug") as! String
         #else
-        let newTaskUpdateURL:String = apiAddresses.value(forKey: "createTaskAPI") as! String
+        var newTaskUpdateURL:String = apiAddresses.value(forKey: "createTaskAPI") as! String
         #endif
         //定义请求参数
         let params:NSMutableDictionary = NSMutableDictionary()
@@ -315,6 +315,10 @@ class NewTaskViewController:UIViewController,UITableViewDelegate,UITableViewData
             }
         } catch  {
             fatalError("获取失败")
+        }
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+           newTaskUpdateURL = newTaskUpdateURL.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
         }
         
         _ = Alamofire.request(newTaskUpdateURL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{

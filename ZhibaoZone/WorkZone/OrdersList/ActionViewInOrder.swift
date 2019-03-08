@@ -1254,10 +1254,14 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         params["logisticsid"] = shippingCodeValue.text as! String
         
         #if DEBUG
-        let requestUrl = apiAddresses.value(forKey: "shippingConfirmDebug") as! String
+        var requestUrl = apiAddresses.value(forKey: "shippingConfirmDebug") as! String
         #else
-        let requestUrl = apiAddresses.value(forKey: "shippingConfirm") as! String
+        var requestUrl = apiAddresses.value(forKey: "shippingConfirm") as! String
         #endif
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+            requestUrl = requestUrl.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+        }
         _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{
@@ -1316,10 +1320,14 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         params["wId"] = designSheetID
         
         #if DEBUG
-        let requestUrl = apiAddresses.value(forKey: "acceptDesignDebug") as! String
+        var requestUrl = apiAddresses.value(forKey: "acceptDesignDebug") as! String
         #else
-        let requestUrl = apiAddresses.value(forKey: "acceptDesign") as! String
+        var requestUrl = apiAddresses.value(forKey: "acceptDesign") as! String
         #endif
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+            requestUrl = requestUrl.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+        }
         _ = Alamofire.request(requestUrl,method:.post, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{
@@ -1409,16 +1417,25 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
             header["token"] = token
             params["customid"] = customID
-            params["totalPrice"] = String(currentValueOfQuotePrice!)//String(format: "%.2f", currentValueOfQuotePrice)
-            params["quotePeriod"] = produceTimeCostTextField.text
+            let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+            if newServer{
+                params["totalPrice"] = String(currentValueOfQuotePrice!)//String(format: "%.2f", currentValueOfQuotePrice)
+                params["quotePeriod"] = produceTimeCostTextField.text
+            }else{
+                params["quotePrice"] = String(currentValueOfQuotePrice!)//String(format: "%.2f", currentValueOfQuotePrice)
+                params["quotePeriod"] = produceTimeCostTextField.text
+            }
+            
             params["rounds"] = String(rounds)
 
             #if DEBUG
-            let requestUrl = _isBidding ? (apiAddresses.value(forKey: "biddingAPIDebug") as! String):(apiAddresses.value(forKey: "quotePriceDebug") as! String) //如果是议价，则调用议价接口
+            var requestUrl = _isBidding ? (apiAddresses.value(forKey: "biddingAPIDebug") as! String):(apiAddresses.value(forKey: "quotePriceDebug") as! String) //如果是议价，则调用议价接口
             #else
-            let requestUrl = _isBidding ? (apiAddresses.value(forKey: "biddingAPI") as! String):(apiAddresses.value(forKey: "quotePrice") as! String)
+            var requestUrl = _isBidding ? (apiAddresses.value(forKey: "biddingAPI") as! String):(apiAddresses.value(forKey: "quotePrice") as! String)
             #endif
-     
+            if !newServer {
+                requestUrl = requestUrl.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+            }
             _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
                 (responseObject) in
                 switch responseObject.result.isSuccess{
@@ -1520,20 +1537,31 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             //定义请求参数
             let params:NSMutableDictionary = NSMutableDictionary()
             var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
+            let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
             header["token"] = token
             params["customid"] = customID
-            params["price"] = String(currentValueOfQuotePrice!)//String(format: "%.2f", currentValueOfQuotePrice)
-            params["period"] = produceTimeCostTextField.text
+            if newServer{
+                params["totalPrice"] = String(currentValueOfQuotePrice!)//String(format: "%.2f", currentValueOfQuotePrice)
+                params["quotePeriod"] = produceTimeCostTextField.text
+            }else{
+                params["price"] = String(currentValueOfQuotePrice!)//String(format: "%.2f", currentValueOfQuotePrice)
+                params["period"] = produceTimeCostTextField.text
+            }
+            
             params["rounds"] = rounds
             
             
+            
             #if DEBUG
-            let requestUrl = apiAddresses.value(forKey: "bargainDealAPIDebug") as! String
+            var requestUrl = apiAddresses.value(forKey: "bargainDealAPIDebug") as! String
             #else
-            let requestUrl = apiAddresses.value(forKey: "bargainDealAPI") as! String
+            var requestUrl = apiAddresses.value(forKey: "bargainDealAPI") as! String
             #endif
             
             
+            if !newServer {
+                requestUrl = requestUrl.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+            }
             _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
                 (responseObject) in
                 switch responseObject.result.isSuccess{
@@ -1615,10 +1643,14 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         params["period"] = produceTimeCostTextField.text
 
         #if DEBUG
-        let requestUrl = apiAddresses.value(forKey: "acceptProduceDebug") as! String
+        var requestUrl = apiAddresses.value(forKey: "acceptProduceDebug") as! String
         #else
-        let requestUrl = apiAddresses.value(forKey: "acceptProduce") as! String
+        var requestUrl = apiAddresses.value(forKey: "acceptProduce") as! String
         #endif
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+            requestUrl = requestUrl.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+        }
         _ = Alamofire.request(requestUrl,method:.post, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{
@@ -1778,9 +1810,9 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
         let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
         #if DEBUG
-        let newTaskUpdateURL:String = apiAddresses.value(forKey: "orderDetailsDebug") as! String
+        var newTaskUpdateURL:String = apiAddresses.value(forKey: "orderDetailsDebug") as! String
         #else
-        let newTaskUpdateURL:String = apiAddresses.value(forKey: "orderDetails") as! String
+        var newTaskUpdateURL:String = apiAddresses.value(forKey: "orderDetails") as! String
         #endif
         //定义请求参数
         let params:NSMutableDictionary = NSMutableDictionary()
@@ -1791,6 +1823,10 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
       //  params["roleType"] = _roleType// roletype
         header["token"] = _token// token
         
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+            newTaskUpdateURL = newTaskUpdateURL.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+        }
         _ = Alamofire.request(newTaskUpdateURL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{
@@ -2203,9 +2239,17 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         if orderInfoObjects.value(forKey: "isContinueOrder") as! Int == 1 || orderInfoObjects.value(forKey: "isContinueOrder") as! Int == 3 {
             statusListView.append(renewOrderImageView)
         }
-        if orderInfoObjects.value(forKey: "quoteStep") as! Int == 2{
-            statusListView.append(barginOrderImageView)
+        
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if newServer{
+            if orderInfoObjects.value(forKey: "quoteStep") as! Int == 2{
+                statusListView.append(barginOrderImageView)
+            }
+            
         }
+//        if orderInfoObjects.value(forKey: "quoteStep") as! Int == 2{
+//
+//        }
        
         
         //设置状态显示
@@ -2555,9 +2599,9 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
         let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
         #if DEBUG
-        let newTaskUpdateURL:String = apiAddresses.value(forKey: "initQuotePriceDebug") as! String
+        var newTaskUpdateURL:String = apiAddresses.value(forKey: "initQuotePriceDebug") as! String
         #else
-        let newTaskUpdateURL:String = apiAddresses.value(forKey: "initQuotePrice") as! String
+        var newTaskUpdateURL:String = apiAddresses.value(forKey: "initQuotePrice") as! String
         #endif
         //定义请求参数
         let params:NSMutableDictionary = NSMutableDictionary()
@@ -2568,6 +2612,10 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         params["state"] = quoteType// roletype
         header["token"] = _token// token
         
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+            newTaskUpdateURL = newTaskUpdateURL.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+        }
         _ = Alamofire.request(newTaskUpdateURL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{
@@ -2616,9 +2664,9 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
         let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
         #if DEBUG
-        let newTaskUpdateURL:String = apiAddresses.value(forKey: "designMessageAPIDebug") as! String
+        var newTaskUpdateURL:String = apiAddresses.value(forKey: "designMessageAPIDebug") as! String
         #else
-        let newTaskUpdateURL:String = apiAddresses.value(forKey: "designMessageAPI") as! String
+        var newTaskUpdateURL:String = apiAddresses.value(forKey: "designMessageAPI") as! String
         #endif
         //定义请求参数
         let params:NSMutableDictionary = NSMutableDictionary()
@@ -2628,6 +2676,11 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         params["customid"] =  _customID
         //  params["roleType"] = _roleType// roletype
         header["token"] = _token// token
+        
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+            newTaskUpdateURL = newTaskUpdateURL.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+        }
         
         _ = Alamofire.request(newTaskUpdateURL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
             (responseObject) in
@@ -2721,9 +2774,9 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
         let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
         #if DEBUG
-        let newTaskUpdateURL:String = apiAddresses.value(forKey: "problemQueryAPIDebug") as! String
+        var newTaskUpdateURL:String = apiAddresses.value(forKey: "problemQueryAPIDebug") as! String
         #else
-        let newTaskUpdateURL:String = apiAddresses.value(forKey: "problemQueryAPI") as! String
+        var newTaskUpdateURL:String = apiAddresses.value(forKey: "problemQueryAPI") as! String
         #endif
         //定义请求参数
         let params:NSMutableDictionary = NSMutableDictionary()
@@ -2734,6 +2787,10 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         //  params["roleType"] = _roleType// roletype
         header["token"] = _token// token
         
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+            newTaskUpdateURL = newTaskUpdateURL.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+        }
         _ = Alamofire.request(newTaskUpdateURL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{
@@ -2788,9 +2845,9 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
         let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
         #if DEBUG
-        let newTaskUpdateURL:String = apiAddresses.value(forKey: "designPatternAPIDebug") as! String
+        var newTaskUpdateURL:String = apiAddresses.value(forKey: "designPatternAPIDebug") as! String
         #else
-        let newTaskUpdateURL:String = apiAddresses.value(forKey: "designPatternAPI") as! String
+        var newTaskUpdateURL:String = apiAddresses.value(forKey: "designPatternAPI") as! String
         #endif
         //定义请求参数
         let params:NSMutableDictionary = NSMutableDictionary()
@@ -2801,6 +2858,10 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         //  params["roleType"] = _roleType// roletype
         header["token"] = _token// token
         
+        let newServer = UserDefaults.standard.object(forKey: "newServer") as! Bool
+        if !newServer {
+            newTaskUpdateURL = newTaskUpdateURL.replacingOccurrences(of: "140.143.249.2", with: "119.27.170.195")
+        }
         _ = Alamofire.request(newTaskUpdateURL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
             (responseObject) in
             switch responseObject.result.isSuccess{
