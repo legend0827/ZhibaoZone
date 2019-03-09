@@ -36,7 +36,7 @@ class quotePriceHistoryView: UIView,UITableViewDelegate,UITableViewDataSource{
         //材质+配件
         cell.materialAndAccessoryValue.text = (priceDic.value(forKey: "material") as! String) + " " + (priceDic.value(forKey: "accessories") as! String)
         //生产能力
-       // cell.produceStyleValue.text = (priceDic.value(forKey: "model") as! String) + ";" + (priceDic.value(forKey: "technology") as! String) + ";" + (priceDic.value(forKey: "color") as! String)
+       cell.produceStyleValue.text = (priceDic.value(forKey: "model") as! String) + ";" + (priceDic.value(forKey: "technology") as! String) + ";" + (priceDic.value(forKey: "color") as! String)
         //工期
         cell.producePeriodValue.text = "工期 \(priceDic.value(forKey: "userPeriod") as! Int)"
         //数量

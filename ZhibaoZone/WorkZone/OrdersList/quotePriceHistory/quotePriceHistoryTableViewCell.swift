@@ -142,7 +142,7 @@ class quotePriceHistoryTableViewCell: UITableViewCell,UICollectionViewDataSource
     
     lazy var produceStyleValue:UILabel = {
         let tempLabel = UILabel.init(frame: CGRect(x: 10, y: 64, width: 131, height: 34))
-        tempLabel.text = "双面开模 双面开模 双面开模 双面开模 双面开模 双面开模 双面开模 双面开模"
+        tempLabel.text = "双面开模 "
         tempLabel.textColor = UIColor.titleColors(color: .darkGray)
         tempLabel.font = UIFont.systemFont(ofSize: 12)
         tempLabel.numberOfLines = 2
