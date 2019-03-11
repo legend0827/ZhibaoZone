@@ -813,13 +813,13 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 designFeeLabel.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
                 designFeeValue.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
                 
-                designMemoLabel.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 15 , width: 100, height: 22)
+                designMemoLabel.frame = CGRect(x: 20, y: dashLine.frame.maxY + 77, width: 100, height: 22)//CGRect(x: 20, y: seperateLine2.frame.maxY + 15 , width: 100, height: 22)
                 designMemoLabel.text = "设计备注:"
                 designMemoLabel.font = UIFont.systemFont(ofSize: 16)
                 backgroundView.addSubview(designMemoLabel)
     
                 
-                designMemoValue.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 37 , width: kWidth - 40, height: 22)
+                designMemoValue.frame = CGRect(x: 20, y: designMemoLabel.frame.maxY + 15 , width: kWidth - 40, height: 22)
                 designMemoValue.numberOfLines = 10
                 designMemoValue.font = UIFont.systemFont(ofSize: 14)
                 backgroundView.addSubview(designMemoValue)
@@ -963,13 +963,13 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 designFeeLabel.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
                 designFeeValue.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
                 
-                designMemoLabel.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 15 , width: 100, height: 22)
+                designMemoLabel.frame = CGRect(x: 20, y: dashLine.frame.maxY + 77, width: 100, height: 22)//CGRect(x: 20, y: seperateLine2.frame.maxY + 15 , width: 100, height: 22)
                 designMemoLabel.text = "设计备注:"
                 designMemoLabel.font = UIFont.systemFont(ofSize: 16)
                 backgroundView.addSubview(designMemoLabel)
                 
                 
-                designMemoValue.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 37 , width: kWidth - 40, height: 22)
+                designMemoValue.frame = CGRect(x: 20, y: designMemoLabel.frame.maxY + 15 , width: kWidth - 40, height: 22)
                 designMemoValue.numberOfLines = 10
                 designMemoValue.font = UIFont.systemFont(ofSize: 14)
                 backgroundView.addSubview(designMemoValue)
@@ -2203,9 +2203,12 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
         if orderInfoObjects.value(forKey: "isContinueOrder") as! Int == 1 || orderInfoObjects.value(forKey: "isContinueOrder") as! Int == 3 {
             statusListView.append(renewOrderImageView)
         }
-        if orderInfoObjects.value(forKey: "quoteStep") as! Int == 2{
-            statusListView.append(barginOrderImageView)
+        if orderInfoObjects.value(forKey: "quoteStep") as? Int != nil{
+            if orderInfoObjects.value(forKey: "quoteStep") as! Int == 2{
+                statusListView.append(barginOrderImageView)
+            }
         }
+        
        
         
         //设置状态显示

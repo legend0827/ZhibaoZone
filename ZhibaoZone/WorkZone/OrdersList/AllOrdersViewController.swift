@@ -560,9 +560,13 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
                 var tempStatusImageList:[UIImageView] = []
                 tempStatusImageList.append(emptyImageView)
                 
-                if orderInfoObjects.value(forKey: "quoteStep") as! Int == 2{
-                    tempStatusImageList.append(barginOrderImageView)
+                if orderInfoObjects.value(forKey: "quoteStep") as? Int != nil{
+                    if orderInfoObjects.value(forKey: "quoteStep") as! Int == 2{
+                        tempStatusImageList.append(barginOrderImageView)
+                    }
                 }
+                
+                
                 // tempStatusImageList.append(cell.renewOrderImageView)
               //  tempStatusImageList.append(barginOrderImageView)
                 //tempStatusImageList.append(cell.issueSubmittedImageView)
@@ -1012,7 +1016,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
             params["navId"] = 89 //都未报价
         case orderListCategoryType.waitForDesignCategory:
             //待接受设计
-            params["navId"] = 39
+            params["navId"] = 38
         case orderListCategoryType.designningCategory:
             params["navId"] = 40//41
         case orderListCategoryType.waitForConfirmDesignCategory:

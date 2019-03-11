@@ -288,6 +288,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         let orientation =  UIDevice.current.orientation.rawValue //0 竖直 //3 左倒
         // print("saved \(orientation) status")
         UserDefaults.standard.set(orientation, forKey: "orignalOrientation")
+        UserDefaults.standard.set(NSDate(), forKey: "statusUpdateTime")
         UserDefaults.standard.synchronize()
     }
 
@@ -296,8 +297,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         print("应用程序DidEnterBackground")
         let orientation =  UIDevice.current.orientation.rawValue //0 竖直 //3 左倒
-       // print("saved \(orientation) status")
+        print("saved \(orientation) status")
         UserDefaults.standard.set(orientation, forKey: "orignalOrientation")
+        UserDefaults.standard.set(NSDate(), forKey: "statusUpdateTime")
         UserDefaults.standard.synchronize()
         
     }
@@ -315,11 +317,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         let value = UserDefaults.standard.value(forKey: "orignalOrientation")
-        if value == nil{
-            UIDevice.current.setValue(0, forKey: "orientation")
+        let now = NSDate()
+        let savedTime = UserDefaults.standard.object(forKey: "statusUpdateTime") as? NSDate
+        if savedTime != nil{
+            let timeInterval = now.timeIntervalSince(savedTime as! Date)
+            print("timeInterval is \(timeInterval)")
+            if value == nil{
+                UIDevice.current.setValue(0, forKey: "orientation")
+            }else{
+                if timeInterval >= 10*30{
+                    UIDevice.current.setValue(0, forKey: "orientation")
+                    let loginVC = ViewController()
+                    let tabbarvc = TabBarController(royeType: 0)// 上线改成0
+                    self.window?.rootViewController = loginVC
+                }else{
+                    UIDevice.current.setValue(value, forKey: "orientation")
+                }
+                
+            }
         }else{
-            UIDevice.current.setValue(value, forKey: "orientation")
+            print("timeInterval is nil")
         }
+        
+        
         print("应用程序DidBecomeActive")
       //  print("restored status \(value)")
     }
