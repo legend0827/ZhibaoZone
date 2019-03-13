@@ -48,7 +48,7 @@ class SystemManagementViewController: UIViewController,UIScrollViewDelegate,UITa
     }()
     
     lazy var transferOrderBoardView:UIView = {
-        let tempView = UIView.init(frame: CGRect(x: 0, y: 95.5, width: kWidth, height: 220))
+        let tempView = UIView.init(frame: CGRect(x: 0, y: 96, width: kWidth, height: 220))
         
         let produceOrderView:UIView = UIView.init(frame: CGRect(x: 13, y: 13, width: (kWidth - 37)/2, height: 195))
         produceOrderView.layer.cornerRadius = 4
@@ -76,7 +76,7 @@ class SystemManagementViewController: UIViewController,UIScrollViewDelegate,UITa
         
         let designOrderView:UIView = UIView.init(frame: CGRect(x: kWidth/2 + 6.5  , y: 13, width: (kWidth - 37)/2, height: 195))
         designOrderView.layer.cornerRadius = 4
-        designOrderView.layer.borderColor = UIColor.lineColors(color: .grayLevel2).cgColor
+        designOrderView.layer.borderColor = UIColor.lineColors(color: .grayLevel3).cgColor
         designOrderView.layer.borderWidth = 0.5
         
         let titleOfDesign:UILabel = UILabel.init(frame: CGRect(x: 20, y: 22, width: (kWidth - 37)/2 - 40, height: 21))
@@ -106,7 +106,7 @@ class SystemManagementViewController: UIViewController,UIScrollViewDelegate,UITa
     }()
     
     lazy var transferOrderTitleBar:UIView = {
-        let tempView = UIView.init(frame: CGRect(x: 0, y: 44, width: kWidth, height: 51.5))
+        let tempView = UIView.init(frame: CGRect(x: 0, y: 44, width: kWidth, height: 52))
         
         let tempImageView = UIImageView.init(frame: CGRect(x: 15, y: 18, width: 4, height: 16))
         tempImageView.image  = UIImage(named: "orangedotimg")

@@ -507,21 +507,12 @@ class ViewController: UIViewController,UITextFieldDelegate {
         
         var buildId = "0"
         let infoDictionary = Bundle.main.infoDictionary
-        if let infoDictionnary = infoDictionary{
-            buildId = (infoDictionary as! NSDictionary).value(forKey: "CFBundleVersion") as! String
+        if infoDictionary != nil{
+            buildId = (infoDictionary! as NSDictionary).value(forKey: "CFBundleVersion") as! String
         }
-        
-        //    let systemPlistFile = Bundle.main.path(forResource: "info", ofType: "plist")
-        //    let dataOfSystemParams
-        //    let dataOfSystemParams:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: systemPlistFile!)!
-        //    let buildId:String = dataOfSystemParams.value(forKey: "Bundle version") as! String
-        //
         
         //定义请求参数
         let params:NSMutableDictionary = NSMutableDictionary()
-        //var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
-        //  params["userId"] =  _userId// userID
-        // params["orderId"] =  OrderID
         params["build"] =  buildId
         params["platform"] = "iOS"
         
@@ -534,9 +525,6 @@ class ViewController: UIViewController,UITextFieldDelegate {
         }else{
             params["language"] = "zh_CN"
         }
-        
-        //params["roleType"] = _roleType// roletype
-        //header["token"] = _token// token
         
         _ = Alamofire.request(newTaskUpdateURL,method:.post, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseJSON{
             (responseObject) in
@@ -578,12 +566,12 @@ class ViewController: UIViewController,UITextFieldDelegate {
                         }else{
                             print("获取失败，code:\(statusCode)")
                             let errorMsg = json["message"].string!
-                           // greyLayerPrompt.show(text: "获取失败,\(errorMsg)")
+                            // greyLayerPrompt.show(text: "获取失败,\(errorMsg)")
                         }
                     } catch {
                         // Replace this implementation with code to handle the error appropriately.
                         // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                      //  greyLayerPrompt.show(text: "程序错误. Code:1")
+                        //  greyLayerPrompt.show(text: "程序错误. Code:1")
                         print("检查更新失败")
                     }
                     
