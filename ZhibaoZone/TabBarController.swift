@@ -31,7 +31,7 @@ class TabBarController: UITabBarController {
         let meVC = MeViewController()
         let normalUserVC = normalUserViewController()
         let quotepriceVC = QuotePriceViewController()
-        let managerVC = ManagerViewController()
+        let managerVC = SystemManagementViewController()// ManagerViewController()
         let emplyerVC = EmplpyerDailyUpdateViewController()
         orderVC._tabBarVC = self
         managerVC._tabBarVC = self

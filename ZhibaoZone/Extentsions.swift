@@ -222,6 +222,13 @@ enum statisticCategoryListType:String{
     case producingOrder//生产中
     case waitForDelivery//待发货
 }
+enum parameterSettingType:String{
+    case CSCreateOrderSetting
+    case MGFollowOrderSetting
+    case DSDistributeOrderSetting
+    case DSHangUpSetting
+    case DSDesignFeeSetting
+}
 
 class Extentsions: NSObject {
 
@@ -321,7 +328,7 @@ extension UIColor {
         case .lightRed:
             tempColor = UIColor.colorWithRgba(255, g: 246, b: 246, a: 1.0)
         case .lightestGray:
-            tempColor = UIColor.colorWithRgba(245, g: 245, b: 245, a: 1.0)
+            tempColor = UIColor.colorWithRgba(250, g: 251, b: 251, a: 1.0)
         case .white:
           //  tempColor = UIColor.colorWithRgba(254 , g: 120, b: 83, a: 1.0)
             tempColor = UIColor.colorWithRgba(255, g: 255, b: 255, a: 1.0)

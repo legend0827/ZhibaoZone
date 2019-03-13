@@ -45,7 +45,8 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
         cell.facAverageQuoteTimeLabel.isHidden = true
         cell.facInquryOrderCountLabel.isHidden = true
         cell.facAcceptOrderAmountLabel.isHidden = true
-        
+        cell.numberSequence.isHidden = false
+        cell.numberSequence.text = "\(indexPath.row)"
         switch statisticRoleType {
         case 1://客服
             
@@ -59,6 +60,7 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
             cell.AverageDealTimeLabel.isHidden = false
             cell.quoteRateLabel.isHidden = false
             cell.AverageDesignPriceLabel.isHidden = false
+            
             
             if !isDataLoading {
             if indexPath.row == 0{

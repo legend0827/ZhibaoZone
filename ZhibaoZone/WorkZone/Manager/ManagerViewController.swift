@@ -76,16 +76,43 @@ class ManagerViewController: UIViewController {
         
         self.view.backgroundColor = UIColor.backgroundColors(color: .white)
         
-        let titleBar:UIView = UIView.init(frame: CGRect(x: 0, y: 20 + heightChangeForiPhoneXFromTop, width: kWidth, height: 44))
-        titleBar.backgroundColor = UIColor.backgroundColors(color: .red)
-        let titleLabel:UILabel = UILabel.init(frame: CGRect(x: 0, y: 10, width: kWidth, height: 25))
-        titleLabel.font = UIFont.systemFont(ofSize: 18)
-        titleLabel.text = "转接订单"
-        titleLabel.textAlignment = .center
-        titleLabel.textColor = UIColor.titleColors(color: .white)
-        titleBar.addSubview(titleLabel)
+        //自定义导航栏 navigationBar
+        let navBar = UINavigationBar(frame: CGRect(x:0, y:20 + heightChangeForiPhoneXFromTop, width:kWidth, height:44))
+        // 导航栏背景颜色
+        navBar.backgroundColor = UIColor.backgroundColors(color: .white)
+        navBar.barTintColor = UIColor.backgroundColors(color: .white)
+        navBar.isTranslucent = false //关闭模糊效果
+        //这里是导航栏透明
+        //navBar.shadowImage = UIImage()
+        //navBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         
-        self.view.addSubview(titleBar)
+        // 自定义导航栏的title，用UILabel实现
+        let titleLabel = UILabel(frame: CGRect(x:0,y:0,width:50,height:60))
+        titleLabel.text = "转接订单"
+        titleLabel.textColor = UIColor.titleColors(color: .black)
+        // 这里使用系统自定义的字体
+        titleLabel.font = UIFont.systemFont(ofSize: 18)
+        
+        // 创建导航栏组件
+        let navItem = UINavigationItem()
+        // 设置自定义的title
+        navItem.titleView = titleLabel
+        
+        //        // 创建左侧按钮
+        let backImg=UIImage(named: "left-arrow-black")
+        let leftBarItem=UIBarButtonItem(image: backImg, style: UIBarButtonItemStyle.plain, target: self, action: #selector(cancelBtnClicked))
+        leftBarItem.tintColor = UIColor.backgroundColors(color: .black)
+        
+        
+        //添加左侧
+        navItem.setLeftBarButton(leftBarItem, animated: false)
+        
+        navigationItem.setHidesBackButton(true, animated: false)
+        // 把导航栏组件加入导航栏
+        navBar.pushItem(navItem, animated: false)
+        
+        // 导航栏添加到view上
+        self.view.addSubview(navBar)
         
         //分页菜单配置
         var options = PagingMenuOptions()
@@ -118,12 +145,16 @@ class ManagerViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     override func viewWillAppear(_ animated: Bool) {
-        setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .red))
+        setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .clear))
         setStatusBarHiden(toHidden: false, ViewController: self)
     }
     override func viewWillDisappear(_ animated: Bool) {
         setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .clear))
         setStatusBarHiden(toHidden: false, ViewController: self)
+    }
+    
+    @objc func cancelBtnClicked(){
+        self.dismiss(animated: true, completion: nil)
     }
     /*
     // MARK: - Navigation

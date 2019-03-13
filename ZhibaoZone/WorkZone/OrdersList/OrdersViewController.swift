@@ -1447,6 +1447,8 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         setStatusBarHiden(toHidden: true, ViewController: self)
         titleBarView.backgroundColor = UIColor.clear
         
+        UIDevice.current.setValue(0, forKey: "orientation")
+        
     }
     
     override func didReceiveMemoryWarning() {

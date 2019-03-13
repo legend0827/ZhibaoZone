@@ -1020,12 +1020,12 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 designMemoLabel.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 15 , width: 100, height: 22)
                 designMemoLabel.text = "设计要求:"
                 designMemoLabel.font = UIFont.systemFont(ofSize: 16)
-                backgroundView.addSubview(designMemoLabel)
+               // backgroundView.addSubview(designMemoLabel)
                 
                 designMemoValue.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 37 , width: kWidth - 40, height: 22)
                 designMemoValue.numberOfLines = 10
                 designMemoValue.font = UIFont.systemFont(ofSize: 14)
-                backgroundView.addSubview(designMemoValue)
+              //  backgroundView.addSubview(designMemoValue)
                 
                 //设计要求下方的线
                 seperateLine8.frame = CGRect(x: 20, y: seperateLine2.frame.maxY + 74, width: kWidth - 40, height: 1)
@@ -2537,11 +2537,11 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
           //  getDesignMessage()
           
             //如果没有报过价，则显示finalPrice。 如果报过价，取低值
-            if orderInfoObjects.value(forKey: "designPrice") as? Float == nil || orderInfoObjects.value(forKey: "designPrice") as? Float == 0.0{
-                orderCountValue.text = "¥8.00"
-            }else{
-                orderCountValue.text = "¥\(orderInfoObjects.value(forKey: "designPrice") as! Float)0"
-            }
+//            if orderInfoObjects.value(forKey: "designPrice") as? Float == nil || orderInfoObjects.value(forKey: "designPrice") as? Float == 0.0{
+//                orderCountValue.text = "¥8.00"
+//            }else{
+//                orderCountValue.text = "¥\(orderInfoObjects.value(forKey: "designPrice") as! Float)0"
+//            }
             
         default:
             print("设置报价的值")

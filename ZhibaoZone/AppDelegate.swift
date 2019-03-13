@@ -320,7 +320,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         let now = NSDate()
         let savedTime = UserDefaults.standard.object(forKey: "statusUpdateTime") as? NSDate
         if savedTime != nil{
-            let timeInterval = now.timeIntervalSince(savedTime as! Date)
+            let timeInterval = now.timeIntervalSince(savedTime! as Date)
             print("timeInterval is \(timeInterval)")
             if value == nil{
                 UIDevice.current.setValue(0, forKey: "orientation")
@@ -328,7 +328,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
                 if timeInterval >= 10*30{
                     UIDevice.current.setValue(0, forKey: "orientation")
                     let loginVC = ViewController()
-                    let tabbarvc = TabBarController(royeType: 0)// 上线改成0
                     self.window?.rootViewController = loginVC
                 }else{
                     UIDevice.current.setValue(value, forKey: "orientation")

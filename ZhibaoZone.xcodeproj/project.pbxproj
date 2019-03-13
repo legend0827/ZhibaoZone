@@ -76,6 +76,10 @@
 		0A709E6820EF17CE00E4CF46 /* UMPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A709E6720EF17CE00E4CF46 /* UMPush.framework */; };
 		0A709E6B20EF40DC00E4CF46 /* UMCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A709E6A20EF40DC00E4CF46 /* UMCommon.framework */; };
 		0A83CA6C205F6AE500F59A70 /* UIImage+Gif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A83CA64205F6AE400F59A70 /* UIImage+Gif.swift */; };
+		0A8A0050223785D600AB8AC2 /* SystemManagementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8A004F223785D600AB8AC2 /* SystemManagementViewController.swift */; };
+		0A8A00522237AB3400AB8AC2 /* parameterSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8A00512237AB3400AB8AC2 /* parameterSettingTableViewCell.swift */; };
+		0A8A00552237B0B700AB8AC2 /* pamaterSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8A00542237B0B700AB8AC2 /* pamaterSettingViewController.swift */; };
+		0A8A00572237B9EA00AB8AC2 /* parameterSettingListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8A00562237B9EA00AB8AC2 /* parameterSettingListTableViewCell.swift */; };
 		0A9716832009F910007922FB /* NewTaskViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9716822009F910007922FB /* NewTaskViewCell.swift */; };
 		0A99705D20ADB8C500E4D37C /* OrderSearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A99705C20ADB8C500E4D37C /* OrderSearchCollectionViewCell.swift */; };
 		0A99706B20AED7C500E4D37C /* CollectionReusableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A99706A20AED7C500E4D37C /* CollectionReusableViewHeader.swift */; };
@@ -316,6 +320,10 @@
 		0A709E6A20EF40DC00E4CF46 /* UMCommon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMCommon.framework; sourceTree = "<group>"; };
 		0A709E6C20EF418200E4CF46 /* UMPush-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UMPush-Bridging-Header.h"; sourceTree = "<group>"; };
 		0A83CA64205F6AE400F59A70 /* UIImage+Gif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Gif.swift"; sourceTree = "<group>"; };
+		0A8A004F223785D600AB8AC2 /* SystemManagementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemManagementViewController.swift; sourceTree = "<group>"; };
+		0A8A00512237AB3400AB8AC2 /* parameterSettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = parameterSettingTableViewCell.swift; sourceTree = "<group>"; };
+		0A8A00542237B0B700AB8AC2 /* pamaterSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pamaterSettingViewController.swift; sourceTree = "<group>"; };
+		0A8A00562237B9EA00AB8AC2 /* parameterSettingListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = parameterSettingListTableViewCell.swift; sourceTree = "<group>"; };
 		0A9716822009F910007922FB /* NewTaskViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskViewCell.swift; sourceTree = "<group>"; };
 		0A99705C20ADB8C500E4D37C /* OrderSearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSearchCollectionViewCell.swift; sourceTree = "<group>"; };
 		0A99706A20AED7C500E4D37C /* CollectionReusableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionReusableViewHeader.swift; sourceTree = "<group>"; };
@@ -628,6 +636,15 @@
 			path = SwiftGifCommon;
 			sourceTree = "<group>";
 		};
+		0A8A00532237B09700AB8AC2 /* parameterSetting */ = {
+			isa = PBXGroup;
+			children = (
+				0A8A00542237B0B700AB8AC2 /* pamaterSettingViewController.swift */,
+				0A8A00562237B9EA00AB8AC2 /* parameterSettingListTableViewCell.swift */,
+			);
+			path = parameterSetting;
+			sourceTree = "<group>";
+		};
 		0A9970AB20B64A0600E4D37C /* scanCode */ = {
 			isa = PBXGroup;
 			children = (
@@ -697,6 +714,9 @@
 				0AC4B49620F711C700312092 /* StatisticCollectionViewCell.swift */,
 				0A450ECE21C26CC80070186E /* designerOnlineStatusViewController.swift */,
 				0A450ED021C275BB0070186E /* onLineListTableViewCell.swift */,
+				0A8A004F223785D600AB8AC2 /* SystemManagementViewController.swift */,
+				0A8A00532237B09700AB8AC2 /* parameterSetting */,
+				0A8A00512237AB3400AB8AC2 /* parameterSettingTableViewCell.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -1188,6 +1208,7 @@
 				0A594E20206CBDA900A67950 /* MarkSlider.swift in Sources */,
 				0A594E242070793C00A67950 /* ReplyView.swift in Sources */,
 				0A09185620AAC06C0054749B /* ShippingCompanyNameListViewController.swift in Sources */,
+				0A8A00572237B9EA00AB8AC2 /* parameterSettingListTableViewCell.swift in Sources */,
 				0A3A868C21F08A5200068BEE /* StatisticViewController.swift in Sources */,
 				0AE149C62001E3BD005A2E55 /* NewTaskViewController.swift in Sources */,
 				0A6B3F101FFB38BE0014AF24 /* AccountInfo.xcdatamodeld in Sources */,
@@ -1271,9 +1292,12 @@
 				0A20028A206134CD00A81D21 /* LeaveMsgContentTableViewCell.swift in Sources */,
 				0A2B67572130EBA000E9B81A /* UIKVAnimationLabel.swift in Sources */,
 				0A252F442096111B00C1F7F4 /* OrderSearchViewController.swift in Sources */,
+				0A8A00552237B0B700AB8AC2 /* pamaterSettingViewController.swift in Sources */,
 				0AF06C542018638F008E2DE9 /* TaskListTableViewCell.swift in Sources */,
 				0A83CA6C205F6AE500F59A70 /* UIImage+Gif.swift in Sources */,
 				0A3AA20E1FF61C5F00EBC482 /* WorkZoneViewController.swift in Sources */,
+				0A8A00522237AB3400AB8AC2 /* parameterSettingTableViewCell.swift in Sources */,
+				0A8A0050223785D600AB8AC2 /* SystemManagementViewController.swift in Sources */,
 				0AD282A01FF4B3A50044E41C /* SwiftyJSON.swift in Sources */,
 				0A594E1E206C843700A67950 /* SetParamtersViewController.swift in Sources */,
 				0A5B5C1C1FF2248700A92C20 /* User.swift in Sources */,

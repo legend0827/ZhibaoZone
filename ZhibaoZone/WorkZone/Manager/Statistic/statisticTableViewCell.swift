@@ -9,8 +9,18 @@
 import UIKit
 
 class statisticTableViewCell: UITableViewCell {
+    lazy var numberSequence:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: 5, y: 5, width: 20, height: 34))
+        tempLabel.numberOfLines = 2
+        tempLabel.contentMode = .center
+        tempLabel.text = "1"
+        tempLabel.textColor = UIColor.titleColors(color: .gray)
+        tempLabel.font = UIFont(name: "DINPro-Medium", size: 12)
+        return tempLabel
+    }()
+    
     lazy var userNickName:UILabel = {
-        let tempLabel = UILabel.init(frame: CGRect(x: 15, y: 5, width: 80, height: 34))
+        let tempLabel = UILabel.init(frame: CGRect(x: 25, y: 5, width: 80, height: 34))
         tempLabel.numberOfLines = 2
         tempLabel.contentMode = .center
         tempLabel.text = "S01-多贝特多贝特"
@@ -315,6 +325,7 @@ class statisticTableViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.contentView.addSubview(userNickName)
+        self.contentView.addSubview(numberSequence)
         
         self.contentView.addSubview(compositeIndexLabel)
         self.contentView.addSubview(acceptOrderCountLabel)
