@@ -66,6 +66,30 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
         tempView.addSubview(cancelUpdateBtn)
         tempView.addSubview(doubleCheckTitle)
         tempView.isUserInteractionEnabled = true
+        
+        tempView.addSubview(firstTitleOfDoubleCheck)
+        tempView.addSubview(secondTitleOfDoubleCheck)
+        tempView.addSubview(thirdTitleOfDoubleCheck)
+        tempView.addSubview(fouthTitleOfDoubleCheck)
+        tempView.addSubview(fifthTitleOfDoubleCheck)
+        tempView.addSubview(sixthTitleOfDoubleCheck)
+        tempView.addSubview(seventhTitleOfDoubleCheck)
+        
+        tempView.addSubview(firstBeforeValueOfDoubleCheck)
+        tempView.addSubview(secondBeforeValueOfDoubleCheck)
+        tempView.addSubview(thirdBeforeValueOfDoubleCheck)
+        tempView.addSubview(fouthBeforeValueOfDoubleCheck)
+        tempView.addSubview(fifthBeforeValueOfDoubleCheck)
+        tempView.addSubview(sixthBeforeValueOfDoubleCheck)
+        tempView.addSubview(seventhBeforeValueOfDoubleCheck)
+        
+        tempView.addSubview(firstAfterValueOfDoubleCheck)
+        tempView.addSubview(secondAfterValueOfDoubleCheck)
+        tempView.addSubview(thirdAfterValueOfDoubleCheck)
+        tempView.addSubview(fouthAfterValueOfDoubleCheck)
+        tempView.addSubview(fifthAfterValueOfDoubleCheck)
+        tempView.addSubview(sixthAfterValueOfDoubleCheck)
+        tempView.addSubview(seventhAfterValueOfDoubleCheck)
         return tempView
     }()
     
@@ -85,22 +109,224 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
     }()
     
     
-//    lazy var fadeStatusBarBackgroundView:UIView = {
-//        let tempView = UIView.init(frame: UIApplication.shared.statusBarView?.frame ?? .zero)
-//        tempView.backgroundColor = UIColor.black
-//        tempView.alpha = 0.5
-//        return tempView
-//    }()
-    
     lazy var doubleCheckTitle:UILabel = {
         let tempLabel = UILabel.init(frame: CGRect(x: 20, y: 20, width: 200, height: 21))
-        tempLabel.text = "客服限制接单配置"
+        tempLabel.text = "核对配置更改"
         tempLabel.textColor = UIColor.titleColors(color: .black)
         tempLabel.textAlignment = .left
         tempLabel.font = UIFont.systemFont(ofSize: 15)
         return tempLabel
     }()
     
+    lazy var firstTitleOfDoubleCheck:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: 20, y: 72, width: 200, height: 21))
+        tempLabel.text = "参考转化率默认值(%)"
+        tempLabel.isHidden = false
+        tempLabel.textColor = UIColor.titleColors(color: .black)
+        tempLabel.textAlignment = .left
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        return tempLabel
+    }()
+    
+    lazy var secondTitleOfDoubleCheck:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: 20, y: 110, width: 200, height: 21))
+        tempLabel.text = "核对配置更改"
+        tempLabel.textColor = UIColor.titleColors(color: .black)
+        tempLabel.textAlignment = .left
+        tempLabel.isHidden = true
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        return tempLabel
+    }()
+    
+    lazy var thirdTitleOfDoubleCheck:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: 20, y: 148, width: 200, height: 21))
+        tempLabel.text = "核对配置更改"
+        tempLabel.isHidden = true
+        tempLabel.textColor = UIColor.titleColors(color: .black)
+        tempLabel.textAlignment = .left
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        return tempLabel
+    }()
+    
+    lazy var fouthTitleOfDoubleCheck:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: 20, y: 186, width: 200, height: 21))
+        tempLabel.text = "核对配置更改"
+        tempLabel.isHidden = true
+        tempLabel.textColor = UIColor.titleColors(color: .black)
+        tempLabel.textAlignment = .left
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        return tempLabel
+    }()
+    
+    lazy var fifthTitleOfDoubleCheck:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: 20, y: 224, width: 200, height: 21))
+        tempLabel.text = "核对配置更改"
+        tempLabel.isHidden = true
+        tempLabel.textColor = UIColor.titleColors(color: .black)
+        tempLabel.textAlignment = .left
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        return tempLabel
+    }()
+    
+    lazy var sixthTitleOfDoubleCheck:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: 20, y: 262, width: 200, height: 21))
+        tempLabel.text = "核对配置更改"
+        tempLabel.isHidden = true
+        tempLabel.textColor = UIColor.titleColors(color: .black)
+        tempLabel.textAlignment = .left
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        return tempLabel
+    }()
+    
+    lazy var seventhTitleOfDoubleCheck:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: 20, y: 300, width: 200, height: 21))
+        tempLabel.text = "核对配置更改"
+        tempLabel.isHidden = true
+        tempLabel.textColor = UIColor.titleColors(color: .black)
+        tempLabel.textAlignment = .left
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        return tempLabel
+    }()
+    
+    lazy var firstBeforeValueOfDoubleCheck:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: 124, y: 72, width: 85, height: 21))
+        tempLabel.text = "30"
+        tempLabel.isHidden = false
+        tempLabel.textColor = UIColor.titleColors(color: .black)
+        tempLabel.textAlignment = .right
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        return tempLabel
+    }()
+    
+    lazy var secondBeforeValueOfDoubleCheck:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: 124, y: 110, width: 85, height: 21))
+        tempLabel.text = "30"
+        tempLabel.textColor = UIColor.titleColors(color: .black)
+        tempLabel.textAlignment = .right
+        tempLabel.isHidden = true
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        return tempLabel
+    }()
+    
+    lazy var thirdBeforeValueOfDoubleCheck:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: 124, y: 148, width: 85, height: 21))
+        tempLabel.text = "12"
+        tempLabel.isHidden = true
+        tempLabel.textColor = UIColor.titleColors(color: .black)
+        tempLabel.textAlignment = .right
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        return tempLabel
+    }()
+    
+    lazy var fouthBeforeValueOfDoubleCheck:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: 124, y: 186, width: 85, height: 21))
+        tempLabel.text = "8"
+        tempLabel.isHidden = true
+        tempLabel.textColor = UIColor.titleColors(color: .black)
+        tempLabel.textAlignment = .right
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        return tempLabel
+    }()
+    
+    lazy var fifthBeforeValueOfDoubleCheck:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: 124, y: 224, width: 85, height: 21))
+        tempLabel.text = "100"
+        tempLabel.isHidden = true
+        tempLabel.textColor = UIColor.titleColors(color: .black)
+        tempLabel.textAlignment = .right
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        return tempLabel
+    }()
+    
+    lazy var sixthBeforeValueOfDoubleCheck:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: 124, y: 262, width: 85, height: 21))
+        tempLabel.text = "100"
+        tempLabel.isHidden = true
+        tempLabel.textColor = UIColor.titleColors(color: .black)
+        tempLabel.textAlignment = .right
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        return tempLabel
+    }()
+    
+    lazy var seventhBeforeValueOfDoubleCheck:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: 124, y: 300, width: 85, height: 21))
+        tempLabel.text = "60"
+        tempLabel.isHidden = true
+        tempLabel.textColor = UIColor.titleColors(color: .black)
+        tempLabel.textAlignment = .right
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        return tempLabel
+    }()
+    
+    lazy var firstAfterValueOfDoubleCheck:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x:kWidth - 260, y: 72, width: 200, height: 21))
+        tempLabel.text = "30"
+        tempLabel.isHidden = false
+        tempLabel.textColor = UIColor.titleColors(color: .black)
+        tempLabel.textAlignment = .right
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        return tempLabel
+    }()
+    
+    lazy var secondAfterValueOfDoubleCheck:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: kWidth - 260, y: 110, width: 200, height: 21))
+        tempLabel.text = "30"
+        tempLabel.textColor = UIColor.titleColors(color: .black)
+        tempLabel.textAlignment = .right
+        tempLabel.isHidden = true
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        return tempLabel
+    }()
+    
+    lazy var thirdAfterValueOfDoubleCheck:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: kWidth - 260, y: 148, width: 200, height: 21))
+        tempLabel.text = "12"
+        tempLabel.isHidden = true
+        tempLabel.textColor = UIColor.titleColors(color: .black)
+        tempLabel.textAlignment = .right
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        return tempLabel
+    }()
+    
+    lazy var fouthAfterValueOfDoubleCheck:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: kWidth - 260, y: 186, width: 200, height: 21))
+        tempLabel.text = "8"
+        tempLabel.isHidden = true
+        tempLabel.textColor = UIColor.titleColors(color: .black)
+        tempLabel.textAlignment = .right
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        return tempLabel
+    }()
+    
+    lazy var fifthAfterValueOfDoubleCheck:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: kWidth - 260, y: 224, width: 200, height: 21))
+        tempLabel.text = "100"
+        tempLabel.isHidden = true
+        tempLabel.textColor = UIColor.titleColors(color: .black)
+        tempLabel.textAlignment = .right
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        return tempLabel
+    }()
+    
+    lazy var sixthAfterValueOfDoubleCheck:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: kWidth - 260, y: 262, width: 200, height: 21))
+        tempLabel.text = "100"
+        tempLabel.isHidden = true
+        tempLabel.textColor = UIColor.titleColors(color: .black)
+        tempLabel.textAlignment = .right
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        return tempLabel
+    }()
+    
+    lazy var seventhAfterValueOfDoubleCheck:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: kWidth - 260, y: 300, width: 200, height: 21))
+        tempLabel.text = "60"
+        tempLabel.isHidden = true
+        tempLabel.textColor = UIColor.titleColors(color: .black)
+        tempLabel.textAlignment = .right
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        return tempLabel
+    }()
     lazy var saveParameterBtn:UIButton = {
         let button = UIButton.init(frame: CGRect(x: 0, y: kHight - 60 - heightChangeForiPhoneXFromBottom, width: kWidth, height: 60 + heightChangeForiPhoneXFromBottom))
         button.setTitle("", for: .normal)
@@ -153,10 +379,6 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
            // print("客服新建订单限制配置")
             return 4
         }
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -495,27 +717,14 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
     }
     
     fileprivate func setupUI(with parameterType:parameterSettingType){
-        switch parameterType {
-        case .CSCreateOrderSetting:
-            print("客服新建订单限制配置")
-        case .MGFollowOrderSetting:
-            print("经理跟单配置")
-        case .DSDistributeOrderSetting:
-            print("设计派单跟单配置")
-        case .DSHangUpSetting:
-            print("设计师派单配置")
-        case .DSDesignFeeSetting:
-            print("设计费配置")
-        default:
-            print("客服新建订单限制配置")
-        }
+
         _paramterSettingDic["servicer_conversionRate_timeRange"] = 30
         self.view.addSubview(paraterSettingListTable)
         self.view.addSubview(saveParameterBtn)
     }
     @objc func saveParameterBtnClicked(){
         self.view.addSubview(self.doubleCheckNoticeBGView)
-        saveParameterBtn.becomeFirstResponder()
+        checkAndTransferDataBeforeSave(parameterType: _parameterType, beforeDictionary: _savedParameterSettingDic, afterDictionary: _paramterSettingDic)
         print("\(_paramterSettingDic)")
 //        UIApplication.shared.statusBarView?.addSubview(self.fadeStatusBarBackgroundView)
 //        self.faceStatusBarView.removeAll()
@@ -539,6 +748,8 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
         //定义请求参数
         let params:NSMutableDictionary = NSMutableDictionary()
         var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
+        
+        header["token"] = token
         
         #if DEBUG
         let requestUrl = apiAddresses.value(forKey: "managerGetOrderListAPIDebug") as! String
@@ -570,9 +781,291 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             }
         }
     }
-    fileprivate func checkAndTransferDataBeforeSave(){
-        for key in _paramterSettingDic.allKeys{
-           // let value as
+    fileprivate func checkAndTransferDataBeforeSave(parameterType type:parameterSettingType, beforeDictionary:NSMutableDictionary,afterDictionary:NSMutableDictionary){
+        switch type {
+        case .CSCreateOrderSetting:
+            //客服限制接单
+            secondTitleOfDoubleCheck.isHidden = false
+            thirdTitleOfDoubleCheck.isHidden = false
+            fouthTitleOfDoubleCheck.isHidden = false
+            fifthTitleOfDoubleCheck.isHidden = true
+            sixthTitleOfDoubleCheck.isHidden = true
+            seventhTitleOfDoubleCheck.isHidden = true
+            
+            secondBeforeValueOfDoubleCheck.isHidden = false
+            thirdBeforeValueOfDoubleCheck.isHidden = false
+            fouthBeforeValueOfDoubleCheck.isHidden = false
+            fifthBeforeValueOfDoubleCheck.isHidden = true
+            sixthBeforeValueOfDoubleCheck.isHidden = true
+            seventhBeforeValueOfDoubleCheck.isHidden = true
+            
+            secondAfterValueOfDoubleCheck.isHidden = false
+            thirdAfterValueOfDoubleCheck.isHidden = false
+            fouthAfterValueOfDoubleCheck.isHidden = false
+            fifthAfterValueOfDoubleCheck.isHidden = true
+            sixthAfterValueOfDoubleCheck.isHidden = true
+            seventhAfterValueOfDoubleCheck.isHidden = true
+            
+            firstTitleOfDoubleCheck.text = "参考转化率时间范围(天)"
+            secondTitleOfDoubleCheck.text = "参考转化率默认值(%)"
+            thirdTitleOfDoubleCheck.text = "新建订单最大数(达标)"
+            fouthTitleOfDoubleCheck.text = "新建订单最大数(不达标)"
+            
+            //1
+            if let servicer_conversionRate_timeRange = _paramterSettingDic.value(forKey: "servicer_conversionRate_timeRange") as? Int{
+                firstAfterValueOfDoubleCheck.text = "\(servicer_conversionRate_timeRange)"
+            }
+            if let servicer_conversionRate_timeRange = _savedParameterSettingDic.value(forKey: "servicer_conversionRate_timeRange") as? Int{
+                firstBeforeValueOfDoubleCheck.text = "\(servicer_conversionRate_timeRange)"
+            }
+            //2
+            if let servicer_conversionRate_default = _paramterSettingDic.value(forKey: "servicer_conversionRate_default") as? Int{
+                firstAfterValueOfDoubleCheck.text = "\(Int(servicer_conversionRate_default) * 100)"
+            }
+            if let servicer_conversionRate_default = _savedParameterSettingDic.value(forKey: "servicer_conversionRate_default") as? Int{
+                firstBeforeValueOfDoubleCheck.text = "\(Int(servicer_conversionRate_default) * 100)"
+            }
+            //3
+            if let servicer_createLimit_reachedLimit = _paramterSettingDic.value(forKey: "servicer_createLimit_reachedLimit") as? Int{
+                firstAfterValueOfDoubleCheck.text = "\(servicer_createLimit_reachedLimit)"
+            }
+            if let servicer_createLimit_reachedLimit = _savedParameterSettingDic.value(forKey: "servicer_createLimit_reachedLimit") as? Int{
+                firstBeforeValueOfDoubleCheck.text = "\(servicer_createLimit_reachedLimit)"
+            }
+            //4
+            if let servicer_createLimit_unreachedLimit = _paramterSettingDic.value(forKey: "servicer_createLimit_unreachedLimit") as? Int{
+                firstAfterValueOfDoubleCheck.text = "\(servicer_createLimit_unreachedLimit)"
+            }
+            if let servicer_createLimit_unreachedLimit = _savedParameterSettingDic.value(forKey: "servicer_createLimit_unreachedLimit") as? Int{
+                firstBeforeValueOfDoubleCheck.text = "\(servicer_createLimit_unreachedLimit)"
+            }
+
+        case .MGFollowOrderSetting:
+           // print("经理跟单配置")
+            secondTitleOfDoubleCheck.isHidden = false
+            thirdTitleOfDoubleCheck.isHidden = true
+            fouthTitleOfDoubleCheck.isHidden = true
+            fifthTitleOfDoubleCheck.isHidden = true
+            sixthTitleOfDoubleCheck.isHidden = true
+            seventhTitleOfDoubleCheck.isHidden = true
+            
+            secondAfterValueOfDoubleCheck.isHidden = false
+            thirdAfterValueOfDoubleCheck.isHidden = true
+            fouthAfterValueOfDoubleCheck.isHidden = true
+            fifthAfterValueOfDoubleCheck.isHidden = true
+            sixthAfterValueOfDoubleCheck.isHidden = true
+            seventhAfterValueOfDoubleCheck.isHidden = true
+            
+            secondBeforeValueOfDoubleCheck.isHidden = false
+            thirdBeforeValueOfDoubleCheck.isHidden = true
+            fouthBeforeValueOfDoubleCheck.isHidden = true
+            fifthBeforeValueOfDoubleCheck.isHidden = true
+            sixthBeforeValueOfDoubleCheck.isHidden = true
+            seventhBeforeValueOfDoubleCheck.isHidden = true
+            
+            firstTitleOfDoubleCheck.text = "待跟大单时间范围(天)"
+            secondTitleOfDoubleCheck.text = "待跟大单选取比例(%)"
+            
+            //1
+            if let manager_follow_timeRange = _paramterSettingDic.value(forKey: "manager_follow_timeRange") as? Int{
+                firstAfterValueOfDoubleCheck.text = "\(Int(manager_follow_timeRange) * 24)"
+            }
+            if let manager_follow_timeRange = _savedParameterSettingDic.value(forKey: "manager_follow_timeRange") as? Int{
+                firstBeforeValueOfDoubleCheck.text = "\(Int(manager_follow_timeRange) * 24)"
+            }
+            //2
+            if let manager_follow_top = _paramterSettingDic.value(forKey: "manager_follow_top") as? Int{
+                firstAfterValueOfDoubleCheck.text = "\(Int(manager_follow_top) * 100)"
+            }
+            if let manager_follow_top = _savedParameterSettingDic.value(forKey: "manager_follow_top") as? Int{
+                firstBeforeValueOfDoubleCheck.text = "\(Int(manager_follow_top) * 100)"
+            }
+           
+        case .DSDistributeOrderSetting:
+           // print("设计派单跟单配置")
+            secondTitleOfDoubleCheck.isHidden = false
+            thirdTitleOfDoubleCheck.isHidden = false
+            fouthTitleOfDoubleCheck.isHidden = false
+            fifthTitleOfDoubleCheck.isHidden = false
+            sixthTitleOfDoubleCheck.isHidden = false
+            seventhTitleOfDoubleCheck.isHidden = false
+            
+            secondAfterValueOfDoubleCheck.isHidden = false
+            thirdAfterValueOfDoubleCheck.isHidden = false
+            fouthAfterValueOfDoubleCheck.isHidden = false
+            fifthAfterValueOfDoubleCheck.isHidden = false
+            sixthAfterValueOfDoubleCheck.isHidden = false
+            seventhAfterValueOfDoubleCheck.isHidden = false
+            
+            secondBeforeValueOfDoubleCheck.isHidden = false
+            thirdBeforeValueOfDoubleCheck.isHidden = false
+            fouthBeforeValueOfDoubleCheck.isHidden = false
+            fifthBeforeValueOfDoubleCheck.isHidden = false
+            sixthBeforeValueOfDoubleCheck.isHidden = false
+            seventhBeforeValueOfDoubleCheck.isHidden = false
+            
+            firstTitleOfDoubleCheck.text = "设计派单轮换时间(秒)"
+            secondTitleOfDoubleCheck.text = "设计权重-设计单权重"
+            thirdTitleOfDoubleCheck.text = "设计权重-修改单权重"
+            fouthTitleOfDoubleCheck.text = "设计权重-出图时间权重"
+            fifthTitleOfDoubleCheck.text = "设计权重-拒单率权重"
+            sixthTitleOfDoubleCheck.text = "设计权重-定稿率权重"
+            seventhTitleOfDoubleCheck.text = "设计师选取比例(%)"
+            if let design_dispatch_timeInterval = _paramterSettingDic.value(forKey: "design_dispatch_timeInterval") as? Int{
+                firstAfterValueOfDoubleCheck.text = "\(design_dispatch_timeInterval)"
+            }
+            if let design_dispatch_timeInterval = _savedParameterSettingDic.value(forKey: "design_dispatch_timeInterval") as? Int{
+                firstBeforeValueOfDoubleCheck.text = "\(design_dispatch_timeInterval)"
+            }
+            //2
+            if let design_weight_designNum = _paramterSettingDic.value(forKey: "design_weight_designNum") as? Int{
+                firstAfterValueOfDoubleCheck.text = "\(design_weight_designNum)"
+            }
+            if let design_weight_designNum = _savedParameterSettingDic.value(forKey: "design_weight_designNum") as? Int{
+                firstBeforeValueOfDoubleCheck.text = "\(design_weight_designNum)"
+            }
+            //3
+            if let design_weight_modifyNum = _paramterSettingDic.value(forKey: "design_weight_modifyNum") as? Int{
+                firstAfterValueOfDoubleCheck.text = "\(design_weight_modifyNum)"
+            }
+            if let design_weight_modifyNum = _savedParameterSettingDic.value(forKey: "design_weight_modifyNum") as? Int{
+                firstBeforeValueOfDoubleCheck.text = "\(design_weight_modifyNum)"
+            }
+            //4
+            if let design_weight_averageDesignTime = _paramterSettingDic.value(forKey: "design_weight_averageDesignTime") as? Int{
+                firstAfterValueOfDoubleCheck.text = "\(design_weight_averageDesignTime)"
+            }
+            if let design_weight_averageDesignTime = _savedParameterSettingDic.value(forKey: "design_weight_averageDesignTime") as? Int{
+                firstBeforeValueOfDoubleCheck.text = "\(design_weight_averageDesignTime)"
+            }
+            //5
+            if let design_weight_refuseRate = _paramterSettingDic.value(forKey: "design_weight_refuseRate") as? Int{
+                firstAfterValueOfDoubleCheck.text = "\(design_weight_refuseRate)"
+            }
+            if let design_weight_refuseRate = _savedParameterSettingDic.value(forKey: "design_weight_refuseRate") as? Int{
+                firstBeforeValueOfDoubleCheck.text = "\(design_weight_refuseRate)"
+            }
+            //6
+            if let design_weight_adoptRate = _paramterSettingDic.value(forKey: "design_weight_adoptRate") as? Int{
+                firstAfterValueOfDoubleCheck.text = "\(design_weight_adoptRate)"
+            }
+            if let design_weight_adoptRate = _savedParameterSettingDic.value(forKey: "design_weight_adoptRate") as? Int{
+                firstBeforeValueOfDoubleCheck.text = "\(design_weight_adoptRate)"
+            }
+            //7
+            if let design_dispatch_topWeight = _paramterSettingDic.value(forKey: "design_dispatch_topWeight") as? Int{
+                firstAfterValueOfDoubleCheck.text = "\(Int(design_dispatch_topWeight) * 100)"
+            }
+            if let design_dispatch_topWeight = _savedParameterSettingDic.value(forKey: "design_dispatch_topWeight") as? Int{
+                firstBeforeValueOfDoubleCheck.text = "\(Int(design_dispatch_topWeight) * 100)"
+            }
+            
+        case .DSHangUpSetting:
+            //print("设计师派单配置")
+            secondTitleOfDoubleCheck.isHidden = true
+            thirdTitleOfDoubleCheck.isHidden = true
+            fouthTitleOfDoubleCheck.isHidden = true
+            fifthTitleOfDoubleCheck.isHidden = true
+            sixthTitleOfDoubleCheck.isHidden = true
+            seventhTitleOfDoubleCheck.isHidden = true
+            
+            secondAfterValueOfDoubleCheck.isHidden = true
+            thirdAfterValueOfDoubleCheck.isHidden = true
+            fouthAfterValueOfDoubleCheck.isHidden = true
+            fifthAfterValueOfDoubleCheck.isHidden = true
+            sixthAfterValueOfDoubleCheck.isHidden = true
+            seventhAfterValueOfDoubleCheck.isHidden = true
+            
+            secondBeforeValueOfDoubleCheck.isHidden = true
+            thirdBeforeValueOfDoubleCheck.isHidden = true
+            fouthBeforeValueOfDoubleCheck.isHidden = true
+            fifthBeforeValueOfDoubleCheck.isHidden = true
+            sixthBeforeValueOfDoubleCheck.isHidden = true
+            seventhBeforeValueOfDoubleCheck.isHidden = true
+            
+            firstTitleOfDoubleCheck.text = "最少保证在线设计师数(人)"
+            if let designer_onlineLimit = _paramterSettingDic.value(forKey: "designer_onlineLimit") as? Int{
+                firstAfterValueOfDoubleCheck.text = "\(designer_onlineLimit)"
+            }
+            if let designer_onlineLimit = _savedParameterSettingDic.value(forKey: "designer_onlineLimit") as? Int{
+                firstBeforeValueOfDoubleCheck.text = "\(designer_onlineLimit)"
+            }
+            
+
+        case .DSDesignFeeSetting:
+           // print("设计费配置")
+            secondTitleOfDoubleCheck.isHidden = false
+            thirdTitleOfDoubleCheck.isHidden = false
+            fouthTitleOfDoubleCheck.isHidden = false
+            fifthTitleOfDoubleCheck.isHidden = false
+            sixthTitleOfDoubleCheck.isHidden = false
+            seventhTitleOfDoubleCheck.isHidden = true
+            
+            secondAfterValueOfDoubleCheck.isHidden = false
+            thirdAfterValueOfDoubleCheck.isHidden = false
+            fouthAfterValueOfDoubleCheck.isHidden = false
+            fifthAfterValueOfDoubleCheck.isHidden = false
+            sixthAfterValueOfDoubleCheck.isHidden = false
+            seventhAfterValueOfDoubleCheck.isHidden = true
+            
+            secondBeforeValueOfDoubleCheck.isHidden = false
+            thirdBeforeValueOfDoubleCheck.isHidden = false
+            fouthBeforeValueOfDoubleCheck.isHidden = false
+            fifthBeforeValueOfDoubleCheck.isHidden = false
+            sixthBeforeValueOfDoubleCheck.isHidden = false
+            seventhBeforeValueOfDoubleCheck.isHidden = true
+            
+            firstTitleOfDoubleCheck.text = "设计费默认值(元)"
+            secondTitleOfDoubleCheck.text = "设计费默认比例(%)"
+            thirdTitleOfDoubleCheck.text = "引导费比例(%)"
+            fouthTitleOfDoubleCheck.text = "设计费取汁比例(%)"
+            fifthTitleOfDoubleCheck.text = "设计费最大值(元)"
+            sixthTitleOfDoubleCheck.text = "设计费最小值(元)"
+            if let designFee_default = _paramterSettingDic.value(forKey: "designFee_default") as? Int{
+                firstAfterValueOfDoubleCheck.text = "\(designFee_default)"
+            }
+            if let designFee_default = _savedParameterSettingDic.value(forKey: "designFee_default") as? Int{
+                firstBeforeValueOfDoubleCheck.text = "\(designFee_default)"
+            }
+            //2
+            if let designFee_set_default = _paramterSettingDic.value(forKey: "designFee_set_default") as? Int{
+                firstAfterValueOfDoubleCheck.text = "\(Int(designFee_set_default) * 100)"
+            }
+            if let designFee_set_default = _savedParameterSettingDic.value(forKey: "designFee_set_default") as? Int{
+                firstBeforeValueOfDoubleCheck.text = "\(Int(designFee_set_default) * 100)"
+            }
+            //3
+            if let designGuideFee_set_default = _paramterSettingDic.value(forKey: "designGuideFee_set_default") as? Int{
+                firstAfterValueOfDoubleCheck.text = "\(Int(designGuideFee_set_default) * 100)"
+            }
+            if let designGuideFee_set_default = _savedParameterSettingDic.value(forKey: "designGuideFee_set_default") as? Int{
+                firstBeforeValueOfDoubleCheck.text = "\(Int(designGuideFee_set_default) * 100)"
+            }
+            //4
+            if let designFee_set_defaultMaxValue = _paramterSettingDic.value(forKey: "designFee_set_defaultMaxValue") as? Int{
+                firstAfterValueOfDoubleCheck.text = "\(Int(designFee_set_defaultMaxValue) * 100)"
+            }
+            if let designFee_set_defaultMaxValue = _savedParameterSettingDic.value(forKey: "designFee_set_defaultMaxValue") as? Int{
+                firstBeforeValueOfDoubleCheck.text = "\(Int(designFee_set_defaultMaxValue) * 100)"
+            }
+            //5
+            if let designFee_Max = _paramterSettingDic.value(forKey: "designFee_Max") as? Int{
+                firstAfterValueOfDoubleCheck.text = "\(designFee_Max)"
+            }
+            if let designFee_Max = _savedParameterSettingDic.value(forKey: "designFee_Max") as? Int{
+                firstBeforeValueOfDoubleCheck.text = "\(designFee_Max)"
+            }
+            //6
+            if let designFee_Min = _paramterSettingDic.value(forKey: "designFee_Min") as? Int{
+                firstAfterValueOfDoubleCheck.text = "\(designFee_Min)"
+            }
+            if let designFee_Min = _savedParameterSettingDic.value(forKey: "designFee_Min") as? Int{
+                firstBeforeValueOfDoubleCheck.text = "\(designFee_Min)"
+            }
+            
+            
+        default:
+            print("客服新建订单限制配置")
         }
     }
     //初始化页面
@@ -588,6 +1081,9 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
         //定义请求参数
         let params:NSMutableDictionary = NSMutableDictionary()
         var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
+        
+        header["token"] = token
+        
         
         #if DEBUG
         let requestUrl = apiAddresses.value(forKey: "managerGetOrderListAPIDebug") as! String
