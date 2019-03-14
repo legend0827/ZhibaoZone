@@ -386,6 +386,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
         cell.selectionStyle = .none
         cell.fatherObject = self
         cell.parameterSetting = _parameterType
+        cell.selectedIndex = indexPath.row
         switch _parameterType {
         case .CSCreateOrderSetting:
             switch indexPath.row{
@@ -410,7 +411,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
                 cell.textFieldMinValue = 1
                 cell.textFieldMaxValue = 100
                 if let servicer_conversionRate_default = _paramterSettingDic.value(forKey: "servicer_conversionRate_default") as? Double{
-                    cell.parameterValue.text = "\(servicer_conversionRate_default * 100)"
+                    cell.parameterValue.text = "\(Int(servicer_conversionRate_default * 100))"
                 }
             case 2:
                 cell.titleLabel.text = "新建订单最大数(达标)"
@@ -455,8 +456,8 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
                 cell.textFieldDefaultValue = 24
                 cell.textFieldMinValue = 1
                 cell.textFieldMaxValue = 9999
-                if let manager_follow_timeRange = _paramterSettingDic.value(forKey: "manager_follow_timeRange") as? Double{
-                    cell.parameterValue.text = "\(Int(manager_follow_timeRange * 24))"
+                if let manager_follow_timeRange = _paramterSettingDic.value(forKey: "manager_follow_timeRange") as? Int{
+                    cell.parameterValue.text = "\(manager_follow_timeRange)"
                 }
             case 1:
                 cell.titleLabel.text = "待跟大单选取比例(%)"
@@ -467,7 +468,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
                 cell.textFieldMinValue = 1
                 cell.textFieldMaxValue = 100
                 if let manager_follow_top = _paramterSettingDic.value(forKey: "manager_follow_top") as? Double{
-                    cell.parameterValue.text = "\(manager_follow_top * 100)"
+                    cell.parameterValue.text = "\(Int(manager_follow_top * 100))"
                 }
             default:
                 cell.titleLabel.text = "待跟大单时间范围(天)"
@@ -503,6 +504,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
                 if let design_weight_designNum = _paramterSettingDic.value(forKey: "design_weight_designNum") as? Int{
                     cell.parameterValue.text = "\(design_weight_designNum)"
                 }
+                cell.switchsButton.isHidden = false
             case 2:
                 cell.titleLabel.text = "设计权重-修改单权重"
                 cell.parameterValue.placeholder = "100 - 500"
@@ -514,6 +516,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
                 if let design_weight_modifyNum = _paramterSettingDic.value(forKey: "design_weight_modifyNum") as? Int{
                     cell.parameterValue.text = "\(design_weight_modifyNum)"
                 }
+                cell.switchsButton.isHidden = false
             case 3:
                 cell.titleLabel.text = "设计权重-出图时间权重"
                 cell.parameterValue.placeholder = "100 - 500"
@@ -525,6 +528,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
                 if let design_weight_averageDesignTime = _paramterSettingDic.value(forKey: "design_weight_averageDesignTime") as? Int{
                     cell.parameterValue.text = "\(design_weight_averageDesignTime)"
                 }
+                cell.switchsButton.isHidden = false
             case 4:
                 cell.titleLabel.text = "设计权重-拒单率权重"
                 cell.parameterValue.placeholder = "100 - 500"
@@ -536,6 +540,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
                 if let design_weight_refuseRate = _paramterSettingDic.value(forKey: "design_weight_refuseRate") as? Int{
                     cell.parameterValue.text = "\(design_weight_refuseRate)"
                 }
+                cell.switchsButton.isHidden = false
             case 5:
                 cell.titleLabel.text = "设计权重-定稿率权重"
                 cell.parameterValue.placeholder = "100 - 500"
@@ -547,6 +552,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
                 if let design_weight_adoptRate = _paramterSettingDic.value(forKey: "design_weight_adoptRate") as? Int{
                     cell.parameterValue.text = "\(design_weight_adoptRate)"
                 }
+                cell.switchsButton.isHidden = false
             case 6:
                 cell.titleLabel.text = "设计师选取比例(%)"
                 cell.parameterValue.placeholder = "1 - 100"
@@ -556,7 +562,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
                 cell.textFieldMinValue = 1
                 cell.textFieldMaxValue = 100
                 if let design_dispatch_topWeight = _paramterSettingDic.value(forKey: "design_dispatch_topWeight") as? Double{
-                    cell.parameterValue.text = "\(design_dispatch_topWeight * 100)"
+                    cell.parameterValue.text = "\(Int(design_dispatch_topWeight * 100))"
                 }
             default:
                 cell.titleLabel.text = "设计权重-修改单权重"
@@ -613,7 +619,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
                 cell.textFieldMinValue = 1
                 cell.textFieldMaxValue = 100
                 if let designFee_set_default = _paramterSettingDic.value(forKey: "designFee_set_default") as? Double{
-                    cell.parameterValue.text = "\(designFee_set_default * 100)"
+                    cell.parameterValue.text = "\(Int(designFee_set_default * 100))"
                 }
             case 2:
                 cell.titleLabel.text = "引导费比例(%)"
@@ -624,7 +630,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
                 cell.textFieldMinValue = 1
                 cell.textFieldMaxValue = 100
                 if let designGuideFee_set_default = _paramterSettingDic.value(forKey: "designGuideFee_set_default") as? Double{
-                    cell.parameterValue.text = "\(designGuideFee_set_default * 100)"
+                    cell.parameterValue.text = "\(Int(designGuideFee_set_default * 100))"
                 }
             case 3:
                 cell.titleLabel.text = "设计费最大值取值比例(%)"
@@ -635,7 +641,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
                 cell.textFieldMinValue = 1
                 cell.textFieldMaxValue = 100
                 if let designFee_set_defaultMaxValue = _paramterSettingDic.value(forKey: "designFee_set_defaultMaxValue") as? Double{
-                    cell.parameterValue.text = "\(designFee_set_defaultMaxValue * 100)"
+                    cell.parameterValue.text = "\(Int(designFee_set_defaultMaxValue * 100))"
                 }
             case 4:
                 cell.titleLabel.text = "设计费最大值"
@@ -718,7 +724,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
     
     fileprivate func setupUI(with parameterType:parameterSettingType){
 
-        _paramterSettingDic["servicer_conversionRate_timeRange"] = 30
+        initParameter(for: _parameterType)
         self.view.addSubview(paraterSettingListTable)
         self.view.addSubview(saveParameterBtn)
     }
@@ -737,50 +743,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
     @objc func cancelBtnClicked(){
         self.dismiss(animated: true, completion: nil)
     }
-    @objc func confirmSubmitParameterClicked(){
-        //获取用户信息
-        let userInfos = getCurrentUserInfo()
-        let token = userInfos.value(forKey: "token") as? String
-        //获取列表
-        let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
-        let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
-        let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
-        //定义请求参数
-        let params:NSMutableDictionary = NSMutableDictionary()
-        var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
-        
-        header["token"] = token
-        
-        #if DEBUG
-        let requestUrl = apiAddresses.value(forKey: "managerGetOrderListAPIDebug") as! String
-        #else
-        let requestUrl = apiAddresses.value(forKey: "managerGetOrderListAPI") as! String
-        #endif
-        
-        _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
-            (responseObject) in
-            switch responseObject.result.isSuccess{
-            case true:
-                if  let value = responseObject.result.value{
-                    let json = JSON(value)
-                    let statusCode = json["code"].int!
-                    if statusCode == 200{
-                        let dic = json["data"].dictionaryObject as! NSMutableDictionary
-                        self._paramterSettingDic = dic
-                        self._savedParameterSettingDic = dic
-                    }else if statusCode == 99999 || statusCode == 99998{
-                        //异常
-                        autoLogin(viewControler: self)
-                    }else{
-                        print("获取参数失败")
-                    }
-                }
-            case false:
-                print("获取列表失败")
-                greyLayerPrompt.show(text: "获取参数失败,请返回上一页再试,请重试")
-            }
-        }
-    }
+   
     fileprivate func checkAndTransferDataBeforeSave(parameterType type:parameterSettingType, beforeDictionary:NSMutableDictionary,afterDictionary:NSMutableDictionary){
         switch type {
         case .CSCreateOrderSetting:
@@ -812,32 +775,49 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             fouthTitleOfDoubleCheck.text = "新建订单最大数(不达标)"
             
             //1
-            if let servicer_conversionRate_timeRange = _paramterSettingDic.value(forKey: "servicer_conversionRate_timeRange") as? Int{
+            if let servicer_conversionRate_timeRange = afterDictionary.value(forKey: "servicer_conversionRate_timeRange") as? Int{
                 firstAfterValueOfDoubleCheck.text = "\(servicer_conversionRate_timeRange)"
+            }else{
+                if let servicer_conversionRate_timeRange = afterDictionary.value(forKey: "servicer_conversionRate_timeRange") as? String{
+                    firstAfterValueOfDoubleCheck.text = "\(servicer_conversionRate_timeRange)"
+                }
             }
-            if let servicer_conversionRate_timeRange = _savedParameterSettingDic.value(forKey: "servicer_conversionRate_timeRange") as? Int{
+            if let servicer_conversionRate_timeRange = beforeDictionary.value(forKey: "servicer_conversionRate_timeRange") as? Int{
                 firstBeforeValueOfDoubleCheck.text = "\(servicer_conversionRate_timeRange)"
             }
             //2
-            if let servicer_conversionRate_default = _paramterSettingDic.value(forKey: "servicer_conversionRate_default") as? Int{
-                firstAfterValueOfDoubleCheck.text = "\(Int(servicer_conversionRate_default) * 100)"
+            if let servicer_conversionRate_default = afterDictionary.value(forKey: "servicer_conversionRate_default") as? Double{
+                secondAfterValueOfDoubleCheck.text = "\(Int(servicer_conversionRate_default * 100))"
+            }else{
+                if let servicer_conversionRate_default = afterDictionary.value(forKey: "servicer_conversionRate_default") as? String{
+                    secondAfterValueOfDoubleCheck.text = "\(Int(Double(servicer_conversionRate_default as! String)! * 100))"
+                }
             }
-            if let servicer_conversionRate_default = _savedParameterSettingDic.value(forKey: "servicer_conversionRate_default") as? Int{
-                firstBeforeValueOfDoubleCheck.text = "\(Int(servicer_conversionRate_default) * 100)"
+            
+            if let servicer_conversionRate_default = beforeDictionary.value(forKey: "servicer_conversionRate_default") as? Double{
+                secondBeforeValueOfDoubleCheck.text = "\(Int(servicer_conversionRate_default * 100))"
             }
             //3
-            if let servicer_createLimit_reachedLimit = _paramterSettingDic.value(forKey: "servicer_createLimit_reachedLimit") as? Int{
-                firstAfterValueOfDoubleCheck.text = "\(servicer_createLimit_reachedLimit)"
+            if let servicer_createLimit_reachedLimit = afterDictionary.value(forKey: "servicer_createLimit_reachedLimit") as? Int{
+                thirdAfterValueOfDoubleCheck.text = "\(servicer_createLimit_reachedLimit)"
+            }else{
+                if let servicer_createLimit_reachedLimit = afterDictionary.value(forKey: "servicer_createLimit_reachedLimit") as? String{
+                    thirdAfterValueOfDoubleCheck.text = "\(servicer_createLimit_reachedLimit)"
+                }
             }
-            if let servicer_createLimit_reachedLimit = _savedParameterSettingDic.value(forKey: "servicer_createLimit_reachedLimit") as? Int{
-                firstBeforeValueOfDoubleCheck.text = "\(servicer_createLimit_reachedLimit)"
+            if let servicer_createLimit_reachedLimit = beforeDictionary.value(forKey: "servicer_createLimit_reachedLimit") as? Int{
+                thirdBeforeValueOfDoubleCheck.text = "\(servicer_createLimit_reachedLimit)"
             }
             //4
-            if let servicer_createLimit_unreachedLimit = _paramterSettingDic.value(forKey: "servicer_createLimit_unreachedLimit") as? Int{
-                firstAfterValueOfDoubleCheck.text = "\(servicer_createLimit_unreachedLimit)"
+            if let servicer_createLimit_unreachedLimit = afterDictionary.value(forKey: "servicer_createLimit_unreachedLimit") as? Int{
+                fouthAfterValueOfDoubleCheck.text = "\(servicer_createLimit_unreachedLimit)"
+            }else{
+                if let servicer_createLimit_unreachedLimit = afterDictionary.value(forKey: "servicer_createLimit_unreachedLimit") as? String{
+                    fouthAfterValueOfDoubleCheck.text = "\(servicer_createLimit_unreachedLimit)"
+                }
             }
-            if let servicer_createLimit_unreachedLimit = _savedParameterSettingDic.value(forKey: "servicer_createLimit_unreachedLimit") as? Int{
-                firstBeforeValueOfDoubleCheck.text = "\(servicer_createLimit_unreachedLimit)"
+            if let servicer_createLimit_unreachedLimit = beforeDictionary.value(forKey: "servicer_createLimit_unreachedLimit") as? Int{
+                fouthBeforeValueOfDoubleCheck.text = "\(servicer_createLimit_unreachedLimit)"
             }
 
         case .MGFollowOrderSetting:
@@ -867,18 +847,26 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             secondTitleOfDoubleCheck.text = "待跟大单选取比例(%)"
             
             //1
-            if let manager_follow_timeRange = _paramterSettingDic.value(forKey: "manager_follow_timeRange") as? Int{
-                firstAfterValueOfDoubleCheck.text = "\(Int(manager_follow_timeRange) * 24)"
+            if let manager_follow_timeRange = afterDictionary.value(forKey: "manager_follow_timeRange") as? Int{
+                firstAfterValueOfDoubleCheck.text = "\(manager_follow_timeRange)"
+            }else{
+                if let manager_follow_timeRange = afterDictionary.value(forKey: "manager_follow_timeRange") as? String{
+                    firstAfterValueOfDoubleCheck.text = "\(manager_follow_timeRange)"
+                }
             }
-            if let manager_follow_timeRange = _savedParameterSettingDic.value(forKey: "manager_follow_timeRange") as? Int{
-                firstBeforeValueOfDoubleCheck.text = "\(Int(manager_follow_timeRange) * 24)"
+            if let manager_follow_timeRange = beforeDictionary.value(forKey: "manager_follow_timeRange") as? Int{
+                firstBeforeValueOfDoubleCheck.text = "\(manager_follow_timeRange)"
             }
             //2
-            if let manager_follow_top = _paramterSettingDic.value(forKey: "manager_follow_top") as? Int{
-                firstAfterValueOfDoubleCheck.text = "\(Int(manager_follow_top) * 100)"
+            if let manager_follow_top = afterDictionary.value(forKey: "manager_follow_top") as? Double{
+                secondAfterValueOfDoubleCheck.text = "\(Int(manager_follow_top * 100))"
+            }else{
+                if let manager_follow_top = afterDictionary.value(forKey: "manager_follow_top") as? String{
+                    secondAfterValueOfDoubleCheck.text = "\(Int(Double(manager_follow_top as! String)! * 100))"
+                }
             }
-            if let manager_follow_top = _savedParameterSettingDic.value(forKey: "manager_follow_top") as? Int{
-                firstBeforeValueOfDoubleCheck.text = "\(Int(manager_follow_top) * 100)"
+            if let manager_follow_top = beforeDictionary.value(forKey: "manager_follow_top") as? Double{
+                secondBeforeValueOfDoubleCheck.text = "\(Int(manager_follow_top * 100))"
             }
            
         case .DSDistributeOrderSetting:
@@ -911,53 +899,81 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             fifthTitleOfDoubleCheck.text = "设计权重-拒单率权重"
             sixthTitleOfDoubleCheck.text = "设计权重-定稿率权重"
             seventhTitleOfDoubleCheck.text = "设计师选取比例(%)"
-            if let design_dispatch_timeInterval = _paramterSettingDic.value(forKey: "design_dispatch_timeInterval") as? Int{
+            if let design_dispatch_timeInterval = afterDictionary.value(forKey: "design_dispatch_timeInterval") as? Int{
                 firstAfterValueOfDoubleCheck.text = "\(design_dispatch_timeInterval)"
+            }else{
+                if let design_dispatch_timeInterval = afterDictionary.value(forKey: "design_dispatch_timeInterval") as? String{
+                    firstAfterValueOfDoubleCheck.text = "\(design_dispatch_timeInterval)"
+                }
             }
-            if let design_dispatch_timeInterval = _savedParameterSettingDic.value(forKey: "design_dispatch_timeInterval") as? Int{
+            if let design_dispatch_timeInterval = beforeDictionary.value(forKey: "design_dispatch_timeInterval") as? Int{
                 firstBeforeValueOfDoubleCheck.text = "\(design_dispatch_timeInterval)"
             }
             //2
-            if let design_weight_designNum = _paramterSettingDic.value(forKey: "design_weight_designNum") as? Int{
-                firstAfterValueOfDoubleCheck.text = "\(design_weight_designNum)"
+            if let design_weight_designNum = afterDictionary.value(forKey: "design_weight_designNum") as? Int{
+                secondAfterValueOfDoubleCheck.text = "\(design_weight_designNum)"
+            }else{
+                if let design_weight_designNum = afterDictionary.value(forKey: "design_weight_designNum") as? String{
+                    secondAfterValueOfDoubleCheck.text = "\(design_weight_designNum)"
+                }
             }
-            if let design_weight_designNum = _savedParameterSettingDic.value(forKey: "design_weight_designNum") as? Int{
-                firstBeforeValueOfDoubleCheck.text = "\(design_weight_designNum)"
+            if let design_weight_designNum = beforeDictionary.value(forKey: "design_weight_designNum") as? Int{
+                secondBeforeValueOfDoubleCheck.text = "\(design_weight_designNum)"
             }
             //3
-            if let design_weight_modifyNum = _paramterSettingDic.value(forKey: "design_weight_modifyNum") as? Int{
-                firstAfterValueOfDoubleCheck.text = "\(design_weight_modifyNum)"
+            if let design_weight_modifyNum = afterDictionary.value(forKey: "design_weight_modifyNum") as? Int{
+                thirdAfterValueOfDoubleCheck.text = "\(design_weight_modifyNum)"
+            }else{
+                if let design_weight_modifyNum = afterDictionary.value(forKey: "design_weight_modifyNum") as? String{
+                    thirdAfterValueOfDoubleCheck.text = "\(design_weight_modifyNum)"
+                }
             }
-            if let design_weight_modifyNum = _savedParameterSettingDic.value(forKey: "design_weight_modifyNum") as? Int{
-                firstBeforeValueOfDoubleCheck.text = "\(design_weight_modifyNum)"
+            if let design_weight_modifyNum = beforeDictionary.value(forKey: "design_weight_modifyNum") as? Int{
+                thirdBeforeValueOfDoubleCheck.text = "\(design_weight_modifyNum)"
             }
             //4
-            if let design_weight_averageDesignTime = _paramterSettingDic.value(forKey: "design_weight_averageDesignTime") as? Int{
-                firstAfterValueOfDoubleCheck.text = "\(design_weight_averageDesignTime)"
+            if let design_weight_averageDesignTime = afterDictionary.value(forKey: "design_weight_averageDesignTime") as? Int{
+                fouthAfterValueOfDoubleCheck.text = "\(design_weight_averageDesignTime)"
+            }else{
+                if let design_weight_averageDesignTime = afterDictionary.value(forKey: "design_weight_averageDesignTime") as? String{
+                    fouthAfterValueOfDoubleCheck.text = "\(design_weight_averageDesignTime)"
+                }
             }
-            if let design_weight_averageDesignTime = _savedParameterSettingDic.value(forKey: "design_weight_averageDesignTime") as? Int{
-                firstBeforeValueOfDoubleCheck.text = "\(design_weight_averageDesignTime)"
+            if let design_weight_averageDesignTime = beforeDictionary.value(forKey: "design_weight_averageDesignTime") as? Int{
+                fouthBeforeValueOfDoubleCheck.text = "\(design_weight_averageDesignTime)"
             }
             //5
-            if let design_weight_refuseRate = _paramterSettingDic.value(forKey: "design_weight_refuseRate") as? Int{
-                firstAfterValueOfDoubleCheck.text = "\(design_weight_refuseRate)"
+            if let design_weight_refuseRate = afterDictionary.value(forKey: "design_weight_refuseRate") as? Int{
+                fifthAfterValueOfDoubleCheck.text = "\(design_weight_refuseRate)"
+            }else{
+                if let design_weight_refuseRate = afterDictionary.value(forKey: "design_weight_refuseRate") as? String{
+                    fifthAfterValueOfDoubleCheck.text = "\(design_weight_refuseRate)"
+                }
             }
-            if let design_weight_refuseRate = _savedParameterSettingDic.value(forKey: "design_weight_refuseRate") as? Int{
-                firstBeforeValueOfDoubleCheck.text = "\(design_weight_refuseRate)"
+            if let design_weight_refuseRate = beforeDictionary.value(forKey: "design_weight_refuseRate") as? Int{
+                fifthBeforeValueOfDoubleCheck.text = "\(design_weight_refuseRate)"
             }
             //6
-            if let design_weight_adoptRate = _paramterSettingDic.value(forKey: "design_weight_adoptRate") as? Int{
-                firstAfterValueOfDoubleCheck.text = "\(design_weight_adoptRate)"
+            if let design_weight_adoptRate = afterDictionary.value(forKey: "design_weight_adoptRate") as? Int{
+                sixthAfterValueOfDoubleCheck.text = "\(design_weight_adoptRate)"
+            }else{
+                if let design_weight_adoptRate = afterDictionary.value(forKey: "design_weight_adoptRate") as? String{
+                    sixthAfterValueOfDoubleCheck.text = "\(design_weight_adoptRate)"
+                }
             }
-            if let design_weight_adoptRate = _savedParameterSettingDic.value(forKey: "design_weight_adoptRate") as? Int{
-                firstBeforeValueOfDoubleCheck.text = "\(design_weight_adoptRate)"
+            if let design_weight_adoptRate = beforeDictionary.value(forKey: "design_weight_adoptRate") as? Int{
+                sixthBeforeValueOfDoubleCheck.text = "\(design_weight_adoptRate)"
             }
             //7
-            if let design_dispatch_topWeight = _paramterSettingDic.value(forKey: "design_dispatch_topWeight") as? Int{
-                firstAfterValueOfDoubleCheck.text = "\(Int(design_dispatch_topWeight) * 100)"
+            if let design_dispatch_topWeight = afterDictionary.value(forKey: "design_dispatch_topWeight") as? Double{
+                seventhAfterValueOfDoubleCheck.text = "\(Int(design_dispatch_topWeight * 100))"
+            }else{
+                if let design_dispatch_topWeight = afterDictionary.value(forKey: "design_dispatch_topWeight") as? String{
+                    seventhAfterValueOfDoubleCheck.text = "\(Int(Double(design_dispatch_topWeight as! String)! * 100))"
+                }
             }
-            if let design_dispatch_topWeight = _savedParameterSettingDic.value(forKey: "design_dispatch_topWeight") as? Int{
-                firstBeforeValueOfDoubleCheck.text = "\(Int(design_dispatch_topWeight) * 100)"
+            if let design_dispatch_topWeight = beforeDictionary.value(forKey: "design_dispatch_topWeight") as? Double{
+                seventhBeforeValueOfDoubleCheck.text = "\(Int(design_dispatch_topWeight * 100))"
             }
             
         case .DSHangUpSetting:
@@ -984,10 +1000,14 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             seventhBeforeValueOfDoubleCheck.isHidden = true
             
             firstTitleOfDoubleCheck.text = "最少保证在线设计师数(人)"
-            if let designer_onlineLimit = _paramterSettingDic.value(forKey: "designer_onlineLimit") as? Int{
+            if let designer_onlineLimit = afterDictionary.value(forKey: "designer_onlineLimit") as? Int{
                 firstAfterValueOfDoubleCheck.text = "\(designer_onlineLimit)"
+            }else{
+                if let designer_onlineLimit = afterDictionary.value(forKey: "designer_onlineLimit") as? String{
+                    firstAfterValueOfDoubleCheck.text = "\(designer_onlineLimit)"
+                }
             }
-            if let designer_onlineLimit = _savedParameterSettingDic.value(forKey: "designer_onlineLimit") as? Int{
+            if let designer_onlineLimit = beforeDictionary.value(forKey: "designer_onlineLimit") as? Int{
                 firstBeforeValueOfDoubleCheck.text = "\(designer_onlineLimit)"
             }
             
@@ -1021,46 +1041,70 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             fouthTitleOfDoubleCheck.text = "设计费取汁比例(%)"
             fifthTitleOfDoubleCheck.text = "设计费最大值(元)"
             sixthTitleOfDoubleCheck.text = "设计费最小值(元)"
-            if let designFee_default = _paramterSettingDic.value(forKey: "designFee_default") as? Int{
+            if let designFee_default = afterDictionary.value(forKey: "designFee_default") as? Int{
                 firstAfterValueOfDoubleCheck.text = "\(designFee_default)"
+            }else{
+                if let designFee_default = afterDictionary.value(forKey: "designFee_default") as? String{
+                    firstAfterValueOfDoubleCheck.text = "\(designFee_default)"
+                }
             }
-            if let designFee_default = _savedParameterSettingDic.value(forKey: "designFee_default") as? Int{
+            if let designFee_default = beforeDictionary.value(forKey: "designFee_default") as? Int{
                 firstBeforeValueOfDoubleCheck.text = "\(designFee_default)"
             }
             //2
-            if let designFee_set_default = _paramterSettingDic.value(forKey: "designFee_set_default") as? Int{
-                firstAfterValueOfDoubleCheck.text = "\(Int(designFee_set_default) * 100)"
+            if let designFee_set_default = afterDictionary.value(forKey: "designFee_set_default") as? Double{
+                secondAfterValueOfDoubleCheck.text = "\(Int(designFee_set_default * 100))"
+            }else{
+                if let designFee_set_default = afterDictionary.value(forKey: "designFee_set_default") as? String{
+                    secondAfterValueOfDoubleCheck.text = "\(Int(Double(designFee_set_default as! String)! * 100))"
+                }
             }
-            if let designFee_set_default = _savedParameterSettingDic.value(forKey: "designFee_set_default") as? Int{
-                firstBeforeValueOfDoubleCheck.text = "\(Int(designFee_set_default) * 100)"
+            if let designFee_set_default = beforeDictionary.value(forKey: "designFee_set_default") as? Double{
+                secondBeforeValueOfDoubleCheck.text = "\(Int(designFee_set_default * 100))"
             }
             //3
-            if let designGuideFee_set_default = _paramterSettingDic.value(forKey: "designGuideFee_set_default") as? Int{
-                firstAfterValueOfDoubleCheck.text = "\(Int(designGuideFee_set_default) * 100)"
+            if let designGuideFee_set_default = afterDictionary.value(forKey: "designGuideFee_set_default") as? Double{
+                thirdAfterValueOfDoubleCheck.text = "\(Int(designGuideFee_set_default * 100))"
+            }else{
+                if let designGuideFee_set_default = afterDictionary.value(forKey: "designGuideFee_set_default") as? String{
+                    thirdAfterValueOfDoubleCheck.text = "\(Int(Double(designGuideFee_set_default as! String)! * 100))"
+                }
             }
-            if let designGuideFee_set_default = _savedParameterSettingDic.value(forKey: "designGuideFee_set_default") as? Int{
-                firstBeforeValueOfDoubleCheck.text = "\(Int(designGuideFee_set_default) * 100)"
+            if let designGuideFee_set_default = beforeDictionary.value(forKey: "designGuideFee_set_default") as? Double{
+                thirdBeforeValueOfDoubleCheck.text = "\(Int(designGuideFee_set_default * 100))"
             }
             //4
-            if let designFee_set_defaultMaxValue = _paramterSettingDic.value(forKey: "designFee_set_defaultMaxValue") as? Int{
-                firstAfterValueOfDoubleCheck.text = "\(Int(designFee_set_defaultMaxValue) * 100)"
+            if let designFee_set_defaultMaxValue = afterDictionary.value(forKey: "designFee_set_defaultMaxValue") as? Double{
+                fouthAfterValueOfDoubleCheck.text = "\(Int(designFee_set_defaultMaxValue * 100))"
+            }else{
+                if let designFee_set_defaultMaxValue = afterDictionary.value(forKey: "designFee_set_defaultMaxValue") as? String{
+                    fouthAfterValueOfDoubleCheck.text = "\(Int(Double(designFee_set_defaultMaxValue as String)! * 100))"
+                }
             }
-            if let designFee_set_defaultMaxValue = _savedParameterSettingDic.value(forKey: "designFee_set_defaultMaxValue") as? Int{
-                firstBeforeValueOfDoubleCheck.text = "\(Int(designFee_set_defaultMaxValue) * 100)"
+            if let designFee_set_defaultMaxValue = beforeDictionary.value(forKey: "designFee_set_defaultMaxValue") as? Double{
+                fouthBeforeValueOfDoubleCheck.text = "\(Int(designFee_set_defaultMaxValue * 100))"
             }
             //5
-            if let designFee_Max = _paramterSettingDic.value(forKey: "designFee_Max") as? Int{
-                firstAfterValueOfDoubleCheck.text = "\(designFee_Max)"
+            if let designFee_Max = afterDictionary.value(forKey: "designFee_Max") as? Int{
+                fifthAfterValueOfDoubleCheck.text = "\(designFee_Max)"
+            }else{
+                if let designFee_Max = afterDictionary.value(forKey: "designFee_Max") as? String{
+                    fifthAfterValueOfDoubleCheck.text = "\(designFee_Max)"
+                }
             }
-            if let designFee_Max = _savedParameterSettingDic.value(forKey: "designFee_Max") as? Int{
-                firstBeforeValueOfDoubleCheck.text = "\(designFee_Max)"
+            if let designFee_Max = beforeDictionary.value(forKey: "designFee_Max") as? Int{
+                fifthBeforeValueOfDoubleCheck.text = "\(designFee_Max)"
             }
             //6
-            if let designFee_Min = _paramterSettingDic.value(forKey: "designFee_Min") as? Int{
-                firstAfterValueOfDoubleCheck.text = "\(designFee_Min)"
+            if let designFee_Min = afterDictionary.value(forKey: "designFee_Min") as? Int{
+                sixthAfterValueOfDoubleCheck.text = "\(designFee_Min)"
+            }else{
+                if let designFee_Min = afterDictionary.value(forKey: "designFee_Min") as? String{
+                    sixthAfterValueOfDoubleCheck.text = "\(designFee_Min)"
+                }
             }
-            if let designFee_Min = _savedParameterSettingDic.value(forKey: "designFee_Min") as? Int{
-                firstBeforeValueOfDoubleCheck.text = "\(designFee_Min)"
+            if let designFee_Min = beforeDictionary.value(forKey: "designFee_Min") as? Int{
+                sixthBeforeValueOfDoubleCheck.text = "\(designFee_Min)"
             }
             
             
@@ -1081,14 +1125,97 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
         //定义请求参数
         let params:NSMutableDictionary = NSMutableDictionary()
         var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
+        header["token"] = token
+        
+        #if DEBUG
+        let requestUrl = apiAddresses.value(forKey: "paramterSettingInitAPIDebug") as! String
+        #else
+        let requestUrl = apiAddresses.value(forKey: "paramterSettingInitAPI") as! String
+        #endif
+        
+        _ = Alamofire.request(requestUrl,method:.get,encoding: URLEncoding.default,headers:header) .responseJSON{ //, parameters:params as? [String:AnyObject]
+            (responseObject) in
+            switch responseObject.result.isSuccess{
+            case true:
+                if  let value = responseObject.result.value{
+                    let json = JSON(value)
+                    let statusCode = json["code"].int!
+                    if statusCode == 200{
+                        let dic = json["data"].dictionaryObject as! NSDictionary
+                        
+                        self._paramterSettingDic.setDictionary(dic as! [AnyHashable : Any])
+                        self._savedParameterSettingDic.setDictionary(dic as! [AnyHashable : Any])
+//                        self._paramterSettingDic = dic
+//                        self._savedParameterSettingDic = dic
+                        self.saveParameterBtn.isEnabled = true
+                        self.paraterSettingListTable.reloadData()
+                    }else if statusCode == 99999 || statusCode == 99998{
+                        //异常
+                        autoLogin(viewControler: self)
+                    }else{
+                        self.saveParameterBtn.isEnabled = false
+                        print("获取参数失败")
+                    }
+                }
+            case false:
+                print("获取列表失败")
+                greyLayerPrompt.show(text: "获取参数失败,请返回上一页再试,请重试")
+                self.saveParameterBtn.isEnabled = true
+                
+            }
+        }
+    }
+    
+    //初始化页面
+    @objc func confirmSubmitParameterClicked(){
+        //获取用户信息
+        let userInfos = getCurrentUserInfo()
+        let token = userInfos.value(forKey: "token") as? String
+        let userId = userInfos.value(forKey: "userid") as? String
+        guard userId == "10000005" || userId == "10000029" || userId == "1000055" else {
+            greyLayerPrompt.show(text: "您没有修改参数权限")
+            return
+        }
+        //获取列表
+        let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
+        let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
+        let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
+        //定义请求参数
+        let params:NSMutableDictionary = NSMutableDictionary()
+        var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
         
         header["token"] = token
+
+        params["servicer_conversionRate_timeRange"] = _paramterSettingDic.value(forKey: "servicer_conversionRate_timeRange")
+        params["servicer_conversionRate_default"] = _paramterSettingDic.value(forKey: "servicer_conversionRate_default")
+        params["servicer_createLimit_reachedLimit"] = _paramterSettingDic.value(forKey: "servicer_createLimit_reachedLimit")
+        params["servicer_createLimit_unreachedLimit"] = _paramterSettingDic.value(forKey: "servicer_createLimit_unreachedLimit")
+            
+        params["manager_follow_timeRange"] = _paramterSettingDic.value(forKey: "manager_follow_timeRange")
+        params["manager_follow_top"] = _paramterSettingDic.value(forKey: "manager_follow_top")
+
+        params["design_dispatch_timeInterval"] = _paramterSettingDic.value(forKey: "design_dispatch_timeInterval")
+        params["design_weight_designNum"] = _paramterSettingDic.value(forKey: "design_weight_designNum")
+        params["design_weight_modifyNum"] = _paramterSettingDic.value(forKey: "design_weight_modifyNum")
+        params["design_weight_averageDesignTime"] = _paramterSettingDic.value(forKey: "design_weight_averageDesignTime")
+        params["design_weight_refuseRate"] = _paramterSettingDic.value(forKey: "design_weight_refuseRate")
+        params["design_weight_adoptRate"] = _paramterSettingDic.value(forKey: "design_weight_adoptRate")
+        params["design_dispatch_topWeight"] = _paramterSettingDic.value(forKey: "design_dispatch_topWeight")
+            
+        params["designer_onlineLimit"] = _paramterSettingDic.value(forKey: "designer_onlineLimit")
+            
+        params["designFee_defaul"] = _paramterSettingDic.value(forKey: "designFee_defaul")
+        params["designFee_set_default"] = _paramterSettingDic.value(forKey: "designFee_set_default")
+        params["designGuideFee_set_default"] = _paramterSettingDic.value(forKey: "designGuideFee_set_default")
+        params["designFee_set_defaultMaxValue"] = _paramterSettingDic.value(forKey: "designFee_set_defaultMaxValue")
+        params["designFee_Max"] = _paramterSettingDic.value(forKey: "designFee_Max")
+        params["designFee_Min"] = _paramterSettingDic.value(forKey: "designFee_Min")
         
         
         #if DEBUG
-        let requestUrl = apiAddresses.value(forKey: "managerGetOrderListAPIDebug") as! String
+        let requestUrl = apiAddresses.value(forKey: "paramterSettingSubmitAPIDebug") as! String
         #else
-        let requestUrl = apiAddresses.value(forKey: "managerGetOrderListAPI") as! String
+        let requestUrl = apiAddresses.value(forKey: "paramterSettingSubmitAPI") as! String
         #endif
         
         _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
@@ -1099,10 +1226,8 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
                     let json = JSON(value)
                     let statusCode = json["code"].int!
                     if statusCode == 200{
-                        let dic = json["data"].dictionaryObject as! NSMutableDictionary
-                        self._paramterSettingDic = dic
-                        self._savedParameterSettingDic = dic
-                        self.saveParameterBtn.isEnabled = true
+                        greyLayerPrompt.show(text: "参数更新成功")
+                        self.cancelUpdateClicked()
                     }else if statusCode == 99999 || statusCode == 99998{
                         //异常
                         autoLogin(viewControler: self)
@@ -1118,6 +1243,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             }
         }
     }
+    
     /*
     // MARK: - Navigation
 

@@ -30,6 +30,14 @@ class parameterSettingListTableViewCell: UITableViewCell,UITextFieldDelegate {
         return label
     }()
     
+    lazy var switchsButton:UISwitch = {
+        let tempSwitch = UISwitch.init(frame: CGRect(x: 200, y: 16, width: 51, height: 31))
+        tempSwitch.isOn = true
+        tempSwitch.isHidden = true
+        tempSwitch.addTarget(self, action: #selector(switchBtnValueChanged), for: .valueChanged)
+        return tempSwitch
+    }()
+    
     var textFieldMaxValue:Int = 0
     var textFieldMinValue:Int = 999
     var textFieldDefaultValue:Int = 0
@@ -74,6 +82,7 @@ class parameterSettingListTableViewCell: UITableViewCell,UITextFieldDelegate {
         self.contentView.addSubview(parameteUnit)
         self.contentView.addSubview(line)
         self.contentView.addSubview(titleLabel)
+        self.contentView.addSubview(switchsButton)
     }
 
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -162,8 +171,8 @@ class parameterSettingListTableViewCell: UITableViewCell,UITextFieldDelegate {
             switch selectedIndex{
             case 0:
                 //cell.titleLabel.text = "待跟大单时间范围(小时)"
-                let tempValue = String(format: "%.4f", (Double(parameterValue.text ?? "0") ?? 0) / 24.0)
-                fatherObject?._paramterSettingDic.setValue(tempValue, forKey: "manager_follow_timeRange")
+               // let tempValue = String(format: "%.4f", (Double(parameterValue.text ?? "0") ?? 0) / 24.0)
+                fatherObject?._paramterSettingDic.setValue(parameterValue.text, forKey: "manager_follow_timeRange")
             case 1:
                 // cell.titleLabel.text = "待跟大单选取比例(%)"
                 let tempValue = String(format: "%.4f", (Double((Int(parameterValue.text ?? "0") ?? 0) ) / 100.0))
@@ -249,5 +258,98 @@ class parameterSettingListTableViewCell: UITableViewCell,UITextFieldDelegate {
             
         }
          parameterValue.resignFirstResponder()
+    }
+    
+    @objc func switchBtnValueChanged(){
+        if switchsButton.isOn{
+            parameterValue.text = "100"
+            parameterValue.isEnabled = true
+            
+            switch parameterSetting {
+            case .CSCreateOrderSetting:
+                print("客服新建订单限制配置")
+            case .MGFollowOrderSetting:
+                print("经理跟单配置")
+            case .DSDistributeOrderSetting:
+                print("设计派单跟单配置")
+                switch selectedIndex{
+                case 0:
+                    print("设计派单轮换时间(秒)")
+                case 1:
+                    //cell.titleLabel.text = "设计权重-设计单权重"
+                    fatherObject?._paramterSettingDic.setValue(parameterValue.text, forKey: "design_weight_designNum")
+                    
+                case 2:
+                    //cell.titleLabel.text = "设计权重-修改单权重"
+                    fatherObject?._paramterSettingDic.setValue(parameterValue.text, forKey: "design_weight_modifyNum")
+                case 3:
+                    //cell.titleLabel.text = "设计权重-出图时间权重"
+                    fatherObject?._paramterSettingDic.setValue(parameterValue.text, forKey: "design_weight_averageDesignTime")
+                case 4:
+                    //cell.titleLabel.text = "设计权重-拒单率权重"
+                    fatherObject?._paramterSettingDic.setValue(parameterValue.text, forKey: "design_weight_refuseRate")
+                case 5:
+                    //cell.titleLabel.text = "设计权重-定稿率权重"
+                    fatherObject?._paramterSettingDic.setValue(parameterValue.text, forKey: "design_weight_adoptRate")
+                case 6:
+                    print("设计师选取比例(%)")
+                default:
+                    //cell.titleLabel.text = "设计权重-修改单权重"
+                    fatherObject?._paramterSettingDic.setValue(parameterValue.text, forKey: "design_weight_designNum")
+                }
+            case .DSHangUpSetting:
+                print("设计师派单配置")
+            case .DSDesignFeeSetting:
+                print("设计费配置")
+            default:
+                print("Will Never Execute")
+                
+            }
+            
+        }else{
+            parameterValue.text = "0"
+            parameterValue.isEnabled = false
+            
+            switch parameterSetting {
+            case .CSCreateOrderSetting:
+                print("客服新建订单限制配置")
+            case .MGFollowOrderSetting:
+                print("经理跟单配置")
+            case .DSDistributeOrderSetting:
+                print("设计派单跟单配置")
+                switch selectedIndex{
+                case 0:
+                    print("设计派单轮换时间(秒)")
+                case 1:
+                    //cell.titleLabel.text = "设计权重-设计单权重"
+                    fatherObject?._paramterSettingDic.setValue(parameterValue.text, forKey: "design_weight_designNum")
+                    
+                case 2:
+                    //cell.titleLabel.text = "设计权重-修改单权重"
+                    fatherObject?._paramterSettingDic.setValue(parameterValue.text, forKey: "design_weight_modifyNum")
+                case 3:
+                    //cell.titleLabel.text = "设计权重-出图时间权重"
+                    fatherObject?._paramterSettingDic.setValue(parameterValue.text, forKey: "design_weight_averageDesignTime")
+                case 4:
+                    //cell.titleLabel.text = "设计权重-拒单率权重"
+                    fatherObject?._paramterSettingDic.setValue(parameterValue.text, forKey: "design_weight_refuseRate")
+                case 5:
+                    //cell.titleLabel.text = "设计权重-定稿率权重"
+                    fatherObject?._paramterSettingDic.setValue(parameterValue.text, forKey: "design_weight_adoptRate")
+                case 6:
+                    print("设计师选取比例(%)")
+                default:
+                    //cell.titleLabel.text = "设计权重-修改单权重"
+                    fatherObject?._paramterSettingDic.setValue(parameterValue.text, forKey: "design_weight_designNum")
+                }
+            case .DSHangUpSetting:
+                print("设计师派单配置")
+            case .DSDesignFeeSetting:
+                print("设计费配置")
+            default:
+                print("Will Never Execute")
+                
+            }
+        }
     }
 }

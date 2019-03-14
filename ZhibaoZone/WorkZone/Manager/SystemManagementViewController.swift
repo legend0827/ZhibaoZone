@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class SystemManagementViewController: UIViewController,UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource {
 
@@ -253,6 +254,9 @@ class SystemManagementViewController: UIViewController,UIScrollViewDelegate,UITa
         scrollBackgroundView.addSubview(titleBar)
         scrollBackgroundView.addSubview(transferOrderBoardView)
         scrollBackgroundView.addSubview(parameterSettingTableView)
+        
+        self.getStatisticOfOrders(for: 2)
+        self.getStatisticOfOrders(for: 3)
     }
     
     override func didReceiveMemoryWarning() {
@@ -273,6 +277,79 @@ class SystemManagementViewController: UIViewController,UIScrollViewDelegate,UITa
         self.present(managerVC, animated: true, completion: nil)
     }
     
+    fileprivate func getStatisticOfOrders(for role:Int){
+        //获取用户信息
+        let userInfos = getCurrentUserInfo()
+        let token = userInfos.value(forKey: "token") as? String
+        
+        //获取列表
+        let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
+        let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
+        let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
+        //定义请求参数
+        let params:NSMutableDictionary = NSMutableDictionary()
+        var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
+        header["token"] = token
+        params["status"] = role
+        
+        #if DEBUG
+        let requestUrl = apiAddresses.value(forKey: "managerGetOrderListAPIDebug") as! String
+        #else
+        let requestUrl = apiAddresses.value(forKey: "managerGetOrderListAPI") as! String
+        #endif
+        
+        _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
+            (responseObject) in
+            switch responseObject.result.isSuccess{
+            case true:
+                if  let value = responseObject.result.value{
+                    let json = JSON(value)
+                    let statusCode = json["code"].int!
+                    if statusCode == 200{
+                        //正常
+                        let workshoplist = json["data"].array!
+                        if workshoplist.count == 0{
+                            if role == 2{
+                                self.waitForAcceptDesignCount.text = "0"
+                            }else{
+                                self.waitForAcceptProduceCount.text = "0"
+                            }
+                            
+                          //  self.checkListCount = 0
+                        }else{
+                            
+                            let numberDic = workshoplist[0].dictionaryObject as! NSDictionary
+                            
+                            if role == 2{
+                                self.waitForAcceptDesignCount.text = String(numberDic.value(forKey: "allnum") as! Int)
+                            }else{
+                                self.waitForAcceptProduceCount.text = String(numberDic.value(forKey: "allnum") as! Int)
+                            }
+                            
+                        }
+                        //                        //let numberOfOrder = json["data","totalnum"].int!
+                        //                        if numberOfOrder == 0{
+                        //                            self.orderAmount.text = "0"
+                        //                            self.checkListCount = 0
+                        //                        }else{
+                        //
+                        //                        }
+                    }else if statusCode == 99999 || statusCode == 99998{
+                        //异常
+                        //  greyLayerPrompt.show(text: "登录已失效,请重新登录")
+                        autoLogin(viewControler: self)
+                        //LogoutMission(viewControler: self)
+                    }else{
+                        //异常
+                    }
+                    
+                }
+            case false:
+                print("获取列表失败")
+                //greyLayerPrompt.show(text: "清空失败,请重试")
+            }
+        }
+    }
 }
 
 //extension SystemManagementViewController{

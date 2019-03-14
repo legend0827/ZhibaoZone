@@ -213,6 +213,14 @@
 		<string>http://192.144.146.126:81/dynamo/order/priceHistories</string>
 		<key>quotePriceHistoriesAPI</key>
 		<string>http://140.143.249.2:81/dynamo/order/priceHistories</string>
+		<key>paramterSettingInitAPIDebug</key>
+		<string>http://192.144.146.126:81/dynamo/order/initParam</string>
+		<key>paramterSettingInitAPI</key>
+		<string>http://140.143.249.2:81/dynamo/order/initParam</string>
+		<key>paramterSettingSubmitAPIDebug</key>
+		<string>http://192.144.146.126:81/dynamo/order/updateParam</string>
+		<key>paramterSettingSubmitAPI</key>
+		<string>http://140.143.249.2:81/dynamo/order/updateParam</string>
 	</dict>
 </dict>
 </plist>
