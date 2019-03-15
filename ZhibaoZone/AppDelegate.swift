@@ -320,19 +320,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         let now = NSDate()
         let savedTime = UserDefaults.standard.object(forKey: "statusUpdateTime") as? NSDate
         if savedTime != nil{
-            let timeInterval = now.timeIntervalSince(savedTime! as Date)
-            print("timeInterval is \(timeInterval)")
+//            let timeInterval = now.timeIntervalSince(savedTime! as Date)
+//            print("timeInterval is \(timeInterval)")
             if value == nil{
                 UIDevice.current.setValue(0, forKey: "orientation")
             }else{
-                if timeInterval >= 10*30{
-                    UIDevice.current.setValue(0, forKey: "orientation")
-                    let loginVC = ViewController()
-                    self.window?.rootViewController = loginVC
-                }else{
-                    UIDevice.current.setValue(value, forKey: "orientation")
-                }
-                
+                UIDevice.current.setValue(value, forKey: "orientation")
             }
         }else{
             print("timeInterval is nil")

@@ -1684,7 +1684,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
                         }else if statusCode == 201{
                             //needsUpdate
                             let alertLevel = json["data","alertLevel"].int!
-                            if alertLevel <= 3{
+                            if alertLevel == 4{
                                 self.view.addSubview(self.updateNoticeBGView)
                                 UIApplication.shared.statusBarView?.addSubview(self.fadeStatusBarBackgroundView)
                                 self.faceStatusBarView.removeAll()
@@ -1692,7 +1692,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
                                 self.updateNoticeBGView.addSubview(self.updateNoticeWindows)
                                 
                                 let updateLogTitle = json["data","logTitle"].string
-                                let updateLogContent = json["data","commonUpdateLog"].string
+                                let updateLogContent = json["data","managerUpdateLog"].string
                                 let language = json["data","language"].string!
                                 if language == "en_US"{
                                     self.updateNoticeWindows.image = UIImage(named: "updatebgimg-en")

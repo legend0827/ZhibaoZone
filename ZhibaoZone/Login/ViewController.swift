@@ -277,6 +277,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
         } catch  {
             fatalError("获取失败")
         }
+        appUpdateCheck()
         
         initSettings()
 
@@ -403,8 +404,6 @@ class ViewController: UIViewController,UITextFieldDelegate {
         setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .red))
         //返回值，前一个是已设置安全登录（true 是，false 否），后一个当前是关着还是开着的(true 开， false 关）
         
-        appUpdateCheck()
-        
         let result = checkSecuritySetting().1
         
         if result && checkSecuritySetting().0{  // 如果设置了手势登录（true)，并且是开着的(true)
@@ -490,10 +489,11 @@ class ViewController: UIViewController,UITextFieldDelegate {
             let hub = pleaseWait()
             let loginUser = User()
             loginUser.Login(username: username, password: password,view:self,hub:hub)
+            print("Call Login Now")
         }
     }
     
-    func appUpdateCheck(){
+    fileprivate func appUpdateCheck(){
         
         //获取列表
         let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")

@@ -139,6 +139,7 @@ class User: NSObject {
         params["loginip"] = getLocalIPAddressForCurrentWiFi()
         
         print("登录信息：\(params)")
+        print("call Login")
         var result = false
         
         let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
@@ -328,6 +329,7 @@ class User: NSObject {
         _username = username
         _password = password
         
+        print("call simleLogin")
         let params:NSMutableDictionary = NSMutableDictionary()
         params["mobilephone"] = self._username.lowercased()
         params["password"] = self._password

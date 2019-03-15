@@ -1204,7 +1204,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             
         params["designer_onlineLimit"] = _paramterSettingDic.value(forKey: "designer_onlineLimit")
             
-        params["designFee_defaul"] = _paramterSettingDic.value(forKey: "designFee_defaul")
+        params["designFee_default"] = _paramterSettingDic.value(forKey: "designFee_default")
         params["designFee_set_default"] = _paramterSettingDic.value(forKey: "designFee_set_default")
         params["designGuideFee_set_default"] = _paramterSettingDic.value(forKey: "designGuideFee_set_default")
         params["designFee_set_defaultMaxValue"] = _paramterSettingDic.value(forKey: "designFee_set_defaultMaxValue")
