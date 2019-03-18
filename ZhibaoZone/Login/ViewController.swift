@@ -121,22 +121,22 @@ class ViewController: UIViewController,UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setStatusBarHiden(toHidden: false, ViewController: self)
-        setStatusBarBackgroundColor(color: .backgroundColors(color: .red))
+        setStatusBarBackgroundColor(color: .backgroundColors(color: .clear))
         
-        self.view.backgroundColor = UIColor.white
+        self.view.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
         let welcomeLabel:UILabel = UILabel.init(frame: CGRect(x: 33, y: 94 + heightChangeForiPhoneXFromTop, width: 166, height: 30))
         welcomeLabel.text = "欢迎您"
         welcomeLabel.textAlignment = .left
-        welcomeLabel.font = UIFont.systemFont(ofSize: 22)
+        welcomeLabel.font = UIFont.boldSystemFont(ofSize: 22)
         welcomeLabel.textColor = UIColor.titleColors(color: .black)
-        self.view.addSubview(welcomeLabel)
+        //self.view.addSubview(welcomeLabel)
         
         let titleBarView:UIView = UIView.init(frame: CGRect(x: 0, y: 20 + heightChangeForiPhoneXFromTop, width: kWidth, height: 44))
         
-        titleBarView.backgroundColor = UIColor.backgroundColors(color: .red) // 红色主色调
-        titleBarTitle.textColor = UIColor.titleColors(color: .white)
+        titleBarView.backgroundColor = UIColor.backgroundColors(color: .clear) // 红色主色调
+        titleBarTitle.textColor = UIColor.titleColors(color: .black)
         titleBarTitle.textAlignment = .center
-        titleBarTitle.font = UIFont.systemFont(ofSize: 18)
+        titleBarTitle.font = UIFont.boldSystemFont(ofSize: 17)
         if isToLogin{
             titleBarTitle.text = "登录"
         }else{
@@ -148,21 +148,22 @@ class ViewController: UIViewController,UITextFieldDelegate {
         privatePolicyBtn.setTitle("查看隐私政策", for: .normal)
         privatePolicyBtn.frame = CGRect(x: 20, y: kHight - 80 - heightChangeForiPhoneXFromBottom, width: kWidth - 40, height: 17)
         privatePolicyBtn.contentVerticalAlignment = .center
+        privatePolicyBtn.setTitleColor(UIColor.titleColors(color: .darkGray), for: .normal)
         //privatePolicyBtn.titleLabel?.font =
         privatePolicyBtn.addTarget(self, action: #selector(privatepolicybtnClicked), for: .touchUpInside)
         self.view.addSubview(privatePolicyBtn)
         //用户名输入框
-        txtUser = UITextField(frame:CGRect(x:25, y:164 + heightChangeForiPhoneXFromTop, width:kWidth - 60, height:44))
+        txtUser = UITextField(frame:CGRect(x:25, y:100 + heightChangeForiPhoneXFromTop, width:kWidth - 60, height:44))
         txtUser.delegate = self
-        txtUser.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 54, height: 44))
-        txtUser.leftViewMode = UITextFieldViewMode.always
+       // txtUser.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 54, height: 44))
+        //txtUser.leftViewMode = UITextFieldViewMode.always
         //txtUser.layer.backgroundColor = UIColor.gray.cgColor
         txtUser.attributedPlaceholder = NSAttributedString(string: "请输入邮箱/手机号")
         txtUser.clearButtonMode = UITextFieldViewMode.always
         txtUser.keyboardType = UIKeyboardType.alphabet
         txtUser.returnKeyType = UIReturnKeyType.next
         
-        let seperateLineUnderUserName: UIView = UIView.init(frame: CGRect(x: 25, y: 208 + heightChangeForiPhoneXFromTop , width: kWidth - 50, height: 1))
+        let seperateLineUnderUserName: UIView = UIView.init(frame: CGRect(x: 25, y: 208 - 64 + heightChangeForiPhoneXFromTop , width: kWidth - 50, height: 1))
         seperateLineUnderUserName.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         self.view.addSubview(seperateLineUnderUserName)
 
@@ -170,31 +171,31 @@ class ViewController: UIViewController,UITextFieldDelegate {
         //用户名输入框左侧图标
         let imgUser = UIImageView(frame: CGRect(x: 11, y: 6, width: 24, height: 24))
         imgUser.image = UIImage(named:"iconfont-user")
-        txtUser.leftView!.addSubview(imgUser)
+       // txtUser.leftView!.addSubview(imgUser)
         self.view.addSubview(txtUser)
         
         //密码输入框
-        txtPwd = UITextField(frame:CGRect(x:25, y:225 + heightChangeForiPhoneXFromTop , width:kWidth - 60, height:44))
+        txtPwd = UITextField(frame:CGRect(x:25, y:225 - 64 + heightChangeForiPhoneXFromTop , width:kWidth - 60, height:44))
         txtPwd.delegate = self
         //txtPwd.layer.backgroundColor = UIColor.gray.cgColor
         txtPwd.isSecureTextEntry = true
-        txtPwd.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 54, height: 44))
-        txtPwd.leftViewMode = UITextFieldViewMode.always
+       // txtPwd.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 54, height: 44))
+       // txtPwd.leftViewMode = UITextFieldViewMode.always
         txtPwd.placeholder = "请输入密码"
         txtPwd.clearButtonMode = UITextFieldViewMode.always
         txtPwd.keyboardType = UIKeyboardType.alphabet
         txtPwd.returnKeyType = UIReturnKeyType.done
         
-        let seperateLineUnderPassword: UIView = UIView.init(frame: CGRect(x: 25, y: 269 + heightChangeForiPhoneXFromTop , width: kWidth - 50, height: 1))
+        let seperateLineUnderPassword: UIView = UIView.init(frame: CGRect(x: 25, y: 269 - 64 + heightChangeForiPhoneXFromTop , width: kWidth - 50, height: 1))
         seperateLineUnderPassword.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         self.view.addSubview(seperateLineUnderPassword)
 
         //重复密码输入框
-        repeatTxtPwd = UITextField(frame:CGRect(x:25, y:289 + heightChangeForiPhoneXFromTop, width:kWidth - 60, height:44))
+        repeatTxtPwd = UITextField(frame:CGRect(x:25, y:289 - 64 + heightChangeForiPhoneXFromTop, width:kWidth - 60, height:44))
         repeatTxtPwd.delegate = self
         repeatTxtPwd.isSecureTextEntry = true
-        repeatTxtPwd.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 54, height: 44))
-        repeatTxtPwd.leftViewMode = UITextFieldViewMode.always
+        //repeatTxtPwd.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 54, height: 44))
+       // repeatTxtPwd.leftViewMode = UITextFieldViewMode.always
         //repeatTxtPwd.layer.backgroundColor = UIColor.gray.cgColor
         repeatTxtPwd.placeholder = "请再次输入密码"
         repeatTxtPwd.clearButtonMode = UITextFieldViewMode.always
@@ -202,7 +203,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
         repeatTxtPwd.returnKeyType = UIReturnKeyType.done
         repeatTxtPwd.isHidden = true
         
-        seperateLineUnderRepeatPassword.frame = CGRect(x: 25, y: 333 + heightChangeForiPhoneXFromTop, width: kWidth - 50, height: 1)
+        seperateLineUnderRepeatPassword.frame = CGRect(x: 25, y: 333 - 64 + heightChangeForiPhoneXFromTop, width: kWidth - 50, height: 1)
         seperateLineUnderRepeatPassword.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         seperateLineUnderRepeatPassword.isHidden = true
         self.view.addSubview(seperateLineUnderRepeatPassword)
@@ -211,12 +212,12 @@ class ViewController: UIViewController,UITextFieldDelegate {
         //密码输入框左侧图标
         let imgPwd = UIImageView(frame: CGRect(x: 13, y: 7, width: 19, height: 24))
         imgPwd.image = UIImage(named:"iconfont-password")
-        txtPwd.leftView!.addSubview(imgPwd)
+       // txtPwd.leftView!.addSubview(imgPwd)
         
         //重复密码输入框左侧图标
         let imgRepatePwd = UIImageView(frame: CGRect(x: 13, y: 7, width: 19, height: 24))
         imgRepatePwd.image = UIImage(named:"iconfont-password")
-        repeatTxtPwd.leftView!.addSubview(imgRepatePwd)
+       // repeatTxtPwd.leftView!.addSubview(imgRepatePwd)
         
         self.view.addSubview(txtPwd)
         self.view.addSubview(repeatTxtPwd)
@@ -224,11 +225,11 @@ class ViewController: UIViewController,UITextFieldDelegate {
         
         //设置登录按钮
         SubmitBtn = UIButton.init(type: UIButtonType.system)
-        SubmitBtn.frame = CGRect(x:25, y:398 + heightChangeForiPhoneXFromTop, width:kWidth - 50, height: 45)
+        SubmitBtn.frame = CGRect(x:25, y:362 + heightChangeForiPhoneXFromTop, width:kWidth - 50, height: 45)
         SubmitBtn.layer.borderColor = UIColor.clear.cgColor
-        SubmitBtn.layer.cornerRadius = 6
+        SubmitBtn.layer.cornerRadius = 2
         SubmitBtn.layer.borderWidth = 0.5
-        SubmitBtn.layer.backgroundColor = UIColor.backgroundColors(color: .red).cgColor
+        SubmitBtn.layer.backgroundColor = UIColor.lineColors(color: .lightOrange).cgColor
         
         if isToLogin{
             SubmitBtn.setTitle("登录", for: UIControlState.normal)
@@ -241,10 +242,11 @@ class ViewController: UIViewController,UITextFieldDelegate {
         
         
         //显示注册按钮
-        registerOrLoginBtn.frame = CGRect(x: kWidth - 185, y: 284 + heightChangeForiPhoneXFromTop, width: 160, height: 20)
+        registerOrLoginBtn.frame = CGRect(x: kWidth - 185, y: 284 - 64 + heightChangeForiPhoneXFromTop, width: 160, height: 20)
         registerOrLoginBtn.setTitle("还没有账号？点此注册", for: .normal)
         registerOrLoginBtn.titleLabel?.textAlignment = .right
-        registerOrLoginBtn.setTitleColor(#colorLiteral(red: 0.9104188085, green: 0.2962309122, blue: 0.2970536053, alpha: 1), for: UIControlState())
+        registerOrLoginBtn.contentHorizontalAlignment = .right
+        registerOrLoginBtn.setTitleColor(UIColor.titleColors(color: .darkGray), for: UIControlState())
         registerOrLoginBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         registerOrLoginBtn.addTarget(self, action: #selector(switchLoginOrRegisterBtnClicked), for: UIControlEvents.touchUpInside)
         self.view.addSubview(registerOrLoginBtn)
@@ -290,8 +292,8 @@ class ViewController: UIViewController,UITextFieldDelegate {
             repeatTxtPwd.isHidden = false
             SubmitBtn.setTitle("注册", for: .normal)
             registerOrLoginBtn.setTitle("已有账号？去登录", for: .normal)
-            registerOrLoginBtn.frame = CGRect(x: kWidth - 165, y: 338 + heightChangeForiPhoneXFromTop, width: 140, height: 20)//CGRect(x: 25, y: 308, width: 140, height: 22)
-            SubmitBtn.frame = CGRect(x:25, y:398 + heightChangeForiPhoneXFromTop, width:kWidth - 50, height: 44)
+            registerOrLoginBtn.frame = CGRect(x: kWidth - 185, y: 338 - 64 + heightChangeForiPhoneXFromTop, width: 160, height: 20)//CGRect(x: 25, y: 308, width: 140, height: 22)
+            SubmitBtn.frame = CGRect(x:25, y:362 + heightChangeForiPhoneXFromTop, width:kWidth - 50, height: 44)
             useGestureLoginBtn.isHidden = true
             txtUser.text = ""
             txtPwd.text = ""
@@ -303,10 +305,10 @@ class ViewController: UIViewController,UITextFieldDelegate {
             repeatTxtPwd.isHidden = true
             SubmitBtn.setTitle("登录", for: .normal)
             registerOrLoginBtn.setTitle("还没有账号？点此注册", for: .normal)
-            registerOrLoginBtn.frame = CGRect(x: kWidth - 185, y: 284 + heightChangeForiPhoneXFromTop, width: 160, height: 20)// CGRect(x: 0, y: 254, width: 200, height: 22)
-            SubmitBtn.frame = CGRect(x:25, y:398 + heightChangeForiPhoneXFromTop, width:kWidth - 50, height: 44)
+            registerOrLoginBtn.frame = CGRect(x: kWidth - 185, y: 284 - 64 + heightChangeForiPhoneXFromTop, width: 160, height: 20)// CGRect(x: 0, y: 254, width: 200, height: 22)
+            SubmitBtn.frame = CGRect(x:25, y:362 + heightChangeForiPhoneXFromTop, width:kWidth - 50, height: 44)
             useGestureLoginBtn.isHidden = false
-            useGestureLoginBtn.frame = CGRect(x: 25, y: 284 + heightChangeForiPhoneXFromTop, width: 100, height: 22)
+            useGestureLoginBtn.frame = CGRect(x: 25, y: 284 - 64 + heightChangeForiPhoneXFromTop, width: 100, height: 22)
             txtUser.text = presentUsername
             seperateLineUnderRepeatPassword.isHidden = true
         }
@@ -397,11 +399,11 @@ class ViewController: UIViewController,UITextFieldDelegate {
     }
     override func viewWillAppear(_ animated: Bool) {
         setStatusBarHiden(toHidden: false, ViewController: self)
-        setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .red))
+        setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .clear))
     }
     override func viewDidAppear(_ animated: Bool) {
         setStatusBarHiden(toHidden: false, ViewController: self)
-        setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .red))
+        setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .clear))
         //返回值，前一个是已设置安全登录（true 是，false 否），后一个当前是关着还是开着的(true 开， false 关）
         
         let result = checkSecuritySetting().1
@@ -489,7 +491,6 @@ class ViewController: UIViewController,UITextFieldDelegate {
             let hub = pleaseWait()
             let loginUser = User()
             loginUser.Login(username: username, password: password,view:self,hub:hub)
-            print("Call Login Now")
         }
     }
     

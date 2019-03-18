@@ -478,7 +478,7 @@ func setStatusBarBackgroundColor(color : UIColor) {
     if statusBar.responds(to:#selector(setter: UIView.backgroundColor)) {
         statusBar.backgroundColor = color
     }
-    if color == UIColor.backgroundColors(color: .red) || color == UIColor.backgroundColors(color: .black) || color == UIColor.backgroundColors(color: .clear){
+    if color == UIColor.backgroundColors(color: .red) || color == UIColor.backgroundColors(color: .black) { //|| color == UIColor.backgroundColors(color: .clear)
         UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent // 改成白色字体
     }else{
         UIApplication.shared.statusBarStyle = UIStatusBarStyle.default // 改成深色字体
