@@ -44,7 +44,7 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
     
     //转接的生产费用
     lazy var newProducePriceTextField:UITextField = {
-       let tempTextField = UITextField.init(frame: CGRect(x: 158, y: 10, width: kWidth - 158, height: 32))
+       let tempTextField = UITextField.init(frame: CGRect(x: 158, y: 18, width: kWidth - 158, height: 32))
         tempTextField.keyboardType = .decimalPad
         tempTextField.placeholder = "请输入给新车间的生产费"
         tempTextField.delegate = self
@@ -52,7 +52,7 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         return tempTextField
     }()
     lazy var newProducePriceLabel:UILabel = {
-        let tempLabel = UILabel.init(frame: CGRect(x: 20, y: 15, width: 200, height: 22))
+        let tempLabel = UILabel.init(frame: CGRect(x: 20, y: 23, width: 200, height: 22))
         tempLabel.text = "生产费用(元）:"
         tempLabel.textColor = UIColor.titleColors(color: .black)
         tempLabel.font = UIFont.systemFont(ofSize: 16)
@@ -64,6 +64,7 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         tempTextField.keyboardType = .numberPad
         tempTextField.delegate = self
         tempTextField.placeholder = "请输入给新车间的生产工期"
+        tempTextField.text = "-1"
         tempTextField.font = UIFont.systemFont(ofSize: 16)
         return tempTextField
     }()
@@ -215,7 +216,7 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
     
     //选择账号的弹窗
     lazy var selectionBgView:UIView = {
-        let tempView = UIView.init(frame: CGRect(x: 0, y: kHight, width: kWidth, height: kHight - 168 - heightChangeForiPhoneXFromTop)) //208 + heightChangeForiPhoneXFromTop
+        let tempView = UIView.init(frame: CGRect(x: 0, y: kHight , width: kWidth, height: kHight - 168 - heightChangeForiPhoneXFromTop)) //208 + heightChangeForiPhoneXFromTop
         tempView.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
         tempView.layer.cornerRadius = 20
         return tempView
@@ -403,6 +404,8 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
     }
     @objc func closeKeyboard(){
         searchOrderTextFiled.resignFirstResponder()
+        newProducePriceTextField.resignFirstResponder()
+        newProducePeriodTextField.resignFirstResponder()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -435,7 +438,10 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
             let orderid = orderObject.value(forKey: "orderid") as! String
             let servicename = orderObject.value(forKey: "servicername") as! String
             let workshopname = orderObject.value(forKey: "workshopname") as! String
-            let producePrice = orderObject.value(forKey: "producePrice") as! Double
+            var producePrice:Double = 0.0
+            if _pagingType == .producingOrder{
+                producePrice = orderObject.value(forKey: "producePrice") as! Double
+            }
            // translist = orderObject.value(forKey: "translist") as! [NSDictionary]
             
             cell.customernikeNameLabel.text = "客服: " + servicename
@@ -455,6 +461,8 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
                 let nsRange = orignalText.string.nsRange(from: range!)
                 orignalText.addAttributes([NSAttributedStringKey.foregroundColor:UIColor.titleColors(color: .red)], range: nsRange)
                 cell.producePriceLabel.attributedText = orignalText
+            }else{
+                cell.producePriceLabel.isHidden = true
             }
             //获取订单图片
             if orderObject.value(forKey: "smallGoodsImage") as? String == nil{ // 图片字段为空
@@ -578,7 +586,7 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         theOrderToSwitch = index // 设置待转出订单
         isToCheckList = false
         
-        userAccountTable.reloadData()
+       // userAccountTable.reloadData()
         confirmSelection.frame = CGRect(x: kWidth - 220, y: 20, width: 200, height: 22)
         confirmSelection.setTitle("确定", for: .normal)
         confirmSelection.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
@@ -602,13 +610,13 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
        
         if _pagingType == .producingOrder{
             selectionTitle.text = "请选转接的车间"
-            let NewPriceBG:UIView = UIView.init(frame: CGRect(x: 0, y: 65, width: kWidth, height: 106))
+            let NewPriceBG:UIView = UIView.init(frame: CGRect(x: 0, y: 65, width: kWidth, height: 67))
             NewPriceBG.backgroundColor = UIColor.backgroundColors(color: .white)
             selectionBgView.addSubview(NewPriceBG)
             
             let seperateLine1:UIView  = UIView.init(frame: CGRect(x: 15, y: 53, width: kWidth - 30, height: 0.5))
             seperateLine1.backgroundColor = UIColor.lineColors(color: .grayLevel3)
-            NewPriceBG.addSubview(seperateLine1)
+           // NewPriceBG.addSubview(seperateLine1)
             
             newProducePeriodTextField.frame = CGRect(x: 158, y: seperateLine1.frame.maxY + 10, width: kWidth - 158, height: 32)
             newProducePeriodLabel.frame = CGRect(x: 20, y: seperateLine1.frame.maxY + 15, width: 200, height: 22)
@@ -618,17 +626,17 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
 //            NewPriceBG.addSubview(seperateLine2)
             
             NewPriceBG.addSubview(newProducePriceLabel)
-            NewPriceBG.addSubview(newProducePeriodLabel)
+            //NewPriceBG.addSubview(newProducePeriodLabel)
             NewPriceBG.addSubview(newProducePriceTextField)
-            NewPriceBG.addSubview(newProducePeriodTextField)
+            //NewPriceBG.addSubview(newProducePeriodTextField)
             
-            let hint:UILabel = UILabel.init(frame: CGRect(x: 20, y: NewPriceBG.frame.maxY + 20, width: 200, height: 22))
+            let hint:UILabel = UILabel.init(frame: CGRect(x: 20, y: NewPriceBG.frame.maxY + 15, width: 200, height: 22))
             hint.text = "接受订单车间:"
-            hint.textColor = UIColor.titleColors(color: .gray)
-            hint.font = UIFont.systemFont(ofSize: 16)
+            hint.textColor = UIColor.titleColors(color: .black)
+            hint.font = UIFont.boldSystemFont(ofSize: 15)
             selectionBgView.addSubview(hint)
             
-            userAccountTable.frame = CGRect(x: 0, y: 217, width: kWidth, height: selectionBgView.frame.height - 237 - heightChangeForiPhoneXFromBottom)
+            userAccountTable.frame = CGRect(x: 0, y: 187, width: kWidth, height: selectionBgView.frame.height - 207 - heightChangeForiPhoneXFromBottom)
         }
         
         
@@ -639,12 +647,15 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         
         blurView.contentView.addSubview(grayLayer)
         grayLayer.addSubview(selectionBgView)
-        managerVCObject.view.addSubview(blurView)
-        
+        //managerVCObject.view.addSubview(blurView)
+        let window = UIApplication.shared.keyWindow
+        window?.addSubview(blurView)
+       // self.view.addSubview(blurView)
         userAccountTable.reloadData()
         setStatusBarHiden(toHidden: true, ViewController: managerVCObject)
         UIView.animate(withDuration: 0.3) {
-            self.selectionBgView.transform = CGAffineTransform(translationX: 0, y:  -kHight + 188 + heightChangeForiPhoneXFromTop) // 208 + heightChangeForiPhoneXFromTop
+            //self.selectionBgView.transform = CGAffineTransform(translationX: 0, y:  -kHight + 188 + heightChangeForiPhoneXFromTop) // 208 + heightChangeForiPhoneXFromTop
+             self.selectionBgView.transform = CGAffineTransform(translationX: 0, y:  -kHight + 188 + heightChangeForiPhoneXFromTop) // 208 + heightChangeForiPhoneXFromTop
         }
     }
     
@@ -712,16 +723,18 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
     }
     
     @objc func confirmClicked(){
+        if _pagingType == .producingOrder{
         
-        if newProducePriceTextField.text == "" || newProducePriceTextField.text == "0" {
-            greyLayerPrompt.show(text: "转接金额不能为空或为0")
-            return
+            if newProducePriceTextField.text == "" || newProducePriceTextField.text == "0" {
+                greyLayerPrompt.show(text: "转接金额不能为空或为0")
+                return
+            }
+            if newProducePeriodTextField.text == "" || newProducePeriodTextField.text == "0" {
+                greyLayerPrompt.show(text: "转接工期不能为空或为0")
+                return
+            }
+            
         }
-        if newProducePeriodTextField.text == "" || newProducePeriodTextField.text == "0" {
-            greyLayerPrompt.show(text: "转接工期不能为空或为0")
-            return
-        }
-        
         cancelBtnClicked()
         //设置数据
         let orderObject = searchResultList[theOrderToSwitch]
@@ -792,8 +805,9 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         switchDoubleCheckBgView.addSubview(beforeAccount)
         switchDoubleCheckBgView.addSubview(afterAccount)
         switchDoubleCheckBgView.addSubview(confirmSwitchBtn)
+        switchDoubleCheckBgView.frame =  CGRect(x: 20, y: 0, width: kWidth - 40, height: (kWidth - 40)*325/325 + 80) //208 + heightChangeForiPhoneXFromTop
         if _pagingType == .producingOrder {
-            switchDoubleCheckBgView.frame =  CGRect(x: 20, y: 0, width: kWidth - 40, height: (kWidth - 40)*325/325 + 80) //208 + heightChangeForiPhoneXFromTop
+           // switchDoubleCheckBgView.frame =  CGRect(x: 20, y: 0, width: kWidth - 40, height: (kWidth - 40)*325/325 + 80) //208 + heightChangeForiPhoneXFromTop
             switchDoubleCheckBgView.addSubview(beforePriceAndPeriod)
             switchDoubleCheckBgView.addSubview(afterPriceAndPeriod)
             var oldProducePrice = ""
@@ -803,7 +817,7 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
                 oldProducePrice = String(orderObject.value(forKey: "producePrice") as! Double)
             }
             let newProducePrice = newProducePriceTextField.text!
-            let newProducePeriod = newProducePeriodTextField.text!
+            let newProducePeriod = "-"// newProducePeriodTextField.text!
            
             beforePriceAndPeriod.text = "产品费/工期: ¥\(oldProducePrice) / - 天"
             afterPriceAndPeriod.text = "生产费/工期: ¥\(newProducePrice) / \(newProducePeriod) 天"
@@ -822,7 +836,8 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         blurView.contentView.addSubview(grayLayer)
         grayLayer.addSubview(switchDoubleCheckBgView)
         grayLayer.addSubview(closeBtnOfSavePreview)
-        managerVCObject.view.addSubview(blurView)
+        let windows = UIApplication.shared.keyWindow
+        windows!.addSubview(blurView)
         setStatusBarHiden(toHidden: true, ViewController: managerVCObject)
         UIView.animate(withDuration: 0.3) {
             self.switchDoubleCheckBgView.transform = CGAffineTransform(translationX: 0, y: 160)
@@ -939,8 +954,13 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         params["id"] = newID
         header["token"] = token
         params["orderid"] = orderid
-        params["producePrice"] = newProducePriceTextField.text!
-        params["duration"] = newProducePeriodTextField.text!
+        if _pagingType == .producingOrder{
+            params["producePrice"] = newProducePriceTextField.text!
+            params["duration"] = -1//newProducePeriodTextField.text!
+        }else{
+            params["producePrice"] = -1
+            params["duration"] = -1
+        }
         
             #if DEBUG
             let requestUrl = apiAddresses.value(forKey: "switchOrderAPIDebug") as! String

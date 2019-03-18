@@ -56,8 +56,12 @@ class SystemManagementViewController: UIViewController,UIScrollViewDelegate,UITa
         produceOrderView.layer.borderColor = UIColor.lineColors(color: .grayLevel3).cgColor
         produceOrderView.layer.borderWidth = 0.5
         
-        let titleOfProduce:UILabel = UILabel.init(frame: CGRect(x: 20, y: 22, width: (kWidth - 37)/2 - 40, height: 21))
-        titleOfProduce.text = "生产单管理"
+        let titleImageOfProduce:UIImageView = UIImageView.init(frame: CGRect(x: ((kWidth - 37)/2 - 40)/2, y: 20, width: 40, height: 40))
+        titleImageOfProduce.image = UIImage(named: "factoryordericonimg")
+        produceOrderView.addSubview(titleImageOfProduce)
+        
+        let titleOfProduce:UILabel = UILabel.init(frame: CGRect(x: 20, y: 70, width: (kWidth - 37)/2 - 40, height: 21))
+        titleOfProduce.text = "待接受生产订单数"
         titleOfProduce.textAlignment = .center
         titleOfProduce.font = UIFont.systemFont(ofSize: 15)
         titleOfProduce.textColor = UIColor.titleColors(color: .black)
@@ -80,8 +84,12 @@ class SystemManagementViewController: UIViewController,UIScrollViewDelegate,UITa
         designOrderView.layer.borderColor = UIColor.lineColors(color: .grayLevel3).cgColor
         designOrderView.layer.borderWidth = 0.5
         
-        let titleOfDesign:UILabel = UILabel.init(frame: CGRect(x: 20, y: 22, width: (kWidth - 37)/2 - 40, height: 21))
-        titleOfDesign.text = "设计单管理"
+        let titleImageOfDesign:UIImageView = UIImageView.init(frame: CGRect(x: ((kWidth - 37)/2 - 40)/2, y: 20, width: 40, height: 40))
+        titleImageOfDesign.image = UIImage(named: "designordericonimg")
+        designOrderView.addSubview(titleImageOfDesign)
+        
+        let titleOfDesign:UILabel = UILabel.init(frame: CGRect(x: 20, y: 70, width: (kWidth - 37)/2 - 40, height: 21))
+        titleOfDesign.text = "待接受设计订单数"
         titleOfDesign.textAlignment = .center
         titleOfDesign.font = UIFont.systemFont(ofSize: 15)
         titleOfDesign.textColor = UIColor.titleColors(color: .black)
@@ -274,6 +282,7 @@ class SystemManagementViewController: UIViewController,UIScrollViewDelegate,UITa
     
     @objc func jumpToSwitchOrder(){
         let managerVC = ManagerViewController()
+        managerVC._tabBarVC = self._tabBarVC
         self.present(managerVC, animated: true, completion: nil)
     }
     

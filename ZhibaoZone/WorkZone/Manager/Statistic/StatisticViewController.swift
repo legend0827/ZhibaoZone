@@ -46,7 +46,11 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
         cell.facInquryOrderCountLabel.isHidden = true
         cell.facAcceptOrderAmountLabel.isHidden = true
         cell.numberSequence.isHidden = false
-        cell.numberSequence.text = "\(indexPath.row)"
+        if indexPath.row == 0 {
+            cell.numberSequence.text = "-"
+        }else{
+            cell.numberSequence.text = "\(indexPath.row)"
+        }
         switch statisticRoleType {
         case 1://客服
             
