@@ -152,8 +152,8 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
         //自定义导航栏 navigationBar
         let navBar = UINavigationBar(frame: CGRect(x:0, y:20 + heightChangeForiPhoneXFromTop, width:kWidth, height:44))
         // 导航栏背景颜色
-        navBar.backgroundColor = UIColor.backgroundColors(color: .red)
-        navBar.barTintColor = UIColor.backgroundColors(color: .red)
+        navBar.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
+        navBar.barTintColor = UIColor.backgroundColors(color: .lightestGray)
         navBar.isTranslucent = false //关闭模糊效果
         //这里是导航栏透明
         //navBar.shadowImage = UIImage()
@@ -162,9 +162,9 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
         // 自定义导航栏的title，用UILabel实现
         let titleLabel = UILabel(frame: CGRect(x:0,y:0,width:50,height:60))
         titleLabel.text = "消息列表"
-        titleLabel.textColor = UIColor.titleColors(color: .white)
+        titleLabel.textColor = UIColor.titleColors(color: .black)
         // 这里使用系统自定义的字体
-        titleLabel.font = UIFont.systemFont(ofSize: 18)
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
         
         // 创建导航栏组件
         let navItem = UINavigationItem()
@@ -172,14 +172,14 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
         navItem.titleView = titleLabel
         
         //        // 创建左侧按钮
-        let backImg=UIImage(named: "left-arrow-white")
+        let backImg=UIImage(named: "left-arrow-black")
         let leftBarItem=UIBarButtonItem(image: backImg, style: UIBarButtonItemStyle.plain, target: self, action: #selector(cancelBtnClicked))
-        leftBarItem.tintColor = UIColor.backgroundColors(color: .white)
+        leftBarItem.tintColor = UIColor.backgroundColors(color: .black)
         let delImg = UIImage(named: "clearmsgimg-white")
         //添加导航栏右侧的取消按钮
         let rightBarItem = UIBarButtonItem(image: delImg, style: .plain,
                                            target: self, action: #selector(clearAllMessgesInList))
-        rightBarItem.tintColor = UIColor.backgroundColors(color: .white)
+        rightBarItem.tintColor = UIColor.backgroundColors(color: .black)
         //        // 添加左侧、右侧按钮
         navItem.setLeftBarButton(leftBarItem, animated: false)
         navItem.setRightBarButton(rightBarItem, animated: false)
@@ -191,7 +191,7 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
         // 导航栏添加到view上
         self.view.addSubview(navBar)
         //灰层
-        self.view.backgroundColor = UIColor.backgroundColors(color: .white)
+        self.view.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
         
         
         //下载图片链接地址
@@ -234,11 +234,11 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
     
     override func viewWillAppear(_ animated: Bool) {
         getMessageList()
-        setStatusBarBackgroundColor(color: .backgroundColors(color: .red))
+        setStatusBarBackgroundColor(color: .backgroundColors(color: .clear))
         setStatusBarHiden(toHidden: false, ViewController: self)
     }
     override func viewWillDisappear(_ animated: Bool) {
-        setStatusBarBackgroundColor(color: .clear)
+        setStatusBarBackgroundColor(color: .backgroundColors(color: .clear))
         setStatusBarHiden(toHidden: false, ViewController: self)
     }
     func getMessageList(){

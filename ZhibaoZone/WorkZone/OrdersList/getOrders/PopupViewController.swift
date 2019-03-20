@@ -38,9 +38,9 @@ class PopupViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         UIApplication.shared.isStatusBarHidden = false
         if actionFromMessage{
-            setStatusBarBackgroundColor(color: .backgroundColors(color: .red))
+            setStatusBarBackgroundColor(color: .backgroundColors(color: .clear))
         }else{
-            setStatusBarBackgroundColor(color: .clear)
+            setStatusBarBackgroundColor(color: .backgroundColors(color: .clear))
         }
         setStatusBarHiden(toHidden: false, ViewController: self)
         
