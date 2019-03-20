@@ -289,7 +289,7 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         
         self.view.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
         let temview:UIView = UIView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: 12))
-        temview.backgroundColor = UIColor.backgroundColors(color: .white)
+        temview.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
         self.view.addSubview(temview)
         
         let titleOfOrdersSummary:UILabel = UILabel.init(frame: CGRect(x: 20, y: 12, width: 200, height: 22))

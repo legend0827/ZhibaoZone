@@ -74,13 +74,13 @@ class ManagerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor.backgroundColors(color: .white)
+        self.view.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
         
         //自定义导航栏 navigationBar
         let navBar = UINavigationBar(frame: CGRect(x:0, y:20 + heightChangeForiPhoneXFromTop, width:kWidth, height:44))
         // 导航栏背景颜色
-        navBar.backgroundColor = UIColor.backgroundColors(color: .white)
-        navBar.barTintColor = UIColor.backgroundColors(color: .white)
+        navBar.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
+        navBar.barTintColor = UIColor.backgroundColors(color: .lightestGray)
         navBar.isTranslucent = false //关闭模糊效果
         //这里是导航栏透明
         //navBar.shadowImage = UIImage()

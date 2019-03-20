@@ -78,7 +78,7 @@ class invoiceViewController: UIViewController,UIScrollViewDelegate {
         titleLabel.text = "开入发票信息"
         titleLabel.textColor = UIColor.titleColors(color: .black)
         // 这里使用系统自定义的字体
-        titleLabel.font = UIFont.systemFont(ofSize: 18)
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
         
         // 创建导航栏组件
         let navItem = UINavigationItem()

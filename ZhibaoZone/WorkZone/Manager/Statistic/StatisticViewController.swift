@@ -1134,10 +1134,11 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
         //设置横屏
         let value = UIInterfaceOrientation.landscapeRight.rawValue
         UIDevice.current.setValue(value, forKey: "orientation")
-        
-        print("View Will Appear")
     }
-    
+    override func viewWillDisappear(_ animated: Bool) {
+        setStatusBarBackgroundColor(color: UIColor.clear)
+        setStatusBarHiden(toHidden: false, ViewController: self)
+    }
     private func loadMore() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.page += 1

@@ -647,7 +647,7 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
                         }else{
                             self.totalPageCount = totalOrderCount/self.orderCount
                             for item in json["data","pageData"].array! {
-                                let restoreItem = item.dictionaryObject as! NSDictionary
+                                let restoreItem = item.dictionaryObject! as NSDictionary
                                 self.orderArray.append(restoreItem)
                             }
                             if !self.view.subviews.contains(self.orderSearchCollectionView) {

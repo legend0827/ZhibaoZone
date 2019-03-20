@@ -84,8 +84,8 @@ class designerOnlineStatusViewController: UIViewController,UITableViewDelegate,U
         //自定义导航栏 navigationBar
         let navBar = UINavigationBar(frame: CGRect(x:0, y:20 + heightChangeForiPhoneXFromTop, width:kWidth, height:44))
         // 导航栏背景颜色
-        navBar.backgroundColor = UIColor.backgroundColors(color: .red)
-        navBar.barTintColor = UIColor.backgroundColors(color: .red)
+        navBar.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
+        navBar.barTintColor = UIColor.backgroundColors(color: .lightestGray)
         navBar.isTranslucent = false //关闭模糊效果
         //这里是导航栏透明
         //navBar.shadowImage = UIImage()
@@ -104,9 +104,9 @@ class designerOnlineStatusViewController: UIViewController,UITableViewDelegate,U
             titleLabel.text = "设计师在线状态"
         }
         
-        titleLabel.textColor = UIColor.titleColors(color: .white)
+        titleLabel.textColor = UIColor.titleColors(color: .black)
         // 这里使用系统自定义的字体
-        titleLabel.font = UIFont.systemFont(ofSize: 18)
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
         
         // 创建导航栏组件
         let navItem = UINavigationItem()
@@ -114,9 +114,9 @@ class designerOnlineStatusViewController: UIViewController,UITableViewDelegate,U
         navItem.titleView = titleLabel
         
         //        // 创建左侧按钮
-        let backImg=UIImage(named: "left-arrow-white")
+        let backImg=UIImage(named: "left-arrow-black")
         let leftBarItem=UIBarButtonItem(image: backImg, style: UIBarButtonItemStyle.plain, target: self, action: #selector(cancelBtnClicked))
-        leftBarItem.tintColor = UIColor.backgroundColors(color: .white)
+        leftBarItem.tintColor = UIColor.backgroundColors(color: .black)
         //        // 添加左侧、右侧按钮
         navItem.setLeftBarButton(leftBarItem, animated: false)
         
@@ -127,7 +127,7 @@ class designerOnlineStatusViewController: UIViewController,UITableViewDelegate,U
         // 导航栏添加到view上
         self.view.addSubview(navBar)
         //灰层
-        self.view.backgroundColor = UIColor.backgroundColors(color: .white)
+        self.view.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
         //添加下拉刷新
         //addPullToRefresh(animator: header)
         onlineListTableView.es.addPullToRefresh {
@@ -153,11 +153,11 @@ class designerOnlineStatusViewController: UIViewController,UITableViewDelegate,U
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        setStatusBarBackgroundColor(color: .backgroundColors(color: .red))
+        setStatusBarBackgroundColor(color: .backgroundColors(color: .clear))
         setStatusBarHiden(toHidden: false, ViewController: self)
     }
     override func viewWillDisappear(_ animated: Bool) {
-        setStatusBarBackgroundColor(color: .clear)
+        setStatusBarBackgroundColor(color: .backgroundColors(color: .clear))
         setStatusBarHiden(toHidden: false, ViewController: self)
     }
     @objc func getOnlineStatus(){

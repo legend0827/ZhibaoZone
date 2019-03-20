@@ -48,7 +48,7 @@ class ShippingCompanyNameListViewController: UIViewController,UITableViewDelegat
         case 12://U
             return 1
         case 13://Y
-            return 3
+            return 4
         case 14://Z
             return 1
 //        case 15://#
@@ -112,8 +112,10 @@ class ShippingCompanyNameListViewController: UIViewController,UITableViewDelegat
                 cell.titleLabel.text = (shippingCompanyArray[17].value(forKey: "name") as! String)
             }else if indexPath.row == 1{
                 cell.titleLabel.text = (shippingCompanyArray[18].value(forKey: "name") as! String)
-            }else{
+            }else if indexPath.row == 2{
                 cell.titleLabel.text = (shippingCompanyArray[19].value(forKey: "name") as! String)
+            }else{
+                cell.titleLabel.text = (shippingCompanyArray[21].value(forKey: "name") as! String)
             }
         case 14://Z
             cell.titleLabel.text = (shippingCompanyArray[20].value(forKey: "name") as! String)
@@ -209,6 +211,9 @@ class ShippingCompanyNameListViewController: UIViewController,UITableViewDelegat
         case [13,2]:
             actionViewObject.shippingCompanyNameValue.text = (shippingCompanyArray[19].value(forKey: "name") as! String)
             actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[19].value(forKey: "id") as! String
+        case [13,3]:
+            actionViewObject.shippingCompanyNameValue.text = (shippingCompanyArray[21].value(forKey: "name") as! String)
+            actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[21].value(forKey: "id") as! String
         case [14,0]:
             actionViewObject.shippingCompanyNameValue.text = (shippingCompanyArray[20].value(forKey: "name") as! String)
             actionViewObject.shippingCompanyNameValueCode = shippingCompanyArray[20].value(forKey: "id") as! String
@@ -304,7 +309,7 @@ class ShippingCompanyNameListViewController: UIViewController,UITableViewDelegat
         titleLabel.text = "选择快递"
         titleLabel.textColor = UIColor.titleColors(color: .black)
         // 这里使用系统自定义的字体
-        titleLabel.font = UIFont.systemFont(ofSize: 18)
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
         
         // 创建导航栏组件
         let navItem = UINavigationItem()
@@ -402,7 +407,8 @@ class ShippingCompanyNameListViewController: UIViewController,UITableViewDelegat
                                                        ["name":"韵达速递","id":"YD"],
                                                        ["name":"圆通速递","id":"YTO"],
                                                        ["name":"邮政快递包裹","id":"YZPY"],
-                                                       ["name":"宅急送","id":"ZJS"]]
+                                                       ["name":"宅急送","id":"ZJS"],
+                                                       ["name":"雅楠物流","id":"YNWL"]]
         shippingCompanyArray = shippingCompanyArrayBook
 //
         let array = NSArray(array: shippingCompanyArrayBook)
@@ -418,7 +424,7 @@ class ShippingCompanyNameListViewController: UIViewController,UITableViewDelegat
 //        self.chooseContactTableView.reloadData()
     }
     override func viewWillDisappear(_ animated: Bool) {
-        setStatusBarBackgroundColor(color: .backgroundColors(color: .red))
+        setStatusBarBackgroundColor(color: .backgroundColors(color: .clear))
     }
     /*
     // MARK: - Navigation

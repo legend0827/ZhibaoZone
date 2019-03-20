@@ -246,12 +246,12 @@ class SystemManagementViewController: UIViewController,UIScrollViewDelegate,UITa
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor.backgroundColors(color: .white)
+        self.view.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
         
         let titleBar:UIView = UIView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: 44))
         titleBar.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
         let titleLabel:UILabel = UILabel.init(frame: CGRect(x: 0, y: 10, width: kWidth, height: 25))
-        titleLabel.font = UIFont.systemFont(ofSize: 18)
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
         titleLabel.text = "事物处理"
         titleLabel.textAlignment = .center
         titleLabel.textColor = UIColor.titleColors(color: .black)
@@ -272,7 +272,7 @@ class SystemManagementViewController: UIViewController,UIScrollViewDelegate,UITa
         // Dispose of any resources that can be recreated.
     }
     override func viewWillAppear(_ animated: Bool) {
-        setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .lightestGray))
+        setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .clear))
         setStatusBarHiden(toHidden: false, ViewController: self)
     }
     override func viewWillDisappear(_ animated: Bool) {
