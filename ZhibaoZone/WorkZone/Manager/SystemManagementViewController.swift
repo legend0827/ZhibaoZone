@@ -184,7 +184,7 @@ class SystemManagementViewController: UIViewController,UIScrollViewDelegate,UITa
     }()
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 6
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -201,6 +201,8 @@ class SystemManagementViewController: UIViewController,UIScrollViewDelegate,UITa
             cell.titleLabel.text = "设计师挂起"
         case 4:
             cell.titleLabel.text = "设计费"
+        case 5:
+            cell.titleLabel.text = "自动报价"
         default:
             cell.titleLabel.text = "客服限制接单"
         }
@@ -234,6 +236,10 @@ class SystemManagementViewController: UIViewController,UIScrollViewDelegate,UITa
             print("index Row at \(indexPath.row) selected")
             parameterSettingVC.titleLabel.text = "设计费"
             parameterSettingVC._parameterType = .DSDesignFeeSetting
+        case 5:
+            print("index Row at \(indexPath.row) selected")
+            parameterSettingVC.titleLabel.text = "自动报价"
+            parameterSettingVC._parameterType = .AutoPricingSetting
         default:
             print("index Row at \(indexPath.row) selected")
             parameterSettingVC.titleLabel.text = "客服限制接单"

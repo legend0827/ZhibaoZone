@@ -10,7 +10,7 @@ import UIKit
 
 class parameterSettingListTableViewCell: UITableViewCell,UITextFieldDelegate {
 
-    let titleLabel:UILabel = UILabel.init(frame: CGRect(x: 15, y: 20, width: 200, height: 22))
+    let titleLabel:UILabel = UILabel.init(frame: CGRect(x: 15, y: 20, width: 240, height: 22))
     let line:UIView = UIView.init(frame: CGRect(x: 15, y: 60.5, width: kWidth - 30, height: 0.5))
     lazy var parameterValue:UITextField = {
         let tempValue = UITextField.init(frame: CGRect(x: kWidth - 306, y: 10, width: 250, height: 41))
@@ -160,6 +160,14 @@ class parameterSettingListTableViewCell: UITableViewCell,UITextFieldDelegate {
                 //cell.titleLabel.text = "新建订单最大数(不达标)"
                 
                 fatherObject?._paramterSettingDic.setValue(parameterValue.text, forKey: "servicer_createLimit_unreachedLimit")
+            case 4:
+                //cell.titleLabel.text = "新建订单最大数(不达标)"
+                
+                fatherObject?._paramterSettingDic.setValue(parameterValue.text, forKey: "servicer_conversionRecentDay_timeRange")
+            case 5:
+                //cell.titleLabel.text = "新建订单最大数(不达标)"
+                let tempValue = String(format: "%.4f", (Double((Int(parameterValue.text ?? "0") ?? 0) ) / 100.0))
+                fatherObject?._paramterSettingDic.setValue(tempValue, forKey: "servicer_conversionRate_percentage")
                 
             default:
                 //cell.titleLabel.text = "参考转化率时间范围(天)"
@@ -252,6 +260,16 @@ class parameterSettingListTableViewCell: UITableViewCell,UITextFieldDelegate {
             default:
                 //cell.titleLabel.text = "设计权重-修改单权重"
                 fatherObject?._paramterSettingDic.setValue(parameterValue.text, forKey: "design_weight_designNum")
+            }
+        case .AutoPricingSetting:
+            // print("设计师派单配置")
+            switch selectedIndex{
+            case 0:
+                //cell.titleLabel.text = "最少保证在线设计师数(人)"
+                fatherObject?._paramterSettingDic.setValue(parameterValue.text, forKey: "autoPrice_3dQuote_minValue")
+            default:
+                //cell.titleLabel.text = "设计权重-修改单权重"
+                fatherObject?._paramterSettingDic.setValue(parameterValue.text, forKey: "autoPrice_3dQuote_minValue")
             }
         default:
             print("Will Never Execute")

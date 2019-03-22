@@ -42,7 +42,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
         cancelUpdateBtn.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
         cancelUpdateBtn.addTarget(self, action: #selector(cancelUpdateClicked), for: .touchUpInside)
         
-        let beforeUpdate:UILabel = UILabel.init(frame: CGRect(x: 164, y: 20, width: 60, height: 21))
+        let beforeUpdate:UILabel = UILabel.init(frame: CGRect(x: 204, y: 20, width: 60, height: 21))
         beforeUpdate.textAlignment = .left
         beforeUpdate.text = "更改前"
         beforeUpdate.textColor = UIColor.titleColors(color: .gray)
@@ -189,7 +189,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
     }()
     
     lazy var firstBeforeValueOfDoubleCheck:UILabel = {
-        let tempLabel = UILabel.init(frame: CGRect(x: 124, y: 72, width: 85, height: 21))
+        let tempLabel = UILabel.init(frame: CGRect(x: 164, y: 72, width: 85, height: 21))
         tempLabel.text = "30"
         tempLabel.isHidden = false
         tempLabel.textColor = UIColor.titleColors(color: .black)
@@ -199,7 +199,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
     }()
     
     lazy var secondBeforeValueOfDoubleCheck:UILabel = {
-        let tempLabel = UILabel.init(frame: CGRect(x: 124, y: 110, width: 85, height: 21))
+        let tempLabel = UILabel.init(frame: CGRect(x: 164, y: 110, width: 85, height: 21))
         tempLabel.text = "30"
         tempLabel.textColor = UIColor.titleColors(color: .black)
         tempLabel.textAlignment = .right
@@ -209,7 +209,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
     }()
     
     lazy var thirdBeforeValueOfDoubleCheck:UILabel = {
-        let tempLabel = UILabel.init(frame: CGRect(x: 124, y: 148, width: 85, height: 21))
+        let tempLabel = UILabel.init(frame: CGRect(x: 164, y: 148, width: 85, height: 21))
         tempLabel.text = "12"
         tempLabel.isHidden = true
         tempLabel.textColor = UIColor.titleColors(color: .black)
@@ -219,7 +219,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
     }()
     
     lazy var fouthBeforeValueOfDoubleCheck:UILabel = {
-        let tempLabel = UILabel.init(frame: CGRect(x: 124, y: 186, width: 85, height: 21))
+        let tempLabel = UILabel.init(frame: CGRect(x: 164, y: 186, width: 85, height: 21))
         tempLabel.text = "8"
         tempLabel.isHidden = true
         tempLabel.textColor = UIColor.titleColors(color: .black)
@@ -229,7 +229,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
     }()
     
     lazy var fifthBeforeValueOfDoubleCheck:UILabel = {
-        let tempLabel = UILabel.init(frame: CGRect(x: 124, y: 224, width: 85, height: 21))
+        let tempLabel = UILabel.init(frame: CGRect(x: 164, y: 224, width: 85, height: 21))
         tempLabel.text = "100"
         tempLabel.isHidden = true
         tempLabel.textColor = UIColor.titleColors(color: .black)
@@ -239,7 +239,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
     }()
     
     lazy var sixthBeforeValueOfDoubleCheck:UILabel = {
-        let tempLabel = UILabel.init(frame: CGRect(x: 124, y: 262, width: 85, height: 21))
+        let tempLabel = UILabel.init(frame: CGRect(x: 164, y: 262, width: 85, height: 21))
         tempLabel.text = "100"
         tempLabel.isHidden = true
         tempLabel.textColor = UIColor.titleColors(color: .black)
@@ -249,7 +249,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
     }()
     
     lazy var seventhBeforeValueOfDoubleCheck:UILabel = {
-        let tempLabel = UILabel.init(frame: CGRect(x: 124, y: 300, width: 85, height: 21))
+        let tempLabel = UILabel.init(frame: CGRect(x: 164, y: 300, width: 85, height: 21))
         tempLabel.text = "60"
         tempLabel.isHidden = true
         tempLabel.textColor = UIColor.titleColors(color: .black)
@@ -361,7 +361,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch _parameterType {
         case .CSCreateOrderSetting:
-            return 4
+            return 6
             //print("客服新建订单限制配置")
         case .MGFollowOrderSetting:
            // print("经理跟单配置")
@@ -375,6 +375,8 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
         case .DSDesignFeeSetting:
            // print("设计费配置")
             return 6
+        case .AutoPricingSetting:
+            return 1
         default:
            // print("客服新建订单限制配置")
             return 4
@@ -434,6 +436,28 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
                 cell.textFieldMaxValue = 999
                 if let servicer_createLimit_unreachedLimit = _paramterSettingDic.value(forKey: "servicer_createLimit_unreachedLimit") as? Int{
                     cell.parameterValue.text = "\(servicer_createLimit_unreachedLimit)"
+                }
+            case 4:
+                cell.titleLabel.text = "客服(达标)转化率参考范围(天)"
+                cell.parameterValue.placeholder = "0 - 999"
+                cell.parameteUnit.text = "天"
+                cell.parameterValue.text = "3"
+                cell.textFieldDefaultValue = 3
+                cell.textFieldMinValue = 0
+                cell.textFieldMaxValue = 999
+                if let servicer_conversionRecentDay_timeRange = _paramterSettingDic.value(forKey: "servicer_conversionRecentDay_timeRange") as? Int{
+                    cell.parameterValue.text = "\(servicer_conversionRecentDay_timeRange)"
+                }
+            case 5:
+                cell.titleLabel.text = "客服(达标)转化率参考幅度(%)"
+                cell.parameterValue.placeholder = "1 - 100"
+                cell.parameteUnit.text = "%"
+                cell.parameterValue.text = "70"
+                cell.textFieldDefaultValue = 70
+                cell.textFieldMinValue = 1
+                cell.textFieldMaxValue = 100
+                if let servicer_conversionRate_percentage = _paramterSettingDic.value(forKey: "servicer_conversionRate_percentage") as? Double{
+                    cell.parameterValue.text = "\(Int(servicer_conversionRate_percentage * 100))"
                 }
             default:
                 cell.titleLabel.text = "参考转化率时间范围(天)"
@@ -674,6 +698,29 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
                 cell.textFieldMinValue = 1
                 cell.textFieldMaxValue = 100
             }
+        case .AutoPricingSetting:
+            // print("自动报价配置")
+            switch indexPath.row{
+            case 0:
+                cell.titleLabel.text = "3D打印自动报价地板值(元)"
+                cell.parameterValue.placeholder = "0 - 999"
+                cell.parameteUnit.text = "元"
+                cell.parameterValue.text = "100.0"
+                cell.textFieldDefaultValue = 100
+                cell.textFieldMinValue = 0
+                cell.textFieldMaxValue = 999
+                if let autoPrice_3dQuote_minValue = _paramterSettingDic.value(forKey: "autoPrice_3dQuote_minValue") as? Int{
+                    cell.parameterValue.text = "\(autoPrice_3dQuote_minValue)"
+                }
+            default:
+                cell.titleLabel.text = "设计权重-修改单权重"
+                cell.parameterValue.placeholder = "0 - 999"
+                cell.parameteUnit.text = "-"
+                cell.parameterValue.text = "60"
+                cell.textFieldDefaultValue = 60
+                cell.textFieldMinValue = 0
+                cell.textFieldMaxValue = 999
+            }
         default:
             print("Will Never Execute")
             
@@ -751,28 +798,31 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             secondTitleOfDoubleCheck.isHidden = false
             thirdTitleOfDoubleCheck.isHidden = false
             fouthTitleOfDoubleCheck.isHidden = false
-            fifthTitleOfDoubleCheck.isHidden = true
-            sixthTitleOfDoubleCheck.isHidden = true
+            fifthTitleOfDoubleCheck.isHidden = false
+            sixthTitleOfDoubleCheck.isHidden = false
             seventhTitleOfDoubleCheck.isHidden = true
             
             secondBeforeValueOfDoubleCheck.isHidden = false
             thirdBeforeValueOfDoubleCheck.isHidden = false
             fouthBeforeValueOfDoubleCheck.isHidden = false
-            fifthBeforeValueOfDoubleCheck.isHidden = true
-            sixthBeforeValueOfDoubleCheck.isHidden = true
+            fifthBeforeValueOfDoubleCheck.isHidden = false
+            sixthBeforeValueOfDoubleCheck.isHidden = false
             seventhBeforeValueOfDoubleCheck.isHidden = true
             
             secondAfterValueOfDoubleCheck.isHidden = false
             thirdAfterValueOfDoubleCheck.isHidden = false
             fouthAfterValueOfDoubleCheck.isHidden = false
-            fifthAfterValueOfDoubleCheck.isHidden = true
-            sixthAfterValueOfDoubleCheck.isHidden = true
+            fifthAfterValueOfDoubleCheck.isHidden = false
+            sixthAfterValueOfDoubleCheck.isHidden = false
             seventhAfterValueOfDoubleCheck.isHidden = true
             
             firstTitleOfDoubleCheck.text = "参考转化率时间范围(天)"
             secondTitleOfDoubleCheck.text = "参考转化率默认值(%)"
             thirdTitleOfDoubleCheck.text = "新建订单最大数(达标)"
             fouthTitleOfDoubleCheck.text = "新建订单最大数(不达标)"
+            fifthTitleOfDoubleCheck.text = "客服(达标)转化率参考范围(天)"
+            sixthTitleOfDoubleCheck.text = "客服(达标)转化率参考幅度(%)"
+            
             
             //1
             if let servicer_conversionRate_timeRange = afterDictionary.value(forKey: "servicer_conversionRate_timeRange") as? Int{
@@ -818,6 +868,28 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             }
             if let servicer_createLimit_unreachedLimit = beforeDictionary.value(forKey: "servicer_createLimit_unreachedLimit") as? Int{
                 fouthBeforeValueOfDoubleCheck.text = "\(servicer_createLimit_unreachedLimit)"
+            }
+            //5
+            if let servicer_conversionRecentDay_timeRange = afterDictionary.value(forKey: "servicer_conversionRecentDay_timeRange") as? Int{
+                fifthAfterValueOfDoubleCheck.text = "\(servicer_conversionRecentDay_timeRange)"
+            }else{
+                if let servicer_conversionRecentDay_timeRange = afterDictionary.value(forKey: "servicer_conversionRecentDay_timeRange") as? String{
+                    fifthAfterValueOfDoubleCheck.text = "\(servicer_conversionRecentDay_timeRange)"
+                }
+            }
+            if let servicer_conversionRecentDay_timeRange = beforeDictionary.value(forKey: "servicer_conversionRecentDay_timeRange") as? Int{
+                fifthBeforeValueOfDoubleCheck.text = "\(servicer_conversionRecentDay_timeRange)"
+            }
+            //6
+            if let servicer_conversionRate_percentage = afterDictionary.value(forKey: "servicer_conversionRate_percentage") as? Double{
+                sixthAfterValueOfDoubleCheck.text = "\(Int(servicer_conversionRate_percentage * 100))"
+            }else{
+                if let servicer_conversionRate_percentage = afterDictionary.value(forKey: "servicer_conversionRate_percentage") as? String{
+                    sixthAfterValueOfDoubleCheck.text = "\(Int(Double(servicer_conversionRate_percentage as! String)! * 100))"
+                }
+            }
+            if let servicer_conversionRate_percentage = beforeDictionary.value(forKey: "servicer_conversionRate_percentage") as? Double{
+                sixthBeforeValueOfDoubleCheck.text = "\(Int(servicer_conversionRate_percentage * 100))"
             }
 
         case .MGFollowOrderSetting:
@@ -1106,7 +1178,42 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             if let designFee_Min = beforeDictionary.value(forKey: "designFee_Min") as? Int{
                 sixthBeforeValueOfDoubleCheck.text = "\(designFee_Min)"
             }
+        case .AutoPricingSetting:
+            // print("自动报价")
+            secondTitleOfDoubleCheck.isHidden = true
+            thirdTitleOfDoubleCheck.isHidden = true
+            fouthTitleOfDoubleCheck.isHidden = true
+            fifthTitleOfDoubleCheck.isHidden = true
+            sixthTitleOfDoubleCheck.isHidden = true
+            seventhTitleOfDoubleCheck.isHidden = true
             
+            secondAfterValueOfDoubleCheck.isHidden = true
+            thirdAfterValueOfDoubleCheck.isHidden = true
+            fouthAfterValueOfDoubleCheck.isHidden = true
+            fifthAfterValueOfDoubleCheck.isHidden = true
+            sixthAfterValueOfDoubleCheck.isHidden = true
+            seventhAfterValueOfDoubleCheck.isHidden = true
+            
+            secondBeforeValueOfDoubleCheck.isHidden = true
+            thirdBeforeValueOfDoubleCheck.isHidden = true
+            fouthBeforeValueOfDoubleCheck.isHidden = true
+            fifthBeforeValueOfDoubleCheck.isHidden = true
+            sixthBeforeValueOfDoubleCheck.isHidden = true
+            seventhBeforeValueOfDoubleCheck.isHidden = true
+            
+            firstTitleOfDoubleCheck.text = "3D打印自动报价地板值(元)"
+
+            if let autoPrice_3dQuote_minValue = afterDictionary.value(forKey: "autoPrice_3dQuote_minValue") as? Int{
+                firstAfterValueOfDoubleCheck.text = "\(autoPrice_3dQuote_minValue)"
+            }else{
+                if let autoPrice_3dQuote_minValue = afterDictionary.value(forKey: "autoPrice_3dQuote_minValue") as? String{
+                    firstAfterValueOfDoubleCheck.text = "\(autoPrice_3dQuote_minValue)"
+                }
+            }
+            if let autoPrice_3dQuote_minValue = beforeDictionary.value(forKey: "autoPrice_3dQuote_minValue") as? Int{
+                firstBeforeValueOfDoubleCheck.text = "\(autoPrice_3dQuote_minValue)"
+            }
+           
             
         default:
             print("客服新建订单限制配置")
@@ -1190,6 +1297,8 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
         params["servicer_conversionRate_default"] = _paramterSettingDic.value(forKey: "servicer_conversionRate_default")
         params["servicer_createLimit_reachedLimit"] = _paramterSettingDic.value(forKey: "servicer_createLimit_reachedLimit")
         params["servicer_createLimit_unreachedLimit"] = _paramterSettingDic.value(forKey: "servicer_createLimit_unreachedLimit")
+        params["servicer_conversionRecentDay_timeRange"] = _paramterSettingDic.value(forKey: "servicer_conversionRecentDay_timeRange")
+        params["servicer_conversionRate_percentage"] = _paramterSettingDic.value(forKey: "servicer_conversionRate_percentage")
             
         params["manager_follow_timeRange"] = _paramterSettingDic.value(forKey: "manager_follow_timeRange")
         params["manager_follow_top"] = _paramterSettingDic.value(forKey: "manager_follow_top")
@@ -1210,6 +1319,8 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
         params["designFee_set_defaultMaxValue"] = _paramterSettingDic.value(forKey: "designFee_set_defaultMaxValue")
         params["designFee_Max"] = _paramterSettingDic.value(forKey: "designFee_Max")
         params["designFee_Min"] = _paramterSettingDic.value(forKey: "designFee_Min")
+        
+        params["autoPrice_3dQuote_minValue"] = _paramterSettingDic.value(forKey: "autoPrice_3dQuote_minValue")
         
         
         #if DEBUG

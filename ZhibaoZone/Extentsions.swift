@@ -228,6 +228,7 @@ enum parameterSettingType:String{
     case DSDistributeOrderSetting
     case DSHangUpSetting
     case DSDesignFeeSetting
+    case AutoPricingSetting
 }
 
 class Extentsions: NSObject {
