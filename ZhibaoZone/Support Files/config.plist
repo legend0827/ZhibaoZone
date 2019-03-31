@@ -205,6 +205,10 @@
 		<string>http://132.232.135.40:81/count/managerView/shopCount</string>
 		<key>statisticForFactoryAPI</key>
 		<string>http://140.143.249.2:81/count/managerView/shopCount</string>
+		<key>statisticForCustomerStatusAPIDebug</key>
+		<string>http://132.232.135.40:81/count/managerView/servicerStatusCount</string>
+		<key>statisticForCustomerStatusAPI</key>
+		<string>http://140.143.249.2:81/count/managerView/servicerStatusCount</string>
 		<key>appUpdateCheckAPIDebug</key>
 		<string>http://132.232.135.40:81/count/app/appUpdateCheck</string>
 		<key>appUpdateCheckAPI</key>

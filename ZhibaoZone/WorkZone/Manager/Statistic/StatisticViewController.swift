@@ -45,6 +45,16 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
         cell.facAverageQuoteTimeLabel.isHidden = true
         cell.facInquryOrderCountLabel.isHidden = true
         cell.facAcceptOrderAmountLabel.isHidden = true
+        
+        cell.csStatusBoughtSomeWhereElseLabel.isHidden = true
+        cell.csStatusNeedsNotCaptiableLabel.isHidden = true
+        cell.csStatusFollowOrderCountLabel.isHidden = true
+        cell.csStatusNormalOrderRateLabel.isHidden = true
+        cell.csStatusFollowOrderRateLabel.isHidden = true
+        cell.csStatusTooExpensiveLabel.isHidden = true
+        cell.csStatusOrderCountLabel.isHidden = true
+        cell.csStatusCSMissedLabel.isHidden = true
+        
         cell.numberSequence.isHidden = false
         if indexPath.row == 0 {
             cell.numberSequence.text = "-"
@@ -233,6 +243,65 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
                 cell.facInquryOrderCountLabel.text = "--"
                 cell.facAcceptOrderAmountLabel.text = "--"
             }
+        case 4: //客服跟单
+            cell.csStatusBoughtSomeWhereElseLabel.isHidden = false
+            cell.csStatusNeedsNotCaptiableLabel.isHidden = false
+            cell.csStatusFollowOrderCountLabel.isHidden = false
+            cell.csStatusNormalOrderRateLabel.isHidden = false
+            cell.csStatusFollowOrderRateLabel.isHidden = false
+            cell.csStatusTooExpensiveLabel.isHidden = false
+            cell.csStatusOrderCountLabel.isHidden = false
+            cell.csStatusCSMissedLabel.isHidden = false
+            
+            if !isDataLoading{
+                if indexPath.row == 0{
+                    if !allShopStatisticData.isEmpty{
+                        cell.userNickName.text = "所有客服"
+                        cell.csStatusOrderCountLabel.text = "\((allShopStatisticData[0] as NSDictionary).value(forKey: "orderNumber") as! Int)"
+                        cell.csStatusFollowOrderCountLabel.text = "\((allShopStatisticData[0] as NSDictionary).value(forKey: "withOrderNumber") as! Int)"
+                        cell.csStatusFollowOrderRateLabel.text = String(format: "%.2f%", ((allShopStatisticData[0] as NSDictionary).value(forKey: "withOrderRate") as! Double) * 100) + "%"
+                        cell.csStatusNormalOrderRateLabel.text = String(format: "%.2f%", ((allShopStatisticData[0] as NSDictionary).value(forKey: "normalRate") as! Double) * 100) + "%"
+                        cell.csStatusTooExpensiveLabel.text = "\((allShopStatisticData[0] as NSDictionary).value(forKey: "highPriceNumber") as! Int)"
+                        cell.csStatusNeedsNotCaptiableLabel.text = "\((allShopStatisticData[0] as NSDictionary).value(forKey: "cantNumber") as! Int)"
+                        cell.csStatusBoughtSomeWhereElseLabel.text = "\((allShopStatisticData[0] as NSDictionary).value(forKey: "elsewhereNumber") as! Int)"
+                        cell.csStatusCSMissedLabel.text = "\((allShopStatisticData[0] as NSDictionary).value(forKey: "loseNumber") as! Int)"
+                        
+                    }else{
+                        cell.userNickName.text = "所有车间"
+                        cell.csStatusOrderCountLabel.text = "--"
+                        cell.csStatusFollowOrderCountLabel.text = "--"
+                        cell.csStatusFollowOrderRateLabel.text = "--"
+                        cell.csStatusNormalOrderRateLabel.text = "--"
+                        cell.csStatusTooExpensiveLabel.text = "--"
+                        cell.csStatusNeedsNotCaptiableLabel.text = "--"
+                        cell.csStatusBoughtSomeWhereElseLabel.text = "--"
+                        cell.csStatusCSMissedLabel.text = "--"
+                        
+                    }
+                }else{
+                    cell.userNickName.text = "\((statisticData[indexPath.row - 1] as NSDictionary).value(forKey: "nickName") as! String)"
+                    cell.csStatusOrderCountLabel.text = "\((statisticData[indexPath.row - 1] as NSDictionary).value(forKey: "orderNumber") as! Int)"
+                    cell.csStatusFollowOrderCountLabel.text = "\((statisticData[indexPath.row - 1] as NSDictionary).value(forKey: "withOrderNumber") as! Int)"
+                    cell.csStatusFollowOrderRateLabel.text = String(format: "%.2f%", ((statisticData[indexPath.row - 1] as NSDictionary).value(forKey: "withOrderRate") as! Double) * 100) + "%"
+                    cell.csStatusNormalOrderRateLabel.text = String(format: "%.2f%", ((statisticData[indexPath.row - 1] as NSDictionary).value(forKey: "normalRate") as! Double) * 100) + "%"
+                    cell.csStatusTooExpensiveLabel.text = "\((statisticData[indexPath.row - 1] as NSDictionary).value(forKey: "highPriceNumber") as! Int)"
+                    cell.csStatusNeedsNotCaptiableLabel.text = "\((statisticData[indexPath.row - 1] as NSDictionary).value(forKey: "cantNumber") as! Int)"
+                    cell.csStatusBoughtSomeWhereElseLabel.text = "\((statisticData[indexPath.row - 1] as NSDictionary).value(forKey: "elsewhereNumber") as! Int)"
+                    cell.csStatusCSMissedLabel.text = "\((statisticData[indexPath.row - 1] as NSDictionary).value(forKey: "loseNumber") as! Int)"
+                    
+                }
+                
+            }else{
+                cell.userNickName.text = "--"
+                cell.csStatusOrderCountLabel.text = "--"
+                cell.csStatusFollowOrderCountLabel.text = "--"
+                cell.csStatusFollowOrderRateLabel.text = "--"
+                cell.csStatusNormalOrderRateLabel.text = "--"
+                cell.csStatusTooExpensiveLabel.text = "--"
+                cell.csStatusNeedsNotCaptiableLabel.text = "--"
+                cell.csStatusBoughtSomeWhereElseLabel.text = "--"
+                cell.csStatusCSMissedLabel.text = "--"
+            }
         default:
             cell.userNickName.text = "--"
             cell.designAcceptOrderCountLabel.text = "--"
@@ -327,7 +396,19 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
         button.addTarget(self, action: #selector(switchStatisticTypeBtnClicked), for: .touchUpInside)
         return button
     }()
-    
+    //客服状态统计切换tab
+    lazy var customerStatusStatisticBtn:UIButton = {
+        let button = UIButton.init(type: .custom)
+        button.frame = CGRect(x: 288, y: 10, width: 80, height: 21)
+        button.setTitle("客服跟单", for: .normal)
+        button.contentVerticalAlignment = .center
+        button.contentHorizontalAlignment = .center
+        button.titleLabel?.font = UIFont(name: "DINPro-Medium", size: 15)
+        button.setTitleColor(UIColor.titleColors(color: titleColorsType.gray), for: .normal)
+        button.tag = 4
+        button.addTarget(self, action: #selector(switchStatisticTypeBtnClicked), for: .touchUpInside)
+        return button
+    }()
     
     //时间选择按钮
     lazy var timeIntervalChoosenBtn:UIButton = {
@@ -599,6 +680,79 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
         button.addTarget(self, action: #selector(ringkingBtnClicked), for: .touchUpInside)
         return button
     }()
+    //------- 客服跟单ranking tag从41到48
+    //车间Ranking
+    lazy var rankingBtn41:UIButton = {
+        let button = UIButton.init(type: .custom)
+        button.frame = CGRect(x: 71, y: 5, width: 9, height: 10)
+        button.tag = 41
+        button.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
+        button.addTarget(self, action: #selector(ringkingBtnClicked), for: .touchUpInside)
+        return button
+    }()
+    //车间Ranking
+    lazy var rankingBtn42:UIButton = {
+        let button = UIButton.init(type: .custom)
+        button.frame = CGRect(x: 71, y: 5, width: 9, height: 10)
+        button.tag = 42
+        button.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
+        button.addTarget(self, action: #selector(ringkingBtnClicked), for: .touchUpInside)
+        return button
+    }()
+    //车间Ranking
+    lazy var rankingBtn43:UIButton = {
+        let button = UIButton.init(type: .custom)
+        button.frame = CGRect(x: 71, y: 5, width: 9, height: 10)
+        button.tag = 43
+        button.setImage(UIImage(named: "rankingdownselectediconimg"), for: .normal)
+        button.addTarget(self, action: #selector(ringkingBtnClicked), for: .touchUpInside)
+        return button
+    }()
+    //车间Ranking
+    lazy var rankingBtn44:UIButton = {
+        let button = UIButton.init(type: .custom)
+        button.frame = CGRect(x: 71, y: 5, width: 9, height: 10)
+        button.tag = 44
+        button.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
+        button.addTarget(self, action: #selector(ringkingBtnClicked), for: .touchUpInside)
+        return button
+    }()
+    //车间Ranking
+    lazy var rankingBtn45:UIButton = {
+        let button = UIButton.init(type: .custom)
+        button.frame = CGRect(x: 71, y: 5, width: 9, height: 10)
+        button.tag = 45
+        button.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
+        button.addTarget(self, action: #selector(ringkingBtnClicked), for: .touchUpInside)
+        return button
+    }()
+    //车间Ranking
+    lazy var rankingBtn46:UIButton = {
+        let button = UIButton.init(type: .custom)
+        button.frame = CGRect(x: 95, y: 5, width: 9, height: 10)
+        button.tag = 46
+        button.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
+        button.addTarget(self, action: #selector(ringkingBtnClicked), for: .touchUpInside)
+        return button
+    }()
+    //车间Ranking
+    lazy var rankingBtn47:UIButton = {
+        let button = UIButton.init(type: .custom)
+        button.frame = CGRect(x: 91, y: 5, width: 9, height: 10)
+        button.tag = 47
+        button.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
+        button.addTarget(self, action: #selector(ringkingBtnClicked), for: .touchUpInside)
+        return button
+    }()
+    //车间Ranking
+    lazy var rankingBtn48:UIButton = {
+        let button = UIButton.init(type: .custom)
+        button.frame = CGRect(x: 81, y: 5, width: 9, height: 10)
+        button.tag = 48
+        button.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
+        button.addTarget(self, action: #selector(ringkingBtnClicked), for: .touchUpInside)
+        return button
+    }()
     //综合指数
     lazy var compositeIndexBtn:UIButton = {
         let button = UIButton.init(type: .custom)
@@ -640,6 +794,21 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
         button.titleLabel?.font = UIFont(name: "DINPro-Medium", size: 13)
         button.tag = 10
         button.addSubview(rankingBtn31)
+        button.addTarget(self, action: #selector(switchStatisticIndexBtnClicked), for: .touchUpInside)
+        return button
+    }()
+    
+    //订单数量- 客服跟单
+    lazy var csStatusOrderCountBtn:UIButton = {
+        let button = UIButton.init(type: .custom)
+        button.frame = CGRect(x: 103, y: 5, width: 80, height: 18)
+        button.setTitle("订单数量", for: .normal)
+        button.contentVerticalAlignment = .center
+        button.contentHorizontalAlignment = .center
+        button.setTitleColor(UIColor.titleColors(color: titleColorsType.gray), for: .normal)
+        button.titleLabel?.font = UIFont(name: "DINPro-Medium", size: 13)
+        button.tag = 10
+        button.addSubview(rankingBtn41)
         button.addTarget(self, action: #selector(switchStatisticIndexBtnClicked), for: .touchUpInside)
         return button
     }()
@@ -686,6 +855,20 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
         button.addTarget(self, action: #selector(switchStatisticIndexBtnClicked), for: .touchUpInside)
         return button
     }()
+    //跟单数量 - 车间
+    lazy var csStatusFollowOrderCountBtn:UIButton = {
+        let button = UIButton.init(type: .custom)
+        button.frame = CGRect(x: 182, y: 5, width: 80, height: 18)
+        button.setTitle("跟单数量", for: .normal)
+        button.contentVerticalAlignment = .center
+        button.contentHorizontalAlignment = .center
+        button.setTitleColor(UIColor.titleColors(color: titleColorsType.gray), for: .normal)
+        button.titleLabel?.font = UIFont(name: "DINPro-Medium", size: 13)
+        button.tag = 11
+        button.addSubview(rankingBtn42)
+        button.addTarget(self, action: #selector(switchStatisticIndexBtnClicked), for: .touchUpInside)
+        return button
+    }()
     //成交单数
     lazy var dealOrderCountBtn:UIButton = {
         let button = UIButton.init(type: .custom)
@@ -725,6 +908,20 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
         button.titleLabel?.font = UIFont(name: "DINPro-Medium", size: 13)
         button.tag = 12
         button.addSubview(rankingBtn33)
+        button.addTarget(self, action: #selector(switchStatisticIndexBtnClicked), for: .touchUpInside)
+        return button
+    }()
+    //跟单比例 - 车间
+    lazy var csStatusFollowRateBtn:UIButton = {
+        let button = UIButton.init(type: .custom)
+        button.frame = CGRect(x: 261, y: 5, width: 80, height: 18)
+        button.setTitle("跟单比例", for: .normal)
+        button.contentVerticalAlignment = .center
+        button.contentHorizontalAlignment = .center
+        button.setTitleColor(UIColor.titleColors(color: titleColorsType.darkGray), for: .normal)
+        button.titleLabel?.font = UIFont(name: "DINPro-Medium", size: 13)
+        button.tag = 12
+        button.addSubview(rankingBtn43)
         button.addTarget(self, action: #selector(switchStatisticIndexBtnClicked), for: .touchUpInside)
         return button
     }()
@@ -770,7 +967,20 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
         button.addTarget(self, action: #selector(switchStatisticIndexBtnClicked), for: .touchUpInside)
         return button
     }()
-    
+    //正常占比 - 车间
+    lazy var csStatusNormalRateBtn:UIButton = {
+        let button = UIButton.init(type: .custom)
+        button.frame = CGRect(x: 335, y: 5, width: 80, height: 18)
+        button.setTitle("正常占比", for: .normal)
+        button.contentVerticalAlignment = .center
+        button.contentHorizontalAlignment = .center
+        button.setTitleColor(UIColor.titleColors(color: titleColorsType.gray), for: .normal)
+        button.titleLabel?.font = UIFont(name: "DINPro-Medium", size: 13)
+        button.tag = 13
+        button.addSubview(rankingBtn44)
+        button.addTarget(self, action: #selector(switchStatisticIndexBtnClicked), for: .touchUpInside)
+        return button
+    }()
     //成交金额
     lazy var dealOrderAmountBtn:UIButton = {
         let button = UIButton.init(type: .custom)
@@ -814,6 +1024,20 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
         button.addTarget(self, action: #selector(switchStatisticIndexBtnClicked), for: .touchUpInside)
         return button
     }()
+    //嫌贵议价 - 车间
+    lazy var csStatusTooExpensiveBtn:UIButton = {
+        let button = UIButton.init(type: .custom)
+        button.frame = CGRect(x: 409, y: 5, width: 80, height: 18)
+        button.setTitle("嫌贵议价", for: .normal)
+        button.contentVerticalAlignment = .center
+        button.contentHorizontalAlignment = .center
+        button.setTitleColor(UIColor.titleColors(color: titleColorsType.gray), for: .normal)
+        button.titleLabel?.font = UIFont(name: "DINPro-Medium", size: 13)
+        button.tag = 14
+        button.addSubview(rankingBtn45)
+        button.addTarget(self, action: #selector(switchStatisticIndexBtnClicked), for: .touchUpInside)
+        return button
+    }()
     //转化率
     lazy var transferRateBtn:UIButton = {
         let button = UIButton.init(type: .custom)
@@ -853,6 +1077,20 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
         button.titleLabel?.font = UIFont(name: "DINPro-Medium", size: 13)
         button.tag = 15
         button.addSubview(rankingBtn36)
+        button.addTarget(self, action: #selector(switchStatisticIndexBtnClicked), for: .touchUpInside)
+        return button
+    }()
+    //需求不能满足 - 车间
+    lazy var csStatusNeedsCaptiableBtn:UIButton = {
+        let button = UIButton.init(type: .custom)
+        button.frame = CGRect(x: 488, y: 5, width: 100, height: 18)
+        button.setTitle("需求不能满足", for: .normal)
+        button.contentVerticalAlignment = .center
+        button.contentHorizontalAlignment = .center
+        button.setTitleColor(UIColor.titleColors(color: titleColorsType.gray), for: .normal)
+        button.titleLabel?.font = UIFont(name: "DINPro-Medium", size: 13)
+        button.tag = 15
+        button.addSubview(rankingBtn46)
         button.addTarget(self, action: #selector(switchStatisticIndexBtnClicked), for: .touchUpInside)
         return button
     }()
@@ -900,6 +1138,20 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
         button.addTarget(self, action: #selector(switchStatisticIndexBtnClicked), for: .touchUpInside)
         return button
     }()
+    //别处购买- 车间
+    lazy var csBoughtSomeWhereElseBtn:UIButton = {
+        let button = UIButton.init(type: .custom)
+        button.frame = CGRect(x: 575, y: 5, width: 120, height: 18)
+        button.setTitle("别处购买", for: .normal)
+        button.contentVerticalAlignment = .center
+        button.contentHorizontalAlignment = .center
+        button.setTitleColor(UIColor.titleColors(color: titleColorsType.gray), for: .normal)
+        button.titleLabel?.font = UIFont(name: "DINPro-Medium", size: 13)
+        button.tag = 16
+        button.addSubview(rankingBtn47)
+        button.addTarget(self, action: #selector(switchStatisticIndexBtnClicked), for: .touchUpInside)
+        return button
+    }()
     //成交时间(平均)
     lazy var AverageDealTimeBtn:UIButton = {
         let button = UIButton.init(type: .custom)
@@ -926,6 +1178,20 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
         button.titleLabel?.font = UIFont(name: "DINPro-Medium", size: 13)
         button.tag = 17
         button.addSubview(rankingBtn28)
+        button.addTarget(self, action: #selector(switchStatisticIndexBtnClicked), for: .touchUpInside)
+        return button
+    }()
+    //客户失联- 客服跟单
+    lazy var csStatusCSLostBtn:UIButton = {
+        let button = UIButton.init(type: .custom)
+        button.frame = CGRect(x: 700, y: 5, width: 100, height: 18)
+        button.setTitle("客户失联", for: .normal)
+        button.contentVerticalAlignment = .center
+        button.contentHorizontalAlignment = .center
+        button.setTitleColor(UIColor.titleColors(color: titleColorsType.gray), for: .normal)
+        button.titleLabel?.font = UIFont(name: "DINPro-Medium", size: 13)
+        button.tag = 17
+        button.addSubview(rankingBtn48)
         button.addTarget(self, action: #selector(switchStatisticIndexBtnClicked), for: .touchUpInside)
         return button
     }()
@@ -1099,6 +1365,16 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
         scrollBackgroundView.addSubview(facAcceptOrderAmountBtn)
         scrollBackgroundView.addSubview(facInqueryOrderCountBtn)
         
+        //客服跟单统计项目
+        scrollBackgroundView.addSubview(csStatusCSLostBtn)
+        scrollBackgroundView.addSubview(csStatusFollowRateBtn)
+        scrollBackgroundView.addSubview(csStatusNormalRateBtn)
+        scrollBackgroundView.addSubview(csStatusOrderCountBtn)
+        scrollBackgroundView.addSubview(csStatusTooExpensiveBtn)
+        scrollBackgroundView.addSubview(csBoughtSomeWhereElseBtn)
+        scrollBackgroundView.addSubview(csStatusNeedsCaptiableBtn)
+        scrollBackgroundView.addSubview(csStatusFollowOrderCountBtn)
+        
         designAverageDesignPriceBtn.isHidden = true
         designAverageDesignTimeBtn.isHidden = true
         designRefuseRateBtn.isHidden = true
@@ -1116,10 +1392,20 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
         facAcceptOrderAmountBtn.isHidden = true
         facInqueryOrderCountBtn.isHidden = true
         
+        csStatusCSLostBtn.isHidden = true
+        csStatusFollowRateBtn.isHidden = true
+        csStatusNormalRateBtn.isHidden = true
+        csStatusOrderCountBtn.isHidden = true
+        csStatusTooExpensiveBtn.isHidden = true
+        csBoughtSomeWhereElseBtn.isHidden = true
+        csStatusNeedsCaptiableBtn.isHidden = true
+        csStatusFollowOrderCountBtn.isHidden = true
+        
         self.view.addSubview(bottomNavigationBar)
         self.bottomNavigationBar.addSubview(customerServicerStatisticBtn)
         self.bottomNavigationBar.addSubview(designerStatisticBtn)
         self.bottomNavigationBar.addSubview(factoryStatisticBtn)
+        self.bottomNavigationBar.addSubview(customerStatusStatisticBtn)
         self.bottomNavigationBar.addSubview(selectTagIcon)
         self.bottomNavigationBar.addSubview(timeIntervalChoosenBtn)
         self.bottomNavigationBar.addSubview(shopChoosenBtn)
@@ -1202,6 +1488,16 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
         facAcceptOrderAmountBtn.isHidden = true
         facInqueryOrderCountBtn.isHidden = true
         
+        //客服跟单
+        csStatusCSLostBtn.isHidden = true
+        csStatusFollowRateBtn.isHidden = true
+        csStatusNormalRateBtn.isHidden = true
+        csStatusOrderCountBtn.isHidden = true
+        csStatusTooExpensiveBtn.isHidden = true
+        csBoughtSomeWhereElseBtn.isHidden = true
+        csStatusNeedsCaptiableBtn.isHidden = true
+        csStatusFollowOrderCountBtn.isHidden = true
+        
         let tag = button.tag
         switch tag {
         case 1:
@@ -1211,6 +1507,7 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
             customerServicerStatisticBtn.setTitleColor(UIColor.titleColors(color: titleColorsType.black), for: .normal)
             designerStatisticBtn.setTitleColor(UIColor.titleColors(color: titleColorsType.gray), for: .normal)
             factoryStatisticBtn.setTitleColor(UIColor.titleColors(color: titleColorsType.gray), for: .normal)
+            customerStatusStatisticBtn.setTitleColor(UIColor.titleColors(color: titleColorsType.gray), for: .normal)
             
             compositeIndexBtn.isHidden = false
             acceptOrderCountBtn.isHidden = false
@@ -1235,6 +1532,7 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
             customerServicerStatisticBtn.setTitleColor(UIColor.titleColors(color: titleColorsType.gray), for: .normal)
             designerStatisticBtn.setTitleColor(UIColor.titleColors(color: titleColorsType.black), for: .normal)
             factoryStatisticBtn.setTitleColor(UIColor.titleColors(color: titleColorsType.gray), for: .normal)
+            customerStatusStatisticBtn.setTitleColor(UIColor.titleColors(color: titleColorsType.gray), for: .normal)
             
             designAverageDesignPriceBtn.isHidden = false
             designAverageDesignTimeBtn.isHidden = false
@@ -1256,6 +1554,7 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
             customerServicerStatisticBtn.setTitleColor(UIColor.titleColors(color: titleColorsType.gray), for: .normal)
             designerStatisticBtn.setTitleColor(UIColor.titleColors(color: titleColorsType.gray), for: .normal)
             factoryStatisticBtn.setTitleColor(UIColor.titleColors(color: titleColorsType.black), for: .normal)
+            customerStatusStatisticBtn.setTitleColor(UIColor.titleColors(color: titleColorsType.gray), for: .normal)
             
             facSendOrderCountBtn.isHidden = false
             facAverageSendTimeBtn.isHidden = false
@@ -1270,7 +1569,30 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
             //车间的ranking值
             rankingBtn35.setImage(UIImage(named: "rankingdownselectediconimg"), for: .normal)
             scrollBackgroundView.contentSize = CGSize(width: 870 - heightChangeForiPhoneXFromBottom, height: 36)
+        case 4:
+            statisticRoleType = 4
+            print("客服跟单统计按钮点击了")
+            selectTagIcon.frame = CGRect(x: 318, y: 40, width: 20, height: 4)
+            customerServicerStatisticBtn.setTitleColor(UIColor.titleColors(color: titleColorsType.gray), for: .normal)
+            designerStatisticBtn.setTitleColor(UIColor.titleColors(color: titleColorsType.gray), for: .normal)
+            factoryStatisticBtn.setTitleColor(UIColor.titleColors(color: titleColorsType.gray), for: .normal)
+            customerStatusStatisticBtn.setTitleColor(UIColor.titleColors(color: titleColorsType.black), for: .normal)
             
+            csStatusCSLostBtn.isHidden = false
+            csStatusFollowRateBtn.isHidden = false
+            csStatusNormalRateBtn.isHidden = false
+            csStatusOrderCountBtn.isHidden = false
+            csStatusTooExpensiveBtn.isHidden = false
+            csBoughtSomeWhereElseBtn.isHidden = false
+            csStatusNeedsCaptiableBtn.isHidden = false
+            csStatusFollowOrderCountBtn.isHidden = false
+            
+            //默认排序方式 - 接单金额
+            selectedRankingIndex = 12
+            //车间的ranking值
+            rankingBtn43.setImage(UIImage(named: "rankingdownselectediconimg"), for: .normal)
+            scrollBackgroundView.contentSize = CGSize(width: 870 - heightChangeForiPhoneXFromBottom, height: 36)
+            shopChoosenBtn.isHidden = false
         default:
             print("客服统计按钮点击了")
         }
@@ -1307,6 +1629,15 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
         facAverageQuoteTimeBtn.setTitleColor(UIColor.titleColors(color: .gray), for: .normal)
         facAcceptOrderAmountBtn.setTitleColor(UIColor.titleColors(color: .gray), for: .normal)
         facInqueryOrderCountBtn.setTitleColor(UIColor.titleColors(color: .gray), for: .normal)
+        //客服跟单按钮设置
+        csStatusFollowOrderCountBtn.setTitleColor(UIColor.titleColors(color: .gray), for: .normal)
+        csStatusNeedsCaptiableBtn.setTitleColor(UIColor.titleColors(color: .gray), for: .normal)
+        csBoughtSomeWhereElseBtn.setTitleColor(UIColor.titleColors(color: .gray), for: .normal)
+        csStatusTooExpensiveBtn.setTitleColor(UIColor.titleColors(color: .gray), for: .normal)
+        csStatusOrderCountBtn.setTitleColor(UIColor.titleColors(color: .gray), for: .normal)
+        csStatusNormalRateBtn.setTitleColor(UIColor.titleColors(color: .gray), for: .normal)
+        csStatusFollowRateBtn.setTitleColor(UIColor.titleColors(color: .gray), for: .normal)
+        csStatusCSLostBtn.setTitleColor(UIColor.titleColors(color: .gray), for: .normal)
         
         for i in 0..<rankingTypeList.count{
             
@@ -1320,6 +1651,8 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
                         rankingBtn21.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
                     case 3:
                         rankingBtn31.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
+                    case 4:
+                        rankingBtn41.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
                     default:
                         rankingBtn1.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
                     }
@@ -1332,6 +1665,8 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
                         rankingBtn21.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
                     case 3:
                         rankingBtn31.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
+                    case 4:
+                        rankingBtn41.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
                     default:
                         rankingBtn1.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
                     }
@@ -1346,6 +1681,8 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
                         rankingBtn22.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
                     case 3:
                         rankingBtn32.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
+                    case 4:
+                        rankingBtn42.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
                     default:
                         rankingBtn2.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
                     }
@@ -1358,6 +1695,8 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
                         rankingBtn22.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
                     case 3:
                         rankingBtn32.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
+                    case 4:
+                        rankingBtn42.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
                     default:
                         rankingBtn2.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
                     }
@@ -1372,6 +1711,8 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
                         rankingBtn23.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
                     case 3:
                         rankingBtn33.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
+                    case 4:
+                        rankingBtn43.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
                     default:
                         rankingBtn3.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
                     }
@@ -1384,6 +1725,8 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
                         rankingBtn23.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
                     case 3:
                         rankingBtn33.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
+                    case 4:
+                        rankingBtn43.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
                     default:
                         rankingBtn3.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
                     }
@@ -1398,6 +1741,8 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
                         rankingBtn24.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
                     case 3:
                         rankingBtn34.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
+                    case 4:
+                        rankingBtn44.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
                     default:
                         rankingBtn4.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
                     }
@@ -1410,6 +1755,8 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
                         rankingBtn24.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
                     case 3:
                         rankingBtn34.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
+                    case 4:
+                        rankingBtn44.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
                     default:
                         rankingBtn4.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
                     }
@@ -1424,6 +1771,8 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
                         rankingBtn25.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
                     case 3:
                         rankingBtn35.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
+                    case 4:
+                        rankingBtn45.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
                     default:
                         rankingBtn5.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
                     }
@@ -1436,6 +1785,8 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
                         rankingBtn25.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
                     case 3:
                         rankingBtn35.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
+                    case 4:
+                        rankingBtn45.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
                     default:
                         rankingBtn5.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
                     }
@@ -1450,6 +1801,8 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
                         rankingBtn26.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
                     case 3:
                         rankingBtn36.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
+                    case 4:
+                        rankingBtn46.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
                     default:
                         rankingBtn6.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
                     }
@@ -1462,6 +1815,8 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
                         rankingBtn26.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
                     case 3:
                         rankingBtn36.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
+                    case 4:
+                        rankingBtn46.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
                     default:
                         rankingBtn6.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
                     }
@@ -1476,6 +1831,8 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
                         rankingBtn27.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
                     case 3:
                         rankingBtn37.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
+                    case 4:
+                        rankingBtn47.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
                     default:
                         rankingBtn7.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
                     }
@@ -1488,6 +1845,8 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
                         rankingBtn27.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
                     case 3:
                         rankingBtn37.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
+                    case 4:
+                        rankingBtn47.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
                     default:
                         rankingBtn7.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
                     }
@@ -1502,6 +1861,8 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
                         rankingBtn28.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
                     case 3:
                         print("车间没有ranking 38")
+                    case 4:
+                        rankingBtn48.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
                     default:
                         rankingBtn8.setImage(UIImage(named: "rankingdownunselectediconimg"), for: .normal)
                     }
@@ -1514,6 +1875,8 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
                         rankingBtn28.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
                     case 3:
                         print("车间没有ranking 38")
+                    case 4:
+                        rankingBtn48.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
                     default:
                         rankingBtn8.setImage(UIImage(named: "rankingupunselectediconimg"), for: .normal)
                     }
@@ -1598,6 +1961,24 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
                         rankingBtn31.setImage(UIImage(named: "rankingupselectediconimg"), for: .normal)
                     }
                 }
+            case 4:
+                print("客服跟单")
+                csStatusOrderCountBtn.setTitleColor(UIColor.titleColors(color: .darkGray), for: .normal)
+                if selectedRankingIndex == tag{
+                    if rankingTypeList[0] == "desc"{
+                        rankingBtn41.setImage(UIImage(named: "rankingupselectediconimg"), for: .normal)
+                        rankingTypeList[0] = "asc"
+                    }else{
+                        rankingBtn41.setImage(UIImage(named: "rankingdownselectediconimg"), for: .normal)
+                        rankingTypeList[0] = "desc"
+                    }
+                }else{
+                    if rankingTypeList[0] == "desc"{
+                        rankingBtn41.setImage(UIImage(named: "rankingdownselectediconimg"), for: .normal)
+                    }else{
+                        rankingBtn41.setImage(UIImage(named: "rankingupselectediconimg"), for: .normal)
+                    }
+                }
             default:
                 compositeIndexBtn.setTitleColor(UIColor.titleColors(color: .darkGray), for: .normal)
                 if selectedRankingIndex == tag{
@@ -1669,6 +2050,23 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
                         rankingBtn32.setImage(UIImage(named: "rankingdownselectediconimg"), for: .normal)
                     }else{
                         rankingBtn32.setImage(UIImage(named: "rankingupselectediconimg"), for: .normal)
+                    }
+                }
+            case 4:
+                csStatusFollowOrderCountBtn.setTitleColor(UIColor.titleColors(color: .darkGray), for: .normal)
+                if selectedRankingIndex == tag{
+                    if rankingTypeList[1] == "desc"{
+                        rankingBtn42.setImage(UIImage(named: "rankingupselectediconimg"), for: .normal)
+                        rankingTypeList[1] = "asc"
+                    }else{
+                        rankingBtn42.setImage(UIImage(named: "rankingdownselectediconimg"), for: .normal)
+                        rankingTypeList[1] = "desc"
+                    }
+                }else{
+                    if rankingTypeList[1] == "desc"{
+                        rankingBtn42.setImage(UIImage(named: "rankingdownselectediconimg"), for: .normal)
+                    }else{
+                        rankingBtn42.setImage(UIImage(named: "rankingupselectediconimg"), for: .normal)
                     }
                 }
             default:
@@ -1743,6 +2141,23 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
                         rankingBtn33.setImage(UIImage(named: "rankingupselectediconimg"), for: .normal)
                     }
                 }
+            case 4:
+                csStatusFollowRateBtn.setTitleColor(UIColor.titleColors(color: .darkGray), for: .normal)
+                if selectedRankingIndex == tag{
+                    if rankingTypeList[2] == "desc"{
+                        rankingBtn43.setImage(UIImage(named: "rankingupselectediconimg"), for: .normal)
+                        rankingTypeList[2] = "asc"
+                    }else{
+                        rankingBtn43.setImage(UIImage(named: "rankingdownselectediconimg"), for: .normal)
+                        rankingTypeList[2] = "desc"
+                    }
+                }else{
+                    if rankingTypeList[2] == "desc"{
+                        rankingBtn43.setImage(UIImage(named: "rankingdownselectediconimg"), for: .normal)
+                    }else{
+                        rankingBtn43.setImage(UIImage(named: "rankingupselectediconimg"), for: .normal)
+                    }
+                }
             default:
                 dealOrderCountBtn.setTitleColor(UIColor.titleColors(color: .darkGray), for: .normal)
                 if selectedRankingIndex == tag{
@@ -1813,6 +2228,23 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
                         rankingBtn34.setImage(UIImage(named: "rankingdownselectediconimg"), for: .normal)
                     }else{
                         rankingBtn34.setImage(UIImage(named: "rankingupselectediconimg"), for: .normal)
+                    }
+                }
+            case 4:
+                csStatusNormalRateBtn.setTitleColor(UIColor.titleColors(color: .darkGray), for: .normal)
+                if selectedRankingIndex == tag{
+                    if rankingTypeList[3] == "desc"{
+                        rankingBtn44.setImage(UIImage(named: "rankingupselectediconimg"), for: .normal)
+                        rankingTypeList[3] = "asc"
+                    }else{
+                        rankingBtn44.setImage(UIImage(named: "rankingdownselectediconimg"), for: .normal)
+                        rankingTypeList[3] = "desc"
+                    }
+                }else{
+                    if rankingTypeList[3] == "desc"{
+                        rankingBtn44.setImage(UIImage(named: "rankingdownselectediconimg"), for: .normal)
+                    }else{
+                        rankingBtn44.setImage(UIImage(named: "rankingupselectediconimg"), for: .normal)
                     }
                 }
             default:
@@ -1887,6 +2319,23 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
                         rankingBtn35.setImage(UIImage(named: "rankingupselectediconimg"), for: .normal)
                     }
                 }
+            case 4:
+                csStatusTooExpensiveBtn.setTitleColor(UIColor.titleColors(color: .darkGray), for: .normal)
+                if selectedRankingIndex == tag{
+                    if rankingTypeList[4] == "desc"{
+                        rankingBtn45.setImage(UIImage(named: "rankingupselectediconimg"), for: .normal)
+                        rankingTypeList[4] = "asc"
+                    }else{
+                        rankingBtn45.setImage(UIImage(named: "rankingdownselectediconimg"), for: .normal)
+                        rankingTypeList[4] = "desc"
+                    }
+                }else{
+                    if rankingTypeList[4] == "desc"{
+                        rankingBtn45.setImage(UIImage(named: "rankingdownselectediconimg"), for: .normal)
+                    }else{
+                        rankingBtn45.setImage(UIImage(named: "rankingupselectediconimg"), for: .normal)
+                    }
+                }
             default:
                 dealOrderAmountBtn.setTitleColor(UIColor.titleColors(color: .darkGray), for: .normal)
                 if selectedRankingIndex == tag{
@@ -1957,6 +2406,23 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
                         rankingBtn36.setImage(UIImage(named: "rankingdownselectediconimg"), for: .normal)
                     }else{
                         rankingBtn36.setImage(UIImage(named: "rankingupselectediconimg"), for: .normal)
+                    }
+                }
+            case 4:
+                csStatusNeedsCaptiableBtn.setTitleColor(UIColor.titleColors(color: .darkGray), for: .normal)
+                if selectedRankingIndex == tag{
+                    if rankingTypeList[5] == "desc"{
+                        rankingBtn46.setImage(UIImage(named: "rankingupselectediconimg"), for: .normal)
+                        rankingTypeList[5] = "asc"
+                    }else{
+                        rankingBtn46.setImage(UIImage(named: "rankingdownselectediconimg"), for: .normal)
+                        rankingTypeList[5] = "desc"
+                    }
+                }else{
+                    if rankingTypeList[5] == "desc"{
+                        rankingBtn46.setImage(UIImage(named: "rankingdownselectediconimg"), for: .normal)
+                    }else{
+                        rankingBtn46.setImage(UIImage(named: "rankingupselectediconimg"), for: .normal)
                     }
                 }
             default:
@@ -2031,6 +2497,23 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
                         rankingBtn37.setImage(UIImage(named: "rankingupselectediconimg"), for: .normal)
                     }
                 }
+            case 4:
+                csBoughtSomeWhereElseBtn.setTitleColor(UIColor.titleColors(color: .darkGray), for: .normal)
+                if selectedRankingIndex == tag{
+                    if rankingTypeList[6] == "desc"{
+                        rankingBtn47.setImage(UIImage(named: "rankingupselectediconimg"), for: .normal)
+                        rankingTypeList[6] = "asc"
+                    }else{
+                        rankingBtn47.setImage(UIImage(named: "rankingdownselectediconimg"), for: .normal)
+                        rankingTypeList[6] = "desc"
+                    }
+                }else{
+                    if rankingTypeList[6] == "desc"{
+                        rankingBtn47.setImage(UIImage(named: "rankingdownselectediconimg"), for: .normal)
+                    }else{
+                        rankingBtn47.setImage(UIImage(named: "rankingupselectediconimg"), for: .normal)
+                    }
+                }
             default:
                 singleOrderPriceBtn.setTitleColor(UIColor.titleColors(color: .darkGray), for: .normal)
                 if selectedRankingIndex == tag{
@@ -2088,6 +2571,23 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
                 }
             case 3:
                 print("车间没有Ranking 38")
+            case 4:
+                csStatusCSLostBtn.setTitleColor(UIColor.titleColors(color: .darkGray), for: .normal)
+                if selectedRankingIndex == tag{
+                    if rankingTypeList[7] == "desc"{
+                        rankingBtn48.setImage(UIImage(named: "rankingupselectediconimg"), for: .normal)
+                        rankingTypeList[7] = "asc"
+                    }else{
+                        rankingBtn48.setImage(UIImage(named: "rankingdownselectediconimg"), for: .normal)
+                        rankingTypeList[7] = "desc"
+                    }
+                }else{
+                    if rankingTypeList[7] == "desc"{
+                        rankingBtn48.setImage(UIImage(named: "rankingdownselectediconimg"), for: .normal)
+                    }else{
+                        rankingBtn48.setImage(UIImage(named: "rankingupselectediconimg"), for: .normal)
+                    }
+                }
             default:
                 AverageDealTimeBtn.setTitleColor(UIColor.titleColors(color: .darkGray), for: .normal)
                 if selectedRankingIndex == tag{
@@ -2493,6 +2993,43 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
             default:
                 params["sort"] = "acceptNumber"
             }
+        case 4:
+            #if DEBUG
+            requestUrl = apiAddresses.value(forKey: "statisticForCustomerStatusAPIDebug") as! String
+            #else
+            requestUrl = apiAddresses.value(forKey: "statisticForCustomerStatusAPI") as! String
+            #endif
+            
+            var shopsString = ""
+            for item in shopIndexs{
+                shopsString += "\(item),"
+            }
+            
+            if shopsString != ""{
+                shopsString.removeLast()
+            }
+            params["shops"] =  shopsString
+            
+            switch rankingIndex {
+            case 10:
+                params["sort"] = "orderNumber"
+            case 11:
+                params["sort"] = "withOrderNumber"
+            case 12:
+                params["sort"] = "withOrderRate"
+            case 13:
+                params["sort"] = "normalRate"
+            case 14:
+                params["sort"] = "highPriceNumber"
+            case 15:
+                params["sort"] = "cantNumber"
+            case 16:
+                params["sort"] = "elsewhereNumber"
+            case 17:
+                params["sort"] = "loseNumber"
+            default:
+                params["sort"] = "withOrderRate"
+            }
         default:
             #if DEBUG
             requestUrl = apiAddresses.value(forKey: "statisticForCustomerAPIDebug") as! String
@@ -2513,7 +3050,12 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
                     self.totalPageCount = 1
 
                     if statusCode == 200{
-                        self.totalPageCount = Int(json["data","totalNumber"].int!/100)
+                        if let totalNum = json["data","totalNumber"].int {
+                            self.totalPageCount = Int(totalNum/100)
+                        }else{
+                            self.totalPageCount = 1
+                        }
+                       // self.totalPageCount = Int(json["data","totalNumber"].int!/100)
                         //设计师在线列表
                         for item in json["data","list"].array!{
                             let dicItem = item.dictionaryObject! as NSDictionary

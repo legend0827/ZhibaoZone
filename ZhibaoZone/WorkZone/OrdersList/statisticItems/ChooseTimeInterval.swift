@@ -23,6 +23,7 @@ class ChooseTimeInterval: UIView,UITableViewDelegate,UITableViewDataSource,UIPic
             
             let dayNum = self.daysCount(year: Int(selctYear) , month: Int(selctMonth),forStarts: true)
             let numberArr = [yearNum,monthNum,dayNum]
+            print("startTimePickerView: \(numberArr[component]!)")
             return numberArr[component]!
         }else{
             let yearNum = endYearArray?.count
@@ -33,10 +34,9 @@ class ChooseTimeInterval: UIView,UITableViewDelegate,UITableViewDataSource,UIPic
             
             let dayNum = self.daysCount(year: Int(selctYear) , month: Int(selctMonth),forStarts: false)
             let numberArr = [yearNum,monthNum,dayNum]
+            print("EndTimePickerView: \(numberArr[component]!)")
             return numberArr[component]!
         }
-        
-        
     }
     
     
@@ -48,16 +48,27 @@ class ChooseTimeInterval: UIView,UITableViewDelegate,UITableViewDataSource,UIPic
         let headLabel = UILabel.init()
         headLabel.textColor  = UIColor.colorWithRgba(102, g: 102, b: 102, a: 1.0)
         headLabel.textAlignment = NSTextAlignment.center
-        if component == 0 {
-            headLabel.text = yearArray?[row] as? String
+        if pickerView.isEqual(startTimePickerView){
+            if component == 0 {
+                headLabel.text = yearArray?[row] as? String
+            }
+            if component == 1 {
+                headLabel.text = monthArray?[row] as? String
+            }
+            if component == 2 {
+                headLabel.text = dayArray?[row] as? String
+            }
+        }else{
+            if component == 0 {
+                headLabel.text = endYearArray?[row] as? String
+            }
+            if component == 1 {
+                headLabel.text = endMonthArray?[row] as? String
+            }
+            if component == 2 {
+                headLabel.text = endDayArray?[row] as? String
+            }
         }
-        if component == 1 {
-            headLabel.text = monthArray?[row] as? String
-        }
-        if component == 2 {
-            headLabel.text = dayArray?[row] as? String
-        }
-        
         return headLabel
     }
     
@@ -359,8 +370,8 @@ class ChooseTimeInterval: UIView,UITableViewDelegate,UITableViewDataSource,UIPic
         let calendar = Calendar.current
         let dateComponentsOfStart = calendar.dateComponents([.day,.month,.year,.hour], from: startDate as Date)
         let dateComponentsOfEnd = calendar.dateComponents([.day,.month,.year,.hour], from: endDate as Date)
-        let _ = self.daysCount(year: dateComponentsOfStart.year!, month: dateComponentsOfStart.month!,forStarts: true)
-        let _ = self.daysCount(year: dateComponentsOfEnd.year!, month: dateComponentsOfEnd.month!,forStarts: true)
+      //  let _ = self.daysCount(year: dateComponentsOfStart.year!, month: dateComponentsOfStart.month!,forStarts: true)
+      //  let _ = self.daysCount(year: dateComponentsOfEnd.year!, month: dateComponentsOfEnd.month!,forStarts: true)
         
         yearIndex = dateComponentsOfStart.year!-MINYEAR
         monthIndex = dateComponentsOfStart.month!-1
@@ -424,7 +435,7 @@ class ChooseTimeInterval: UIView,UITableViewDelegate,UITableViewDataSource,UIPic
         _frame = frame
         
         self.defaultConfig()
-        self.scrollToDate(startDate: NSDate(), endDate: NSDate())
+       // self.scrollToDate(startDate: NSDate(), endDate: NSDate())
         self.layer.cornerRadius = 20
         self.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
         //初始化值

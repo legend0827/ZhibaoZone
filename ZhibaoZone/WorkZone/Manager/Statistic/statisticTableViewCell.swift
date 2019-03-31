@@ -317,6 +317,96 @@ class statisticTableViewCell: UITableViewCell {
         
         return tempLabel
     }()
+    
+    //// ------ 客服跟单
+    //订单数量
+    lazy var csStatusOrderCountLabel:UILabel = {
+        
+        let tempLabel = UILabel.init(frame:CGRect(x: 33, y: 15, width: 135, height: 18))
+        tempLabel.text = "订单数量"
+        tempLabel.textAlignment = .right
+        tempLabel.textColor = UIColor.titleColors(color: titleColorsType.gray)
+        tempLabel.font = UIFont(name: "DINPro-Medium", size: 13)
+        
+        return tempLabel
+    }()
+    //跟单数量
+    lazy var csStatusFollowOrderCountLabel:UILabel = {
+        
+        let tempLabel = UILabel.init(frame:CGRect(x: 118, y: 15, width: 135, height: 18))
+        tempLabel.text = "跟单数量"
+        tempLabel.textAlignment = .right
+        tempLabel.textColor = UIColor.titleColors(color: titleColorsType.gray)
+        tempLabel.font = UIFont(name: "DINPro-Medium", size: 13)
+        
+        return tempLabel
+    }()
+    //接单数量
+    lazy var csStatusFollowOrderRateLabel:UILabel = {
+        
+        let tempLabel = UILabel.init(frame:CGRect(x: 193, y: 15, width: 135, height: 18))
+        tempLabel.text = "跟单比例"
+        tempLabel.textAlignment = .right
+        tempLabel.textColor = UIColor.titleColors(color: titleColorsType.gray)
+        tempLabel.font = UIFont(name: "DINPro-Medium", size: 13)
+        
+        return tempLabel
+    }()
+    //正常占比
+    lazy var csStatusNormalOrderRateLabel:UILabel = {
+        
+        let tempLabel = UILabel.init(frame:CGRect(x: 270, y: 15, width: 135, height: 18))
+        tempLabel.text = "正常占比"
+        tempLabel.textAlignment = .right
+        tempLabel.textColor = UIColor.titleColors(color: titleColorsType.gray)
+        tempLabel.font = UIFont(name: "DINPro-Medium", size: 13)
+        
+        return tempLabel
+    }()
+    //嫌贵议价
+    lazy var csStatusTooExpensiveLabel:UILabel = {
+        
+        let tempLabel = UILabel.init(frame:CGRect(x: 340, y: 15, width: 135, height: 18))
+        tempLabel.text = "嫌贵议价"
+        tempLabel.textAlignment = .right
+        tempLabel.textColor = UIColor.titleColors(color: titleColorsType.gray)
+        tempLabel.font = UIFont(name: "DINPro-Medium", size: 13)
+        
+        return tempLabel
+    }()
+    //需求不能满足
+    lazy var csStatusNeedsNotCaptiableLabel:UILabel = {
+        
+        let tempLabel = UILabel.init(frame:CGRect(x: 443, y: 15, width: 135, height: 18))
+        tempLabel.text = "需求不能满足"
+        tempLabel.textAlignment = .right
+        tempLabel.textColor = UIColor.titleColors(color: titleColorsType.gray)
+        tempLabel.font = UIFont(name: "DINPro-Medium", size: 13)
+        
+        return tempLabel
+    }()
+    //别处购买
+    lazy var csStatusBoughtSomeWhereElseLabel:UILabel = {
+        
+        let tempLabel = UILabel.init(frame:CGRect(x: 547, y: 15, width: 120, height: 18))
+        tempLabel.text = "别处购买"
+        tempLabel.textAlignment = .right
+        tempLabel.textColor = UIColor.titleColors(color: titleColorsType.gray)
+        tempLabel.font = UIFont(name: "DINPro-Medium", size: 13)
+        
+        return tempLabel
+    }()
+    //客户失联
+    lazy var csStatusCSMissedLabel:UILabel = {
+        
+        let tempLabel = UILabel.init(frame:CGRect(x: 657, y: 15, width: 120, height: 18))
+        tempLabel.text = "客户失联"
+        tempLabel.textAlignment = .right
+        tempLabel.textColor = UIColor.titleColors(color: titleColorsType.gray)
+        tempLabel.font = UIFont(name: "DINPro-Medium", size: 13)
+        
+        return tempLabel
+    }()
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -355,6 +445,14 @@ class statisticTableViewCell: UITableViewCell {
         self.contentView.addSubview(facInquryOrderCountLabel)
         self.contentView.addSubview(facAcceptOrderAmountLabel)
         
+        self.contentView.addSubview(csStatusCSMissedLabel)
+        self.contentView.addSubview(csStatusOrderCountLabel)
+        self.contentView.addSubview(csStatusTooExpensiveLabel)
+        self.contentView.addSubview(csStatusFollowOrderRateLabel)
+        self.contentView.addSubview(csStatusNormalOrderRateLabel)
+        self.contentView.addSubview(csStatusFollowOrderCountLabel)
+        self.contentView.addSubview(csStatusNeedsNotCaptiableLabel)
+        self.contentView.addSubview(csStatusBoughtSomeWhereElseLabel)
 
         self.selectionStyle = .none
     }
