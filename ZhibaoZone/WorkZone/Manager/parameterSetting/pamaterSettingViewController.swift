@@ -374,7 +374,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             return 1
         case .DSDesignFeeSetting:
            // print("设计费配置")
-            return 6
+            return 5
         case .AutoPricingSetting:
             return 1
         default:
@@ -624,7 +624,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             // print("设计费配置")
             switch indexPath.row{
             case 0:
-                cell.titleLabel.text = "设计费默认值(元)"
+                cell.titleLabel.text = "设计费最小值(元)"
                 cell.parameterValue.placeholder = "0 - 999"
                 cell.parameteUnit.text = "元"
                 cell.parameterValue.text = "8"
@@ -668,7 +668,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
                     cell.parameterValue.text = "\(Int(designFee_set_defaultMaxValue * 100))"
                 }
             case 4:
-                cell.titleLabel.text = "设计费最大值"
+                cell.titleLabel.text = "设计费最大值(元)"
                 cell.parameterValue.placeholder = "0 - 999"
                 cell.parameteUnit.text = "元"
                 cell.parameterValue.text = "100"
@@ -1090,24 +1090,24 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             thirdTitleOfDoubleCheck.isHidden = false
             fouthTitleOfDoubleCheck.isHidden = false
             fifthTitleOfDoubleCheck.isHidden = false
-            sixthTitleOfDoubleCheck.isHidden = false
+            sixthTitleOfDoubleCheck.isHidden = true
             seventhTitleOfDoubleCheck.isHidden = true
             
             secondAfterValueOfDoubleCheck.isHidden = false
             thirdAfterValueOfDoubleCheck.isHidden = false
             fouthAfterValueOfDoubleCheck.isHidden = false
             fifthAfterValueOfDoubleCheck.isHidden = false
-            sixthAfterValueOfDoubleCheck.isHidden = false
+            sixthAfterValueOfDoubleCheck.isHidden = true
             seventhAfterValueOfDoubleCheck.isHidden = true
             
             secondBeforeValueOfDoubleCheck.isHidden = false
             thirdBeforeValueOfDoubleCheck.isHidden = false
             fouthBeforeValueOfDoubleCheck.isHidden = false
             fifthBeforeValueOfDoubleCheck.isHidden = false
-            sixthBeforeValueOfDoubleCheck.isHidden = false
+            sixthBeforeValueOfDoubleCheck.isHidden = true
             seventhBeforeValueOfDoubleCheck.isHidden = true
             
-            firstTitleOfDoubleCheck.text = "设计费默认值(元)"
+            firstTitleOfDoubleCheck.text = "设计费最小值(元)"
             secondTitleOfDoubleCheck.text = "设计费默认比例(%)"
             thirdTitleOfDoubleCheck.text = "引导费比例(%)"
             fouthTitleOfDoubleCheck.text = "设计费取汁比例(%)"

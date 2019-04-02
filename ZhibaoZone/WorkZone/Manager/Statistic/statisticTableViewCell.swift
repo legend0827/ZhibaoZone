@@ -149,10 +149,20 @@ class statisticTableViewCell: UITableViewCell {
         return tempLabel
     }()
     //// ------ 设计
+    //派单数量
+    lazy var designDistributeOrderCountLabel:UILabel = {
+        let tempLabel = UILabel.init(frame:CGRect(x: 33, y: 15, width: 135, height: 18))
+        tempLabel.text = "派单数量"
+        tempLabel.textAlignment = .right
+        tempLabel.textColor = UIColor.titleColors(color: titleColorsType.gray)
+        tempLabel.font = UIFont(name: "DINPro-Medium", size: 13)
+        
+        return tempLabel
+    }()
     //接单数量
     lazy var designAcceptOrderCountLabel:UILabel = {
         
-        let tempLabel = UILabel.init(frame:CGRect(x: 33, y: 15, width: 135, height: 18))
+        let tempLabel = UILabel.init(frame:CGRect(x: 118, y: 15, width: 135, height: 18))
         tempLabel.text = "接单数量"
         tempLabel.textAlignment = .right
         tempLabel.textColor = UIColor.titleColors(color: titleColorsType.gray)
@@ -163,7 +173,7 @@ class statisticTableViewCell: UITableViewCell {
     //定稿数量
     lazy var designDealOrderCountLabel:UILabel = {
         
-        let tempLabel = UILabel.init(frame:CGRect(x: 118, y: 15, width: 135, height: 18))
+        let tempLabel = UILabel.init(frame:CGRect(x: 197, y: 15, width: 135, height: 18))
         tempLabel.text = "定稿数量"
         tempLabel.textAlignment = .right
         tempLabel.textColor = UIColor.titleColors(color: titleColorsType.gray)
@@ -174,7 +184,7 @@ class statisticTableViewCell: UITableViewCell {
     //接单金额
     lazy var designAcceptOrderAmountLabel:UILabel = {
         
-        let tempLabel = UILabel.init(frame:CGRect(x: 193, y: 15, width: 135, height: 18))
+        let tempLabel = UILabel.init(frame:CGRect(x: 280, y: 15, width: 135, height: 18))
         tempLabel.text = "接单金额"
         tempLabel.textAlignment = .right
         tempLabel.textColor = UIColor.titleColors(color: titleColorsType.gray)
@@ -185,7 +195,7 @@ class statisticTableViewCell: UITableViewCell {
     //定稿金额
     lazy var designDealOrderAmountLabel:UILabel = {
         
-        let tempLabel = UILabel.init(frame:CGRect(x: 300, y: 15, width: 135, height: 18))
+        let tempLabel = UILabel.init(frame:CGRect(x: 380, y: 15, width: 135, height: 18))
         tempLabel.text = "定稿金额"
         tempLabel.textAlignment = .right
         tempLabel.textColor = UIColor.titleColors(color: titleColorsType.gray)
@@ -196,7 +206,7 @@ class statisticTableViewCell: UITableViewCell {
     //定稿率
     lazy var designTransferRateLabel:UILabel = {
         
-        let tempLabel = UILabel.init(frame:CGRect(x: 400, y: 15, width: 135, height: 18))
+        let tempLabel = UILabel.init(frame:CGRect(x: 453, y: 15, width: 135, height: 18))
         tempLabel.text = "定稿率"
         tempLabel.textAlignment = .right
         tempLabel.textColor = UIColor.titleColors(color: titleColorsType.gray)
@@ -207,7 +217,7 @@ class statisticTableViewCell: UITableViewCell {
     //拒单率
     lazy var designRefuseRateLabel:UILabel = {
         
-        let tempLabel = UILabel.init(frame:CGRect(x: 483, y: 15, width: 135, height: 18))
+        let tempLabel = UILabel.init(frame:CGRect(x: 527, y: 15, width: 135, height: 18))
         tempLabel.text = "拒单率"
         tempLabel.textAlignment = .right
         tempLabel.textColor = UIColor.titleColors(color: titleColorsType.gray)
@@ -218,7 +228,7 @@ class statisticTableViewCell: UITableViewCell {
     //成交出图(平均)
     lazy var designAverageDesignTimeLabel:UILabel = {
         
-        let tempLabel = UILabel.init(frame:CGRect(x: 617, y: 15, width: 120, height: 18))
+        let tempLabel = UILabel.init(frame:CGRect(x: 647, y: 15, width: 120, height: 18))
         tempLabel.text = "出图时间(平均)"
         tempLabel.textAlignment = .right
         tempLabel.textColor = UIColor.titleColors(color: titleColorsType.gray)
@@ -230,7 +240,7 @@ class statisticTableViewCell: UITableViewCell {
     //成交出图(平均)
     lazy var designAverageDesignPriceLabel:UILabel = {
         
-        let tempLabel = UILabel.init(frame:CGRect(x: 718, y: 15, width: 120, height: 18))
+        let tempLabel = UILabel.init(frame:CGRect(x: 738, y: 15, width: 120, height: 18))
         tempLabel.text = "设计费(平均)"
         tempLabel.textAlignment = .right
         tempLabel.textColor = UIColor.titleColors(color: titleColorsType.gray)
@@ -428,6 +438,7 @@ class statisticTableViewCell: UITableViewCell {
         self.contentView.addSubview(quoteRateLabel)
         self.contentView.addSubview(AverageDesignPriceLabel)
         
+        self.contentView.addSubview(designDistributeOrderCountLabel)
         self.contentView.addSubview(designRefuseRateLabel)
         self.contentView.addSubview(designTransferRateLabel)
         self.contentView.addSubview(designDealOrderCountLabel)
