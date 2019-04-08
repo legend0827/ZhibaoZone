@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ZhibaoZone/WorkZone/OrdersList/ActionViewInOrder.swift"
-            timestampString = "574586082.012666"
+            timestampString = "576390693.193885"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1442"
@@ -26,12 +26,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ZhibaoZone/WorkZone/OrdersList/ActionViewInOrder.swift"
-            timestampString = "574586082.012957"
+            timestampString = "576390693.1939451"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1568"
             endingLineNumber = "1568"
             landmarkName = "confirmBargainBtnClicked()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ZhibaoZone/WorkZone/OrdersList/ActionViewInOrder.swift"
+            timestampString = "576390693.193988"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2260"
+            endingLineNumber = "2260"
+            landmarkName = "updateViewData()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

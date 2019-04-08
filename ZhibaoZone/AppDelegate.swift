@@ -328,6 +328,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
                 UIDevice.current.setValue(value, forKey: "orientation")
             }
         }else{
+            UIDevice.current.setValue(0, forKey: "orientation")
             print("timeInterval is nil")
         }
         

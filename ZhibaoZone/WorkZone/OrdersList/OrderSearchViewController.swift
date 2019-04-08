@@ -82,20 +82,20 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.view.backgroundColor = UIColor.backgroundColors(color: .white)
-        setStatusBarBackgroundColor(color: .backgroundColors(color: .red))
+        self.view.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
+        setStatusBarBackgroundColor(color: .backgroundColors(color: .clear))
         setStatusBarHiden(toHidden: false, ViewController: self)
-        titleBarBackground.backgroundColor = UIColor.backgroundColors(color: .red)
+        titleBarBackground.backgroundColor = UIColor.backgroundColors(color: .white)
        
         //设置搜索栏
         searchBar.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 28, height: 28))
         searchBar.leftViewMode = UITextFieldViewMode.always
         searchBar.clearButtonMode = UITextFieldViewMode.always
         searchBar.returnKeyType = UIReturnKeyType.search
-        searchBar.tintColor = UIColor.white
+        searchBar.tintColor = UIColor.black
         searchBar.layer.cornerRadius = 6
-        searchBar.textColor = UIColor.titleColors(color: .white)
-        searchBar.backgroundColor = UIColor.lineColors(color: .red)
+        searchBar.textColor = UIColor.titleColors(color: .black)
+        searchBar.backgroundColor = UIColor.lineColors(color: .white)
         
         let attributes = [NSAttributedStringKey.font:UIFont.systemFont(ofSize: 14),NSAttributedStringKey.foregroundColor:UIColor.white]
         if _searchModel == .orderidOnly{
@@ -111,8 +111,8 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
 
         cancelSearchBtn.setTitle("取消", for: .normal)
         cancelSearchBtn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        cancelSearchBtn.setTitleColor(UIColor.titleColors(color: .white), for: .normal)
-        cancelSearchBtn.setTitleColor(UIColor.backgroundColors(color: .lightRed), for: .highlighted)
+        cancelSearchBtn.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
+        cancelSearchBtn.setTitleColor(UIColor.backgroundColors(color: .white), for: .highlighted)
         cancelSearchBtn.addTarget(self, action: #selector(searchBarCancelButtonClicked), for: .touchUpInside)
       
         searchBar.delegate = self

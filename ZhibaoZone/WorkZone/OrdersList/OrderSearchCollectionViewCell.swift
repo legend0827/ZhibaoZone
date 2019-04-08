@@ -106,33 +106,33 @@ class OrderSearchCollectionViewCell: UICollectionViewCell {
         productQuantityInCell.font = UIFont.systemFont(ofSize: 14)
         
         
-        quotePriceBtnInCell.layer.cornerRadius = 6
-        quotePriceBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .red).cgColor
+        quotePriceBtnInCell.layer.cornerRadius = 4
+        quotePriceBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .lightOrange).cgColor
         quotePriceBtnInCell.setTitle("报价", for: UIControlState.normal)
         quotePriceBtnInCell.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         quotePriceBtnInCell.setTitleColor(UIColor.titleColors(color: .white), for: UIControlState.normal)
         
         
-        acceptProduceBtnInCell.layer.cornerRadius = 6
-        acceptProduceBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .red).cgColor
+        acceptProduceBtnInCell.layer.cornerRadius = 4
+        acceptProduceBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .lightOrange).cgColor
         acceptProduceBtnInCell.setTitle("接受生产", for: UIControlState.normal)
         acceptProduceBtnInCell.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         acceptProduceBtnInCell.setTitleColor(UIColor.titleColors(color: .white), for: UIControlState.normal)
         
-        acceptDesignBtnInCell.layer.cornerRadius = 6
-        acceptDesignBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .red).cgColor
+        acceptDesignBtnInCell.layer.cornerRadius = 4
+        acceptDesignBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .lightOrange).cgColor
         acceptDesignBtnInCell.setTitle("接受设计", for: UIControlState.normal)
         acceptDesignBtnInCell.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         acceptDesignBtnInCell.setTitleColor(UIColor.titleColors(color: .white), for: UIControlState.normal)
         
-        shippingBtnInCell.layer.cornerRadius = 6
-        shippingBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .red).cgColor
+        shippingBtnInCell.layer.cornerRadius = 4
+        shippingBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .lightOrange).cgColor
         shippingBtnInCell.setTitle("上传物流", for: UIControlState.normal)
         shippingBtnInCell.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         shippingBtnInCell.setTitleColor(UIColor.titleColors(color: .white), for: UIControlState.normal)
         
-        editOrderBtnInCell.layer.cornerRadius = 6
-        editOrderBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .red).cgColor
+        editOrderBtnInCell.layer.cornerRadius = 4
+        editOrderBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .lightOrange).cgColor
         editOrderBtnInCell.setTitle("编辑参数", for: UIControlState.normal)
         editOrderBtnInCell.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         editOrderBtnInCell.setTitleColor(UIColor.titleColors(color: .white), for: UIControlState.normal)
@@ -140,7 +140,7 @@ class OrderSearchCollectionViewCell: UICollectionViewCell {
         let takePhotoiCon:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: 5, width: 22, height: 17))
         takePhotoiCon.image = UIImage(named: "takePhotoiconimg")
         takePhotoForProductBtnInCell.addSubview(takePhotoiCon)
-        takePhotoForProductBtnInCell.layer.cornerRadius = 6
+        takePhotoForProductBtnInCell.layer.cornerRadius = 4
         takePhotoForProductBtnInCell.layer.backgroundColor = UIColor.backgroundColors(color: .white).cgColor
         takePhotoForProductBtnInCell.setTitle("       拍摄成品", for: UIControlState.normal)
         takePhotoForProductBtnInCell.contentHorizontalAlignment = .left
@@ -150,7 +150,7 @@ class OrderSearchCollectionViewCell: UICollectionViewCell {
         
         statusImageView.isHidden = true
         statusImageView.image = UIImage(named: "overbudgeticon")
-        statusImageView.layer.cornerRadius = 6
+        statusImageView.layer.cornerRadius = 4 
         statusImageView.layer.borderColor = UIColor.clear.cgColor
         statusImageView.layer.borderWidth = 0.5
         statusImageView.layer.masksToBounds = true

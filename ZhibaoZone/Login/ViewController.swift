@@ -400,6 +400,8 @@ class ViewController: UIViewController,UITextFieldDelegate {
     override func viewWillAppear(_ animated: Bool) {
         setStatusBarHiden(toHidden: false, ViewController: self)
         setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .clear))
+        
+        UIDevice.current.setValue(0, forKey: "orientation")
     }
     override func viewDidAppear(_ animated: Bool) {
         setStatusBarHiden(toHidden: false, ViewController: self)

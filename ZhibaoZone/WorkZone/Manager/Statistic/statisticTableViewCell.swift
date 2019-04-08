@@ -286,8 +286,19 @@ class statisticTableViewCell: UITableViewCell {
     //发货单数
     lazy var facSendOrderCountLabel:UILabel = {
         
-        let tempLabel = UILabel.init(frame:CGRect(x: 300, y: 15, width: 135, height: 18))
+        let tempLabel = UILabel.init(frame:CGRect(x: 280, y: 15, width: 135, height: 18))
         tempLabel.text = "发货数量"
+        tempLabel.textAlignment = .right
+        tempLabel.textColor = UIColor.titleColors(color: titleColorsType.gray)
+        tempLabel.font = UIFont(name: "DINPro-Medium", size: 13)
+        
+        return tempLabel
+    }()
+    //订单金额
+    lazy var facOrderAmountLabel:UILabel = {
+        
+        let tempLabel = UILabel.init(frame:CGRect(x: 360, y: 15, width: 135, height: 18))
+        tempLabel.text = "订单金额"
         tempLabel.textAlignment = .right
         tempLabel.textColor = UIColor.titleColors(color: titleColorsType.gray)
         tempLabel.font = UIFont(name: "DINPro-Medium", size: 13)
@@ -297,8 +308,19 @@ class statisticTableViewCell: UITableViewCell {
     //接单金额
     lazy var facAcceptOrderAmountLabel:UILabel = {
         
-        let tempLabel = UILabel.init(frame:CGRect(x: 380, y: 15, width: 135, height: 18))
+        let tempLabel = UILabel.init(frame:CGRect(x: 453, y: 15, width: 135, height: 18))
         tempLabel.text = "接单金额"
+        tempLabel.textAlignment = .right
+        tempLabel.textColor = UIColor.titleColors(color: titleColorsType.gray)
+        tempLabel.font = UIFont(name: "DINPro-Medium", size: 13)
+        
+        return tempLabel
+    }()
+    //报价时间
+    lazy var facQuoteInTimeLabel:UILabel = {
+        
+        let tempLabel = UILabel.init(frame:CGRect(x: 527, y: 15, width: 135, height: 18))
+        tempLabel.text = "实时报价"
         tempLabel.textAlignment = .right
         tempLabel.textColor = UIColor.titleColors(color: titleColorsType.gray)
         tempLabel.font = UIFont(name: "DINPro-Medium", size: 13)
@@ -308,7 +330,7 @@ class statisticTableViewCell: UITableViewCell {
     //报价时间
     lazy var facAverageQuoteTimeLabel:UILabel = {
         
-        let tempLabel = UILabel.init(frame:CGRect(x: 483, y: 15, width: 135, height: 18))
+        let tempLabel = UILabel.init(frame:CGRect(x: 637, y: 15, width: 135, height: 18))
         tempLabel.text = "报价时间"
         tempLabel.textAlignment = .right
         tempLabel.textColor = UIColor.titleColors(color: titleColorsType.gray)
@@ -319,7 +341,7 @@ class statisticTableViewCell: UITableViewCell {
     //发货时间
     lazy var facAverageSendTimeLabel:UILabel = {
         
-        let tempLabel = UILabel.init(frame:CGRect(x: 617, y: 15, width: 120, height: 18))
+        let tempLabel = UILabel.init(frame:CGRect(x: 757, y: 15, width: 120, height: 18))
         tempLabel.text = "发货时间(平均)"
         tempLabel.textAlignment = .right
         tempLabel.textColor = UIColor.titleColors(color: titleColorsType.gray)
@@ -455,6 +477,8 @@ class statisticTableViewCell: UITableViewCell {
         self.contentView.addSubview(facAverageQuoteTimeLabel)
         self.contentView.addSubview(facInquryOrderCountLabel)
         self.contentView.addSubview(facAcceptOrderAmountLabel)
+        self.contentView.addSubview(facOrderAmountLabel)
+        self.contentView.addSubview(facQuoteInTimeLabel)
         
         self.contentView.addSubview(csStatusCSMissedLabel)
         self.contentView.addSubview(csStatusOrderCountLabel)

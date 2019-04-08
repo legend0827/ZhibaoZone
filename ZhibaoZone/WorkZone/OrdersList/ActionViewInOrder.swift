@@ -2304,14 +2304,15 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
                 tempMakeStyleValue += ";\(colorType)"
             }
         }
-        
-        tempMakeStyleValue.remove(at: tempMakeStyleValue.startIndex) //删除掉开头的“，”
-//        tempMakeStyleValue = tempMakeStyleValue.replacingOccurrences(of: ";无", with: "") //将“;,替换为;
-//        tempMakeStyleValue = tempMakeStyleValue.replacingOccurrences(of: "无;", with: "") //将“;,替换为;
-//        tempMakeStyleValue = tempMakeStyleValue.replacingOccurrences(of: "无", with: "") //将“;,替换为;
-//        tempMakeStyleValue = tempMakeStyleValue.replacingOccurrences(of: ",,", with: "") //将“;,替换为;
-//        tempMakeStyleValue = tempMakeStyleValue.replacingOccurrences(of: ";;", with: "") //将“;,替换为;
-        tempMakeStyleValue = tempMakeStyleValue.replacingOccurrences(of: ";,", with: ";") //将“;,替换为;
+        if tempMakeStyleValue != ""{
+            tempMakeStyleValue.remove(at: tempMakeStyleValue.startIndex) //删除掉开头的“，”
+            //        tempMakeStyleValue = tempMakeStyleValue.replacingOccurrences(of: ";无", with: "") //将“;,替换为;
+            //        tempMakeStyleValue = tempMakeStyleValue.replacingOccurrences(of: "无;", with: "") //将“;,替换为;
+            //        tempMakeStyleValue = tempMakeStyleValue.replacingOccurrences(of: "无", with: "") //将“;,替换为;
+            //        tempMakeStyleValue = tempMakeStyleValue.replacingOccurrences(of: ",,", with: "") //将“;,替换为;
+            //        tempMakeStyleValue = tempMakeStyleValue.replacingOccurrences(of: ";;", with: "") //将“;,替换为;
+            tempMakeStyleValue = tempMakeStyleValue.replacingOccurrences(of: ";,", with: ";") //将“;,替换为;
+        }
         //tempMakeStyleValue.remove(at: tempMakeStyleValue.endIndex)
         makeStyleValue.text = tempMakeStyleValue
         let heightOfLabel = calculateLabelHeightWithText(with: tempMakeStyleValue, labelWidth: makeStyleValue.frame.width, textFont: makeStyleValue.font)

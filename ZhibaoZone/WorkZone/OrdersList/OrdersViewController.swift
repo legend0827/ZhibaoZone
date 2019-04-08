@@ -1538,6 +1538,16 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         UIDevice.current.setValue(0, forKey: "orientation")
         
     }
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        let duration:TimeInterval = coordinator.transitionDuration
+        if size.width > size.height{ // 横屏
+            let statisticVC = StatisticViewController()
+            self.present(statisticVC, animated: true, completion: nil)
+        }else{
+            //self.dismiss(animated: true, completion: nil)
+            UIDevice.current.setValue(0, forKey: "orientation")
+        }
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
