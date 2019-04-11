@@ -124,11 +124,11 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         }
         //产品类型
         let goodsClassObject = productObjects.value(forKey: "goodsClass") as! NSArray
-        let productType = (goodsClassObject[Int(orderInfoObjects.value(forKey: "goodsClass") as! String)! - 1] as! NSDictionary).value(forKey: "goodsClass") as! String
-        
+        let productType = findValue(key: "id", keyValue: orderInfoObjects.value(forKey: "goodsClass") as! String, In: goodsClassObject, By: "goodsClass")
         //材质
         let materailObject = productObjects.value(forKey: "material") as! NSArray
-        let materialType = (materailObject[Int(orderInfoObjects.value(forKey: "material") as! String)! - 1] as! NSDictionary).value(forKey: "material") as! String
+        let materialType = findValue(key: "id", keyValue: orderInfoObjects.value(forKey: "material") as! String, In: materailObject, By: "material")
+        
         cell.productTypeAndMaterialInCell.text = productType + " " + materialType
         
         //产品数量
@@ -136,6 +136,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         //设置产品尺寸
         var sizeString:String = ""
         //长
+        print(orderInfoObjects.value(forKey: "orderid") as! String)
         if orderInfoObjects.value(forKey: "length") as? NSNumber != nil {
             
             let lengthString =  "\(orderInfoObjects.value(forKey: "length") as! NSNumber)"
@@ -372,23 +373,8 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         if _orderlistType == .notQuotePriceYetOrderCategory || _orderlistType == .waitForDesignCategory{
             StartLoadingAnimation()
             DispatchQueue.global().async {
-
-//                        if self._orderlistTye == .notQuotePriceYetOrderCategory{
-//                            self.orderList.removeAll()
-//                            for i in 1..<70{
-//                                self.loadOrderDataFromServer(pages: i, categoryType: .notQuotePriceYetOrderCategory)
-//                                sleep(20)
-//                                print("执行\(i)次")
-//                                if i == 70{
-//                                    print("order List\(self.orderList) ")
-//
-//                                }
-//                            }
-//
-//                        }
                 self.loadOrderDataFromServer(pages: 1, categoryType: self._orderlistType)
             }
-
 
         }else{
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {

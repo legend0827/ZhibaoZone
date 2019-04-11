@@ -13,6 +13,44 @@ class ScanCodeViewController: UIViewController {
     var ActionViewObject = ActionViewInOrder()
     
     var orderVCObject = OrdersViewController()
+    let titleLabel = UILabel(frame: CGRect(x:0,y:0,width:50,height:60))
+    
+    let QRLabel:UILabel  = UILabel.init(frame: CGRect(x: 0, y: 33, width: kWidth/2, height: 25))
+    lazy var QRTypeBtn:UIButton = {
+        let tempButton = UIButton.init(type: .custom)
+        tempButton.frame = CGRect(x: 0, y: kHight - 90 - heightChangeForiPhoneXFromBottom, width: kWidth/2, height: 90 + heightChangeForiPhoneXFromBottom)
+        //        QRTypeBtn.setImage(UIImage(named: "qrbarcodeicon-highlight"), for: .highlighted)
+        //        QRTypeBtn.setImage(UIImage(named: "qrbarcodeicon-normal"), for: .normal)
+        
+        QRLabel.text = "二维码"
+        QRLabel.textColor = UIColor.titleColors(color: .red)
+        QRLabel.font = UIFont.systemFont(ofSize: 18)
+        QRLabel.textAlignment = .center
+        tempButton.addSubview(QRLabel)
+        tempButton.addTarget(self, action: #selector(switchToQRcode), for: .touchUpInside)
+        
+        return tempButton
+    }()
+    
+    let BarLabel:UILabel  = UILabel.init(frame: CGRect(x: 0, y: 33, width: kWidth/2, height: 25))
+    lazy var BarTypeBtn:UIButton = {
+        let tempButton = UIButton.init(type: .custom)
+        tempButton.setTitleColor(UIColor.titleColors(color: .red), for: .highlighted)
+        tempButton.setTitleColor(UIColor.titleColors(color: .white), for: .normal)
+        
+        tempButton.frame = CGRect(x: kWidth/2 , y: kHight - 90 - heightChangeForiPhoneXFromBottom , width: kWidth/2 , height: 90 + heightChangeForiPhoneXFromBottom)
+        //        BarTypeBtn.setImage(UIImage(named: "qrbarcodeicon-highlight"), for: .highlighted)
+        //        BarTypeBtn.setImage(UIImage(named: "qrbarcodeicon-normal"), for: .normal)
+        
+        BarLabel.text = "条形码"
+        BarLabel.textColor = UIColor.titleColors(color: .white)
+        BarLabel.font = UIFont.systemFont(ofSize: 18)
+        BarLabel.textAlignment = .center
+        tempButton.addSubview(BarLabel)
+        tempButton.addTarget(self, action: #selector(switchToBarcode), for: .touchUpInside)
+        
+        return tempButton
+    }()
     
     let scancodeBackImage:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: 64, width: kWidth, height: kWidth))
     let noticeLabel:UILabel = UILabel.init(frame: CGRect(x: 0, y: 9, width: 225, height: 20))
@@ -26,7 +64,7 @@ class ScanCodeViewController: UIViewController {
     private lazy var deviceInput: AVCaptureDeviceInput? = {
         
         //获取摄像头
-        let device = AVCaptureDevice.default(for: AVMediaType.video)
+        let device = AVCaptureDevice.default(for: .video)
         
         do {
             //创建输入对象
@@ -55,22 +93,20 @@ class ScanCodeViewController: UIViewController {
     private lazy var previewLayer: AVCaptureVideoPreviewLayer = {
         
         let layer = AVCaptureVideoPreviewLayer(session: self.session)
-        layer.frame = UIScreen.main.bounds
+        layer.frame = CGRect(x: 0, y: 0, width: kWidth, height: kHight) //UIScreen.main.bounds
+        layer.videoGravity = AVLayerVideoGravity.resizeAspectFill
         return layer
     }()
     override func viewWillDisappear(_ animated: Bool) {
-        setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .red))
+        setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .clear))
+        setStatusBarHiden(toHidden: false, ViewController: self)
     }
     override func viewWillAppear(_ animated: Bool) {
         setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .clear))
+        setStatusBarHiden(toHidden: false, ViewController: self)
         
-       
-        if _scanType == .barCode || _scanType == .barCodeForShipping {
-            scancodeBackImage.image = UIImage(named: "barcodebackimg")
-        }else{
-            scancodeBackImage.image = UIImage(named: "scancodebackimg")
-        }
-        
+        self.view.backgroundColor = UIColor.clear
+
        
         let scancodeBackImageMask:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: 64+kWidth, width: kWidth, height: kHight - 64 - kWidth))
         scancodeBackImageMask.image = UIImage(named: "scancodebackimg-mask")
@@ -78,45 +114,15 @@ class ScanCodeViewController: UIViewController {
         let scancodeBackImageMaskOnTop:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: 64))
         scancodeBackImageMaskOnTop.image = UIImage(named: "scancodebackimg-mask")
         
-        let scanBackImg:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: kHight - 90 - heightChangeForiPhoneXFromBottom, width: kWidth, height: 90))
+        let scanBackImg:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: kHight - 90 - heightChangeForiPhoneXFromBottom, width: kWidth, height: 90 + heightChangeForiPhoneXFromBottom))
         scanBackImg.image = UIImage(named: "qrbarcodeicon-normal")
         
-//        if UIDevice.current.isX(){
-//            let scancodeBackImgBottom:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: kHight - heightChangeForiPhoneXFromBottom, width: kWidth, height: heightChangeForiPhoneXFromBottom))
-//            scancodeBackImgBottom.image = UIImage(named: "qrbarcodeicon-normal")
-//            let scancodeBackImgBottom2:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: kHight - heightChangeForiPhoneXFromBottom, width: kWidth, height: heightChangeForiPhoneXFromBottom))
-//            scancodeBackImgBottom2.image = UIImage(named: "qrbarcodeicon-normal")
-//            self.view.addSubview(scancodeBackImgBottom)
-//            self.view.addSubview(scancodeBackImgBottom2)
-//        }
+
         self.view.addSubview(scanBackImg)
         self.view.addSubview(scancodeBackImageMask)
         self.view.addSubview(scancodeBackImage)
         self.view.addSubview(scancodeBackImageMaskOnTop)
         
-        let QRTypeBtn:UIButton = UIButton.init(type: .custom)
-        QRTypeBtn.frame = CGRect(x: 0, y: kHight - 90 - heightChangeForiPhoneXFromBottom, width: kWidth/2, height: 90)
-        QRTypeBtn.setImage(UIImage(named: "qrbarcodeicon-highlight"), for: .highlighted)
-        QRTypeBtn.setImage(UIImage(named: "qrbarcodeicon-normal"), for: .normal)
-        let QRLabel:UILabel  = UILabel.init(frame: CGRect(x: 0, y: 33, width: kWidth/2, height: 25))
-        QRLabel.text = "二维码"
-        QRLabel.textColor = UIColor.titleColors(color: .white)
-        QRLabel.font = UIFont.systemFont(ofSize: 18)
-        QRLabel.textAlignment = .center
-        QRTypeBtn.addSubview(QRLabel)
-        QRTypeBtn.addTarget(self, action: #selector(switchToQRcode), for: .touchUpInside)
-        
-        let BarTypeBtn:UIButton = UIButton.init(type: .custom)
-        BarTypeBtn.frame = CGRect(x: kWidth/2 , y: kHight - 90 - heightChangeForiPhoneXFromBottom, width: kWidth/2 , height: 90)
-        BarTypeBtn.setImage(UIImage(named: "qrbarcodeicon-highlight"), for: .highlighted)
-        BarTypeBtn.setImage(UIImage(named: "qrbarcodeicon-normal"), for: .normal)
-        let BarLabel:UILabel  = UILabel.init(frame: CGRect(x: 0, y: 33, width: kWidth/2, height: 25))
-        BarLabel.text = "条形码"
-        BarLabel.textColor = UIColor.titleColors(color: .white)
-        BarLabel.font = UIFont.systemFont(ofSize: 18)
-        BarLabel.textAlignment = .center
-        BarTypeBtn.addSubview(BarLabel)
-        BarTypeBtn.addTarget(self, action: #selector(switchToBarcode), for: .touchUpInside)
        
         self.view.addSubview(QRTypeBtn)
         self.view.addSubview(BarTypeBtn)
@@ -160,7 +166,6 @@ class ScanCodeViewController: UIViewController {
         scancodeNoticeImg.addSubview(noticeLabel)
         
         //扫描动画
-        
         scanlineImg.image = UIImage(named: "scancodelineimg")
         self.view.addSubview(scanlineImg)
         
@@ -189,7 +194,7 @@ class ScanCodeViewController: UIViewController {
         //navBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         
         // 自定义导航栏的title，用UILabel实现
-        let titleLabel = UILabel(frame: CGRect(x:0,y:0,width:50,height:60))
+        
         titleLabel.text = "扫描二维码"
         titleLabel.textColor = UIColor.titleColors(color: .white)
         // 这里使用系统自定义的字体
@@ -216,14 +221,18 @@ class ScanCodeViewController: UIViewController {
         
         // 导航栏添加到view上
         self.view.addSubview(navBar)
+        
+        if _scanType == .barCode || _scanType == .barCodeForShipping {
+            switchToBarcode()
+        }else{
+            switchToQRcode()
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
         //灰层
-       // self.view.backgroundColor = UIColor.backgroundColors(color: .white)
-        
+        self.view.backgroundColor = UIColor.backgroundColors(color: .white)
         starScan()
         
         // Do any additional setup after loading the view.
@@ -233,30 +242,34 @@ class ScanCodeViewController: UIViewController {
     }
 
     @objc func switchToQRcode(){
-        if _scanType != .qrCode{
+//        if _scanType != .qrCode{
             _scanType = .qrCode
                 scancodeBackImage.image = UIImage(named: "scancodebackimg")
                 noticeLabel.text = "将二维码放入框内"
             scanlineImg.isHidden = false
+            titleLabel.text = "扫描二维码"
+            QRLabel.textColor = UIColor.titleColors(color: .red)
+            BarLabel.textColor = UIColor.titleColors(color: .white)
             scanlineImgForBarCode.isHidden = true
            // scanlineImg.frame =  CGRect(x: kWidth/10, y: 104, width: kWidth/10*8, height: 4)
             UIView.animate(withDuration: 3.0, delay: 0.5, options: [.autoreverse,.repeat,.curveLinear], animations: {
                 self.scanlineImg.transform = CGAffineTransform(translationX: 0, y: 295)
             }, completion: nil)
-        }
     }
     
     @objc func switchToBarcode(){
-        if _scanType != .barCode && _scanType != .barCodeForShipping {
+        
             _scanType = .barCode
             scancodeBackImage.image = UIImage(named: "barcodebackimg")
             noticeLabel.text = "将条形码放入框内"
+            titleLabel.text = "扫描条形码"
             scanlineImg.isHidden = true
+            QRLabel.textColor = UIColor.titleColors(color: .white)
+            BarLabel.textColor = UIColor.titleColors(color: .red)
             scanlineImgForBarCode.isHidden = false
             UIView.animate(withDuration: 2.0, delay: 0.5, options: [.autoreverse,.repeat,.curveLinear], animations: {
                 self.scanlineImgForBarCode.transform = CGAffineTransform(translationX: 0, y: 133) // 166
             }, completion: nil)
-        }
     }
     
     //MARK: - 2. 扫描二维码
@@ -277,6 +290,7 @@ class ScanCodeViewController: UIViewController {
         session.addOutput(output)
         
         //设置输入能够解析的数据类型
+        
         //设置能解析的数据类型,一定要在输出对象添加到会员之后设置
         output.metadataObjectTypes = [.aztec,.ean13,.ean8,.code128,.qr]//output.availableMetadataObjectTypes
         

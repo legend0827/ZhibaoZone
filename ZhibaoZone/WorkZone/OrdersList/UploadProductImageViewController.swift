@@ -82,8 +82,8 @@ class UploadProductImageViewController: UIViewController,UIImagePickerController
         //自定义导航栏 navigationBar
         let navBar = UINavigationBar(frame: CGRect(x:0, y:20 + heightChangeForiPhoneXFromTop, width:kWidth, height:44))
         // 导航栏背景颜色
-        navBar.backgroundColor = UIColor.backgroundColors(color: .red)
-        navBar.barTintColor = UIColor.backgroundColors(color: .red)
+        navBar.backgroundColor = UIColor.backgroundColors(color: .white)
+        navBar.barTintColor = UIColor.backgroundColors(color: .white)
         navBar.isTranslucent = false //关闭模糊效果
         //这里是导航栏透明
         //navBar.shadowImage = UIImage()
@@ -92,9 +92,9 @@ class UploadProductImageViewController: UIViewController,UIImagePickerController
         // 自定义导航栏的title，用UILabel实现
         let titleLabel = UILabel(frame: CGRect(x:0,y:0,width:50,height:60))
         titleLabel.text = "上传成品图"
-        titleLabel.textColor = UIColor.titleColors(color: .white)
+        titleLabel.textColor = UIColor.titleColors(color: .black)
         // 这里使用系统自定义的字体
-        titleLabel.font = UIFont.systemFont(ofSize: 18)
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
         
         // 创建导航栏组件
         let navItem = UINavigationItem()
@@ -102,14 +102,14 @@ class UploadProductImageViewController: UIViewController,UIImagePickerController
         navItem.titleView = titleLabel
         
         //        // 创建左侧按钮
-        let backImg=UIImage(named: "left-arrow-white")
+        let backImg=UIImage(named: "left-arrow-black")
         let leftBarItem=UIBarButtonItem(image: backImg, style: UIBarButtonItemStyle.plain, target: self, action: #selector(cancelBtnClicked))
-        leftBarItem.tintColor = UIColor.backgroundColors(color: .white)
+        leftBarItem.tintColor = UIColor.backgroundColors(color: .black)
         
         //添加导航栏右侧的取消按钮
         let rightBarItem = UIBarButtonItem(title: "上传", style: .plain,
                                            target: self, action: #selector(uploadBtnClicked))
-        rightBarItem.tintColor = UIColor.backgroundColors(color: .white)
+        rightBarItem.tintColor = UIColor.backgroundColors(color: .black)
         //        // 添加左侧、右侧按钮
         navItem.setLeftBarButton(leftBarItem, animated: false)
         navItem.setRightBarButton(rightBarItem, animated: false)
@@ -138,11 +138,11 @@ class UploadProductImageViewController: UIViewController,UIImagePickerController
     }
     override func viewWillDisappear(_ animated: Bool) {
         setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .clear))
-        setStatusBarHiden(toHidden: true, ViewController: self)
+        setStatusBarHiden(toHidden: false, ViewController: self)
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .red))
+        setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .clear))
         setStatusBarHiden(toHidden: false, ViewController: self)
     }
     override func didReceiveMemoryWarning() {
