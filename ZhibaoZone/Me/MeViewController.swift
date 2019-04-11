@@ -160,7 +160,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
     
     override func viewWillAppear(_ animated: Bool) {
         //设置状态栏背景色
-        setStatusBarBackgroundColor(color: .white)
+        setStatusBarBackgroundColor(color: .backgroundColors(color: .clear))
         setStatusBarHiden(toHidden: false, ViewController: self)
        // setStatusBarBackgroundColor(color: .white)
        // UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent // 改成白色字体

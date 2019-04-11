@@ -1531,8 +1531,8 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
     }
     override func viewWillAppear(_ animated: Bool) {
         self.view.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
-        setStatusBarBackgroundColor(color: UIColor.clear)
-        setStatusBarHiden(toHidden: true, ViewController: self)
+        setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .clear))
+        setStatusBarHiden(toHidden: false, ViewController: self)
         titleBarView.backgroundColor = UIColor.clear
         
         UIDevice.current.setValue(0, forKey: "orientation")

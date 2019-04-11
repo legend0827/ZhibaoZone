@@ -702,7 +702,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             // print("自动报价配置")
             switch indexPath.row{
             case 0:
-                cell.titleLabel.text = "3D打印自动报价地板值(元)"
+                cell.titleLabel.text = "3D打印自动报价最低值(元)"
                 cell.parameterValue.placeholder = "0 - 999"
                 cell.parameteUnit.text = "元"
                 cell.parameterValue.text = "100.0"
@@ -1201,7 +1201,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             sixthBeforeValueOfDoubleCheck.isHidden = true
             seventhBeforeValueOfDoubleCheck.isHidden = true
             
-            firstTitleOfDoubleCheck.text = "3D打印自动报价地板值(元)"
+            firstTitleOfDoubleCheck.text = "3D打印自动报价最低值(元)"
 
             if let autoPrice_3dQuote_minValue = afterDictionary.value(forKey: "autoPrice_3dQuote_minValue") as? Int{
                 firstAfterValueOfDoubleCheck.text = "\(autoPrice_3dQuote_minValue)"
