@@ -505,7 +505,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
 //        let serialQ = DispatchQueue(label: "getimage", qos: .background, attributes: .concurrent, autoreleaseFrequency: .inherit, target:)
 //    }
     func loadStatusImageViews(){
-        DispatchQueue.global().async {
+        DispatchQueue.main.async {
             let rangeMax = (self.orderArray.count <= self.page * 6) ? self.orderArray.count : (self.page * 6)
             for index in (self.page - 1)*6 ..< rangeMax{
                 let orderInfoObjects = self.orderArray[index]
