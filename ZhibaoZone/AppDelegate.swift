@@ -326,13 +326,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
                 UIDevice.current.setValue(0, forKey: "orientation")
             }else{
                 UIDevice.current.setValue(value, forKey: "orientation")
+                print("应用程序DidBecomeActive at 2")
             }
         }else{
             UIDevice.current.setValue(0, forKey: "orientation")
             print("timeInterval is nil")
         }
-        
-        
         print("应用程序DidBecomeActive")
       //  print("restored status \(value)")
     }

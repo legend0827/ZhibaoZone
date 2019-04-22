@@ -502,6 +502,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
     let noticeOfSearch:UIImageView = UIImageView.init(frame: CGRect(x: (kWidth - 147)/2, y: 64 + heightChangeForiPhoneXFromTop, width: 147, height: 17))
     let downArrowImg:UIImageView = UIImageView.init(frame: CGRect(x: 55, y: 9, width: 9, height: 5))
     override func viewDidLoad() {
+        print("view didload at first")
         super.viewDidLoad()
        // getSystemParas()
         timeInterval_from = dateAheadNow(before: 7, countAs: .PerDay).TimeInterval
@@ -921,7 +922,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         
         onlineDesignerCount.frame = CGRect(x: kWidth - 156, y: designerTitle.frame.minY, width: 138, height: 26)
         onlineDesignerCount.setTitleColor(UIColor.titleColors(color: .darkGray), for: .normal)
-        onlineDesignerCount.setTitle("在线设计师：-", for: .normal)
+        onlineDesignerCount.setTitle("可接单设计师：-", for: .normal)
         onlineDesignerCount.contentHorizontalAlignment = .right
         onlineDesignerCount.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         onlineDesignerCount.tag = 2
@@ -1359,7 +1360,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
                         let onlineCountOfServicer = json["data","users","service","onlines"].int!
                         let onlineCountOfFactory = json["data","users","shop","onlines"].int!
                         
-                        self.onlineDesignerCount.setTitle("在线设计师：\(onlineCountOfDesigner)", for: .normal)
+                        self.onlineDesignerCount.setTitle("可接单设计师：\(onlineCountOfDesigner)", for: .normal)
                         self.onlineCustomerServiceCount.setTitle("在线客服：\(onlineCountOfServicer)", for: .normal)
                         self.onlineProducerCount.setTitle("在线车间：\(onlineCountOfFactory)", for: .normal)
         
@@ -1536,7 +1537,9 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         titleBarView.backgroundColor = UIColor.clear
         
         UIDevice.current.setValue(0, forKey: "orientation")
-        
+        UserDefaults.standard.setValue("homePage", forKey: "currentPage")
+        UserDefaults.standard.synchronize()
+        print("view apear at first")
     }
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         let duration:TimeInterval = coordinator.transitionDuration

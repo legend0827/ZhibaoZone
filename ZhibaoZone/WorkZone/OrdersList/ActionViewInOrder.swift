@@ -1522,8 +1522,8 @@ class ActionViewInOrder: UIView,UITextViewDelegate,UITextFieldDelegate,UIScrollV
             var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
             header["token"] = token
             params["customid"] = customID
-            params["price"] = String(currentValueOfQuotePrice!)//String(format: "%.2f", currentValueOfQuotePrice)
-            params["period"] = produceTimeCostTextField.text
+            params["totalPrice"] = String(currentValueOfQuotePrice!)//String(format: "%.2f", currentValueOfQuotePrice)
+            params["quotePeriod"] = produceTimeCostTextField.text
             params["rounds"] = rounds
             
             

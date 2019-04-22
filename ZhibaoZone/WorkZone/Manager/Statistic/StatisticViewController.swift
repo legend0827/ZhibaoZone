@@ -1390,10 +1390,18 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
     var isDataLoading = true
     //加载中的动画集合
     var theLoadingViewNeedsToBeKill:[UIView] = []
+    override func viewDidAppear(_ animated: Bool) {
+        //设置横屏
+        appDelegate.blockRotation = true
+        // let value = UIDevice.current.orientation.rawValue
+        UIDevice.current.setValue(3, forKey: "orientation")
+        setupUI()
+        print("view did appear at statistic")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print("view did load at statistic")
         
         //获取系统字典
         systemParam = getSystemParasFromPlist()
@@ -1415,7 +1423,7 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
         self.view.addSubview(scrollBackgroundView)
         
         
-        setupUI()
+       
         
         //添加下拉刷新
         statisticTableView.es.addPullToRefresh {
@@ -1530,10 +1538,9 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
         setStatusBarBackgroundColor(color: UIColor.clear)
         setStatusBarHiden(toHidden: true, ViewController: self)
         //设置横屏
+        appDelegate.blockRotation = true
        // let value = UIDevice.current.orientation.rawValue
         UIDevice.current.setValue(3, forKey: "orientation")
-        //设置横屏
-        appDelegate.blockRotation = true
         
     }
     override func viewWillDisappear(_ animated: Bool) {
