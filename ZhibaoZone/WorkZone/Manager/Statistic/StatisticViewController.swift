@@ -1392,9 +1392,9 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
     var theLoadingViewNeedsToBeKill:[UIView] = []
     override func viewDidAppear(_ animated: Bool) {
         //设置横屏
-        appDelegate.blockRotation = true
+        //appDelegate.blockRotation = true
         // let value = UIDevice.current.orientation.rawValue
-        UIDevice.current.setValue(3, forKey: "orientation")
+        //UIDevice.current.setValue(3, forKey: "orientation")
         setupUI()
         print("view did appear at statistic")
     }
@@ -1546,7 +1546,8 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
     override func viewWillDisappear(_ animated: Bool) {
         setStatusBarBackgroundColor(color: UIColor.clear)
         setStatusBarHiden(toHidden: false, ViewController: self)
-        UIDevice.current.setValue(0, forKey: "orientation")
+       // UIDevice.current.setValue(0, forKey: "orientation")
+        print("view at statistic disappeared")
     }
     private func loadMore() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {

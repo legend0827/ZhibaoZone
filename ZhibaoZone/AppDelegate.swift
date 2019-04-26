@@ -23,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
   //  var blurView = showBlurEffect()
     var theViewNeedsToCLose:[UIView] = []
     var orderObject:[String:String] = [:]
+    lazy var managerVC = OrdersViewController()
     
     var blockRotation:Bool = false
     
@@ -326,6 +327,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
                 UIDevice.current.setValue(0, forKey: "orientation")
             }else{
                 UIDevice.current.setValue(value, forKey: "orientation")
+//                if (value as! Int) == 3{
+//                    let statisticVC = StatisticViewController()
+//                    managerVC.present(statisticVC, animated: true, completion: nil)
+//                }
                 print("应用程序DidBecomeActive at 2")
             }
         }else{

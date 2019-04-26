@@ -1168,6 +1168,10 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         backgroundImageView.addSubview(imgBG)
         scrollBackView.addSubview(orderStatisticBoard1)
         
+        //设置代理
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.managerVC = self
+        
         scrollBackView.es.addPullToRefresh {
             [weak self] in
             self?.refresh()
