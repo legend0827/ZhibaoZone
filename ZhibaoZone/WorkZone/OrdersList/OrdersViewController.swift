@@ -290,7 +290,8 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
     var onlineListOfServicer:[NSDictionary] = []
     var onlineListOfFactory:[NSDictionary] = []
     
-    
+    //统计页面
+    //let statisticVC = StatisticViewController()
     //添加的fadeStatusBarView
     var faceStatusBarView:[UIView] = []
     
@@ -501,14 +502,34 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
     
     let noticeOfSearch:UIImageView = UIImageView.init(frame: CGRect(x: (kWidth - 147)/2, y: 64 + heightChangeForiPhoneXFromTop, width: 147, height: 17))
     let downArrowImg:UIImageView = UIImageView.init(frame: CGRect(x: 55, y: 9, width: 9, height: 5))
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.view.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
+        setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .clear))
+        setStatusBarHiden(toHidden: false, ViewController: self)
+        titleBarView.backgroundColor = UIColor.clear
+        
+       
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        UIDevice.current.setValue(0, forKey: "orientation")
+        UserDefaults.standard.setValue("homePage", forKey: "currentPage")
+        UserDefaults.standard.synchronize()
+    }
     override func viewDidLoad() {
         print("view didload at first")
         super.viewDidLoad()
        // getSystemParas()
         timeInterval_from = dateAheadNow(before: 7, countAs: .PerDay).TimeInterval
         timeInterval_to = getEndDateTimeOfToday().TimeInterval//1000
+        
+        //每30秒获取一次消息列表
+        getMessageList()//先获取一次
+        timerForMessageList = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(getMessageList), userInfo: nil, repeats: true)
+        timerForMessageList = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(getOnlineStatus), userInfo: nil, repeats: true)
+        
         //设置状态栏颜色
-        setStatusBarBackgroundColor(color: UIColor.clear)
         let userinfos = getCurrentUserInfo()
         _roleType = Int(userinfos.value(forKey: "roletype") as! String)!
         _userId = userinfos.value(forKey: "userid") as! String
@@ -516,12 +537,6 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         backgroundImageView.image = UIImage(named: "titlebackgroundimg")
         self.view.addSubview(backgroundImageView)
         self.view.sendSubview(toBack: backgroundImageView)
-        
-        //每30秒获取一次消息列表
-        getMessageList()//先获取一次
-        timerForMessageList = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(getMessageList), userInfo: nil, repeats: true)
-        timerForMessageList = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(getOnlineStatus), userInfo: nil, repeats: true)
-        
         
         if _roleType == 4{
             setupUIForManager()
@@ -543,7 +558,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
             //分页菜单控制器尺寸设置
             pagingMenuController.view.frame.origin.y += 28 //(4 + heightChangeForiPhoneXFromTop)*3
             pagingMenuController.view.frame.size.height -= 5
-
+            
             if UIDevice.current.isX(){
                 heightChangeForiPhoneXFromTop = 24.0
                 pagingMenuController.view.frame.origin.y += 66 //56
@@ -611,12 +626,12 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         searchIconImg.image =  UIImage(named:"searchicon")
         searchBarInOrders.addSubview(searchIconImg)
         searchBarInOrders.addSubview(searchBarHintText)
-
+        
         self.view.addSubview(titleBarView)
         titleBarView.addSubview(searchBarInOrders)
         titleBarView.addSubview(scanQRCodeBtn)
         titleBarView.addSubview(messageListBtn)
-
+        
         appUpdateCheck()
     }
     //切换日期按钮
@@ -1410,6 +1425,8 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
     }
     
     @objc func jumpToStatisticDetail(){
+       // UIApplication.shared.delegate?.window??.rootViewController?.present(statisticVC, animated: true, completion: nil)
+       // let nav = UINavigationController.init(rootViewController: statisticVC)
         let statisticVC = StatisticViewController()
         self.present(statisticVC, animated: true, completion: nil)
     }
@@ -1532,29 +1549,20 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-
+        print("orderviewcontroller will disappear")
     }
-    override func viewWillAppear(_ animated: Bool) {
-        self.view.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
-        setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .clear))
-        setStatusBarHiden(toHidden: false, ViewController: self)
-        titleBarView.backgroundColor = UIColor.clear
-        
-        UIDevice.current.setValue(0, forKey: "orientation")
-        UserDefaults.standard.setValue("homePage", forKey: "currentPage")
-        UserDefaults.standard.synchronize()
-        print("view apear at first")
-    }
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        let duration:TimeInterval = coordinator.transitionDuration
-        if size.width > size.height{ // 横屏
-            let statisticVC = StatisticViewController()
-            self.present(statisticVC, animated: true, completion: nil)
-        }else{
-            //self.dismiss(animated: true, completion: nil)
-            UIDevice.current.setValue(0, forKey: "orientation")
-        }
-    }
+   
+//    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+//        let duration:TimeInterval = coordinator.transitionDuration
+//        print(coordinator)
+//        if size.width > size.height{ // 横屏
+//            print("view will transition at size.width > size.height")
+//            self.jumpToStatisticDetail()
+//        }else{
+//            UIDevice.current.setValue(0, forKey: "orientation")
+//            print("view will transition at size.width < size.height")
+//        }
+//    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

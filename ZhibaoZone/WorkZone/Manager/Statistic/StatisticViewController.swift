@@ -1392,10 +1392,9 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
     var theLoadingViewNeedsToBeKill:[UIView] = []
     override func viewDidAppear(_ animated: Bool) {
         //设置横屏
-        //appDelegate.blockRotation = true
+        appDelegate.blockRotation = true
         // let value = UIDevice.current.orientation.rawValue
-        //UIDevice.current.setValue(3, forKey: "orientation")
-        setupUI()
+        UIDevice.current.setValue(3, forKey: "orientation")
         print("view did appear at statistic")
     }
     
@@ -1422,9 +1421,6 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
         
         self.view.addSubview(scrollBackgroundView)
         
-        
-       
-        
         //添加下拉刷新
         statisticTableView.es.addPullToRefresh {
             [weak self] in
@@ -1437,7 +1433,7 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
         }
         
         getStatisticDetails(for: 1, rankingIndex: 10)//默认加载客服数据
-
+        setupUI()
         // Do any additional setup after loading the view.
     }
     
@@ -1539,8 +1535,9 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
         setStatusBarHiden(toHidden: true, ViewController: self)
         //设置横屏
         appDelegate.blockRotation = true
-       // let value = UIDevice.current.orientation.rawValue
-        UIDevice.current.setValue(3, forKey: "orientation")
+        let value = UIDevice.current.orientation.rawValue
+        UIDevice.current.setValue(value, forKey: "orientation")
+        print("view at statistic will Appear")
         
     }
     override func viewWillDisappear(_ animated: Bool) {
@@ -3074,16 +3071,16 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
     }
 
     
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        let duration:TimeInterval = coordinator.transitionDuration
-        if size.width > size.height{ // 横屏
-            let value = UIDevice.current.orientation.rawValue
-            UIDevice.current.setValue(value, forKey: "orientation")
-        }else{
-            self.dismiss(animated: true, completion: nil)
-            //UIDevice.current.setValue(3, forKey: "orientation")
-        }
-    }
+//    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+//        let duration:TimeInterval = coordinator.transitionDuration
+//        if size.width > size.height{ // 横屏
+//            let value = UIDevice.current.orientation.rawValue
+//            UIDevice.current.setValue(value, forKey: "orientation")
+//        }else{
+//            self.dismiss(animated: true, completion: nil)
+//            //UIDevice.current.setValue(3, forKey: "orientation")
+//        }
+//    }
     func timeIntervalTransfer(index:Int) ->(StartTime:String,EndTime:String){
         var startTimeString = ""
         var endTimeString = ""
