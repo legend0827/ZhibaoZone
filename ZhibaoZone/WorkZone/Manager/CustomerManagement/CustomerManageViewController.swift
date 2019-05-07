@@ -184,6 +184,7 @@ class CustomerManageViewController: UIViewController,UITextFieldDelegate,UITable
         tempButton.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
         tempButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         tempButton.contentHorizontalAlignment = .right
+        tempButton.addTarget(self, action: #selector(oneKeyProceedBtnClicked), for: .touchUpInside)
         return tempButton
     }()
     
@@ -205,6 +206,69 @@ class CustomerManageViewController: UIViewController,UITextFieldDelegate,UITable
         return tableView
     }()
     
+    //弹窗灰层
+    lazy var blurView = showBlurEffect()
+    lazy var grayLayer:UIView = {
+        let tempLayer = UIView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: kHight))
+        tempLayer.backgroundColor = UIColor.colorWithRgba(0, g: 0, b: 0, a: 0.4)
+        return tempLayer
+    }()
+    
+    
+    //提示信息弹窗
+    lazy var noticeBeforeOpreation:UIView = {
+        let tempView = UIView.init(frame: CGRect(x: 30, y: 270+heightChangeForiPhoneXFromTop, width: kWidth - 60, height: 221/315*(kWidth - 60)))
+        tempView.backgroundColor = UIColor.backgroundColors(color: .white)
+        tempView.layer.cornerRadius = 6
+        
+        tempView.addSubview(confirmBtn)
+        tempView.addSubview(cancelBtn)
+        tempView.addSubview(noticeTitleLable)
+        tempView.addSubview(noticeContentLable)
+        
+        return tempView
+    }()
+    
+    lazy var noticeTitleLable:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: 33, y: 20, width: (kWidth - 126), height: 24))
+        tempLabel.text = "一键处理"
+        tempLabel.textAlignment = .center
+        tempLabel.font = UIFont.boldSystemFont(ofSize: 17)
+        return tempLabel
+    }()
+    
+    lazy var noticeContentLable:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: 33, y: 49, width: (kWidth - 126), height: 84))
+        tempLabel.text = "一键处理将自动绑定只有一个客户添加旺旺号,并且只有一个店铺购买记录的客户,包括可能尚未添加管理微信的用户,是否继续?"
+        tempLabel.numberOfLines = 4
+        tempLabel.textColor = UIColor.titleColors(color: .darkGray)
+        tempLabel.font = UIFont.systemFont(ofSize: 15)
+        return tempLabel
+    }()
+    
+    lazy var confirmBtn:UIButton = {
+        let button = UIButton.init(frame: CGRect(x: 20, y: 221/315*(kWidth - 60) - 65 , width: (kWidth - 115)/2, height: 40))
+        button.setTitle("确定", for: .normal)
+        button.setTitleColor(UIColor.titleColors(color: .white), for: .normal)
+        button.layer.backgroundColor = UIColor.lineColors(color: .lightOrange).cgColor
+        button.layer.cornerRadius = 2
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+        button.addTarget(self, action: #selector(confirmedBtnClicked), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var cancelBtn:UIButton = {
+        let button = UIButton.init(frame: CGRect(x: (kWidth - 60)/2 + 7.5, y: 221/315*(kWidth - 60) - 65, width: (kWidth - 115)/2, height: 40))
+        button.setTitle("取消", for: .normal)
+        button.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
+        button.layer.backgroundColor = UIColor.lineColors(color: .white).cgColor
+        button.layer.cornerRadius = 2
+        button.layer.borderColor = UIColor.titleColors(color: .black).cgColor
+        button.layer.borderWidth = 0.5
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+        button.addTarget(self, action: #selector(operationCancelledClicked), for: .touchUpInside)
+        return button
+    }()
     
     lazy var emptyContentArae:UIView = {
         let tempView = UIView.init(frame: CGRect(x: (kWidth - 101)/2, y: 303+heightChangeForiPhoneXFromTop, width: 101, height: 225))
@@ -292,6 +356,14 @@ class CustomerManageViewController: UIViewController,UITextFieldDelegate,UITable
         getCustomerList(with: theKeyword)
         // Do any additional setup after loading the view.
     }
+    @objc func operationCancelledClicked(){
+        blurView.removeFromSuperview()
+    }
+    
+    @objc func confirmedBtnClicked(){
+        blurView.removeFromSuperview()
+        oneKeyProceed()
+    }
     
     @objc func refreshBtnClicked(){
         getCustomerList(with: theKeyword)
@@ -313,6 +385,14 @@ class CustomerManageViewController: UIViewController,UITextFieldDelegate,UITable
         print("pressed button at \(indexPath.section) and row \(indexPath.row)")
         operationWeChatRecords(with: indexPath)
     }
+    @objc func oneKeyProceedBtnClicked(){
+        //显示体系信息，然后继续
+        blurView.contentView.addSubview(grayLayer)
+        grayLayer.addSubview(noticeBeforeOpreation)
+        //managerVCObject.view.addSubview(blurView)
+        let window = UIApplication.shared.keyWindow
+        window?.addSubview(blurView)
+    }
     
     @objc func clearSearchBtnClicked(){
         theKeyword = ""
@@ -320,6 +400,57 @@ class CustomerManageViewController: UIViewController,UITextFieldDelegate,UITable
         searchBar.text = nil
         getCustomerList(with: "")
         searchAreaTitleLable.text = "未绑定客户"
+    }
+    
+    func oneKeyProceed(){
+        
+        //获取用户信息
+        let userInfos = getCurrentUserInfo()
+        let token = userInfos.value(forKey: "token") as? String
+        //获取列表
+        let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
+        let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
+        let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
+        //定义请求参数
+        let params:NSMutableDictionary = NSMutableDictionary()
+        var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
+        header["token"] = token
+        
+        #if DEBUG
+        let requestUrl =  apiAddresses.value(forKey: "bangdingOneKeyProceedAPIDebug") as! String
+        #else
+        let requestUrl = apiAddresses.value(forKey: "bangdingOneKeyProceedAPI") as! String
+        #endif
+        
+        _ = Alamofire.request(requestUrl,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
+            (responseObject) in
+            switch responseObject.result.isSuccess{
+            case true:
+                if  let value = responseObject.result.value{
+                    let json = JSON(value)
+                    let statusCode = json["code"].int!
+                    if statusCode == 200{
+                        let proceedCount = json["data"].int!
+                        greyLayerPrompt.show(text: "处理成功，成功处理\(proceedCount)个客户")
+                        self.getCustomerList(with: self.theKeyword)
+                        
+                    }else if statusCode == 99999 || statusCode == 99998{
+                        //异常
+                        autoLogin(viewControler: self)
+                        //                            greyLayerPrompt.show(text: "登录已失效,请重新登录")
+                        //                            LogoutMission(viewControler: self.popupVC)
+                    }else{
+                        print("报价失败，code:\(statusCode)")
+                        let errorMsg = json["message"].string!
+                        greyLayerPrompt.show(text: errorMsg)
+                    }
+                }
+            case false:
+                print("处理失败")
+                greyLayerPrompt.show(text: "报价失败,请重试")
+            }
+        }
+        
     }
     
     func operationWeChatRecords(with indexPath:IndexPath){
