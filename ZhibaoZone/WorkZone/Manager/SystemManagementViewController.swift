@@ -153,8 +153,47 @@ class SystemManagementViewController: UIViewController,UIScrollViewDelegate,UITa
         return tempView
     }()
     
+    lazy var customerManageTitleBar:UIView = {
+        let tempView = UIView.init(frame: CGRect(x: 0, y: 100, width: kWidth, height: 52))
+        
+        let tempImageView = UIImageView.init(frame: CGRect(x: 15, y: 18, width: 4, height: 16))
+        tempImageView.image  = UIImage(named: "orangedotimg")
+        tempView.addSubview(tempImageView)
+        
+        tempView.isUserInteractionEnabled = true
+        
+        let title:UILabel = UILabel.init(frame: CGRect(x: 29, y: 15, width: 200, height: 21))
+        title.text = "客户管理"
+        title.font = UIFont.systemFont(ofSize: 15)
+        tempView.addSubview(title)
+        
+        let hint:UILabel = UILabel.init(frame: CGRect(x: kWidth - 229, y: 15, width: 200, height: 21))
+        hint.text = "客户绑定"
+        hint.textAlignment = .right
+        hint.textColor = UIColor.titleColors(color: .gray)
+        hint.font = UIFont.systemFont(ofSize: 13)
+        tempView.addSubview(hint)
+        
+        let rightArrow:UIImageView = UIImageView.init(frame: CGRect(x: kWidth - 29, y: 19, width: 14, height: 14))
+        rightArrow.image = UIImage(named:"right-arrow")
+        //rightArrow.bounds = CGRect(x:kWidth - 30,y:21,width:5,height:9)
+        tempView.addSubview(rightArrow)
+        
+        let line:UIView = UIView.init(frame: CGRect(x: 0, y: 51.5, width: kWidth, height: 0.5))
+        line.backgroundColor = UIColor.lineColors(color: .grayLevel3)
+        tempView.addSubview(line)
+        
+        let singleTap:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(jumpToCustomerManagement))
+        singleTap.numberOfTapsRequired = 1
+        singleTap.numberOfTouchesRequired = 1
+        tempView.addGestureRecognizer(singleTap)
+        
+        tempView.backgroundColor = UIColor.backgroundColors(color: .white)
+        return tempView
+    }()
+    
     lazy var systemParamSettingTitleBar:UIView = {
-        let tempView = UIView.init(frame: CGRect(x: 0, y: 321, width: kWidth, height: 52))
+        let tempView = UIView.init(frame: CGRect(x: 0, y: 156, width: kWidth, height: 52))
         
         let tempImageView = UIImageView.init(frame: CGRect(x: 15, y: 18, width: 4, height: 16))
         tempImageView.image  = UIImage(named: "orangedotimg")
@@ -173,7 +212,7 @@ class SystemManagementViewController: UIViewController,UIScrollViewDelegate,UITa
     
     
     lazy var parameterSettingTableView:UITableView = {
-        let table = UITableView.init(frame: CGRect(x: 0, y: 378, width: kWidth, height: kHight - 378 - heightChangeForiPhoneXFromBottom))
+        let table = UITableView.init(frame: CGRect(x: 0, y: 212, width: kWidth, height: kHight - 212 - heightChangeForiPhoneXFromBottom))
         table.delegate = self
         table.dataSource = self
         table.separatorStyle = .none
@@ -266,7 +305,8 @@ class SystemManagementViewController: UIViewController,UIScrollViewDelegate,UITa
         scrollBackgroundView.addSubview(transferOrderTitleBar)
         scrollBackgroundView.addSubview(systemParamSettingTitleBar)
         scrollBackgroundView.addSubview(titleBar)
-        scrollBackgroundView.addSubview(transferOrderBoardView)
+        scrollBackgroundView.addSubview(customerManageTitleBar)
+       // scrollBackgroundView.addSubview(transferOrderBoardView)
         scrollBackgroundView.addSubview(parameterSettingTableView)
         
         self.getStatisticOfOrders(for: 2)
@@ -290,6 +330,11 @@ class SystemManagementViewController: UIViewController,UIScrollViewDelegate,UITa
         let managerVC = ManagerViewController()
         managerVC._tabBarVC = self._tabBarVC
         self.present(managerVC, animated: true, completion: nil)
+    }
+    
+    @objc func jumpToCustomerManagement(){
+        let customManageVC = CustomerManageViewController()
+        self.present(customManageVC, animated: true, completion:  nil)
     }
     
     fileprivate func getStatisticOfOrders(for role:Int){

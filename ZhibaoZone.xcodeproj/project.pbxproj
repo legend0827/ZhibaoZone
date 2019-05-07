@@ -125,6 +125,9 @@
 		0AD666972227EDD30027C927 /* priceListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD666962227EDD30027C927 /* priceListCollectionViewCell.swift */; };
 		0ADCB7FB200EEAD500DCD7C8 /* ImagePreviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADCB7FA200EEAD500DCD7C8 /* ImagePreviewVC.swift */; };
 		0ADCB7FD200EEB2500DCD7C8 /* ImagePreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADCB7FC200EEB2500DCD7C8 /* ImagePreviewCell.swift */; };
+		0ADD7BB5227FE04400F0D653 /* CustomerManageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADD7BB4227FE04400F0D653 /* CustomerManageViewController.swift */; };
+		0ADD7BB722800FE400F0D653 /* customerListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADD7BB622800FE400F0D653 /* customerListTableViewCell.swift */; };
+		0ADD7BB922816CFD00F0D653 /* uploadAdminInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADD7BB822816CFD00F0D653 /* uploadAdminInfoViewController.swift */; };
 		0AE149C62001E3BD005A2E55 /* NewTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE149C52001E3BD005A2E55 /* NewTaskViewController.swift */; };
 		0AE645282152054D00918DCE /* DINPro-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0AE645272152054D00918DCE /* DINPro-Medium.otf */; };
 		0AEC502C214CB1850000D06C /* calculatorKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEC502B214CB1850000D06C /* calculatorKeyboard.swift */; };
@@ -369,6 +372,9 @@
 		0ADCB7FA200EEAD500DCD7C8 /* ImagePreviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewVC.swift; sourceTree = "<group>"; };
 		0ADCB7FC200EEB2500DCD7C8 /* ImagePreviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewCell.swift; sourceTree = "<group>"; };
 		0ADD51CD2022ED5F008FE934 /* ZhibaoZone.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ZhibaoZone.entitlements; sourceTree = "<group>"; };
+		0ADD7BB4227FE04400F0D653 /* CustomerManageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerManageViewController.swift; sourceTree = "<group>"; };
+		0ADD7BB622800FE400F0D653 /* customerListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customerListTableViewCell.swift; sourceTree = "<group>"; };
+		0ADD7BB822816CFD00F0D653 /* uploadAdminInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = uploadAdminInfoViewController.swift; sourceTree = "<group>"; };
 		0AE149C52001E3BD005A2E55 /* NewTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskViewController.swift; sourceTree = "<group>"; };
 		0AE645272152054D00918DCE /* DINPro-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DINPro-Medium.otf"; sourceTree = "<group>"; };
 		0AEC502B214CB1850000D06C /* calculatorKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calculatorKeyboard.swift; sourceTree = "<group>"; };
@@ -715,6 +721,7 @@
 				0A450ECE21C26CC80070186E /* designerOnlineStatusViewController.swift */,
 				0A450ED021C275BB0070186E /* onLineListTableViewCell.swift */,
 				0A8A004F223785D600AB8AC2 /* SystemManagementViewController.swift */,
+				0ADD7BAB227FDEFA00F0D653 /* CustomerManagement */,
 				0A8A00532237B09700AB8AC2 /* parameterSetting */,
 				0A8A00512237AB3400AB8AC2 /* parameterSettingTableViewCell.swift */,
 			);
@@ -843,6 +850,16 @@
 				0A244E602098917C00203463 /* TestPushViewController.swift */,
 			);
 			path = TaskList;
+			sourceTree = "<group>";
+		};
+		0ADD7BAB227FDEFA00F0D653 /* CustomerManagement */ = {
+			isa = PBXGroup;
+			children = (
+				0ADD7BB4227FE04400F0D653 /* CustomerManageViewController.swift */,
+				0ADD7BB822816CFD00F0D653 /* uploadAdminInfoViewController.swift */,
+				0ADD7BB622800FE400F0D653 /* customerListTableViewCell.swift */,
+			);
+			path = CustomerManagement;
 			sourceTree = "<group>";
 		};
 		0AE6451E215203D900918DCE /* Support Files */ = {
@@ -1218,6 +1235,7 @@
 				0A13FB162159D637004066F0 /* ChooseTimeInterval.swift in Sources */,
 				0AF57AB921F9559E001059DA /* StatisticOrderListViewController.swift in Sources */,
 				0AF06C582018F465008E2DE9 /* LeaveMsgDetailViewController.swift in Sources */,
+				0ADD7BB5227FE04400F0D653 /* CustomerManageViewController.swift in Sources */,
 				0A3A869221F180F900068BEE /* PopUpsPortialViewController.swift in Sources */,
 				0A3CC3B9209572970055B5DD /* Extentsions.swift in Sources */,
 				0AC1AC63204E6F210096A6F6 /* KVProgressBar.swift in Sources */,
@@ -1274,6 +1292,7 @@
 				0AF06C5020171D40008E2DE9 /* ESRefreshProtocol.swift in Sources */,
 				0A252F322095DD6E00C1F7F4 /* AllOrdersViewController.swift in Sources */,
 				0AF06C4F20171D40008E2DE9 /* ESRefreshFooterAnimator.swift in Sources */,
+				0ADD7BB922816CFD00F0D653 /* uploadAdminInfoViewController.swift in Sources */,
 				0AF06C5120171D40008E2DE9 /* ES.swift in Sources */,
 				0A5B5C201FF2536300A92C20 /* CoreDataOperation.swift in Sources */,
 				0A610D8C201C282A00DE46B7 /* chooseContactTableViewController.swift in Sources */,
@@ -1284,6 +1303,7 @@
 				0AAAFA5A20BD4C7C005C7F25 /* QuotePriceViewController.swift in Sources */,
 				0A0235B41FFD23B900CBD846 /* OrdersViewController.swift in Sources */,
 				0AB766A6200DC46900851E16 /* HGImageCollectionViewCell.swift in Sources */,
+				0ADD7BB722800FE400F0D653 /* customerListTableViewCell.swift in Sources */,
 				0A3806842031E0B30077E77F /* LockLabel.swift in Sources */,
 				0A13FB212159DB9A004066F0 /* ChooseTimeIntervalCellTableViewCell.swift in Sources */,
 				0AD666852223FC130027C927 /* IssueListTableViewCell.swift in Sources */,

@@ -23,6 +23,7 @@ class ImagePreviewVC: UIViewController {
     var createNewTaskVCObject =  NewTaskViewController()
     var taskDetailReplyObject = LeaveMsgDetailViewController(currentTaskID: "nothing", currentCustomid: "123456", currentOrderID: "123456", currentGoodsID: "123456", currentTaskType: 0)
     var uploadProductImageVCObject = UploadProductImageViewController()
+    var uploadAdminInfoVCObject = uploadAdminInfoViewController()
     
     var PreviewType:[String] = []//"public.image" // 默认为图片.
     var imageUrls:[URL] = []
@@ -180,6 +181,8 @@ class ImagePreviewVC: UIViewController {
             createNewTaskVCObject.deleteAttachment(atIndex:indexPath.row)
         }else if previewSourceVC == "UploadProductImageVC"{
             uploadProductImageVCObject.deleteAttachment(atIndex: indexPath.row)
+        }else if previewSourceVC == "UploadAdminInfoVC"{
+            uploadAdminInfoVCObject.deleteAttachment(atIndex: indexPath.row)
         }else{
             taskDetailReplyObject.deleteAttachment(atIndex:indexPath.row)
         }
