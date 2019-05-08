@@ -32,7 +32,7 @@ class uploadAdminInfoViewController: UIViewController,UIImagePickerControllerDel
     var AddPicTag = 0
     
     lazy var adminWechatID:UITextField = {
-        let tempTextField = UITextField.init(frame: CGRect(x: 15, y: 118 + heightChangeForiPhoneXFromTop, width: kWidth - 30, height: 21))
+        let tempTextField = UITextField.init(frame: CGRect(x: 15, y: 122 + heightChangeForiPhoneXFromTop, width: kWidth - 30, height: 21))
         tempTextField.placeholder = "请输入管理员的微信号"
         tempTextField.font = UIFont.systemFont(ofSize: 15)
         tempTextField.textAlignment = .left
@@ -88,7 +88,7 @@ class uploadAdminInfoViewController: UIViewController,UIImagePickerControllerDel
     let icloudDownloadPercentage3:UILabel = UILabel.init()
     
     override func viewDidLoad() {
-        self.view.backgroundColor = UIColor.backgroundColors(color: .white)
+        self.view.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
         super.viewDidLoad()
         
         //先隐藏系统提供的导航栏
@@ -97,8 +97,8 @@ class uploadAdminInfoViewController: UIViewController,UIImagePickerControllerDel
         //自定义导航栏 navigationBar
         let navBar = UINavigationBar(frame: CGRect(x:0, y:20 + heightChangeForiPhoneXFromTop, width:kWidth, height:44))
         // 导航栏背景颜色
-        navBar.backgroundColor = UIColor.backgroundColors(color: .white)
-        navBar.barTintColor = UIColor.backgroundColors(color: .white)
+        navBar.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
+        navBar.barTintColor = UIColor.backgroundColors(color: .lightestGray)
         navBar.isTranslucent = false //关闭模糊效果
         //这里是导航栏透明
         //navBar.shadowImage = UIImage()
@@ -174,7 +174,7 @@ class uploadAdminInfoViewController: UIViewController,UIImagePickerControllerDel
         noiticeOnUpload.textAlignment = .left
         noiticeOnUpload.textColor = UIColor.titleColors(color: .black)
         
-        seperateLine1.frame = CGRect(x: 20, y: 156 + heightChangeForiPhoneXFromTop, width: kWidth - 40, height: 5)
+        seperateLine1.frame = CGRect(x: 0, y: 160 + heightChangeForiPhoneXFromTop, width: kWidth , height: 5)
         seperateLine1.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
         
         AddPicBtn.frame = CGRect(x: 20, y: seperateLine1.frame.maxY + 18, width: 98, height: 98)

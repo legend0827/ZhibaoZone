@@ -36,12 +36,12 @@ class CustomerManageViewController: UIViewController,UITextFieldDelegate,UITable
         
         let tempView = UIView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: 44))
         
-        let wangwangIcon = UIImageView.init(frame: CGRect(x: 15, y: 15, width: 64, height: 16))
+        let wangwangIcon = UIImageView.init(frame: CGRect(x: 15, y: 15, width: 16, height: 16))
         wangwangIcon.image = UIImage(named: "wangwangIconimg")
         
         tempView.addSubview(wangwangIcon)
         
-        let wangwangIDLabel:UILabel = UILabel.init(frame: CGRect(x: 89, y: 12, width: 200, height: 21))
+        let wangwangIDLabel:UILabel = UILabel.init(frame: CGRect(x: 39, y: 12, width: 300, height: 21))
         wangwangIDLabel.font = UIFont.systemFont(ofSize: 15)
         wangwangIDLabel.text = wangwangID
         
@@ -54,23 +54,23 @@ class CustomerManageViewController: UIViewController,UITextFieldDelegate,UITable
             }
         }
         
-        let bindingStatus:UILabel = UILabel.init(frame: CGRect(x: kWidth - 60, y: 12, width: 45, height: 21))
+        let bindingStatus:UILabel = UILabel.init(frame: CGRect(x: kWidth - 60, y: 14, width: 45, height: 15))
         bindingStatus.font = UIFont.systemFont(ofSize: 12)
-        bindingStatus.textAlignment = .center
+        bindingStatus.textAlignment = .right
         if isBinded {
             bindingStatus.text = "已绑定"
-            bindingStatus.textColor = UIColor.titleColors(color: .white)
-            bindingStatus.layer.cornerRadius = 2
-            bindingStatus.layer.borderColor = UIColor.titleColors(color: .blue).cgColor
-            bindingStatus.layer.borderWidth = 0.5
-            bindingStatus.layer.backgroundColor = UIColor.titleColors(color: .blue).cgColor
+            bindingStatus.textColor = UIColor.titleColors(color: .blue )
+//            bindingStatus.layer.cornerRadius = 1
+//            bindingStatus.layer.borderColor = UIColor.titleColors(color: .blue).cgColor
+//            bindingStatus.layer.borderWidth = 0.5
+//            bindingStatus.layer.backgroundColor = UIColor.titleColors(color: .blue).cgColor
         }else{
             bindingStatus.text = "未绑定"
             bindingStatus.textColor = UIColor.titleColors(color: .darkGray)
-            bindingStatus.layer.cornerRadius = 2
-            bindingStatus.layer.borderColor = UIColor.lineColors(color: .grayLevel2).cgColor
-            bindingStatus.layer.borderWidth = 0.5
-            bindingStatus.layer.backgroundColor = UIColor.lineColors(color: .grayLevel2).cgColor
+//            bindingStatus.layer.cornerRadius = 1
+//            bindingStatus.layer.borderColor = UIColor.lineColors(color: .grayLevel2).cgColor
+//            bindingStatus.layer.borderWidth = 0.5
+//            bindingStatus.layer.backgroundColor = UIColor.lineColors(color: .grayLevel2).cgColor
         }
         
         tempView.addSubview(bindingStatus)
@@ -518,12 +518,12 @@ class CustomerManageViewController: UIViewController,UITextFieldDelegate,UITable
         
         params["managerId"] = dataObject.value(forKey: "managerId")
         let binding = dataObject.value(forKey: "managerStat") as! Int
-        if binding == 0{
+        if binding == 0 || binding == 2{
+//            if binding == 2{
+//                greyLayerPrompt.show(text: "改绑")
+//            }
             params["operationType"] = 1
         }else{
-            if binding == 2{
-                greyLayerPrompt.show(text: "改绑")
-            }
             params["operationType"] = 2
         }
         
