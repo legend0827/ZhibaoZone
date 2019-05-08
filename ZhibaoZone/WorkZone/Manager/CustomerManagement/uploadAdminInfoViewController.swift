@@ -170,7 +170,7 @@ class uploadAdminInfoViewController: UIViewController,UIImagePickerControllerDel
         let noiticeOnUpload:UILabel = UILabel.init()
         noiticeOnUpload.frame = CGRect(x: 15, y: 84 + heightChangeForiPhoneXFromTop, width: kWidth - 40, height: 20)
         noiticeOnUpload.text = "管理员微信号"
-        noiticeOnUpload.font = UIFont.systemFont(ofSize: 15)
+        noiticeOnUpload.font = UIFont.boldSystemFont(ofSize: 15)
         noiticeOnUpload.textAlignment = .left
         noiticeOnUpload.textColor = UIColor.titleColors(color: .black)
         

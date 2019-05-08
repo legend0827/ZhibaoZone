@@ -115,6 +115,9 @@ class CustomerManageViewController: UIViewController,UITextFieldDelegate,UITable
         
         if (customerInfoDic.value(forKey: "managerStat") as! Int) == 1{
             cell.bindingBtn.setTitle("解绑", for: .normal)
+            cell.bindingBtn.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
+            cell.bindingBtn.layer.borderColor = UIColor.lineColors(color: .grayLevel1).cgColor
+            cell.bindingBtn.layer.backgroundColor = UIColor.backgroundColors(color: .white).cgColor
         }else{
             cell.bindingBtn.setTitle("绑定", for: .normal)
             cell.bindingBtn.setTitleColor(UIColor.titleColors(color: .white), for: .normal)
@@ -148,7 +151,7 @@ class CustomerManageViewController: UIViewController,UITextFieldDelegate,UITable
     }()
     
     lazy var searchBar:UITextField = {
-        let tempSearchBar = UITextField.init(frame: CGRect(x: 15, y: 53, width: kWidth - 30, height: 32))
+        let tempSearchBar = UITextField.init(frame: CGRect(x: 15, y: 52, width: kWidth - 30, height: 34))
         
         tempSearchBar.delegate = self
         //tempSearchBar.background = UIImage(named: "searchorderbgimg")
@@ -157,8 +160,9 @@ class CustomerManageViewController: UIViewController,UITextFieldDelegate,UITable
         tempSearchBar.keyboardType = .numbersAndPunctuation
         tempSearchBar.returnKeyType = .search
         tempSearchBar.enablesReturnKeyAutomatically = true
+        tempSearchBar.font = UIFont.systemFont(ofSize: 13)
         
-        let attributeString = NSAttributedString(string: "搜索旺旺号、微信昵称、微信号、手机号", attributes: [NSAttributedStringKey.font:UIFont.systemFont(ofSize: 14),NSAttributedStringKey.foregroundColor:UIColor.titleColors(color: .gray)])
+        let attributeString = NSAttributedString(string: "搜索旺旺号、微信昵称、微信号、手机号", attributes: [NSAttributedStringKey.font:UIFont.systemFont(ofSize: 13),NSAttributedStringKey.foregroundColor:UIColor.lineColors(color: .grayLevel1)])
         tempSearchBar.attributedPlaceholder = attributeString
         tempSearchBar.textAlignment = .left
         
@@ -166,7 +170,7 @@ class CustomerManageViewController: UIViewController,UITextFieldDelegate,UITable
         tempSearchBar.leftViewMode = UITextFieldViewMode.always
         tempSearchBar.layer.backgroundColor = UIColor.backgroundColors(color: .lightestGray).cgColor
         
-        let imgPwd = UIImageView(frame: CGRect(x: 13, y: 7, width: 14, height: 14))
+        let imgPwd = UIImageView(frame: CGRect(x: 13, y: 10, width: 14, height: 14))
         imgPwd.image = UIImage(named:"searchicon")
         
         tempSearchBar.addSubview(imgPwd)
@@ -241,8 +245,8 @@ class CustomerManageViewController: UIViewController,UITextFieldDelegate,UITable
     }()
     
     lazy var noticeContentLable:UILabel = {
-        let tempLabel = UILabel.init(frame: CGRect(x: 33, y: 49, width: (kWidth - 126), height: 84))
-        tempLabel.text = "一键处理将自动绑定只有一个客户添加旺旺号,并且只有一个店铺购买记录的客户,包括可能尚未添加管理微信的用户,是否继续?"
+        let tempLabel = UILabel.init(frame: CGRect(x: 33, y: 57, width: (kWidth - 126), height: 84))
+        tempLabel.text = "一键处理将自动绑定只有一个客户添加旺旺号，并且只有一个店铺购买记录的客户，包括可能尚未添加管理微信的用户，是否继续？"
         tempLabel.numberOfLines = 4
         tempLabel.textColor = UIColor.titleColors(color: .darkGray)
         tempLabel.font = UIFont.systemFont(ofSize: 15)
@@ -250,7 +254,7 @@ class CustomerManageViewController: UIViewController,UITextFieldDelegate,UITable
     }()
     
     lazy var confirmBtn:UIButton = {
-        let button = UIButton.init(frame: CGRect(x: 20, y: 221/315*(kWidth - 60) - 65 , width: (kWidth - 115)/2, height: 40))
+        let button = UIButton.init(frame: CGRect(x: 20, y: 221/315*(kWidth - 60) - 55 , width: (kWidth - 115)/2, height: 40))
         button.setTitle("确定", for: .normal)
         button.setTitleColor(UIColor.titleColors(color: .white), for: .normal)
         button.layer.backgroundColor = UIColor.lineColors(color: .lightOrange).cgColor
@@ -261,12 +265,12 @@ class CustomerManageViewController: UIViewController,UITextFieldDelegate,UITable
     }()
     
     lazy var cancelBtn:UIButton = {
-        let button = UIButton.init(frame: CGRect(x: (kWidth - 60)/2 + 7.5, y: 221/315*(kWidth - 60) - 65, width: (kWidth - 115)/2, height: 40))
+        let button = UIButton.init(frame: CGRect(x: (kWidth - 60)/2 + 7.5, y: 221/315*(kWidth - 60) - 55, width: (kWidth - 115)/2, height: 40))
         button.setTitle("取消", for: .normal)
         button.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
         button.layer.backgroundColor = UIColor.lineColors(color: .white).cgColor
         button.layer.cornerRadius = 2
-        button.layer.borderColor = UIColor.titleColors(color: .black).cgColor
+        button.layer.borderColor = UIColor.lineColors(color: .grayLevel1).cgColor
         button.layer.borderWidth = 0.5
         button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
         button.addTarget(self, action: #selector(operationCancelledClicked), for: .touchUpInside)
