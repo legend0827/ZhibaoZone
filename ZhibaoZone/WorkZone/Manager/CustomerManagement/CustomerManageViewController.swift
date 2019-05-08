@@ -45,6 +45,37 @@ class CustomerManageViewController: UIViewController,UITextFieldDelegate,UITable
         wangwangIDLabel.font = UIFont.systemFont(ofSize: 15)
         wangwangIDLabel.text = wangwangID
         
+        //已绑定 // 未绑定
+        var isBinded = false
+        for item in customerListArray[section] {
+            let statusCode = item.value(forKey: "managerStat") as! Int
+            if statusCode == 1{
+                isBinded = true
+            }
+        }
+        
+        let bindingStatus:UILabel = UILabel.init(frame: CGRect(x: kWidth - 60, y: 12, width: 45, height: 21))
+        bindingStatus.font = UIFont.systemFont(ofSize: 12)
+        bindingStatus.textAlignment = .center
+        if isBinded {
+            bindingStatus.text = "已绑定"
+            bindingStatus.textColor = UIColor.titleColors(color: .white)
+            bindingStatus.layer.cornerRadius = 2
+            bindingStatus.layer.borderColor = UIColor.titleColors(color: .blue).cgColor
+            bindingStatus.layer.borderWidth = 0.5
+            bindingStatus.layer.backgroundColor = UIColor.titleColors(color: .blue).cgColor
+        }else{
+            bindingStatus.text = "未绑定"
+            bindingStatus.textColor = UIColor.titleColors(color: .darkGray)
+            bindingStatus.layer.cornerRadius = 2
+            bindingStatus.layer.borderColor = UIColor.lineColors(color: .grayLevel2).cgColor
+            bindingStatus.layer.borderWidth = 0.5
+            bindingStatus.layer.backgroundColor = UIColor.lineColors(color: .grayLevel2).cgColor
+        }
+        
+        tempView.addSubview(bindingStatus)
+        
+        
         tempView.addSubview(wangwangIDLabel)
         return tempView
     }
