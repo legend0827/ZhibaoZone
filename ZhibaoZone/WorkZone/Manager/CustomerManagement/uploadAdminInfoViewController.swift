@@ -15,29 +15,44 @@ import QCloudCOSXML
 import Alamofire
 
 class uploadAdminInfoViewController: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
-
-    var _orderID:String = "10000000"
-    var _goodsImage:UIImage = UIImage()
-    var _productType:String = "徽章"
-    var _materialAndAccessory:String = "锌合金 别针"
-    var _modalAndColor:String = "2D"
-    var _customID:String = "1000000"
+    var _customID:String = "0000000000000000"
+    
+    var _manager_ID:String = ""
+    var _qr_url:String = ""
     
     var downloadURLHeader = ""
     var downloadURLHeaderForThumbnail = ""
     
     var orderObject:NSDictionary = [:]
-    //参考图
-    let goodImage:UIImageView = UIImageView.init()
-    let orderIDLabel:UILabel = UILabel.init()
-    let productType:UILabel = UILabel.init()
-    let materialAndAccessories:UILabel = UILabel.init()
-    let modalAndColorL:UILabel = UILabel.init()
     
-    let seperateLine1:UIImageView = UIImageView.init()
-    let noiticeOnUpload:UILabel = UILabel.init()
+    var theLoadingViewNeedsToBeKill:[UIView] = []
+    
+    let seperateLine1:UIView = UIView.init()
     let AddPicBtn:UIButton = UIButton.init(type: .custom)
     var AddPicTag = 0
+    
+    lazy var adminWechatID:UITextField = {
+        let tempTextField = UITextField.init(frame: CGRect(x: 15, y: 118 + heightChangeForiPhoneXFromTop, width: kWidth - 30, height: 21))
+        tempTextField.placeholder = "请输入管理员的微信号"
+        tempTextField.font = UIFont.systemFont(ofSize: 15)
+        tempTextField.textAlignment = .left
+        return tempTextField
+    }()
+    
+    lazy var saveBtn:UIView = {
+        let tempView = UIView.init(frame: CGRect(x: 0, y: kHight - 60 - heightChangeForiPhoneXFromBottom, width: kWidth, height: 60 + heightChangeForiPhoneXFromBottom ))
+        
+        let tempButton = UIButton.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: 60 ))
+        tempButton.setTitle("保存", for: .normal)
+        tempButton.setTitleColor(UIColor.titleColors(color: .white), for: .normal)
+        tempButton.layer.backgroundColor = UIColor.backgroundColors(color: .lightOrange).cgColor
+        tempButton.addTarget(self, action: #selector(uploadBtnClicked), for: .touchUpInside)
+        
+        tempView.isUserInteractionEnabled = true
+        tempView.backgroundColor = UIColor.backgroundColors(color: .lightOrange)
+        tempView.addSubview(tempButton)
+        return tempView
+    }()
     
     //从本地上传到IOS客户端的路径
     var tempimageURLs:[Int:String] = [:]
@@ -91,7 +106,7 @@ class uploadAdminInfoViewController: UIViewController,UIImagePickerControllerDel
         
         // 自定义导航栏的title，用UILabel实现
         let titleLabel = UILabel(frame: CGRect(x:0,y:0,width:50,height:60))
-        titleLabel.text = "上传成品图"
+        titleLabel.text = "设置管理员号"
         titleLabel.textColor = UIColor.titleColors(color: .black)
         // 这里使用系统自定义的字体
         titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
@@ -151,66 +166,35 @@ class uploadAdminInfoViewController: UIViewController,UIImagePickerControllerDel
     }
     
     fileprivate func setupUI(){
-        goodImage.frame = CGRect(x: 20, y: 100 + heightChangeForiPhoneXFromTop, width: 118, height: 118)
-        orderIDLabel.frame = CGRect(x: goodImage.frame.maxX + 24, y: goodImage.frame.minY, width: 300, height: 22)
-        productType.frame = CGRect(x: orderIDLabel.frame.minX, y: orderIDLabel.frame.maxY, width: 300, height: 22)
-        materialAndAccessories.frame = CGRect(x: orderIDLabel.frame.minX, y: productType.frame.maxY, width: 300, height: 22)
-        modalAndColorL.frame = CGRect(x: orderIDLabel.frame.minX, y: materialAndAccessories.frame.maxY, width: kWidth - 178, height: 22)
         
-        goodImage.image = UIImage(named: "defualt-design-pic")
-        goodImage.layer.masksToBounds = true
-        goodImage.layer.cornerRadius = 6
-        goodImage.layer.borderColor = UIColor.titleColors(color: .lightGray).cgColor
-        goodImage.layer.borderWidth = 1
-        
-        orderIDLabel.text = "订单号: 10000000"
-        orderIDLabel.textColor = UIColor.titleColors(color: .black)
-        orderIDLabel.textAlignment = .left
-        orderIDLabel.font = UIFont.systemFont(ofSize: 16)
-        
-        productType.text = "徽章"
-        productType.textColor = UIColor.titleColors(color: .black)
-        productType.textAlignment = .left
-        productType.font = UIFont.boldSystemFont(ofSize: 16)
-        
-        materialAndAccessories.text = "锌合金  别针"
-        materialAndAccessories.textColor = UIColor.titleColors(color: .black)
-        materialAndAccessories.textAlignment = .left
-        materialAndAccessories.font = UIFont.systemFont(ofSize: 16)
-        
-        modalAndColorL.text = "2D;烤漆;"
-        modalAndColorL.textColor = UIColor.titleColors(color: .black)
-        modalAndColorL.textAlignment = .left
-        modalAndColorL.font = UIFont.systemFont(ofSize: 16)
-        modalAndColorL.numberOfLines = 5
-        
-        seperateLine1.frame = CGRect(x: 20, y: goodImage.frame.maxY + 40, width: kWidth - 40, height: 1)
-        seperateLine1.image = UIImage(named: "dashlineimg")
-        
-        noiticeOnUpload.frame = CGRect(x: 20, y: seperateLine1.frame.maxY + 40, width: kWidth - 40, height: 20)
-        noiticeOnUpload.text = "最多可上传三张图片"
-        noiticeOnUpload.font = UIFont.systemFont(ofSize: 14)
-        noiticeOnUpload.textAlignment = .center
+        let noiticeOnUpload:UILabel = UILabel.init()
+        noiticeOnUpload.frame = CGRect(x: 15, y: 84 + heightChangeForiPhoneXFromTop, width: kWidth - 40, height: 20)
+        noiticeOnUpload.text = "管理员微信号"
+        noiticeOnUpload.font = UIFont.systemFont(ofSize: 15)
+        noiticeOnUpload.textAlignment = .left
         noiticeOnUpload.textColor = UIColor.titleColors(color: .black)
         
-        AddPicBtn.frame = CGRect(x: 20, y: noiticeOnUpload.frame.maxY + 40, width: 98, height: 98)
+        seperateLine1.frame = CGRect(x: 20, y: 156 + heightChangeForiPhoneXFromTop, width: kWidth - 40, height: 5)
+        seperateLine1.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
+        
+        AddPicBtn.frame = CGRect(x: 20, y: seperateLine1.frame.maxY + 18, width: 98, height: 98)
         AddPicBtn.setImage(UIImage(named: "addPicImg"), for: .normal)
         AddPicBtn.layer.cornerRadius = 6
         AddPicBtn.layer.masksToBounds = true
         AddPicBtn.addTarget(self, action: #selector(addPicBtnClicked), for: .touchUpInside)
         AddPicBtn.tag = AddPicTag
         
-        selectedImage1.frame = CGRect(x: 20, y: noiticeOnUpload.frame.maxY + 40, width: 98, height: 98)
-        selectedImage2.frame = CGRect(x: 20 + 118, y: noiticeOnUpload.frame.maxY + 40, width: 98, height: 98)
-        selectedImage3.frame = CGRect(x: 20 + 118 * 2, y: noiticeOnUpload.frame.maxY + 40, width: 98, height: 98)
+        selectedImage1.frame = CGRect(x: 20, y: seperateLine1.frame.maxY + 18, width: 98, height: 98)
+        selectedImage2.frame = CGRect(x: 20 + 118, y: seperateLine1.frame.maxY + 18, width: 98, height: 98)
+        selectedImage3.frame = CGRect(x: 20 + 118 * 2, y: seperateLine1.frame.maxY + 18, width: 98, height: 98)
         
-        icloudDownloadImage1.frame = CGRect(x: 20, y: noiticeOnUpload.frame.maxY + 40, width: 98, height: 98)
+        icloudDownloadImage1.frame = CGRect(x: 20, y: seperateLine1.frame.maxY + 18, width: 98, height: 98)
         icloudDownloadPercentage1.frame = CGRect(x: 0, y: 34, width: icloudDownloadImage1.frame.width, height: 13)
         
-        icloudDownloadImage2.frame = CGRect(x: 20 + 118, y: noiticeOnUpload.frame.maxY + 40, width: 98, height: 98)
+        icloudDownloadImage2.frame = CGRect(x: 20 + 118, y: seperateLine1.frame.maxY + 18, width: 98, height: 98)
         icloudDownloadPercentage2.frame = CGRect(x: 0, y: 34, width: icloudDownloadImage1.frame.width, height: 13)
         
-        icloudDownloadImage3.frame = CGRect(x: 20 + 118 * 2, y: noiticeOnUpload.frame.maxY + 40, width: 98, height: 98)
+        icloudDownloadImage3.frame = CGRect(x: 20 + 118 * 2, y: seperateLine1.frame.maxY + 18, width: 98, height: 98)
         icloudDownloadPercentage3.frame = CGRect(x: 0, y: 34, width: icloudDownloadImage1.frame.width, height: 13)
         
         selectedImage1.isUserInteractionEnabled = true
@@ -320,146 +304,156 @@ class uploadAdminInfoViewController: UIViewController,UIImagePickerControllerDel
         icloudDownloadImage2.isHidden = true
         icloudDownloadImage3.isHidden = true
         
-        self.view.addSubview(goodImage)
-        self.view.addSubview(orderIDLabel)
-        self.view.addSubview(productType)
-        self.view.addSubview(materialAndAccessories)
-        self.view.addSubview(modalAndColorL)
+
         self.view.addSubview(seperateLine1)
         self.view.addSubview(noiticeOnUpload)
         self.view.addSubview(AddPicBtn)
+        self.view.addSubview(adminWechatID)
+       // self.view.addSubview(saveBtn)
         DispatchQueue.global().async {
            // self.loadData()
+            self.initAdminQRInfo()
         }
     }
     
     @objc func loadData(){
-        let orderInfoObjects = orderObject as! NSDictionary
-        let orderID = orderInfoObjects.value(forKey: "orderid") as! String
-        _customID = orderInfoObjects.value(forKey: "customid") as! String
-        let productObjects = systemParam[0] as! NSDictionary
-        // let productInfoObject = orderObject.value(forKey: "goodsinfo") as! NSDictionary
         
-        //获取订单图片
-        if orderInfoObjects.value(forKey: "smallGoodsImage") as? String == nil{ // 图片字段为空
-            DispatchQueue.main.async {
-                self.goodImage.image = UIImage(named:"defualt-design-pic")
-            }
-            
-            
+        if _manager_ID == "" {
+            adminWechatID.text = nil
         }else{
-            let imageURLString:String = "\(downloadURLHeaderForThumbnail)\(orderInfoObjects.value(forKey: "smallGoodsImage") as! String)"
+            adminWechatID.text = _manager_ID
+        }
+        
+        //获取管理员图片
+        if _qr_url == ""{ // 图片字段为空
+            print("什么都不用做")
+        }else{
+            let imageURLString:String = "\(downloadURLHeaderForThumbnail)\(_qr_url)"
             let url = URL(string: imageURLString)!
             do{
-                let data = try Data.init(contentsOf: url)
-                let image = UIImage.gif(data:data)
+                let Imagedata = try Data.init(contentsOf: url)
+                let aimage = UIImage.gif(data:Imagedata)!
+
+                    
+                //修正图片的位置
+                let image = self.fixOrientation(aImage: aimage)
+                //先把图片转成NSData
+                let data = UIImageJPEGRepresentation(image, 0.5)
+                
+                //图片保存的路径
+                //这里将图片放在沙盒的documents文件夹中
+                
+                //Home目录
+                let homeDirectory = NSHomeDirectory()
+                let documentPath = homeDirectory + "/Documents/WeChatImage"
+                //文件管理器
+                let fileManager: FileManager = FileManager.default
+                //把刚刚图片转换的data对象拷贝至沙盒中 并保存为image.png
+                do {
+                    try fileManager.createDirectory(atPath: documentPath, withIntermediateDirectories: true, attributes: nil)
+                }
+                catch  {
+                    print("something wrong was happening")
+                }
+                
+                var fnameIndex = "00"
+                if self.OriginalPicCount == 0 {
+                    fnameIndex = "00"
+                }else if self.OriginalPicCount == 1{
+                    fnameIndex = "01"
+                }else if self.OriginalPicCount == 2{
+                    fnameIndex = "02"
+                }else {
+                    fnameIndex = "03"
+                }
+                let fnameWithExtend = "/image00\(fnameIndex).png"
+                
+                let imagePath = documentPath.appending(fnameWithExtend)
+                fileManager.createFile(atPath: imagePath, contents: data, attributes: nil)
+                //fileManager.createFileAtPath(documentPath.append("/image.png"), contents: data, attributes: nil)
+                //得到选择后沙盒中图片的完整路径
+                let filePath: String = String(format: "%@%@", documentPath, fnameWithExtend)
+                print("filePath:" + filePath)
+
+                    
+                tempAttachmentPics.updateValue(image, forKey: self.OriginalPicCount) //append(image)
+                tempAttachmentTypes.updateValue("public.image", forKey: self.OriginalPicCount)// append("public.image")
+                    
+                tempimageURLs.updateValue(filePath, forKey: self.OriginalPicCount)// append(filePath)
+                let urls:URL = URL.init(string: filePath)!
+                temppreviewURLs.updateValue(urls, forKey: self.OriginalPicCount)// append(urls)
+               // self.mapperOfImage[self.OriginalPicCount] = self.OriginalPicCount
+                OriginalPicCount += 1
+                appendImage(with: image)
+                
                 DispatchQueue.main.async {
-                    self.goodImage.image = image//  UIImage(image:image)
+                    // TODO: updateTheUI
                 }
                 
             }catch{
-                let imageURLString:String = "\(downloadURLHeader)\(orderInfoObjects.value(forKey: "smallGoodsImage") as! String)"
+                let imageURLString:String = "\(downloadURLHeader)\(_qr_url)"
                 let url = URL(string: imageURLString)!
                 do{
-                    let data = try Data.init(contentsOf: url)
-                    let image = UIImage.gif(data:data)
-                    DispatchQueue.main.async {
-                        self.goodImage.image = image//  UIImage(image:image)
+                    let Imagedata = try Data.init(contentsOf: url)
+                    let aimage = UIImage.gif(data:Imagedata)!
+                    
+                    
+                    //修正图片的位置
+                    let image = self.fixOrientation(aImage: aimage)
+                    //先把图片转成NSData
+                    let data = UIImageJPEGRepresentation(image, 0.5)
+                    
+                    //图片保存的路径
+                    //这里将图片放在沙盒的documents文件夹中
+                    
+                    //Home目录
+                    let homeDirectory = NSHomeDirectory()
+                    let documentPath = homeDirectory + "/Documents/WeChatImage"
+                    //文件管理器
+                    let fileManager: FileManager = FileManager.default
+                    //把刚刚图片转换的data对象拷贝至沙盒中 并保存为image.png
+                    do {
+                        try fileManager.createDirectory(atPath: documentPath, withIntermediateDirectories: true, attributes: nil)
                     }
+                    catch  {
+                        print("something wrong was happening")
+                    }
+                    
+                    var fnameIndex = "00"
+                    if self.OriginalPicCount == 0 {
+                        fnameIndex = "00"
+                    }else if self.OriginalPicCount == 1{
+                        fnameIndex = "01"
+                    }else if self.OriginalPicCount == 2{
+                        fnameIndex = "02"
+                    }else {
+                        fnameIndex = "03"
+                    }
+                    let fnameWithExtend = "/image00\(fnameIndex).png"
+                    
+                    let imagePath = documentPath.appending(fnameWithExtend)
+                    fileManager.createFile(atPath: imagePath, contents: data, attributes: nil)
+                    //fileManager.createFileAtPath(documentPath.append("/image.png"), contents: data, attributes: nil)
+                    //得到选择后沙盒中图片的完整路径
+                    let filePath: String = String(format: "%@%@", documentPath, fnameWithExtend)
+                    print("filePath:" + filePath)
+                    
+                    
+                    tempAttachmentPics.updateValue(image, forKey: self.OriginalPicCount) //append(image)
+                    tempAttachmentTypes.updateValue("public.image", forKey: self.OriginalPicCount)// append("public.image")
+                    
+                    tempimageURLs.updateValue(filePath, forKey: self.OriginalPicCount)// append(filePath)
+                    let urls:URL = URL.init(string: filePath)!
+                    temppreviewURLs.updateValue(urls, forKey: self.OriginalPicCount)// append(urls)
+                    self.mapperOfImage[self.OriginalPicCount] = self.OriginalPicCount
+                    OriginalPicCount += 1
+                    appendImage(with: image)
                 }catch{
                     print(error)
                 }
                 print("无缩略图")
             }
             
-        }
-        DispatchQueue.main.async {
-            self._orderID = orderID
-            
-            //产品类型
-            let goodsClassObject = productObjects.value(forKey: "goodsClass") as! NSArray
-            let productType = (goodsClassObject[Int(orderInfoObjects.value(forKey: "goodsClass") as! String)! - 1] as! NSDictionary).value(forKey: "goodsClass") as! String
-            
-            //材质
-            let materailObject = productObjects.value(forKey: "material") as! NSArray
-            let materialType = (materailObject[Int(orderInfoObjects.value(forKey: "material") as! String)! - 1] as! NSDictionary).value(forKey: "material") as! String
-            
-            //附件
-            var accessoriesType = ""
-            let accessoriesObject = productObjects.value(forKey: "accessories") as! NSArray
-            if orderInfoObjects.value(forKey: "accessories") as? String == nil{//如果附件为空
-                accessoriesType = ""
-            }else{
-                accessoriesType = (accessoriesObject[Int(orderInfoObjects.value(forKey: "accessories") as! String)! - 1] as! NSDictionary).value(forKey: "accessories") as! String
-                if accessoriesType == "无" {
-                    accessoriesType = ""
-                }
-            }
-            
-            
-            //设置工艺值
-            var tempMakeStyleValue = ""
-            //开模方式
-            let modelClassObject = productObjects.value(forKey: "model") as! NSArray
-            let modelString = orderInfoObjects.value(forKey: "model") as! String
-            var modelType = ""
-            let modelArray = modelString.split(separator: ",")
-            for item in modelArray{
-                modelType += ",\((modelClassObject[Int(item)! - 1] as! NSDictionary).value(forKey: "model") as! String)"
-            }
-            if modelType == ",无"{
-                modelType = ""
-            }else{
-                tempMakeStyleValue += modelType
-            }
-            
-            //工艺
-            let technologyClassObject = productObjects.value(forKey: "technology") as! NSArray
-            let technologyString = orderInfoObjects.value(forKey: "technology") as! String
-            var technologyType = ""
-            let technologyArray = technologyString.split(separator: ",")
-            for item in technologyArray{
-                technologyType += ",\((technologyClassObject[Int(item)!  - 1] as! NSDictionary).value(forKey: "technology") as! String)"
-            }
-            if technologyType == ",无"{
-                technologyType = ""
-            }else{
-                if tempMakeStyleValue == ""{
-                    tempMakeStyleValue += technologyType
-                }else{
-                    tempMakeStyleValue += ";\(technologyType)"
-                }
-            }
-            
-            //电镀色
-            let colorClassObject = productObjects.value(forKey: "color") as! NSArray
-            let colorString = orderInfoObjects.value(forKey: "color") as! String
-            var colorType = ""
-            let colorArray = colorString.split(separator: ",")
-            for item in colorArray{
-                colorType += ",\((colorClassObject[Int(item)! - 1] as! NSDictionary).value(forKey: "color") as! String)"
-            }
-            if colorType == ",无"{
-                colorType = ""
-            }else{
-                if tempMakeStyleValue == ""{
-                    tempMakeStyleValue += colorType
-                }else{
-                    tempMakeStyleValue += ";\(colorType)"
-                }
-            }
-            
-            tempMakeStyleValue.remove(at: tempMakeStyleValue.startIndex) //删除掉开头的“，”
-            tempMakeStyleValue = tempMakeStyleValue.replacingOccurrences(of: ";,", with: ";") //将“;,替换为;
-            
-            self._productType = productType
-            self._materialAndAccessory = materialType + " " + accessoriesType
-            self._modalAndColor = tempMakeStyleValue
-            
-            self.orderIDLabel.text = "订单号: \(orderID)"
-            self.productType.text = productType
-            self.materialAndAccessories.text = self._materialAndAccessory
-            self.modalAndColorL.text = self._modalAndColor
         }
         
     }
@@ -682,7 +676,7 @@ class uploadAdminInfoViewController: UIViewController,UIImagePickerControllerDel
             }
             
             
-            //TODO: update the UI
+            
             print("delete row called succedd")
             OriginalPicCount -= 1
             SelectedPicCount -= 1
@@ -690,7 +684,7 @@ class uploadAdminInfoViewController: UIViewController,UIImagePickerControllerDel
             AddPicBtn.isHidden = false
             switch SelectedPicCount {
             case 0:
-                AddPicBtn.frame = CGRect(x: 20, y: noiticeOnUpload.frame.maxY + 40, width: 98, height: 98)
+                AddPicBtn.frame = CGRect(x: 20, y: seperateLine1.frame.maxY + 18, width: 98, height: 98)
                 //  mapperOfImage.remove(at: 0)
                 selectedImage1.isHidden = true
                 selectedImage2.isHidden = true
@@ -708,7 +702,7 @@ class uploadAdminInfoViewController: UIViewController,UIImagePickerControllerDel
                     // mapperOfImage[0] = mapperOfImage[1]
                 }
                 // mapperOfImage.remove(at: 1)
-                AddPicBtn.frame = CGRect(x: 20 + 118, y: noiticeOnUpload.frame.maxY + 40, width: 98, height: 98)
+                AddPicBtn.frame = CGRect(x: 20 + 118, y: seperateLine1.frame.maxY + 18, width: 98, height: 98)
                 selectedImage1.isHidden = false
                 selectedImage2.isHidden = true
                 selectedImage3.isHidden = true
@@ -728,7 +722,7 @@ class uploadAdminInfoViewController: UIViewController,UIImagePickerControllerDel
                     selectedImage2.image = selectedImage3.image
                 }
                 //  mapperOfImage.remove(at: 2)
-                AddPicBtn.frame = CGRect(x: 20 + 118 * 2, y: noiticeOnUpload.frame.maxY + 40, width: 98, height: 98)
+                AddPicBtn.frame = CGRect(x: 20 + 118 * 2, y: seperateLine1.frame.maxY + 18, width: 98, height: 98)
                 
                 selectedImage1.isHidden = false
                 selectedImage2.isHidden = false
@@ -771,7 +765,7 @@ class uploadAdminInfoViewController: UIViewController,UIImagePickerControllerDel
                 
                 let picker = UIImagePickerController()
                 picker.sourceType = .camera//.camera
-                picker.mediaTypes = (mediaTypeArr as [AnyObject]) as! [String]
+                picker.mediaTypes =  (mediaTypeArr as [AnyObject]) as! [String]
                 picker.videoQuality = .typeHigh
                 picker.allowsEditing = false
                 picker.videoMaximumDuration = 15
@@ -789,7 +783,12 @@ class uploadAdminInfoViewController: UIViewController,UIImagePickerControllerDel
             (action:UIAlertAction)
             -> Void in
             //开始选择照片，最多允许选择4张
-            let allowChooseCount = 3 - self.SelectedPicCount
+            let allowChooseCount = 1//3 - self.SelectedPicCount
+//            let picker = UIImagePickerController()
+//            picker.delegate = self
+//            picker.sourceType = .photoLibrary
+//            picker.mediaTypes = [kUTTypeImage as String]
+//            picker.allowsEditing = true
             _ = self.presentHGImagePicker(maxSelected:allowChooseCount) { (assets) in
                 //结果处理
                 print("共选择了\(assets.count)张图片，分别如下：")
@@ -816,9 +815,9 @@ class uploadAdminInfoViewController: UIViewController,UIImagePickerControllerDel
         AddPicBtn.isHidden = false
         switch SelectedPicCount {
         case 0:
-            AddPicBtn.frame = CGRect(x: 20 + 118, y: noiticeOnUpload.frame.maxY + 40, width: 98, height: 98)
+            AddPicBtn.frame = CGRect(x: 20 + 118, y: seperateLine1.frame.maxY + 18, width: 98, height: 98)
             selectedImage1.image = Image
-            
+            AddPicBtn.isHidden = true
             selectedImage1.isHidden = false
             selectedImage2.isHidden = true
             selectedImage3.isHidden = true
@@ -830,14 +829,15 @@ class uploadAdminInfoViewController: UIViewController,UIImagePickerControllerDel
             icloudDownloadImage3.isHidden = true
             mapperOfImage.append(0)
         case 1:
-            AddPicBtn.frame = CGRect(x: 20 + 118 * 2, y: noiticeOnUpload.frame.maxY + 40, width: 98, height: 98)
+            AddPicBtn.frame = CGRect(x: 20 + 118 * 2, y: seperateLine1.frame.maxY + 18, width: 98, height: 98)
             selectedImage2.image = Image
+            AddPicBtn.isHidden = true
             
             selectedImage1.isHidden = false
-            selectedImage2.isHidden = false
+            selectedImage2.isHidden = true
             selectedImage3.isHidden = true
             deleteBtnOnImage1.isHidden = false
-            deleteBtnOnImage2.isHidden = false
+            deleteBtnOnImage2.isHidden = true
             deleteBtnOnImage3.isHidden = true
             icloudDownloadImage1.isHidden = true
             icloudDownloadImage2.isHidden = true
@@ -848,11 +848,11 @@ class uploadAdminInfoViewController: UIViewController,UIImagePickerControllerDel
             
             AddPicBtn.isHidden = true
             selectedImage1.isHidden = false
-            selectedImage2.isHidden = false
-            selectedImage3.isHidden = false
+            selectedImage2.isHidden = true
+            selectedImage3.isHidden = true
             deleteBtnOnImage1.isHidden = false
-            deleteBtnOnImage2.isHidden = false
-            deleteBtnOnImage3.isHidden = false
+            deleteBtnOnImage2.isHidden = true
+            deleteBtnOnImage3.isHidden = true
             icloudDownloadImage1.isHidden = true
             icloudDownloadImage2.isHidden = true
             icloudDownloadImage3.isHidden = true
@@ -1115,7 +1115,7 @@ class uploadAdminInfoViewController: UIViewController,UIImagePickerControllerDel
                     self.tempimageURLs.updateValue(filePath, forKey: currentIndex)// append(filePath)
                     let urls:URL = URL.init(string: filePath)!
                     self.temppreviewURLs.updateValue(urls, forKey: currentIndex)// append(urls)
-                    self.mapperOfImage[self.OriginalPicCount] = currentIndex
+                   // self.mapperOfImage[self.OriginalPicCount] = currentIndex
                     //                    if self.OriginalPicCount == 0{
                     //                        self.mapperOfImage.updateValue(currentIndex, forKey: 0)// append(currentIndex)
                     //                    }else if self.OriginalPicCount == 1{
@@ -1418,75 +1418,57 @@ class uploadAdminInfoViewController: UIViewController,UIImagePickerControllerDel
         return img
     }
     
-    //上传附件，并返回附件名称
-    func uploadFiles(images:[String])->[String]{
+    func initAdminQRInfo(){
+        StartLoadingAnimation()
+        //获取用户信息
+        let userInfos = getCurrentUserInfo()
+        let token = userInfos.value(forKey: "token") as! String
+        //获取列表
+        let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
+        let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
+        let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
         
-        //请求用到的参数
-        var Bucket = "resource-1255653994"
+        let params:NSMutableDictionary = NSMutableDictionary()
+        var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
+        header["token"] = token
+        
         #if DEBUG
-        Bucket = "test-1255653994"
+        let requestUrl = apiAddresses.value(forKey: "initwechatqrcodeAPIDebug") as! String
         #else
-        Bucket = "resource-1255653994"
+        let requestUrl = apiAddresses.value(forKey: "initwechatqrcodeAPI") as! String
         #endif
         
-        //定义请求参数
-        var fileUrls:[String] = []
-        //循环次数控制
-        var LoopMaxCount = images.count
-        var LoopCurrentCount = 1
-        for image in images{
-            do{
-                
-                let fileLocalUrl:NSURL = NSURL.fileURL(withPath: image) as NSURL
-                
-                let fnameExtension = image.substring(from: image.index(of: ".")!)
-                
-                let upload = QCloudCOSXMLUploadObjectRequest<AnyObject>()
-                upload.body = fileLocalUrl
-                upload.bucket = Bucket
-                
-                let date = NSDate()
-                let timeFormatter = DateFormatter()
-                timeFormatter.dateFormat = "yyyyMMdd"
-                let strNowTime = timeFormatter.string(from: date as Date) as String
-                let fnameInDataBase = "\(_orderID)_\(getRandomName())\(fnameExtension)"
-                upload.object = "/\(fnameInDataBase)"
-                
-                greyLayerPrompt.show(text: "成品图上传中:开始上传")
-                upload.setFinish({ (result, error) in
-                    DispatchQueue.main.async {
-                        print("上传成功图片\(LoopCurrentCount)")
-                        if (error != nil) {
-                            print("something was wrong,Error message:\(String(describing: error?.localizedDescription))")
-                        }else{
-                            
-                            print("***************图片上传完了，准备上传服务器********************")
-                            if LoopMaxCount == LoopCurrentCount{
-                                print("当前成功上传图片\(LoopMaxCount),开始创建任务task")
-                                //self.createTaskList()//创建任务在图片上传成功后
-                                self.uploadToServer()
-                            }else{
-                                print("当前成功上传图片\(LoopCurrentCount),不执行CreateTaskList")
-                            }
-                            print("result:\(result?.qcloud_modelToJSONString() ?? "complte")")
-                            greyLayerPrompt.show(text: "成品上传中:图片\(LoopCurrentCount)上传成功")
-                            LoopCurrentCount += 1
-                        }
+        _ = Alamofire.request(requestUrl,method:.post, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
+            (responseObject) in
+            switch responseObject.result.isSuccess{
+            case true:
+                if  let value = responseObject.result.value{
+                    let json = JSON(value)
+                    let statusCode = json["code"].int!
+                    let statusMsg = json["message"].string!
+                    if statusCode == 200{
+                        //greyLayerPrompt.show(text: statusMsg)
+                        self._manager_ID = json["data","manager_id"].string!
+                        self._qr_url = json["data","qr_url"].string!
+                        self.loadData()
+                    }else if statusCode == 99999 || statusCode == 99998{
+                        //异常
+                        autoLogin(viewControler: self)
+                        //                        greyLayerPrompt.show(text: "登录已失效,请重新登录")
+                        //                        LogoutMission(viewControler: self)
+                    }else {
+                        greyLayerPrompt.show(text: statusMsg)
                     }
-                })
-                
-                let defaultCOSTRANSFERMANGER:QCloudCOSTransferMangerService = QCloudCOSTransferMangerService.defaultCOSTransferManager()
-                defaultCOSTRANSFERMANGER.uploadObject(upload)
-                fileUrls.append(fnameInDataBase)//
-            }catch{
-                print("URL create failded")
+                    
+                }
+                self.StopLoadingAnimation()
+            case false:
+                self.StopLoadingAnimation()
+                greyLayerPrompt.show(text: "上传失败,请重试")
             }
-            
+            print("data reload")
         }
-        return fileUrls
     }
-    
-    
     
     func uploadToServer(){
         //获取用户信息
@@ -1508,41 +1490,17 @@ class uploadAdminInfoViewController: UIViewController,UIImagePickerControllerDel
         
         let params:NSMutableDictionary = NSMutableDictionary()
         var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
-        params["customid"] = _customID
+        params["managerWachatId"] = adminWechatID.text
         header["token"] = token
         switch taskImages.count {
         case 0:
             return
         case 1:
-            params["initialReferenceImage1"] = taskImages[0].value(forKey: "originalImage") as! String
-            params["initialReferenceImage2"] =  ""//(taskImages[0] as! NSDictionary).value(forKey: "originalImage") as! String
-            params["initialReferenceImage3"] =  ""//(taskImages[0] as! NSDictionary).value(forKey: "originalImage") as! String
-            params["middleReferenceImage1"] =  taskImages[0].value(forKey: "middleImage") as! String
-            params["middleReferenceImage2"] =  ""//(taskImages[0] as! NSDictionary).value(forKey: "middleImage") as! String
-            params["middleReferenceImage3"] =  ""//(taskImages[0] as! NSDictionary).value(forKey: "middleImage") as! String
-            params["smallReferenceImage1"] =  taskImages[0].value(forKey: "smallImage") as! String
-            params["smallReferenceImage2"] =  ""//(taskImages[0] as! NSDictionary).value(forKey: "smallImage") as! String
-            params["smallReferenceImage3"] =  ""//(taskImages[0] as! NSDictionary).value(forKey: "smallImage") as! String
+            params["filepath"] = taskImages[0].value(forKey: "originalImage") as! String
         case 2:
-            params["initialReferenceImage1"] = taskImages[0].value(forKey: "originalImage") as! String
-            params["initialReferenceImage2"] =  taskImages[1].value(forKey: "originalImage") as! String
-            params["initialReferenceImage3"] =  ""//(taskImages[0] as! NSDictionary).value(forKey: "originalImage") as! String
-            params["middleReferenceImage1"] =  taskImages[0].value(forKey: "middleImage") as! String
-            params["middleReferenceImage2"] =  taskImages[1].value(forKey: "middleImage") as! String
-            params["middleReferenceImage3"] =  ""//(taskImages[0] as! NSDictionary).value(forKey: "middleImage") as! String
-            params["smallReferenceImage1"] =  taskImages[0].value(forKey: "smallImage") as! String
-            params["smallReferenceImage2"] =  taskImages[1].value(forKey: "smallImage") as! String
-            params["smallReferenceImage3"] =  ""//(taskImages[0] as! NSDictionary).value(forKey: "smallImage") as! String
+           print("error Image number")
         case 3:
-            params["initialReferenceImage1"] = taskImages[0].value(forKey: "originalImage") as! String
-            params["initialReferenceImage2"] =  taskImages[1].value(forKey: "originalImage") as! String
-            params["initialReferenceImage3"] =  taskImages[2].value(forKey: "originalImage") as! String
-            params["middleReferenceImage1"] =  taskImages[0].value(forKey: "middleImage") as! String
-            params["middleReferenceImage2"] =  taskImages[1].value(forKey: "middleImage") as! String
-            params["middleReferenceImage3"] =  taskImages[2].value(forKey: "middleImage") as! String
-            params["smallReferenceImage1"] =  taskImages[0].value(forKey: "smallImage") as! String
-            params["smallReferenceImage2"] =  taskImages[1].value(forKey: "smallImage") as! String
-            params["smallReferenceImage3"] =  taskImages[2].value(forKey: "smallImage") as! String
+            print("error Image number")
         default:
             print("hello")
         }
@@ -1550,9 +1508,9 @@ class uploadAdminInfoViewController: UIViewController,UIImagePickerControllerDel
         
         
         #if DEBUG
-        let requestUrl = apiAddresses.value(forKey: "uploadProuctImageAPIDebug") as! String
+        let requestUrl = apiAddresses.value(forKey: "uploadqrcodeAPIDebug") as! String
         #else
-        let requestUrl = apiAddresses.value(forKey: "uploadProuctImageAPI") as! String
+        let requestUrl = apiAddresses.value(forKey: "uploadqrcodeAPI") as! String
         #endif
         
         _ = Alamofire.request(requestUrl,method:.post, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
@@ -1564,7 +1522,7 @@ class uploadAdminInfoViewController: UIViewController,UIImagePickerControllerDel
                     let statusCode = json["code"].int!
                     let statusMsg = json["message"].string!
                     if statusCode == 200{
-                        greyLayerPrompt.show(text: statusMsg)
+                        greyLayerPrompt.show(text: "更新成功")
                         
                     }else if statusCode == 99999 || statusCode == 99998{
                         //异常
@@ -1603,11 +1561,21 @@ class uploadAdminInfoViewController: UIViewController,UIImagePickerControllerDel
     }
     
     @objc func uploadBtnClicked(){
+        guard adminWechatID.text != ""  else {
+            greyLayerPrompt.show(text: "请输入管理员微信号")
+            return
+        }
+        
+        guard tempAttachmentPics.count != 0 else {
+            greyLayerPrompt.show(text: "请上传管理员二维码")
+            return
+        }
+        
         changePositionOfPictures()
         let userinfos = getCurrentUserInfo()
         let token = userinfos.value(forKey: "token") as! String
         //taskImages = uploadFiles(images: imageURLs)
-        uploadImageToServer(with: AttachmentPics, customID: _customID, usage: "product_image", userToken: token)
+        uploadImageToServer(with: AttachmentPics, customID: _customID, usage: "wx_image", userToken: token)
     }
     
     //通过服务器上传图片
@@ -1621,7 +1589,6 @@ class uploadAdminInfoViewController: UIViewController,UIImagePickerControllerDel
         
         var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
         header["token"] = token
-        
         
         #if DEBUG
         let uploadurl = apiAddresses.value(forKey: "uploadImageAPIDebug") as! String
@@ -1686,6 +1653,55 @@ class uploadAdminInfoViewController: UIViewController,UIImagePickerControllerDel
         }
     }
     
+    
+    func StartLoadingAnimation(){
+        //加载中动画与文字
+        //loading文字
+        let noticeWhenLoadingData:UILabel = UILabel.init(frame: CGRect(x: UIScreen.main.bounds.width/2 - 90, y: UIScreen.main.bounds.height/2 - 50, width: 200, height: 30))
+        //动画imageView
+        let imageView = UIImageView()
+        
+        //当loadingView不为空的时候，表示有LoadingView在运行
+        if theLoadingViewNeedsToBeKill.count != 0 {
+            for item in theLoadingViewNeedsToBeKill{
+                item.removeFromSuperview()
+            }
+        }
+        
+        noticeWhenLoadingData.text = "加载中，请稍侯..."
+        noticeWhenLoadingData.font = UIFont.systemFont(ofSize: 14)
+        noticeWhenLoadingData.textColor = UIColor.gray
+        noticeWhenLoadingData.textAlignment = .center
+        //loading动画
+        var images:[UIImage] = []
+        for i in 0...27{
+            let imagePath = "\(i).png"
+            let image:UIImage = UIImage(named:imagePath)!
+            images.append(image)
+        }
+        
+        imageView.frame = CGRect(x: UIScreen.main.bounds.width/2 - 100, y: UIScreen.main.bounds.height/2 - 200, width: 200, height: 200)//self.view.bounds
+        imageView.contentMode = .scaleAspectFit//.center
+        imageView.animationImages = images
+        imageView.animationDuration = 1
+        imageView.animationRepeatCount = 0
+        imageView.startAnimating()
+        
+        theLoadingViewNeedsToBeKill.append(imageView)
+        theLoadingViewNeedsToBeKill.append(noticeWhenLoadingData)
+        
+        self.view.addSubview(imageView)
+        self.view.addSubview(noticeWhenLoadingData)
+        
+    }
+    
+    func StopLoadingAnimation(){
+        if theLoadingViewNeedsToBeKill.count != 0 {
+            for item in theLoadingViewNeedsToBeKill {
+                item.removeFromSuperview()
+            }
+        }
+    }
     /*
      // MARK: - Navigation
      

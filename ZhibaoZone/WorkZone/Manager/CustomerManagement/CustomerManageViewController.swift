@@ -117,6 +117,9 @@ class CustomerManageViewController: UIViewController,UITextFieldDelegate,UITable
             cell.bindingBtn.setTitle("解绑", for: .normal)
         }else{
             cell.bindingBtn.setTitle("绑定", for: .normal)
+            cell.bindingBtn.setTitleColor(UIColor.titleColors(color: .white), for: .normal)
+            cell.bindingBtn.layer.borderColor = UIColor.backgroundColors(color: .lightOrange).cgColor
+            cell.bindingBtn.layer.backgroundColor = UIColor.backgroundColors(color: .lightOrange).cgColor
         }
         
         var gestureSingleTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(bindingBtnClicked))
@@ -541,7 +544,9 @@ class CustomerManageViewController: UIViewController,UITextFieldDelegate,UITable
         header["token"] = token
         params["page"] = 1
         params["size"] = 200//String(format: "%.2f", currentValueOfQuotePrice)
-        params["keyword"] = keyword
+        if keyword != ""{
+            params["keyword"] = keyword
+        }
         
         #if DEBUG
         let requestUrl =  apiAddresses.value(forKey: "getBangdingwechatAPIDebug") as! String
