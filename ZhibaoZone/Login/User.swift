@@ -587,12 +587,12 @@ class User: NSObject {
                         //跳转页面
                             var tabBar = TabBarController(royeType: roleType)
                             let appDelegate = UIApplication.shared.delegate
-                           // appDelegate?.window??.rootViewController = tabBar
+                            appDelegate?.window??.rootViewController = tabBar
                             while (tabBar.presentedViewController != nil){
                                 tabBar = tabBar.presentedViewController as! TabBarController
                             }
-                            //view.present(tabBar, animated: true, completion: nil)
-                            appDelegate?.window??.rootViewController?.present(tabBar, animated: true, completion: nil)
+                            view.present(tabBar, animated: true, completion: nil)
+                            //appDelegate?.window??.rootViewController?.present(tabBar, animated: true, completion: nil)
                             //view.present(tabBar, animated: true, completion: nil)
                         }
                         

@@ -509,12 +509,13 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         setStatusBarHiden(toHidden: false, ViewController: self)
         titleBarView.backgroundColor = UIColor.clear
         
-       
+        
     }
 
     override func viewDidAppear(_ animated: Bool) {
         UIDevice.current.setValue(0, forKey: "orientation")
-        UserDefaults.standard.setValue("homePage", forKey: "currentPage")
+        UserDefaults.standard.set(0, forKey: "orignalOrientation")
+        print("saved Orientation value \(0)")
         UserDefaults.standard.synchronize()
     }
     override func viewDidLoad() {

@@ -402,6 +402,8 @@ class ViewController: UIViewController,UITextFieldDelegate {
         setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .clear))
         
         UIDevice.current.setValue(0, forKey: "orientation")
+        UserDefaults.standard.set(0, forKey: "orignalOrientation")
+        UserDefaults.standard.synchronize()
     }
     override func viewDidAppear(_ animated: Bool) {
         setStatusBarHiden(toHidden: false, ViewController: self)

@@ -284,24 +284,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
     }
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
-        print("应用程序ResignActive")
-        let orientation =  UIDevice.current.orientation.rawValue //0 竖直 //3 左倒
-        // print("saved \(orientation) status")
-        UserDefaults.standard.set(orientation, forKey: "orignalOrientation")
-        UserDefaults.standard.set(NSDate(), forKey: "statusUpdateTime")
-        UserDefaults.standard.synchronize()
+//        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+//        print("应用程序ResignActive")
+//        let orientation =  UIDevice.current.orientation.rawValue //0 竖直 //3 左倒
+//        // print("saved \(orientation) status")
+//        UserDefaults.standard.set(orientation, forKey: "orignalOrientation")
+//        UserDefaults.standard.set(NSDate(), forKey: "statusUpdateTime")
+//        UserDefaults.standard.synchronize()
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-        print("应用程序DidEnterBackground")
-        let orientation =  UIDevice.current.orientation.rawValue //0 竖直 //3 左倒
-        print("saved \(orientation) status")
-        UserDefaults.standard.set(orientation, forKey: "orignalOrientation")
-        UserDefaults.standard.set(NSDate(), forKey: "statusUpdateTime")
-        UserDefaults.standard.synchronize()
+//        print("应用程序DidEnterBackground")
+//        let orientation =  UIDevice.current.orientation.rawValue //0 竖直 //3 左倒
+//        print("saved \(orientation) status")
+//        UserDefaults.standard.set(orientation, forKey: "orignalOrientation")
+//        UserDefaults.standard.set(NSDate(), forKey: "statusUpdateTime")
+//        UserDefaults.standard.synchronize()
         
     }
 
@@ -318,6 +318,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         let value = UserDefaults.standard.value(forKey: "orignalOrientation")
+        print("The orientation value is \(value)")
         let now = NSDate()
         let savedTime = UserDefaults.standard.object(forKey: "statusUpdateTime") as? NSDate
         if savedTime != nil{
@@ -456,6 +457,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
             acceptDesignView._isBidding = true
             acceptDesignView.createViewWithActionType(ActionType: .quotePrice)
             self.window?.rootViewController?.present(popVC, animated: true, completion: nil)
+        case 99:
+            //运维的
+            print("运维推送")
         default:
             print("hallo")
         }
@@ -571,6 +575,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         case 5:
             //设计修改
           title.text = "设计修改要求"
+        case 99:
+            title.text = "运维推送"
         default:
             //print("hallo")
             title.text = "新消息"

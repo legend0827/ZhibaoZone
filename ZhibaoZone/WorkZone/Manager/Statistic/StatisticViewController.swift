@@ -1395,7 +1395,9 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
         appDelegate.blockRotation = true
         // let value = UIDevice.current.orientation.rawValue
         UIDevice.current.setValue(3, forKey: "orientation")
-        print("view did appear at statistic")
+        UserDefaults.standard.set(3, forKey: "orignalOrientation")
+        print("saved Orientation value \(3)")
+        UserDefaults.standard.synchronize()
     }
     
     override func viewDidLoad() {
@@ -1534,17 +1536,20 @@ class StatisticViewController: UIViewController,UITableViewDelegate,UITableViewD
         setStatusBarBackgroundColor(color: UIColor.clear)
         setStatusBarHiden(toHidden: true, ViewController: self)
         //设置横屏
-        appDelegate.blockRotation = true
-        let value = UIDevice.current.orientation.rawValue
-        UIDevice.current.setValue(value, forKey: "orientation")
-        print("view at statistic will Appear")
+        //appDelegate.blockRotation = true
+//        let value = UIDevice.current.orientation.rawValue
+//        UIDevice.current.setValue(value, forKey: "orientation")
+//        print("view at statistic will Appear")
         
     }
     override func viewWillDisappear(_ animated: Bool) {
         setStatusBarBackgroundColor(color: UIColor.clear)
         setStatusBarHiden(toHidden: false, ViewController: self)
-       // UIDevice.current.setValue(0, forKey: "orientation")
-        print("view at statistic disappeared")
+        UIDevice.current.setValue(0, forKey: "orientation")
+       // print("view at statistic disappeared")
+        UserDefaults.standard.set(0, forKey: "orignalOrientation")
+        print("saved Orientation value \(0)")
+        UserDefaults.standard.synchronize()
     }
     private func loadMore() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {

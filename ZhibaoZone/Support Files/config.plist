@@ -228,23 +228,23 @@
 		<key>getBangdingwechatAPIDebug</key>
 		<string>http://192.144.146.126:8890/WachatServerController/cartesianGetNotBindingList</string>
 		<key>getBangdingwechatAPI</key>
-		<string>http://140.143.249.2:8890/WachatServerController/cartesianGetNotBindingList</string>
+		<string>http://140.143.249.2:81/WachatServerController/cartesianGetNotBindingList</string>
 		<key>bangdingwechatAPIDebug</key>
 		<string>http://192.144.146.126:8890/WachatServerController/cartesianManagerBinding</string>
 		<key>bangdingwechatAPI</key>
-		<string>http://140.143.249.2:8890/WachatServerController/cartesianManagerBinding</string>
+		<string>http://140.143.249.2:81/WachatServerController/cartesianManagerBinding</string>
 		<key>bangdingOneKeyProceedAPIDebug</key>
 		<string>http://192.144.146.126:8890/WachatServerController/cartesianOneKeyBinding</string>
 		<key>bangdingOneKeyProceedAPI</key>
-		<string>http://140.143.249.2:8890/WachatServerController/cartesianOneKeyBinding</string>
+		<string>http://140.143.249.2:81/WachatServerController/cartesianOneKeyBinding</string>
 		<key>initwechatqrcodeAPIDebug</key>
 		<string>http://192.144.146.126:8890/WachatServerController/getWachatQrcode</string>
 		<key>initwechatqrcodeAPI</key>
-		<string>http://140.143.249.2:8890/WachatServerController/getWachatQrcode</string>
+		<string>http://140.143.249.2:81/WachatServerController/getWachatQrcode</string>
 		<key>uploadqrcodeAPIDebug</key>
 		<string>http://192.144.146.126:8890/WachatServerController/uploadWachatQrcode2</string>
 		<key>uploadqrcodeAPI</key>
-		<string>http://140.143.249.2:8890/WachatServerController/uploadWachatQrcode2</string>
+		<string>http://140.143.249.2:81/WachatServerController/uploadWachatQrcode2</string>
 	</dict>
 </dict>
 </plist>
