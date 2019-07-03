@@ -4,25 +4,15 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>ZhibaoZone.xcscheme</key>
+		<key>hangge_1512.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>1</integer>
+			<integer>0</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0A6AD6531FF1EFB4009A511A</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>0A6AD66A1FF1EFB4009A511A</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>0A6AD6751FF1EFB4009A511A</key>
+		<key>5A0E8D7A1E210443000584BC</key>
 		<dict>
 			<key>primary</key>
 			<true/>

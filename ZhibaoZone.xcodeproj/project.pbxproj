@@ -75,6 +75,13 @@
 		0A6B3F101FFB38BE0014AF24 /* AccountInfo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0A6B3F0E1FFB38BE0014AF24 /* AccountInfo.xcdatamodeld */; };
 		0A709E6820EF17CE00E4CF46 /* UMPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A709E6720EF17CE00E4CF46 /* UMPush.framework */; };
 		0A709E6B20EF40DC00E4CF46 /* UMCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A709E6A20EF40DC00E4CF46 /* UMCommon.framework */; };
+		0A81923D22CCA0E90004BE2F /* HGImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A81923522CCA0E70004BE2F /* HGImagePickerController.swift */; };
+		0A81923E22CCA0E90004BE2F /* HGImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A81923622CCA0E70004BE2F /* HGImageCollectionViewCell.swift */; };
+		0A81923F22CCA0E90004BE2F /* HGImageCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A81923722CCA0E80004BE2F /* HGImageCollectionViewController.swift */; };
+		0A81924122CCA0E90004BE2F /* HGImage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A81923922CCA0E80004BE2F /* HGImage.storyboard */; };
+		0A81924222CCA0E90004BE2F /* HGImage.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A81923A22CCA0E80004BE2F /* HGImage.xcassets */; };
+		0A81924322CCA0E90004BE2F /* HGImagePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A81923B22CCA0E80004BE2F /* HGImagePickerCell.swift */; };
+		0A81924422CCA0E90004BE2F /* HGImageCompleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A81923C22CCA0E90004BE2F /* HGImageCompleteButton.swift */; };
 		0A83CA6C205F6AE500F59A70 /* UIImage+Gif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A83CA64205F6AE400F59A70 /* UIImage+Gif.swift */; };
 		0A8A0050223785D600AB8AC2 /* SystemManagementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8A004F223785D600AB8AC2 /* SystemManagementViewController.swift */; };
 		0A8A00522237AB3400AB8AC2 /* parameterSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8A00512237AB3400AB8AC2 /* parameterSettingTableViewCell.swift */; };
@@ -88,13 +95,6 @@
 		0AAAFA5C20BE5B67005C7F25 /* QuotePriceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAAFA5B20BE5B67005C7F25 /* QuotePriceTableViewCell.swift */; };
 		0AAAFA6020BE83D6005C7F25 /* ParasActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAAFA5F20BE83D6005C7F25 /* ParasActionView.swift */; };
 		0AB76696200CA8AB00851E16 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AB76695200CA8AB00851E16 /* config.plist */; };
-		0AB766A6200DC46900851E16 /* HGImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB7669F200DC46800851E16 /* HGImageCollectionViewCell.swift */; };
-		0AB766A7200DC46900851E16 /* HGImage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AB766A0200DC46900851E16 /* HGImage.storyboard */; };
-		0AB766A8200DC46900851E16 /* HGImageCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB766A1200DC46900851E16 /* HGImageCollectionViewController.swift */; };
-		0AB766A9200DC46900851E16 /* HGImagePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB766A2200DC46900851E16 /* HGImagePickerCell.swift */; };
-		0AB766AA200DC46900851E16 /* HGImageCompleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB766A3200DC46900851E16 /* HGImageCompleteButton.swift */; };
-		0AB766AB200DC46900851E16 /* HGImage.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AB766A4200DC46900851E16 /* HGImage.xcassets */; };
-		0AB766AC200DC46900851E16 /* HGImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB766A5200DC46900851E16 /* HGImagePickerController.swift */; };
 		0AB7C3F120DA01B600D0D26B /* checkListItemsArray.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AB7C3F020DA01B600D0D26B /* checkListItemsArray.plist */; };
 		0AB7C43A20EF0FDE00D0D26B /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB7C43920EF0FDE00D0D26B /* libsqlite3.tbd */; };
 		0AB7C43C20EF0FFF00D0D26B /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB7C43B20EF0FFF00D0D26B /* UserNotifications.framework */; };
@@ -322,6 +322,13 @@
 		0A709E6720EF17CE00E4CF46 /* UMPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMPush.framework; sourceTree = "<group>"; };
 		0A709E6A20EF40DC00E4CF46 /* UMCommon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMCommon.framework; sourceTree = "<group>"; };
 		0A709E6C20EF418200E4CF46 /* UMPush-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UMPush-Bridging-Header.h"; sourceTree = "<group>"; };
+		0A81923522CCA0E70004BE2F /* HGImagePickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HGImagePickerController.swift; sourceTree = "<group>"; };
+		0A81923622CCA0E70004BE2F /* HGImageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HGImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		0A81923722CCA0E80004BE2F /* HGImageCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HGImageCollectionViewController.swift; sourceTree = "<group>"; };
+		0A81923922CCA0E80004BE2F /* HGImage.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = HGImage.storyboard; sourceTree = "<group>"; };
+		0A81923A22CCA0E80004BE2F /* HGImage.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = HGImage.xcassets; sourceTree = "<group>"; };
+		0A81923B22CCA0E80004BE2F /* HGImagePickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HGImagePickerCell.swift; sourceTree = "<group>"; };
+		0A81923C22CCA0E90004BE2F /* HGImageCompleteButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HGImageCompleteButton.swift; sourceTree = "<group>"; };
 		0A83CA64205F6AE400F59A70 /* UIImage+Gif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Gif.swift"; sourceTree = "<group>"; };
 		0A8A004F223785D600AB8AC2 /* SystemManagementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemManagementViewController.swift; sourceTree = "<group>"; };
 		0A8A00512237AB3400AB8AC2 /* parameterSettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = parameterSettingTableViewCell.swift; sourceTree = "<group>"; };
@@ -335,13 +342,6 @@
 		0AAAFA5B20BE5B67005C7F25 /* QuotePriceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotePriceTableViewCell.swift; sourceTree = "<group>"; };
 		0AAAFA5F20BE83D6005C7F25 /* ParasActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParasActionView.swift; sourceTree = "<group>"; };
 		0AB76695200CA8AB00851E16 /* config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
-		0AB7669F200DC46800851E16 /* HGImageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HGImageCollectionViewCell.swift; path = ../../../../../Downloads/hangge_1512/hangge_1512/HGImageCollectionViewCell.swift; sourceTree = "<group>"; };
-		0AB766A0200DC46900851E16 /* HGImage.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = HGImage.storyboard; path = ../../../../../Downloads/hangge_1512/hangge_1512/HGImage.storyboard; sourceTree = "<group>"; };
-		0AB766A1200DC46900851E16 /* HGImageCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HGImageCollectionViewController.swift; path = ../../../../../Downloads/hangge_1512/hangge_1512/HGImageCollectionViewController.swift; sourceTree = "<group>"; };
-		0AB766A2200DC46900851E16 /* HGImagePickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HGImagePickerCell.swift; path = ../../../../../Downloads/hangge_1512/hangge_1512/HGImagePickerCell.swift; sourceTree = "<group>"; };
-		0AB766A3200DC46900851E16 /* HGImageCompleteButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HGImageCompleteButton.swift; path = ../../../../../Downloads/hangge_1512/hangge_1512/HGImageCompleteButton.swift; sourceTree = "<group>"; };
-		0AB766A4200DC46900851E16 /* HGImage.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = HGImage.xcassets; path = ../../../../../Downloads/hangge_1512/hangge_1512/HGImage.xcassets; sourceTree = "<group>"; };
-		0AB766A5200DC46900851E16 /* HGImagePickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HGImagePickerController.swift; path = ../../../../../Downloads/hangge_1512/hangge_1512/HGImagePickerController.swift; sourceTree = "<group>"; };
 		0AB7C3F020DA01B600D0D26B /* checkListItemsArray.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = checkListItemsArray.plist; sourceTree = "<group>"; };
 		0AB7C43920EF0FDE00D0D26B /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		0AB7C43B20EF0FFF00D0D26B /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
@@ -673,13 +673,13 @@
 		0AB7669E200DC43600851E16 /* HGImage */ = {
 			isa = PBXGroup;
 			children = (
-				0AB766A4200DC46900851E16 /* HGImage.xcassets */,
-				0AB7669F200DC46800851E16 /* HGImageCollectionViewCell.swift */,
-				0AB766A1200DC46900851E16 /* HGImageCollectionViewController.swift */,
-				0AB766A3200DC46900851E16 /* HGImageCompleteButton.swift */,
-				0AB766A2200DC46900851E16 /* HGImagePickerCell.swift */,
-				0AB766A5200DC46900851E16 /* HGImagePickerController.swift */,
-				0AB766A0200DC46900851E16 /* HGImage.storyboard */,
+				0A81923922CCA0E80004BE2F /* HGImage.storyboard */,
+				0A81923A22CCA0E80004BE2F /* HGImage.xcassets */,
+				0A81923622CCA0E70004BE2F /* HGImageCollectionViewCell.swift */,
+				0A81923722CCA0E80004BE2F /* HGImageCollectionViewController.swift */,
+				0A81923C22CCA0E90004BE2F /* HGImageCompleteButton.swift */,
+				0A81923B22CCA0E80004BE2F /* HGImagePickerCell.swift */,
+				0A81923522CCA0E70004BE2F /* HGImagePickerController.swift */,
 			);
 			path = HGImage;
 			sourceTree = "<group>";
@@ -1117,19 +1117,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				0AF06C4E20171D40008E2DE9 /* icon_pull_to_refresh_arrow@2x.png in Resources */,
-				0AB766A7200DC46900851E16 /* HGImage.storyboard in Resources */,
 				0AFE8E4A2179F7A50094F088 /* config_systemCategory.plist in Resources */,
 				0A450ECD21BF601B0070186E /* config_systemParas.plist in Resources */,
 				0AF06C4C20171D40008E2DE9 /* Localizable.strings in Resources */,
+				0A81924222CCA0E90004BE2F /* HGImage.xcassets in Resources */,
 				0A09185320AABFF20054749B /* shippingCompanyNameList.plist in Resources */,
 				0A25DF97201D7E63009CBDEA /* contactList.plist in Resources */,
 				0AE645282152054D00918DCE /* DINPro-Medium.otf in Resources */,
 				0A1295562072EB5E00C21C66 /* msg.wav in Resources */,
 				0AB7C3F120DA01B600D0D26B /* checkListItemsArray.plist in Resources */,
 				0AB76696200CA8AB00851E16 /* config.plist in Resources */,
+				0A81924122CCA0E90004BE2F /* HGImage.storyboard in Resources */,
 				0AF06C5620187F4A008E2DE9 /* Assets.xcassets in Resources */,
 				0A2C801C20ABF44E00873162 /* Images.xcassets in Resources */,
-				0AB766AB200DC46900851E16 /* HGImage.xcassets in Resources */,
 				0A6AD65D1FF1EFB4009A511A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1218,7 +1218,6 @@
 				0A3A869421F181E400068BEE /* FilterForHorizentalView.swift in Sources */,
 				0A0235B61FFD23C600CBD846 /* TastsViewController.swift in Sources */,
 				0AC4B49720F711C700312092 /* StatisticCollectionViewCell.swift in Sources */,
-				0AB766A8200DC46900851E16 /* HGImageCollectionViewController.swift in Sources */,
 				0AD666972227EDD30027C927 /* priceListCollectionViewCell.swift in Sources */,
 				0A610D8F201C296B00DE46B7 /* chooseContactTableViewCell.swift in Sources */,
 				0A036A5B2028682D00A2F036 /* SecuritySettingViewController.swift in Sources */,
@@ -1244,6 +1243,7 @@
 				0A99705D20ADB8C500E4D37C /* OrderSearchCollectionViewCell.swift in Sources */,
 				0A4EF77C2191AD22006E4DA7 /* InvoiceCollectionViewCell.swift in Sources */,
 				0AF06C4920171D40008E2DE9 /* ESPullToRefresh+Manager.swift in Sources */,
+				0A81923F22CCA0E90004BE2F /* HGImageCollectionViewController.swift in Sources */,
 				0A450ECF21C26CC80070186E /* designerOnlineStatusViewController.swift in Sources */,
 				0AC4B49E20FDE31500312092 /* accountListTableViewCell.swift in Sources */,
 				0AAAFA5C20BE5B67005C7F25 /* QuotePriceTableViewCell.swift in Sources */,
@@ -1251,9 +1251,6 @@
 				0AF06C5220171D40008E2DE9 /* ESPullToRefresh.swift in Sources */,
 				0ADCB7FB200EEAD500DCD7C8 /* ImagePreviewVC.swift in Sources */,
 				0AF6AD9020A1E77400B07459 /* PopupViewController.swift in Sources */,
-				0AB766AA200DC46900851E16 /* HGImageCompleteButton.swift in Sources */,
-				0AB766A9200DC46900851E16 /* HGImagePickerCell.swift in Sources */,
-				0AB766AC200DC46900851E16 /* HGImagePickerController.swift in Sources */,
 				0AC4B49520F709CB00312092 /* EditOrderParameters.swift in Sources */,
 				0A244E612098917C00203463 /* TestPushViewController.swift in Sources */,
 				0AF57ABB21F955B4001059DA /* statisticOrderListTableViewCell.swift in Sources */,
@@ -1276,9 +1273,11 @@
 				0A4EF77A2191A801006E4DA7 /* invoiceViewController.swift in Sources */,
 				0A38067B2031DB680077E77F /* CircleInfoView.swift in Sources */,
 				0A9716832009F910007922FB /* NewTaskViewCell.swift in Sources */,
+				0A81924322CCA0E90004BE2F /* HGImagePickerCell.swift in Sources */,
 				0ADCB7FD200EEB2500DCD7C8 /* ImagePreviewCell.swift in Sources */,
 				0A09185820AAC08F0054749B /* ShippingCompanyNameListTableViewCell.swift in Sources */,
 				0A5B5C1E1FF23B5F00A92C20 /* greyLayerPrompt.swift in Sources */,
+				0A81923D22CCA0E90004BE2F /* HGImagePickerController.swift in Sources */,
 				0A3806882035C1CD0077E77F /* CircleView.swift in Sources */,
 				0A390920218B451F0048B9F5 /* PrivacyPolicyAgreementViewController.swift in Sources */,
 				0A594E29207079CD00A67950 /* ReplyTableViewCell.swift in Sources */,
@@ -1301,8 +1300,8 @@
 				0AAAFA6020BE83D6005C7F25 /* ParasActionView.swift in Sources */,
 				0ACD41362064B4B4002F1D14 /* normalUserViewController.swift in Sources */,
 				0AAAFA5A20BD4C7C005C7F25 /* QuotePriceViewController.swift in Sources */,
+				0A81924422CCA0E90004BE2F /* HGImageCompleteButton.swift in Sources */,
 				0A0235B41FFD23B900CBD846 /* OrdersViewController.swift in Sources */,
-				0AB766A6200DC46900851E16 /* HGImageCollectionViewCell.swift in Sources */,
 				0ADD7BB722800FE400F0D653 /* customerListTableViewCell.swift in Sources */,
 				0A3806842031E0B30077E77F /* LockLabel.swift in Sources */,
 				0A13FB212159DB9A004066F0 /* ChooseTimeIntervalCellTableViewCell.swift in Sources */,
@@ -1316,6 +1315,7 @@
 				0AF06C542018638F008E2DE9 /* TaskListTableViewCell.swift in Sources */,
 				0A83CA6C205F6AE500F59A70 /* UIImage+Gif.swift in Sources */,
 				0A3AA20E1FF61C5F00EBC482 /* WorkZoneViewController.swift in Sources */,
+				0A81923E22CCA0E90004BE2F /* HGImageCollectionViewCell.swift in Sources */,
 				0A8A00522237AB3400AB8AC2 /* parameterSettingTableViewCell.swift in Sources */,
 				0A8A0050223785D600AB8AC2 /* SystemManagementViewController.swift in Sources */,
 				0AD282A01FF4B3A50044E41C /* SwiftyJSON.swift in Sources */,
