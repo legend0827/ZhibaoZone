@@ -41,20 +41,34 @@ class ScanCodeViewController: UIViewController {
         title.font = UIFont.systemFont(ofSize: 17)
         title.textAlignment = .center
         
-        tempView.addSubview(title)
-        tempView.addSubview(remainProduceTimeWhiteBoard)
-        tempView.addSubview(shippingAddressAreaWhiteBoard)
-        tempView.addSubview(orderInfosAreaWhiteBoard)
         
+        tempView.addSubview(title)
+        tempView.addSubview(scrollView)
+        
+        scrollView.addSubview(remainProduceTimeWhiteBoard)
+        scrollView.addSubview(shippingAddressAreaWhiteBoard)
+        scrollView.addSubview(orderInfosAreaWhiteBoard)
+        scrollView.addSubview(produceMemoAreaWhiteBoard)
+        
+        scrollView.scrollsToTop = true
         tempView.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
         tempView.addSubview(closePopUpBtn)
         
+        //获取System Parameter信息
+        systemParam = getSystemParasFromPlist()
         return tempView
+    }()
+    
+    lazy var scrollView:UIScrollView = {
+        let tempScrollView:UIScrollView = UIScrollView.init(frame: CGRect(x: 0, y: 70, width: kWidth, height: kHight - 46 - heightChangeForiPhoneXFromTop - heightChangeForiPhoneXFromBottom - 70))
+        tempScrollView.contentSize = CGSize(width: kWidth, height: 740)
+        
+        return tempScrollView
     }()
     
     //剩余发货时间面板
     lazy var remainProduceTimeWhiteBoard:UIView = {
-        let view:UIView = UIView.init(frame: CGRect(x: 0, y: 70, width: kWidth, height: 183))
+        let view:UIView = UIView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: 183))
         view.backgroundColor = UIColor.backgroundColors(color: .white)
         
         view.addSubview(orderIDLabel)
@@ -69,25 +83,6 @@ class ScanCodeViewController: UIViewController {
         view.addSubview(remainTimeLabel)
         
         view.addSubview(remainTimeCountdownLabel)
-        
-        //任务截止时间
-        // 获取当前系统时间
-        
-        let date = Date()
-        let timeFormatter = DateFormatter()
-        timeFormatter.locale = Locale.current
-        timeFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        
-        let strNowTime = timeFormatter.string(from: date) as String
-        
-        let now = timeFormatter.date(from: strNowTime)
-        //将创建任务时间转换为Date格式
-        let dateResult = timeFormatter.date(from: "2019-07-05 12:00:00")
-        
-        let gregorian = NSCalendar(calendarIdentifier:NSCalendar.Identifier.gregorian)
-        let result = gregorian?.components(.second, from:now! , to: dateResult!, options: NSCalendar.Options.init(rawValue: 0)).second as! Int
-        
-        countdownTime = result//Int((taskInfoDic.value(forKey: "taskperiod") as! String))!*60 - result
         return view
     }()
     
@@ -135,7 +130,7 @@ class ScanCodeViewController: UIViewController {
     //接受生产时间
     lazy var acceptProduceTimeLabel:UILabel = {
         let tempLabel = UILabel.init(frame: CGRect(x: 15, y: dashSeperatorLine.frame.maxY + 12.5, width: kWidth - 30, height: 21))
-        tempLabel.text = "接受生产时间 2019-01-01 01:00:00"
+        tempLabel.text = "接受生产时间 2018-01-01 01:00:00"
         tempLabel.font = UIFont.systemFont(ofSize: 13)
         tempLabel.textAlignment = .left
         tempLabel.textColor = UIColor.titleColors(color: .lightGray)
@@ -144,7 +139,7 @@ class ScanCodeViewController: UIViewController {
     
     //收货地址
     lazy var shippingAddressAreaWhiteBoard:UIView = {
-        let view = UIView.init(frame: CGRect(x: 0, y: 258, width: kWidth, height: 182))
+        let view = UIView.init(frame: CGRect(x: 0, y: 188, width: kWidth, height: 182))
         view.backgroundColor = UIColor.backgroundColors(color: .white)
         
         let areaLabel:UILabel = UILabel.init(frame: CGRect(x: 15, y: 14, width: kWidth - 30, height: 21))
@@ -269,7 +264,7 @@ class ScanCodeViewController: UIViewController {
     
     //订购信息面板
     lazy var orderInfosAreaWhiteBoard:UIView = {
-        let view = UIView.init(frame: CGRect(x: 0, y: 444, width: kWidth, height: 183))
+        let view = UIView.init(frame: CGRect(x: 0, y: 374, width: kWidth, height: 183))
         view.backgroundColor = UIColor.backgroundColors(color: .white)
         
         let line1:UIView = UIView.init(frame: CGRect(x: 0, y: 120.5, width: kWidth, height: 0.5))
@@ -373,6 +368,32 @@ class ScanCodeViewController: UIViewController {
         return tempLabel
     }()
     
+    lazy var produceMemoAreaWhiteBoard:UIView = {
+        let view = UIView.init(frame: CGRect(x: 0, y: 562, width: kWidth, height: 183))
+        view.backgroundColor = UIColor.backgroundColors(color: .white)
+        
+        let title:UILabel = UILabel.init(frame: CGRect(x: 15, y: 16, width: kWidth - 30, height: 21))
+        title.text = "生产备注"
+        title.textAlignment = .left
+        title.textColor = UIColor.titleColors(color: .black)
+        title.font = UIFont.systemFont(ofSize: 15)
+        view.addSubview(title)
+        
+        produceMemoValue.frame = CGRect(x: 15, y: title.frame.maxY + 4, width: kWidth - 30, height: 36)
+        view.addSubview(produceMemoValue)
+        
+        return view
+    }()
+    
+    lazy var produceMemoValue:UILabel = {
+        let tempLabel = UILabel.init()
+        tempLabel.textColor = UIColor.titleColors(color: .gray)
+        tempLabel.textAlignment = .left
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        tempLabel.numberOfLines = 5
+        tempLabel.text = "生产的时候稍微细致一些，有些地方打磨平整一点，要求量不要太粗糙，还有就是凹凸感稍微重一点,高端一点…"
+        return tempLabel
+    }()
     
     lazy var closePopUpBtn:UIButton = {
         let button = UIButton.init(frame: CGRect(x: kWidth - 85, y: 25, width: 80, height: 21))
@@ -783,6 +804,245 @@ extension ScanCodeViewController: AVCaptureMetadataOutputObjectsDelegate {
         session.startRunning()
     }
     
+    func downloadOrderImages(){
+        DispatchQueue.global().async {
+            //订单详情信息
+            let dictionaryObjectInOrderArray = self.orderDetail
+            let orderaddinfos = dictionaryObjectInOrderArray[0]
+            
+            var noReferenceImageAvailable = false
+            //附件图片数目
+            var attachImageCount:Int = 0
+            //下载缩略图
+            if orderaddinfos.value(forKey: "smallGoodsImage") as? String != nil && orderaddinfos.value(forKey: "smallGoodsImage") as? String != "" {
+                let imageURLString = "\(self.downloadURLHeaderForThumbnail)\(orderaddinfos.value(forKey: "smallGoodsImage") as! String)"
+                let url = URL(string: imageURLString)!
+                do{
+                    let data = try Data.init(contentsOf: url)
+                    let oImage = UIImage.gif(data:data)
+                    let image = UIImage(data: compressionImage(with: oImage!) as Data)
+                    DispatchQueue.main.async {
+                        self.produceImageView.image = image
+                    }
+                    
+                }catch{
+                    print(error)
+                    //缩略图下载失败，下载原图
+                    let imageURLString = "\(self.downloadURLHeader)\(orderaddinfos.value(forKey: "initialGoodsImage") as! String)"
+                    let url = URL(string: imageURLString)!
+                    do{
+                        let data = try Data.init(contentsOf: url)
+                        let oImage = UIImage.gif(data:data)
+                        let image = UIImage(data: compressionImage(with: oImage!) as Data)
+                        DispatchQueue.main.async {
+                            self.produceImageView.image = image
+                        }
+                    }catch{
+                        print(error)
+                        DispatchQueue.main.async {
+                            self.produceImageView.image = UIImage(named:"defualt-design-pic")//  UIImage(image:image)
+                        }
+                        //原图也下载失败
+                    }
+                    print("无缩略图")
+                }
+            }else{
+                noReferenceImageAvailable = true
+                //所有图片都没有，显示默认图
+                DispatchQueue.main.async {
+                    self.produceImageView.image = UIImage(named:"defualt-design-pic")
+                }
+            }
+        }
+    }
+    func loadDataToTheWindows(){
+        //下载图片
+        downloadOrderImages()
+        
+        let orderInfoObjects = orderDetail[0] as! NSDictionary
+        
+        //获取系统参数数据
+        let productObjects = systemParam[0] as! NSDictionary
+
+        //订单号
+        orderIDLabel.text = "订单号 \(orderInfoObjects.value(forKey: "orderid") as! String)"
+        //订单时间
+        acceptProduceTimeLabel.text = "接受生产时间 \(orderInfoObjects.value(forKey: "produceTime") as! String)"
+        
+        //产品类型
+        let goodsClassObject = productObjects.value(forKey: "goodsClass") as! NSArray
+        let productType = findValue(key: "id", keyValue: orderInfoObjects.value(forKey: "goodsClass") as! String, In: goodsClassObject, By: "goodsClass")
+        // (goodsClassObject[Int(orderInfoObjects.value(forKey: "goodsClass") as! String)! - 1] as! NSDictionary).value(forKey: "goodsClass") as! String
+        goodsClassValue.text = productType//orderInfoObjects.value(forKey: "goodsclass") as? String
+        
+        //材质
+        let materailObject = productObjects.value(forKey: "material") as! NSArray
+        let materialType = findValue(key: "id", keyValue: orderInfoObjects.value(forKey: "material") as! String, In: materailObject, By: "material")
+        // (materailObject[Int(orderInfoObjects.value(forKey: "material") as! String)! - 1] as! NSDictionary).value(forKey: "material") as! String
+        
+        //附件
+        var accessoriesType = ""
+        let accessoriesObject = productObjects.value(forKey: "accessories") as! NSArray
+        if orderInfoObjects.value(forKey: "accessories") as? String == nil{//如果附件为空
+            accessoriesType = ""
+        }else{
+            accessoriesType = findValue(key: "id", keyValue: orderInfoObjects.value(forKey: "accessories") as! String, In: accessoriesObject, By: "accessories")
+            //(accessoriesObject[Int(orderInfoObjects.value(forKey: "accessories") as! String)! - 1] as! NSDictionary).value(forKey: "accessories") as! String
+            if accessoriesType == "无" {
+                accessoriesType = ""
+            }
+        }
+        //材质 + 附件
+        materailAndAccessoryValue.text = materialType + " " + accessoriesType
+        //订购数目
+        if orderInfoObjects.value(forKey: "number") as? Int != nil{
+            productAmountLabelValue.text = "\(orderInfoObjects.value(forKey: "number") as! Int)" //"1000"
+        }else{
+            productAmountLabelValue.text = "0"
+        }
+        
+        //设置工艺值
+        var tempMakeStyleValue = ""
+        //开模方式
+        let modelClassObject = productObjects.value(forKey: "model") as! NSArray
+        let modelString = orderInfoObjects.value(forKey: "model") as! String
+        var modelType = ""
+        let modelArray = modelString.split(separator: ",")
+        for item in modelArray{
+            //modelType += ",\((modelClassObject[Int(item)! - 1] as! NSDictionary).value(forKey: "model") as! String)"
+            modelType += ",\(findValue(key: "id", keyValue: String(item), In: modelClassObject, By: "model"))"
+        }
+        if modelType == ",无"{
+            modelType = ""
+        }else{
+            tempMakeStyleValue += modelType
+        }
+        
+        //工艺
+        let technologyClassObject = productObjects.value(forKey: "technology") as! NSArray
+        let technologyString = orderInfoObjects.value(forKey: "technology") as! String
+        var technologyType = ""
+        let technologyArray = technologyString.split(separator: ",")
+        for item in technologyArray{
+            technologyType += ",\(findValue(key: "id", keyValue: String(item), In: technologyClassObject, By: "technology"))"
+            //",\((technologyClassObject[Int(item)!  - 1] as! NSDictionary).value(forKey: "technology") as! String)"
+        }
+        if technologyType == ",无"{
+            technologyType = ""
+        }else{
+            if tempMakeStyleValue == ""{
+                tempMakeStyleValue += technologyType
+            }else{
+                tempMakeStyleValue += ";\(technologyType)"
+            }
+        }
+        
+        //电镀色
+        let colorClassObject = productObjects.value(forKey: "color") as! NSArray
+        let colorString = orderInfoObjects.value(forKey: "color") as! String
+        var colorType = ""
+        let colorArray = colorString.split(separator: ",")
+        for item in colorArray{
+            colorType += ",\(findValue(key: "id", keyValue: String(item), In: colorClassObject, By: "color"))"
+            //",\((colorClassObject[Int(item)! - 1] as! NSDictionary).value(forKey: "color") as! String)"
+        }
+        if colorType == ",无"{
+            colorType = ""
+        }else{
+            if tempMakeStyleValue == ""{
+                tempMakeStyleValue += colorType
+            }else{
+                tempMakeStyleValue += ";\(colorType)"
+            }
+        }
+        if tempMakeStyleValue != ""{
+            tempMakeStyleValue.remove(at: tempMakeStyleValue.startIndex) //删除掉开头的“，”
+            tempMakeStyleValue = tempMakeStyleValue.replacingOccurrences(of: ";,", with: ";") //将“;,替换为;
+        }
+        technologyValue.text = tempMakeStyleValue
+        let heightOfLabel = calculateLabelHeightWithText(with: tempMakeStyleValue, labelWidth: technologyValue.frame.width, textFont: technologyValue.font)
+        technologyValue.frame = CGRect(x: kWidth - 265, y: materailAndAccessoryValue.frame.maxY + 4, width: 250, height: heightOfLabel + 10)
+        
+        //产品尺寸
+        var produceSizeValue = ""
+        if orderInfoObjects.value(forKey: "length") as? NSNumber != nil {
+            let lengthString =  "\(orderInfoObjects.value(forKey: "length") as! NSNumber)"
+            if lengthString.contains("."){
+                produceSizeValue = produceSizeValue + "\(orderInfoObjects.value(forKey: "length")as! Double)"
+            }else{
+                produceSizeValue = produceSizeValue + "\(orderInfoObjects.value(forKey: "length")as! NSNumber)"
+            }
+        }else{
+            produceSizeValue = ""
+        }
+        
+        if orderInfoObjects.value(forKey: "width") as? NSNumber != nil {
+            let widthString =  "\(orderInfoObjects.value(forKey: "width") as! NSNumber)"
+            if widthString.contains("."){
+                produceSizeValue = produceSizeValue + "x\(orderInfoObjects.value(forKey: "width")as! Double)"
+            }else{
+                produceSizeValue = produceSizeValue + "x\(orderInfoObjects.value(forKey: "width")as! NSNumber)"
+            }
+            //produceSizeValue = produceSizeValue + "x\(orderInfoObjects.value(forKey: "width")as! NSNumber)"
+            
+        }else{
+            produceSizeValue = produceSizeValue + "x "
+        }
+        if orderInfoObjects.value(forKey: "height") as? NSNumber != nil {
+            
+            let heightString =  "\(orderInfoObjects.value(forKey: "height") as! NSNumber)"
+            if heightString.contains("."){
+                produceSizeValue = produceSizeValue + "x\(orderInfoObjects.value(forKey: "height")as! Double)"
+            }else{
+                produceSizeValue = produceSizeValue + "x\(orderInfoObjects.value(forKey: "height")as! NSNumber)"
+            }
+        }else{
+            produceSizeValue = produceSizeValue + "x "
+        }
+        productSizeLabelValue.text = produceSizeValue
+
+        if orderInfoObjects.value(forKey: "produceMemo") as? String != nil && orderInfoObjects.value(forKey: "produceMemo") as! String != ""{
+            let ProduceMemo = orderInfoObjects.value(forKey: "produceMemo") as! String
+            produceMemoValue.text = ProduceMemo
+            let heightOfProduceMemoLabel = calculateLabelHeightWithText(with: ProduceMemo, labelWidth: produceMemoValue.frame.width, textFont: UIFont.systemFont(ofSize: 14))
+            
+            let tempFrame = produceMemoValue.frame
+            produceMemoValue.frame = CGRect(x: 15, y: tempFrame.minY, width: kWidth - 30, height: heightOfProduceMemoLabel + 10)
+        }else{
+            produceMemoValue.text = "无备注信息"
+            produceMemoValue.textColor = UIColor.titleColors(color: .lightGray)
+        }
+        //任务截止时间
+        // 获取当前系统时间
+        
+        let date = Date()
+        let timeFormatter = DateFormatter()
+        timeFormatter.locale = Locale.current
+        timeFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
+        let strNowTime = timeFormatter.string(from: date) as String
+        
+        let now = timeFormatter.date(from: strNowTime)
+        //将创建任务时间转换为Date格式
+        
+        if orderInfoObjects.value(forKey: "workshopProduceDeadlineTime") as? String != nil && orderInfoObjects.value(forKey: "workshopProduceDeadlineTime") as? String != ""{
+            let deadline = orderInfoObjects.value(forKey: "workshopProduceDeadlineTime") as! String
+            let dateResult = timeFormatter.date(from: deadline)
+            
+            let gregorian = NSCalendar(calendarIdentifier:NSCalendar.Identifier.gregorian)
+            let result = gregorian?.components(.second, from:now! , to: dateResult!, options: NSCalendar.Options.init(rawValue: 0)).second as! Int
+            
+            countdownTime = result//Int((taskInfoDic.value(forKey: "taskperiod") as! String))!*60 - result
+            
+            //倒计时开始计时
+            self.timeEventsOfCountDown() // 设置timer前先执行一次
+            self.timer = Timer.scheduledTimer(timeInterval: 60.0, target: self, selector: #selector(self.timeEventsOfCountDown), userInfo: nil, repeats: true)
+        }else{
+            self.remainTimeCountdownLabel.text = "--"
+        }
+        
+    }
+    
     func getOrderDetails(CustomID:String){
         //获取列表
         let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
@@ -828,10 +1088,8 @@ extension ScanCodeViewController: AVCaptureMetadataOutputObjectsDelegate {
                                 if produceStatus == 3 && (userinfo.value(forKey: "roletype") as! String) == "3"{
                                     // 如果订单处于生产中，则显示生产单详情弹窗
                                     self.view.addSubview(self.scanPopUpWindows)
+                                    self.loadDataToTheWindows()
                                     
-                                    //倒计时开始计时
-                                    self.timeEventsOfCountDown() // 设置timer前先执行一次
-                                    self.timer = Timer.scheduledTimer(timeInterval: 60.0, target: self, selector: #selector(self.timeEventsOfCountDown), userInfo: nil, repeats: true)
                                     print("处于生产中")
                                 }else{
                                     //如果不是，就执行搜索
