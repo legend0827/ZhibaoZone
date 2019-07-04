@@ -32,6 +32,8 @@ class ScanCodeViewController: UIViewController {
     //弹窗ViewVC
     var popupVC = PopupViewController()
     
+    var theAddressToPaste:[String] = []
+    
     //扫描订单的弹窗
     lazy var scanPopUpWindows:UIView = {
         let tempView = UIView.init(frame: CGRect(x: 0, y: 46 + heightChangeForiPhoneXFromTop, width: kWidth, height: kHight - 46 - heightChangeForiPhoneXFromTop))
@@ -40,7 +42,7 @@ class ScanCodeViewController: UIViewController {
         title.text = "扫描订单"
         title.font = UIFont.systemFont(ofSize: 17)
         title.textAlignment = .center
-        
+        tempView.isUserInteractionEnabled = true
         
         tempView.addSubview(title)
         tempView.addSubview(scrollView)
@@ -51,18 +53,31 @@ class ScanCodeViewController: UIViewController {
         scrollView.addSubview(produceMemoAreaWhiteBoard)
         
         scrollView.scrollsToTop = true
-        tempView.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
+        tempView.backgroundColor = UIColor.lineColors(color: .grayLevel3)
         tempView.addSubview(closePopUpBtn)
         
         //获取System Parameter信息
         systemParam = getSystemParasFromPlist()
+        
+        //下载图片链接地址
+        let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
+        let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
+        let resourcesDownloadLinks:NSDictionary = data.value(forKey: "resourcesDownloadLinks") as! NSDictionary
+        #if DEBUG
+        downloadURLHeader = resourcesDownloadLinks.value(forKey: "imagesDownloadLinksDebug") as! String
+        downloadURLHeaderForThumbnail = resourcesDownloadLinks.value(forKey: "imagesDownloadLinksThumbnailDebug") as! String
+        #else
+        downloadURLHeader = resourcesDownloadLinks.value(forKey: "imagesDownloadLinks") as! String
+        downloadURLHeaderForThumbnail = resourcesDownloadLinks.value(forKey: "imagesDownloadLinksThumbnail") as! String
+        #endif
+        
         return tempView
     }()
     
     lazy var scrollView:UIScrollView = {
         let tempScrollView:UIScrollView = UIScrollView.init(frame: CGRect(x: 0, y: 70, width: kWidth, height: kHight - 46 - heightChangeForiPhoneXFromTop - heightChangeForiPhoneXFromBottom - 70))
         tempScrollView.contentSize = CGSize(width: kWidth, height: 740)
-        
+        tempScrollView.isUserInteractionEnabled = true
         return tempScrollView
     }()
     
@@ -148,6 +163,9 @@ class ScanCodeViewController: UIViewController {
         areaLabel.textAlignment = .left
         areaLabel.text = "收货地址"
         view.addSubview(areaLabel)
+        view.isUserInteractionEnabled = true
+        
+        view.addSubview(oneKeyCopyBtn)
         
         let line1:UIView = UIView.init(frame: CGRect(x: 0, y: 53.5, width: kWidth, height: 0.5))
         line1.backgroundColor = UIColor.lineColors(color: .grayLevel3)
@@ -443,6 +461,14 @@ class ScanCodeViewController: UIViewController {
         return tempButton
     }()
     
+    lazy var oneKeyCopyBtn:UIButton = {
+        let button = UIButton.init(frame: CGRect(x: 85, y: 17, width: 100, height: 16))
+        let image:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: 17, height: 16))
+        image.image = UIImage(named: "copyiconimg")
+        button.addSubview(image)
+        button.addTarget(self, action: #selector(copyAddressBtnClicked), for: .touchUpInside)
+        return button
+    }()
     let scancodeBackImage:UIImageView = UIImageView.init(frame: CGRect(x: 0, y: 64, width: kWidth, height: kWidth))
     let noticeLabel:UILabel = UILabel.init(frame: CGRect(x: 0, y: 9, width: 225, height: 20))
     let scanlineImg:UIImageView = UIImageView.init(frame: CGRect(x: kWidth/10, y: 104, width: kWidth/10*8, height: 4))
@@ -507,6 +533,11 @@ class ScanCodeViewController: UIViewController {
                     ,Int(countdownTime)/60%60)
             }
         }
+    }
+    
+    @objc func copyAddressBtnClicked(){
+        UIPasteboard.general.strings = theAddressToPaste
+        greyLayerPrompt.show(text: "收货地址复制成功")
     }
     
     @objc func timeEventsOfCountDown(){
@@ -1012,7 +1043,27 @@ extension ScanCodeViewController: AVCaptureMetadataOutputObjectsDelegate {
             produceMemoValue.text = "无备注信息"
             produceMemoValue.textColor = UIColor.titleColors(color: .lightGray)
         }
-        //任务截止时间
+        
+        //收货地址填充
+        let reciver = orderInfoObjects.value(forKey: "name") as! String
+        let mobilePhone = orderInfoObjects.value(forKey: "mobilephone") as! String
+        let country = orderInfoObjects.value(forKey: "country") as! String
+        let province = orderInfoObjects.value(forKey: "province") as! String
+        let city = orderInfoObjects.value(forKey: "city") as! String
+        let district = orderInfoObjects.value(forKey: "county") as! String
+        let detailAddress = orderInfoObjects.value(forKey: "detailAddress") as! String
+        
+        contactLabelValue.text = reciver
+        mobilePhoneLabelValue.text = mobilePhone
+        mainAreaLabelValue.text = province + " " + city + " " + district
+        detailAreaLabelValue.text = detailAddress
+        
+        theAddressToPaste = ["收货人：\(reciver)\n",
+                                        "手机号码：\(mobilePhone)\n",
+                                        "所在地区：\(province + city + district)\n",
+                                        "详细地址： \(detailAddress)"
+        ]
+        //剩余发货时间
         // 获取当前系统时间
         
         let date = Date()
