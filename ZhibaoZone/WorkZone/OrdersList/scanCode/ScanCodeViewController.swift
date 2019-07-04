@@ -8,10 +8,157 @@
 
 import UIKit
 import AVFoundation
+import Alamofire
+
 class ScanCodeViewController: UIViewController {
     var _scanType:scanCodeActionType = .qrCode
     var ActionViewObject = ActionViewInOrder()
     
+    var _token = ""
+    var _CustomID = ""
+    
+    //订单详情：
+    var orderDetail:[AnyObject] = []
+    //订单设计稿：
+    var orderDesignPartten:[NSDictionary] = []
+    //订单留言：
+    var orderMessages:[NSDictionary] = []
+    //系统配置项目Dict
+    var systemParam:[AnyObject] = []
+    //附件图片下载地址
+    var downloadURLHeader = ""
+    var downloadURLHeaderForThumbnail = ""
+    
+    //弹窗ViewVC
+    var popupVC = PopupViewController()
+    
+    //扫描订单的弹窗
+    lazy var scanPopUpWindows:UIView = {
+        let tempView = UIView.init(frame: CGRect(x: 0, y: 46 + heightChangeForiPhoneXFromTop, width: kWidth, height: kHight - 46 - heightChangeForiPhoneXFromTop))
+        
+        let title:UILabel = UILabel.init(frame: CGRect(x: 20, y: 23, width: kWidth - 20, height: 24))
+        title.text = "扫描订单"
+        title.font = UIFont.systemFont(ofSize: 17)
+        title.textAlignment = .center
+        
+        tempView.addSubview(title)
+        tempView.addSubview(remainProduceTimeWhiteBoard)
+        
+        
+        tempView.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
+        tempView.addSubview(closePopUpBtn)
+        
+        return tempView
+    }()
+    
+    //剩余发货时间面板
+    lazy var remainProduceTimeWhiteBoard:UIView = {
+        let view:UIView = UIView.init(frame: CGRect(x: 0, y: 70, width: kWidth, height: 183))
+        view.backgroundColor = UIColor.backgroundColors(color: .white)
+        
+        view.addSubview(orderIDLabel)
+        view.addSubview(dashSeperatorLine)
+        view.addSubview(acceptProduceTimeLabel)
+        
+        let remainTimeLabel = UILabel.init(frame: CGRect(x: 20, y: 53, width: kWidth - 40, height: 24))
+        remainTimeLabel.textColor = UIColor.titleColors(color: .black)
+        remainTimeLabel.text = "剩余发货时间"
+        remainTimeLabel.font = UIFont.systemFont(ofSize: 17)
+        remainTimeLabel.textAlignment = .center
+        view.addSubview(remainTimeLabel)
+        
+        view.addSubview(remainTimeCountdownLabel)
+        
+        //任务截止时间
+        // 获取当前系统时间
+        
+        let date = Date()
+        let timeFormatter = DateFormatter()
+        timeFormatter.locale = Locale.current
+        timeFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
+        let strNowTime = timeFormatter.string(from: date) as String
+        
+        let now = timeFormatter.date(from: strNowTime)
+        //将创建任务时间转换为Date格式
+        let dateResult = timeFormatter.date(from: "2019-07-05 12:00:00")
+        
+        let gregorian = NSCalendar(calendarIdentifier:NSCalendar.Identifier.gregorian)
+        let result = gregorian?.components(.second, from:now! , to: dateResult!, options: NSCalendar.Options.init(rawValue: 0)).second as! Int
+        
+        countdownTime = result//Int((taskInfoDic.value(forKey: "taskperiod") as! String))!*60 - result
+        return view
+    }()
+    
+    //订单号
+    lazy var orderIDLabel:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: 15, y: 12, width: kWidth - 30, height: 21))
+        tempLabel.text = "订单号 000000000000000"
+        tempLabel.font = UIFont.systemFont(ofSize: 15)
+        tempLabel.textAlignment = .left
+        return tempLabel
+    }()
+    
+    lazy var dashSeperatorLine:UIImageView = {
+        let view = UIImageView.init(frame: CGRect(x: 0, y: 140.5, width: kWidth, height: 0.5))
+        view.image = UIImage(named: "dashlineimg")
+        return view
+    }()
+    
+    lazy var remainTimeCountdownLabel:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: 20, y: 81, width: kWidth - 40, height: 39))
+        tempLabel.font = UIFont.systemFont(ofSize: 32)
+        tempLabel.textAlignment = .center
+        tempLabel.textColor = UIColor.titleColors(color: .lightOrange)
+        
+        let orignalText = NSMutableAttributedString(string: "--天--时--分")
+        //天
+        let range1 = orignalText.string.range(of: "天")
+        let nsRange1 = orignalText.string.nsRange(from: range1!)
+        orignalText.addAttributes([NSAttributedStringKey.font:UIFont.systemFont(ofSize: 16)], range: nsRange1)
+        //self.remainTimeCountdownLabel.attributedText = orignalText
+        //时
+        let range2 = orignalText.string.range(of: "时")
+        let nsRange2 = orignalText.string.nsRange(from: range2!)
+        orignalText.addAttributes([NSAttributedStringKey.font:UIFont.systemFont(ofSize: 16)], range: nsRange2)
+        //self.remainTimeCountdownLabel.attributedText = orignalText
+        //分
+        let range3 = orignalText.string.range(of: "分")
+        let nsRange3 = orignalText.string.nsRange(from: range3!)
+        orignalText.addAttributes([NSAttributedStringKey.font:UIFont.systemFont(ofSize: 16)], range: nsRange3)
+        tempLabel.attributedText = orignalText
+        
+        return tempLabel
+    }()
+    
+    //接受生产时间
+    lazy var acceptProduceTimeLabel:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: 15, y: dashSeperatorLine.frame.maxY + 12.5, width: kWidth - 30, height: 21))
+        tempLabel.text = "接受生产时间 2019-01-01 01:00:00"
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        tempLabel.textAlignment = .left
+        tempLabel.textColor = UIColor.titleColors(color: .lightGray)
+        return tempLabel
+    }()
+    
+    //售后地址
+    lazy var shippingAddressArea:UIView = {
+        let tempLabel = UILabel.init(frame: CGRect(x: 15, y: 12, width: 100, height: 21))
+        tempLabel.text = "接受生产时间 2019-01-01 01:00:00"
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        tempLabel.textAlignment = .left
+        tempLabel.textColor = UIColor.titleColors(color: .lightGray)
+        return tempLabel
+    }()
+    
+    lazy var closePopUpBtn:UIButton = {
+        let button = UIButton.init(frame: CGRect(x: kWidth - 85, y: 25, width: 80, height: 21))
+        button.setTitle("取消", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        button.setTitleColor(UIColor.titleColors(color: .darkGray), for: .normal)
+        button.addTarget(self, action: #selector(closePopupBtnClicked), for: .touchUpInside)
+        return button
+    }()
     var orderVCObject = OrdersViewController()
     let titleLabel = UILabel(frame: CGRect(x:0,y:0,width:50,height:60))
     
@@ -97,6 +244,50 @@ class ScanCodeViewController: UIViewController {
         layer.videoGravity = AVLayerVideoGravity.resizeAspectFill
         return layer
     }()
+    
+    //倒计时
+    var timer:Timer!
+    var countdownTime:Int = 0
+    
+    var currentTimeString:String {
+        get {
+            if countdownTime <= 0 {
+                
+                return String(format:"%02d天%02d时%02d分",Int(countdownTime)/86400,Int(countdownTime%86400)/3600
+                    ,Int(countdownTime)/60%60)
+                
+            } else {
+                
+                
+                return String(format:"%02d天%02d时%02d分",Int(countdownTime)/86400,Int(countdownTime%86400)/3600
+                    ,Int(countdownTime)/60%60)
+            }
+        }
+    }
+    
+    @objc func timeEventsOfCountDown(){
+        DispatchQueue.main.async {
+            self.countdownTime = self.countdownTime - 60
+            
+            let orignalText = NSMutableAttributedString(string: self.currentTimeString)
+            //天
+            let range1 = orignalText.string.range(of: "天")
+            let nsRange1 = orignalText.string.nsRange(from: range1!)
+            orignalText.addAttributes([NSAttributedStringKey.font:UIFont.systemFont(ofSize: 16)], range: nsRange1)
+            //self.remainTimeCountdownLabel.attributedText = orignalText
+            //时
+            let range2 = orignalText.string.range(of: "时")
+            let nsRange2 = orignalText.string.nsRange(from: range2!)
+            orignalText.addAttributes([NSAttributedStringKey.font:UIFont.systemFont(ofSize: 16)], range: nsRange2)
+            //self.remainTimeCountdownLabel.attributedText = orignalText
+            //分
+            let range3 = orignalText.string.range(of: "分")
+            let nsRange3 = orignalText.string.nsRange(from: range3!)
+            orignalText.addAttributes([NSAttributedStringKey.font:UIFont.systemFont(ofSize: 16)], range: nsRange3)
+            self.remainTimeCountdownLabel.attributedText = orignalText
+        }
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .clear))
         setStatusBarHiden(toHidden: false, ViewController: self)
@@ -332,15 +523,9 @@ extension ScanCodeViewController: AVCaptureMetadataOutputObjectsDelegate {
                         self.dismiss(animated: true, completion: nil)
                     }else{
                         //获取非链接结果
-                        let userinfo = getCurrentUserInfo()
-                        let searchVC = OrderSearchViewController(searchModel: .orderidOnly, roleType: Int(userinfo.value(forKey: "roletype") as! String) as! Int)
-                        searchVC.searchBar.text = (object as AnyObject).stringValue
-                        searchVC.tabbarObject = orderVCObject._tabBarVC
-                        self.present(searchVC, animated: true) {
-                            searchVC.searchBar.resignFirstResponder()
-                        }
-                        
-//
+                        _CustomID = string + "1"
+                        self.getOrderDetails(CustomID: _CustomID)
+
 //
                       //  self.dismiss(animated: true, completion: nil)
 //                        self.dismiss(animated: true) {
@@ -362,9 +547,102 @@ extension ScanCodeViewController: AVCaptureMetadataOutputObjectsDelegate {
                 }
             }
         }
+        
+        
         // print(metadataObjects.last?.stringValue)
         //获取扫描结果
         //注意是: stringValue
        
+    }
+    
+    @objc func closePopupBtnClicked(){
+        self.scanPopUpWindows.removeFromSuperview()
+        session.startRunning()
+    }
+    
+    func getOrderDetails(CustomID:String){
+        //获取列表
+        let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
+        let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
+        let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
+        #if DEBUG
+        let newTaskUpdateURL:String = apiAddresses.value(forKey: "orderDetailsDebug") as! String
+        #else
+        let newTaskUpdateURL:String = apiAddresses.value(forKey: "orderDetails") as! String
+        #endif
+        
+        let userinfo = getCurrentUserInfo()
+        _token = userinfo.value(forKey: "token") as! String
+        
+        //定义请求参数
+        let params:NSMutableDictionary = NSMutableDictionary()
+        var header:HTTPHeaders = NSMutableDictionary() as! HTTPHeaders
+        params["customId"] =  CustomID
+        header["token"] = _token// token
+        
+        _ = Alamofire.request(newTaskUpdateURL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseJSON{
+            (responseObject) in
+            switch responseObject.result.isSuccess{
+            case true:
+                if  let value = responseObject.result.value{
+                    let json = JSON(value)
+                    do {
+                        let statusCode = try json["code"].int!
+                        if statusCode == 200{
+                            print("获取订单详情成功")
+                            self.orderDetail.removeAll()
+                            let ordersummaryItem = json["data"].dictionaryObject! as NSDictionary
+                            let designinfoItem = json["data","designInfo"].arrayObject! as NSArray
+                            self.orderDetail.append(ordersummaryItem)
+                            self.orderDetail.append(designinfoItem)
+                            //获取成功数据了，刷新UI
+                            let orderInfoObjects = self.orderDetail[0] as! NSDictionary
+                            let produceStatus:Int = orderInfoObjects.value(forKey: "produceStatus") as! Int
+
+                            DispatchQueue.main.async {
+                                //显示页面
+                                
+                                if produceStatus == 3 && (userinfo.value(forKey: "roletype") as! String) == "3"{
+                                    // 如果订单处于生产中，则显示生产单详情弹窗
+                                    self.view.addSubview(self.scanPopUpWindows)
+                                    
+                                    //倒计时开始计时
+                                    self.timeEventsOfCountDown() // 设置timer前先执行一次
+                                    self.timer = Timer.scheduledTimer(timeInterval: 60.0, target: self, selector: #selector(self.timeEventsOfCountDown), userInfo: nil, repeats: true)
+                                    print("处于生产中")
+                                }else{
+                                    //如果不是，就执行搜索
+                                    //如果订单不在生产中,进入订单搜索功能
+                                    let searchVC = OrderSearchViewController(searchModel: .orderidOnly, roleType: Int(userinfo.value(forKey: "roletype") as! String) as! Int)
+                                    searchVC.searchBar.text = "\(self._CustomID.removeLast())"
+                                    searchVC.tabbarObject = self.orderVCObject._tabBarVC
+                                    self.present(searchVC, animated: true) {
+                                        searchVC.searchBar.resignFirstResponder()
+                                    }
+                                }
+                            }
+                        }else if statusCode == 99999 || statusCode == 99998{
+                            //异常
+                            autoLogin(viewControler: self.popupVC)
+                            //greyLayerPrompt.show(text: "登录已失效,请重新登录")
+                            //LogoutMission(viewControler: self.popupVC)
+                        }else{
+                            print("获取失败，code:\(statusCode)")
+                            let errorMsg = json["message"].string!
+                            greyLayerPrompt.show(text: "获取订单详情失败,\(errorMsg)")
+                        }
+                    } catch {
+                        // Replace this implementation with code to handle the error appropriately.
+                        // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                        greyLayerPrompt.show(text: "程序错误. Code:1")
+                    }
+                    
+                    
+                }
+            case false:
+                greyLayerPrompt.show(text: "服务器异常，获取订单信息失败")
+                print("get order detail failed")
+            }
+        }
     }
 }
