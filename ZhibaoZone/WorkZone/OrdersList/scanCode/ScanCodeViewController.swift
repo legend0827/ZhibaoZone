@@ -16,6 +16,7 @@ class ScanCodeViewController: UIViewController {
     
     var _token = ""
     var _CustomID = ""
+    var _OrderId = ""
     
     //订单详情：
     var orderDetail:[AnyObject] = []
@@ -34,6 +35,7 @@ class ScanCodeViewController: UIViewController {
     
     var theAddressToPaste:[String] = []
     
+   // lazy var allOrderVC = AllOrdersViewController(orderlistType: orderListCategoryType.allOrderCategory)
     //扫描订单的弹窗
     lazy var scanPopUpWindows:UIView = {
         let tempView = UIView.init(frame: CGRect(x: 0, y: 46 + heightChangeForiPhoneXFromTop, width: kWidth, height: kHight - 46 - heightChangeForiPhoneXFromTop))
@@ -71,7 +73,26 @@ class ScanCodeViewController: UIViewController {
         downloadURLHeaderForThumbnail = resourcesDownloadLinks.value(forKey: "imagesDownloadLinksThumbnail") as! String
         #endif
         
+        uploadDeliveryBtn.frame = CGRect(x: 0, y: tempView.frame.height - 56 - heightChangeForiPhoneXFromBottom, width: kWidth, height: 56 + heightChangeForiPhoneXFromBottom)
+        tempView.addSubview(uploadDeliveryBtn)
+        
+        
         return tempView
+    }()
+    
+    lazy var uploadDeliveryBtn:UIButton = {
+        let button = UIButton.init()
+        // quotePriceSubmitBtn.backgroundColor = UIColor.iconColors(color: .red)
+        button.backgroundColor = UIColor.gray
+        let title:UILabel = UILabel.init(frame: CGRect(x: 15, y: 18, width: kWidth - 30, height: 24))
+        title.text = "订单发货"
+        title.font = UIFont.systemFont(ofSize: 17)
+        title.textAlignment = .center
+        title.textColor = UIColor.titleColors(color: .white)
+        button.addSubview(title)
+        button.backgroundColor = UIColor.backgroundColors(color: .lightOrange)
+        button.addTarget(self, action: #selector(uploadShippingInfoBtnClicked), for: .touchUpInside)
+        return button
     }()
     
     lazy var scrollView:UIScrollView = {
@@ -534,6 +555,31 @@ class ScanCodeViewController: UIViewController {
             }
         }
     }
+    @objc func uploadShippingInfoBtnClicked(){
+        print("订单发货按钮点击了")
+        
+        let shippingView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 303 + heightChangeForiPhoneXFromTop, width: kWidth, height: kHight))
+        
+        
+        let popVC = PopupViewController()
+        popVC.view.backgroundColor = UIColor.clear
+        popVC.view.addSubview(showBlurEffect()) //UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
+        popVC.view.addSubview(popVC.grayLayer)
+        popVC.modalPresentationCapturesStatusBarAppearance = true
+        shippingView.popupVC = popVC
+        shippingView._orderID = _OrderId
+        shippingView._customID = _CustomID
+       // shippingView.allOrderVC = allOrderVC
+        
+        
+        shippingView.googsImge = produceImageView.image!
+        
+        shippingView.createViewWithActionType(ActionType: .shippingProduct)
+        popVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext //
+        popVC.view.addSubview(shippingView)
+        
+        self.present(popVC, animated: true, completion: nil)
+    }
     
     @objc func copyAddressBtnClicked(){
         UIPasteboard.general.strings = theAddressToPaste
@@ -799,6 +845,7 @@ extension ScanCodeViewController: AVCaptureMetadataOutputObjectsDelegate {
                     }else{
                         //获取非链接结果
                         _CustomID = string + "1"
+                        _OrderId = string
                         self.getOrderDetails(CustomID: _CustomID)
 
 //
@@ -1124,49 +1171,68 @@ extension ScanCodeViewController: AVCaptureMetadataOutputObjectsDelegate {
                         let statusCode = try json["code"].int!
                         if statusCode == 200{
                             print("获取订单详情成功")
-                            self.orderDetail.removeAll()
+                            
                             let ordersummaryItem = json["data"].dictionaryObject! as NSDictionary
-                            let designinfoItem = json["data","designInfo"].arrayObject! as NSArray
-                            self.orderDetail.append(ordersummaryItem)
-                            self.orderDetail.append(designinfoItem)
-                            //获取成功数据了，刷新UI
-                            let orderInfoObjects = self.orderDetail[0] as! NSDictionary
-                            let produceStatus:Int = orderInfoObjects.value(forKey: "produceStatus") as! Int
-
-                            DispatchQueue.main.async {
-                                //显示页面
+                            let orderid =  ordersummaryItem.value(forKey: "orderid") as? String
+                            
+                            if orderid != "" && orderid != nil{
+                                self.orderDetail.removeAll()
+                                self.orderDetail.append(ordersummaryItem)
+                                //获取成功数据了，刷新UI
+                                let orderInfoObjects = self.orderDetail[0] as! NSDictionary
+                                let produceStatus:Int = orderInfoObjects.value(forKey: "produceStatus") as! Int
                                 
-                                if produceStatus == 3 && (userinfo.value(forKey: "roletype") as! String) == "3"{
-                                    // 如果订单处于生产中，则显示生产单详情弹窗
-                                    self.view.addSubview(self.scanPopUpWindows)
-                                    self.loadDataToTheWindows()
+                                DispatchQueue.main.async {
+                                    //显示页面
                                     
-                                    print("处于生产中")
-                                }else{
-                                    //如果不是，就执行搜索
-                                    //如果订单不在生产中,进入订单搜索功能
-                                    let searchVC = OrderSearchViewController(searchModel: .orderidOnly, roleType: Int(userinfo.value(forKey: "roletype") as! String) as! Int)
-                                    searchVC.searchBar.text = "\(self._CustomID.removeLast())"
-                                    searchVC.tabbarObject = self.orderVCObject._tabBarVC
-                                    self.present(searchVC, animated: true) {
-                                        searchVC.searchBar.resignFirstResponder()
+                                    if produceStatus == 3 && (userinfo.value(forKey: "roletype") as! String) == "3"{
+                                        // 如果订单处于生产中，则显示生产单详情弹窗
+                                        self.view.addSubview(self.scanPopUpWindows)
+                                        self.loadDataToTheWindows()
+                                        
+                                        print("处于生产中")
+                                    }else{
+                                        //如果不是，就执行搜索
+                                        //如果订单不在生产中,进入订单搜索功能
+                                        let searchVC = OrderSearchViewController(searchModel: .orderidOnly, roleType: Int(userinfo.value(forKey: "roletype") as! String) as! Int)
+                                        searchVC.searchBar.text = self._OrderId
+                                        searchVC.tabbarObject = self.orderVCObject._tabBarVC
+                                        self.present(searchVC, animated: true) {
+                                            searchVC.searchBar.resignFirstResponder()
+                                        }
                                     }
                                 }
+                            }else{
+                                let searchVC = OrderSearchViewController(searchModel: .orderidOnly, roleType: Int(userinfo.value(forKey: "roletype") as! String) as! Int)
+                                searchVC.searchBar.text = self._OrderId
+                                searchVC.tabbarObject = self.orderVCObject._tabBarVC
+                                self.present(searchVC, animated: true) {
+                                    searchVC.searchBar.resignFirstResponder()
+                                }
                             }
+                            
                         }else if statusCode == 99999 || statusCode == 99998{
                             //异常
                             autoLogin(viewControler: self.popupVC)
                             //greyLayerPrompt.show(text: "登录已失效,请重新登录")
                             //LogoutMission(viewControler: self.popupVC)
                         }else{
-                            print("获取失败，code:\(statusCode)")
-                            let errorMsg = json["message"].string!
-                            greyLayerPrompt.show(text: "获取订单详情失败,\(errorMsg)")
+                            let searchVC = OrderSearchViewController(searchModel: .orderidOnly, roleType: Int(userinfo.value(forKey: "roletype") as! String) as! Int)
+                            searchVC.searchBar.text = self._OrderId
+                            searchVC.tabbarObject = self.orderVCObject._tabBarVC
+                            self.present(searchVC, animated: true) {
+                                searchVC.searchBar.resignFirstResponder()
+                            }
                         }
                     } catch {
                         // Replace this implementation with code to handle the error appropriately.
                         // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                        greyLayerPrompt.show(text: "程序错误. Code:1")
+                        let searchVC = OrderSearchViewController(searchModel: .orderidOnly, roleType: Int(userinfo.value(forKey: "roletype") as! String) as! Int)
+                        searchVC.searchBar.text = "\(self._CustomID.removeLast())"
+                        searchVC.tabbarObject = self.orderVCObject._tabBarVC
+                        self.present(searchVC, animated: true) {
+                            searchVC.searchBar.resignFirstResponder()
+                        }
                     }
                     
                     
