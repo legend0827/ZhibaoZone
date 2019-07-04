@@ -43,7 +43,8 @@ class ScanCodeViewController: UIViewController {
         
         tempView.addSubview(title)
         tempView.addSubview(remainProduceTimeWhiteBoard)
-        
+        tempView.addSubview(shippingAddressAreaWhiteBoard)
+        tempView.addSubview(orderInfosAreaWhiteBoard)
         
         tempView.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
         tempView.addSubview(closePopUpBtn)
@@ -141,15 +142,237 @@ class ScanCodeViewController: UIViewController {
         return tempLabel
     }()
     
-    //售后地址
-    lazy var shippingAddressArea:UIView = {
-        let tempLabel = UILabel.init(frame: CGRect(x: 15, y: 12, width: 100, height: 21))
-        tempLabel.text = "接受生产时间 2019-01-01 01:00:00"
+    //收货地址
+    lazy var shippingAddressAreaWhiteBoard:UIView = {
+        let view = UIView.init(frame: CGRect(x: 0, y: 258, width: kWidth, height: 182))
+        view.backgroundColor = UIColor.backgroundColors(color: .white)
+        
+        let areaLabel:UILabel = UILabel.init(frame: CGRect(x: 15, y: 14, width: kWidth - 30, height: 21))
+        areaLabel.font = UIFont.systemFont(ofSize: 15)
+        areaLabel.textColor = UIColor.titleColors(color: .black)
+        areaLabel.textAlignment = .left
+        areaLabel.text = "收货地址"
+        view.addSubview(areaLabel)
+        
+        let line1:UIView = UIView.init(frame: CGRect(x: 0, y: 53.5, width: kWidth, height: 0.5))
+        line1.backgroundColor = UIColor.lineColors(color: .grayLevel3)
+        view.addSubview(line1)
+        
+        //联系人
+        let contactLabel:UILabel = UILabel.init(frame: CGRect(x: 15, y: line1.frame.maxY + 12, width: kWidth - 30, height: 18))
+        contactLabel.font = UIFont.systemFont(ofSize: 13)
+        contactLabel.textColor = UIColor.titleColors(color: .gray)
+        contactLabel.textAlignment = .left
+        contactLabel.text = "联系人"
+        view.addSubview(contactLabel)
+        
+        //联系方式
+        let mobilePhoneLabel:UILabel = UILabel.init(frame: CGRect(x: 15, y: contactLabel.frame.maxY + 4, width: kWidth - 30, height: 18))
+        mobilePhoneLabel.font = UIFont.systemFont(ofSize: 13)
+        mobilePhoneLabel.textColor = UIColor.titleColors(color: .gray)
+        mobilePhoneLabel.textAlignment = .left
+        mobilePhoneLabel.text = "联系方式"
+        view.addSubview(mobilePhoneLabel)
+        
+        //邮编
+        let postCodeLabel:UILabel = UILabel.init(frame: CGRect(x: 15, y: mobilePhoneLabel.frame.maxY + 4, width: kWidth - 30, height: 18))
+        postCodeLabel.font = UIFont.systemFont(ofSize: 13)
+        postCodeLabel.textColor = UIColor.titleColors(color: .gray)
+        postCodeLabel.textAlignment = .left
+        postCodeLabel.text = "邮编"
+        view.addSubview(postCodeLabel)
+        
+        //所在地区
+        let mainAreaLabel:UILabel = UILabel.init(frame: CGRect(x: 15, y: postCodeLabel.frame.maxY + 4, width: kWidth - 30, height: 18))
+        mainAreaLabel.font = UIFont.systemFont(ofSize: 13)
+        mainAreaLabel.textColor = UIColor.titleColors(color: .gray)
+        mainAreaLabel.textAlignment = .left
+        mainAreaLabel.text = "所在地区"
+        view.addSubview(mainAreaLabel)
+        
+        //详细地址
+        let detailAreaLabel:UILabel = UILabel.init(frame: CGRect(x: 15, y: mainAreaLabel.frame.maxY + 4, width: kWidth - 30, height: 18))
+        detailAreaLabel.font = UIFont.systemFont(ofSize: 13)
+        detailAreaLabel.textColor = UIColor.titleColors(color: .gray)
+        detailAreaLabel.textAlignment = .left
+        detailAreaLabel.text = "详细地址"
+        view.addSubview(detailAreaLabel)
+        
+        contactLabelValue.frame = contactLabel.frame
+        view.addSubview(contactLabelValue)
+        
+        mobilePhoneLabelValue.frame = mobilePhoneLabel.frame
+        view.addSubview(mobilePhoneLabelValue)
+        
+        postCodeLabelValue.frame = postCodeLabel.frame
+        view.addSubview(postCodeLabelValue)
+        
+        mainAreaLabelValue.frame = mainAreaLabel.frame
+        view.addSubview(mainAreaLabelValue)
+        
+        detailAreaLabelValue.frame = detailAreaLabel.frame
+        view.addSubview(detailAreaLabelValue)
+        
+        return view
+    }()
+    
+    
+    //收件人值
+    lazy var contactLabelValue:UILabel = {
+        let tempLabel = UILabel.init()
         tempLabel.font = UIFont.systemFont(ofSize: 13)
-        tempLabel.textAlignment = .left
-        tempLabel.textColor = UIColor.titleColors(color: .lightGray)
+        tempLabel.textColor = UIColor.titleColors(color: .gray)
+        tempLabel.textAlignment = .right
+        tempLabel.text = "王雅雅"
         return tempLabel
     }()
+    
+    //联系方式
+    lazy var mobilePhoneLabelValue:UILabel = {
+        let tempLabel = UILabel.init()
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        tempLabel.textColor = UIColor.titleColors(color: .gray)
+        tempLabel.textAlignment = .right
+        tempLabel.text = "+86 - 13800138000"
+        return tempLabel
+    }()
+    
+    //邮编
+    lazy var postCodeLabelValue:UILabel = {
+        let tempLabel = UILabel.init()
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        tempLabel.textColor = UIColor.titleColors(color: .gray)
+        tempLabel.textAlignment = .right
+        tempLabel.text = "000000"
+        return tempLabel
+    }()
+    
+    //所在地区
+    lazy var mainAreaLabelValue:UILabel = {
+        let tempLabel = UILabel.init()
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        tempLabel.textColor = UIColor.titleColors(color: .gray)
+        tempLabel.textAlignment = .right
+        tempLabel.text = "湖北省 武汉市 青山区"
+        return tempLabel
+    }()
+    
+    //所在地区
+    lazy var detailAreaLabelValue:UILabel = {
+        let tempLabel = UILabel.init()
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        tempLabel.textColor = UIColor.titleColors(color: .gray)
+        tempLabel.textAlignment = .right
+        tempLabel.text = "红卫路街道五高中和广场市场8楼2301号"
+        return tempLabel
+    }()
+    
+    //订购信息面板
+    lazy var orderInfosAreaWhiteBoard:UIView = {
+        let view = UIView.init(frame: CGRect(x: 0, y: 444, width: kWidth, height: 183))
+        view.backgroundColor = UIColor.backgroundColors(color: .white)
+        
+        let line1:UIView = UIView.init(frame: CGRect(x: 0, y: 120.5, width: kWidth, height: 0.5))
+        line1.backgroundColor = UIColor.lineColors(color: .grayLevel3)
+        view.addSubview(line1)
+        
+        //数量
+        let productAmountLabel:UILabel = UILabel.init(frame: CGRect(x: 15, y: line1.frame.maxY + 12, width: kWidth - 30, height: 18))
+        productAmountLabel.font = UIFont.systemFont(ofSize: 13)
+        productAmountLabel.textColor = UIColor.titleColors(color: .gray)
+        productAmountLabel.textAlignment = .left
+        productAmountLabel.text = "数量(个)"
+        view.addSubview(productAmountLabel)
+        
+        //尺寸(mm)
+        let productSizeLabel:UILabel = UILabel.init(frame: CGRect(x: 15, y: productAmountLabel.frame.maxY + 4, width: kWidth - 30, height: 18))
+        productSizeLabel.font = UIFont.systemFont(ofSize: 13)
+        productSizeLabel.textColor = UIColor.titleColors(color: .gray)
+        productSizeLabel.textAlignment = .left
+        productSizeLabel.text = "尺寸(mm)"
+        view.addSubview(productSizeLabel)
+        
+        productAmountLabelValue.frame = productAmountLabel.frame
+        view.addSubview(productAmountLabelValue)
+        
+        productSizeLabelValue.frame = productSizeLabel.frame
+        view.addSubview(productSizeLabelValue)
+        
+        view.addSubview(produceImageView)
+        
+        goodsClassValue.frame = CGRect(x: kWidth - 265, y: 16, width: 250, height: 21)
+        view.addSubview(goodsClassValue)
+        
+        materailAndAccessoryValue.frame = CGRect(x: kWidth - 265, y: goodsClassValue.frame.maxY + 4, width: 250, height: 21)
+        view.addSubview(materailAndAccessoryValue)
+        
+        technologyValue.frame = CGRect(x: kWidth - 265, y: materailAndAccessoryValue.frame.maxY + 4, width: 250, height: 36)
+        view.addSubview(technologyValue)
+        return view
+    }()
+    
+    //产品主图
+    lazy var produceImageView:UIImageView = {
+        let tempImageView = UIImageView.init(frame: CGRect(x: 15, y: 16, width: 88, height: 88))
+        tempImageView.image = UIImage(named: "defualt-design-pic")
+        tempImageView.layer.cornerRadius = 4
+        tempImageView.layer.backgroundColor = UIColor.backgroundColors(color: .lightestGray).cgColor
+        tempImageView.layer.masksToBounds  = true
+        tempImageView.contentMode = .scaleAspectFit
+        return tempImageView
+    }()
+    
+    //产品类型
+    lazy var goodsClassValue:UILabel = {
+        let tempLabel = UILabel.init()
+        tempLabel.font = UIFont.boldSystemFont(ofSize: 15)
+        tempLabel.textColor = UIColor.titleColors(color: .gray)
+        tempLabel.textAlignment = .right
+        tempLabel.text = "徽章"
+        return tempLabel
+    }()
+    
+    //材质 配件
+    lazy var materailAndAccessoryValue:UILabel = {
+        let tempLabel = UILabel.init()
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        tempLabel.textColor = UIColor.titleColors(color: .gray)
+        tempLabel.textAlignment = .right
+        tempLabel.text = "锌合金 别针"
+        return tempLabel
+    }()
+    
+    //工艺
+    lazy var technologyValue:UILabel = {
+        let tempLabel = UILabel.init()
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        tempLabel.textColor = UIColor.titleColors(color: .gray)
+        tempLabel.textAlignment = .right
+        tempLabel.numberOfLines = 3
+        tempLabel.text = "双面开模;2D冲压;电镀;烤漆;银色(镍)双面开模;2D冲压;电镀;烤漆;银色(镍)"
+        return tempLabel
+    }()
+    
+    //数量
+    lazy var productAmountLabelValue:UILabel = {
+        let tempLabel = UILabel.init()
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        tempLabel.textColor = UIColor.titleColors(color: .gray)
+        tempLabel.textAlignment = .right
+        tempLabel.text = "100000"
+        return tempLabel
+    }()
+    
+    //尺寸
+    lazy var productSizeLabelValue:UILabel = {
+        let tempLabel = UILabel.init()
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        tempLabel.textColor = UIColor.titleColors(color: .gray)
+        tempLabel.textAlignment = .right
+        tempLabel.text = "200.1 x 300.1 x 200"
+        return tempLabel
+    }()
+    
     
     lazy var closePopUpBtn:UIButton = {
         let button = UIButton.init(frame: CGRect(x: kWidth - 85, y: 25, width: 80, height: 21))
