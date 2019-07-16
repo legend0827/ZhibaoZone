@@ -33,7 +33,7 @@ class ScanCodeViewController: UIViewController {
     //弹窗ViewVC
     var popupVC = PopupViewController()
     
-    var theAddressToPaste:[String] = []
+    var theAddressToPaste:String = ""
     
    // lazy var allOrderVC = AllOrdersViewController(orderlistType: orderListCategoryType.allOrderCategory)
     //扫描订单的弹窗
@@ -582,7 +582,7 @@ class ScanCodeViewController: UIViewController {
     }
     
     @objc func copyAddressBtnClicked(){
-        UIPasteboard.general.strings = theAddressToPaste
+        UIPasteboard.general.string = theAddressToPaste
         greyLayerPrompt.show(text: "收货地址复制成功")
     }
     
@@ -1105,11 +1105,10 @@ extension ScanCodeViewController: AVCaptureMetadataOutputObjectsDelegate {
         mainAreaLabelValue.text = province + " " + city + " " + district
         detailAreaLabelValue.text = detailAddress
         
-        theAddressToPaste = ["收货人：\(reciver)\n",
-                                        "手机号码：\(mobilePhone)\n",
-                                        "所在地区：\(province + city + district)\n",
-                                        "详细地址： \(detailAddress)"
-        ]
+        theAddressToPaste = "收货人：\(reciver)\r\n"
+                                        + "手机号码：\(mobilePhone)\r\n"
+                                        + "所在地区：\(province + city + district)\r\n"
+                                        + "详细地址： \(detailAddress)"
         //剩余发货时间
         // 获取当前系统时间
         

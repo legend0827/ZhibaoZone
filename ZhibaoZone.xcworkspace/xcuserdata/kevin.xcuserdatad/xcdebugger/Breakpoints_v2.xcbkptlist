@@ -42,27 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ZhibaoZone/WorkZone/OrdersList/scanCode/ScanCodeViewController.swift"
-            timestampString = "583928744.486138"
+            timestampString = "584955248.0023201"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1221"
-            endingLineNumber = "1221"
-            landmarkName = "getOrderDetails(CustomID:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ZhibaoZone/WorkZone/OrdersList/scanCode/ScanCodeViewController.swift"
-            timestampString = "583928754.123808"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1207"
-            endingLineNumber = "1207"
+            startingLineNumber = "1220"
+            endingLineNumber = "1220"
             landmarkName = "getOrderDetails(CustomID:)"
             landmarkType = "7">
          </BreakpointContent>
