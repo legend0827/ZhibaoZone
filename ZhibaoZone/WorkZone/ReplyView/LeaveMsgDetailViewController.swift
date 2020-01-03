@@ -1876,6 +1876,7 @@ class LeaveMsgDetailViewController: UIViewController,UITableViewDelegate,UITable
                 picker.videoMaximumDuration = 15
                 picker.delegate = self //as? UIImagePickerControllerDelegate & UINavigationControllerDelegate
                 picker.allowsEditing = false
+                picker.modalPresentationStyle = .fullScreen
                 self.present(picker, animated: true, completion: nil)
             }
             else
@@ -2004,6 +2005,7 @@ class LeaveMsgDetailViewController: UIViewController,UITableViewDelegate,UITable
         previewVC.taskDetailReplyObject = self
         previewVC.previewSourceVC = "ReplyTaskVC"
         //  previewVC.previewMode = .previewWithDelete
+        previewVC.modalPresentationStyle = .fullScreen
         self.present(previewVC, animated: true, completion: nil)
 
     }
@@ -2031,6 +2033,7 @@ class LeaveMsgDetailViewController: UIViewController,UITableViewDelegate,UITable
         previewVC.imageUrls = previewURLsArray[indexInArray!]
         // previewVC.roleType = roleType
         //previewVC.previewMode = PreviewModeType.previewWithoutDelete
+        previewVC.modalPresentationStyle = .fullScreen
         self.present(previewVC, animated: true, completion: nil)
     }
     override func didReceiveMemoryWarning() {

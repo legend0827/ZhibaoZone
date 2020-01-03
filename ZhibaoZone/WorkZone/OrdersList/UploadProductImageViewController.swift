@@ -505,6 +505,7 @@ class UploadProductImageViewController: UIViewController,UIImagePickerController
         previewVC.uploadProductImageVCObject = self
         previewVC.previewSourceVC = "UploadProductImageVC"
         //  previewVC.previewMode = .previewWithDelete
+        previewVC.modalPresentationStyle = .fullScreen
         self.present(previewVC, animated: true, completion: nil)
     }
     
@@ -777,6 +778,7 @@ class UploadProductImageViewController: UIViewController,UIImagePickerController
                 picker.videoMaximumDuration = 15
                 picker.delegate = self //as? UIImagePickerControllerDelegate & UINavigationControllerDelegate
                 picker.allowsEditing = false
+                picker.modalPresentationStyle = .fullScreen
                 self.present(picker, animated: true, completion: nil)
             }
             else

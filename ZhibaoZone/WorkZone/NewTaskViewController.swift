@@ -660,6 +660,7 @@ class NewTaskViewController:UIViewController,UITableViewDelegate,UITableViewData
         previewVC.createNewTaskVCObject = self
         previewVC.previewSourceVC = "WorkZoneVC"
         //  previewVC.previewMode = .previewWithDelete
+        previewVC.modalPresentationStyle = .fullScreen
         self.present(previewVC, animated: true, completion: nil)
         
     }
@@ -836,6 +837,7 @@ class NewTaskViewController:UIViewController,UITableViewDelegate,UITableViewData
         //加载新的view去点击
         let chooseContactVC = chooseContactViewController()
         chooseContactVC.createNewTaskVCObject = self
+        chooseContactVC.modalPresentationStyle = .fullScreen
         self.present(chooseContactVC, animated: true, completion: nil)
     }
     //设置联系人结构化String
@@ -866,6 +868,7 @@ class NewTaskViewController:UIViewController,UITableViewDelegate,UITableViewData
                 picker.videoMaximumDuration = 15
                 picker.delegate = self //as? UIImagePickerControllerDelegate & UINavigationControllerDelegate
                 picker.allowsEditing = false
+                picker.modalPresentationStyle = .fullScreen
                 self.present(picker, animated: true, completion: nil)
             }
             else

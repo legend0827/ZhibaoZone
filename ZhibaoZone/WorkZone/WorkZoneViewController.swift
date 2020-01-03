@@ -218,7 +218,7 @@ class WorkZoneViewController: UIViewController,UITextViewDelegate,UITextFieldDel
         messageListVC.messagesList = messagesList
         //messageListVC.workZoneVC = self
         messageListVC.getMessagesCount = getMessagesCount
-        
+        messageListVC.modalPresentationStyle = .fullScreen
         self.present(messageListVC, animated: true, completion: nil)
        
     }

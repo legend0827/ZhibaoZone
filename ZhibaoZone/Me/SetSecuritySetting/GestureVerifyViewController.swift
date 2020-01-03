@@ -142,6 +142,7 @@ class GestureVerifyViewController: UIViewController,UITextFieldDelegate {
                 gesture.securityVC = fatherVC
                 gesture.verifyGestureVC = self
                 gesture.gestureTextBeforeSet = "绘制解锁图案"
+                gesture.modalPresentationStyle = .fullScreen
                 self.present(gesture, animated: true, completion: nil)
             }else{
                 greyLayerPrompt.show(text: "密码错误")

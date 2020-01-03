@@ -1211,36 +1211,53 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         switch index {
         case 1:
             let statisticOrderListVC = StatisticOrderListViewController(with: .newCreateOrder, startTime: timeInterval_from, endTime: timeInterval_to)
+            if #available(iOS 13.0, *) {
+                statisticOrderListVC.modalPresentationStyle = .automatic
+            } else {
+                // Fallback on earlier versions
+                statisticOrderListVC.modalPresentationStyle = .fullScreen
+            }
             self.present(statisticOrderListVC, animated: true, completion: nil)
+            //self.navigationController?.pushViewController(statisticOrderListVC, animated: true)
         case 2:
             let statisticOrderListVC = StatisticOrderListViewController(with: .dealOrder, startTime: timeInterval_from, endTime: timeInterval_to)
+            
             self.present(statisticOrderListVC, animated: true, completion: nil)
         case 3:
             let statisticOrderListVC = StatisticOrderListViewController(with: .bargainingOrder, startTime: timeInterval_from, endTime: timeInterval_to)
+            
             self.present(statisticOrderListVC, animated: true, completion: nil)
         case 4:
             let statisticOrderListVC = StatisticOrderListViewController(with: .waitForDesignOrder, startTime: timeInterval_from, endTime: timeInterval_to)
+            
             self.present(statisticOrderListVC, animated: true, completion: nil)
         case 5:
             let statisticOrderListVC = StatisticOrderListViewController(with: .designingOrder, startTime: timeInterval_from, endTime: timeInterval_to)
+            
             self.present(statisticOrderListVC, animated: true, completion: nil)
         case 6:
             let statisticOrderListVC = StatisticOrderListViewController(with: .designComfirmed, startTime: timeInterval_from, endTime: timeInterval_to)
+            
             self.present(statisticOrderListVC, animated: true, completion: nil)
         case 7:
             let statisticOrderListVC = StatisticOrderListViewController(with: .waitForQuotePrice, startTime: timeInterval_from, endTime: timeInterval_to)
+            
             self.present(statisticOrderListVC, animated: true, completion: nil)
         case 8:
             let statisticOrderListVC = StatisticOrderListViewController(with: .waitForBargain, startTime: timeInterval_from, endTime: timeInterval_to)
+            
             self.present(statisticOrderListVC, animated: true, completion: nil)
         case 9:
             let statisticOrderListVC = StatisticOrderListViewController(with: .waitForBid, startTime: timeInterval_from, endTime: timeInterval_to)
+            
             self.present(statisticOrderListVC, animated: true, completion: nil)
         case 10:
             let statisticOrderListVC = StatisticOrderListViewController(with: .waitForProduce, startTime: timeInterval_from, endTime: timeInterval_to)
+            
             self.present(statisticOrderListVC, animated: true, completion: nil)
         case 11:
             let statisticOrderListVC = StatisticOrderListViewController(with: .producingOrder, startTime: timeInterval_from, endTime: timeInterval_to)
+            
             self.present(statisticOrderListVC, animated: true, completion: nil)
         case 12:
             let statisticOrderListVC = StatisticOrderListViewController(with: .waitForDelivery, startTime: timeInterval_from, endTime: timeInterval_to)
@@ -1272,6 +1289,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
                 return
             }
             let desigerOnlineVC = designerOnlineStatusViewController(with: self.onlineListOfServicer, roleType: 1)
+            desigerOnlineVC.modalPresentationStyle = .fullScreen
             self.present(desigerOnlineVC, animated: true, completion: nil)
         case 2:
             print("在线设计师列表点击了")
@@ -1280,6 +1298,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
                 return
             }
             let desigerOnlineVC = designerOnlineStatusViewController(with: self.onlineListOfDesigner, roleType: 2)
+            desigerOnlineVC.modalPresentationStyle = .fullScreen
             self.present(desigerOnlineVC, animated: true, completion: nil)
         case 3:
             print("在线车间列表点击了")
@@ -1288,6 +1307,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
                 return
             }
             let desigerOnlineVC = designerOnlineStatusViewController(with: self.onlineListOfFactory, roleType: 3)
+            desigerOnlineVC.modalPresentationStyle = .fullScreen
             self.present(desigerOnlineVC, animated: true, completion: nil)
         default:
             print("在线客服列表点击了")
@@ -1410,10 +1430,12 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         if _roleType == 1{
             let searchOrderVC = OrderSearchViewController(searchModel: .orderidAndWangWangID, roleType: _roleType)
             searchOrderVC.tabbarObject = _tabBarVC
+            searchOrderVC.modalPresentationStyle = .fullScreen
             self.present(searchOrderVC, animated: true, completion: nil)
         }else{
             let searchOrderVC = OrderSearchViewController(searchModel: .orderidOnly, roleType: _roleType)
             searchOrderVC.tabbarObject = _tabBarVC
+            searchOrderVC.modalPresentationStyle = .fullScreen
             self.present(searchOrderVC, animated: true, completion: nil)
         }
     }
@@ -1422,6 +1444,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         let scanQRcodeVC = ScanCodeViewController(scanType: .qrCode)
         scanQRcodeVC.orderVCObject = self
         let nav = UINavigationController.init(rootViewController: scanQRcodeVC)
+        nav.modalPresentationStyle = .fullScreen
         self.present(nav, animated: true, completion: nil)
     }
     
@@ -1429,6 +1452,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
        // UIApplication.shared.delegate?.window??.rootViewController?.present(statisticVC, animated: true, completion: nil)
        // let nav = UINavigationController.init(rootViewController: statisticVC)
         let statisticVC = StatisticViewController()
+        statisticVC.modalPresentationStyle = .fullScreen
         self.present(statisticVC, animated: true, completion: nil)
     }
     
@@ -1438,6 +1462,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
        // msgVC.messagesList = messagesList
         //设置跳转带navigation controller的跳转
         let nav = UINavigationController(rootViewController: msgVC)
+        nav.modalPresentationStyle = .fullScreen
         self.present(nav, animated: true, completion: nil)
     }
     

@@ -81,9 +81,9 @@ enum backgroundColorsType{
 
 //数据验证格式
 enum validateType {
-    case EMAIL
-    case CNPHONENUM
-    case CNIDCARD
+    case Email
+    case CNPhoneNum
+    case CNIDCard
 }
 //登录框状态枚举
 enum LoginShowType {
@@ -235,6 +235,21 @@ class Extentsions: NSObject {
 
 }
 
+//通过TableViewCell查找父级TableView
+extension UITableViewCell{
+    //返回cell所在的UITableView
+    func superTableView() -> UITableView? {
+        for view in sequence(first: self.superview, next: { $0?.superview}){
+            if let tableView = view as? UITableView{
+                return tableView
+            }else{
+                print(view)
+            }
+        }
+        return nil
+    }
+}
+
 //颜色拓展
 extension UIColor {
     
@@ -243,7 +258,7 @@ extension UIColor {
         return UIColor(red: r/255.0, green: g/255.0, blue: b/255.0, alpha: a)
         
     }
-    
+
     //设置标题颜色
     class func titleColors(color:titleColorsType) ->UIColor{
         var tempColor = UIColor.colorWithRgba(232, g: 75, b: 76, a: 1.0)
@@ -473,16 +488,28 @@ public extension UIView {
 
 //设置状态栏颜色
 func setStatusBarBackgroundColor(color : UIColor) {
-    
-    let statusBarWindow : UIView = UIApplication.shared.value(forKey: "statusBarWindow") as! UIView
-    let statusBar : UIView = statusBarWindow.value(forKey: "statusBar") as! UIView
-    if statusBar.responds(to:#selector(setter: UIView.backgroundColor)) {
-        statusBar.backgroundColor = color
-    }
-    if color == UIColor.backgroundColors(color: .red) || color == UIColor.backgroundColors(color: .black) { //|| color == UIColor.backgroundColors(color: .clear)
-        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent // 改成白色字体
+    if #available(iOS 13.0, *){
+//        let statusBarWindow : UIView = UIApplication.shared.value(forKey: "statusBarWindow") as! UIView
+//        let statusBar : UIView = statusBarWindow.value(forKey: "statusBar") as! UIView
+//        if statusBar.responds(to:#selector(setter: UIView.backgroundColor)) {
+//            statusBar.backgroundColor = color
+//        }
+        if color == UIColor.backgroundColors(color: .red) || color == UIColor.backgroundColors(color: .black) { //|| color == UIColor.backgroundColors(color: .clear)
+            UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent // 改成白色字体
+        }else{
+            UIApplication.shared.statusBarStyle = UIStatusBarStyle.default // 改成深色字体
+        }
     }else{
-        UIApplication.shared.statusBarStyle = UIStatusBarStyle.default // 改成深色字体
+        let statusBarWindow : UIView = UIApplication.shared.value(forKey: "statusBarWindow") as! UIView
+        let statusBar : UIView = statusBarWindow.value(forKey: "statusBar") as! UIView
+        if statusBar.responds(to:#selector(setter: UIView.backgroundColor)) {
+            statusBar.backgroundColor = color
+        }
+        if color == UIColor.backgroundColors(color: .red) || color == UIColor.backgroundColors(color: .black) { //|| color == UIColor.backgroundColors(color: .clear)
+            UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent // 改成白色字体
+        }else{
+            UIApplication.shared.statusBarStyle = UIStatusBarStyle.default // 改成深色字体
+        }
     }
 }
 
@@ -966,6 +993,28 @@ extension String {
     
 }
 
+//extension UIApplication {
+//    var statusBarUIView: UIView? {
+//        if #available(iOS 13.0, *) {
+//            let tag = 38482458385
+//            if let statusBar = self.keyWindow?.viewWithTag(tag) {
+//                return statusBar
+//            } else {
+//                let statusBarView = UIView(frame: UIApplication.shared.statusBarFrame)
+//                statusBarView.tag = tag
+//
+//                self.keyWindow?.addSubview(statusBarView)
+//                return statusBarView
+//            }
+//        } else {
+//            if responds(to: Selector(("statusBar"))) {
+//                return value(forKey: "statusBar") as? UIView
+//            }
+//        }
+//        return nil
+//    }
+//}
+
 func transferTimeToString(with updateTime:TimeInterval) -> String{
     var days = 0
     var hrs = 0
@@ -1042,6 +1091,26 @@ func autoLogin(viewControler:UIViewController){
         let hub = viewControler.pleaseWait()
         loginUser.isToAutoLogin = true
         loginUser.Login(username: username, password: password,view:viewControler,hub:hub)
+}
+
+//正则表达式验证输入有效性 邮箱 中国电话 身份证号
+func stringValidator(with validateType:validateType, string: String) -> Bool {
+    var validateRegex = ""
+    if validateType == .Email{
+        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
+        validateRegex = emailRegex
+    }else if validateType == .CNPhoneNum{
+        let ChinaPhoneRegex = "^((13[0-9])|(15[^4,\\D])|(18[0,0-9]))\\d{8}$"
+        validateRegex = ChinaPhoneRegex
+    }else if validateType == .CNIDCard{
+        let ChinaIDCardRegex = "^(\\d{14}|\\d{17})(\\d|[xX])$"
+        validateRegex = ChinaIDCardRegex
+    }else{
+        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
+        validateRegex = emailRegex
+    }
+    let RegexTest:NSPredicate = NSPredicate(format: "SELF MATCHES %@", validateRegex)
+    return RegexTest.evaluate(with: string)
 }
 
 func logoutFromServer(){

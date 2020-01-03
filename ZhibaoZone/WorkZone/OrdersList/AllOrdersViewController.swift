@@ -826,6 +826,7 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
 //        uploadVC._materialAndAccessory
         
         let nav = UINavigationController.init(rootViewController: uploadVC)
+        nav.modalPresentationStyle = .fullScreen
         self.present(nav, animated: true, completion: nil)
     }
     

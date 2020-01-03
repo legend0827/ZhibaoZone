@@ -23,7 +23,7 @@ class ChooseTimeInterval: UIView,UITableViewDelegate,UITableViewDataSource,UIPic
             
             let dayNum = self.daysCount(year: Int(selctYear) , month: Int(selctMonth),forStarts: true)
             let numberArr = [yearNum,monthNum,dayNum]
-            print("startTimePickerView: \(numberArr[component]!)")
+           // print("startTimePickerView: \(numberArr[component]!)")
             return numberArr[component]!
         }else{
             let yearNum = endYearArray?.count
@@ -34,7 +34,7 @@ class ChooseTimeInterval: UIView,UITableViewDelegate,UITableViewDataSource,UIPic
             
             let dayNum = self.daysCount(year: Int(selctYear) , month: Int(selctMonth),forStarts: false)
             let numberArr = [yearNum,monthNum,dayNum]
-            print("EndTimePickerView: \(numberArr[component]!)")
+           // print("EndTimePickerView: \(numberArr[component]!)")
             return numberArr[component]!
         }
     }
@@ -256,7 +256,7 @@ class ChooseTimeInterval: UIView,UITableViewDelegate,UITableViewDataSource,UIPic
     var endMonthArray:NSMutableArray?
     var endDayArray:NSMutableArray?
     
-    public let MAXYEAR = 2019
+    public let MAXYEAR = 2199
     public let MINYEAR = 2017
     //弹窗ViewVC
     var popupVC = PopupViewController()

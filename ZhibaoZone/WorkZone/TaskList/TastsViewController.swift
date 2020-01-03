@@ -146,6 +146,7 @@ class TastsViewController: UIViewController { // UIViewController
         let newTaskViewVC = NewTaskViewController()
         //设置跳转带navigation controller的跳转
         let nav = UINavigationController(rootViewController: newTaskViewVC)
+        nav.modalPresentationStyle = .fullScreen
         self.present(nav, animated: true, completion: nil)
     }
 

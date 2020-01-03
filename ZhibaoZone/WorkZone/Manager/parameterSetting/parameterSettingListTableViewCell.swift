@@ -89,9 +89,21 @@ class parameterSettingListTableViewCell: UITableViewCell,UITextFieldDelegate {
         if textField.text == "0" || textField.text == "0.00"{
             textField.text = ""
         }
+        if selectedIndex >= 4{
+            let tableView = self.superTableView()
+            UIView.animate(withDuration: 0.3) {
+                tableView?.transform = CGAffineTransform(translationX: 0, y: CGFloat(-61 * (self.selectedIndex - 4)))
+            }
+        }
     }
 
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        if selectedIndex >= 4{
+            let tableView = self.superTableView()
+            UIView.animate(withDuration: 0.3) {
+                tableView?.transform = CGAffineTransform(translationX: 0, y: 0)
+            }
+        }
         return true
     }
     
@@ -215,6 +227,9 @@ class parameterSettingListTableViewCell: UITableViewCell,UITextFieldDelegate {
                 //cell.titleLabel.text = "设计权重-定稿率权重"
                 fatherObject?._paramterSettingDic.setValue(parameterValue.text, forKey: "design_weight_adoptRate")
             case 6:
+                //cell.titleLabel.text = "设计权重-定稿率权重"
+                fatherObject?._paramterSettingDic.setValue(parameterValue.text, forKey: "design_weight_transferRate")
+            case 7:
                 //cell.titleLabel.text = "设计师选取比例(%)"
                 let tempValue = String(format: "%.4f", (Double((Int(parameterValue.text ?? "0") ?? 0) ) / 100.0))
                 fatherObject?._paramterSettingDic.setValue(tempValue, forKey: "design_dispatch_topWeight")
@@ -310,6 +325,9 @@ class parameterSettingListTableViewCell: UITableViewCell,UITextFieldDelegate {
                     //cell.titleLabel.text = "设计权重-定稿率权重"
                     fatherObject?._paramterSettingDic.setValue(parameterValue.text, forKey: "design_weight_adoptRate")
                 case 6:
+                    //cell.titleLabel.text = "设计权重-定稿率权重"
+                    fatherObject?._paramterSettingDic.setValue(parameterValue.text, forKey: "design_weight_transferRate")
+                case 7:
                     print("设计师选取比例(%)")
                 default:
                     //cell.titleLabel.text = "设计权重-修改单权重"
@@ -355,6 +373,9 @@ class parameterSettingListTableViewCell: UITableViewCell,UITextFieldDelegate {
                     //cell.titleLabel.text = "设计权重-定稿率权重"
                     fatherObject?._paramterSettingDic.setValue(parameterValue.text, forKey: "design_weight_adoptRate")
                 case 6:
+                    //cell.titleLabel.text = "设计权重-定稿率权重"
+                    fatherObject?._paramterSettingDic.setValue(parameterValue.text, forKey: "design_weight_transferRate")
+                case 7:
                     print("设计师选取比例(%)")
                 default:
                     //cell.titleLabel.text = "设计权重-修改单权重"

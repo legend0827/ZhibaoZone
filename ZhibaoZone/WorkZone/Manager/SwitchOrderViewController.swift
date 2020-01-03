@@ -936,6 +936,8 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         
         let orderObject = searchResultList[theOrderToSwitch]
         let orderid = orderObject.value(forKey: "orderid") as! String
+        let designStatus = orderObject.value(forKey: "designStatus") as! Int
+        let produceStatus = orderObject.value(forKey: "produceStatus") as! Int
         let lists = translist[theOrderToSwitch] as! NSArray
         let newID = (lists[selectedIndex] as! NSDictionary).value(forKey: "id") as! Int
         
@@ -954,6 +956,8 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         params["id"] = newID
         header["token"] = token
         params["orderid"] = orderid
+        params["produceStatus"] = produceStatus
+        params["designStatus"] = designStatus
         if _pagingType == .producingOrder{
             params["producePrice"] = newProducePriceTextField.text!
             params["duration"] = -1//newProducePeriodTextField.text!

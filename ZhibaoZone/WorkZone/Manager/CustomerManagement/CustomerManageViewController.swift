@@ -413,6 +413,7 @@ class CustomerManageViewController: UIViewController,UITextFieldDelegate,UITable
     
     @objc func setAdminAccountBtnClicked(){
         let uploadAdminVC = uploadAdminInfoViewController()
+        uploadAdminVC.modalPresentationStyle = .fullScreen
         self.present(uploadAdminVC, animated: true, completion: nil)
     }
     

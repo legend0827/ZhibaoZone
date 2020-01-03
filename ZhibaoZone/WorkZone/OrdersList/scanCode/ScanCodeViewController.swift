@@ -1196,6 +1196,7 @@ extension ScanCodeViewController: AVCaptureMetadataOutputObjectsDelegate {
                                         let searchVC = OrderSearchViewController(searchModel: .orderidOnly, roleType: Int(userinfo.value(forKey: "roletype") as! String) as! Int)
                                         searchVC.searchBar.text = self._OrderId
                                         searchVC.tabbarObject = self.orderVCObject._tabBarVC
+                                        searchVC.modalPresentationStyle = .fullScreen
                                         self.present(searchVC, animated: true) {
                                             searchVC.searchBar.resignFirstResponder()
                                         }
@@ -1205,6 +1206,7 @@ extension ScanCodeViewController: AVCaptureMetadataOutputObjectsDelegate {
                                 let searchVC = OrderSearchViewController(searchModel: .orderidOnly, roleType: Int(userinfo.value(forKey: "roletype") as! String) as! Int)
                                 searchVC.searchBar.text = self._OrderId
                                 searchVC.tabbarObject = self.orderVCObject._tabBarVC
+                                searchVC.modalPresentationStyle = .fullScreen
                                 self.present(searchVC, animated: true) {
                                     searchVC.searchBar.resignFirstResponder()
                                 }
@@ -1219,6 +1221,7 @@ extension ScanCodeViewController: AVCaptureMetadataOutputObjectsDelegate {
                             let searchVC = OrderSearchViewController(searchModel: .orderidOnly, roleType: Int(userinfo.value(forKey: "roletype") as! String) as! Int)
                             searchVC.searchBar.text = self._OrderId
                             searchVC.tabbarObject = self.orderVCObject._tabBarVC
+                            searchVC.modalPresentationStyle = .fullScreen
                             self.present(searchVC, animated: true) {
                                 searchVC.searchBar.resignFirstResponder()
                             }
@@ -1229,6 +1232,7 @@ extension ScanCodeViewController: AVCaptureMetadataOutputObjectsDelegate {
                         let searchVC = OrderSearchViewController(searchModel: .orderidOnly, roleType: Int(userinfo.value(forKey: "roletype") as! String) as! Int)
                         searchVC.searchBar.text = "\(self._CustomID.removeLast())"
                         searchVC.tabbarObject = self.orderVCObject._tabBarVC
+                        searchVC.modalPresentationStyle = .fullScreen
                         self.present(searchVC, animated: true) {
                             searchVC.searchBar.resignFirstResponder()
                         }

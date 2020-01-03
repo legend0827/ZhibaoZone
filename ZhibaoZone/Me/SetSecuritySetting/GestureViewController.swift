@@ -362,6 +362,7 @@ extension GestureViewController: CircleViewDelegate {
                 let tabbar = TabBarController(royeType: roleType!)
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 appDelegate.window?.rootViewController = tabbar
+                tabbar.modalPresentationStyle = .fullScreen
                 self.present(tabbar, animated: true, completion: nil)
         
             } else {

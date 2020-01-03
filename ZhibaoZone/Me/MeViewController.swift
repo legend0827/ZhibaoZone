@@ -429,14 +429,17 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         if indexPath.section == 3 {
             let securitySettingsVC = SecuritySettingViewController()
             securitySettingsVC.MeVC = self
+            securitySettingsVC.modalPresentationStyle = .fullScreen
             self.present(securitySettingsVC, animated: true, completion: nil)
         }else if indexPath.section == 4 {
             let setParamtersVC = SetParamtersViewController(roleType: _roleType)
+            setParamtersVC.modalPresentationStyle = .fullScreen
             setParamtersVC.MeVC = self
             self.present(setParamtersVC, animated: true, completion: nil)
         }else if indexPath.section == 5{
             if _roleType == 1 || _roleType == 2 || _roleType == 4 || _roleType == 5{
                 let invoiceVC = invoiceViewController()
+                invoiceVC.modalPresentationStyle = .fullScreen
                 self.present(invoiceVC, animated: true, completion: nil)
             }
         }
@@ -612,7 +615,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         userAccountLabel.font = UIFont.systemFont(ofSize: 15)
         userAccountLabel.textAlignment = .left
         
-        version.text = "V2.2.21"
+        version.text = "V2.2.24"
         version.font = UIFont.systemFont(ofSize: 13)
         version.textColor = UIColor.titleColors(color: .gray)
         version.textAlignment = .right
@@ -761,6 +764,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         if index == 2 && !addtionalAccountAvailable{
             let verifyVC = VerifyPasswordViewController()
             verifyVC.meVC = self
+            verifyVC.modalPresentationStyle = .fullScreen
             self.present(verifyVC, animated: true, completion: nil)
         }else{
             if (index == 1 && _roleType == 4) || (index == 2 && _accountID == "10000013"){

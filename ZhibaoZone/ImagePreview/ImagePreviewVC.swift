@@ -239,6 +239,7 @@ UICollectionViewDelegateFlowLayout{
                 let player = AVPlayer(url: imageUrls[indexPath.row])
                 let playerViewController = AVPlayerViewController()
                 playerViewController.player = player
+                playerViewController.modalPresentationStyle = .fullScreen
                 self.present(playerViewController, animated: true) {
                     playerViewController.player!.play()
                 }
@@ -256,6 +257,7 @@ UICollectionViewDelegateFlowLayout{
         let player = AVPlayer(url: imageUrls[playingIndex])
         let playerViewController = AVPlayerViewController()
         playerViewController.player = player
+        playerViewController.modalPresentationStyle = .fullScreen
         self.present(playerViewController, animated: true) {
             playerViewController.player!.play()
         }

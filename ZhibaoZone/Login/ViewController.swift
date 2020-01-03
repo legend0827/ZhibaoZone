@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import CoreData
 
-class ViewController: UIViewController,UITextFieldDelegate {
+class ViewController: UIViewController {
     
     //用户密码输入框
     var txtUser:UITextField!
@@ -159,9 +159,9 @@ class ViewController: UIViewController,UITextFieldDelegate {
         //txtUser.leftViewMode = UITextFieldViewMode.always
         //txtUser.layer.backgroundColor = UIColor.gray.cgColor
         txtUser.attributedPlaceholder = NSAttributedString(string: "请输入邮箱/手机号")
-        txtUser.clearButtonMode = UITextFieldViewMode.always
-        txtUser.keyboardType = UIKeyboardType.alphabet
-        txtUser.returnKeyType = UIReturnKeyType.next
+        txtUser.clearButtonMode = .always
+        txtUser.keyboardType = .alphabet
+        txtUser.returnKeyType = .next
         
         let seperateLineUnderUserName: UIView = UIView.init(frame: CGRect(x: 25, y: 208 - 64 + heightChangeForiPhoneXFromTop , width: kWidth - 50, height: 1))
         seperateLineUnderUserName.backgroundColor = UIColor.lineColors(color: .grayLevel3)
@@ -313,40 +313,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
             seperateLineUnderRepeatPassword.isHidden = true
         }
     }
-    //返回按钮的响应
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if txtPwd.isFirstResponder {
-            SubmitBtnClick()
-        }else{
-            txtPwd.becomeFirstResponder()
-        }
-        return true
-    }
-    //输入框获取焦点开始编辑
-    func textFieldDidBeginEditing(_ textField:UITextField)
-    {
-        //自定义键盘按钮
-        let topView = UIToolbar()
-//        let topView = UIToolbar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 40))
-        topView.barStyle = .default
-        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let doneBtn = UIBarButtonItem(title: "确定", style: .done, target: self, action: #selector(textFieldDidEndEditing(_:)))
-        let buttonsArray = [flexSpace,doneBtn]
-        topView.items = buttonsArray
-        topView.sizeToFit()
-        
-        self.txtPwd.inputAccessoryView = topView
-        self.txtUser.inputAccessoryView = topView
-        self.repeatTxtPwd.inputAccessoryView = topView
-        
-    }
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        txtUser.resignFirstResponder()
-        txtPwd.resignFirstResponder()
-        repeatTxtPwd.resignFirstResponder()
-
-    }
     
     func initSettings(){
         //初始化报价设置
@@ -356,40 +323,42 @@ class ViewController: UIViewController,UITextFieldDelegate {
         //初始化设置的值
         initMSGAlertSettings()
     }
+    
     @objc func SubmitBtnClick() {
+        //必填项检查
+        let usernameText = txtUser.text
+        let passwordText = txtPwd.text
+        guard !(usernameText?.isEmpty)! && !(passwordText?.isEmpty)! else {
+            greyLayerPrompt.show(text: "用户名和密码不能为空")
+            return
+        }
         //收起键盘
         self.view.endEditing(true)
         SubmitBtn.isEnabled = false
         
         
         let loginUser = User()
-        let usernameText = txtUser.text
-        let passwrdText = txtPwd.text
         let repeatPwdText = repeatTxtPwd.text
-        if !(usernameText?.isEmpty)! && !(passwrdText?.isEmpty)! {
-            if isToLogin{
-                let hub = pleaseWait()
-                loginUser.Login(username: usernameText!, password: passwrdText!,view:self,hub:hub)
-            }else{
-                //注册的功能
-                if (repeatPwdText?.isEmpty)!{
-                    greyLayerPrompt.show(text: "用户名和密码不能为空")
-                }else if !validateString(string: usernameText!, validateType: .EMAIL) && !validateString(string: usernameText!, validateType: .CNPHONENUM) {
-                    greyLayerPrompt.show(text: "请输入有效的邮箱或手机号")
-                }else if passwrdText == repeatPwdText{
-                    if (passwrdText?.lengthOfBytes(using: .utf8))! < 6{
-                        greyLayerPrompt.show(text: "请输入6位以上的密码")
-                    }else{
-                        //走注册的功能
-                        let hub = pleaseWait()
-                        loginUser.registerAccount(username: usernameText!, password: passwrdText!, view: self, hub: hub)
-                    }
-                }else{
-                    greyLayerPrompt.show(text: "两次输入的密码不一致，请重新输入")
-                }
-            }
+        if isToLogin{
+            let hub = pleaseWait()
+            loginUser.Login(username: usernameText!, password: passwordText!,view:self,hub:hub)
         }else{
-            greyLayerPrompt.show(text: "用户名和密码不能为空")
+            //注册的功能
+            if (repeatPwdText?.isEmpty)!{
+                greyLayerPrompt.show(text: "请再次确认你输入的密码")
+            }else if !stringValidator(with: .Email, string: usernameText!) && !stringValidator(with: .CNPhoneNum, string: usernameText!) {
+                greyLayerPrompt.show(text: "请输入有效的邮箱或手机号")
+            }else if passwordText == repeatPwdText{
+                if (passwordText?.lengthOfBytes(using: .utf8))! < 6{
+                    greyLayerPrompt.show(text: "请输入6位以上的密码")
+                }else{
+                    //走注册的功能
+                    let hub = pleaseWait()
+                    loginUser.registerAccount(username: usernameText!, password: passwordText!, view: self, hub: hub)
+                }
+            }else{
+                greyLayerPrompt.show(text: "两次输入的密码不一致，请重新输入")
+            }
         }
         SubmitBtn.isEnabled = true
     }
@@ -427,6 +396,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
             gestureVC.loginVC = self
             gestureVC.type = GestureViewControllerType.login
             gestureVC.gestureTextBeforeSet = "手势登录"
+            gestureVC.modalPresentationStyle = .fullScreen
             self.present(gestureVC, animated: false, completion: nil)
         }
         
@@ -451,33 +421,17 @@ class ViewController: UIViewController,UITextFieldDelegate {
             gestureVC.loginVC = self
             gestureVC.type = GestureViewControllerType.login
             gestureVC.gestureTextBeforeSet = "手势登录"
+            gestureVC.modalPresentationStyle = .fullScreen
             self.present(gestureVC, animated: true, completion: nil)
         }else{
             greyLayerPrompt.show(text: "未开启手势登录，请使用密码登录")
         }
     }
     
-    func validateString(string: String,validateType:validateType) -> Bool {
-        var validateRegex = ""
-        if validateType == .EMAIL{
-            let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
-            validateRegex = emailRegex
-        }else if validateType == .CNPHONENUM{
-            let ChinaPhoneRegex = "^((13[0-9])|(15[^4,\\D])|(18[0,0-9]))\\d{8}$"
-            validateRegex = ChinaPhoneRegex
-        }else if validateType == .CNIDCARD{
-            let ChinaIDCardRegex = "^(\\d{14}|\\d{17})(\\d|[xX])$"
-            validateRegex = ChinaIDCardRegex
-        }else{
-            let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
-            validateRegex = emailRegex
-        }
-        let RegexTest:NSPredicate = NSPredicate(format: "SELF MATCHES %@", validateRegex)
-        return RegexTest.evaluate(with: string)
-    }
+
     @objc func privatepolicybtnClicked(){
         let privacyVC = PrivacyPolicyAgreementViewController()
-        //privacyVC.loginVC = self
+      //  privacyVC.modalPresentationStyle = .fullScreen
         self.present(privacyVC, animated: true, completion: nil)
     }
     
@@ -571,12 +525,8 @@ class ViewController: UIViewController,UITextFieldDelegate {
                         }else{
                             print("获取失败，code:\(statusCode)")
                             let errorMsg = json["message"].string!
-                            // greyLayerPrompt.show(text: "获取失败,\(errorMsg)")
                         }
                     } catch {
-                        // Replace this implementation with code to handle the error appropriately.
-                        // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                        //  greyLayerPrompt.show(text: "程序错误. Code:1")
                         print("检查更新失败")
                     }
                     
@@ -623,6 +573,42 @@ func getUserAccountInfo()->(String,String){
         fatalError("获取失败")
     }
     return ("_NONE","_NONE")
+}
+
+
+extension ViewController: UITextFieldDelegate {
+    //返回按钮的响应
+        func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+            if txtPwd.isFirstResponder {
+                SubmitBtnClick()
+            }else{
+                txtPwd.becomeFirstResponder()
+            }
+            return true
+        }
+        //输入框获取焦点开始编辑
+        func textFieldDidBeginEditing(_ textField:UITextField)
+        {
+            //自定义键盘按钮
+            let topView = UIToolbar()
+            topView.barStyle = .default
+            let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+            let doneBtn = UIBarButtonItem(title: "确定", style: .done, target: self, action: #selector(textFieldDidEndEditing(_:)))
+            let buttonsArray = [flexSpace,doneBtn]
+            topView.items = buttonsArray
+            topView.sizeToFit()
+            
+            self.txtPwd.inputAccessoryView = topView
+            self.txtUser.inputAccessoryView = topView
+            self.repeatTxtPwd.inputAccessoryView = topView
+            
+        }
+        
+        func textFieldDidEndEditing(_ textField: UITextField) {
+            txtUser.resignFirstResponder()
+            txtPwd.resignFirstResponder()
+            repeatTxtPwd.resignFirstResponder()
+        }
 }
 
 extension UIApplication{

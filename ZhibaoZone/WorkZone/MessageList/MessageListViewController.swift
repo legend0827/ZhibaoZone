@@ -597,6 +597,7 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
         let previewVC = ImagePreviewVC(images:memoPictures , index: index, previewMode: .previewWithoutDelete)
        // previewVC.roleType = roleType
         //previewVC.previewMode = PreviewModeType.previewWithoutDelete
+        previewVC.modalPresentationStyle = .fullScreen
         self.present(previewVC, animated: true, completion: nil)
     }
 

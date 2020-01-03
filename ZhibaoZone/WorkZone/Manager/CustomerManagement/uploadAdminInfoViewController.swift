@@ -499,6 +499,7 @@ class uploadAdminInfoViewController: UIViewController,UIImagePickerControllerDel
         previewVC.uploadAdminInfoVCObject = self
         previewVC.previewSourceVC = "UploadAdminInfoVC"
         //  previewVC.previewMode = .previewWithDelete
+        previewVC.modalPresentationStyle = .fullScreen
         self.present(previewVC, animated: true, completion: nil)
     }
     
@@ -771,6 +772,7 @@ class uploadAdminInfoViewController: UIViewController,UIImagePickerControllerDel
                 picker.videoMaximumDuration = 15
                 picker.delegate = self //as? UIImagePickerControllerDelegate & UINavigationControllerDelegate
                 picker.allowsEditing = false
+                picker.modalPresentationStyle = .fullScreen
                 self.present(picker, animated: true, completion: nil)
             }
             else

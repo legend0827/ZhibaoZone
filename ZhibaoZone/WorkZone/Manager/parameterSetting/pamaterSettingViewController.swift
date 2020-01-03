@@ -19,7 +19,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
     var _savedParameterSettingDic:NSMutableDictionary = NSMutableDictionary()
     //双重确认
     lazy var doubleCheckPopUpWindow:UIView = {
-        let tempView = UIView.init(frame: CGRect(x: 20, y: 111 + heightChangeForiPhoneXFromTop, width: kWidth - 40, height: 393/335 * (kWidth - 40)))
+        let tempView = UIView.init(frame: CGRect(x: 20, y: 111 + heightChangeForiPhoneXFromTop, width: kWidth - 40, height: 393/335 * kWidth))
         tempView.backgroundColor = UIColor.backgroundColors(color: .white)
         //确定提交
         let updateImidiatelyBtn:UIButton = UIButton.init(frame: CGRect(x: 20, y: tempView.frame.height - 55, width: (tempView.frame.width - 55)/2, height: 40))
@@ -74,6 +74,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
         tempView.addSubview(fifthTitleOfDoubleCheck)
         tempView.addSubview(sixthTitleOfDoubleCheck)
         tempView.addSubview(seventhTitleOfDoubleCheck)
+        tempView.addSubview(eighthTitleOfDoubleCheck)
         
         tempView.addSubview(firstBeforeValueOfDoubleCheck)
         tempView.addSubview(secondBeforeValueOfDoubleCheck)
@@ -82,6 +83,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
         tempView.addSubview(fifthBeforeValueOfDoubleCheck)
         tempView.addSubview(sixthBeforeValueOfDoubleCheck)
         tempView.addSubview(seventhBeforeValueOfDoubleCheck)
+        tempView.addSubview(eighthBeforeValueOfDoubleCheck)
         
         tempView.addSubview(firstAfterValueOfDoubleCheck)
         tempView.addSubview(secondAfterValueOfDoubleCheck)
@@ -90,6 +92,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
         tempView.addSubview(fifthAfterValueOfDoubleCheck)
         tempView.addSubview(sixthAfterValueOfDoubleCheck)
         tempView.addSubview(seventhAfterValueOfDoubleCheck)
+        tempView.addSubview(eighthAfterValueOfDoubleCheck)
         return tempView
     }()
     
@@ -187,6 +190,15 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
         tempLabel.font = UIFont.systemFont(ofSize: 13)
         return tempLabel
     }()
+    lazy var eighthTitleOfDoubleCheck:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: 20, y: 338, width: 200, height: 21))
+        tempLabel.text = "核对配置更改"
+        tempLabel.isHidden = true
+        tempLabel.textColor = UIColor.titleColors(color: .black)
+        tempLabel.textAlignment = .left
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        return tempLabel
+    }()
     
     lazy var firstBeforeValueOfDoubleCheck:UILabel = {
         let tempLabel = UILabel.init(frame: CGRect(x: 164, y: 72, width: 85, height: 21))
@@ -257,6 +269,15 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
         tempLabel.font = UIFont.systemFont(ofSize: 13)
         return tempLabel
     }()
+    lazy var eighthBeforeValueOfDoubleCheck:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: 164, y: 338, width: 85, height: 21))
+        tempLabel.text = "60"
+        tempLabel.isHidden = true
+        tempLabel.textColor = UIColor.titleColors(color: .black)
+        tempLabel.textAlignment = .right
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        return tempLabel
+    }()
     
     lazy var firstAfterValueOfDoubleCheck:UILabel = {
         let tempLabel = UILabel.init(frame: CGRect(x:kWidth - 260, y: 72, width: 200, height: 21))
@@ -320,6 +341,15 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
     
     lazy var seventhAfterValueOfDoubleCheck:UILabel = {
         let tempLabel = UILabel.init(frame: CGRect(x: kWidth - 260, y: 300, width: 200, height: 21))
+        tempLabel.text = "100"
+        tempLabel.isHidden = true
+        tempLabel.textColor = UIColor.titleColors(color: .black)
+        tempLabel.textAlignment = .right
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        return tempLabel
+    }()
+    lazy var eighthAfterValueOfDoubleCheck:UILabel = {
+        let tempLabel = UILabel.init(frame: CGRect(x: kWidth - 260, y: 338, width: 200, height: 21))
         tempLabel.text = "60"
         tempLabel.isHidden = true
         tempLabel.textColor = UIColor.titleColors(color: .black)
@@ -368,7 +398,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             return 2
         case .DSDistributeOrderSetting:
           //  print("设计派单跟单配置")
-            return 7
+            return 8
         case .DSHangUpSetting:
            // print("设计师派单配置")
             return 1
@@ -578,6 +608,18 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
                 }
                 cell.switchsButton.isHidden = false
             case 6:
+                cell.titleLabel.text = "设计权重-转单率权重"
+                cell.parameterValue.placeholder = "100 - 500"
+                cell.parameteUnit.text = "-"
+                cell.parameterValue.text = "100"
+                cell.textFieldDefaultValue = 100
+                cell.textFieldMinValue = 100
+                cell.textFieldMaxValue = 500
+                if let design_weight_transferRate = _paramterSettingDic.value(forKey: "design_weight_transferRate") as? Int{
+                    cell.parameterValue.text = "\(design_weight_transferRate)"
+                }
+                cell.switchsButton.isHidden = false
+            case 7:
                 cell.titleLabel.text = "设计师选取比例(%)"
                 cell.parameterValue.placeholder = "1 - 100"
                 cell.parameteUnit.text = "%"
@@ -801,6 +843,8 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             fifthTitleOfDoubleCheck.isHidden = false
             sixthTitleOfDoubleCheck.isHidden = false
             seventhTitleOfDoubleCheck.isHidden = true
+            eighthTitleOfDoubleCheck.isHidden = true
+            
             
             secondBeforeValueOfDoubleCheck.isHidden = false
             thirdBeforeValueOfDoubleCheck.isHidden = false
@@ -808,6 +852,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             fifthBeforeValueOfDoubleCheck.isHidden = false
             sixthBeforeValueOfDoubleCheck.isHidden = false
             seventhBeforeValueOfDoubleCheck.isHidden = true
+            eighthBeforeValueOfDoubleCheck.isHidden = true
             
             secondAfterValueOfDoubleCheck.isHidden = false
             thirdAfterValueOfDoubleCheck.isHidden = false
@@ -815,6 +860,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             fifthAfterValueOfDoubleCheck.isHidden = false
             sixthAfterValueOfDoubleCheck.isHidden = false
             seventhAfterValueOfDoubleCheck.isHidden = true
+            eighthAfterValueOfDoubleCheck.isHidden = true
             
             firstTitleOfDoubleCheck.text = "参考转化率时间范围(天)"
             secondTitleOfDoubleCheck.text = "参考转化率默认值(%)"
@@ -900,6 +946,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             fifthTitleOfDoubleCheck.isHidden = true
             sixthTitleOfDoubleCheck.isHidden = true
             seventhTitleOfDoubleCheck.isHidden = true
+            eighthTitleOfDoubleCheck.isHidden = true
             
             secondAfterValueOfDoubleCheck.isHidden = false
             thirdAfterValueOfDoubleCheck.isHidden = true
@@ -907,6 +954,8 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             fifthAfterValueOfDoubleCheck.isHidden = true
             sixthAfterValueOfDoubleCheck.isHidden = true
             seventhAfterValueOfDoubleCheck.isHidden = true
+            eighthAfterValueOfDoubleCheck.isHidden = true
+            
             
             secondBeforeValueOfDoubleCheck.isHidden = false
             thirdBeforeValueOfDoubleCheck.isHidden = true
@@ -914,6 +963,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             fifthBeforeValueOfDoubleCheck.isHidden = true
             sixthBeforeValueOfDoubleCheck.isHidden = true
             seventhBeforeValueOfDoubleCheck.isHidden = true
+            eighthBeforeValueOfDoubleCheck.isHidden = true
             
             firstTitleOfDoubleCheck.text = "待跟大单时间范围(天)"
             secondTitleOfDoubleCheck.text = "待跟大单选取比例(%)"
@@ -949,6 +999,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             fifthTitleOfDoubleCheck.isHidden = false
             sixthTitleOfDoubleCheck.isHidden = false
             seventhTitleOfDoubleCheck.isHidden = false
+            eighthTitleOfDoubleCheck.isHidden = false
             
             secondAfterValueOfDoubleCheck.isHidden = false
             thirdAfterValueOfDoubleCheck.isHidden = false
@@ -956,6 +1007,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             fifthAfterValueOfDoubleCheck.isHidden = false
             sixthAfterValueOfDoubleCheck.isHidden = false
             seventhAfterValueOfDoubleCheck.isHidden = false
+            eighthAfterValueOfDoubleCheck.isHidden = false
             
             secondBeforeValueOfDoubleCheck.isHidden = false
             thirdBeforeValueOfDoubleCheck.isHidden = false
@@ -963,6 +1015,8 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             fifthBeforeValueOfDoubleCheck.isHidden = false
             sixthBeforeValueOfDoubleCheck.isHidden = false
             seventhBeforeValueOfDoubleCheck.isHidden = false
+            eighthBeforeValueOfDoubleCheck.isHidden = false
+            
             
             firstTitleOfDoubleCheck.text = "设计派单轮换时间(秒)"
             secondTitleOfDoubleCheck.text = "设计权重-设计单权重"
@@ -970,7 +1024,8 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             fouthTitleOfDoubleCheck.text = "设计权重-出图时间权重"
             fifthTitleOfDoubleCheck.text = "设计权重-拒单率权重"
             sixthTitleOfDoubleCheck.text = "设计权重-定稿率权重"
-            seventhTitleOfDoubleCheck.text = "设计师选取比例(%)"
+            seventhTitleOfDoubleCheck.text = "设计权重-转单率权重"
+            eighthTitleOfDoubleCheck.text = "设计师选取比例(%)"
             if let design_dispatch_timeInterval = afterDictionary.value(forKey: "design_dispatch_timeInterval") as? Int{
                 firstAfterValueOfDoubleCheck.text = "\(design_dispatch_timeInterval)"
             }else{
@@ -1037,15 +1092,26 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
                 sixthBeforeValueOfDoubleCheck.text = "\(design_weight_adoptRate)"
             }
             //7
+            if let design_weight_transferRate = afterDictionary.value(forKey: "design_weight_transferRate") as? Int{
+                seventhAfterValueOfDoubleCheck.text = "\(design_weight_transferRate)"
+            }else{
+                if let design_weight_transferRate = afterDictionary.value(forKey: "design_weight_transferRate") as? String{
+                    seventhAfterValueOfDoubleCheck.text = "\(design_weight_transferRate)"
+                }
+            }
+            if let design_weight_transferRate = beforeDictionary.value(forKey: "design_weight_transferRate") as? Int{
+                seventhBeforeValueOfDoubleCheck.text = "\(design_weight_transferRate)"
+            }
+            //8
             if let design_dispatch_topWeight = afterDictionary.value(forKey: "design_dispatch_topWeight") as? Double{
-                seventhAfterValueOfDoubleCheck.text = "\(Int(design_dispatch_topWeight * 100))"
+                eighthAfterValueOfDoubleCheck.text = "\(Int(design_dispatch_topWeight * 100))"
             }else{
                 if let design_dispatch_topWeight = afterDictionary.value(forKey: "design_dispatch_topWeight") as? String{
-                    seventhAfterValueOfDoubleCheck.text = "\(Int(Double(design_dispatch_topWeight as! String)! * 100))"
+                    eighthAfterValueOfDoubleCheck.text = "\(Int(Double(design_dispatch_topWeight as! String)! * 100))"
                 }
             }
             if let design_dispatch_topWeight = beforeDictionary.value(forKey: "design_dispatch_topWeight") as? Double{
-                seventhBeforeValueOfDoubleCheck.text = "\(Int(design_dispatch_topWeight * 100))"
+                eighthBeforeValueOfDoubleCheck.text = "\(Int(design_dispatch_topWeight * 100))"
             }
             
         case .DSHangUpSetting:
@@ -1056,6 +1122,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             fifthTitleOfDoubleCheck.isHidden = true
             sixthTitleOfDoubleCheck.isHidden = true
             seventhTitleOfDoubleCheck.isHidden = true
+            eighthTitleOfDoubleCheck.isHidden = true
             
             secondAfterValueOfDoubleCheck.isHidden = true
             thirdAfterValueOfDoubleCheck.isHidden = true
@@ -1063,6 +1130,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             fifthAfterValueOfDoubleCheck.isHidden = true
             sixthAfterValueOfDoubleCheck.isHidden = true
             seventhAfterValueOfDoubleCheck.isHidden = true
+            eighthAfterValueOfDoubleCheck.isHidden = true
             
             secondBeforeValueOfDoubleCheck.isHidden = true
             thirdBeforeValueOfDoubleCheck.isHidden = true
@@ -1070,6 +1138,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             fifthBeforeValueOfDoubleCheck.isHidden = true
             sixthBeforeValueOfDoubleCheck.isHidden = true
             seventhBeforeValueOfDoubleCheck.isHidden = true
+            eighthBeforeValueOfDoubleCheck.isHidden = true
             
             firstTitleOfDoubleCheck.text = "最少保证在线设计师数(人)"
             if let designer_onlineLimit = afterDictionary.value(forKey: "designer_onlineLimit") as? Int{
@@ -1092,6 +1161,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             fifthTitleOfDoubleCheck.isHidden = false
             sixthTitleOfDoubleCheck.isHidden = true
             seventhTitleOfDoubleCheck.isHidden = true
+            eighthTitleOfDoubleCheck.isHidden = true
             
             secondAfterValueOfDoubleCheck.isHidden = false
             thirdAfterValueOfDoubleCheck.isHidden = false
@@ -1099,6 +1169,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             fifthAfterValueOfDoubleCheck.isHidden = false
             sixthAfterValueOfDoubleCheck.isHidden = true
             seventhAfterValueOfDoubleCheck.isHidden = true
+            eighthAfterValueOfDoubleCheck.isHidden = true
             
             secondBeforeValueOfDoubleCheck.isHidden = false
             thirdBeforeValueOfDoubleCheck.isHidden = false
@@ -1106,6 +1177,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             fifthBeforeValueOfDoubleCheck.isHidden = false
             sixthBeforeValueOfDoubleCheck.isHidden = true
             seventhBeforeValueOfDoubleCheck.isHidden = true
+            eighthBeforeValueOfDoubleCheck.isHidden = true
             
             firstTitleOfDoubleCheck.text = "设计费最小值(元)"
             secondTitleOfDoubleCheck.text = "设计费默认比例(%)"
@@ -1186,6 +1258,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             fifthTitleOfDoubleCheck.isHidden = true
             sixthTitleOfDoubleCheck.isHidden = true
             seventhTitleOfDoubleCheck.isHidden = true
+            eighthTitleOfDoubleCheck.isHidden = true
             
             secondAfterValueOfDoubleCheck.isHidden = true
             thirdAfterValueOfDoubleCheck.isHidden = true
@@ -1193,6 +1266,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             fifthAfterValueOfDoubleCheck.isHidden = true
             sixthAfterValueOfDoubleCheck.isHidden = true
             seventhAfterValueOfDoubleCheck.isHidden = true
+            eighthAfterValueOfDoubleCheck.isHidden = true
             
             secondBeforeValueOfDoubleCheck.isHidden = true
             thirdBeforeValueOfDoubleCheck.isHidden = true
@@ -1200,6 +1274,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
             fifthBeforeValueOfDoubleCheck.isHidden = true
             sixthBeforeValueOfDoubleCheck.isHidden = true
             seventhBeforeValueOfDoubleCheck.isHidden = true
+            eighthBeforeValueOfDoubleCheck.isHidden = true
             
             firstTitleOfDoubleCheck.text = "3D打印自动报价最低值(元)"
 
@@ -1279,7 +1354,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
         let userInfos = getCurrentUserInfo()
         let token = userInfos.value(forKey: "token") as? String
         let userId = userInfos.value(forKey: "userid") as? String
-        guard userId == "10000005" || userId == "10000029" || userId == "1000055" else {
+        guard userId == "10000005" || userId == "10000029" || userId == "10000190" else {
             greyLayerPrompt.show(text: "您没有修改参数权限")
             return
         }
@@ -1309,6 +1384,7 @@ class pamaterSettingViewController: UIViewController,UITableViewDelegate,UITable
         params["design_weight_averageDesignTime"] = _paramterSettingDic.value(forKey: "design_weight_averageDesignTime")
         params["design_weight_refuseRate"] = _paramterSettingDic.value(forKey: "design_weight_refuseRate")
         params["design_weight_adoptRate"] = _paramterSettingDic.value(forKey: "design_weight_adoptRate")
+        params["design_weight_transferRate"] = _paramterSettingDic.value(forKey: "design_weight_transferRate")
         params["design_dispatch_topWeight"] = _paramterSettingDic.value(forKey: "design_dispatch_topWeight")
             
         params["designer_onlineLimit"] = _paramterSettingDic.value(forKey: "designer_onlineLimit")

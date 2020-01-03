@@ -83,14 +83,10 @@ class SecuritySettingViewController: UIViewController,UITableViewDelegate,UITabl
                     self.switchForSecurity.isOn = false
                 }
                 let toSettingAction = UIAlertAction(title: "去开启", style: .default) { (UIAlertAction) in
-                    
-//                    let gesture = GestureViewController()
-//                    gesture.securityVC = self
-//                    gesture.type = GestureViewControllerType.setting
-//                    self.present(gesture, animated: true, completion: nil)
                     let verifyGesture = GestureVerifyViewController()
                     verifyGesture.presentActionType = "presenting"
                     verifyGesture.fatherVC = self
+                    verifyGesture.modalPresentationStyle = .fullScreen
                     self.present(verifyGesture, animated: true, completion: nil)
                     updateOrWriteDataToServer(isToOpen:true,isToDelete:false)
                     
@@ -133,6 +129,7 @@ class SecuritySettingViewController: UIViewController,UITableViewDelegate,UITabl
                 //安全登录开着呢，一定已经设置过了，直接验证
                 let gestureVerify = GestureVerifyViewController()
                 gestureVerify.fatherVC = self
+                gestureVerify.modalPresentationStyle = .fullScreen
                 self.present(gestureVerify, animated: true, completion: nil)
             }else{
                 //安全登录关闭着呢，判断是不是第一次设置
@@ -146,6 +143,7 @@ class SecuritySettingViewController: UIViewController,UITableViewDelegate,UITabl
                     let verifyGesture = GestureVerifyViewController()
                     verifyGesture.presentActionType = "presenting"
                     verifyGesture.fatherVC = self
+                    verifyGesture.modalPresentationStyle = .fullScreen
                     self.present(verifyGesture, animated: true, completion: nil)
                     
                     updateOrWriteDataToServer(isToOpen:true,isToDelete:false)
@@ -160,6 +158,7 @@ class SecuritySettingViewController: UIViewController,UITableViewDelegate,UITabl
                     //不是第一次，验证并修改
                     let gestureVerify = GestureVerifyViewController()
                     gestureVerify.fatherVC = self
+                    gestureVerify.modalPresentationStyle = .fullScreen
                     self.present(gestureVerify, animated: true, completion: nil)
                 }
             }

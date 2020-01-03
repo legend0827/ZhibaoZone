@@ -32,7 +32,6 @@
 		0A25DF97201D7E63009CBDEA /* contactList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A25DF96201D7E63009CBDEA /* contactList.plist */; };
 		0A2B67572130EBA000E9B81A /* UIKVAnimationLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2B67562130EBA000E9B81A /* UIKVAnimationLabel.swift */; };
 		0A2C801A20ABF3E900873162 /* PagingMenuController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A252F0F2095D44800C1F7F4 /* PagingMenuController.framework */; };
-		0A2C801C20ABF44E00873162 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A2C801B20ABF44E00873162 /* Images.xcassets */; };
 		0A2C801D20ABF51800873162 /* PagingMenuController.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0A252F0F2095D44800C1F7F4 /* PagingMenuController.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0A2D86D021F19719004ED341 /* FilterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2D86CF21F19719004ED341 /* FilterTableViewCell.swift */; };
 		0A38067B2031DB680077E77F /* CircleInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A38067A2031DB680077E77F /* CircleInfoView.swift */; };
@@ -65,6 +64,9 @@
 		0A5B5C1C1FF2248700A92C20 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B5C1B1FF2248700A92C20 /* User.swift */; };
 		0A5B5C1E1FF23B5F00A92C20 /* greyLayerPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B5C1D1FF23B5F00A92C20 /* greyLayerPrompt.swift */; };
 		0A5B5C201FF2536300A92C20 /* CoreDataOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B5C1F1FF2536300A92C20 /* CoreDataOperation.swift */; };
+		0A5D0C5C23215C91001967E1 /* FactorySettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D0C5B23215C91001967E1 /* FactorySettingViewController.swift */; };
+		0A5D0C6823215CC5001967E1 /* FactoryListSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D0C6723215CC5001967E1 /* FactoryListSettingTableViewCell.swift */; };
+		0A5D0C6A23215CD6001967E1 /* FactoryListSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D0C6923215CD6001967E1 /* FactoryListSettingViewController.swift */; };
 		0A610D8C201C282A00DE46B7 /* chooseContactTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A610D8B201C282A00DE46B7 /* chooseContactTableViewController.swift */; };
 		0A610D8F201C296B00DE46B7 /* chooseContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A610D8E201C296B00DE46B7 /* chooseContactTableViewCell.swift */; };
 		0A6AD6581FF1EFB4009A511A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6AD6571FF1EFB4009A511A /* AppDelegate.swift */; };
@@ -130,6 +132,7 @@
 		0ADD7BB922816CFD00F0D653 /* uploadAdminInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADD7BB822816CFD00F0D653 /* uploadAdminInfoViewController.swift */; };
 		0AE149C62001E3BD005A2E55 /* NewTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE149C52001E3BD005A2E55 /* NewTaskViewController.swift */; };
 		0AE645282152054D00918DCE /* DINPro-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0AE645272152054D00918DCE /* DINPro-Medium.otf */; };
+		0AEA7FAB2330A15300370E5F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0AEA7FAD2330A15300370E5F /* InfoPlist.strings */; };
 		0AEC502C214CB1850000D06C /* calculatorKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEC502B214CB1850000D06C /* calculatorKeyboard.swift */; };
 		0AF06C4920171D40008E2DE9 /* ESPullToRefresh+Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF06C3B20171D40008E2DE9 /* ESPullToRefresh+Manager.swift */; };
 		0AF06C4A20171D40008E2DE9 /* ESRefreshAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF06C3C20171D40008E2DE9 /* ESRefreshAnimator.swift */; };
@@ -273,7 +276,6 @@
 		0A252F432096111B00C1F7F4 /* OrderSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSearchViewController.swift; sourceTree = "<group>"; };
 		0A25DF96201D7E63009CBDEA /* contactList.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = contactList.plist; sourceTree = "<group>"; };
 		0A2B67562130EBA000E9B81A /* UIKVAnimationLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKVAnimationLabel.swift; sourceTree = "<group>"; };
-		0A2C801B20ABF44E00873162 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0A2D86CF21F19719004ED341 /* FilterTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTableViewCell.swift; sourceTree = "<group>"; };
 		0A38067A2031DB680077E77F /* CircleInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleInfoView.swift; sourceTree = "<group>"; };
 		0A3806832031E0B30077E77F /* LockLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockLabel.swift; sourceTree = "<group>"; };
@@ -305,6 +307,9 @@
 		0A5B5C1B1FF2248700A92C20 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		0A5B5C1D1FF23B5F00A92C20 /* greyLayerPrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = greyLayerPrompt.swift; sourceTree = "<group>"; };
 		0A5B5C1F1FF2536300A92C20 /* CoreDataOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataOperation.swift; sourceTree = "<group>"; };
+		0A5D0C5B23215C91001967E1 /* FactorySettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorySettingViewController.swift; sourceTree = "<group>"; };
+		0A5D0C6723215CC5001967E1 /* FactoryListSettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactoryListSettingTableViewCell.swift; sourceTree = "<group>"; };
+		0A5D0C6923215CD6001967E1 /* FactoryListSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactoryListSettingViewController.swift; sourceTree = "<group>"; };
 		0A610D8B201C282A00DE46B7 /* chooseContactTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chooseContactTableViewController.swift; sourceTree = "<group>"; };
 		0A610D8E201C296B00DE46B7 /* chooseContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chooseContactTableViewCell.swift; sourceTree = "<group>"; };
 		0A6AD6541FF1EFB4009A511A /* ZhibaoZone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZhibaoZone.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -377,6 +382,9 @@
 		0ADD7BB822816CFD00F0D653 /* uploadAdminInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = uploadAdminInfoViewController.swift; sourceTree = "<group>"; };
 		0AE149C52001E3BD005A2E55 /* NewTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskViewController.swift; sourceTree = "<group>"; };
 		0AE645272152054D00918DCE /* DINPro-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DINPro-Medium.otf"; sourceTree = "<group>"; };
+		0AEA7FAC2330A15300370E5F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		0AEA7FAE2330A15F00370E5F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0AEA7FAF2330A16200370E5F /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		0AEC502B214CB1850000D06C /* calculatorKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calculatorKeyboard.swift; sourceTree = "<group>"; };
 		0AF06C3B20171D40008E2DE9 /* ESPullToRefresh+Manager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ESPullToRefresh+Manager.swift"; sourceTree = "<group>"; };
 		0AF06C3C20171D40008E2DE9 /* ESRefreshAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ESRefreshAnimator.swift; sourceTree = "<group>"; };
@@ -611,7 +619,6 @@
 				0A6AD65B1FF1EFB4009A511A /* Main.storyboard */,
 				0A6AD6661FF1EFB4009A511A /* Info.plist */,
 				0A6B3F0E1FFB38BE0014AF24 /* AccountInfo.xcdatamodeld */,
-				0A2C801B20ABF44E00873162 /* Images.xcassets */,
 			);
 			path = ZhibaoZone;
 			sourceTree = "<group>";
@@ -647,6 +654,9 @@
 			children = (
 				0A8A00542237B0B700AB8AC2 /* pamaterSettingViewController.swift */,
 				0A8A00562237B9EA00AB8AC2 /* parameterSettingListTableViewCell.swift */,
+				0A5D0C5B23215C91001967E1 /* FactorySettingViewController.swift */,
+				0A5D0C6723215CC5001967E1 /* FactoryListSettingTableViewCell.swift */,
+				0A5D0C6923215CD6001967E1 /* FactoryListSettingViewController.swift */,
 			);
 			path = parameterSetting;
 			sourceTree = "<group>";
@@ -810,6 +820,7 @@
 				0A4EF7792191A801006E4DA7 /* invoiceViewController.swift */,
 				0A4EF77B2191AD22006E4DA7 /* InvoiceCollectionViewCell.swift */,
 				0A3AA2161FF61C6E00EBC482 /* MeViewController.swift */,
+				0AEA7FAD2330A15300370E5F /* InfoPlist.strings */,
 				0A68BBB420294D1300359A78 /* SetSecuritySetting */,
 				0A036A59202867FB00A2F036 /* SecuritySetting */,
 				0A594E15206C841600A67950 /* SetParameters */,
@@ -1117,6 +1128,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0AF06C4E20171D40008E2DE9 /* icon_pull_to_refresh_arrow@2x.png in Resources */,
+				0AEA7FAB2330A15300370E5F /* InfoPlist.strings in Resources */,
 				0AFE8E4A2179F7A50094F088 /* config_systemCategory.plist in Resources */,
 				0A450ECD21BF601B0070186E /* config_systemParas.plist in Resources */,
 				0AF06C4C20171D40008E2DE9 /* Localizable.strings in Resources */,
@@ -1129,7 +1141,6 @@
 				0AB76696200CA8AB00851E16 /* config.plist in Resources */,
 				0A81924122CCA0E90004BE2F /* HGImage.storyboard in Resources */,
 				0AF06C5620187F4A008E2DE9 /* Assets.xcassets in Resources */,
-				0A2C801C20ABF44E00873162 /* Images.xcassets in Resources */,
 				0A6AD65D1FF1EFB4009A511A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1245,6 +1256,7 @@
 				0AF06C4920171D40008E2DE9 /* ESPullToRefresh+Manager.swift in Sources */,
 				0A81923F22CCA0E90004BE2F /* HGImageCollectionViewController.swift in Sources */,
 				0A450ECF21C26CC80070186E /* designerOnlineStatusViewController.swift in Sources */,
+				0A5D0C5C23215C91001967E1 /* FactorySettingViewController.swift in Sources */,
 				0AC4B49E20FDE31500312092 /* accountListTableViewCell.swift in Sources */,
 				0AAAFA5C20BE5B67005C7F25 /* QuotePriceTableViewCell.swift in Sources */,
 				0A09185120AAB2320054749B /* OrdersCollectionViewCell.swift in Sources */,
@@ -1282,6 +1294,7 @@
 				0A390920218B451F0048B9F5 /* PrivacyPolicyAgreementViewController.swift in Sources */,
 				0A594E29207079CD00A67950 /* ReplyTableViewCell.swift in Sources */,
 				0AD666952227D5B20027C927 /* quotePriceHistoryTableViewCell.swift in Sources */,
+				0A5D0C6823215CC5001967E1 /* FactoryListSettingTableViewCell.swift in Sources */,
 				0A594E272070797800A67950 /* ReplyTableViewTableViewController.swift in Sources */,
 				0A38068C2035D6560077E77F /* GestureViewController.swift in Sources */,
 				0AF06C4D20171D40008E2DE9 /* ESRefreshHeaderAnimator.swift in Sources */,
@@ -1300,6 +1313,7 @@
 				0AAAFA6020BE83D6005C7F25 /* ParasActionView.swift in Sources */,
 				0ACD41362064B4B4002F1D14 /* normalUserViewController.swift in Sources */,
 				0AAAFA5A20BD4C7C005C7F25 /* QuotePriceViewController.swift in Sources */,
+				0A5D0C6A23215CD6001967E1 /* FactoryListSettingViewController.swift in Sources */,
 				0A81924422CCA0E90004BE2F /* HGImageCompleteButton.swift in Sources */,
 				0A0235B41FFD23B900CBD846 /* OrdersViewController.swift in Sources */,
 				0ADD7BB722800FE400F0D653 /* customerListTableViewCell.swift in Sources */,
@@ -1370,6 +1384,16 @@
 				0A6AD65C1FF1EFB4009A511A /* Base */,
 			);
 			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		0AEA7FAD2330A15300370E5F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0AEA7FAC2330A15300370E5F /* zh-Hans */,
+				0AEA7FAE2330A15F00370E5F /* en */,
+				0AEA7FAF2330A16200370E5F /* zh-Hant */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		0AF06C3F20171D40008E2DE9 /* Localizable.strings */ = {
@@ -1508,6 +1532,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Xiaogang Liu (2989VF99X4)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Xiaogang Liu (2989VF99X4)";
 				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 64;
 				DEVELOPMENT_TEAM = 8NH4GBBX4T;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1518,6 +1543,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/ZhibaoZone.xcodeproj/Pods/Realm/core";
+				MARKETING_VERSION = 2.2.24;
 				OTHER_LDFLAGS = (
 					"-Objc",
 					"-all_load",
@@ -1545,6 +1571,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Xiaogang Liu (2989VF99X4)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Xiaogang Liu (2989VF99X4)";
 				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 64;
 				DEVELOPMENT_TEAM = 8NH4GBBX4T;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1555,6 +1582,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/ZhibaoZone.xcodeproj/Pods/Realm/core";
+				MARKETING_VERSION = 2.2.24;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",

@@ -180,6 +180,7 @@ class waitForHandleTaskListViewController: UIViewController,UITableViewDelegate,
         }
         let taskDetailView = LeaveMsgDetailViewController(currentTaskID: taskID, currentCustomid: customeID, currentOrderID: OrderID!, currentGoodsID: GoodsID!, currentTaskType: TaskType!)
         let nav:UINavigationController = UINavigationController.init(rootViewController: taskDetailView)
+        nav.modalPresentationStyle = .fullScreen
         self.present(nav, animated: true, completion: nil)
         
     }

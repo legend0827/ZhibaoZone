@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import ZhibaoZone
+//@testable import ZhibaoZone
 
 class ZhibaoZoneTests: XCTestCase {
     

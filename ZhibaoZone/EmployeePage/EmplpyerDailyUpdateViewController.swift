@@ -86,7 +86,7 @@ class EmplpyerDailyUpdateViewController: UIViewController {
         
         setupUI()
         updatePage()
-        getDailyUpdate()
+        //getDailyUpdate()
 
         // Do any additional setup after loading the view.
     }
@@ -94,7 +94,7 @@ class EmplpyerDailyUpdateViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         setStatusBarBackgroundColor(color: UIColor.clear)
         setStatusBarHiden(toHidden: true, ViewController: self)
-        getDailyUpdate()
+       // getDailyUpdate()
     }
     func setupUI(){
         let now = Date()

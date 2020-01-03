@@ -447,6 +447,7 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
         editOrderVC.orderObject = orderArray[selectedIndex]
         editOrderVC.orderVCObject = self
         let nav = UINavigationController.init(rootViewController: editOrderVC)
+        nav.modalPresentationStyle = .fullScreen
         self.present(nav, animated: true, completion: nil)
     }
     @objc func takePhotoBtnCliced(_ button:UIButton){
@@ -454,6 +455,7 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
         let uploadVC = UploadProductImageViewController()
         uploadVC.orderObject = orderArray[selectedIndex]
         let nav = UINavigationController.init(rootViewController: uploadVC)
+        nav.modalPresentationStyle = .fullScreen
         self.present(nav, animated: true, completion: nil)
     }
     
