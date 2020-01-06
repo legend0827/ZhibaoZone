@@ -10,8 +10,6 @@ import UIKit
 import CoreData
 import Alamofire
 
-
-
 class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
     //用户信息支持表

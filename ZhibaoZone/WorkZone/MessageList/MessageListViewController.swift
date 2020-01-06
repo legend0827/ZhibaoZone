@@ -664,7 +664,6 @@ class MessageListViewController: UIViewController,UITableViewDelegate,UITableVie
 // 获取用户信息
 func getCurrentUserInfo() -> NSDictionary{
     var UserInfos = [String:String]()
-    
     //从datacore获取用户数据
     //获取管理的数据上下文，对象
     

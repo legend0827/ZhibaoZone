@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0A0235B41FFD23B900CBD846 /* OrdersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0235B31FFD23B900CBD846 /* OrdersViewController.swift */; };
-		0A0235B61FFD23C600CBD846 /* TastsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0235B51FFD23C600CBD846 /* TastsViewController.swift */; };
 		0A036A512027FE7F00A2F036 /* UnlockGestureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A036A502027FE7F00A2F036 /* UnlockGestureView.swift */; };
 		0A036A5B2028682D00A2F036 /* SecuritySettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A036A5A2028682D00A2F036 /* SecuritySettingViewController.swift */; };
 		0A053D5D210084EB00E6A006 /* VerifyPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A053D5C210084EB00E6A006 /* VerifyPasswordViewController.swift */; };
@@ -23,10 +22,6 @@
 		0A13FB212159DB9A004066F0 /* ChooseTimeIntervalCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A13FB202159DB9A004066F0 /* ChooseTimeIntervalCellTableViewCell.swift */; };
 		0A20028A206134CD00A81D21 /* LeaveMsgContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A200289206134CD00A81D21 /* LeaveMsgContentTableViewCell.swift */; };
 		0A244E542096F35D00203463 /* ActionViewInOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A244E532096F35D00203463 /* ActionViewInOrder.swift */; };
-		0A244E5B2098614E00203463 /* waitForHandleTaskListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A244E5A2098614E00203463 /* waitForHandleTaskListViewController.swift */; };
-		0A244E5D2098616900203463 /* MineCreationTaskListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A244E5C2098616900203463 /* MineCreationTaskListViewController.swift */; };
-		0A244E5F2098617700203463 /* FinishedTaskListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A244E5E2098617700203463 /* FinishedTaskListViewController.swift */; };
-		0A244E612098917C00203463 /* TestPushViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A244E602098917C00203463 /* TestPushViewController.swift */; };
 		0A252F322095DD6E00C1F7F4 /* AllOrdersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A252F312095DD6E00C1F7F4 /* AllOrdersViewController.swift */; };
 		0A252F442096111B00C1F7F4 /* OrderSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A252F432096111B00C1F7F4 /* OrderSearchViewController.swift */; };
 		0A25DF97201D7E63009CBDEA /* contactList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A25DF96201D7E63009CBDEA /* contactList.plist */; };
@@ -45,7 +40,6 @@
 		0A3A868E21F0DD6700068BEE /* statisticTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A868D21F0DD6700068BEE /* statisticTableViewCell.swift */; };
 		0A3A869221F180F900068BEE /* PopUpsPortialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A869121F180F900068BEE /* PopUpsPortialViewController.swift */; };
 		0A3A869421F181E400068BEE /* FilterForHorizentalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A869321F181E400068BEE /* FilterForHorizentalView.swift */; };
-		0A3AA20E1FF61C5F00EBC482 /* WorkZoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3AA20D1FF61C5F00EBC482 /* WorkZoneViewController.swift */; };
 		0A3AA2171FF61C6E00EBC482 /* MeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3AA2161FF61C6E00EBC482 /* MeViewController.swift */; };
 		0A3CC3B9209572970055B5DD /* Extentsions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3CC3B8209572970055B5DD /* Extentsions.swift */; };
 		0A450ECD21BF601B0070186E /* config_systemParas.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A450ECC21BF601B0070186E /* config_systemParas.plist */; };
@@ -67,8 +61,6 @@
 		0A5D0C5C23215C91001967E1 /* FactorySettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D0C5B23215C91001967E1 /* FactorySettingViewController.swift */; };
 		0A5D0C6823215CC5001967E1 /* FactoryListSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D0C6723215CC5001967E1 /* FactoryListSettingTableViewCell.swift */; };
 		0A5D0C6A23215CD6001967E1 /* FactoryListSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D0C6923215CD6001967E1 /* FactoryListSettingViewController.swift */; };
-		0A610D8C201C282A00DE46B7 /* chooseContactTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A610D8B201C282A00DE46B7 /* chooseContactTableViewController.swift */; };
-		0A610D8F201C296B00DE46B7 /* chooseContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A610D8E201C296B00DE46B7 /* chooseContactTableViewCell.swift */; };
 		0A6AD6581FF1EFB4009A511A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6AD6571FF1EFB4009A511A /* AppDelegate.swift */; };
 		0A6AD65A1FF1EFB4009A511A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6AD6591FF1EFB4009A511A /* ViewController.swift */; };
 		0A6AD65D1FF1EFB4009A511A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A6AD65B1FF1EFB4009A511A /* Main.storyboard */; };
@@ -89,7 +81,6 @@
 		0A8A00522237AB3400AB8AC2 /* parameterSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8A00512237AB3400AB8AC2 /* parameterSettingTableViewCell.swift */; };
 		0A8A00552237B0B700AB8AC2 /* pamaterSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8A00542237B0B700AB8AC2 /* pamaterSettingViewController.swift */; };
 		0A8A00572237B9EA00AB8AC2 /* parameterSettingListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8A00562237B9EA00AB8AC2 /* parameterSettingListTableViewCell.swift */; };
-		0A9716832009F910007922FB /* NewTaskViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9716822009F910007922FB /* NewTaskViewCell.swift */; };
 		0A99705D20ADB8C500E4D37C /* OrderSearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A99705C20ADB8C500E4D37C /* OrderSearchCollectionViewCell.swift */; };
 		0A99706B20AED7C500E4D37C /* CollectionReusableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A99706A20AED7C500E4D37C /* CollectionReusableViewHeader.swift */; };
 		0A9970AD20B64A2400E4D37C /* ScanCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9970AC20B64A2400E4D37C /* ScanCodeViewController.swift */; };
@@ -130,7 +121,6 @@
 		0ADD7BB5227FE04400F0D653 /* CustomerManageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADD7BB4227FE04400F0D653 /* CustomerManageViewController.swift */; };
 		0ADD7BB722800FE400F0D653 /* customerListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADD7BB622800FE400F0D653 /* customerListTableViewCell.swift */; };
 		0ADD7BB922816CFD00F0D653 /* uploadAdminInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADD7BB822816CFD00F0D653 /* uploadAdminInfoViewController.swift */; };
-		0AE149C62001E3BD005A2E55 /* NewTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE149C52001E3BD005A2E55 /* NewTaskViewController.swift */; };
 		0AE645282152054D00918DCE /* DINPro-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0AE645272152054D00918DCE /* DINPro-Medium.otf */; };
 		0AEA7FAB2330A15300370E5F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0AEA7FAD2330A15300370E5F /* InfoPlist.strings */; };
 		0AEC502C214CB1850000D06C /* calculatorKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEC502B214CB1850000D06C /* calculatorKeyboard.swift */; };
@@ -144,7 +134,6 @@
 		0AF06C5020171D40008E2DE9 /* ESRefreshProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF06C4620171D40008E2DE9 /* ESRefreshProtocol.swift */; };
 		0AF06C5120171D40008E2DE9 /* ES.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF06C4720171D40008E2DE9 /* ES.swift */; };
 		0AF06C5220171D40008E2DE9 /* ESPullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF06C4820171D40008E2DE9 /* ESPullToRefresh.swift */; };
-		0AF06C542018638F008E2DE9 /* TaskListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF06C532018638F008E2DE9 /* TaskListTableViewCell.swift */; };
 		0AF06C5620187F4A008E2DE9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AF06C5520187F4A008E2DE9 /* Assets.xcassets */; };
 		0AF06C582018F465008E2DE9 /* LeaveMsgDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF06C572018F465008E2DE9 /* LeaveMsgDetailViewController.swift */; };
 		0AF57AB921F9559E001059DA /* StatisticOrderListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF57AB821F9559E001059DA /* StatisticOrderListViewController.swift */; };
@@ -252,7 +241,6 @@
 /* Begin PBXFileReference section */
 		0A00793D1FFCB626005E93B6 /* SwiftNotice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftNotice.swift; sourceTree = "<group>"; };
 		0A0235B31FFD23B900CBD846 /* OrdersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersViewController.swift; sourceTree = "<group>"; };
-		0A0235B51FFD23C600CBD846 /* TastsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TastsViewController.swift; sourceTree = "<group>"; };
 		0A036A502027FE7F00A2F036 /* UnlockGestureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockGestureView.swift; sourceTree = "<group>"; };
 		0A036A5A2028682D00A2F036 /* SecuritySettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySettingViewController.swift; sourceTree = "<group>"; };
 		0A053D5C210084EB00E6A006 /* VerifyPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyPasswordViewController.swift; sourceTree = "<group>"; };
@@ -267,10 +255,6 @@
 		0A13FB202159DB9A004066F0 /* ChooseTimeIntervalCellTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseTimeIntervalCellTableViewCell.swift; sourceTree = "<group>"; };
 		0A200289206134CD00A81D21 /* LeaveMsgContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaveMsgContentTableViewCell.swift; sourceTree = "<group>"; };
 		0A244E532096F35D00203463 /* ActionViewInOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionViewInOrder.swift; sourceTree = "<group>"; };
-		0A244E5A2098614E00203463 /* waitForHandleTaskListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = waitForHandleTaskListViewController.swift; sourceTree = "<group>"; };
-		0A244E5C2098616900203463 /* MineCreationTaskListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineCreationTaskListViewController.swift; sourceTree = "<group>"; };
-		0A244E5E2098617700203463 /* FinishedTaskListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishedTaskListViewController.swift; sourceTree = "<group>"; };
-		0A244E602098917C00203463 /* TestPushViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPushViewController.swift; sourceTree = "<group>"; };
 		0A252F0A2095D44800C1F7F4 /* PagingMenuController.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PagingMenuController.xcodeproj; path = "../../../Downloads/PagingMenuController-master/PagingMenuController.xcodeproj"; sourceTree = "<group>"; };
 		0A252F312095DD6E00C1F7F4 /* AllOrdersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllOrdersViewController.swift; sourceTree = "<group>"; };
 		0A252F432096111B00C1F7F4 /* OrderSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSearchViewController.swift; sourceTree = "<group>"; };
@@ -288,7 +272,6 @@
 		0A3A868D21F0DD6700068BEE /* statisticTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = statisticTableViewCell.swift; sourceTree = "<group>"; };
 		0A3A869121F180F900068BEE /* PopUpsPortialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpsPortialViewController.swift; sourceTree = "<group>"; };
 		0A3A869321F181E400068BEE /* FilterForHorizentalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterForHorizentalView.swift; sourceTree = "<group>"; };
-		0A3AA20D1FF61C5F00EBC482 /* WorkZoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkZoneViewController.swift; sourceTree = "<group>"; };
 		0A3AA2161FF61C6E00EBC482 /* MeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeViewController.swift; sourceTree = "<group>"; };
 		0A3CC3B8209572970055B5DD /* Extentsions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Extentsions.swift; path = ZhibaoZone/Extentsions.swift; sourceTree = SOURCE_ROOT; };
 		0A450ECC21BF601B0070186E /* config_systemParas.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = config_systemParas.plist; sourceTree = "<group>"; };
@@ -310,8 +293,6 @@
 		0A5D0C5B23215C91001967E1 /* FactorySettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorySettingViewController.swift; sourceTree = "<group>"; };
 		0A5D0C6723215CC5001967E1 /* FactoryListSettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactoryListSettingTableViewCell.swift; sourceTree = "<group>"; };
 		0A5D0C6923215CD6001967E1 /* FactoryListSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactoryListSettingViewController.swift; sourceTree = "<group>"; };
-		0A610D8B201C282A00DE46B7 /* chooseContactTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chooseContactTableViewController.swift; sourceTree = "<group>"; };
-		0A610D8E201C296B00DE46B7 /* chooseContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chooseContactTableViewCell.swift; sourceTree = "<group>"; };
 		0A6AD6541FF1EFB4009A511A /* ZhibaoZone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZhibaoZone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A6AD6571FF1EFB4009A511A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0A6AD6591FF1EFB4009A511A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -339,7 +320,6 @@
 		0A8A00512237AB3400AB8AC2 /* parameterSettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = parameterSettingTableViewCell.swift; sourceTree = "<group>"; };
 		0A8A00542237B0B700AB8AC2 /* pamaterSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pamaterSettingViewController.swift; sourceTree = "<group>"; };
 		0A8A00562237B9EA00AB8AC2 /* parameterSettingListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = parameterSettingListTableViewCell.swift; sourceTree = "<group>"; };
-		0A9716822009F910007922FB /* NewTaskViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskViewCell.swift; sourceTree = "<group>"; };
 		0A99705C20ADB8C500E4D37C /* OrderSearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSearchCollectionViewCell.swift; sourceTree = "<group>"; };
 		0A99706A20AED7C500E4D37C /* CollectionReusableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionReusableViewHeader.swift; sourceTree = "<group>"; };
 		0A9970AC20B64A2400E4D37C /* ScanCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanCodeViewController.swift; sourceTree = "<group>"; };
@@ -380,7 +360,6 @@
 		0ADD7BB4227FE04400F0D653 /* CustomerManageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerManageViewController.swift; sourceTree = "<group>"; };
 		0ADD7BB622800FE400F0D653 /* customerListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customerListTableViewCell.swift; sourceTree = "<group>"; };
 		0ADD7BB822816CFD00F0D653 /* uploadAdminInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = uploadAdminInfoViewController.swift; sourceTree = "<group>"; };
-		0AE149C52001E3BD005A2E55 /* NewTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskViewController.swift; sourceTree = "<group>"; };
 		0AE645272152054D00918DCE /* DINPro-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DINPro-Medium.otf"; sourceTree = "<group>"; };
 		0AEA7FAC2330A15300370E5F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		0AEA7FAE2330A15F00370E5F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -398,7 +377,6 @@
 		0AF06C4620171D40008E2DE9 /* ESRefreshProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ESRefreshProtocol.swift; sourceTree = "<group>"; };
 		0AF06C4720171D40008E2DE9 /* ES.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ES.swift; sourceTree = "<group>"; };
 		0AF06C4820171D40008E2DE9 /* ESPullToRefresh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ESPullToRefresh.swift; sourceTree = "<group>"; };
-		0AF06C532018638F008E2DE9 /* TaskListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListTableViewCell.swift; sourceTree = "<group>"; };
 		0AF06C5520187F4A008E2DE9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ZhibaoZone/Assets.xcassets; sourceTree = SOURCE_ROOT; };
 		0AF06C572018F465008E2DE9 /* LeaveMsgDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaveMsgDetailViewController.swift; sourceTree = "<group>"; };
 		0AF57AB821F9559E001059DA /* StatisticOrderListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticOrderListViewController.swift; sourceTree = "<group>"; };
@@ -546,15 +524,6 @@
 			path = ReplyView;
 			sourceTree = "<group>";
 		};
-		0A610D8D201C294600DE46B7 /* ChooseContact */ = {
-			isa = PBXGroup;
-			children = (
-				0A610D8B201C282A00DE46B7 /* chooseContactTableViewController.swift */,
-				0A610D8E201C296B00DE46B7 /* chooseContactTableViewCell.swift */,
-			);
-			path = ChooseContact;
-			sourceTree = "<group>";
-		};
 		0A68BBB420294D1300359A78 /* SetSecuritySetting */ = {
 			isa = PBXGroup;
 			children = (
@@ -607,7 +576,6 @@
 				0AF06C3A20171D40008E2DE9 /* Sources */,
 				0ADCB7F0200EE59F00DCD7C8 /* ImagePreview */,
 				0AB7669E200DC43600851E16 /* HGImage */,
-				0A610D8D201C294600DE46B7 /* ChooseContact */,
 				0ADCB8002011ED2700DCD7C8 /* Me */,
 				0ADCB7FF2011ECD800DCD7C8 /* Login */,
 				0ACD412D2064B44C002F1D14 /* WebPage */,
@@ -794,12 +762,8 @@
 				0AC4B48920F701ED00312092 /* Manager */,
 				0A594E252070794B00A67950 /* ReplyView */,
 				0A54F30120567AB400103FD8 /* MessageList */,
-				0ADCB8022011ED5700DCD7C8 /* TaskList */,
 				0AAAFA5820BD4C5B005C7F25 /* QuotePrice */,
 				0ADCB8012011ED3800DCD7C8 /* OrdersList */,
-				0AE149C52001E3BD005A2E55 /* NewTaskViewController.swift */,
-				0A3AA20D1FF61C5F00EBC482 /* WorkZoneViewController.swift */,
-				0A9716822009F910007922FB /* NewTaskViewCell.swift */,
 			);
 			path = WorkZone;
 			sourceTree = "<group>";
@@ -848,19 +812,6 @@
 				0A99706A20AED7C500E4D37C /* CollectionReusableViewHeader.swift */,
 			);
 			path = OrdersList;
-			sourceTree = "<group>";
-		};
-		0ADCB8022011ED5700DCD7C8 /* TaskList */ = {
-			isa = PBXGroup;
-			children = (
-				0A0235B51FFD23C600CBD846 /* TastsViewController.swift */,
-				0A244E5A2098614E00203463 /* waitForHandleTaskListViewController.swift */,
-				0A244E5C2098616900203463 /* MineCreationTaskListViewController.swift */,
-				0A244E5E2098617700203463 /* FinishedTaskListViewController.swift */,
-				0AF06C532018638F008E2DE9 /* TaskListTableViewCell.swift */,
-				0A244E602098917C00203463 /* TestPushViewController.swift */,
-			);
-			path = TaskList;
 			sourceTree = "<group>";
 		};
 		0ADD7BAB227FDEFA00F0D653 /* CustomerManagement */ = {
@@ -1227,17 +1178,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A3A869421F181E400068BEE /* FilterForHorizentalView.swift in Sources */,
-				0A0235B61FFD23C600CBD846 /* TastsViewController.swift in Sources */,
 				0AC4B49720F711C700312092 /* StatisticCollectionViewCell.swift in Sources */,
 				0AD666972227EDD30027C927 /* priceListCollectionViewCell.swift in Sources */,
-				0A610D8F201C296B00DE46B7 /* chooseContactTableViewCell.swift in Sources */,
 				0A036A5B2028682D00A2F036 /* SecuritySettingViewController.swift in Sources */,
 				0A594E20206CBDA900A67950 /* MarkSlider.swift in Sources */,
 				0A594E242070793C00A67950 /* ReplyView.swift in Sources */,
 				0A09185620AAC06C0054749B /* ShippingCompanyNameListViewController.swift in Sources */,
 				0A8A00572237B9EA00AB8AC2 /* parameterSettingListTableViewCell.swift in Sources */,
 				0A3A868C21F08A5200068BEE /* StatisticViewController.swift in Sources */,
-				0AE149C62001E3BD005A2E55 /* NewTaskViewController.swift in Sources */,
 				0A6B3F101FFB38BE0014AF24 /* AccountInfo.xcdatamodeld in Sources */,
 				0A3AA2171FF61C6E00EBC482 /* MeViewController.swift in Sources */,
 				0A9970AD20B64A2400E4D37C /* ScanCodeViewController.swift in Sources */,
@@ -1250,7 +1198,6 @@
 				0A3CC3B9209572970055B5DD /* Extentsions.swift in Sources */,
 				0AC1AC63204E6F210096A6F6 /* KVProgressBar.swift in Sources */,
 				0A129C3D20F44A8B00319A4C /* UploadProductImageViewController.swift in Sources */,
-				0A244E5F2098617700203463 /* FinishedTaskListViewController.swift in Sources */,
 				0A99705D20ADB8C500E4D37C /* OrderSearchCollectionViewCell.swift in Sources */,
 				0A4EF77C2191AD22006E4DA7 /* InvoiceCollectionViewCell.swift in Sources */,
 				0AF06C4920171D40008E2DE9 /* ESPullToRefresh+Manager.swift in Sources */,
@@ -1264,7 +1211,6 @@
 				0ADCB7FB200EEAD500DCD7C8 /* ImagePreviewVC.swift in Sources */,
 				0AF6AD9020A1E77400B07459 /* PopupViewController.swift in Sources */,
 				0AC4B49520F709CB00312092 /* EditOrderParameters.swift in Sources */,
-				0A244E612098917C00203463 /* TestPushViewController.swift in Sources */,
 				0AF57ABB21F955B4001059DA /* statisticOrderListTableViewCell.swift in Sources */,
 				0A54F30A20567AE800103FD8 /* MessageListViewController.swift in Sources */,
 				0A6AD65A1FF1EFB4009A511A /* ViewController.swift in Sources */,
@@ -1277,14 +1223,11 @@
 				0A6AD6581FF1EFB4009A511A /* AppDelegate.swift in Sources */,
 				0AD666932227D59C0027C927 /* quotePriceHistoryView.swift in Sources */,
 				0A3806862031E3290077E77F /* GestureVerifyViewController.swift in Sources */,
-				0A244E5D2098616900203463 /* MineCreationTaskListViewController.swift in Sources */,
 				0AD282B01FF60E7A0044E41C /* TabBarController.swift in Sources */,
-				0A244E5B2098614E00203463 /* waitForHandleTaskListViewController.swift in Sources */,
 				0AEC502C214CB1850000D06C /* calculatorKeyboard.swift in Sources */,
 				0A450ED121C275BB0070186E /* onLineListTableViewCell.swift in Sources */,
 				0A4EF77A2191A801006E4DA7 /* invoiceViewController.swift in Sources */,
 				0A38067B2031DB680077E77F /* CircleInfoView.swift in Sources */,
-				0A9716832009F910007922FB /* NewTaskViewCell.swift in Sources */,
 				0A81924322CCA0E90004BE2F /* HGImagePickerCell.swift in Sources */,
 				0ADCB7FD200EEB2500DCD7C8 /* ImagePreviewCell.swift in Sources */,
 				0A09185820AAC08F0054749B /* ShippingCompanyNameListTableViewCell.swift in Sources */,
@@ -1307,7 +1250,6 @@
 				0ADD7BB922816CFD00F0D653 /* uploadAdminInfoViewController.swift in Sources */,
 				0AF06C5120171D40008E2DE9 /* ES.swift in Sources */,
 				0A5B5C201FF2536300A92C20 /* CoreDataOperation.swift in Sources */,
-				0A610D8C201C282A00DE46B7 /* chooseContactTableViewController.swift in Sources */,
 				0AC4B49320F7023200312092 /* ManagerViewController.swift in Sources */,
 				0A244E542096F35D00203463 /* ActionViewInOrder.swift in Sources */,
 				0AAAFA6020BE83D6005C7F25 /* ParasActionView.swift in Sources */,
@@ -1326,9 +1268,7 @@
 				0A2B67572130EBA000E9B81A /* UIKVAnimationLabel.swift in Sources */,
 				0A252F442096111B00C1F7F4 /* OrderSearchViewController.swift in Sources */,
 				0A8A00552237B0B700AB8AC2 /* pamaterSettingViewController.swift in Sources */,
-				0AF06C542018638F008E2DE9 /* TaskListTableViewCell.swift in Sources */,
 				0A83CA6C205F6AE500F59A70 /* UIImage+Gif.swift in Sources */,
-				0A3AA20E1FF61C5F00EBC482 /* WorkZoneViewController.swift in Sources */,
 				0A81923E22CCA0E90004BE2F /* HGImageCollectionViewCell.swift in Sources */,
 				0A8A00522237AB3400AB8AC2 /* parameterSettingTableViewCell.swift in Sources */,
 				0A8A0050223785D600AB8AC2 /* SystemManagementViewController.swift in Sources */,
@@ -1532,7 +1472,8 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Xiaogang Liu (2989VF99X4)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Xiaogang Liu (2989VF99X4)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 64;
+				CURRENT_PROJECT_VERSION = 65;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 8NH4GBBX4T;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1571,7 +1512,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Xiaogang Liu (2989VF99X4)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Xiaogang Liu (2989VF99X4)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 64;
+				CURRENT_PROJECT_VERSION = 65;
 				DEVELOPMENT_TEAM = 8NH4GBBX4T;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

@@ -27,7 +27,7 @@ class TabBarController: UITabBarController {
 //            return OrdersViewController()
 //        }()
         let orderVC = OrdersViewController()
-        let taskVC = TastsViewController()
+       // let taskVC = TastsViewController()
         let meVC = MeViewController()
         let normalUserVC = normalUserViewController()
         let quotepriceVC = QuotePriceViewController()
@@ -58,8 +58,8 @@ class TabBarController: UITabBarController {
         
         orderVC.tabBarItem.image = UIImage(named: "ordersicon")
         orderVC.tabBarItem.selectedImage = UIImage(named: "ordersiconselected")
-        taskVC.tabBarItem.image = UIImage(named: "tasksicon")
-        taskVC.tabBarItem.selectedImage = UIImage(named: "tasksiconselected")
+       // taskVC.tabBarItem.image = UIImage(named: "tasksicon")
+       // taskVC.tabBarItem.selectedImage = UIImage(named: "tasksiconselected")
         meVC.tabBarItem.image = UIImage(named:"accounticon")
         meVC.tabBarItem.selectedImage = UIImage(named: "accounticon-selected")
         normalUserVC.tabBarItem.image = UIImage(named:"homeicon")
@@ -71,7 +71,7 @@ class TabBarController: UITabBarController {
         emplyerVC.tabBarItem.image = UIImage(named:"homeicon")
         emplyerVC.tabBarItem.selectedImage = UIImage(named: "homeicon-selected")
         orderVC.tabBarItem.title = "订单"
-        taskVC.tabBarItem.title = "任务"
+      //  taskVC.tabBarItem.title = "任务"
         meVC.tabBarItem.title = "我的"
         quotepriceVC.tabBarItem.title = "估价"
         normalUserVC.tabBarItem.title = "首页"

@@ -20,7 +20,6 @@ enum PreviewModeType:Int {
 
 class ImagePreviewVC: UIViewController {
     
-    var createNewTaskVCObject =  NewTaskViewController()
     var taskDetailReplyObject = LeaveMsgDetailViewController(currentTaskID: "nothing", currentCustomid: "123456", currentOrderID: "123456", currentGoodsID: "123456", currentTaskType: 0)
     var uploadProductImageVCObject = UploadProductImageViewController()
     var uploadAdminInfoVCObject = uploadAdminInfoViewController()
@@ -177,9 +176,7 @@ class ImagePreviewVC: UIViewController {
             print("there's no images to display")
         }
         print("delete succeed on index\(indexPath.row)")
-        if previewSourceVC == "WorkZoneVC"{
-            createNewTaskVCObject.deleteAttachment(atIndex:indexPath.row)
-        }else if previewSourceVC == "UploadProductImageVC"{
+        if previewSourceVC == "UploadProductImageVC"{
             uploadProductImageVCObject.deleteAttachment(atIndex: indexPath.row)
         }else if previewSourceVC == "UploadAdminInfoVC"{
             uploadAdminInfoVCObject.deleteAttachment(atIndex: indexPath.row)

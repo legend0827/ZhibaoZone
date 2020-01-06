@@ -182,13 +182,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
             print("message present at A")
 
             //定制自定的弹窗框
-            if UIApplication.shared.applicationState == .active {
-                showAlertView(userInfo: userInfo)
-            }
+//            if UIApplication.shared.applicationState == .active {
+//                showAlertView(userInfo: userInfo)
+//            }
         }else{
             //应用处于后台时本地推送接受
             print("message present at B")
-            showAlertView(userInfo: userInfo)
+           //showAlertView(userInfo: userInfo)
         }
       //  print("userInfo10:\(userInfo)")
         //completionHandler([.sound,.alert])
@@ -207,12 +207,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
             UMessage.didReceiveRemoteNotification(userInfo)
             print("message recived at A")
          //   if UIApplication.shared.applicationState == .active {
-                showAlertView(userInfo: userInfo)
+                //showAlertView(userInfo: userInfo)
            // }
         }else{
             //应用处于后态时本地推送接受
             print("message recived at B")
-            showAlertView(userInfo: userInfo)
+          //  showAlertView(userInfo: userInfo)
         }
         
         completionHandler()
@@ -241,14 +241,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
             }
             completionHandler(UIBackgroundFetchResult.newData)
         }
-//        if application.applicationState == UIApplicationState.active {
-//            // 代表从前台接受消息app
-//        }else{
-//            // 代表从后台接受消息后进入app
-//            UIApplication.shared.applicationIconBadgeNumber = 0
-//        }
-//        completionHandler(.newData)
-    
     }
     
     func signature(with fileds: QCloudSignatureFields!, request: QCloudBizHTTPRequest!, urlRequest urlRequst: NSMutableURLRequest!, compelete continueBlock: QCloudHTTPAuthentationContinueBlock!) {
