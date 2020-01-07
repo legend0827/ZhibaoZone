@@ -385,288 +385,288 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         }
     }
     
-    @objc func goToCheckClicked(_ button:UIButton){
-        print("messageType: \(button.tag) cicked")
-        
-        let customID = (orderObject as NSDictionary).value(forKey: "customID") as! String/// value( : "customID") as! String
-        let orderID = (orderObject as NSDictionary).value(forKey: "orderID") as! String  //button.value(forKey: "orderID") as! String
-        
-      //  setStatusBarHiden(toHidden: false, ViewController: (self.window?.rootViewController)!)
-        var addtionalHeight:CGFloat = 0.0
-        if button.tag == 1 || button.tag == 6 || button.tag == 7{
-            addtionalHeight = 166.0
-        }
-        let acceptDesignView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight + addtionalHeight))
-        
-        let popVC = PopupViewController()
-        popVC.view.backgroundColor = UIColor.clear
-        popVC.view.addSubview(showBlurEffect()) //UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
-        popVC.view.addSubview(popVC.grayLayer)
-        popVC.modalPresentationCapturesStatusBarAppearance = true
-        acceptDesignView.popupVC = popVC
-        acceptDesignView._orderID = orderID
-        acceptDesignView._customID = customID
-        
-        popVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext //
-        popVC.view.addSubview(acceptDesignView)
-        closeUIAlertView()
-        //blurView.removeFromSuperview()
-        switch button.tag {
-        case 0:
-            //发起设计
-            acceptDesignView.createViewWithActionType(ActionType: .acceptDesign)
-            self.window?.rootViewController?.present(popVC, animated: true, completion: nil)
-        case 1:
-            //新询价
-            acceptDesignView._isBidding = false
-            acceptDesignView.createViewWithActionType(ActionType: .quotePrice)
-            self.window?.rootViewController?.present(popVC, animated: true, completion: nil)
-        case 2:
-            //发起生产
-            acceptDesignView.createViewWithActionType(ActionType: .acceptProduce)
-            self.window?.rootViewController?.present(popVC, animated: true, completion: nil)
-        case 3:
-            //新报价
-            print("新报价")
-           // acceptDesignView.createViewWithActionType(ActionType: .quotePrice)
-           // self.window?.rootViewController?.present(popVC, animated: true, completion: nil)
-        case 4:
-            //设计提交
-          //  acceptDesignView.createViewWithActionType(ActionType: .quotePrice)
-          //  self.window?.rootViewController?.present(popVC, animated: true, completion: nil)
-            print("设计提交")
-        case 5:
-            //设计修改
-            acceptDesignView.createViewWithActionType(ActionType: .modifyRequires)
-            
-            self.window?.rootViewController?.present(popVC, animated: true, completion: nil)
-        case 6:
-            //议价
-            acceptDesignView.createViewWithActionType(ActionType: .dealBargain)
-            self.window?.rootViewController?.present(popVC, animated: true, completion: nil)
-        case 7:
-            //竞价
-            acceptDesignView._isBidding = true
-            acceptDesignView.createViewWithActionType(ActionType: .quotePrice)
-            self.window?.rootViewController?.present(popVC, animated: true, completion: nil)
-        case 99:
-            //运维的
-            print("运维推送")
-        default:
-            print("hallo")
-        }
-    }
+//    @objc func goToCheckClicked(_ button:UIButton){
+//        print("messageType: \(button.tag) cicked")
+//
+//        let customID = (orderObject as NSDictionary).value(forKey: "customID") as! String/// value( : "customID") as! String
+//        let orderID = (orderObject as NSDictionary).value(forKey: "orderID") as! String  //button.value(forKey: "orderID") as! String
+//
+//      //  setStatusBarHiden(toHidden: false, ViewController: (self.window?.rootViewController)!)
+//        var addtionalHeight:CGFloat = 0.0
+//        if button.tag == 1 || button.tag == 6 || button.tag == 7{
+//            addtionalHeight = 166.0
+//        }
+//        let acceptDesignView = ActionViewInOrder.init(frame: CGRect(x: 0, y: 86, width: kWidth, height: kHight + addtionalHeight))
+//
+//        let popVC = PopupViewController()
+//        popVC.view.backgroundColor = UIColor.clear
+//        popVC.view.addSubview(showBlurEffect()) //UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
+//        popVC.view.addSubview(popVC.grayLayer)
+//        popVC.modalPresentationCapturesStatusBarAppearance = true
+//        acceptDesignView.popupVC = popVC
+//        acceptDesignView._orderID = orderID
+//        acceptDesignView._customID = customID
+//
+//        popVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext //
+//        popVC.view.addSubview(acceptDesignView)
+//        closeUIAlertView()
+//        //blurView.removeFromSuperview()
+//        switch button.tag {
+//        case 0:
+//            //发起设计
+//            acceptDesignView.createViewWithActionType(ActionType: .acceptDesign)
+//            self.window?.rootViewController?.present(popVC, animated: true, completion: nil)
+//        case 1:
+//            //新询价
+//            acceptDesignView._isBidding = false
+//            acceptDesignView.createViewWithActionType(ActionType: .quotePrice)
+//            self.window?.rootViewController?.present(popVC, animated: true, completion: nil)
+//        case 2:
+//            //发起生产
+//            acceptDesignView.createViewWithActionType(ActionType: .acceptProduce)
+//            self.window?.rootViewController?.present(popVC, animated: true, completion: nil)
+//        case 3:
+//            //新报价
+//            print("新报价")
+//           // acceptDesignView.createViewWithActionType(ActionType: .quotePrice)
+//           // self.window?.rootViewController?.present(popVC, animated: true, completion: nil)
+//        case 4:
+//            //设计提交
+//          //  acceptDesignView.createViewWithActionType(ActionType: .quotePrice)
+//          //  self.window?.rootViewController?.present(popVC, animated: true, completion: nil)
+//            print("设计提交")
+//        case 5:
+//            //设计修改
+//            acceptDesignView.createViewWithActionType(ActionType: .modifyRequires)
+//
+//            self.window?.rootViewController?.present(popVC, animated: true, completion: nil)
+//        case 6:
+//            //议价
+//            acceptDesignView.createViewWithActionType(ActionType: .dealBargain)
+//            self.window?.rootViewController?.present(popVC, animated: true, completion: nil)
+//        case 7:
+//            //竞价
+//            acceptDesignView._isBidding = true
+//            acceptDesignView.createViewWithActionType(ActionType: .quotePrice)
+//            self.window?.rootViewController?.present(popVC, animated: true, completion: nil)
+//        case 99:
+//            //运维的
+//            print("运维推送")
+//        default:
+//            print("hallo")
+//        }
+//    }
+//
+//    func showAlertView(userInfo:Any?){
+//        let tempInfos = userInfo as! NSDictionary
+//        let orderDic = tempInfos.value(forKey: "aps") as! NSDictionary
+//        let isNeedsAlert = orderDic.value(forKey: "needsShow") as! NSNumber// needsShow
+//        let messageType = orderDic.value(forKey: "messageType") as! NSNumber
+//        var goodsImage = ""
+//        var orderID = ""
+//        var customID = ""
+//
+//        let UIAlertView:UIView = UIView.init(frame: CGRect(x: 30, y: 200 + heightChangeForiPhoneXFromTop, width: kWidth - 60, height: 232))
+//        UIAlertView.layer.cornerRadius = 12
+//        UIAlertView.backgroundColor = UIColor.white
+//
+//        let grayLayer = UIView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: kHight))
+//        grayLayer.backgroundColor = UIColor.colorWithRgba(0, g: 0, b: 0, a: 0.2)
+//        // blurView = showBlurEffect()
+//        //   blurView.contentView.addSubview(grayLayer)
+//        grayLayer.addSubview(UIAlertView)
+//
+//        let title:UILabel = UILabel.init(frame: CGRect(x: 0, y: 20, width: UIAlertView.frame.width, height: 22))
+//        title.text = "新消息"
+//        title.textAlignment = .center
+//        title.font = UIFont.boldSystemFont(ofSize: 16)
+//
+//        let imageView:UIImageView = UIImageView.init(frame: CGRect(x: 20, y: title.frame.maxY + 20, width: 80, height: 80))
+//        imageView.image = UIImage(named: "defualt-design-pic-loading")
+//        imageView.layer.cornerRadius = 6
+//        imageView.layer.masksToBounds = true
+//        imageView.layer.borderColor = UIColor.lineColors(color: .grayLevel3).cgColor
+//        imageView.layer.borderWidth = 0.5
+//
+//        let orderIDLabel:UILabel = UILabel.init(frame: CGRect(x: imageView.frame.maxX + 15, y: imageView.frame.minY, width: UIAlertView.frame.width, height: 22))
+//        orderIDLabel.text = "订单号:"
+//        orderIDLabel.textAlignment = .left
+//        orderIDLabel.font = UIFont.systemFont(ofSize: 14)
+//
+//
+//        let bodyContentLabel:UILabel = UILabel.init(frame: CGRect(x: orderIDLabel.frame.minX, y: orderIDLabel.frame.maxY + 10, width: UIAlertView.frame.width - 145, height: 100))
+//        bodyContentLabel.textAlignment = .left
+//        bodyContentLabel.numberOfLines = 5
+//        bodyContentLabel.contentMode = .topLeft
+//
+//        if isNeedsAlert == 1 {
+//            let closeBtn:UIButton = UIButton.init(type: .custom)
+//            closeBtn.frame = CGRect(x: UIAlertView.frame.width/2 + 10, y: UIAlertView.frame.height - 60, width: UIAlertView.frame.width/2 - 30, height: 40)
+//            closeBtn.setTitle("关闭", for: .normal)
+//            closeBtn.setTitleColor(UIColor.titleColors(color: .red), for: .normal)
+//            closeBtn.layer.borderWidth = 1
+//            closeBtn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+//            closeBtn.layer.borderColor = UIColor.lineColors(color: .red).cgColor
+//            closeBtn.backgroundColor = UIColor.white
+//            closeBtn.addTarget(self, action: #selector(closeUIAlertView), for: .touchUpInside)
+//            closeBtn.layer.cornerRadius = 6
+//
+//            let goToCheckBtn:UIButton = UIButton.init(type: .custom)
+//            goToCheckBtn.frame = CGRect(x: 20, y: UIAlertView.frame.height - 60, width: UIAlertView.frame.width/2 - 30, height: 40)
+//            goToCheckBtn.setTitle("去查看", for: .normal)
+//            goToCheckBtn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+//            goToCheckBtn.backgroundColor = UIColor.backgroundColors(color: .red)
+//            goToCheckBtn.layer.cornerRadius = 6
+//
+//            goToCheckBtn.addTarget(self, action: #selector(goToCheckClicked), for: .touchUpInside)
+//            goToCheckBtn.tag = Int(messageType)
+//
+//            UIAlertView.addSubview(closeBtn)
+//            UIAlertView.addSubview(goToCheckBtn)
+//        }else{
+//            let closeBtn:UIButton = UIButton.init(type: .custom)
+//            closeBtn.frame = CGRect(x: 20, y: UIAlertView.frame.height - 60, width: UIAlertView.frame.width - 40, height: 40)
+//            closeBtn.setTitle("我知道了", for: .normal)
+//            closeBtn.layer.cornerRadius = 6
+//            closeBtn.backgroundColor = UIColor.backgroundColors(color: .red)
+//            closeBtn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+//            closeBtn.addTarget(self, action: #selector(closeUIAlertView), for: .touchUpInside)
+//            UIAlertView.addSubview(closeBtn)
+//        }
+//
+//
+//
+//        //if isNeedsAlert == 1 {
+//
+//        orderID = orderDic.value(forKey: "orderID") as! String// needsShow
+//        customID = orderDic.value(forKey: "customID") as! String// needsShow
+//        orderObject.removeAll()
+//        orderObject.updateValue("\(customID)", forKey: "customID")
+//        orderObject.updateValue("\(orderID)", forKey: "orderID")
+//      //  print(orderObject)
+//        //  }
+//        //设置title的名字：
+//        switch messageType {
+//        case 0:
+//            //发起设计
+//            title.text = "新设计单"
+//        case 1:
+//            //新询价
+//            title.text = "新询价单"
+//        case 2:
+//            //发起生产
+//            title.text = "新生产单"
+//        case 3:
+//            //新报价
+//            //print("新报价")
+//           title.text = "新报价消息"
+//        case 4:
+//
+//            //print("设计提交")
+//            title.text = "设计方案已提交"
+//        case 5:
+//            //设计修改
+//          title.text = "设计修改要求"
+//        case 99:
+//            title.text = "运维推送"
+//        default:
+//            //print("hallo")
+//            title.text = "新消息"
+//        }
+//        orderIDLabel.text = "订单号:\(orderID)"
+//        let alertDic = orderDic.value(forKey: "alert") as! NSDictionary
+//        let str = "\(alertDic.value(forKey: "body") as! String)"
+//        let paraph = NSMutableParagraphStyle()
+//        //将行间距设置为28
+//        paraph.lineSpacing = 5
+//        //样式属性集合
+//        let attributes = [NSAttributedStringKey.font:UIFont.systemFont(ofSize: 12),
+//                          NSAttributedStringKey.paragraphStyle:paraph,NSAttributedStringKey.foregroundColor:UIColor.titleColors(color: .gray)]
+//        bodyContentLabel.attributedText = NSAttributedString(string: str, attributes: attributes)
+//
+//        let heightOfLabel = calculateLabelHeightWithText(with: bodyContentLabel.text!, labelWidth: bodyContentLabel.frame.width, textFont: UIFont.systemFont(ofSize: 12))
+//        bodyContentLabel.frame = CGRect(x: orderIDLabel.frame.minX, y: orderIDLabel.frame.maxY + 10, width: UIAlertView.frame.width - 145, height: heightOfLabel + 5)
+//        DispatchQueue.global().async {
+//            //downloadImage
+//            //获取订单图片
+//            var downloadURLHeader = ""
+//            var downloadURLHeaderForThumbnail = ""
+//
+//            //下载图片链接地址
+//            let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
+//            let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
+//            let resourcesDownloadLinks:NSDictionary = data.value(forKey: "resourcesDownloadLinks") as! NSDictionary
+//            #if DEBUG
+//            downloadURLHeader = resourcesDownloadLinks.value(forKey: "imagesDownloadLinksDebug") as! String
+//            downloadURLHeaderForThumbnail = resourcesDownloadLinks.value(forKey: "imagesDownloadLinksThumbnailDebug") as! String
+//            #else
+//            downloadURLHeader = resourcesDownloadLinks.value(forKey: "imagesDownloadLinks") as! String
+//            downloadURLHeaderForThumbnail = resourcesDownloadLinks.value(forKey: "imagesDownloadLinksThumbnail") as! String
+//            #endif
+//
+//            if orderDic.value(forKey: "goodsImage") as? String == nil || orderDic.value(forKey: "goodsImage") as? String == ""{
+//                goodsImage = ""// needsShow
+//                DispatchQueue.main.async {
+//                    imageView.image = UIImage(named:"defualt-design-pic")
+//                }
+//            }else{
+//                goodsImage = orderDic.value(forKey: "goodsImage") as! String// needsShow
+//                do {
+//                    let imageURLString:String = "\(downloadURLHeaderForThumbnail)\(goodsImage)"
+//                    let url = URL(string: imageURLString)!
+//                    do{
+//                        let data = try Data.init(contentsOf: url)
+//                        let image = UIImage.gif(data:data)
+//                        DispatchQueue.main.async {
+//                            imageView.image = image//  UIImage(image:image)
+//                        }
+//
+//                    }catch{
+//                        let imageURLString:String = "\(downloadURLHeader)\(goodsImage)"
+//                        let url = URL(string: imageURLString)!
+//                        do{
+//                            let data = try Data.init(contentsOf: url)
+//                            let image = UIImage.gif(data:data)
+//                            DispatchQueue.main.async {
+//                                imageView.image = image//  UIImage(image:image)
+//                            }
+//                        }catch{
+//                            print(error)
+//                        }
+//                        print("无缩略图")
+//                    }
+//
+//                }
+//            }
+//        }
+//
+//        UIAlertView.addSubview(title)
+//        UIAlertView.addSubview(imageView)
+//        UIAlertView.addSubview(orderIDLabel)
+//        UIAlertView.addSubview(bodyContentLabel)
+//
+//        self.window?.rootViewController?.view.addSubview(grayLayer)
+//        theViewNeedsToCLose.append(grayLayer)
+//    }
     
-    func showAlertView(userInfo:Any?){
-        let tempInfos = userInfo as! NSDictionary
-        let orderDic = tempInfos.value(forKey: "aps") as! NSDictionary
-        let isNeedsAlert = orderDic.value(forKey: "needsShow") as! NSNumber// needsShow
-        let messageType = orderDic.value(forKey: "messageType") as! NSNumber
-        var goodsImage = ""
-        var orderID = ""
-        var customID = ""
-        
-        let UIAlertView:UIView = UIView.init(frame: CGRect(x: 30, y: 200 + heightChangeForiPhoneXFromTop, width: kWidth - 60, height: 232))
-        UIAlertView.layer.cornerRadius = 12
-        UIAlertView.backgroundColor = UIColor.white
-        
-        let grayLayer = UIView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: kHight))
-        grayLayer.backgroundColor = UIColor.colorWithRgba(0, g: 0, b: 0, a: 0.2)
-        // blurView = showBlurEffect()
-        //   blurView.contentView.addSubview(grayLayer)
-        grayLayer.addSubview(UIAlertView)
-        
-        let title:UILabel = UILabel.init(frame: CGRect(x: 0, y: 20, width: UIAlertView.frame.width, height: 22))
-        title.text = "新消息"
-        title.textAlignment = .center
-        title.font = UIFont.boldSystemFont(ofSize: 16)
-        
-        let imageView:UIImageView = UIImageView.init(frame: CGRect(x: 20, y: title.frame.maxY + 20, width: 80, height: 80))
-        imageView.image = UIImage(named: "defualt-design-pic-loading")
-        imageView.layer.cornerRadius = 6
-        imageView.layer.masksToBounds = true
-        imageView.layer.borderColor = UIColor.lineColors(color: .grayLevel3).cgColor
-        imageView.layer.borderWidth = 0.5
-        
-        let orderIDLabel:UILabel = UILabel.init(frame: CGRect(x: imageView.frame.maxX + 15, y: imageView.frame.minY, width: UIAlertView.frame.width, height: 22))
-        orderIDLabel.text = "订单号:"
-        orderIDLabel.textAlignment = .left
-        orderIDLabel.font = UIFont.systemFont(ofSize: 14)
-        
-        
-        let bodyContentLabel:UILabel = UILabel.init(frame: CGRect(x: orderIDLabel.frame.minX, y: orderIDLabel.frame.maxY + 10, width: UIAlertView.frame.width - 145, height: 100))
-        bodyContentLabel.textAlignment = .left
-        bodyContentLabel.numberOfLines = 5
-        bodyContentLabel.contentMode = .topLeft
-
-        if isNeedsAlert == 1 {
-            let closeBtn:UIButton = UIButton.init(type: .custom)
-            closeBtn.frame = CGRect(x: UIAlertView.frame.width/2 + 10, y: UIAlertView.frame.height - 60, width: UIAlertView.frame.width/2 - 30, height: 40)
-            closeBtn.setTitle("关闭", for: .normal)
-            closeBtn.setTitleColor(UIColor.titleColors(color: .red), for: .normal)
-            closeBtn.layer.borderWidth = 1
-            closeBtn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-            closeBtn.layer.borderColor = UIColor.lineColors(color: .red).cgColor
-            closeBtn.backgroundColor = UIColor.white
-            closeBtn.addTarget(self, action: #selector(closeUIAlertView), for: .touchUpInside)
-            closeBtn.layer.cornerRadius = 6
-            
-            let goToCheckBtn:UIButton = UIButton.init(type: .custom)
-            goToCheckBtn.frame = CGRect(x: 20, y: UIAlertView.frame.height - 60, width: UIAlertView.frame.width/2 - 30, height: 40)
-            goToCheckBtn.setTitle("去查看", for: .normal)
-            goToCheckBtn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-            goToCheckBtn.backgroundColor = UIColor.backgroundColors(color: .red)
-            goToCheckBtn.layer.cornerRadius = 6
-            
-            goToCheckBtn.addTarget(self, action: #selector(goToCheckClicked), for: .touchUpInside)
-            goToCheckBtn.tag = Int(messageType)
-            
-            UIAlertView.addSubview(closeBtn)
-            UIAlertView.addSubview(goToCheckBtn)
-        }else{
-            let closeBtn:UIButton = UIButton.init(type: .custom)
-            closeBtn.frame = CGRect(x: 20, y: UIAlertView.frame.height - 60, width: UIAlertView.frame.width - 40, height: 40)
-            closeBtn.setTitle("我知道了", for: .normal)
-            closeBtn.layer.cornerRadius = 6
-            closeBtn.backgroundColor = UIColor.backgroundColors(color: .red)
-            closeBtn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-            closeBtn.addTarget(self, action: #selector(closeUIAlertView), for: .touchUpInside)
-            UIAlertView.addSubview(closeBtn)
-        }
-        
-        
-        
-        //if isNeedsAlert == 1 {
-        
-        orderID = orderDic.value(forKey: "orderID") as! String// needsShow
-        customID = orderDic.value(forKey: "customID") as! String// needsShow
-        orderObject.removeAll()
-        orderObject.updateValue("\(customID)", forKey: "customID")
-        orderObject.updateValue("\(orderID)", forKey: "orderID")
-      //  print(orderObject)
-        //  }
-        //设置title的名字：
-        switch messageType {
-        case 0:
-            //发起设计
-            title.text = "新设计单"
-        case 1:
-            //新询价
-            title.text = "新询价单"
-        case 2:
-            //发起生产
-            title.text = "新生产单"
-        case 3:
-            //新报价
-            //print("新报价")
-           title.text = "新报价消息"
-        case 4:
-            
-            //print("设计提交")
-            title.text = "设计方案已提交"
-        case 5:
-            //设计修改
-          title.text = "设计修改要求"
-        case 99:
-            title.text = "运维推送"
-        default:
-            //print("hallo")
-            title.text = "新消息"
-        }
-        orderIDLabel.text = "订单号:\(orderID)"
-        let alertDic = orderDic.value(forKey: "alert") as! NSDictionary
-        let str = "\(alertDic.value(forKey: "body") as! String)"
-        let paraph = NSMutableParagraphStyle()
-        //将行间距设置为28
-        paraph.lineSpacing = 5
-        //样式属性集合
-        let attributes = [NSAttributedStringKey.font:UIFont.systemFont(ofSize: 12),
-                          NSAttributedStringKey.paragraphStyle:paraph,NSAttributedStringKey.foregroundColor:UIColor.titleColors(color: .gray)]
-        bodyContentLabel.attributedText = NSAttributedString(string: str, attributes: attributes)
-        
-        let heightOfLabel = calculateLabelHeightWithText(with: bodyContentLabel.text!, labelWidth: bodyContentLabel.frame.width, textFont: UIFont.systemFont(ofSize: 12))
-        bodyContentLabel.frame = CGRect(x: orderIDLabel.frame.minX, y: orderIDLabel.frame.maxY + 10, width: UIAlertView.frame.width - 145, height: heightOfLabel + 5)
-        DispatchQueue.global().async {
-            //downloadImage
-            //获取订单图片
-            var downloadURLHeader = ""
-            var downloadURLHeaderForThumbnail = ""
-            
-            //下载图片链接地址
-            let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
-            let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
-            let resourcesDownloadLinks:NSDictionary = data.value(forKey: "resourcesDownloadLinks") as! NSDictionary
-            #if DEBUG
-            downloadURLHeader = resourcesDownloadLinks.value(forKey: "imagesDownloadLinksDebug") as! String
-            downloadURLHeaderForThumbnail = resourcesDownloadLinks.value(forKey: "imagesDownloadLinksThumbnailDebug") as! String
-            #else
-            downloadURLHeader = resourcesDownloadLinks.value(forKey: "imagesDownloadLinks") as! String
-            downloadURLHeaderForThumbnail = resourcesDownloadLinks.value(forKey: "imagesDownloadLinksThumbnail") as! String
-            #endif
-            
-            if orderDic.value(forKey: "goodsImage") as? String == nil || orderDic.value(forKey: "goodsImage") as? String == ""{
-                goodsImage = ""// needsShow
-                DispatchQueue.main.async {
-                    imageView.image = UIImage(named:"defualt-design-pic")
-                }
-            }else{
-                goodsImage = orderDic.value(forKey: "goodsImage") as! String// needsShow
-                do {
-                    let imageURLString:String = "\(downloadURLHeaderForThumbnail)\(goodsImage)"
-                    let url = URL(string: imageURLString)!
-                    do{
-                        let data = try Data.init(contentsOf: url)
-                        let image = UIImage.gif(data:data)
-                        DispatchQueue.main.async {
-                            imageView.image = image//  UIImage(image:image)
-                        }
-                        
-                    }catch{
-                        let imageURLString:String = "\(downloadURLHeader)\(goodsImage)"
-                        let url = URL(string: imageURLString)!
-                        do{
-                            let data = try Data.init(contentsOf: url)
-                            let image = UIImage.gif(data:data)
-                            DispatchQueue.main.async {
-                                imageView.image = image//  UIImage(image:image)
-                            }
-                        }catch{
-                            print(error)
-                        }
-                        print("无缩略图")
-                    }
-                    
-                }
-            }
-        }
-        
-        UIAlertView.addSubview(title)
-        UIAlertView.addSubview(imageView)
-        UIAlertView.addSubview(orderIDLabel)
-        UIAlertView.addSubview(bodyContentLabel)
-        
-        self.window?.rootViewController?.view.addSubview(grayLayer)
-        theViewNeedsToCLose.append(grayLayer)
-    }
-    
-    @objc func closeUIAlertView(){
-        print("close button clicked")
-        guard theViewNeedsToCLose.count != nil else {
-          //  setStatusBarHiden(toHidden: false, ViewController: (self.window?.rootViewController)!)
-            return
-        }
-        var index = 0
-        for view in theViewNeedsToCLose{
-            index += 1
-            if index == theViewNeedsToCLose.count{
-                view.removeFromSuperview()
-                theViewNeedsToCLose.remove(at: index - 1)
-            }
-        }
-        
-        //blurView.removeFromSuperview()
-        //self.window?.rootViewController?.view.addSubview(blurView)
-    }
+//    @objc func closeUIAlertView(){
+//        print("close button clicked")
+//        guard theViewNeedsToCLose.count != nil else {
+//          //  setStatusBarHiden(toHidden: false, ViewController: (self.window?.rootViewController)!)
+//            return
+//        }
+//        var index = 0
+//        for view in theViewNeedsToCLose{
+//            index += 1
+//            if index == theViewNeedsToCLose.count{
+//                view.removeFromSuperview()
+//                theViewNeedsToCLose.remove(at: index - 1)
+//            }
+//        }
+//
+//        //blurView.removeFromSuperview()
+//        //self.window?.rootViewController?.view.addSubview(blurView)
+//    }
 }
 extension Data {
     var hexString: String {
