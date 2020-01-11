@@ -67,35 +67,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         }
         UIApplication.shared.registerForRemoteNotifications()
         
-        
-        //open after killed
-        if #available(iOS 10.0, *){
-            
-        }else{
-            if let notification = launchOptions?[.remoteNotification] as? [String:AnyObject]{
-                guard notification["key"] != nil else{
-                    return true
-                }
-                
-                guard notification["value"] != nil else{
-                    return true
-                }
-                
-                let key = notification["key"] as! String
-                let value = notification["value"] as! String
-                
-                switch key{
-                case "1" :
-                    handlePushNotificationTo(key:"1")
-                case "2" :
-                    break
-                default:
-                    break
-                }
-            }
-        }
-        
-        
+//        
+//        //open after killed
+//        if #available(iOS 10.0, *){
+//            
+//        }else{
+//            if let notification = launchOptions?[.remoteNotification] as? [String:AnyObject]{
+//                guard notification["key"] != nil else{
+//                    return true
+//                }
+//                
+//                guard notification["value"] != nil else{
+//                    return true
+//                }
+//                
+//                let key = notification["key"] as! String
+//                let value = notification["value"] as! String
+//                
+//                switch key{
+//                case "1" :
+//                    handlePushNotificationTo(key:"1")
+//                case "2" :
+//                    break
+//                default:
+//                    break
+//                }
+//            }
+//        }
+//        
+//        
         
         
         // 创建腾讯云所需的配置
