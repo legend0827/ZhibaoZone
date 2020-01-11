@@ -129,7 +129,6 @@ class ViewController: UIViewController {
         welcomeLabel.textAlignment = .left
         welcomeLabel.font = UIFont.boldSystemFont(ofSize: 22)
         welcomeLabel.textColor = UIColor.titleColors(color: .black)
-        //self.view.addSubview(welcomeLabel)
         
         let titleBarView:UIView = UIView.init(frame: CGRect(x: 0, y: 20 + heightChangeForiPhoneXFromTop, width: kWidth, height: 44))
         
@@ -279,9 +278,9 @@ class ViewController: UIViewController {
         } catch  {
             fatalError("获取失败")
         }
-        appUpdateCheck()
+      //  appUpdateCheck()
         
-        initSettings()
+      //  initSettings()
 
     }
     
@@ -379,27 +378,27 @@ class ViewController: UIViewController {
         setStatusBarBackgroundColor(color: UIColor.backgroundColors(color: .clear))
         //返回值，前一个是已设置安全登录（true 是，false 否），后一个当前是关着还是开着的(true 开， false 关）
         
-        let result = checkSecuritySetting().1
-        
-        if result && checkSecuritySetting().0{  // 如果设置了手势登录（true)，并且是开着的(true)
-            
-            useGestureLoginBtn.frame = CGRect(x: 25, y: 284 + heightChangeForiPhoneXFromTop, width: 100, height: 22)
-            useGestureLoginBtn.setTitle("使用手势登录", for: UIControlState())
-            useGestureLoginBtn.setTitleColor(#colorLiteral(red: 0.9104188085, green: 0.2962309122, blue: 0.2970536053, alpha: 1), for: UIControlState())
-            useGestureLoginBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-            useGestureLoginBtn.addTarget(self, action: #selector(useGestureBtnClicked), for: UIControlEvents.touchUpInside)
-            self.view.addSubview(useGestureLoginBtn)
-        }
-        
-        if result && presentType == "presenting"{
-            let gestureVC = GestureViewController()
-            gestureVC.loginVC = self
-            gestureVC.type = GestureViewControllerType.login
-            gestureVC.gestureTextBeforeSet = "手势登录"
-            gestureVC.modalPresentationStyle = .fullScreen
-            self.present(gestureVC, animated: false, completion: nil)
-        }
-        
+//        let result = checkSecuritySetting().1
+//
+//        if result && checkSecuritySetting().0 {  // 如果设置了手势登录（true)，并且是开着的(true)
+//
+//            useGestureLoginBtn.frame = CGRect(x: 25, y: 284 + heightChangeForiPhoneXFromTop, width: 100, height: 22)
+//            useGestureLoginBtn.setTitle("使用手势登录", for: UIControlState())
+//            useGestureLoginBtn.setTitleColor(#colorLiteral(red: 0.9104188085, green: 0.2962309122, blue: 0.2970536053, alpha: 1), for: UIControlState())
+//            useGestureLoginBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+//            useGestureLoginBtn.addTarget(self, action: #selector(useGestureBtnClicked), for: UIControlEvents.touchUpInside)
+//            self.view.addSubview(useGestureLoginBtn)
+//        }
+//
+//        if result && presentType == "presenting"{
+//            let gestureVC = GestureViewController()
+//            gestureVC.loginVC = self
+//            gestureVC.type = GestureViewControllerType.login
+//            gestureVC.gestureTextBeforeSet = "手势登录"
+//            gestureVC.modalPresentationStyle = .fullScreen
+//            self.present(gestureVC, animated: false, completion: nil)
+//        }
+//
         
     }
     
@@ -413,20 +412,20 @@ class ViewController: UIViewController {
     @objc func updateAppClicked(){
         UIApplication.shared.open(URL(string: "https://itunes.apple.com/cn/app/custommallzone/id1359714034?l=en&mt=8")!, completionHandler: nil)
     }
-    @objc func useGestureBtnClicked(){
-        //返回值，前一个是未设置安全登录（true 是，false 否），后一个当前是关着还是开着的(true 开， false 关）
-        let result = checkSecuritySetting().1
-        if result {
-            let gestureVC = GestureViewController()
-            gestureVC.loginVC = self
-            gestureVC.type = GestureViewControllerType.login
-            gestureVC.gestureTextBeforeSet = "手势登录"
-            gestureVC.modalPresentationStyle = .fullScreen
-            self.present(gestureVC, animated: true, completion: nil)
-        }else{
-            greyLayerPrompt.show(text: "未开启手势登录，请使用密码登录")
-        }
-    }
+//    @objc func useGestureBtnClicked(){
+//        //返回值，前一个是未设置安全登录（true 是，false 否），后一个当前是关着还是开着的(true 开， false 关）
+//        let result = checkSecuritySetting().1
+//        if result {
+//            let gestureVC = GestureViewController()
+//            gestureVC.loginVC = self
+//            gestureVC.type = GestureViewControllerType.login
+//            gestureVC.gestureTextBeforeSet = "手势登录"
+//            gestureVC.modalPresentationStyle = .fullScreen
+//            self.present(gestureVC, animated: true, completion: nil)
+//        }else{
+//            greyLayerPrompt.show(text: "未开启手势登录，请使用密码登录")
+//        }
+//    }
     
 
     @objc func privatepolicybtnClicked(){

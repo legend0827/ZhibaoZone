@@ -77,7 +77,6 @@
 		0A81924322CCA0E90004BE2F /* HGImagePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A81923B22CCA0E80004BE2F /* HGImagePickerCell.swift */; };
 		0A81924422CCA0E90004BE2F /* HGImageCompleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A81923C22CCA0E90004BE2F /* HGImageCompleteButton.swift */; };
 		0A83CA6C205F6AE500F59A70 /* UIImage+Gif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A83CA64205F6AE400F59A70 /* UIImage+Gif.swift */; };
-		0A898A6623C31D6600B7516A /* login_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A898A6523C31D6600B7516A /* login_SwiftUI.swift */; };
 		0A8A0050223785D600AB8AC2 /* SystemManagementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8A004F223785D600AB8AC2 /* SystemManagementViewController.swift */; };
 		0A8A00522237AB3400AB8AC2 /* parameterSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8A00512237AB3400AB8AC2 /* parameterSettingTableViewCell.swift */; };
 		0A8A00552237B0B700AB8AC2 /* pamaterSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8A00542237B0B700AB8AC2 /* pamaterSettingViewController.swift */; };
@@ -317,7 +316,6 @@
 		0A81923B22CCA0E80004BE2F /* HGImagePickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HGImagePickerCell.swift; sourceTree = "<group>"; };
 		0A81923C22CCA0E90004BE2F /* HGImageCompleteButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HGImageCompleteButton.swift; sourceTree = "<group>"; };
 		0A83CA64205F6AE400F59A70 /* UIImage+Gif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Gif.swift"; sourceTree = "<group>"; };
-		0A898A6523C31D6600B7516A /* login_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = login_SwiftUI.swift; sourceTree = "<group>"; };
 		0A8A004F223785D600AB8AC2 /* SystemManagementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemManagementViewController.swift; sourceTree = "<group>"; };
 		0A8A00512237AB3400AB8AC2 /* parameterSettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = parameterSettingTableViewCell.swift; sourceTree = "<group>"; };
 		0A8A00542237B0B700AB8AC2 /* pamaterSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pamaterSettingViewController.swift; sourceTree = "<group>"; };
@@ -775,7 +773,6 @@
 			children = (
 				0A6AD6591FF1EFB4009A511A /* ViewController.swift */,
 				0A5B5C1B1FF2248700A92C20 /* User.swift */,
-				0A898A6523C31D6600B7516A /* login_SwiftUI.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -1243,7 +1240,6 @@
 				0A5D0C6823215CC5001967E1 /* FactoryListSettingTableViewCell.swift in Sources */,
 				0A594E272070797800A67950 /* ReplyTableViewTableViewController.swift in Sources */,
 				0A38068C2035D6560077E77F /* GestureViewController.swift in Sources */,
-				0A898A6623C31D6600B7516A /* login_SwiftUI.swift in Sources */,
 				0AF06C4D20171D40008E2DE9 /* ESRefreshHeaderAnimator.swift in Sources */,
 				0A2D86D021F19719004ED341 /* FilterTableViewCell.swift in Sources */,
 				0AC4B49A20FD878700312092 /* SwitchOrderViewController.swift in Sources */,
@@ -1476,7 +1472,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Xiaogang Liu (2989VF99X4)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Xiaogang Liu (2989VF99X4)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 65;
+				CURRENT_PROJECT_VERSION = 69;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 8NH4GBBX4T;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1516,7 +1512,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Xiaogang Liu (2989VF99X4)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Xiaogang Liu (2989VF99X4)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 65;
+				CURRENT_PROJECT_VERSION = 69;
 				DEVELOPMENT_TEAM = 8NH4GBBX4T;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
