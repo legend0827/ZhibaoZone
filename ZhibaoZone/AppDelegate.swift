@@ -117,9 +117,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         QCloudCOSTransferMangerService.registerDefaultCOSTransferManger(with: configuration)
 
         
-        // 创建View Controller
-        let loginVC = ViewController()
-        self.window?.rootViewController = loginVC
+//        // 创建View Controller
+//        let loginVC = ViewController()
+//        self.window?.rootViewController = loginVC
 
         if UIDevice.current.isX(){
             heightChangeForiPhoneXFromTop = 24.0
