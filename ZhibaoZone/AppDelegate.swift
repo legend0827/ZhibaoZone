@@ -242,7 +242,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         // 发送给我们自己的服务器
       //  let tokenString = deviceToken.hexString
         let device = NSData(data: deviceToken)
-        var token = device.description.replacingOccurrences(of: "<", with: "")
+        var token = device.debugDescription.replacingOccurrences(of: "<", with: "")
         token = token.replacingOccurrences(of: ">", with: "")
         token = token.replacingOccurrences(of: " ", with: "")
 
