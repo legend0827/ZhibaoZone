@@ -273,7 +273,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
     func applicationDidBecomeActive(_ application: UIApplication) {
         let value = UserDefaults.standard.value(forKey: "orignalOrientation")
         print("The orientation value is \(value)")
-        let now = NSDate()
+       // let now = NSDate()
         let savedTime = UserDefaults.standard.object(forKey: "statusUpdateTime") as? NSDate
         if savedTime != nil{
             if value == nil{
