@@ -121,6 +121,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
 //        let loginVC = ViewController()
 //        self.window?.rootViewController = loginVC
 
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.makeKeyAndVisible()
+        window?.rootViewController = LoginViewController()
+        
         if UIDevice.current.isX(){
             heightChangeForiPhoneXFromTop = 24.0
             heightChangeForiPhoneXFromBottom = 34.0

@@ -17,6 +17,9 @@
 		0A252F322095DD6E00C1F7F4 /* AllOrdersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A252F312095DD6E00C1F7F4 /* AllOrdersViewController.swift */; };
 		0A252F442096111B00C1F7F4 /* OrderSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A252F432096111B00C1F7F4 /* OrderSearchViewController.swift */; };
 		0A25DF97201D7E63009CBDEA /* contactList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A25DF96201D7E63009CBDEA /* contactList.plist */; };
+		0A270E6F23CEB74000125E01 /* PhoneField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A270E6E23CEB74000125E01 /* PhoneField.swift */; };
+		0A270E7123CEB98700125E01 /* SMSCodeField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A270E7023CEB98700125E01 /* SMSCodeField.swift */; };
+		0A270E7323CEC00F00125E01 /* VerificationCodeField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A270E7223CEC00F00125E01 /* VerificationCodeField.swift */; };
 		0A2B67572130EBA000E9B81A /* UIKVAnimationLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2B67562130EBA000E9B81A /* UIKVAnimationLabel.swift */; };
 		0A2C801A20ABF3E900873162 /* PagingMenuController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A252F0F2095D44800C1F7F4 /* PagingMenuController.framework */; };
 		0A2C801D20ABF51800873162 /* PagingMenuController.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0A252F0F2095D44800C1F7F4 /* PagingMenuController.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -78,6 +81,9 @@
 		0A5A79FB23CABAB9002F505B /* SubmitIssueActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5A79F923CABAB9002F505B /* SubmitIssueActionView.swift */; };
 		0A5A79FC23CABAB9002F505B /* IssueListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5A79FA23CABAB9002F505B /* IssueListTableViewCell.swift */; };
 		0A5A79FE23CABAC7002F505B /* calculatorKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5A79FD23CABAC6002F505B /* calculatorKeyboard.swift */; };
+		0A5A7A1A23CC20AE002F505B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5A7A1823CC20AE002F505B /* LoginViewController.swift */; };
+		0A5A7A2523CC20D2002F505B /* DemoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A5A7A2423CC20D2002F505B /* DemoView.xib */; };
+		0A5A7A2723CC20ED002F505B /* DemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5A7A2623CC20ED002F505B /* DemoView.swift */; };
 		0A5B5C1E1FF23B5F00A92C20 /* greyLayerPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B5C1D1FF23B5F00A92C20 /* greyLayerPrompt.swift */; };
 		0A5B5C201FF2536300A92C20 /* CoreDataOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B5C1F1FF2536300A92C20 /* CoreDataOperation.swift */; };
 		0A6AD6581FF1EFB4009A511A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6AD6571FF1EFB4009A511A /* AppDelegate.swift */; };
@@ -251,6 +257,9 @@
 		0A252F312095DD6E00C1F7F4 /* AllOrdersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllOrdersViewController.swift; sourceTree = "<group>"; };
 		0A252F432096111B00C1F7F4 /* OrderSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSearchViewController.swift; sourceTree = "<group>"; };
 		0A25DF96201D7E63009CBDEA /* contactList.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = contactList.plist; sourceTree = "<group>"; };
+		0A270E6E23CEB74000125E01 /* PhoneField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneField.swift; sourceTree = "<group>"; };
+		0A270E7023CEB98700125E01 /* SMSCodeField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMSCodeField.swift; sourceTree = "<group>"; };
+		0A270E7223CEC00F00125E01 /* VerificationCodeField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationCodeField.swift; sourceTree = "<group>"; };
 		0A2B67562130EBA000E9B81A /* UIKVAnimationLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKVAnimationLabel.swift; sourceTree = "<group>"; };
 		0A38068B2035D6560077E77F /* GestureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GestureViewController.swift; path = ZhibaoZone/Me/SetSecuritySetting/GestureViewController.swift; sourceTree = SOURCE_ROOT; };
 		0A39091F218B451F0048B9F5 /* PrivacyPolicyAgreementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyAgreementViewController.swift; sourceTree = "<group>"; };
@@ -310,6 +319,9 @@
 		0A5A79F923CABAB9002F505B /* SubmitIssueActionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubmitIssueActionView.swift; sourceTree = "<group>"; };
 		0A5A79FA23CABAB9002F505B /* IssueListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IssueListTableViewCell.swift; sourceTree = "<group>"; };
 		0A5A79FD23CABAC6002F505B /* calculatorKeyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = calculatorKeyboard.swift; sourceTree = "<group>"; };
+		0A5A7A1823CC20AE002F505B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		0A5A7A2423CC20D2002F505B /* DemoView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DemoView.xib; sourceTree = "<group>"; };
+		0A5A7A2623CC20ED002F505B /* DemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoView.swift; sourceTree = "<group>"; };
 		0A5B5C1D1FF23B5F00A92C20 /* greyLayerPrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = greyLayerPrompt.swift; sourceTree = "<group>"; };
 		0A5B5C1F1FF2536300A92C20 /* CoreDataOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataOperation.swift; sourceTree = "<group>"; };
 		0A6AD6541FF1EFB4009A511A /* ZhibaoZone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZhibaoZone.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -472,6 +484,16 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		0A270E6523CEB70200125E01 /* Common Component */ = {
+			isa = PBXGroup;
+			children = (
+				0A270E6E23CEB74000125E01 /* PhoneField.swift */,
+				0A270E7023CEB98700125E01 /* SMSCodeField.swift */,
+				0A270E7223CEC00F00125E01 /* VerificationCodeField.swift */,
+			);
+			path = "Common Component";
+			sourceTree = "<group>";
+		};
 		0A3A868A21F08A0900068BEE /* Statistic */ = {
 			isa = PBXGroup;
 			children = (
@@ -563,6 +585,7 @@
 		0A6AD6561FF1EFB4009A511A /* ZhibaoZone */ = {
 			isa = PBXGroup;
 			children = (
+				0A270E6523CEB70200125E01 /* Common Component */,
 				0AE6451E215203D900918DCE /* Support Files */,
 				0AD2829F1FF4B3A50044E41C /* SwiftyJSON.swift */,
 				0AD282AF1FF60E7A0044E41C /* TabBarController.swift */,
@@ -772,6 +795,9 @@
 			isa = PBXGroup;
 			children = (
 				0A5A79B323CAB9AA002F505B /* User.swift */,
+				0A5A7A1823CC20AE002F505B /* LoginViewController.swift */,
+				0A5A7A2423CC20D2002F505B /* DemoView.xib */,
+				0A5A7A2623CC20ED002F505B /* DemoView.swift */,
 				0A5A79B423CAB9AA002F505B /* ViewController.swift */,
 			);
 			path = Login;
@@ -1090,6 +1116,7 @@
 				0A1295562072EB5E00C21C66 /* msg.wav in Resources */,
 				0AB7C3F120DA01B600D0D26B /* checkListItemsArray.plist in Resources */,
 				0AB76696200CA8AB00851E16 /* config.plist in Resources */,
+				0A5A7A2523CC20D2002F505B /* DemoView.xib in Resources */,
 				0A81924122CCA0E90004BE2F /* HGImage.storyboard in Resources */,
 				0AF06C5620187F4A008E2DE9 /* Assets.xcassets in Resources */,
 				0A6AD65D1FF1EFB4009A511A /* Main.storyboard in Resources */,
@@ -1178,10 +1205,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				0AC4B49720F711C700312092 /* StatisticCollectionViewCell.swift in Sources */,
+				0A5A7A2723CC20ED002F505B /* DemoView.swift in Sources */,
 				0A5A79B623CAB9AA002F505B /* ViewController.swift in Sources */,
 				0A5A79CF23CAB9FC002F505B /* parameterSettingListTableViewCell.swift in Sources */,
 				0A5A79AB23CAB977002F505B /* Circle.swift in Sources */,
 				0A5A79F623CABAAA002F505B /* priceListCollectionViewCell.swift in Sources */,
+				0A270E7323CEC00F00125E01 /* VerificationCodeField.swift in Sources */,
 				0A5A79F823CABAAA002F505B /* quotePriceHistoryTableViewCell.swift in Sources */,
 				0A5A79AE23CAB977002F505B /* CircleView.swift in Sources */,
 				0A5A79CD23CAB9FC002F505B /* FactorySettingViewController.swift in Sources */,
@@ -1207,6 +1236,7 @@
 				0A450ECF21C26CC80070186E /* designerOnlineStatusViewController.swift in Sources */,
 				0A5A79DA23CABA10002F505B /* LeaveMsgDetailViewController.swift in Sources */,
 				0A5A79FC23CABAB9002F505B /* IssueListTableViewCell.swift in Sources */,
+				0A5A7A1A23CC20AE002F505B /* LoginViewController.swift in Sources */,
 				0A5A79FE23CABAC7002F505B /* calculatorKeyboard.swift in Sources */,
 				0AC4B49E20FDE31500312092 /* accountListTableViewCell.swift in Sources */,
 				0A09185120AAB2320054749B /* OrdersCollectionViewCell.swift in Sources */,
@@ -1239,6 +1269,7 @@
 				0A5A79D023CAB9FC002F505B /* FactoryListSettingViewController.swift in Sources */,
 				0A5A79A323CAB930002F505B /* UnlockGestureView.swift in Sources */,
 				0A5A79D623CABA10002F505B /* ReplyTableViewCell.swift in Sources */,
+				0A270E7123CEB98700125E01 /* SMSCodeField.swift in Sources */,
 				0A5A79B123CAB992002F505B /* MarkSlider.swift in Sources */,
 				0A5B5C1E1FF23B5F00A92C20 /* greyLayerPrompt.swift in Sources */,
 				0A81923D22CCA0E90004BE2F /* HGImagePickerController.swift in Sources */,
@@ -1272,6 +1303,7 @@
 				0A5A79B523CAB9AA002F505B /* User.swift in Sources */,
 				0A5A79A223CAB930002F505B /* SecuritySettingViewController.swift in Sources */,
 				0A8A00522237AB3400AB8AC2 /* parameterSettingTableViewCell.swift in Sources */,
+				0A270E6F23CEB74000125E01 /* PhoneField.swift in Sources */,
 				0A8A0050223785D600AB8AC2 /* SystemManagementViewController.swift in Sources */,
 				0AD282A01FF4B3A50044E41C /* SwiftyJSON.swift in Sources */,
 				0A5A79E323CABA35002F505B /* QuotePriceViewController.swift in Sources */,

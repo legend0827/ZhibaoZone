@@ -253,6 +253,30 @@
 		<string>http://140.143.249.2:81/dynamo/order/appInitWorkShop</string>
 		<key>setFactorySettingInitAPIDebug</key>
 		<string>http://119.27.170.195:81/dynamo/order/appInitWorkShop</string>
+		<key>getIdentifingCodeAPIDebug</key>
+		<string>http://192.144.146.126:88/user/default1/getImgMessage</string>
+		<key>getIdentifingCodeAPI</key>
+		<string>http://119.27.170.195:88/user/default/getImgMessage</string>
+		<key>getverifyCodeAPIDebug</key>
+		<string>http://192.144.146.126:88/user/default1/getImgKaptcha</string>
+		<key>getverifyCodeAPI</key>
+		<string>http://119.27.170.195:88/user/default1/getImgKaptcha</string>
+		<key>verifyCodeAPIDebug</key>
+		<string>http://192.144.146.126:88/user/default1/verifyImgKaptcha</string>
+		<key>verifyCodeAPI</key>
+		<string>http://119.27.170.195:88/user/default1/verifyImgKaptcha</string>
+		<key>sendSMSCodeAPIDebug</key>
+		<string>http://192.144.146.126:88/user/default1/sendSMS</string>
+		<key>sendSMSCodeAPI</key>
+		<string>http://119.27.170.195:88/user/default1/sendSMS</string>
+		<key>loginWithPhoneAndPwdAPIDebug</key>
+		<string>http://192.144.146.126:88/user/login/pwdLogin</string>
+		<key>loginWithPhoneAndPwdAPI</key>
+		<string>http://119.27.170.195:88/user/login/pwdLogin</string>
+		<key>loginWithSMSCodeAPIDebug</key>
+		<string>http://192.144.146.126:88/user/login/SMSLogin</string>
+		<key>loginWithSMSCodeAPI</key>
+		<string>http://119.27.170.195:88/user/login/SMSLogin</string>
 	</dict>
 </dict>
 </plist>
