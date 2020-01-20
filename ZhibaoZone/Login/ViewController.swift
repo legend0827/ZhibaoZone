@@ -278,9 +278,9 @@ class ViewController: UIViewController {
         } catch  {
             fatalError("获取失败")
         }
-      //  appUpdateCheck()
+        appUpdateCheck()
         
-      //  initSettings()
+        initSettings()
 
     }
     

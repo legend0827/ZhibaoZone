@@ -1472,7 +1472,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Xiaogang Liu (2989VF99X4)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Xiaogang Liu (2989VF99X4)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 70;
+				CURRENT_PROJECT_VERSION = 71;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 8NH4GBBX4T;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1484,7 +1484,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/ZhibaoZone.xcodeproj/Pods/Realm/core";
-				MARKETING_VERSION = 2.2.24;
+				MARKETING_VERSION = 2.2.25;
 				OTHER_LDFLAGS = (
 					"-Objc",
 					"-all_load",
@@ -1512,7 +1512,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Xiaogang Liu (2989VF99X4)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Xiaogang Liu (2989VF99X4)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 70;
+				CURRENT_PROJECT_VERSION = 71;
 				DEVELOPMENT_TEAM = 8NH4GBBX4T;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1523,7 +1523,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/ZhibaoZone.xcodeproj/Pods/Realm/core";
-				MARKETING_VERSION = 2.2.24;
+				MARKETING_VERSION = 2.2.25;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
