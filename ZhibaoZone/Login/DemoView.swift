@@ -112,8 +112,24 @@ class DemoView: UIView {
             }
              let verficationCode = verificationCodeTextFielld.text ?? ""
              let SMSCode = SMSCodeTextFiled.text ?? ""
+            //Debug
+            let nibView = Bundle.main.loadNibNamed("RegisterView", owner: nil, options: nil)
+                    
+            if let view = nibView?.first as? RegisterView {
+                view.frame = CGRect(x: -25, y: -70, width: self.frame.width, height: self.frame.height)
+                view.center = self.center
+                view.demoViewDelegate = self
+                view.mobilePhone = mobileNumber
+                
+                if let superView = self.superview {
+                    superView.addSubview(view)
+                }else{
+                    self.addSubview(view)
+                }
+                
+            }
             
-            registerNextStep(mobile: mobileNumber, verificationCode: verficationCode, SMSCode: SMSCode)
+           // registerNextStep(mobile: mobileNumber, verificationCode: verficationCode, SMSCode: SMSCode)
         }else{
             if isLoginWithPassword {
                 guard isPasswordLegal else {
@@ -461,6 +477,7 @@ class DemoView: UIView {
                               view.frame = CGRect(x: -25, y: -70, width: self.frame.width, height: self.frame.height)
                               view.center = self.center
                               view.demoViewDelegate = self
+                              view.mobilePhone = self.mobileNumber
                               
                               if let superView = self.superview {
                                   superView.addSubview(view)

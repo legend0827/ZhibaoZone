@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class RegisterView: UIView {
 
@@ -19,6 +20,21 @@ class RegisterView: UIView {
     //登陆页面代理
     lazy var demoViewDelegate = DemoView()
     
+    //全局变量
+    var mobilePhone:String = ""
+    var isPasswordLegal:Bool {
+           let password = PwdTextField.text ?? ""
+           let repeatPassword = RepeatPwdTextField.text ?? ""
+           print("geting value")
+           if  password == "" {
+               greyLayerPrompt.show(text: "请输入密码")
+               return  false
+           }else if repeatPassword != password {
+               greyLayerPrompt.show(text: "密码和确认密码不一致")
+               return   false
+           }
+           return  true
+    }
     @IBAction func BackToLoginClicked(_ sender: Any) {
         self.removeFromSuperview()
         demoViewDelegate.backToLogin()
@@ -28,7 +44,11 @@ class RegisterView: UIView {
         self.removeFromSuperview()
     }
     @IBAction func ConfiirmRegisterClicked(_ sender: Any) {
-        
+        let password = RepeatPwdTextField.text ?? ""
+        guard isPasswordLegal ?? false else {
+            return
+        }
+        setPassword(mobile: mobilePhone, password: password)
     }
     
     //输入框选中和离框效果
@@ -49,4 +69,66 @@ class RegisterView: UIView {
         RepeatPwdSepeatorLine.isHighlighted = false
     }
     
+    func setPassword(mobile phone:String, password pwd:String) {
+        let params:NSMutableDictionary = NSMutableDictionary()
+        
+        params["mobile"] = phone
+        params["password"] = pwd
+        
+        let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
+        let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
+        
+        let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
+        #if DEBUG
+        let URL:String = apiAddresses.value(forKey: "setPasswordAPIDebug") as! String
+        #else
+        let URL:String = apiAddresses.value(forKey: "setPasswordAPI") as! String
+        #endif
+        //发起请求
+        Alamofire.request(URL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseData {
+            (responseObject) in
+            switch responseObject.result.isSuccess{
+            case true:
+                if let value = responseObject.result.value{
+                    let json = JSON(value)
+                    let code = json["code"].int!
+                    let msg = json["message"].string!
+                    switch code {
+                       case 200:
+                        print("成功")
+//                       let nibView = Bundle.main.loadNibNamed("RegisterView", owner: nil, options: nil)
+//
+//                          if let view = nibView?.first as? RegisterView {
+//                              view.frame = CGRect(x: -25, y: -70, width: self.frame.width, height: self.frame.height)
+//                              view.center = self.center
+//                              view.demoViewDelegate = self
+//
+//                              if let superView = self.superview {
+//                                  superView.addSubview(view)
+//                              }else{
+//                                  self.addSubview(view)
+//                              }
+//
+//                          }
+                       case 202:
+                           greyLayerPrompt.show(text: msg)
+                           print("验证码过期或错误")
+                        case 204:
+                            greyLayerPrompt.show(text: msg)
+                            print("手机号已注册")
+                       case 203:
+                           greyLayerPrompt.show(text: msg)
+                           print("错误")
+                       default:
+                           greyLayerPrompt.show(text: msg)
+                           print("其他错误")
+                    }
+                    
+                }
+            case false:
+                print("验证图形验证码时出错")
+
+            }
+        }
+    }
 }
