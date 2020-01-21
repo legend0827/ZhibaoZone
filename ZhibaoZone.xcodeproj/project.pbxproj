@@ -27,6 +27,7 @@
 		0A390920218B451F0048B9F5 /* PrivacyPolicyAgreementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A39091F218B451F0048B9F5 /* PrivacyPolicyAgreementViewController.swift */; };
 		0A3AA2171FF61C6E00EBC482 /* MeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3AA2161FF61C6E00EBC482 /* MeViewController.swift */; };
 		0A3CC3B9209572970055B5DD /* Extentsions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3CC3B8209572970055B5DD /* Extentsions.swift */; };
+		0A3DC41723D58B8800D4EC29 /* DemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3DC41623D58B8800D4EC29 /* DemoView.swift */; };
 		0A450ECD21BF601B0070186E /* config_systemParas.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A450ECC21BF601B0070186E /* config_systemParas.plist */; };
 		0A450ECF21C26CC80070186E /* designerOnlineStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A450ECE21C26CC80070186E /* designerOnlineStatusViewController.swift */; };
 		0A450ED121C275BB0070186E /* onLineListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A450ED021C275BB0070186E /* onLineListTableViewCell.swift */; };
@@ -83,7 +84,6 @@
 		0A5A79FE23CABAC7002F505B /* calculatorKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5A79FD23CABAC6002F505B /* calculatorKeyboard.swift */; };
 		0A5A7A1A23CC20AE002F505B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5A7A1823CC20AE002F505B /* LoginViewController.swift */; };
 		0A5A7A2523CC20D2002F505B /* DemoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A5A7A2423CC20D2002F505B /* DemoView.xib */; };
-		0A5A7A2723CC20ED002F505B /* DemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5A7A2623CC20ED002F505B /* DemoView.swift */; };
 		0A5B5C1E1FF23B5F00A92C20 /* greyLayerPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B5C1D1FF23B5F00A92C20 /* greyLayerPrompt.swift */; };
 		0A5B5C201FF2536300A92C20 /* CoreDataOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B5C1F1FF2536300A92C20 /* CoreDataOperation.swift */; };
 		0A6AD6581FF1EFB4009A511A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6AD6571FF1EFB4009A511A /* AppDelegate.swift */; };
@@ -109,6 +109,8 @@
 		0AB7C3F120DA01B600D0D26B /* checkListItemsArray.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AB7C3F020DA01B600D0D26B /* checkListItemsArray.plist */; };
 		0AB7C43A20EF0FDE00D0D26B /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB7C43920EF0FDE00D0D26B /* libsqlite3.tbd */; };
 		0AB7C43C20EF0FFF00D0D26B /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB7C43B20EF0FFF00D0D26B /* UserNotifications.framework */; };
+		0ABFC4EF23D5F3740089BB04 /* RegisterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0ABFC4EE23D5F3740089BB04 /* RegisterView.xib */; };
+		0ABFC4F923D5F7CA0089BB04 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABFC4F823D5F7CA0089BB04 /* RegisterView.swift */; };
 		0AC1AC57204E2B260096A6F6 /* QCloudCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC1AC55204E2B250096A6F6 /* QCloudCore.framework */; };
 		0AC1AC58204E2B260096A6F6 /* QCloudCOSXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC1AC56204E2B250096A6F6 /* QCloudCOSXML.framework */; };
 		0AC1AC5B204E2B890096A6F6 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC1AC5A204E2B890096A6F6 /* CoreTelephony.framework */; };
@@ -265,6 +267,7 @@
 		0A39091F218B451F0048B9F5 /* PrivacyPolicyAgreementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyAgreementViewController.swift; sourceTree = "<group>"; };
 		0A3AA2161FF61C6E00EBC482 /* MeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeViewController.swift; sourceTree = "<group>"; };
 		0A3CC3B8209572970055B5DD /* Extentsions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Extentsions.swift; path = ZhibaoZone/Extentsions.swift; sourceTree = SOURCE_ROOT; };
+		0A3DC41623D58B8800D4EC29 /* DemoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoView.swift; sourceTree = "<group>"; };
 		0A450ECC21BF601B0070186E /* config_systemParas.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = config_systemParas.plist; sourceTree = "<group>"; };
 		0A450ECE21C26CC80070186E /* designerOnlineStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = designerOnlineStatusViewController.swift; sourceTree = "<group>"; };
 		0A450ED021C275BB0070186E /* onLineListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = onLineListTableViewCell.swift; sourceTree = "<group>"; };
@@ -321,7 +324,6 @@
 		0A5A79FD23CABAC6002F505B /* calculatorKeyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = calculatorKeyboard.swift; sourceTree = "<group>"; };
 		0A5A7A1823CC20AE002F505B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		0A5A7A2423CC20D2002F505B /* DemoView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DemoView.xib; sourceTree = "<group>"; };
-		0A5A7A2623CC20ED002F505B /* DemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoView.swift; sourceTree = "<group>"; };
 		0A5B5C1D1FF23B5F00A92C20 /* greyLayerPrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = greyLayerPrompt.swift; sourceTree = "<group>"; };
 		0A5B5C1F1FF2536300A92C20 /* CoreDataOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataOperation.swift; sourceTree = "<group>"; };
 		0A6AD6541FF1EFB4009A511A /* ZhibaoZone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZhibaoZone.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -354,6 +356,8 @@
 		0AB7C3F020DA01B600D0D26B /* checkListItemsArray.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = checkListItemsArray.plist; sourceTree = "<group>"; };
 		0AB7C43920EF0FDE00D0D26B /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		0AB7C43B20EF0FFF00D0D26B /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		0ABFC4EE23D5F3740089BB04 /* RegisterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegisterView.xib; sourceTree = "<group>"; };
+		0ABFC4F823D5F7CA0089BB04 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		0AC1AC55204E2B250096A6F6 /* QCloudCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = QCloudCore.framework; sourceTree = "<group>"; };
 		0AC1AC56204E2B250096A6F6 /* QCloudCOSXML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = QCloudCOSXML.framework; sourceTree = "<group>"; };
 		0AC1AC5A204E2B890096A6F6 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -796,8 +800,10 @@
 			children = (
 				0A5A79B323CAB9AA002F505B /* User.swift */,
 				0A5A7A1823CC20AE002F505B /* LoginViewController.swift */,
+				0A3DC41623D58B8800D4EC29 /* DemoView.swift */,
+				0ABFC4F823D5F7CA0089BB04 /* RegisterView.swift */,
+				0ABFC4EE23D5F3740089BB04 /* RegisterView.xib */,
 				0A5A7A2423CC20D2002F505B /* DemoView.xib */,
-				0A5A7A2623CC20ED002F505B /* DemoView.swift */,
 				0A5A79B423CAB9AA002F505B /* ViewController.swift */,
 			);
 			path = Login;
@@ -1113,6 +1119,7 @@
 				0A09185320AABFF20054749B /* shippingCompanyNameList.plist in Resources */,
 				0A25DF97201D7E63009CBDEA /* contactList.plist in Resources */,
 				0AE645282152054D00918DCE /* DINPro-Medium.otf in Resources */,
+				0ABFC4EF23D5F3740089BB04 /* RegisterView.xib in Resources */,
 				0A1295562072EB5E00C21C66 /* msg.wav in Resources */,
 				0AB7C3F120DA01B600D0D26B /* checkListItemsArray.plist in Resources */,
 				0AB76696200CA8AB00851E16 /* config.plist in Resources */,
@@ -1205,7 +1212,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0AC4B49720F711C700312092 /* StatisticCollectionViewCell.swift in Sources */,
-				0A5A7A2723CC20ED002F505B /* DemoView.swift in Sources */,
 				0A5A79B623CAB9AA002F505B /* ViewController.swift in Sources */,
 				0A5A79CF23CAB9FC002F505B /* parameterSettingListTableViewCell.swift in Sources */,
 				0A5A79AB23CAB977002F505B /* Circle.swift in Sources */,
@@ -1256,6 +1262,7 @@
 				0A5A79E523CABA35002F505B /* ParasTableViewCell.swift in Sources */,
 				0A6AD6581FF1EFB4009A511A /* AppDelegate.swift in Sources */,
 				0A5A79AC23CAB977002F505B /* GestureVerifyViewController.swift in Sources */,
+				0A3DC41723D58B8800D4EC29 /* DemoView.swift in Sources */,
 				0AD282B01FF60E7A0044E41C /* TabBarController.swift in Sources */,
 				0A5A79C223CAB9DE002F505B /* statisticTableViewCell.swift in Sources */,
 				0A5A79F223CABA93002F505B /* ChooseTimeIntervalCellTableViewCell.swift in Sources */,
@@ -1287,6 +1294,7 @@
 				0ADD7BB922816CFD00F0D653 /* uploadAdminInfoViewController.swift in Sources */,
 				0AF06C5120171D40008E2DE9 /* ES.swift in Sources */,
 				0A5A79CC23CAB9FC002F505B /* FactoryListSettingTableViewCell.swift in Sources */,
+				0ABFC4F923D5F7CA0089BB04 /* RegisterView.swift in Sources */,
 				0A5B5C201FF2536300A92C20 /* CoreDataOperation.swift in Sources */,
 				0A5A79D923CABA10002F505B /* ReplyView.swift in Sources */,
 				0AC4B49320F7023200312092 /* ManagerViewController.swift in Sources */,

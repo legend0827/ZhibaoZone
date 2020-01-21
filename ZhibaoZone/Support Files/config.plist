@@ -277,6 +277,10 @@
 		<string>http://192.144.146.126:88/user/login/SMSLogin</string>
 		<key>loginWithSMSCodeAPI</key>
 		<string>http://119.27.170.195:88/user/login/SMSLogin</string>
+		<key>registerNextStepAPIDebug</key>
+		<string>http://192.144.146.126:88/user/register/verifySMS</string>
+		<key>registerNextStepAPI</key>
+		<string>http://119.27.170.195:88/user/register/verifySMS</string>
 	</dict>
 </dict>
 </plist>

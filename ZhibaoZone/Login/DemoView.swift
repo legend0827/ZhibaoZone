@@ -27,6 +27,7 @@ class DemoView: UIView {
     @IBOutlet weak var verificationCodeTextFielld: UITextField!
     @IBOutlet weak var verficationCodeImage: UIButton!
     @IBOutlet weak var submitButton: UIButton!
+    @IBOutlet weak var RegisterButton: UIButton!
     
     //全局变量
     var mobileNumber:String = ""
@@ -36,6 +37,8 @@ class DemoView: UIView {
     var SessionUUID:String = ""
     var timer:Timer?
     var counter:Int = 60
+    //注册模式
+    var isRegisterModel:Bool = false
     
     //图形验证码验证
     var isVerificationCodeLegal = false
@@ -90,42 +93,151 @@ class DemoView: UIView {
     }
     
     @IBAction func submitButtonClicked(_ sender: Any) {
+        
         guard isMobilePhoneLegal(mobile: mobileNumber) else {
             greyLayerPrompt.show(text: "手机号不合法")
             return
         }
         
-        if isLoginWithPassword {
-            guard isPasswordLegal else {
-                greyLayerPrompt.show(text: "密码输入不合法")
+        if isRegisterModel {
+            //下一步
+            guard isSMSCodeLegal else {
+                greyLayerPrompt.show(text: "请输入有效的短信验证码")
                 return
             }
+             
+            guard isVerificationCodeLegal else {
+                greyLayerPrompt.show(text: "图形验证码错误")
+                return
+            }
+             let verficationCode = verificationCodeTextFielld.text ?? ""
+             let SMSCode = SMSCodeTextFiled.text ?? ""
             
-            let password = PasswordTextFiled.text ?? ""
-            //账号密码登录
-            login(mobile: mobileNumber, password: password)
-            
+            registerNextStep(mobile: mobileNumber, verificationCode: verficationCode, SMSCode: SMSCode)
         }else{
-            guard isSMSCodeLegal else {
-                       greyLayerPrompt.show(text: "请输入有效的短信验证码")
-                       return
-           }
-                   
-                   
-           guard isVerificationCodeLegal else {
-               greyLayerPrompt.show(text: "图形验证码错误")
-               return
-           }
-            let verficationCode = verificationCodeTextFielld.text ?? ""
-            let SMSCode = SMSCodeTextFiled.text ?? ""
-            //短信验证码登录
-            login(mobile: mobileNumber, verificationCode: verficationCode, SMSCode: SMSCode)
-            
+            if isLoginWithPassword {
+                guard isPasswordLegal else {
+                    greyLayerPrompt.show(text: "密码输入不合法")
+                    return
+                }
+                
+                let password = PasswordTextFiled.text ?? ""
+                //账号密码登录
+                login(mobile: mobileNumber, password: password)
+                
+            }else{
+                guard isSMSCodeLegal else {
+                           greyLayerPrompt.show(text: "请输入有效的短信验证码")
+                           return
+               }
+                
+               guard isVerificationCodeLegal else {
+                   greyLayerPrompt.show(text: "图形验证码错误")
+                   return
+               }
+                let verficationCode = verificationCodeTextFielld.text ?? ""
+                let SMSCode = SMSCodeTextFiled.text ?? ""
+                
+                //短信验证码登录
+                login(mobile: mobileNumber, verificationCode: verficationCode, SMSCode: SMSCode)
+            }
         }
- 
+
     }
     
+    //注册第二步页面返回登陆
+    func backToLogin(){
+        //恢复到原登陆页面
+        switchLoginTypeButton.isHidden = false
+        submitButton.setTitle("登陆", for: .normal)
+        RegisterButton.setTitle("还没有账号？点此注册", for: .normal)
+        
+        if isLoginWithPassword {
+            //恢复到账号密码登陆页面
+            verficationCodeImage.isHidden = true
+            verificationCodeTextFielld.isHidden = true
+            PasswordTextFiled.isHidden = false
+            SMSCodeIcon.isHidden = true
+            GetSMSCodeButton.isHidden = true
+            SMSCodeTextFiled.isHidden = true
+            SMSCodeSeperator.isHidden = true
+            verifyStatusIcon.isHidden = true
+               
+            switchLoginTypeButton.setTitle("短信验证码登录", for: .normal)
+            TitleLabel.text = "账号密码登录"
 
+            let moveUp = CGAffineTransform(translationX: 0, y: 0)
+            submitButton.transform = moveUp
+            switchLoginTypeButton.transform = moveUp
+            RegisterButton.transform = moveUp
+        }else{
+            TitleLabel.text = "短信验证登录"
+        }
+    }
+    @IBAction func RegisterButtonClicked(_ sender: Any) {
+
+        if isRegisterModel {
+            //恢复到原登陆页面
+            switchLoginTypeButton.isHidden = false
+            submitButton.setTitle("登陆", for: .normal)
+            RegisterButton.setTitle("还没有账号？点此注册", for: .normal)
+            
+            if isLoginWithPassword {
+                //恢复到账号密码登陆页面
+                verficationCodeImage.isHidden = true
+                verificationCodeTextFielld.isHidden = true
+                PasswordTextFiled.isHidden = false
+                SMSCodeIcon.isHidden = true
+                GetSMSCodeButton.isHidden = true
+                SMSCodeTextFiled.isHidden = true
+                SMSCodeSeperator.isHidden = true
+                verifyStatusIcon.isHidden = true
+                   
+                switchLoginTypeButton.setTitle("短信验证码登录", for: .normal)
+                TitleLabel.text = "账号密码登录"
+
+                let moveUp = CGAffineTransform(translationX: 0, y: 0)
+                submitButton.transform = moveUp
+                switchLoginTypeButton.transform = moveUp
+                RegisterButton.transform = moveUp
+            }else{
+                TitleLabel.text = "短信验证登录"
+            }
+            
+        }else{
+            //切换到注册模式
+            switchLoginTypeButton.isHidden = true
+            submitButton.setTitle("下一步", for: .normal)
+            RegisterButton.setTitle("已有账号？返回登陆", for: .normal)
+            TitleLabel.text = "注册"
+
+            if isLoginWithPassword {
+                //恢复到账号密码登陆页面
+                getVerificationImage()
+                verficationCodeImage.isHidden = false
+                verificationCodeTextFielld.isHidden = false
+                PasswordTextFiled.isHidden = true
+                SMSCodeIcon.isHidden = false
+                GetSMSCodeButton.isHidden = false
+                SMSCodeTextFiled.isHidden = false
+                SMSCodeSeperator.isHidden = false
+
+                if timer == nil{
+                    GetSMSCodeButton.isEnabled = true
+                }
+
+                switchLoginTypeButton.setTitle("账号密码登录", for: .normal)
+                let moveDown = CGAffineTransform(translationX: 0, y: 70)
+                submitButton.transform = moveDown
+                switchLoginTypeButton.transform = moveDown
+                RegisterButton.transform = moveDown
+                
+            }
+        }
+        
+        //切换注册模式
+        isRegisterModel = !isRegisterModel
+    }
     
     @IBAction func SendSMSCodeButtonClicked(_ sender: Any) {
         SendSMSCode(UUID: self.SessionUUID, verificationCode: self.verificationCodeTextFielld.text ?? "", mobilePhone: mobileNumber)
@@ -151,9 +263,10 @@ class DemoView: UIView {
             
             switchLoginTypeButton.setTitle("账号密码登录", for: .normal)
             TitleLabel.text = "短信验证登录"
-            let moveDown = CGAffineTransform(translationX: 0, y: 60)
+            let moveDown = CGAffineTransform(translationX: 0, y: 70)
             submitButton.transform = moveDown
             switchLoginTypeButton.transform = moveDown
+            RegisterButton.transform = moveDown
             //CGAffineTransform(translationX: 0, y: 60)
             
         }else{
@@ -172,6 +285,7 @@ class DemoView: UIView {
             let moveUp = CGAffineTransform(translationX: 0, y: 0)
             submitButton.transform = moveUp
             switchLoginTypeButton.transform = moveUp
+            RegisterButton.transform = moveUp
         }
         self.updateConstraints()
         
@@ -191,6 +305,7 @@ class DemoView: UIView {
             return nil
         }
     }
+    
     
     override func layoutSubviews() {
        // self.submitButton.titleLabel?.highlightedTextColor = UIColor.white
@@ -300,6 +415,69 @@ class DemoView: UIView {
                        case 210:
                            greyLayerPrompt.show(text: msg)
                            print("您已被禁止登陆，请联系客户经理")
+                       default:
+                           greyLayerPrompt.show(text: msg)
+                           print("其他错误")
+                    }
+                    
+                }
+            case false:
+                print("验证图形验证码时出错")
+
+            }
+        }
+    }
+    
+    func registerNextStep(mobile phone:String, verificationCode code:String, SMSCode SMS:String){
+        
+        let params:NSMutableDictionary = NSMutableDictionary()
+        
+        params["mobile"] = phone
+        params["smsCaptcha"] = SMS
+        
+        let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
+        let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
+        
+        let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
+        #if DEBUG
+        let URL:String = apiAddresses.value(forKey: "registerNextStepAPIDebug") as! String
+        #else
+        let URL:String = apiAddresses.value(forKey: "registerNextStepAPI") as! String
+        #endif
+        //发起请求
+        Alamofire.request(URL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseData {
+            (responseObject) in
+            switch responseObject.result.isSuccess{
+            case true:
+                if let value = responseObject.result.value{
+                    let json = JSON(value)
+                    let code = json["code"].int!
+                    let msg = json["message"].string!
+                    switch code {
+                       case 200:
+                       let nibView = Bundle.main.loadNibNamed("RegisterView", owner: nil, options: nil)
+                                  
+                          if let view = nibView?.first as? RegisterView {
+                              view.frame = CGRect(x: -25, y: -70, width: self.frame.width, height: self.frame.height)
+                              view.center = self.center
+                              view.demoViewDelegate = self
+                              
+                              if let superView = self.superview {
+                                  superView.addSubview(view)
+                              }else{
+                                  self.addSubview(view)
+                              }
+                              
+                          }
+                       case 202:
+                           greyLayerPrompt.show(text: msg)
+                           print("验证码过期或错误")
+                        case 204:
+                            greyLayerPrompt.show(text: msg)
+                            print("手机号已注册")
+                       case 203:
+                           greyLayerPrompt.show(text: msg)
+                           print("错误")
                        default:
                            greyLayerPrompt.show(text: msg)
                            print("其他错误")

@@ -17,8 +17,10 @@ class LoginViewController: UIViewController {
 
         let myView = DemoView.newInstance() // Bundle.main.loadNibNamed("DemoView", owner: nil, options: nil)?.first as? DemoView
         
-        myView?.frame = CGRect(x: 0, y: 0, width: self.view.frame.width-50, height: self.view.frame.height-140)
-        myView?.center = self.view.center
+        myView?.frame = CGRect(x: 0, y: 0, width: self.view.frame.width - 50, height: self.view.frame.height-340)
+        let positionOfView = CGPoint(x: self.view.center.x, y: self.view.center.y - 140)
+        myView?.center = positionOfView
+        //myView?.center = self.view.center
         
         if myView != nil {
             self.view.addSubview(myView!)

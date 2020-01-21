@@ -70,7 +70,7 @@
                     <rect key="frame" x="15" y="277" width="15" height="20"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="avr-co-jWE">
-                    <rect key="frame" x="15" y="298" width="384" height="40"/>
+                    <rect key="frame" x="15" y="308" width="384" height="40"/>
                     <color key="backgroundColor" red="0.99857455490000002" green="0.47322148079999998" blue="0.32541209459999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="5Mw-vX-Pgj"/>
@@ -90,7 +90,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="89w-lC-bkn">
-                    <rect key="frame" x="40" y="358" width="334" height="28"/>
+                    <rect key="frame" x="40" y="368" width="334" height="28"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <state key="normal" title="短信验证码登录">
                         <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -175,6 +175,20 @@
                 <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="verify-succed" highlightedImage="verify-faild" translatesAutoresizingMaskIntoConstraints="NO" id="rXG-Qy-dym">
                     <rect key="frame" x="236" y="217" width="18" height="20"/>
                 </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tmo-xd-IsP">
+                    <rect key="frame" x="165" y="262" width="234" height="28"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="28" id="je4-td-UP0"/>
+                        <constraint firstAttribute="width" constant="234" id="smi-sa-xDj"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <state key="normal" title="还没有账号？点此注册">
+                        <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="RegisterButtonClicked:" destination="iN0-l3-epB" eventType="touchUpInside" id="1WR-dp-B68"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
@@ -185,9 +199,11 @@
                 <constraint firstAttribute="trailing" secondItem="BSx-9r-yA0" secondAttribute="trailing" constant="15" id="7W8-0F-9gF"/>
                 <constraint firstItem="HOA-SM-Bhq" firstAttribute="top" secondItem="zgB-Ss-WtD" secondAttribute="bottom" constant="52" id="8bQ-RE-237"/>
                 <constraint firstItem="zgB-Ss-WtD" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="35" id="A2R-qe-5sa"/>
+                <constraint firstItem="tmo-xd-IsP" firstAttribute="top" secondItem="TwM-jA-jlQ" secondAttribute="bottom" constant="5" id="BHv-tX-DqS"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="tmo-xd-IsP" secondAttribute="trailing" constant="15" id="CBq-2A-3cx"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="89w-lC-bkn" secondAttribute="trailing" constant="40" id="Cc8-hy-buC"/>
                 <constraint firstItem="Y4c-9K-bH0" firstAttribute="top" secondItem="TwM-jA-jlQ" secondAttribute="bottom" id="DLN-dC-Ave"/>
-                <constraint firstItem="avr-co-jWE" firstAttribute="top" secondItem="Y4c-9K-bH0" secondAttribute="bottom" constant="40" id="EFc-NN-A8D"/>
+                <constraint firstItem="avr-co-jWE" firstAttribute="top" secondItem="Y4c-9K-bH0" secondAttribute="bottom" constant="50" id="EFc-NN-A8D"/>
                 <constraint firstItem="7sa-sD-1US" firstAttribute="leading" secondItem="xwf-Gh-a5c" secondAttribute="trailing" constant="15" id="EZb-hk-qNs"/>
                 <constraint firstItem="GyR-kM-pe4" firstAttribute="top" secondItem="Y4c-9K-bH0" secondAttribute="bottom" constant="19" id="GuX-Vi-LhD"/>
                 <constraint firstItem="6d3-3K-M6i" firstAttribute="top" secondItem="N40-B1-Ffn" secondAttribute="bottom" constant="5" id="HD2-Tk-RBc"/>
@@ -225,6 +241,7 @@
             <connections>
                 <outlet property="GetSMSCodeButton" destination="7sa-sD-1US" id="qQx-13-ff0"/>
                 <outlet property="PasswordTextFiled" destination="TwM-jA-jlQ" id="sA9-Ly-lyI"/>
+                <outlet property="RegisterButton" destination="tmo-xd-IsP" id="bXI-LM-rXt"/>
                 <outlet property="SMSCodeIcon" destination="GyR-kM-pe4" id="JVM-YV-UH0"/>
                 <outlet property="SMSCodeSeperator" destination="BSx-9r-yA0" id="UmV-oB-akf"/>
                 <outlet property="SMSCodeTextFiled" destination="xwf-Gh-a5c" id="Y1A-DP-2MT"/>
@@ -233,7 +250,7 @@
                 <outlet property="mobileSeperator" destination="N40-B1-Ffn" id="GRL-qK-rOo"/>
                 <outlet property="passwordIcon" destination="gPY-Aa-MI7" id="HWK-J3-86f"/>
                 <outlet property="passwordSeperator" destination="Y4c-9K-bH0" id="BhH-wn-Ise"/>
-                <outlet property="submitButton" destination="avr-co-jWE" id="kSD-AL-JNB"/>
+                <outlet property="submitButton" destination="avr-co-jWE" id="Kqv-8q-JV4"/>
                 <outlet property="switchLoginTypeButton" destination="89w-lC-bkn" id="FvF-9F-eYb"/>
                 <outlet property="userNameIcon" destination="HOA-SM-Bhq" id="QvU-N3-yWf"/>
                 <outlet property="verficationCodeImage" destination="6d3-3K-M6i" id="GKE-Z5-3Fq"/>
