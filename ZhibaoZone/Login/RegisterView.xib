@@ -149,9 +149,13 @@
                 <outlet property="PwdIcon" destination="m46-FS-JXr" id="UwB-0M-jVu"/>
                 <outlet property="PwdSepeatorLine" destination="BNH-t8-kN5" id="0J9-7r-1Zr"/>
                 <outlet property="PwdTextField" destination="C8O-bc-Wfk" id="5Om-oE-u1J"/>
+                <outlet property="RegisterButton" destination="GnS-2w-5ev" id="moD-PH-LzK"/>
                 <outlet property="RepeatPwdIcon" destination="I9U-rU-RWm" id="1eY-4o-K4V"/>
                 <outlet property="RepeatPwdSepeatorLine" destination="KmH-gj-drV" id="QTW-1a-idq"/>
                 <outlet property="RepeatPwdTextField" destination="Y6v-eT-sbq" id="848-QA-xi0"/>
+                <outlet property="TitleLabel" destination="M39-5L-tOS" id="EKE-e8-0lU"/>
+                <outlet property="backButton" destination="zLd-3f-a8H" id="a0z-jx-H4Z"/>
+                <outlet property="backToLoginBtn" destination="CVn-XB-Btw" id="9SX-FO-N7q"/>
             </connections>
             <point key="canvasLocation" x="137.68115942028987" y="102.45535714285714"/>
         </view>

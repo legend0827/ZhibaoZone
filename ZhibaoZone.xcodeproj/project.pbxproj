@@ -90,7 +90,6 @@
 		0A6AD65D1FF1EFB4009A511A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A6AD65B1FF1EFB4009A511A /* Main.storyboard */; };
 		0A6AD6701FF1EFB4009A511A /* ZhibaoZoneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6AD66F1FF1EFB4009A511A /* ZhibaoZoneTests.swift */; };
 		0A6AD67B1FF1EFB4009A511A /* ZhibaoZoneUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6AD67A1FF1EFB4009A511A /* ZhibaoZoneUITests.swift */; };
-		0A6B3F101FFB38BE0014AF24 /* AccountInfo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0A6B3F0E1FFB38BE0014AF24 /* AccountInfo.xcdatamodeld */; };
 		0A709E6820EF17CE00E4CF46 /* UMPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A709E6720EF17CE00E4CF46 /* UMPush.framework */; };
 		0A709E6B20EF40DC00E4CF46 /* UMCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A709E6A20EF40DC00E4CF46 /* UMCommon.framework */; };
 		0A81923D22CCA0E90004BE2F /* HGImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A81923522CCA0E70004BE2F /* HGImagePickerController.swift */; };
@@ -103,6 +102,7 @@
 		0A83CA6C205F6AE500F59A70 /* UIImage+Gif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A83CA64205F6AE400F59A70 /* UIImage+Gif.swift */; };
 		0A8A0050223785D600AB8AC2 /* SystemManagementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8A004F223785D600AB8AC2 /* SystemManagementViewController.swift */; };
 		0A8A00522237AB3400AB8AC2 /* parameterSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8A00512237AB3400AB8AC2 /* parameterSettingTableViewCell.swift */; };
+		0A95BBAC2403CBBF008F564F /* LocalModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0A95BBAA2403CBBF008F564F /* LocalModel.xcdatamodeld */; };
 		0A99705D20ADB8C500E4D37C /* OrderSearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A99705C20ADB8C500E4D37C /* OrderSearchCollectionViewCell.swift */; };
 		0A99706B20AED7C500E4D37C /* CollectionReusableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A99706A20AED7C500E4D37C /* CollectionReusableViewHeader.swift */; };
 		0AB76696200CA8AB00851E16 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AB76695200CA8AB00851E16 /* config.plist */; };
@@ -336,7 +336,6 @@
 		0A6AD6761FF1EFB4009A511A /* ZhibaoZoneUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZhibaoZoneUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A6AD67A1FF1EFB4009A511A /* ZhibaoZoneUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZhibaoZoneUITests.swift; sourceTree = "<group>"; };
 		0A6AD67C1FF1EFB4009A511A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0A6B3F0F1FFB38BE0014AF24 /* AccountInfo.xcdatamodel */ = {isa = PBXFileReference; explicitFileType = wrapper.xcdatamodel; path = AccountInfo.xcdatamodel; sourceTree = "<group>"; };
 		0A709E6720EF17CE00E4CF46 /* UMPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMPush.framework; sourceTree = "<group>"; };
 		0A709E6A20EF40DC00E4CF46 /* UMCommon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMCommon.framework; sourceTree = "<group>"; };
 		0A709E6C20EF418200E4CF46 /* UMPush-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UMPush-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -350,6 +349,7 @@
 		0A83CA64205F6AE400F59A70 /* UIImage+Gif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Gif.swift"; sourceTree = "<group>"; };
 		0A8A004F223785D600AB8AC2 /* SystemManagementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemManagementViewController.swift; sourceTree = "<group>"; };
 		0A8A00512237AB3400AB8AC2 /* parameterSettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = parameterSettingTableViewCell.swift; sourceTree = "<group>"; };
+		0A95BBAB2403CBBF008F564F /* LocalModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LocalModel.xcdatamodel; sourceTree = "<group>"; };
 		0A99705C20ADB8C500E4D37C /* OrderSearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSearchCollectionViewCell.swift; sourceTree = "<group>"; };
 		0A99706A20AED7C500E4D37C /* CollectionReusableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionReusableViewHeader.swift; sourceTree = "<group>"; };
 		0AB76695200CA8AB00851E16 /* config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
@@ -612,8 +612,8 @@
 				0A5B5C1D1FF23B5F00A92C20 /* greyLayerPrompt.swift */,
 				0A5B5C1F1FF2536300A92C20 /* CoreDataOperation.swift */,
 				0A6AD65B1FF1EFB4009A511A /* Main.storyboard */,
+				0A95BBAA2403CBBF008F564F /* LocalModel.xcdatamodeld */,
 				0A6AD6661FF1EFB4009A511A /* Info.plist */,
-				0A6B3F0E1FFB38BE0014AF24 /* AccountInfo.xcdatamodeld */,
 			);
 			path = ZhibaoZone;
 			sourceTree = "<group>";
@@ -1214,13 +1214,13 @@
 				0AC4B49720F711C700312092 /* StatisticCollectionViewCell.swift in Sources */,
 				0A5A79B623CAB9AA002F505B /* ViewController.swift in Sources */,
 				0A5A79CF23CAB9FC002F505B /* parameterSettingListTableViewCell.swift in Sources */,
+				0A95BBAC2403CBBF008F564F /* LocalModel.xcdatamodeld in Sources */,
 				0A5A79AB23CAB977002F505B /* Circle.swift in Sources */,
 				0A5A79F623CABAAA002F505B /* priceListCollectionViewCell.swift in Sources */,
 				0A270E7323CEC00F00125E01 /* VerificationCodeField.swift in Sources */,
 				0A5A79F823CABAAA002F505B /* quotePriceHistoryTableViewCell.swift in Sources */,
 				0A5A79AE23CAB977002F505B /* CircleView.swift in Sources */,
 				0A5A79CD23CAB9FC002F505B /* FactorySettingViewController.swift in Sources */,
-				0A6B3F101FFB38BE0014AF24 /* AccountInfo.xcdatamodeld in Sources */,
 				0A3AA2171FF61C6E00EBC482 /* MeViewController.swift in Sources */,
 				0A5A79E823CABA5C002F505B /* ScanCodeViewController.swift in Sources */,
 				0AF06C4B20171D40008E2DE9 /* ESRefreshComponent.swift in Sources */,
@@ -1687,13 +1687,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		0A6B3F0E1FFB38BE0014AF24 /* AccountInfo.xcdatamodeld */ = {
+		0A95BBAA2403CBBF008F564F /* LocalModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				0A6B3F0F1FFB38BE0014AF24 /* AccountInfo.xcdatamodel */,
+				0A95BBAB2403CBBF008F564F /* LocalModel.xcdatamodel */,
 			);
-			currentVersion = 0A6B3F0F1FFB38BE0014AF24 /* AccountInfo.xcdatamodel */;
-			path = AccountInfo.xcdatamodeld;
+			currentVersion = 0A95BBAB2403CBBF008F564F /* LocalModel.xcdatamodel */;
+			path = LocalModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

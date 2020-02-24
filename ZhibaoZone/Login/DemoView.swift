@@ -112,24 +112,24 @@ class DemoView: UIView {
             }
              let verficationCode = verificationCodeTextFielld.text ?? ""
              let SMSCode = SMSCodeTextFiled.text ?? ""
-            //Debug
-            let nibView = Bundle.main.loadNibNamed("RegisterView", owner: nil, options: nil)
-                    
-            if let view = nibView?.first as? RegisterView {
-                view.frame = CGRect(x: -25, y: -70, width: self.frame.width, height: self.frame.height)
-                view.center = self.center
-                view.demoViewDelegate = self
-                view.mobilePhone = mobileNumber
-                
-                if let superView = self.superview {
-                    superView.addSubview(view)
-                }else{
-                    self.addSubview(view)
-                }
-                
-            }
+//            //Debug
+//            let nibView = Bundle.main.loadNibNamed("RegisterView", owner: nil, options: nil)
+//
+//            if let view = nibView?.first as? RegisterView {
+//                view.frame = CGRect(x: -25, y: -70, width: self.frame.width, height: self.frame.height)
+//                view.center = self.center
+//                view.demoViewDelegate = self
+//                view.mobilePhone = mobileNumber
+//
+//                if let superView = self.superview {
+//                    superView.addSubview(view)
+//                }else{
+//                    self.addSubview(view)
+//                }
+//
+//            }
             
-           // registerNextStep(mobile: mobileNumber, verificationCode: verficationCode, SMSCode: SMSCode)
+            registerNextStep(mobile: mobileNumber, verificationCode: verficationCode, SMSCode: SMSCode)
         }else{
             if isLoginWithPassword {
                 guard isPasswordLegal else {
@@ -374,6 +374,12 @@ class DemoView: UIView {
                     switch code {
                     case 200:
                         greyLayerPrompt.show(text: msg)
+                        let token = json["data","token"].string!
+                        let nickName = json["data","nickName"].string!
+                        let accountId = json["data","accountId"].string!
+                        let userAvatar = json["data","userAvatar"].stringValue
+                        
+                        self.loginMissionQueue(mobilePhone: phone, password: pwd, token: token, UserName: nickName, AccountID: accountId, Avatar: userAvatar)
                         print("登陆成功")
                     case 205:
                         greyLayerPrompt.show(text: msg)
@@ -421,6 +427,35 @@ class DemoView: UIView {
                     switch code {
                        case 200:
                            greyLayerPrompt.show(text: msg)
+                           let token = json["data","token"].string!
+                           let nickName = json["data","nickName"].string!
+                           let accountId = json["data","accountId"].string!
+                           let userAvatar = json["data","userAvatar"].stringValue
+                           
+                           //保存登录状态
+                           self.loginMissionQueue(mobilePhone: phone, password: "", token: token, UserName: nickName, AccountID: accountId, Avatar: userAvatar)
+                           
+                           let isPasswordSettled = json["data","isPassword"].stringValue
+                           if isPasswordSettled == "0"{
+                            //设置登录密码
+                                let nibView = Bundle.main.loadNibNamed("RegisterView", owner: nil, options: nil)
+                                        
+                                if let view = nibView?.first as? RegisterView {
+                                    view.frame = CGRect(x: -25, y: -70, width: self.frame.width, height: self.frame.height)
+                                    view.center = self.center
+                                    view.demoViewDelegate = self
+                                    view.mobilePhone = self.mobileNumber
+                                    view.isForSettingPassword = true
+                                    view.switchRegisterModelTo(SettingPassword: true)
+                                    
+                                    if let superView = self.superview {
+                                        superView.addSubview(view)
+                                    }else{
+                                        self.addSubview(view)
+                                    }
+                                    
+                                }
+                           }
                            print("登陆成功")
                        case 202:
                            greyLayerPrompt.show(text: msg)
@@ -478,6 +513,8 @@ class DemoView: UIView {
                               view.center = self.center
                               view.demoViewDelegate = self
                               view.mobilePhone = self.mobileNumber
+                              view.isForSettingPassword = false
+                              view.switchRegisterModelTo(SettingPassword: false)
                               
                               if let superView = self.superview {
                                   superView.addSubview(view)
@@ -653,5 +690,20 @@ class DemoView: UIView {
 
             }
         }
+    }
+    
+    func loginMissionQueue(mobilePhone phone:String,password pwd:String,token token:String,UserName nickName:String, AccountID accountId:String, Avatar userAvatar:String){
+        let dataOperator = CoreDataOperation()
+        
+        //保存token到Core Data
+        dataOperator.saveToken(token: token)
+        //保存账户信息
+        dataOperator.saveAccountInfo(userName: phone, nickName: nickName, userId: accountId, password: pwd)
+        
+        //同步用户的头像
+        UserDefaults.standard.set(userAvatar, forKey: "currentUserAvatar")
+        UserDefaults.standard.set(0, forKey: "currentRoleType")
+        UserDefaults.standard.set(token, forKey: "currentToken")
+        UserDefaults.standard.synchronize()
     }
 }

@@ -1693,7 +1693,7 @@ class LeaveMsgDetailViewController: UIViewController,UITableViewDelegate,UITable
                 //设置获取全部订单参数组
                 
                 params["userid"] =  info.userId
-                params["roletype"] = info.roleType
+                params["roletype"] = UserDefaults.standard.value(forKey: "currentRoleType") as! Int
                 params["commandcode"] = 91
                 params["operatecode"] = 1
                 params["taskid"] = currentTaskID
@@ -2144,7 +2144,7 @@ class LeaveMsgDetailViewController: UIViewController,UITableViewDelegate,UITable
                 //更新数据
                 //设置获取全部订单参数组
                 params["userid"] =  info.userId
-                params["roletype"] = "\(info.roleType)"
+                params["roletype"] = UserDefaults.standard.value(forKey: "currentRoleType") as! Int
                 params["commandcode"] = 93//查看任务详情
                 params["taskid"] = currentTaskID
                 params["taskType"] = currentTaskType

@@ -97,11 +97,11 @@ class User: NSObject {
                         self.getSystemParas(view: view, token: token!, roleType: Int(roleType), needsJump: false)
 
                         let dataOperator = CoreDataOperation()
-                        dataOperator.saveAddtionalAccount(userName: userName, nickName: nickName!, userId: Int64(newuserId!)!, roleType: Int64(newroleType!), password: self._password)
+                      //  dataOperator.saveAddtionalAccount(userName: userName, nickName: nickName!, userId: Int64(newuserId!)!, roleType: Int64(newroleType!), password: self._password)
                         dataOperator.saveAddtionalToken(token: token!) // token
                         if newuserId == "10000013" {
                             dataOperator.saveProducerOfManagerToken(token: token!)
-                            dataOperator.saveProducerOfManager(userName: userName, nickName: nickName!, userId: Int64(newuserId!)!, roleType: Int64(newroleType!), password: self._password)
+                        //    dataOperator.saveProducerOfManager(userName: userName, nickName: nickName!, userId: Int64(newuserId!)!, roleType: Int64(newroleType!), password: self._password)
                         }
                         print("verify succeed")
                         hub.hide()
@@ -240,7 +240,7 @@ class User: NSObject {
                                      addaccount = originaluserName
                                      addpassword = originalPWD
                                 }
-                                dataOperator.saveAddtionalAccount(userName: addaccount, nickName: addnikename, userId: 10000013, roleType: 3, password: addpassword)
+                               // dataOperator.saveAddtionalAccount(userName: addaccount, nickName: addnikename, userId: 10000013, roleType: 3, password: addpassword)
                                 
                                 if Int(originaluserID) == 10000013{ //上一个账号如果是车间1账号,则写入车间token
                                     dataOperator.saveAddtionalToken(token: originaltoken) // token
@@ -262,7 +262,7 @@ class User: NSObject {
                                 
                             }else if newuserId == "10000013" && Int(originalroleType) == 4 {
                                 //现在账号是车间，如果原账号是经理，则写入经理账号到特殊账号里
-                                dataOperator.saveAddtionalAccount(userName: originaluserName, nickName: originalnikeName, userId: Int64(originaluserID)!, roleType: Int64(originalroleType)!, password: originalPWD)
+                               // dataOperator.saveAddtionalAccount(userName: originaluserName, nickName: originalnikeName, userId: Int64(originaluserID)!, roleType: Int64(originalroleType)!, password: originalPWD)
                                 dataOperator.saveAddtionalToken(token: originaltoken) // token
                             }
                         }else{
@@ -273,17 +273,17 @@ class User: NSObject {
                                 let addaccount = "zbgc1@zhibao.com"
                                 let addpassword = "zb1234"
                                 
-                                dataOperator.saveAddtionalAccount(userName: addaccount, nickName: addnikename, userId: 10000013, roleType: 3, password: addpassword)
+                               // dataOperator.saveAddtionalAccount(userName: addaccount, nickName: addnikename, userId: 10000013, roleType: 3, password: addpassword)
                                 dataOperator.saveAddtionalToken(token: "NOTSET") // token
                             }
                         }
                         
                         //记录最新登录的账号信息
-                        dataOperator.saveAccountInfo(userName:userName,nickName:nickName!,userId:userId,roleType: roleType ?? 0,password: password)
+                        //dataOperator.saveAccountInfo(userName:userName,nickName:nickName!,userId:userId,roleType: roleType ?? 0,password: password)
                         dataOperator.saveToken(token: token!)
                         //如果登录的是车间1角色，同时保存到id为3到core data 里
                         if newuserId == "10000013" {
-                            dataOperator.saveProducerOfManager(userName: userName, nickName: nickName!, userId: userId, roleType: roleType ?? 0, password: password)
+                          //  dataOperator.saveProducerOfManager(userName: userName, nickName: nickName!, userId: userId, roleType: roleType ?? 0, password: password)
                             dataOperator.saveProducerOfManagerToken(token: token!)
                         }
                         
@@ -399,7 +399,7 @@ class User: NSObject {
                         
                         let dataOperator = CoreDataOperation()
                         //查询是不是已经有相似记录了
-                        dataOperator.saveAccountInfo(userName:userName,nickName:nickName!,userId:userId,roleType: roleType,password: password)
+                        //dataOperator.saveAccountInfo(userName:userName,nickName:nickName!,userId:userId,roleType: roleType,password: password)
                         dataOperator.saveToken(token: token!)
                         
                         //跳转页面

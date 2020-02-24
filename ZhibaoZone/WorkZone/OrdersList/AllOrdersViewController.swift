@@ -1160,31 +1160,32 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         self.view.backgroundColor = UIColor.white
         //从datacore获取用户数据
         //获取管理的数据上下文，对象
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let managedObjectContext = appDelegate.persistentContainer.viewContext
-        
-        //声明数据的请求
-        let fetchRequest =  NSFetchRequest<UserAccount>(entityName:"UserAccount")
-        //        fetchRequest.fetchLimit = 10 //限定查询结果的数量
-        //        fetchRequest.fetchOffset = 0 //查询到偏移量
-        fetchRequest.returnsObjectsAsFaults = false
-        
-        // 设置查询条件
-        let predicate = NSPredicate(format: "id = '1'")
-        fetchRequest.predicate = predicate
-        
-        //查询操作
-        do {
-            let fetchedObjects = try managedObjectContext.fetch(fetchRequest)
-            
-            //遍历查询结果
-            for info in fetchedObjects{
-                self._roleType = Int(info.roleType)
-                try managedObjectContext.save()
-            }
-        } catch  {
-            fatalError("获取失败")
-        }
+//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+//        let managedObjectContext = appDelegate.persistentContainer.viewContext
+//
+//        //声明数据的请求
+//        let fetchRequest =  NSFetchRequest<UserAccount>(entityName:"UserAccount")
+//        //        fetchRequest.fetchLimit = 10 //限定查询结果的数量
+//        //        fetchRequest.fetchOffset = 0 //查询到偏移量
+//        fetchRequest.returnsObjectsAsFaults = false
+//
+//        // 设置查询条件
+//        let predicate = NSPredicate(format: "id = '1'")
+//        fetchRequest.predicate = predicate
+//
+//        //查询操作
+//        do {
+//            let fetchedObjects = try managedObjectContext.fetch(fetchRequest)
+//
+//            //遍历查询结果
+//            for info in fetchedObjects{
+//                self._roleType = Int(info.roleType)
+//                try managedObjectContext.save()
+//            }
+//        } catch  {
+//            fatalError("获取失败")
+//        }
+        self._roleType = UserDefaults.standard.value(forKey: "currentRoleType") as! Int
         if _roleType == 0{
             emytyAreaShowingLabel()
         }

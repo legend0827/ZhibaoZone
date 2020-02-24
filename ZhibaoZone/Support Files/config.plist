@@ -285,6 +285,10 @@
 		<string>http://192.144.146.126:88/user/register/setPassword</string>
 		<key>setPasswordAPI</key>
 		<string>http://119.27.170.195:88/user/register/setPassword</string>
+		<key>loginToSetPasswordAPIDebug</key>
+		<string>http://192.144.146.126:88/user/login/setPassword</string>
+		<key>loginToSetPasswordAPI</key>
+		<string>http://119.27.170.195:88/user/login/setPassword</string>
 	</dict>
 </dict>
 </plist>

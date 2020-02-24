@@ -145,7 +145,7 @@ class CoreDataOperation: NSObject {
         }
     }
     
-    func saveAccountInfo(userName:String,nickName:String,userId:Int64,roleType:Int64,password:String) {
+    func saveAccountInfo(userName:String,nickName:String,userId:String,password:String) {
         //获取管理的数据上下文，对象
         let app = UIApplication.shared.delegate as! AppDelegate
         let context = app.persistentContainer.viewContext
@@ -166,7 +166,6 @@ class CoreDataOperation: NSObject {
                 //对象赋值
                 userAccount.id = 1
                 userAccount.nickName = nickName.lowercased()
-                userAccount.roleType = roleType
                 userAccount.userId = userId
                 userAccount.userName = userName
                 userAccount.password = password
@@ -181,7 +180,6 @@ class CoreDataOperation: NSObject {
                     info.id = 1
                     info.userName = userName.lowercased()
                     info.nickName = nickName
-                    info.roleType = roleType
                     info.userId = userId
                     info.password  = password
                 }
@@ -193,7 +191,7 @@ class CoreDataOperation: NSObject {
         }
     }
     
-    func saveAddtionalAccount(userName:String,nickName:String,userId:Int64,roleType:Int64,password:String){
+    func saveAddtionalAccount(userName:String,nickName:String,userId:String,roleType:Int64,password:String){
         //获取管理的数据上下文，对象
         let app = UIApplication.shared.delegate as! AppDelegate
         let context = app.persistentContainer.viewContext
@@ -214,7 +212,6 @@ class CoreDataOperation: NSObject {
                 //对象赋值
                 userAccount.id = 2
                 userAccount.nickName = nickName.lowercased()
-                userAccount.roleType = roleType
                 userAccount.userId = userId
                 userAccount.userName = userName
                 userAccount.password = password
@@ -230,7 +227,6 @@ class CoreDataOperation: NSObject {
                     info.id = 2
                     info.userName = userName.lowercased()
                     info.nickName = nickName
-                    info.roleType = roleType
                     info.userId = userId
                     info.password  = password
                 }
@@ -243,7 +239,7 @@ class CoreDataOperation: NSObject {
         }
     }
     
-    func saveProducerOfManager(userName:String,nickName:String,userId:Int64,roleType:Int64,password:String){
+    func saveProducerOfManager(userName:String,nickName:String,userId:String,roleType:Int64,password:String){
         //获取管理的数据上下文，对象
         let app = UIApplication.shared.delegate as! AppDelegate
         let context = app.persistentContainer.viewContext
@@ -264,7 +260,6 @@ class CoreDataOperation: NSObject {
                 //对象赋值
                 userAccount.id = 3
                 userAccount.nickName = nickName.lowercased()
-                userAccount.roleType = roleType
                 userAccount.userId = userId
                 userAccount.userName = userName
                 userAccount.password = password
@@ -280,7 +275,6 @@ class CoreDataOperation: NSObject {
                     info.id = 3
                     info.userName = userName.lowercased()
                     info.nickName = nickName
-                    info.roleType = roleType
                     info.userId = userId
                     info.password  = password
                 }

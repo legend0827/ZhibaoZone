@@ -693,8 +693,8 @@ func getCurrentUserInfo() -> NSDictionary{
         for info in fetchedObjects{
             //更新数据
             //设置获取全部订单参数组
-            UserInfos["userid"] = "\(info.userId)"
-            UserInfos["roletype"] = String(info.roleType)
+            UserInfos["userid"] =  "\(info.userId)"
+            UserInfos["roletype"] = "\(UserDefaults.standard.value(forKey: "currentRoleType") as! Int)"
             UserInfos["password"] = info.password
             UserInfos["nikename"] = info.nickName
             UserInfos["username"] = info.userName
@@ -757,7 +757,7 @@ func getAddtionalUserInfo() -> NSDictionary{
             //更新数据
             //设置获取全部订单参数组
             UserInfos["userid"] = "\(info.userId)"
-            UserInfos["roletype"] = String(info.roleType)
+            UserInfos["roletype"] = "\(UserDefaults.standard.value(forKey: "currentRoleType") as! Int)"
             UserInfos["password"] = info.password
             UserInfos["nikename"] = info.nickName
             UserInfos["username"] = info.userName
@@ -819,7 +819,7 @@ func getProducerOfManagerInfo() -> NSDictionary{
             //更新数据
             //设置获取全部订单参数组
             UserInfos["userid"] = "\(info.userId)"
-            UserInfos["roletype"] = String(info.roleType)
+            UserInfos["roletype"] = "\(UserDefaults.standard.value(forKey: "currentRoleType") as! Int)"
             UserInfos["password"] = info.password
             UserInfos["nikename"] = info.nickName
             UserInfos["username"] = info.userName
