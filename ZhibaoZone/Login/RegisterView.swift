@@ -96,8 +96,10 @@ class RegisterView: UIView {
     
     func settingLoginPassword(token token:String,password newPassword:String){
         let params:NSMutableDictionary = NSMutableDictionary()
+        //定义请求参数
+        var header:HTTPHeaders  = NSMutableDictionary() as! HTTPHeaders
+        header["token"] = token
         
-        params["token"] = token
         params["newPassword"] = newPassword
         
         let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
@@ -111,7 +113,7 @@ class RegisterView: UIView {
         #endif
        
         //发起请求
-        Alamofire.request(URL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default) .responseData {
+        Alamofire.request(URL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers:header) .responseData {
             (responseObject) in
             switch responseObject.result.isSuccess{
             case true:
