@@ -250,6 +250,25 @@ extension UITableViewCell{
     }
 }
 
+extension UIView{
+
+    func getFirstViewController()->UIViewController?{
+
+        for view in sequence(first: self.superview, next: {$0?.superview}){
+
+            if let responder = view?.next{
+
+                if responder.isKind(of: UIViewController.self){
+
+                    return responder as? UIViewController
+                }
+            }
+        }
+        return nil
+    }
+}
+
+
 //颜色拓展
 extension UIColor {
     
@@ -1053,20 +1072,11 @@ func transferTimeToString(with updateTime:TimeInterval) -> String{
 
 func LogoutMission(viewControler:UIViewController){
     //跳转页面
-    let LoginVC = ViewController()
+    let LoginVC =  LoginViewController()
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    LoginVC.needsAutoLogin = false
+    LoginVC.isAutoLoginEnabled = false
     let userinfos = getCurrentUserInfo()
     let userID = userinfos.value(forKey: "userid") as! String
-
-//    let userinfo = getCurrentUserInfo()
-//    let username = userinfo.value(forKey: "username") as! String
-//    let password = userinfo.value(forKey: "password") as! String
-//
-//
-//    let loginUser = User()
-//    let hub = viewControler.pleaseWait()
-//    loginUser.Login(username: username, password: password,view:viewControler,hub:hub)
     
     //变更devicetoken
     let deviceToken = UserDefaults.standard.object(forKey: "myDeviceToken")
@@ -1078,7 +1088,6 @@ func LogoutMission(viewControler:UIViewController){
 
     appDelegate.window?.rootViewController = LoginVC
     viewControler.dismiss(animated: true, completion: nil)
-   // viewControler.present(LoginVC, animated: true, completion: nil)
 }
 
 func autoLogin(viewControler:UIViewController){

@@ -79,7 +79,8 @@ class TabBarController: UITabBarController {
         emplyerVC.tabBarItem.title = "首页"
         
         if _roleType == 0{
-            self.viewControllers = [normalUserVC,meVC]
+            self.viewControllers = [emplyerVC,meVC]
+            //self.viewControllers = [normalUserVC,meVC]
         }else if _roleType == 2 || _roleType == 3 {
             self.viewControllers = [orderVC,meVC]
         }else if _roleType == 1{

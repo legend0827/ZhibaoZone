@@ -97,6 +97,7 @@ class normalUserViewController: UIViewController,UIWebViewDelegate {
         StopLoding()
         OnlineShopWebView.reload()
     }
+    
     func ShowLoading(){
         StopLoding()
         //loading文字
@@ -125,10 +126,6 @@ class normalUserViewController: UIViewController,UIWebViewDelegate {
         loadingSubViews.removeAll()
         loadingSubViews.append(imageView)
         loadingSubViews.append(noticeWhenLoadingData)
-//        if !self.view.subviews.contains(AllOrdersTableView) {
-//            self.view.addSubview(imageView)
-//            self.view.addSubview(noticeWhenLoadingData)
-//        }
     }
     
     func StopLoding(){

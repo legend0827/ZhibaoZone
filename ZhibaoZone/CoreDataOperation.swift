@@ -191,6 +191,39 @@ class CoreDataOperation: NSObject {
         }
     }
     
+    func saveAccountInfo(password:String) {
+        //获取管理的数据上下文，对象
+        let app = UIApplication.shared.delegate as! AppDelegate
+        let context = app.persistentContainer.viewContext
+        
+        //声明数据的请求
+        let fetchRequest =  NSFetchRequest<UserAccount>(entityName:"UserAccount")
+        fetchRequest.returnsObjectsAsFaults = false
+        // 设置查询条件
+        let predicate = NSPredicate(format: "id = 1")
+        fetchRequest.predicate = predicate
+        
+        //创建User对象
+        let userAccount = NSEntityDescription.insertNewObject(forEntityName: "UserAccount", into: context) as! UserAccount
+        //查询操作
+        do {
+            let fetchResults = try context.fetch(fetchRequest)
+            if fetchResults.count == 0 {
+                //对象赋值
+                print("inserted recoreds in userAccount")
+            }else{
+                for info in fetchResults{
+                    info.id = 1
+                    info.password  = password
+                }
+            }
+            try context.save()
+            print("new records saved")
+        } catch {
+            fatalError("保存失败\(error)")
+        }
+    }
+    
     func saveAddtionalAccount(userName:String,nickName:String,userId:String,roleType:Int64,password:String){
         //获取管理的数据上下文，对象
         let app = UIApplication.shared.delegate as! AppDelegate

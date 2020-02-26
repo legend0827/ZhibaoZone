@@ -103,6 +103,7 @@
 		0A8A0050223785D600AB8AC2 /* SystemManagementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8A004F223785D600AB8AC2 /* SystemManagementViewController.swift */; };
 		0A8A00522237AB3400AB8AC2 /* parameterSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8A00512237AB3400AB8AC2 /* parameterSettingTableViewCell.swift */; };
 		0A95BBAC2403CBBF008F564F /* LocalModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0A95BBAA2403CBBF008F564F /* LocalModel.xcdatamodeld */; };
+		0A95BBBE2404EFA8008F564F /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = 0A95BBBD2404EFA7008F564F /* loading.gif */; };
 		0A99705D20ADB8C500E4D37C /* OrderSearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A99705C20ADB8C500E4D37C /* OrderSearchCollectionViewCell.swift */; };
 		0A99706B20AED7C500E4D37C /* CollectionReusableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A99706A20AED7C500E4D37C /* CollectionReusableViewHeader.swift */; };
 		0AB76696200CA8AB00851E16 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AB76695200CA8AB00851E16 /* config.plist */; };
@@ -350,6 +351,7 @@
 		0A8A004F223785D600AB8AC2 /* SystemManagementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemManagementViewController.swift; sourceTree = "<group>"; };
 		0A8A00512237AB3400AB8AC2 /* parameterSettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = parameterSettingTableViewCell.swift; sourceTree = "<group>"; };
 		0A95BBAB2403CBBF008F564F /* LocalModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LocalModel.xcdatamodel; sourceTree = "<group>"; };
+		0A95BBBD2404EFA7008F564F /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
 		0A99705C20ADB8C500E4D37C /* OrderSearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSearchCollectionViewCell.swift; sourceTree = "<group>"; };
 		0A99706A20AED7C500E4D37C /* CollectionReusableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionReusableViewHeader.swift; sourceTree = "<group>"; };
 		0AB76695200CA8AB00851E16 /* config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
@@ -867,6 +869,7 @@
 				0A25DF96201D7E63009CBDEA /* contactList.plist */,
 				0A09185220AABFF20054749B /* shippingCompanyNameList.plist */,
 				0A00793D1FFCB626005E93B6 /* SwiftNotice.swift */,
+				0A95BBBD2404EFA7008F564F /* loading.gif */,
 				0A1295552072EB5E00C21C66 /* msg.wav */,
 			);
 			path = "Support Files";
@@ -1123,6 +1126,7 @@
 				0A1295562072EB5E00C21C66 /* msg.wav in Resources */,
 				0AB7C3F120DA01B600D0D26B /* checkListItemsArray.plist in Resources */,
 				0AB76696200CA8AB00851E16 /* config.plist in Resources */,
+				0A95BBBE2404EFA8008F564F /* loading.gif in Resources */,
 				0A5A7A2523CC20D2002F505B /* DemoView.xib in Resources */,
 				0A81924122CCA0E90004BE2F /* HGImage.storyboard in Resources */,
 				0AF06C5620187F4A008E2DE9 /* Assets.xcassets in Resources */,

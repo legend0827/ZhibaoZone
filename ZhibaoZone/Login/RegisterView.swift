@@ -99,7 +99,6 @@ class RegisterView: UIView {
         //定义请求参数
         var header:HTTPHeaders  = NSMutableDictionary() as! HTTPHeaders
         header["token"] = token
-        
         params["newPassword"] = newPassword
         
         let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
@@ -107,9 +106,9 @@ class RegisterView: UIView {
         
         let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
         #if DEBUG
-        let URL:String = apiAddresses.value(forKey: "loginToSetPasswordAPIDebug") as! String
+            let URL:String = apiAddresses.value(forKey: "loginToSetPasswordAPIDebug") as! String
         #else
-        let URL:String = apiAddresses.value(forKey: "loginToSetPasswordAPI") as! String
+            let URL:String = apiAddresses.value(forKey: "loginToSetPasswordAPI") as! String
         #endif
        
         //发起请求
@@ -124,7 +123,7 @@ class RegisterView: UIView {
                     switch code {
                        case 200:
                         print("密码成功")
-                        
+                        self.demoViewDelegate.loginMissionQueue(password: newPassword, Token: token)
                        case 202:
                            greyLayerPrompt.show(text: msg)
                            print("验证码过期或错误")

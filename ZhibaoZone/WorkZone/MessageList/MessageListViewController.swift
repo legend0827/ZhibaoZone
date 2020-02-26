@@ -693,7 +693,7 @@ func getCurrentUserInfo() -> NSDictionary{
         for info in fetchedObjects{
             //更新数据
             //设置获取全部订单参数组
-            UserInfos["userid"] =  "\(info.userId)"
+            UserInfos["userid"] =  info.userId as! String
             UserInfos["roletype"] = "\(UserDefaults.standard.value(forKey: "currentRoleType") as! Int)"
             UserInfos["password"] = info.password
             UserInfos["nikename"] = info.nickName

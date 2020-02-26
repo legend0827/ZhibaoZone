@@ -40,6 +40,8 @@ class DemoView: UIView {
     //注册模式
     var isRegisterModel:Bool = false
     
+    var loadingSubViews:[UIView] = []
+    
     //图形验证码验证
     var isVerificationCodeLegal = false
     func isMobilePhoneLegal(mobile phone:String) -> Bool {
@@ -112,22 +114,6 @@ class DemoView: UIView {
             }
              let verficationCode = verificationCodeTextFielld.text ?? ""
              let SMSCode = SMSCodeTextFiled.text ?? ""
-//            //Debug
-//            let nibView = Bundle.main.loadNibNamed("RegisterView", owner: nil, options: nil)
-//
-//            if let view = nibView?.first as? RegisterView {
-//                view.frame = CGRect(x: -25, y: -70, width: self.frame.width, height: self.frame.height)
-//                view.center = self.center
-//                view.demoViewDelegate = self
-//                view.mobilePhone = mobileNumber
-//
-//                if let superView = self.superview {
-//                    superView.addSubview(view)
-//                }else{
-//                    self.addSubview(view)
-//                }
-//
-//            }
             
             registerNextStep(mobile: mobileNumber, verificationCode: verficationCode, SMSCode: SMSCode)
         }else{
@@ -373,14 +359,14 @@ class DemoView: UIView {
                     let msg = json["message"].string!
                     switch code {
                     case 200:
-                        greyLayerPrompt.show(text: msg)
+                      //  greyLayerPrompt.show(text: msg)
                         let token = json["data","token"].string!
                         let nickName = json["data","nickName"].string!
                         let accountId = json["data","accountId"].string!
                         let userAvatar = json["data","userAvatar"].stringValue
                         
                         self.loginMissionQueue(mobilePhone: phone, password: pwd, token: token, UserName: nickName, AccountID: accountId, Avatar: userAvatar)
-                        print("登陆成功")
+                        
                     case 205:
                         greyLayerPrompt.show(text: msg)
                         print("账号密码不匹配")
@@ -426,7 +412,7 @@ class DemoView: UIView {
                     let msg = json["message"].string!
                     switch code {
                        case 200:
-                           greyLayerPrompt.show(text: msg)
+                          // greyLayerPrompt.show(text: msg)
                            let token = json["data","token"].string!
                            let nickName = json["data","nickName"].string!
                            let accountId = json["data","accountId"].string!
@@ -705,5 +691,260 @@ class DemoView: UIView {
         UserDefaults.standard.set(0, forKey: "currentRoleType")
         UserDefaults.standard.set(token, forKey: "currentToken")
         UserDefaults.standard.synchronize()
+        
+        ShowLoading()
+        
+        getTenement(Token: token)
+    }
+    
+    func loginMissionQueue(password pwd:String,Token token:String){
+           let dataOperator = CoreDataOperation()
+            //保存账户信息
+           dataOperator.saveAccountInfo(password: pwd)
+           
+           ShowLoading()
+           
+           getTenement(Token: token)
+       }
+    
+    func getTenement(Token token:String) {
+        let params:NSMutableDictionary = NSMutableDictionary()
+        //定义请求参数
+        var header:HTTPHeaders  = NSMutableDictionary() as! HTTPHeaders
+        header["token"] = token
+        header["roleType"] = "0"
+        header["tenementId"] = "18"
+        
+        let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
+        let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
+        
+        let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
+        #if DEBUG
+        let URL:String = apiAddresses.value(forKey: "getTenementInfoAPIDebug") as! String
+        #else
+        let URL:String = apiAddresses.value(forKey: "getTenementInfoAPI") as! String
+        #endif
+        //发起请求
+        Alamofire.request(URL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers: header) .responseData {
+            (responseObject) in
+            switch responseObject.result.isSuccess{
+            case true:
+                if let value = responseObject.result.value{
+                    let json = JSON(value)
+                    if json.count == 0{
+                        //普通用户
+                        //跳转页面
+                         let tabBar = TabBarController(royeType: 0)
+                         //let appDelegate = AppDelegate()
+                         let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                         appDelegate.window?.rootViewController = tabBar
+                        // view.present(tabBar, animated: true, completion: nil)
+                        let vc = self.getFirstViewController()
+                        vc!.present(tabBar, animated: true, completion: {
+                             //(finished) -> Void in
+                            self.StopLoding()
+                             print("load tab bar finished ")
+                         })
+                    }else{
+                        //有租户的用户
+                        let code = json["code"].int!
+                        if code == 200 {
+                            let tenementID = json["data","tenementId"].int!
+                            UserDefaults.standard.set(tenementID, forKey: "currentTenementId")
+                            UserDefaults.standard.synchronize()
+                            self.getCurrentRole(Token: token, TenementID: tenementID,systemType: 2)
+                        }else{
+                            print("图形验证码验证失败")
+                        }
+                    }
+                }
+            case false:
+                print("发送短信验证码失败")
+
+            }
+        }
+    }
+    
+    func getCurrentRole(Token token:String,TenementID id:Int,systemType system:Int){
+        
+            let params:NSMutableDictionary = NSMutableDictionary()
+           //定义请求参数
+           var header:HTTPHeaders  = NSMutableDictionary() as! HTTPHeaders
+           header["token"] = token
+           
+           header["tenementId"] = "\(id)"
+           header["roleType"] = "0"
+           
+           params["systemType"] = "\(system)"
+           
+           let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
+           let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
+           
+           let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
+           #if DEBUG
+           let URL:String = apiAddresses.value(forKey: "getCurrentRoleAPIDebug") as! String
+           #else
+           let URL:String = apiAddresses.value(forKey: "getCurrentRoleAPI") as! String
+           #endif
+           //发起请求
+           Alamofire.request(URL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers: header) .responseData {
+               (responseObject) in
+               switch responseObject.result.isSuccess{
+               case true:
+                   if let value = responseObject.result.value{
+                       let json = JSON(value)
+                       let code = json["code"].int!
+                       if code == 200 {
+                           let currentRoleId = json["data","roleId"].int!
+                           let currentRoleType = json["data","roleType"].int!
+                           UserDefaults.standard.set(currentRoleId, forKey: "currentRoleId")
+                           UserDefaults.standard.set(currentRoleType, forKey: "currentRoleType")
+                           UserDefaults.standard.synchronize()
+                           //获取用户系统
+                           self.getTopNav(Token: token, TenementId: id, RoleType: currentRoleType)
+                       }else{
+                           print("图形验证码验证失败")
+                       }
+                   }
+               case false:
+                   print("发送短信验证码失败")
+
+               }
+           }
+    }
+    
+    func getTopNav(Token token:String,TenementId id:Int,RoleType roleType:Int) {
+        let params:NSMutableDictionary = NSMutableDictionary()
+        //定义请求参数
+        var header:HTTPHeaders  = NSMutableDictionary() as! HTTPHeaders
+        header["token"] = token
+        
+        header["tenementId"] = "\(id)"
+        header["roleType"] = "\(roleType)"
+        
+        let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
+        let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
+        
+        let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
+        #if DEBUG
+        let URL:String = apiAddresses.value(forKey: "getTopNavAPIDebug") as! String
+        #else
+        let URL:String = apiAddresses.value(forKey: "getTopNavAPI") as! String
+        #endif
+        //发起请求
+        Alamofire.request(URL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers: header) .responseData {
+            (responseObject) in
+            switch responseObject.result.isSuccess{
+            case true:
+                if let value = responseObject.result.value{
+                    let json = JSON(value)
+                    let code = json["code"].int!
+                    if code == 200 {
+                        
+                        var tempArray:[NSDictionary] = []
+                        
+                        for item in json["data"].array!{
+                            let dictonaryObject = item.dictionaryObject! as NSDictionary
+                            tempArray.append(dictonaryObject)
+                        }
+                        
+                        let isWorkShopAvaiable = self.isWorkShopAvaiable(Json: tempArray)
+                        if isWorkShopAvaiable {
+                            print("system avaiable")
+                        }else{
+                            //普通用户
+                            //跳转页面
+                             let tabBar = TabBarController(royeType: 0)
+                             //let appDelegate = AppDelegate()
+                             let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                             appDelegate.window?.rootViewController = tabBar
+                            // view.present(tabBar, animated: true, completion: nil)
+                            let vc = self.getFirstViewController()
+                            vc!.present(tabBar, animated: true, completion: {
+                                 //(finished) -> Void in
+                                self.StopLoding()
+                                 print("load tab bar finished ")
+                             })
+                        }
+                    }else{
+                        print("图形验证码验证失败")
+                    }
+                }
+            case false:
+                print("发送短信验证码失败")
+
+            }
+        }
+    }
+    
+    //检测工作台页面是否可用
+    func isWorkShopAvaiable(Json data:[NSDictionary]) -> Bool{
+        guard data.count != 0 else {
+            return false
+        }
+        
+        for item in data{
+            if item.value(forKey: "id") as! Int == 1001 {
+                let subsystem = item.value(forKey: "subsystem") as! NSArray
+                if subsystem.count == 0{
+                    return false
+                }else{
+                    for sub in subsystem{
+                        let subObject = sub as! NSDictionary
+                        if subObject.value(forKey: "id") as! Int == 1003{
+                            return true
+                        }
+                    }
+                    return false
+                }
+            }
+        }
+        return false
+    }
+    
+    func ShowLoading(){
+        StopLoding()
+        //loading文字
+        let noticeWhenLoadingData:UILabel = UILabel.init(frame: CGRect(x: UIScreen.main.bounds.width/2 - 90, y: UIScreen.main.bounds.height/2 - 50, width: 200, height: 30))
+        noticeWhenLoadingData.text = "加载中，请稍侯..."
+        noticeWhenLoadingData.font = UIFont.systemFont(ofSize: 14)
+        noticeWhenLoadingData.textColor = UIColor.gray
+        noticeWhenLoadingData.textAlignment = .center
+        //loading动画
+        var images:[UIImage] = []
+        for i in 0...27{
+            let imagePath = "\(i).png"
+            let image:UIImage = UIImage(named:imagePath)!
+            images.append(image)
+        }
+        let imageView = UIImageView()
+        imageView.frame = CGRect(x: UIScreen.main.bounds.width/2 - 100, y: UIScreen.main.bounds.height/2 - 200, width: 200, height: 200)//self.view.bounds
+        imageView.contentMode = .scaleAspectFit//.center
+        imageView.animationImages = images
+        imageView.animationDuration = 1
+        imageView.animationRepeatCount = 0
+        imageView.startAnimating()
+        
+        let vc = self.getFirstViewController()
+        let view = UIView.init(frame: vc!.view.frame)
+        view.backgroundColor = UIColor.backgroundColors(color: .white)
+        vc!.view.addSubview(view)
+        
+        
+        view.addSubview(imageView)
+        view.addSubview(noticeWhenLoadingData)
+        
+        loadingSubViews.removeAll()
+        loadingSubViews.append(imageView)
+        loadingSubViews.append(noticeWhenLoadingData)
+    }
+    
+    func StopLoding(){
+        for item in loadingSubViews{
+            item.removeFromSuperview()
+        }
+        loadingSubViews.removeAll()
     }
 }
+
+

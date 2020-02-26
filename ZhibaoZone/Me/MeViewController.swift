@@ -44,7 +44,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
     var SetParametersCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 58))
     var versionCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 58))
     var invoiceCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 58))
-    var switchAccountCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 58))
+    var emptyCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 58))
     var logoutAccountCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 58))
     let LogoutBtn:UIButton = UIButton.init(type: UIButtonType.system)
     lazy var _tabBarVC = TabBarController(royeType: 4)
@@ -100,11 +100,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         tempView.layer.cornerRadius = 6
         tempView.layer.masksToBounds = true
         tempView.isUserInteractionEnabled = true
-//        tempView.layer.borderColor = UIColor.titleColors(color: .lightGray).cgColor
-//        tempView.layer.borderWidth = 0.5
         tempView.tag = 1
-//        tempView.layer.shadowColor = UIColor.lineColors(color: .grayLevel3).cgColor
-//        tempView.layer.shadowOffset = CGSize(width: 1, height: 3)
         return tempView
     }()
     lazy var managerName:UILabel = UILabel.init()
@@ -115,11 +111,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         tempView.layer.cornerRadius = 6
         tempView.layer.masksToBounds = true
         tempView.isUserInteractionEnabled = true
-//        tempView.layer.borderColor = UIColor.titleColors(color: .lightGray).cgColor
-//        tempView.layer.borderWidth = 0.5
         tempView.tag = 2
-//        tempView.layer.shadowColor = UIColor.lineColors(color: .grayLevel3).cgColor
-//        tempView.layer.shadowOffset = CGSize(width: 1, height: 3)
         return tempView
     }()
     lazy var producerName:UILabel = UILabel.init()
@@ -148,6 +140,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
     var _accountNickName = "张三"// 用户昵称
     var _password = ""
     var _token = ""
+    var _tenementId = 0
     var addtionalAccountAvailable = false
     //附属账号的信息
     var _addtionalRoleType = 0
@@ -182,6 +175,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         _accountNickName = userName
         _password = password
         _token = token
+        _tenementId = UserDefaults.standard.value(forKey: "currentTenementId") as! Int
         
         //检查附属账号信息
         setupAddtionalAccountInfos()
@@ -199,7 +193,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         createUnlockBanner()
         createSetBanner()
         createVersionBanner()
-        if _roleType != 3 && _roleType != 0{
+        if _tenementId == 1 {
             createInvoiceBanner()
         }
     }
@@ -228,10 +222,10 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         }
     }
     func numberOfSections(in tableView: UITableView) -> Int {
-        if _roleType == 3 || _roleType == 0{
-            return 8
+        if _tenementId == 1{
+            return 7
         }else{
-            return 9
+            return 8
         }
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -239,15 +233,17 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         tableView.separatorStyle = UITableViewCellSeparatorStyle.none
-        if(indexPath.section == 0){
+        
+        switch indexPath.section {
+        case 0:
             nameBannerCell.alpha = 1.0
             nameBannerCell.selectionStyle = UITableViewCellSelectionStyle.none
             return nameBannerCell
-        }else if(indexPath.section == 1){
+        case 1:
             accountIDCell.alpha = 1.0
             accountIDCell.selectionStyle = UITableViewCellSelectionStyle.none
             return accountIDCell
-        }else if (indexPath.section == 2){
+        case 2:
             //设置分割线
             let seperateLine:UIView = UIView.init(frame: CGRect(x: 20, y: 0, width: kWidth - 30, height: 1))
             seperateLine.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
@@ -256,7 +252,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
             RoleTypeCell.alpha = 1.0
             RoleTypeCell.selectionStyle = UITableViewCellSelectionStyle.none
             return RoleTypeCell
-        }else if (indexPath.section == 3){
+        case 3:
             //设置分割线
             let seperateLine:UIView = UIView.init(frame: CGRect(x: 20, y: 0, width: kWidth - 30, height: 1))
             seperateLine.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
@@ -265,7 +261,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
             SetQuickAccessPermitCell.alpha = 1.0
             SetQuickAccessPermitCell.selectionStyle = UITableViewCellSelectionStyle.none
             return SetQuickAccessPermitCell
-        }else if (indexPath.section == 4){
+        case 4:
             //设置分割线
             let seperateLine:UIView = UIView.init(frame: CGRect(x: 20, y: 0, width: kWidth - 30, height: 1))
             seperateLine.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
@@ -276,8 +272,25 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
             SetParametersCell.selectionStyle = UITableViewCellSelectionStyle.none
             
             return SetParametersCell
-        }else if (indexPath.section == 5){ // 发票
-            if _roleType == 3 || _roleType == 0{
+        case 5:
+            //多贝特租户 tenementId == 1 显示成发票、其他租户显示成软件版本
+            if _tenementId == 1{
+                //设置分割线
+                let seperateLine:UIView = UIView.init(frame: CGRect(x: 20, y: 0, width: kWidth - 30, height: 1))
+                seperateLine.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
+                
+                invoiceCell.addSubview(seperateLine)
+                
+                //参数设置
+                invoiceCell.alpha = 1.0
+                invoiceCell.selectionStyle = UITableViewCellSelectionStyle.none
+                
+                //设置分割线
+                let seperateLineBottom:UIView = UIView.init(frame: CGRect(x: 20, y: 60, width: kWidth - 30, height: 1))
+                seperateLineBottom.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
+                return invoiceCell
+            }else{
+                // 其他租户显示成软件版本
                 //设置分割线
                 let seperateLine:UIView = UIView.init(frame: CGRect(x: 20, y: 0, width: kWidth - 30, height: 1))
                 seperateLine.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
@@ -294,130 +307,44 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
                 versionCell.addSubview(seperateLineBottom)
                 return versionCell
             }
-            //设置分割线
-            let seperateLine:UIView = UIView.init(frame: CGRect(x: 20, y: 0, width: kWidth - 30, height: 1))
-            seperateLine.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
             
-            invoiceCell.addSubview(seperateLine)
-            
-            //参数设置
-            invoiceCell.alpha = 1.0
-            invoiceCell.selectionStyle = UITableViewCellSelectionStyle.none
-            
-            //设置分割线
-            let seperateLineBottom:UIView = UIView.init(frame: CGRect(x: 20, y: 60, width: kWidth - 30, height: 1))
-            seperateLineBottom.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
-           // invoiceCell.addSubview(seperateLineBottom)
-            return invoiceCell
-        }
-        else if (indexPath.section == 6){
-            if _roleType == 3 || _roleType == 0{
-                switchAccountCell.alpha = 1.0
-                switchAccountCell.selectionStyle = .none
-                //            if !addtionalAccountAvailable{
-                //                switchAccountBtn.isHidden = true
-                //            }else{
-                if _roleType == 4{
-                    switchAccountBtn.isHidden = false
-                    switchAccountBtn.setTitle("切换车间", for: .normal)
-                }else{
-                    if _accountID == "10000013" && addtionalAccountAvailable {
-                        switchAccountBtn.setTitle("切换经理", for: .normal)
-                        switchAccountBtn.isHidden = false
-                    }else{
-                        switchAccountBtn.isHidden = true
-                    }
-                }
-                // }
-                switchAccountCell.addSubview(switchAccountBtn)
-                return switchAccountCell
-            }
-            //设置分割线
-            let seperateLine:UIView = UIView.init(frame: CGRect(x: 20, y: 0, width: kWidth - 30, height: 1))
-            seperateLine.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
-            
-            versionCell.addSubview(seperateLine)
-            
-            //参数设置
-            versionCell.alpha = 1.0
-            versionCell.selectionStyle = UITableViewCellSelectionStyle.none
-            
-            //设置分割线
-            let seperateLineBottom:UIView = UIView.init(frame: CGRect(x: 20, y: 60, width: kWidth - 30, height: 1))
-            seperateLineBottom.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
-            versionCell.addSubview(seperateLineBottom)
-            return versionCell
-            
-        }else if indexPath.section == 7{
-            if _roleType == 3 || _roleType == 0{
-                //设置登录按钮
-                LogoutBtn.frame = CGRect(x: 20, y: 0, width: kWidth - 40, height: 50)
-                //
-                //            if UIDevice.current.isX() {
-                //                LogoutBtn.frame = CGRect(x:20, y:UIScreen.main.bounds.height-151, width:UIScreen.main.bounds.width - 40, height: 45)
-                //            }else{
-                //                LogoutBtn.frame = CGRect(x:20, y:UIScreen.main.bounds.height-90, width:UIScreen.main.bounds.width - 40, height: 45)
-                //            }
-                //        LogoutBtn.layer.borderColor = UIColor.lightGray.cgColor
-                LogoutBtn.layer.cornerRadius = 4
-                //        LogoutBtn.layer.borderWidth = 0.5
-                LogoutBtn.layer.backgroundColor = UIColor.backgroundColors(color: .lightestGray).cgColor
-                LogoutBtn.setTitle("退出", for: UIControlState.normal)
-                LogoutBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-                LogoutBtn.setTitleColor(UIColor.titleColors(color: .black), for: UIControlState.normal)
-                LogoutBtn.setTitleColor(UIColor.clear, for: UIControlState.highlighted)
+        case 6:
+            //多贝特租户的时候,显示成软件版本号,其他租户没有这个section
+            if _tenementId == 1{
+                //设置分割线
+                let seperateLine:UIView = UIView.init(frame: CGRect(x: 20, y: 0, width: kWidth - 30, height: 1))
+                seperateLine.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
                 
-                //  initTableView.addSubview(LogoutBtn)
+                versionCell.addSubview(seperateLine)
                 
-                LogoutBtn.addTarget(self, action: #selector(LogoutBtnClick), for: UIControlEvents.touchUpInside)
-                tableView.addSubview(logoutAccountCell)
-                logoutAccountCell.addSubview(LogoutBtn)
-                return logoutAccountCell
+                //参数设置
+                versionCell.alpha = 1.0
+                versionCell.selectionStyle = UITableViewCellSelectionStyle.none
+                
+                //设置分割线
+                let seperateLineBottom:UIView = UIView.init(frame: CGRect(x: 20, y: 60, width: kWidth - 30, height: 1))
+                seperateLineBottom.backgroundColor = UIColor.backgroundColors(color: .lightestGray)
+                versionCell.addSubview(seperateLineBottom)
+                return versionCell
+            }else{//其他租户
+                emptyCell.selectionStyle = .none
+                return emptyCell
             }
-            switchAccountCell.alpha = 1.0
-            switchAccountCell.selectionStyle = .none
-//            if !addtionalAccountAvailable{
-//                switchAccountBtn.isHidden = true
-//            }else{
-                if _roleType == 4{
-                    switchAccountBtn.isHidden = false
-                    switchAccountBtn.setTitle("切换车间", for: .normal)
-                }else{
-                    if _accountID == "10000013" && addtionalAccountAvailable {
-                        switchAccountBtn.setTitle("切换经理", for: .normal)
-                        switchAccountBtn.isHidden = false
-                    }else{
-                        switchAccountBtn.isHidden = true
-                    }
-                }
-           // }
-            switchAccountCell.addSubview(switchAccountBtn)
-            return switchAccountCell
-        }else if indexPath.section == 8{
+        case 7:
             //设置登录按钮
             LogoutBtn.frame = CGRect(x: 20, y: 0, width: kWidth - 40, height: 50)
-//
-//            if UIDevice.current.isX() {
-//                LogoutBtn.frame = CGRect(x:20, y:UIScreen.main.bounds.height-151, width:UIScreen.main.bounds.width - 40, height: 45)
-//            }else{
-//                LogoutBtn.frame = CGRect(x:20, y:UIScreen.main.bounds.height-90, width:UIScreen.main.bounds.width - 40, height: 45)
-//            }
-            //        LogoutBtn.layer.borderColor = UIColor.lightGray.cgColor
             LogoutBtn.layer.cornerRadius = 4
-            //        LogoutBtn.layer.borderWidth = 0.5
             LogoutBtn.layer.backgroundColor = UIColor.backgroundColors(color: .lightestGray).cgColor
             LogoutBtn.setTitle("退出", for: UIControlState.normal)
             LogoutBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
             LogoutBtn.setTitleColor(UIColor.titleColors(color: .black), for: UIControlState.normal)
             LogoutBtn.setTitleColor(UIColor.clear, for: UIControlState.highlighted)
-            
-            //  initTableView.addSubview(LogoutBtn)
-            
+                        
             LogoutBtn.addTarget(self, action: #selector(LogoutBtnClick), for: UIControlEvents.touchUpInside)
             tableView.addSubview(logoutAccountCell)
             logoutAccountCell.addSubview(LogoutBtn)
             return logoutAccountCell
-        } else{
+        default:
             RoleTypeCell.alpha = 1.0
             RoleTypeCell.selectionStyle = UITableViewCellSelectionStyle.none
             return RoleTypeCell
@@ -435,7 +362,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
             setParamtersVC.MeVC = self
             self.present(setParamtersVC, animated: true, completion: nil)
         }else if indexPath.section == 5{
-            if _roleType == 1 || _roleType == 2 || _roleType == 4 || _roleType == 5{
+            if _tenementId == 1{
                 let invoiceVC = invoiceViewController()
                 invoiceVC.modalPresentationStyle = .fullScreen
                 self.present(invoiceVC, animated: true, completion: nil)
@@ -519,27 +446,23 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         roleNameLabel.text = "用户身份"
         roleNameLabel.font = UIFont.systemFont(ofSize: 15)
         roleNameLabel.textAlignment = .left
-    
-        if _roleType == 0{
-            //0 普通用户 1 客服 2 设计师 3 工厂
-            roleStringLabel.text = "制宝会员"
-        }else if _roleType == 1{
-            //0 普通用户 1 客服 2 设计师 3 工厂
+        switch _roleType {
+        case 0:
+            roleStringLabel.text = "普通用户"
+        case 3:
+            roleStringLabel.text = "企业管理员"
+        case 4:
+            roleStringLabel.text = "管理员"
+        case 6:
             roleStringLabel.text = "客服"
-        }else if _roleType == 2{
-            //0 普通用户 1 客服 2 设计师 3 工厂
+        case 7:
             roleStringLabel.text = "方案师"
-        }else if _roleType == 3{
-            //0 普通用户 1 客服 2 设计师 3 工厂
-            roleStringLabel.text = "制造商"
-        }else if _roleType == 4{
-            //0 普通用户 1 客服 2 设计师 3 工厂
-            roleStringLabel.text = "客服经理"
-        }else if _roleType == 5{
-            roleStringLabel.text = "公司员工"
-        }else {
-            //0 普通用户 1 客服 2 设计师 3 工厂
-            roleStringLabel.text = "制宝会员"
+        case 8:
+            roleStringLabel.text = "供应商"
+        case 9:
+            roleStringLabel.text = "业务经理"
+        default:
+            roleStringLabel.text = "普通用户"
         }
         
         roleStringLabel.font = UIFont.systemFont(ofSize: 13)
@@ -609,16 +532,14 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         //设置icon©
         iconImageview.image = UIImage(named: "versionicon")
         //设置账号标签
-        userAccountLabel.text = "关于制宝"
+        userAccountLabel.text = "软件版本"
         userAccountLabel.font = UIFont.systemFont(ofSize: 15)
         userAccountLabel.textAlignment = .left
         
-        version.text = "V2.2.24"
+        version.text = "V3.0.0"
         version.font = UIFont.systemFont(ofSize: 13)
         version.textColor = UIColor.titleColors(color: .gray)
         version.textAlignment = .right
-        
-        //设置账号
         
         versionCell.addSubview(iconImageview)
         versionCell.addSubview(userAccountLabel)
@@ -648,7 +569,6 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         invoiceCell.addSubview(imageViewOfArrow)
         invoiceCell.addSubview(iconImageview)
         invoiceCell.addSubview(invoiceNameLabel)
-      //  versionCell.addSubview(version)
         
         userInfoTableView.addSubview(invoiceCell)
         
@@ -702,8 +622,6 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         }else{
             currentAccountLabel.frame = CGRect(x: kWidth*3/4 - 39, y: 249, width: 78, height: 20)
             managerName.text = _addtionalNikeName
-//            print("_addtionalNikeName\(_addtionalNikeName)")
-//            print("managerName\(managerName.text)")
         }
         
         let tapOnProducer = UITapGestureRecognizer(target: self, action: #selector(singleTapOnAvatar(_:)))
