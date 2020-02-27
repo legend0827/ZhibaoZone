@@ -402,17 +402,17 @@ class User: NSObject {
                         //dataOperator.saveAccountInfo(userName:userName,nickName:nickName!,userId:userId,roleType: roleType,password: password)
                         dataOperator.saveToken(token: token!)
                         
-                        //跳转页面
-                        let tabBar = TabBarController(royeType: Int(roleType))
-                        //let appDelegate = AppDelegate()
-                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                        appDelegate.window?.rootViewController = tabBar
-                       // view.present(tabBar, animated: true, completion: nil)
-                        view.present(tabBar, animated: true, completion: {
-                            //(finished) -> Void in
-                            print("load tab bar finished ")
-                        })
-                        
+//                        //跳转页面
+//                        let tabBar = nil //TabBarController(royeType: Int(roleType))
+//                        //let appDelegate = AppDelegate()
+//                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+//                        appDelegate.window?.rootViewController = tabBar
+//                       // view.present(tabBar, animated: true, completion: nil)
+//                        view.present(tabBar, animated: true, completion: {
+//                            //(finished) -> Void in
+//                            print("load tab bar finished ")
+//                        })
+//
                         
                         print("login succeed")
                         hub.hide()
@@ -584,16 +584,16 @@ class User: NSObject {
                         print("请求成功")
                         //getSystemParasFromPlist()
                         if needsJump{
-                        //跳转页面
-                            var tabBar = TabBarController(royeType: roleType)
-                            let appDelegate = UIApplication.shared.delegate
-                            appDelegate?.window??.rootViewController = tabBar
-                            while (tabBar.presentedViewController != nil){
-                                tabBar = tabBar.presentedViewController as! TabBarController
-                            }
-                            view.present(tabBar, animated: true, completion: nil)
-                            //appDelegate?.window??.rootViewController?.present(tabBar, animated: true, completion: nil)
-                            //view.present(tabBar, animated: true, completion: nil)
+//                        //跳转页面
+//                            var tabBar = nil// TabBarController(royeType: roleType)
+//                            let appDelegate = UIApplication.shared.delegate
+//                            appDelegate?.window??.rootViewController = tabBar
+//                            while (tabBar.presentedViewController != nil){
+//                                tabBar = tabBar.presentedViewController as! TabBarController
+//                            }
+//                            view.present(tabBar, animated: true, completion: nil)
+//                            //appDelegate?.window??.rootViewController?.present(tabBar, animated: true, completion: nil)
+//                            //view.present(tabBar, animated: true, completion: nil)
                         }
                         
                     }else{

@@ -11,7 +11,13 @@ import PagingMenuController
 
 private struct PagingMenuOptions:PagingMenuControllerCustomizable{
     //角色
-    var managerVC = TabBarController(royeType: 4)
+    var managerVC:TabBarController = {
+        let hasStatistic = UserDefaults.standard.value(forKey: "hasStatistic") as! Bool
+        let hasWorkZone = UserDefaults.standard.value(forKey: "hasWorkZone") as! Bool
+        let hasManager = UserDefaults.standard.value(forKey: "hasManager") as! Bool
+        let roleType = UserDefaults.standard.value(forKey: "currentRoleType") as! Int
+        return TabBarController(roleType: roleType, hasManager: hasManager, hasWorkZone: hasWorkZone, hasStatistic: hasStatistic)
+    }()
     
     //转接生产单
     private let switchProduceOrderVC = SwitchOrderViewController(with: switchOrderType.producingOrder)
@@ -70,7 +76,14 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
 
 class ManagerViewController: UIViewController {
 
-    lazy var _tabBarVC = TabBarController(royeType: 4)
+    lazy var _tabBarVC:TabBarController = {
+        let hasStatistic = UserDefaults.standard.value(forKey: "hasStatistic") as! Bool
+        let hasWorkZone = UserDefaults.standard.value(forKey: "hasWorkZone") as! Bool
+        let hasManager = UserDefaults.standard.value(forKey: "hasManager") as! Bool
+        let roleType = UserDefaults.standard.value(forKey: "currentRoleType") as! Int
+        return TabBarController(roleType: roleType, hasManager: hasManager, hasWorkZone: hasWorkZone, hasStatistic: hasStatistic)
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -156,14 +169,4 @@ class ManagerViewController: UIViewController {
     @objc func cancelBtnClicked(){
         self.dismiss(animated: true, completion: nil)
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

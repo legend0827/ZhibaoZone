@@ -27,7 +27,7 @@ class GestureViewController: UIViewController {
     /// VerifyGestureVC
     var verifyGestureVC = GestureVerifyViewController()
     /// LoginPage
-    var loginVC = ViewController()
+    var loginPage = DemoView()// ViewController()
 
     /// 控制器的来源类型:设置密码、登录
     var type:GestureViewControllerType?
@@ -127,8 +127,8 @@ class GestureViewController: UIViewController {
             verifyGestureVC.dismiss(animated: false, completion: nil)
             self.dismiss(animated: true, completion: nil)
         }else if type == GestureViewControllerType.login {
-            loginVC.presentType = "dismissing"
-            loginVC.dismiss(animated: false, completion: nil)
+            loginPage.presentType = "dismissing"
+          //  loginPage.dismiss(animated: false, completion: nil)
             self.dismiss(animated: true, completion: nil)
         }else{
             self.dismiss(animated: true, completion: nil)
@@ -158,7 +158,7 @@ class GestureViewController: UIViewController {
             setupSubViewsSettingVc()
             break
         case GestureViewControllerType.login:
-            setupSubViewsLoginVc()
+            setupSubViewsloginPage()
             break
         case GestureViewControllerType.resetGesture:
             setupSubViewsSettingVc()
@@ -184,7 +184,7 @@ class GestureViewController: UIViewController {
     }
     
     //MARK: - 登录手势密码
-    func setupSubViewsLoginVc() {
+    func setupSubViewsloginPage() {
         self.lockView?.type = CircleViewType.circleViewTypeLogin
         
         //头像
@@ -270,8 +270,9 @@ class GestureViewController: UIViewController {
             break
         case buttonTag.forget.rawValue:
             print("点击了登录其他账户按钮")
-            loginVC.presentType = "dismissing"
-            loginVC.dismiss(animated: false, completion: nil)
+            loginPage.presentType = "dismissing"
+            //TODO: 手势登录功能完善
+            //loginPage.dismiss(animated: false, completion: nil)
             self.dismiss(animated: true, completion: nil)
             break
         default:
@@ -357,13 +358,7 @@ extension GestureViewController: CircleViewDelegate {
         if type == CircleViewType.circleViewTypeLogin {
             if result {
                 print("登录成功!")
-                let userinfos = getCurrentUserInfo()
-                let roleType = Int(userinfos.value(forKey: "roletype") as! String)
-                let tabbar = TabBarController(royeType: roleType!)
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                appDelegate.window?.rootViewController = tabbar
-                tabbar.modalPresentationStyle = .fullScreen
-                self.present(tabbar, animated: true, completion: nil)
+                ///TODO
         
             } else {
                 print("密码错误")

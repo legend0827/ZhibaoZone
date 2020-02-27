@@ -205,7 +205,15 @@ class SwitchOrderViewController: UIViewController,UITextFieldDelegate,UITableVie
         tempBtn.addTarget(self, action: #selector(confirmToSwitchClicked), for: .touchUpInside)
         return tempBtn
     }()
-    lazy var managerVCObject = TabBarController(royeType: 4)
+    
+    lazy var managerVCObject:TabBarController = {
+        let hasStatistic = UserDefaults.standard.value(forKey: "hasStatistic") as! Bool
+        let hasWorkZone = UserDefaults.standard.value(forKey: "hasWorkZone") as! Bool
+        let hasManager = UserDefaults.standard.value(forKey: "hasManager") as! Bool
+        let roleType = UserDefaults.standard.value(forKey: "currentRoleType") as! Int
+        return TabBarController(roleType: roleType, hasManager: hasManager, hasWorkZone: hasWorkZone, hasStatistic: hasStatistic)
+    }()
+    
     //弹窗灰层
     lazy var blurView = showBlurEffect()
     lazy var grayLayer:UIView = {

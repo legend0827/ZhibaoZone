@@ -370,20 +370,20 @@ class AllOrdersViewController: UIViewController,UICollectionViewDelegate,UIColle
         _token = userInfos.value(forKey: "token") as? String
         
         
-        if _orderlistType == .notQuotePriceYetOrderCategory || _orderlistType == .waitForDesignCategory{
-            StartLoadingAnimation()
-            DispatchQueue.global().async {
-                self.loadOrderDataFromServer(pages: 1, categoryType: self._orderlistType)
-            }
-
-        }else{
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                self.StartLoadingAnimation()
-                DispatchQueue.global().async {
-                    self.loadOrderDataFromServer(pages: 1, categoryType: self._orderlistType)
-                }
-            }
-        }
+//        if _orderlistType == .notQuotePriceYetOrderCategory || _orderlistType == .waitForDesignCategory{
+//            StartLoadingAnimation()
+//            DispatchQueue.global().async {
+//                self.loadOrderDataFromServer(pages: 1, categoryType: self._orderlistType)
+//            }
+//
+//        }else{
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+//                self.StartLoadingAnimation()
+//                DispatchQueue.global().async {
+//                    self.loadOrderDataFromServer(pages: 1, categoryType: self._orderlistType)
+//                }
+//            }
+//        }
        // self.view.addSubview(AllOrdersCollectionView)
         self.view.addSubview(scrollView)
         //添加下拉刷新

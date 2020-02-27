@@ -104,6 +104,8 @@
 		0A8A00522237AB3400AB8AC2 /* parameterSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8A00512237AB3400AB8AC2 /* parameterSettingTableViewCell.swift */; };
 		0A95BBAC2403CBBF008F564F /* LocalModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0A95BBAA2403CBBF008F564F /* LocalModel.xcdatamodeld */; };
 		0A95BBBE2404EFA8008F564F /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = 0A95BBBD2404EFA7008F564F /* loading.gif */; };
+		0A95BBC224075F66008F564F /* StatisticSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A95BBC124075F66008F564F /* StatisticSummaryViewController.swift */; };
+		0A95BBC424076CC0008F564F /* navigationList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A95BBC324076CC0008F564F /* navigationList.plist */; };
 		0A99705D20ADB8C500E4D37C /* OrderSearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A99705C20ADB8C500E4D37C /* OrderSearchCollectionViewCell.swift */; };
 		0A99706B20AED7C500E4D37C /* CollectionReusableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A99706A20AED7C500E4D37C /* CollectionReusableViewHeader.swift */; };
 		0AB76696200CA8AB00851E16 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AB76695200CA8AB00851E16 /* config.plist */; };
@@ -352,6 +354,8 @@
 		0A8A00512237AB3400AB8AC2 /* parameterSettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = parameterSettingTableViewCell.swift; sourceTree = "<group>"; };
 		0A95BBAB2403CBBF008F564F /* LocalModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LocalModel.xcdatamodel; sourceTree = "<group>"; };
 		0A95BBBD2404EFA7008F564F /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
+		0A95BBC124075F66008F564F /* StatisticSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticSummaryViewController.swift; sourceTree = "<group>"; };
+		0A95BBC324076CC0008F564F /* navigationList.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = navigationList.plist; sourceTree = "<group>"; };
 		0A99705C20ADB8C500E4D37C /* OrderSearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSearchCollectionViewCell.swift; sourceTree = "<group>"; };
 		0A99706A20AED7C500E4D37C /* CollectionReusableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionReusableViewHeader.swift; sourceTree = "<group>"; };
 		0AB76695200CA8AB00851E16 /* config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
@@ -731,6 +735,7 @@
 				0ADD7BAB227FDEFA00F0D653 /* CustomerManagement */,
 				0A8A00532237B09700AB8AC2 /* parameterSetting */,
 				0A8A00512237AB3400AB8AC2 /* parameterSettingTableViewCell.swift */,
+				0A95BBC124075F66008F564F /* StatisticSummaryViewController.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -864,6 +869,7 @@
 				0AE645272152054D00918DCE /* DINPro-Medium.otf */,
 				0AB76695200CA8AB00851E16 /* config.plist */,
 				0AB7C3F020DA01B600D0D26B /* checkListItemsArray.plist */,
+				0A95BBC324076CC0008F564F /* navigationList.plist */,
 				0A450ECC21BF601B0070186E /* config_systemParas.plist */,
 				0AFE8E492179F7A40094F088 /* config_systemCategory.plist */,
 				0A25DF96201D7E63009CBDEA /* contactList.plist */,
@@ -1122,6 +1128,7 @@
 				0A09185320AABFF20054749B /* shippingCompanyNameList.plist in Resources */,
 				0A25DF97201D7E63009CBDEA /* contactList.plist in Resources */,
 				0AE645282152054D00918DCE /* DINPro-Medium.otf in Resources */,
+				0A95BBC424076CC0008F564F /* navigationList.plist in Resources */,
 				0ABFC4EF23D5F3740089BB04 /* RegisterView.xib in Resources */,
 				0A1295562072EB5E00C21C66 /* msg.wav in Resources */,
 				0AB7C3F120DA01B600D0D26B /* checkListItemsArray.plist in Resources */,
@@ -1279,6 +1286,7 @@
 				0ADCB7FD200EEB2500DCD7C8 /* ImagePreviewCell.swift in Sources */,
 				0A5A79D023CAB9FC002F505B /* FactoryListSettingViewController.swift in Sources */,
 				0A5A79A323CAB930002F505B /* UnlockGestureView.swift in Sources */,
+				0A95BBC224075F66008F564F /* StatisticSummaryViewController.swift in Sources */,
 				0A5A79D623CABA10002F505B /* ReplyTableViewCell.swift in Sources */,
 				0A270E7123CEB98700125E01 /* SMSCodeField.swift in Sources */,
 				0A5A79B123CAB992002F505B /* MarkSlider.swift in Sources */,

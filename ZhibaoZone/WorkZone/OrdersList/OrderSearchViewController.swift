@@ -45,7 +45,7 @@ class OrderSearchViewController: UIViewController,UITextFieldDelegate,UICollecti
     var searchText = ""
     
     //tabbarController
-    var tabbarObject = TabBarController(royeType: 3)
+    var tabbarObject = TabBarController(roleType: 0, hasManager: false, hasWorkZone: false, hasStatistic: false) //TabBarController(royeType: 3)
     //加载中的动画集合
     var theLoadingViewNeedsToBeKill:[UIView] = []
     

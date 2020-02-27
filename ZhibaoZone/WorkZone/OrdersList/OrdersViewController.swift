@@ -18,19 +18,37 @@ import AVFoundation
 
 private struct PagingMenuOptions:PagingMenuControllerCustomizable{
     //角色
-    var roleTypeForController = 1
-    //用户
-    var isUserAsSuperFactory = false
+    var roleTypeForController:Int = UserDefaults.standard.value(forKey: "currentRoleType") as! Int
+    
+    //分类清单
+    var categoryList:[NSDictionary] = {
+        //从plist获取CheckListItem
+        var categoryList:[NSDictionary] = []
+        let plistOfCategoryList = Bundle.main.path(forResource: "navigationList", ofType: "plist")
+        let tempList = NSArray.init(contentsOfFile: plistOfCategoryList!)
+        categoryList.removeAll()
+        
+        for item in tempList!{
+            categoryList.append(item as! NSDictionary)
+        }
+        
+        return categoryList
+    }()
+    
+    
+    //经理、供应商订单子视图
+    //都未报价
+    private let nobodyQuotedVC = AllOrdersViewController(orderlistType: orderListCategoryType.allFactoryNotQuoteCategory)
     //全部订单子视图
     private let allOrdersVC = AllOrdersViewController(orderlistType: orderListCategoryType.allOrderCategory)
     //待报价子视图
     private let notQuoteYetVC = AllOrdersViewController(orderlistType: orderListCategoryType.notQuotePriceYetOrderCategory)
     //已报价子视图
     private let quoteAlreadyVC = AllOrdersViewController(orderlistType: orderListCategoryType.alreadyQuotedOderCategory)
-    //未处理议价
-   // private let bargainNotDealedVC = AllOrdersViewController(orderlistType: orderListCategoryType.bargainNotDealedCategory)
-    //已处理议价
- //   private let bargainDealedVC = AllOrdersViewController(orderlistType: orderListCategoryType.bargainDealedCategory)
+    //议价未反馈子视图
+    private let barginNotDealYetVC = AllOrdersViewController(orderlistType: orderListCategoryType.bargainNotDealedCategory)
+    //议价已反馈子视图
+    private let barginDealedAlreadyVC = AllOrdersViewController(orderlistType: orderListCategoryType.bargainDealedCategory)
     //待接受生产子视图
     private let waitForProduceVC = AllOrdersViewController(orderlistType: orderListCategoryType.waitForAcceptProduceOrderCategory)
     //生产中子视图
@@ -47,8 +65,6 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
     private let waitForModifyVC = AllOrdersViewController(orderlistType: orderListCategoryType.waitForModifyCategory)
    // 已定稿
     private let DesignConfirmedVC = AllOrdersViewController(orderlistType: orderListCategoryType.customerConfirmedCategory)
-    //都未报价
-    private let nobodyQuotedVC = AllOrdersViewController(orderlistType: orderListCategoryType.allFactoryNotQuoteCategory)
     
     var backgroundColor: UIColor = UIColor.backgroundColors(color: .white) // 设置菜单栏底色
 
@@ -57,36 +73,163 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
     //组件类型
     fileprivate var componentType: ComponentType{
         switch roleTypeForController {
-        case 1:
+        case 0:
+            //"普通用户"
             return .all(menuOptions: MenuOptions(), pagingControllers: pagingControllers)
-        case 2:
+        case 3,4,9:
+            return .all(menuOptions: MenuOptionsForManager(), pagingControllers: pagingControllersForManager)
+        case 6:
+            // "客服"
+            return .all(menuOptions: MenuOptions(), pagingControllers: pagingControllers)
+        case 7:
+            // 7:"方案师"
             return .all(menuOptions: MenuOptionsForDesign(), pagingControllers: pagingControllersForDesign)
-        case 3:
-            if isUserAsSuperFactory{
-                return .all(menuOptions: MenuOptionsForSuperFactory(), pagingControllers: pagingControllersForSuperFactory)
-            }else{
-                return .all(menuOptions: MenuOptions(), pagingControllers: pagingControllers)
-            }
-        case 4:
-            return .all(menuOptions: MenuOptions(), pagingControllers: pagingControllers)
+        case 8:
+            // 8:供应商
+            return .all(menuOptions: MenuOptionsForFactory(), pagingControllers: pagingControllersForFactory)
         default:
-            print("nothing")
+            // "普通用户"
+            return .all(menuOptions: MenuOptions(), pagingControllers: pagingControllers)
         }
-        return .all(menuOptions: MenuOptions(), pagingControllers: pagingControllers)
+    }
+    
+    fileprivate var itemOptionOfDesigner:[MenuItemViewCustomizable] {
+        var vcList:[MenuItemViewCustomizable] = []
+        //再插入设计分类
+        for item in categoryList{
+            let navId = item.value(forKey: "navId") as! Int
+            switch navId {
+            case 55:
+                vcList.append(MenuItem6())
+            case 56:
+                vcList.append(MenuItem13())
+            case 57:
+                vcList.append(MenuItem7())
+            case 62:
+                vcList.append(MenuItem14())
+            case 63:
+                vcList.append(MenuItem8())
+            default:
+                print("")
+            }
+        }
+        return vcList
     }
     
     //所有子视图控制器 - 设计师
     fileprivate var pagingControllersForDesign: [UIViewController] {
-        return [waitForDesignVC,designningVC,waitForModifyVC,waitForConfirmDesignVC,DesignConfirmedVC]
+        var vcList:[UIViewController] = []
+        
+        //先插入报价有关分类
+        for item in categoryList{
+            let navId = item.value(forKey: "navId") as! Int
+            switch navId {
+            case 52:
+                vcList.append(notQuoteYetVC)
+            case 53:
+                vcList.append(quoteAlreadyVC)
+            case 60:
+                vcList.append(barginNotDealYetVC)
+            case 61:
+                vcList.append(barginDealedAlreadyVC)
+            default:
+                print("")
+            }
+        }
+        //再插入设计分类
+        for item in categoryList{
+            let navId = item.value(forKey: "navId") as! Int
+            switch navId {
+            case 55:
+                vcList.append(waitForDesignVC)
+            case 56:
+                vcList.append(designningVC)
+            case 57:
+                vcList.append(waitForModifyVC)
+            case 62:
+                vcList.append(waitForConfirmDesignVC)
+            case 63:
+                vcList.append(DesignConfirmedVC)
+            default:
+                print("")
+            }
+        }
+        return vcList
     }
-    //所有子视图控制器 - 车间1
-    fileprivate var pagingControllersForSuperFactory: [UIViewController] {
-        return [nobodyQuotedVC,notQuoteYetVC,quoteAlreadyVC,waitForProduceVC,producingVC]
+    
+    //所有子视图控制器 - 经理
+    fileprivate var pagingControllersForManager: [UIViewController] {
+        var vcList:[UIViewController] = []
+        //先插入报价有关分类
+        for item in categoryList{
+            let navId = item.value(forKey: "navId") as! Int
+            switch navId {
+            case 162:
+                vcList.append(nobodyQuotedVC)
+            case 163:
+                vcList.append(notQuoteYetVC)
+            case 164:
+                vcList.append(quoteAlreadyVC)
+            case 165:
+                vcList.append(barginNotDealYetVC)
+            case 166:
+                vcList.append(barginDealedAlreadyVC)
+            default:
+                print("")
+            }
+        }
+        //再插入生产中分类
+        for item in categoryList{
+            let navId = item.value(forKey: "navId") as! Int
+            switch navId {
+            case 43:
+                vcList.append(waitForProduceVC)
+            case 44:
+                vcList.append(producingVC)
+            default:
+                print("")
+            }
+        }
+        return vcList
+    }
+    
+    //所有子视图控制器 - 供应商
+    fileprivate var pagingControllersForFactory: [UIViewController] {
+        var vcList:[UIViewController] = []
+        //先插入报价有关分类
+        for item in categoryList{
+            let navId = item.value(forKey: "navId") as! Int
+            switch navId {
+            case 68:
+                vcList.append(notQuoteYetVC)
+            case 69:
+                vcList.append(quoteAlreadyVC)
+            case 71:
+                vcList.append(barginNotDealYetVC)
+            case 72:
+                vcList.append(barginDealedAlreadyVC)
+            default:
+                print("")
+            }
+        }
+        //再插入生产分类
+        for item in categoryList{
+            let navId = item.value(forKey: "navId") as! Int
+            switch navId {
+            case 75:
+                vcList.append(waitForProduceVC)
+            case 76:
+                vcList.append(producingVC)
+            default:
+                print("")
+            }
+        }
+        return vcList
     }
     
     //所有子视图控制器 - 其他角色
     fileprivate var pagingControllers: [UIViewController] {
-        return [notQuoteYetVC,quoteAlreadyVC,waitForProduceVC,producingVC]
+        return []
     }
     
     //菜单配置项 - 其他角色
@@ -112,34 +255,120 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
     fileprivate struct MenuOptionsForDesign: MenuViewCustomizable {
         //菜单显示模式
         var displayMode: MenuDisplayMode {
-            return .segmentedControl
+            return .standard(widthMode: .flexible, centerItem: false, scrollingMode: .scrollEnabledAndBouces)//.segmentedControl
         }
+        
+        //分类清单
+        var MenuItems:[MenuItemViewCustomizable] = {
+            //从plist获取CheckListItem
+            var tempItems:[MenuItemViewCustomizable] = []
+            let plistOfCategoryList = Bundle.main.path(forResource: "navigationList", ofType: "plist")
+            let tempList = NSArray.init(contentsOfFile: plistOfCategoryList!)
+            tempItems.removeAll()
+            
+            for item in tempList!{
+                let navId = ((item as! NSDictionary).value(forKey: "navId") as! Int)
+                switch navId {
+                case 52: // 未报价
+                    tempItems.append(MenuItem2())
+                case 53://已报价
+                    tempItems.append(MenuItem3())
+                case 60://未处理
+                    tempItems.append(MenuItem11())
+                case 61://已处理
+                    tempItems.append(MenuItem12())
+                default:
+                    print("")
+                }
+            }
+            
+            //再插入设计分类
+            for item in tempList! {
+                let navId = ((item as! NSDictionary).value(forKey: "navId") as! Int)
+                switch navId {
+                case 55://待接单
+                    tempItems.append(MenuItem4())
+                case 56://设计中
+                    tempItems.append(MenuItem13())
+                case 57://修改中
+                    tempItems.append(MenuItem7())
+                case 62://待定稿
+                    tempItems.append(MenuItem14())
+                case 63://已定稿
+                    tempItems.append(MenuItem8())
+                default:
+                    print("")
+                }
+            }
+            
+            return tempItems
+        }()
+        
+        
         //菜单项
         var itemsOptions: [MenuItemViewCustomizable] {
-            return [MenuItem6(),MenuItem13(),MenuItem7(),MenuItem14(),MenuItem8()]
+            return MenuItems
         }
         //设置选中栏下方条的颜色
         var focusMode:MenuFocusMode {
-            return .underline(height: 4, color: UIColor.titleColors(color: .lightOrange), horizontalPadding: 28, verticalPadding: 5) // 水平间距 0 ，垂直间距 0
+            return .underline(height: 4, color: UIColor.titleColors(color: .lightOrange), horizontalPadding: 32, verticalPadding: 5) // 水平间距 0 ，垂直间距 0
         }
         
     }
     
-    //菜单配置项 - 车间1
-    fileprivate struct MenuOptionsForSuperFactory: MenuViewCustomizable {
+    //菜单配置项 - 供应商
+    fileprivate struct MenuOptionsForFactory: MenuViewCustomizable {
         //菜单显示模式
         var displayMode: MenuDisplayMode {
-            //return .segmentedControl
-            //return .segmentedControl//.standard(widthMode: MenuItemWidthMode.flexible, centerItem: false, scrollingMode: MenuScrollingMode.scrollEnabled)
             return .standard(widthMode: MenuItemWidthMode.flexible, centerItem: false, scrollingMode: MenuScrollingMode.scrollEnabledAndBouces)
         }
+        //分类清单
+        var MenuItems:[MenuItemViewCustomizable] = {
+            //从plist获取CheckListItem
+            var tempItems:[MenuItemViewCustomizable] = []
+            let plistOfCategoryList = Bundle.main.path(forResource: "navigationList", ofType: "plist")
+            let tempList = NSArray.init(contentsOfFile: plistOfCategoryList!)
+            tempItems.removeAll()
+            
+            for item in tempList!{
+                let navId = ((item as! NSDictionary).value(forKey: "navId") as! Int)
+                switch navId {
+                case 68: //未报价
+                    tempItems.append(MenuItem2())
+                case 69://已报价
+                    tempItems.append(MenuItem3())
+                case 71://未处理
+                    tempItems.append(MenuItem11())
+                case 72://已处理
+                    tempItems.append(MenuItem12())
+                default:
+                    print("")
+                }
+            }
+            //再插入生产分类
+            for item in tempList!{
+                let navId = ((item as! NSDictionary).value(forKey: "navId") as! Int)
+                switch navId {
+                case 75://待接单
+                    tempItems.append(MenuItem4())
+                case 76://待发货
+                    tempItems.append(MenuItem5())
+                default:
+                    print("")
+                }
+            }
+            
+            return tempItems
+        }()
+        
+        
         //菜单项
         var itemsOptions: [MenuItemViewCustomizable] {
-            return [MenuItem15(),MenuItem2(),MenuItem3(),MenuItem4(),MenuItem5()]
+            return MenuItems
         }
         //设置选中栏下方条的颜色
         var focusMode:MenuFocusMode {
-            return .underline(height: 4, color: UIColor.titleColors(color: .lightOrange), horizontalPadding: 28, verticalPadding: 5) // 水平间距 0 ，垂直间距 0
+            return .underline(height: 4, color: UIColor.titleColors(color: .lightOrange), horizontalPadding: 32, verticalPadding: 5) // 水平间距 0 ，垂直间距 0
         }
         
     }
@@ -148,15 +377,58 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
     fileprivate struct MenuOptionsForManager: MenuViewCustomizable {
         //菜单显示模式
         var displayMode: MenuDisplayMode {
-            return .segmentedControl
+            return  .standard(widthMode: .flexible, centerItem: false, scrollingMode: .scrollEnabledAndBouces)//.segmentedControl
         }
+        
+        //分类清单
+        var MenuItems:[MenuItemViewCustomizable] = {
+            //从plist获取CheckListItem
+            var tempItems:[MenuItemViewCustomizable] = []
+            let plistOfCategoryList = Bundle.main.path(forResource: "navigationList", ofType: "plist")
+            let tempList = NSArray.init(contentsOfFile: plistOfCategoryList!)
+            tempItems.removeAll()
+            
+            //先插入报价有关分类
+            for item in tempList!{
+                let navId = ((item as! NSDictionary).value(forKey: "navId") as! Int)
+                switch navId {
+                case 162://都未报价
+                    tempItems.append(MenuItem15())
+                case 163://未报价
+                    tempItems.append(MenuItem2())
+                case 164://已报价
+                    tempItems.append(MenuItem3())
+                case 165://未处理
+                    tempItems.append(MenuItem11())
+                case 166://已处理
+                    tempItems.append(MenuItem12())
+                default:
+                    print("")
+                }
+            }
+            //再插入生产中分类
+            for item in tempList!{
+                let navId = ((item as! NSDictionary).value(forKey: "navId") as! Int)
+                switch navId {
+                case 43:
+                    tempItems.append(MenuItem6())
+                case 44:
+                    tempItems.append(MenuItem9())
+                default:
+                    print("")
+                }
+            }
+            return tempItems
+        }()
+        
+        
         //菜单项
         var itemsOptions: [MenuItemViewCustomizable] {
-            return [MenuItem6(), MenuItem7(),MenuItem8()]
+            return MenuItems
         }
         //设置选中栏下方条的颜色
         var focusMode:MenuFocusMode {
-            return .underline(height: 4, color: UIColor.titleColors(color: .lightOrange), horizontalPadding: 42, verticalPadding: 5) // 水平间距 0 ，垂直间距 0
+            return .underline(height: 4, color: UIColor.titleColors(color: .lightOrange), horizontalPadding: 32, verticalPadding: 5) // 水平间距 0 ，垂直间距 0
         }
         
     }
@@ -225,7 +497,7 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
     fileprivate struct MenuItem9: MenuItemViewCustomizable {
         //自定义菜单项名称
         var displayMode: MenuItemDisplayMode {
-            return .text(title: MenuItemText(text: "咨询中", color: UIColor.titleColors(color: .darkGray), selectedColor: UIColor.titleColors(color: .black), font: UIFont.systemFont(ofSize: 16), selectedFont: UIFont.boldSystemFont(ofSize: 17)))
+            return .text(title: MenuItemText(text: "生产中", color: UIColor.titleColors(color: .darkGray), selectedColor: UIColor.titleColors(color: .black), font: UIFont.systemFont(ofSize: 16), selectedFont: UIFont.boldSystemFont(ofSize: 17)))
         }
     }
     //第10个菜单项
@@ -239,14 +511,14 @@ private struct PagingMenuOptions:PagingMenuControllerCustomizable{
     fileprivate struct MenuItem11: MenuItemViewCustomizable {
         //自定义菜单项名称
         var displayMode: MenuItemDisplayMode {
-            return .text(title: MenuItemText(text: "未处理议价", color: UIColor.titleColors(color: .darkGray), selectedColor: UIColor.titleColors(color: .black), font: UIFont.systemFont(ofSize: 16), selectedFont: UIFont.boldSystemFont(ofSize: 17)))
+            return .text(title: MenuItemText(text: "未处理", color: UIColor.titleColors(color: .darkGray), selectedColor: UIColor.titleColors(color: .black), font: UIFont.systemFont(ofSize: 16), selectedFont: UIFont.boldSystemFont(ofSize: 17)))
         }
     }
     //第12个菜单项
     fileprivate struct MenuItem12: MenuItemViewCustomizable {
         //自定义菜单项名称
         var displayMode: MenuItemDisplayMode {
-            return .text(title: MenuItemText(text: "已处理议价", color: UIColor.titleColors(color: .darkGray), selectedColor: UIColor.titleColors(color: .black), font: UIFont.systemFont(ofSize: 16), selectedFont: UIFont.boldSystemFont(ofSize: 17)))
+            return .text(title: MenuItemText(text: "已处理", color: UIColor.titleColors(color: .darkGray), selectedColor: UIColor.titleColors(color: .black), font: UIFont.systemFont(ofSize: 16), selectedFont: UIFont.boldSystemFont(ofSize: 17)))
         }
     }
     //第13个菜单项
@@ -282,8 +554,13 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
     var timerForMessageList:Timer!
     var isNeedsAlert = true
     var getMessagesCount = 0
-    lazy var _tabBarVC: TabBarController = {
-        return TabBarController(royeType: 1)
+
+    lazy var _tabBarVC:TabBarController = {
+        let hasStatistic = UserDefaults.standard.value(forKey: "hasStatistic") as! Bool
+        let hasWorkZone = UserDefaults.standard.value(forKey: "hasWorkZone") as! Bool
+        let hasManager = UserDefaults.standard.value(forKey: "hasManager") as! Bool
+        let roleType = UserDefaults.standard.value(forKey: "currentRoleType") as! Int
+        return TabBarController(roleType: roleType, hasManager: hasManager, hasWorkZone: hasWorkZone, hasStatistic: hasStatistic)
     }()
     //
     var onlineListOfDesigner:[NSDictionary] = []
@@ -525,10 +802,10 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         timeInterval_from = dateAheadNow(before: 7, countAs: .PerDay).TimeInterval
         timeInterval_to = getEndDateTimeOfToday().TimeInterval//1000
         
-        //每30秒获取一次消息列表
-        getMessageList()//先获取一次
-        timerForMessageList = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(getMessageList), userInfo: nil, repeats: true)
-        timerForMessageList = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(getOnlineStatus), userInfo: nil, repeats: true)
+//        //每30秒获取一次消息列表
+//        getMessageList()//先获取一次
+//        timerForMessageList = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(getMessageList), userInfo: nil, repeats: true)
+//        timerForMessageList = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(getOnlineStatus), userInfo: nil, repeats: true)
         
         //设置状态栏颜色
         let userinfos = getCurrentUserInfo()
@@ -546,13 +823,6 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
             //分页菜单配置
             var options = PagingMenuOptions()
             options.roleTypeForController = _roleType
-            //车间1账号要求显示都未报价分类
-            if _userId == "10000013"{
-                options.isUserAsSuperFactory = true
-            }else{
-                options.isUserAsSuperFactory = false
-            }
-            
             //分页菜单控制器初始化
             let pagingMenuController = PagingMenuController(options: options)
             
@@ -633,7 +903,7 @@ class OrdersViewController:UIViewController,UITextFieldDelegate,UIScrollViewDele
         titleBarView.addSubview(scanQRCodeBtn)
         titleBarView.addSubview(messageListBtn)
         
-        appUpdateCheck()
+        //appUpdateCheck()
     }
     //切换日期按钮
     @objc func switchTimeInterval(_ button:UIButton){

@@ -42,6 +42,12 @@ class DemoView: UIView {
     
     var loadingSubViews:[UIView] = []
     
+    //注册还是登录
+    var isToLogin = true
+    
+    ///页面显示效果
+    var presentType = "presenting" /// presenting, 显示. dismissing, 不显示
+    
     //图形验证码验证
     var isVerificationCodeLegal = false
     func isMobilePhoneLegal(mobile phone:String) -> Bool {
@@ -734,7 +740,7 @@ class DemoView: UIView {
                     if json.count == 0{
                         //普通用户
                         //跳转页面
-                         let tabBar = TabBarController(royeType: 0)
+                         let tabBar = TabBarController(roleType: 0, hasManager: false, hasWorkZone: false, hasStatistic: false)
                          //let appDelegate = AppDelegate()
                          let appDelegate = UIApplication.shared.delegate as! AppDelegate
                          appDelegate.window?.rootViewController = tabBar
@@ -848,24 +854,102 @@ class DemoView: UIView {
                             tempArray.append(dictonaryObject)
                         }
                         
-                        let isWorkShopAvaiable = self.isWorkShopAvaiable(Json: tempArray)
-                        if isWorkShopAvaiable {
-                            print("system avaiable")
+                        let hasWorkZone = self.isWorkShopAvaiable(Json: tempArray)
+                        let hasManager = self.isEnterpriseManagerAvaiable(Json: tempArray)
+                        
+                        UserDefaults.standard.set(hasWorkZone, forKey: "hasWorkZone")
+                        UserDefaults.standard.set(hasManager, forKey: "hasManager")
+                        UserDefaults.standard.synchronize()
+                        
+                        if hasWorkZone {
+                            let roleId = UserDefaults.standard.value(forKey: "currentRoleId") as! Int
+                            self.getClassifiedNav(Token: token, TenementId: id, RoleType: roleType, RoleId:roleId)
                         }else{
                             //普通用户
                             //跳转页面
-                             let tabBar = TabBarController(royeType: 0)
-                             //let appDelegate = AppDelegate()
+                             let tabBar = TabBarController(roleType: 0, hasManager: false, hasWorkZone: false, hasStatistic: false)
                              let appDelegate = UIApplication.shared.delegate as! AppDelegate
                              appDelegate.window?.rootViewController = tabBar
-                            // view.present(tabBar, animated: true, completion: nil)
                             let vc = self.getFirstViewController()
                             vc!.present(tabBar, animated: true, completion: {
-                                 //(finished) -> Void in
                                 self.StopLoding()
-                                 print("load tab bar finished ")
-                             })
+                                print("load tab bar finished ")
+                            })
                         }
+                    }else{
+                        print("图形验证码验证失败")
+                    }
+                }
+            case false:
+                print("发送短信验证码失败")
+
+            }
+        }
+    }
+    
+    func getClassifiedNav(Token token:String,TenementId id:Int,RoleType roleType:Int, RoleId roleId:Int) {
+        let params:NSMutableDictionary = NSMutableDictionary()
+        //定义请求参数
+        var header:HTTPHeaders  = NSMutableDictionary() as! HTTPHeaders
+        header["token"] = token
+        header["tenementId"] = "\(id)"
+        
+        params["roleType"] = "\(roleType)"
+        params["roleId"] = "\(roleId)"
+        
+        let plistFile = Bundle.main.path(forResource: "config", ofType: "plist")
+        let data:NSMutableDictionary = NSMutableDictionary.init(contentsOfFile: plistFile!)!
+        
+        let apiAddresses:NSDictionary = data.value(forKey: "apiAddress") as! NSDictionary
+        #if DEBUG
+        let URL:String = apiAddresses.value(forKey: "getClassifiedNavAPIDebug") as! String
+        #else
+        let URL:String = apiAddresses.value(forKey: "getClassifiedNavAPI") as! String
+        #endif
+        //发起请求
+        Alamofire.request(URL,method:.get, parameters:params as? [String:AnyObject],encoding: URLEncoding.default,headers: header) .responseData {
+            (responseObject) in
+            switch responseObject.result.isSuccess{
+            case true:
+                if let value = responseObject.result.value{
+                    let json = JSON(value)
+                    let code = json["code"].int!
+                    if code == 200 {
+                        
+                        var tempArray:[NSDictionary] = []
+                        
+                        for item in json["data"].array!{
+                            let dictonaryObject = item.dictionaryObject! as NSDictionary
+                            tempArray.append(dictonaryObject)
+                        }
+
+                        let pfileOfNavigationList = Bundle.main.path(forResource: "navigationList", ofType: "plist")
+                        //清除现有的文件列表
+                        let emptyArray:NSArray = []
+                        emptyArray.write(toFile: pfileOfNavigationList!, atomically: true)
+                       
+                        let array = NSArray(array: tempArray)
+                        //let array = NSArray(array: productArray)
+                        //将数组写入联系人列表
+                        array.write(toFile: pfileOfNavigationList!, atomically: true)
+                        print("file Path:\(pfileOfNavigationList)")
+                        
+                        let hasStatistic = self.isStatisticAvaiable(Json: tempArray)
+                        UserDefaults.standard.set(hasStatistic, forKey: "hasStatistic")
+                        UserDefaults.standard.synchronize()
+                        
+                        let hasWorkZone = UserDefaults.standard.value(forKey: "hasWorkZone") as! Bool
+                        let hasManager = UserDefaults.standard.value(forKey: "hasManager") as! Bool
+                        
+                        //跳转页面
+                         let tabBar = TabBarController(roleType: roleType, hasManager: hasManager, hasWorkZone: hasWorkZone, hasStatistic: hasStatistic)
+                         let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                         appDelegate.window?.rootViewController = tabBar
+                        let vc = self.getFirstViewController()
+                        vc!.present(tabBar, animated: true, completion: {
+                            self.StopLoding()
+                            print("load tab bar finished ")
+                         })
                     }else{
                         print("图形验证码验证失败")
                     }
@@ -898,6 +982,46 @@ class DemoView: UIView {
                     return false
                 }
             }
+        }
+        return false
+    }
+    
+    //检测企业管理页面是否可用
+    func isEnterpriseManagerAvaiable(Json data:[NSDictionary]) -> Bool{
+        guard data.count != 0 else {
+            return false
+        }
+        
+        for item in data{
+            if item.value(forKey: "id") as! Int == 1002 {
+                let subsystem = item.value(forKey: "subsystem") as! NSArray
+                if subsystem.count == 0{
+                    return false
+                }else{
+                    for sub in subsystem{
+                        let subObject = sub as! NSDictionary
+                        if subObject.value(forKey: "id") as! Int == 1006{
+                            return true
+                        }
+                    }
+                    return false
+                }
+            }
+        }
+        return false
+    }
+    
+    //检测统计页面是否可用
+    func isStatisticAvaiable(Json data:[NSDictionary]) -> Bool{
+        guard data.count != 0 else {
+            return false
+        }
+        
+        for item in data{
+            if item.value(forKey: "navId") as! Int == 100 {
+                return true
+            }
+            return false
         }
         return false
     }

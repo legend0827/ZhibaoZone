@@ -47,7 +47,7 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
     var emptyCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 58))
     var logoutAccountCell:UITableViewCell = UITableViewCell.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 58))
     let LogoutBtn:UIButton = UIButton.init(type: UIButtonType.system)
-    lazy var _tabBarVC = TabBarController(royeType: 4)
+   // lazy var _tabBarVC = TabBarController(royeType: 4)
     //弹窗灰层
     lazy var blurView = showBlurEffect()
     lazy var grayLayer:UIView = {
@@ -118,22 +118,22 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
     
     lazy var closeLayerBtn:UIButton = UIButton.init(type: .custom)
     lazy var switchAccountTitle:UILabel = UILabel.init()
-    
-    lazy var switchAccountBtn:UIButton = {
-        let tempBtn = UIButton.init(frame: CGRect(x: kWidth - 126, y: 0, width: 106, height: 44)) // 44
-        tempBtn.setTitle("切换车间", for: .normal)
-        tempBtn.addTarget(self, action: #selector(switchAccountBtnClicked), for: .touchUpInside)
-        tempBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        tempBtn.contentHorizontalAlignment = .right
-        tempBtn.contentVerticalAlignment = .center
-        tempBtn.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
-        
-        let switchicon:UIImageView = UIImageView.init(frame: CGRect(x: 30, y: 16, width: 16, height: 12))
-        switchicon.image = UIImage(named: "switchiconimg")
-        tempBtn.addSubview(switchicon)
-        
-        return tempBtn
-    }()
+//    
+//    lazy var switchAccountBtn:UIButton = {
+//        let tempBtn = UIButton.init(frame: CGRect(x: kWidth - 126, y: 0, width: 106, height: 44)) // 44
+//        tempBtn.setTitle("切换车间", for: .normal)
+//        tempBtn.addTarget(self, action: #selector(switchAccountBtnClicked), for: .touchUpInside)
+//        tempBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+//        tempBtn.contentHorizontalAlignment = .right
+//        tempBtn.contentVerticalAlignment = .center
+//        tempBtn.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
+//        
+//        let switchicon:UIImageView = UIImageView.init(frame: CGRect(x: 30, y: 16, width: 16, height: 12))
+//        switchicon.image = UIImage(named: "switchiconimg")
+//        tempBtn.addSubview(switchicon)
+//        
+//        return tempBtn
+//    }()
     //当前登录用户的信息
     var _roleType = 0 // 定义角色
     var _accountID = "1000000"// 定义用户ID
@@ -578,78 +578,78 @@ class MeViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         LogoutMission(viewControler: self)
     }
     
-    @objc func switchAccountBtnClicked(){
-        print("切换账号按钮点击了")
-        _tabBarVC.view.addSubview(blurView)
-        blurView.contentView.addSubview(grayLayer)
-        grayLayer.addSubview(switchAccountBgView)
-        
-        closeLayerBtn.frame = CGRect(x: kWidth - 220, y: 20, width: 200, height: 22)
-        closeLayerBtn.setTitle("取消", for: .normal)
-        closeLayerBtn.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
-        closeLayerBtn.contentHorizontalAlignment = .right
-        closeLayerBtn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        closeLayerBtn.addTarget(self, action: #selector(cancelBtnClicked), for: .touchUpInside)
-        
-        switchAccountTitle.frame = CGRect(x: 20, y: 20, width: kWidth - 40, height: 25)
-        switchAccountTitle.textAlignment = .center
-        switchAccountTitle.textColor = UIColor.backgroundColors(color: .black)
-        switchAccountTitle.font = UIFont.boldSystemFont(ofSize: 18)
-        switchAccountTitle.text = "切换账号"
-        
-        managerName.frame = CGRect(x: 0, y: 197, width: kWidth/2, height: 22)
-        managerName.textAlignment = .center
-        managerName.font = UIFont.systemFont(ofSize: 16)
-        managerName.textColor = UIColor.titleColors(color: .black)
-        
-        producerName.frame = CGRect(x: kWidth/2, y: 197, width: kWidth/2, height: 22)
-        producerName.text = "车间1"
-        producerName.textAlignment = .center
-        producerName.font = UIFont.systemFont(ofSize: 16)
-        producerName.textColor = UIColor.titleColors(color: .black)
-        
-        if addtionalAccountAvailable {
-            producerAvatar.image = UIImage(named: "produceravatarimg")
-        }else{
-            producerAvatar.image = UIImage(named: "addtionalneedssetimg")
-        }
-        
-        switchAccountWhiteBoardView.frame = CGRect(x: 0, y: 65, width: kWidth, height: switchAccountBgView.frame.height - 65)
-        
-        if _roleType == 4{
-            currentAccountLabel.frame = CGRect(x: (kWidth/2 - 78)/2, y: 249, width: 78, height: 20)
-            managerName.text = _accountNickName
-        }else{
-            currentAccountLabel.frame = CGRect(x: kWidth*3/4 - 39, y: 249, width: 78, height: 20)
-            managerName.text = _addtionalNikeName
-        }
-        
-        let tapOnProducer = UITapGestureRecognizer(target: self, action: #selector(singleTapOnAvatar(_:)))
-        tapOnProducer.numberOfTapsRequired = 1
-        tapOnProducer.numberOfTouchesRequired = 1
-        
-        let tapOnManager = UITapGestureRecognizer(target: self, action: #selector(singleTapOnAvatar(_:)))
-        tapOnManager.numberOfTapsRequired = 1
-        tapOnManager.numberOfTouchesRequired = 1
-        
-        managerAvatar.addGestureRecognizer(tapOnManager)
-        producerAvatar.addGestureRecognizer(tapOnProducer)
-        
-        switchAccountBgView.addSubview(closeLayerBtn)
-        switchAccountBgView.addSubview(switchAccountTitle)
-        switchAccountBgView.addSubview(switchAccountWhiteBoardView)
-        switchAccountWhiteBoardView.addSubview(currentAccountLabel)
-        switchAccountWhiteBoardView.addSubview(managerName)
-        switchAccountWhiteBoardView.addSubview(managerAvatar)
-        switchAccountWhiteBoardView.addSubview(producerName)
-        switchAccountWhiteBoardView.addSubview(producerAvatar)
-        
-        setStatusBarHiden(toHidden: true, ViewController: _tabBarVC)
-        UIView.animate(withDuration: 0.3) {
-            self.switchAccountBgView.transform = CGAffineTransform(translationX: 0, y:  -380 - heightChangeForiPhoneXFromBottom) // 208 + heightChangeForiPhoneXFromTop
-        }
-        
-    }
+//    @objc func switchAccountBtnClicked(){
+//        print("切换账号按钮点击了")
+//        _tabBarVC.view.addSubview(blurView)
+//        blurView.contentView.addSubview(grayLayer)
+//        grayLayer.addSubview(switchAccountBgView)
+//
+//        closeLayerBtn.frame = CGRect(x: kWidth - 220, y: 20, width: 200, height: 22)
+//        closeLayerBtn.setTitle("取消", for: .normal)
+//        closeLayerBtn.setTitleColor(UIColor.titleColors(color: .black), for: .normal)
+//        closeLayerBtn.contentHorizontalAlignment = .right
+//        closeLayerBtn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+//        closeLayerBtn.addTarget(self, action: #selector(cancelBtnClicked), for: .touchUpInside)
+//
+//        switchAccountTitle.frame = CGRect(x: 20, y: 20, width: kWidth - 40, height: 25)
+//        switchAccountTitle.textAlignment = .center
+//        switchAccountTitle.textColor = UIColor.backgroundColors(color: .black)
+//        switchAccountTitle.font = UIFont.boldSystemFont(ofSize: 18)
+//        switchAccountTitle.text = "切换账号"
+//
+//        managerName.frame = CGRect(x: 0, y: 197, width: kWidth/2, height: 22)
+//        managerName.textAlignment = .center
+//        managerName.font = UIFont.systemFont(ofSize: 16)
+//        managerName.textColor = UIColor.titleColors(color: .black)
+//
+//        producerName.frame = CGRect(x: kWidth/2, y: 197, width: kWidth/2, height: 22)
+//        producerName.text = "车间1"
+//        producerName.textAlignment = .center
+//        producerName.font = UIFont.systemFont(ofSize: 16)
+//        producerName.textColor = UIColor.titleColors(color: .black)
+//
+//        if addtionalAccountAvailable {
+//            producerAvatar.image = UIImage(named: "produceravatarimg")
+//        }else{
+//            producerAvatar.image = UIImage(named: "addtionalneedssetimg")
+//        }
+//
+//        switchAccountWhiteBoardView.frame = CGRect(x: 0, y: 65, width: kWidth, height: switchAccountBgView.frame.height - 65)
+//
+//        if _roleType == 4{
+//            currentAccountLabel.frame = CGRect(x: (kWidth/2 - 78)/2, y: 249, width: 78, height: 20)
+//            managerName.text = _accountNickName
+//        }else{
+//            currentAccountLabel.frame = CGRect(x: kWidth*3/4 - 39, y: 249, width: 78, height: 20)
+//            managerName.text = _addtionalNikeName
+//        }
+//
+//        let tapOnProducer = UITapGestureRecognizer(target: self, action: #selector(singleTapOnAvatar(_:)))
+//        tapOnProducer.numberOfTapsRequired = 1
+//        tapOnProducer.numberOfTouchesRequired = 1
+//
+//        let tapOnManager = UITapGestureRecognizer(target: self, action: #selector(singleTapOnAvatar(_:)))
+//        tapOnManager.numberOfTapsRequired = 1
+//        tapOnManager.numberOfTouchesRequired = 1
+//
+//        managerAvatar.addGestureRecognizer(tapOnManager)
+//        producerAvatar.addGestureRecognizer(tapOnProducer)
+//
+//        switchAccountBgView.addSubview(closeLayerBtn)
+//        switchAccountBgView.addSubview(switchAccountTitle)
+//        switchAccountBgView.addSubview(switchAccountWhiteBoardView)
+//        switchAccountWhiteBoardView.addSubview(currentAccountLabel)
+//        switchAccountWhiteBoardView.addSubview(managerName)
+//        switchAccountWhiteBoardView.addSubview(managerAvatar)
+//        switchAccountWhiteBoardView.addSubview(producerName)
+//        switchAccountWhiteBoardView.addSubview(producerAvatar)
+//
+//        setStatusBarHiden(toHidden: true, ViewController: _tabBarVC)
+//        UIView.animate(withDuration: 0.3) {
+//            self.switchAccountBgView.transform = CGAffineTransform(translationX: 0, y:  -380 - heightChangeForiPhoneXFromBottom) // 208 + heightChangeForiPhoneXFromTop
+//        }
+//
+//    }
     
     @objc func cancelBtnClicked(){
         

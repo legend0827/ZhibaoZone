@@ -17,25 +17,21 @@ class TabBarController: UITabBarController {
     let redDot:UIView = UIView.init(frame: CGRect(x: 25, y:15, width: 12, height: 12))
     
     //初始化
-    init(royeType:Int){
+    init(roleType:Int,hasManager:Bool,hasWorkZone:Bool,hasStatistic:Bool){
         super.init(nibName: nil, bundle: nil)
         
-        _roleType = royeType
+        _roleType = roleType
 
-        //let workZoneVC = WorkZoneViewController()
-//        lazy var orderVC:OrdersViewController = {
-//            return OrdersViewController()
-//        }()
         let orderVC = OrdersViewController()
-       // let taskVC = TastsViewController()
         let meVC = MeViewController()
         let normalUserVC = normalUserViewController()
         let quotepriceVC = QuotePriceViewController()
-        let managerVC = SystemManagementViewController()// ManagerViewController()
+        let enterpriseVC = SystemManagementViewController()
         let emplyerVC = EmplpyerDailyUpdateViewController()
+        let statisticVC = StatisticSummaryViewController()
         orderVC._tabBarVC = self
-        managerVC._tabBarVC = self
-        meVC._tabBarVC = self
+        enterpriseVC._tabBarVC = self
+        
         let item1PositonX = kWidth/6 + 5
         redDot.frame = CGRect(x:item1PositonX + 30 , y: tabBar.frame.minY + 3 - heightChangeForiPhoneXFromBottom, width: 12, height: 12)
         
@@ -58,38 +54,70 @@ class TabBarController: UITabBarController {
         
         orderVC.tabBarItem.image = UIImage(named: "ordersicon")
         orderVC.tabBarItem.selectedImage = UIImage(named: "ordersiconselected")
-       // taskVC.tabBarItem.image = UIImage(named: "tasksicon")
-       // taskVC.tabBarItem.selectedImage = UIImage(named: "tasksiconselected")
+        orderVC.tabBarItem.title = "订单"
+
+        
         meVC.tabBarItem.image = UIImage(named:"accounticon")
         meVC.tabBarItem.selectedImage = UIImage(named: "accounticon-selected")
+        meVC.tabBarItem.title = "我的"
+        
         normalUserVC.tabBarItem.image = UIImage(named:"homeicon")
         normalUserVC.tabBarItem.selectedImage = UIImage(named: "homeicon-selected")
+        normalUserVC.tabBarItem.title = "首页"
+        
         quotepriceVC.tabBarItem.selectedImage = UIImage(named: "quotepriceiconselected")
         quotepriceVC.tabBarItem.image = UIImage(named: "quotepriceicon")
-        managerVC.tabBarItem.image = UIImage(named: "managericon")
-        managerVC.tabBarItem.selectedImage = UIImage(named: "managericon-selected")
+        quotepriceVC.tabBarItem.title = "估价"
+        
+        enterpriseVC.tabBarItem.image = UIImage(named: "managericon")
+        enterpriseVC.tabBarItem.selectedImage = UIImage(named: "managericon-selected")
+        enterpriseVC.tabBarItem.title = "管理"
+
         emplyerVC.tabBarItem.image = UIImage(named:"homeicon")
         emplyerVC.tabBarItem.selectedImage = UIImage(named: "homeicon-selected")
-        orderVC.tabBarItem.title = "订单"
-      //  taskVC.tabBarItem.title = "任务"
-        meVC.tabBarItem.title = "我的"
-        quotepriceVC.tabBarItem.title = "估价"
-        normalUserVC.tabBarItem.title = "首页"
-        managerVC.tabBarItem.title = "事物处理"
         emplyerVC.tabBarItem.title = "首页"
+
+        statisticVC.tabBarItem.image = UIImage(named: "managericon")
+        statisticVC.tabBarItem.selectedImage = UIImage(named: "managericon-selected")
+        statisticVC.tabBarItem.title = "统计"
         
-        if _roleType == 0{
+        switch _roleType {
+        case 0:
+            //"普通用户"
             self.viewControllers = [emplyerVC,meVC]
-            //self.viewControllers = [normalUserVC,meVC]
-        }else if _roleType == 2 || _roleType == 3 {
-            self.viewControllers = [orderVC,meVC]
-        }else if _roleType == 1{
-            self.viewControllers = [quotepriceVC,meVC]
-        }else if _roleType == 4{
-            self.viewControllers = [orderVC,managerVC,meVC]
-        }else if _roleType == 5{
+        case 3,4,9:
+            //3: "企业管理员"。4://"管理员" 9: 业务经理
+            if hasWorkZone {
+                //企业管理员有订单管理权限
+                if hasStatistic {
+                    //统计权限
+                    self.viewControllers = [statisticVC,orderVC,enterpriseVC,meVC]
+                }else{
+                    self.viewControllers = [orderVC,enterpriseVC,meVC]
+                }
+            }else{
+                self.viewControllers = [enterpriseVC,meVC]
+            }
+        case 6:
+            // "客服"
+            if hasManager {
+                //拥有管理员权限的客服
+                self.viewControllers = [enterpriseVC,meVC]
+            }else{
+                self.viewControllers = [emplyerVC,meVC]
+            }
+        case 7,8:
+            // 7:"方案师" 8:供应商
+            if hasManager {
+                self.viewControllers = [orderVC,enterpriseVC,meVC]
+            }else{
+                self.viewControllers = [orderVC,meVC]
+            }
+        default:
+            // "普通用户"
             self.viewControllers = [emplyerVC,meVC]
         }
+        
         self.tabBar.tintColor = UIColor.iconColors(color: .red)
     }
 
@@ -100,10 +128,6 @@ class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.addSubview(redDot)
-      //  getMessageList()
-       // tabBar.bringSubview(toFront: redDot)
-        
-        // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -112,16 +136,5 @@ class TabBarController: UITabBarController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 }

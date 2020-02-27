@@ -32,6 +32,16 @@ let kHight = UIScreen.main.bounds.height
 var heightChangeForiPhoneXFromTop:CGFloat = 0.0
 var heightChangeForiPhoneXFromBottom:CGFloat = 0.0
 
+
+//系统清单
+enum subsystemsList{
+    case NormalAndMe // 普通用户 NormalUser + Me
+    case OrdersAndOnly // 普通客服 Order  + Me
+    case OrdersAndManagerAndOnly //业务经理 + 管理
+    case ManagerOnly // 管理员
+}
+
+
 //标题颜色枚举
 enum titleColorsType{
     case red
@@ -100,19 +110,19 @@ enum searchContentsType {
 
 //订单分类举例：
 enum orderListCategoryType{
-    case allOrderCategory
-    case notQuotePriceYetOrderCategory
-    case alreadyQuotedOderCategory
-    case waitForAcceptProduceOrderCategory
-    case producingOrderCategory
-    case waitForDesignCategory
-    case waitForModifyCategory
-    case customerConfirmedCategory
-    case bargainNotDealedCategory
-    case bargainDealedCategory
-    case designningCategory
-    case waitForConfirmDesignCategory
-    case allFactoryNotQuoteCategory
+    case allOrderCategory //全部订单分类
+    case notQuotePriceYetOrderCategory //未报价
+    case alreadyQuotedOderCategory // 已报价
+    case waitForAcceptProduceOrderCategory //待接受生产
+    case producingOrderCategory //生产中
+    case waitForDesignCategory // 待设计分类
+    case waitForModifyCategory //待修改分类
+    case customerConfirmedCategory //已定稿分类
+    case bargainNotDealedCategory //未处理议价分类
+    case bargainDealedCategory //已处理议价
+    case designningCategory //设计中
+    case waitForConfirmDesignCategory // 待定稿
+    case allFactoryNotQuoteCategory //都未报价
     //case allOrderCategory
 }
 

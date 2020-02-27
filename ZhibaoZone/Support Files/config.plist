@@ -301,6 +301,10 @@
 		<string>http://192.144.146.126:88/authority/manage/getCurrentRole</string>
 		<key>getCurrentRoleAPI</key>
 		<string>http://119.27.170.195:88/authority/manage/getCurrentRole</string>
+		<key>getClassifiedNavAPIDebug</key>
+		<string>http://192.144.146.126:88/flow/manage/getClassifiedNav</string>
+		<key>getClassifiedNavAPI</key>
+		<string>http://119.27.170.195:88/flow/manage/getClassifiedNav</string>
 	</dict>
 </dict>
 </plist>
